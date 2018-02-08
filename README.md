@@ -1,9 +1,15 @@
 # SPIRV-Registry
 
-A registry of SPIR-V extensions.
+SPIR-V is a binary intermediate language for representing graphical-shader stages and compute kernels for multiple Khronos APIs, including OpenCL, OpenGL, and Vulkan.
 
-A complete registry of all official SPIR-V specifications is available at the
-[Khronos SPIR-V Registry](https://www.khronos.org/registry/spir-v/).
+[A complete registry of all official SPIR-V specifications is available at the
+Khronos SPIR-V Registry](https://www.khronos.org/registry/spir-v/).
+
+## This Project Contains
+
+- A registry of SPIR-V extensions
+- Issue tracking for all SPIR-V specifications
+- Pull requests to add new SPIR-V extensions
 
 ## Extension Specifications
 
