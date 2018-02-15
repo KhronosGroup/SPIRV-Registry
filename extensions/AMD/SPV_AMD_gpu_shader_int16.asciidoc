@@ -1,0 +1,143 @@
+SPIR-V Extension SPV_AMD_gpu_shader_int16
+=========================================
+
+Name Strings
+------------
+
+SPV_AMD_gpu_shader_int16
+
+Contact
+-------
+
+See *Issues* list in the Khronos SPIRV-Headers repository:
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Daniel Rakos, AMD
+- Dominik Witczak, AMD
+- Matthaeus G. Chajdas, AMD
+- Quentin Lin, AMD
+- Rex Xu, AMD
+- Timothy Lottes, AMD
+- Zhi Cai, AMD 
+
+
+Notice
+------
+
+Copyright (c) 2017 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+Status
+------
+
+Shipping.
+
+Version
+-------
+
+Modified Date: 06/08/2017
+Revision:      1
+
+Dependencies
+------------
+
+This extension is written against Revision 1 of the version 1.10 of the
+SPIR-V Specification.
+
+The extension is written against Revision 1 of the OpenGL extension
+AMD_gpu_shader_int16.
+
+Overview
+--------
+
+This extension is written to provide the functionality of the
+AMD_gpu_shader_int16, OpenGL Shading Language Specification extension,
+for SPIR-V.
+
+This extension introduces 16-bit signed and unsigned integer support to extended
+instructions described in the GLSL.std.450 extended instruction set.
+
+
+Extension Name
+--------------
+
+To enable SPV_AMD_gpu_shader_int16 extension in SPIR-V, use
+
+  OpExtension "SPV_AMD_gpu_shader_int16"
+
+Summary
+-------
+
+This extension adds support for 16-bit signed and unsigned integer component types
+for the following instructions described in the GLSL.std.450 extended instruction set:
+
+----
+Frexp
+
+----
+
+
+Modifications to the SPIR-V Specification, Version 1.00, Revision 10
+--------------------------------------------------------------------
+
+Modify OpSpecConstantOp definition:
+
+(Append OpUConvert to the list of permitted ..Convert Opcodes):
+
+Opcode must be one of the following opcodes. This literal operand is limited to a single 'word'.
+
+'OpSConvert', 'OpFConvert', 'OpUConvert',  (..)
+
+
+Modifications to the OpenGL Shading Language 4.50 Extended Instruction Set Specification, Version 1.00
+------------------------------------------------------------------------------------------------------
+
+Modify Section 2, Binary Form
+
+Frexp
+~~~~~
+
+(Replace the following sentence:) +
+ +
+The 'exp' operand must be a pointer to a scalar or vector with integer component type, with 32-bit component width. +
+ +
+(with:) +
+ +
+The 'exp' operand must be a pointer to a scalar or vector with integer component type, with 16- or 32-bit component width. +
+
+
+FrexpStruct
+~~~~~~~~~~~
+
+(Replace the following sentence:) +
+ +
+Member 1 must be a scalar or vector with integer component type, with 32-bit component width. +
+ +
+(with:) +
+ +
+Member 1 must be a scalar or vector with integer component type, with 16- or 32-bit component width. +
+
+
+Validation Rules
+----------------
+
+None.
+
+Issues
+------
+
+None
+
+Revision History
+----------------
+
+[cols="5%,10%,15%,70%"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|June 8, 2017|Dominik Witczak|Initial revision based on AMD_gpu_shader_int16.
+|========================================

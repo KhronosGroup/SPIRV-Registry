@@ -1,0 +1,178 @@
+SPIR-V Extension SPV_AMD_gcn_shader
+===================================
+
+Name Strings
+------------
+
+SPV_AMD_gcn_shader
+
+Contact
+-------
+
+See *Issues* list in the Khronos SPIRV-Headers repository:
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Dominik Witczak, AMD
+- Rex Xu, AMD
+- Daniel Rakos, AMD
+- Graham Sellers, AMD
+
+Notice
+------
+
+Copyright (c) 2016 AMD.
+
+Status
+------
+
+Proposed. 
+
+Version
+-------
+
+Modified Date: May 31, 2016
+Revision:      1
+
+Number
+------
+
+## Extension #NNN _TBD_
+
+Dependencies
+------------
+
+This extension is written against Revision 1 of the version 1.10 of the
+SPIR-V Specification.
+  
+Overview
+--------
+
+This extension is written to provide the functionality of the
+GL_AMD_gcn_shader, OpenGL Shading Language Specification extension, for SPIR-V.
+
+This extension exposes miscellaneous features of the AMD "Graphics Core Next"
+shader architecture. This includes cube map query functions and a functionality
+to query the elapsed shader core time.
+
+Extension Name
+--------------
+
+To enable SPV_AMD_gcn_shader extension in SPIR-V, use
+
+    OpExtension "SPV_AMD_gcn_shader"
+
+New Instructions
+----------------
+
+This extension adds the following extended instructions
+
+----
+CubeFaceCoordAMD
+CubeFaceIndexAMD
+TimeAMD
+----
+
+To use the extended instructions described below, declare:
+
+---------------------------------------------------------------
+OpExtInstImport %ext "SPV_AMD_gcn_shader"
+---------------------------------------------------------------
+
+Modifications to the SPIR-V Specification, Version 1.1
+------------------------------------------------------
+
+Modify Section 3.32.1, Miscellaneous Instructions
+
+(Add to the end of the section a list of instructions as described below)
+
+CubeFaceCoordAMD
+~~~~~~~~~~~~~~~~
+
+The function cubeFaceCoordAMD returns a two-component floating point vector that
+represents the 2D texture coordinates that would be used for accessing the selected
+cube map face for the given cube map texture coordinates given as parameter P.
+
+The operand <P> must be a pointer to a 3-component 32-bit floating-point vector.
+
+This instruction is only valid in Fragment, Geometry, GLCompute, TessellationControl,
+TessellationEvaluation and Vertex execution models.
+
+Result Type must be a 2-component 32-bit floating-point vector.
+
+----
+3 | 2 | <id> Result Type | <id> P
+----
+
+CubeFaceIndexAMD
+~~~~~~~~~~~~~~~~
+
+The function CubeFaceIndexAMD returns a single floating point value that represents
+the index of the cube map face that would be accessed by texture lookup functions
+for the cube map texture coordinates given as parameter. The returned value
+correspond to cube map faces as follows:
+
+* 0.0 for the cube map face facing the positive X direction
+* 1.0 for the cube map face facing the negative X direction
+* 2.0 for the cube map face facing the positive Y direction
+* 3.0 for the cube map face facing the negative Y direction
+* 4.0 for the cube map face facing the positive Z direction
+* 5.0 for the cube map face facing the negative Z direction
+
+The operand <P> must be a 3-component 32-bit floating-point vector.
+
+This instruction is only valid in Fragment, Geometry, GLCompute, TessellationControl,
+TessellationEvaluation and Vertex execution models.
+
+Result Type must be a 32-bit floating-point scalar.
+
+----
+3 | 1 | <id> Result Type | <id> P
+----
+
+TimeAMD
+~~~~~~~
+
+The timeAMD function returns a 64-bit value representing the current execution clock
+as seen by the shader processor. Time monotonically increments as the processor
+executes instructions. The returned time will wrap after it exceeds the maximum
+value representable in 64 bits. The units of time are not defined and need not be
+constant. Time is not dynamically uniform. That is, shader invocations executing
+as part of a single draw or dispatch will not necessarily see the same value of
+time. Time is also not guaranteed to be consistent across shader stages. For
+example, there is no requirement that time sampled inside a fragment shader invocation
+will be greater than the time sampled in the vertex that lead to its execution.
+
+This instruction is only valid in Fragment, Geometry, GLCompute, TessellationControl,
+TessellationEvaluation and Vertex execution models.
+
+Use of this instruction requires declaration of the *Int64* capability.
+
+Result Type must be a 64-bit unsigned integer scalar.
+
+----
+2 | 3 | <id> Result Type
+----
+
+Validation Rules
+----------------
+
+None.
+
+Issues
+------
+
+None
+
+Revision History
+----------------
+
+[cols="5%,10%,15%,70%"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|May 31, 2016|Dominik Witczak|Initial revision based on AMD_gcn_shader.
+|========================================

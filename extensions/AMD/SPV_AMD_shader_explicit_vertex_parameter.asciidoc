@@ -1,0 +1,248 @@
+SPIR-V Extension SPV_AMD_shader_explicit_vertex_parameter
+=========================================================
+
+Name Strings
+------------
+
+SPV_AMD_shader_explicit_vertex_parameter
+
+Contact
+-------
+
+See *Issues* list in the Khronos SPIRV-Headers repository:
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Qun Lin, AMD
+- Graham Sellers, AMD
+- Daniel Rakos, AMD
+- Cai Zhi, AMD
+- Dominik Witczak, AMD
+
+Notice
+------
+
+Copyright (c) 2016 AMD.
+
+Status
+------
+
+Released. 
+
+Version
+-------
+
+Modified Date: May 30, 2016
+Revision:      3
+
+Number
+------
+
+Extension #1
+
+Dependencies
+------------
+
+This extension is written against Revision 1 of the version 1.10 of the
+SPIR-V Specification.
+
+Overview
+--------
+
+This extension is written to provide the functionality of the
+GL_AMD_shader_explicit_vertex_parameter, OpenGL Shading Language Specification
+extension, for SPIR-V.
+
+This extension provides the capability of arbitrary interpolation in a fragment
+shader.
+It adds a new extended instruction to access vertex parameter explicitly and
+adds 6 new built-in variables to get the barycentric coordinate of a fragment.
+
+Extension Name
+--------------
+
+To enable SPV_AMD_shader_explicit_vertex_parameter extension in SPIR-V, use
+
+    OpExtension "SPV_AMD_shader_explicit_vertex_parameter"
+
+New Builtins
+------------
+
+This extension adds the following builtins:
+
+----
+BaryCoordNoPerspAMD
+BaryCoordNoPerspCentroidAMD
+BaryCoordNoPerspSampleAMD
+BaryCoordSmoothAMD
+BaryCoordSmoothCentroidAMD
+BaryCoordSmoothSampleAMD
+BaryCoordPullModelAMD
+----
+
+*BaryCoordNoPerspAMD*, *BaryCoordNoPerspCentroidAMD*, *BaryCoordNoPerspSampleAMD*,
+*BaryCoordSmoothAMD*, *BaryCoordSmoothCentroidAMD* and *BaryCoordSmoothSampleAMD*
+must only decorate input variable which type is a 32-bit float vector with
+2 components, like:
+
+
+---------------------------------------------------------------
+OpDecorate %BaryCoordNoPerspAMD BuiltIn BaryCoordNoPerspAMD
+
+%float32_t           = OpTypeFloat 32
+%vec2                = OpTypeVector %float32_t 2
+%vec2_ptr            = OpTypePointer Input %vec2
+%BaryCoordNoPerspAMD = OpVariable %vec2_ptr Input
+---------------------------------------------------------------
+
+*BaryCoordPullModelAMD* must only decorate input variables whose type is a 32-bit
+float vector with 3 components, like:
+
+---------------------------------------------------------------
+OpDecorate %BaryCoordPullModelAMD BuiltIn BaryCoordPullModelAMD
+
+%float32_t           = OpTypeFloat 32
+%vec3                = OpTypeVector %float32_t 3
+%vec3_ptr            = OpTypePointer Input %vec3
+%BaryCoordNoPerspAMD = OpVariable %vec3_ptr Input
+---------------------------------------------------------------
+
+New Decorations
+---------------
+
+This extension introduces the following new decorations:
+
+----
+ExplicitInterpAMD
+----
+
+*ExplicitInterp* must only be applied to an object or a member of a structure type.
+It indicates that custom interpolation must be used. The object or member can
+only be accessed by the new extended instruction *InterpolateAtVertexAMD*. Only
+valid for Input and Output Storage Classes.
+
+New Instructions
+----------------
+
+This extension adds the extended instruction
+
+----
+InterpolateAtVertexAMD
+----
+
+To use the extended instructions described below, declare:
+
+---------------------------------------------------------------
+OpExtInstImport %ext "SPV_AMD_shader_explicit_vertex_parameter"
+---------------------------------------------------------------
+
+Modifications to the SPIR-V Specification, Version 1.1
+------------------------------------------------------
+
+Modify Section 3.21, the BuiltIn list.
+
+(Add to the list of builtins with a *Shader* capability)
+
+----
+BaryCoordNoPerspAMD
+BaryCoordNoPerspCentroidAMD
+BaryCoordNoPerspSampleAMD
+BaryCoordSmoothAMD
+BaryCoordSmoothCentroidAMD
+BaryCoordSmoothSampleAMD
+BaryCoordPullModelAMD
+----
+
+(Add a description)
+
+Except the *BaryCoordPullModelAMD*, the *BaryCoord??AMD* builtins
+provide the (I,J) pair of the barycentric coordinates interpolated at a fixed
+location within the pixel. The K coordinate can be derived given the identity
+I+J+K=1.0.
+
+The *BaryCoordPullModelAMD* builtin returns (1/W, 1/I, 1/J) at the pixel center and
+the shader can use it to calculate gradients and to interpolate I, J, and W to any
+desired sample location.
+
+The interpolation mode of *BaryCoord??AMD* builtins is as follows:
+
+[cols="30%,70%", options="header"]
+[grid="rows"]
+|========================================
+|Variable name|Description
+|BaryCoordNoPerspAMD|Linear interpolation evaluated at the pixel's center
+|BaryCoordNoPerspCentroidAMD|Linear interpolation evaluated at the centroid
+|BaryCoordNoPerspSampleAMD|Linear interpolation evaluated at each covered sample
+|BaryCoordSmoothAMD|Perspective interpolation evaluated at the pixel's center
+|BaryCoordSmoothCentroidAMD|Perspective interpolation evaluated at the centroid
+|BaryCoordSmoothSampleAMD|Perspective interpolation evaluated at each covered sample
+|========================================
+
+Modify Section 3.32.1, Miscellaneous Instructions
+
+(Add to the end of the section a list of instructions with "*InterpolationFunction*"
+capability)
+
+InterpolateAtVertexAMD
+~~~~~~~~~~~~~~~~~~~~~~
+
+Returns the value of the input <interpolant> without any interpolation, i.e. the
+raw output value of previous shader stage.
+
+It is guaranteed that the association of the vertex index and barycentric coordinate
+is represented with the following table.
+
+[cols="15%,85%", options="header"]
+[grid="rows"]
+|========================================
+|<vertexIdx>|Barycentric coordinates
+|0|I=0, J=0, K=1
+|1|I=1, J=0, K=0
+|2|I=0, J=1, K=0
+|========================================
+
+However this order has no association with the vertex order specified
+by the application in the originating draw. 
+
+The operand <interpolant> must be a pointer to the Input Storage Class.
+
+The operand <interpolant> must be a pointer to a scalar or vector.
+
+This instruction is only valid in the Fragment execution model.
+
+Result Type and the type of <interpolant> must be the same type.
+
+Use of this instruction requires declaration of the *InterpolationFunction*
+capability.
+
+The operand <vertexIdx> must be constant integer expression with value of 0, 1
+or 2.
+
+----
+3 | 1 | <id> interpolant | <id> vertexIdx
+----
+
+Validation Rules
+----------------
+
+None.
+
+Issues
+------
+
+None
+
+Revision History
+----------------
+
+[cols="5%,10%,15%,70%"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|April 21, 2016|Quentin Lin|Initial revision based on AMD_shader_explicit_vertex_parameter.
+|2|May 20, 2016|Dominik Witczak|Document refactoring
+|3|May 30, 2016|Dominik Witczak|*Minor corrections*
+|========================================

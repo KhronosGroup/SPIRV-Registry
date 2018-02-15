@@ -1,0 +1,250 @@
+SPIR-V Extension SPV_AMD_shader_trinary_minmax
+==============================================
+
+Name Strings
+------------
+
+SPV_AMD_shader_trinary_minmax
+
+Contact
+-------
+
+See *Issues* list in the Khronos SPIRV-Headers repository:
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Qun Lin, AMD
+- Graham Sellers, AMD
+- Daniel Rakos, AMD
+- Dominik Witczak, AMD
+- Matthäus G. Chajdas, AMD
+
+Notice
+------
+
+Copyright (c) 2016 AMD.
+
+Status
+------
+
+Released.
+
+Version
+-------
+
+Modified Date: May 30, 2016
+Revision:      3
+
+Number
+------
+
+Extension #2
+
+Dependencies
+------------
+
+This extension is written against Revision 1 of the version 1.10 of the
+SPIR-V Specification.
+
+Overview
+--------
+
+This extension is written to provide the functionality of the
+AMD_shader_trinary_minmax, OpenGL Shading Language Specification extension,
+for SPIR-V.
+
+This extension introduces nine new trinary extended instructions to SPIR-V.
+These functions allow the minimum, maximum or median of three inputs to be found
+with a single function call. These operations may be useful for sorting and
+filtering operations, for example. By explicitly performing a trinary operation
+with a single built-in function, shader compilers and optimizers may be able to
+generate better instruction sequences to perform sorting and to other multi-input
+functions.
+
+Extension Name
+--------------
+
+To enable SPV_AMD_shader_trinary_minmax extension in SPIR-V, use
+
+  OpExtension "SPV_AMD_shader_trinary_minmax"
+
+New Instructions
+----------------
+
+This extension adds the following extended instructions:
+
+----
+FMin3AMD
+UMin3AMD
+SMin3AMD
+FMax3AMD
+UMax3AMD
+SMax3AMD
+FMid3AMD
+UMid3AMD
+SMid3AMD
+----
+
+To use these extended instructions, declare:
+
+---------------------------------------------------------------
+OpExtInstImport %ext "SPV_AMD_shader_trinary_minmax"
+---------------------------------------------------------------
+
+
+FMin3AMD
+~~~~~~~~
+
+Returns the per-component minimum value of x, y, and z. the result is undefined
+if one of the operands is a NaN.
+
+The operands must all be a scalar or vector whose component type is floating-point.
+
+Result Type and the type of all operands must be the same type. Results are
+computed per component.
+
+----
+4 | 1 | <id> x | <id> y | <id> z
+----
+
+UMin3AMD
+~~~~~~~~
+
+Returns the per-component minimum value of x, y, and z.
+
+The operands must all be a scalar or vector whose component type is unsigned integer.
+
+Result Type and the type of all operands must be the same type. Results are computed
+per component.
+
+----
+4| 2 | <id> x | <id> y | <id> z
+----
+
+SMin3AMD
+~~~~~~~~
+
+Returns the per-component minimum value of x, y, and z.
+
+The operands must all be a scalar or vector whose component type is signed integer.
+
+Result Type and the type of all operands must be the same type. Results are computed
+per component.
+
+----
+4| 3 | <id> x | <id> y | <id> z
+----
+
+FMax3AMD
+~~~~~~~~
+
+Returns the per-component maximum value of x, y, and z. The result is undefined
+if one of the operands is a NaN.
+
+The operands must all be a scalar or vector whose component type is floating-point.
+
+Result Type and the type of all operands must be the same type. Results are computed
+per component.                                             |
+
+----
+4| 4 | <id> x | <id> y | <id> z
+----
+
+UMax3AMD
+~~~~~~~~
+
+Returns the per-component maximum value of x, y, and z.
+
+The operands must all be a scalar or vector whose component type is unsigned
+integer.
+
+Result Type and the type of all operands must be the same type. Results are computed
+per component.
+
+----
+4| 5 | <id> x | <id> y | <id> z
+----
+
+SMax3AMD
+~~~~~~~~
+
+Returns the per-component maximum value of x, y, and z.
+
+The operands must all be a scalar or vector whose component type is signed
+integer.
+
+Result Type and the type of all operands must be the same type. Results are computed
+per component.
+
+----
+4| 6 | <id> x | <id> y | <id> z
+----
+
+FMid3AMD
+~~~~~~~~
+
+Returns the per-component median value of x, y, and z. the result is undefined if
+one of the operands is a NaN.
+
+The operands must all be a scalar or vector whose component type is floating-point.
+
+Result Type and the type of all operands must be the same type. Results are computed
+per component.
+
+----
+4| 7 | <id> x | <id> y | <id> z
+----
+
+UMid3AMD
+~~~~~~~~
+
+Returns the per-component median value of x, y, and z.
+
+The operands must all be a scalar or vector whose component type is unsigned integer.
+
+Result Type and the type of all operands must be the same type. Results are computed
+per component.
+
+----
+4| 8 | <id> x | <id> y | <id> z
+----
+
+SMid3AMD
+~~~~~~~~
+
+Returns the per-component median value of x, y, and z.
+
+The operands must all be a scalar or vector whose component type is signed integer.
+
+Result Type and the type of all operands must be the same type. Results are computed
+per component.
+
+----
+4| 9 | <id> x | <id> y | <id> z
+----
+
+
+Validation Rules
+----------------
+
+None.
+
+Issues
+------
+
+None
+
+Revision History
+----------------
+
+[cols="5%,10%,15%,70%"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|April 21, 2016|Quentin Lin|Initial revision based on AMD_shader_trinary_minmax.
+|2|May 20, 2016|Dominik Witczak|Document refactoring
+|3|May 30, 2016|Dominik Witczak|*Minor corrections*
+|========================================

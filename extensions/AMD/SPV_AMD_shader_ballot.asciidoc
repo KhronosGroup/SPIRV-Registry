@@ -1,0 +1,447 @@
+SPIR-V Extension SPV_AMD_shader_ballot
+======================================
+
+Name Strings
+------------
+
+SPV_AMD_shader_ballot
+
+Contact
+-------
+
+See *Issues* list in the Khronos SPIRV-Headers repository:
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Qun Lin, AMD
+- Graham Sellers, AMD
+- Daniel Rakos, AMD
+- Rex Xu, AMD
+- Dominik Witczak, AMD
+- Matthäus G. Chajdas, AMD
+
+Notice
+------
+
+Copyright (c) 2016 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+Status
+------
+
+Proposed.
+
+Version
+-------
+
+Modified Date: August 11, 2016
+Revision:      4
+
+Number
+------
+SPIR-V Extension #NNN _TBD_
+
+Dependencies
+------------
+
+This extension is written against Revision 1 of the version 1.10 of the
+SPIR-V Specification.
+
+The extension is written against Revision 1 of the OpenGL extension
+AMD_shader_ballot.
+
+Overview
+--------
+
+This extension is written to provide the functionality of the
+AMD_shader_ballot, OpenGL Shading Language Specification extension,
+for SPIR-V.
+
+This extension introduces eight core instructions and four new extended
+instructions to SPIR-V that enable additional subgroup operations in shaders.
+
+
+Extension Name
+--------------
+
+To enable SPV_AMD_shader_ballot extension in SPIR-V, use
+
+  OpExtension "SPV_AMD_shader_ballot"
+
+New Instructions
+----------------
+
+This extension adds the following core instructions
+
+----
+OpGroupIAddNonUniformAMD = 5000
+OpGroupFAddNonUniformAMD = 5001
+OpGroupFMinNonUniformAMD = 5002
+OpGroupUMinNonUniformAMD = 5003
+OpGroupSMinNonUniformAMD = 5004
+OpGroupFMaxNonUniformAMD = 5005
+OpGroupUMaxNonUniformAMD = 5006
+OpGroupSMaxNonUniformAMD = 5007
+----
+
+This extension adds the following extended instructions
+
+----
+SwizzleInvocationsAMD
+SwizzleInvocationsMaskedAMD
+WriteInvocationAMD
+MbcntAMD
+----
+
+To use the new core and extended instructions, declare:
+
+---------------------------------------------------------------
+OpExtInstImport %ext "SPV_AMD_shader_ballot"
+---------------------------------------------------------------
+
+
+Modifications to the SPIR-V Specification, Version 1.1
+------------------------------------------------------
+
+Modify Section 3.32.21, Group Instructions
+
+(Add to the end of the section)
+
+OpGroupIAddNonUniformAMD
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+An integer add group operation specified for all values of <X>
+specified by invocations in the group.
+
+The identity <I> is 0.
+
+All invocations of this module within <Execution> must reach this point of execution.
+
+This instruction is able to work correctly if placed within non-uniform control
+flow within <Execution>.
+
+<Result Type> must be a 32-bit or 64-bit integer type scalar.
+
+<Execution> must be Workgroup or Subgroup Scope.
+
+The type of <X> must be the same as <Result Type>.
+
+----
+6 | 5000  | <id> Result Type | <id> Result  | Scope <id> Execution | Group Operation | <id> X
+----
+
+
+OpGroupFAddNonUniformAMD
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+A floating-point add group operation specified for all values of <X> specified
+by invocations in the group.
+
+The identity <I> is 0.
+
+All invocations of this module within <Execution> must reach this point of
+execution.
+
+This instruction is able to work correctly if placed within non-uniform control
+flow within <Execution>.
+
+<Result Type> must be a 16-bit, 32-bit, or 64-bit floating-point type scalar.
+
+<Execution> must be Workgroup or Subgroup Scope.
+
+The type of <X> must be the same as <Result Type>.
+
+----
+
+6 | 5001 | <id> Result Type | <id> Result | <id> Scope Execution | Group Operation | <id> X
+----
+
+
+OpGroupFMinNonUniformAMD
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+A floating-point minimum group operation specified for all values of <X> specified
+by invocations in the group.
+
+The identity <I> is +INF.
+
+All invocations of this module within <Execution> must reach this point of
+execution.
+
+This instruction is able to work correctly if placed within non-uniform control
+flow within <Execution>.
+
+<Result Type> must be a 16-bit, 32-bit, or 64-bit floating-point type scalar.
+
+<Execution> must be Workgroup or Subgroup Scope.
+
+The type of <X> must be the same as <Result Type>.
+
+----
+6 | 5002 | <id> Result Type | <id> Result | <id> Scope Execution | Group Operation | <id> X
+----
+
+
+OpGroupUMinNonUniformAMD
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+An unsigned integer minimum group operation specified for all values of <X>
+specified by invocations in the group.
+
+The identity <I> is UINT_MAX when X is 32 bits wide and ULONG_MAX when <X> is
+64 bits wide.
+
+All invocations of this module within <Execution> must reach this point of execution.
+
+This instruction is able to work correctly if placed within non-uniform control flow
+within <Execution>.
+
+<Result Type> must be a 32-bit or 64-bit integer type scalar.
+
+<Execution> must be Workgroup or Subgroup Scope.
+
+The type of <X> must be the same as <Result Type>.
+
+----
+6 | 5003 | <id> Result Type | <id> Result | <id> Scope Execution | Group Operation | <id> X
+----
+
+
+OpGroupSMinNonUniformAMD
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+A signed integer minimum group operation specified for all values of <X> specified
+by invocations in the group.
+
+The identity <I> is INT_MAX when X is 32 bits wide and LONG_MAX when <X> is 64
+bits wide.
+
+All invocations of this module within <Execution> must reach this point of
+execution.
+
+This instruction is able to work correctly if placed within non-uniform control
+flow within <Execution>.
+
+<Result Type> must be a 32-bit or 64-bit integer type scalar.
+
+<Execution> must be Workgroup or Subgroup Scope.
+
+The type of <X> must be the same as <Result Type>.
+
+----
+6 | 5004 | <id> Result Type | <id> Result | <id> Scope Execution | Group Operation | <id> X
+----
+
+
+OpGroupFMaxNonUniformAMD
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+A floating-point maximum group operation specified for all values of <X> specified
+by invocations in the group.
+
+The identity <I> is -INF.
+
+All invocations of this module within <Execution> must reach this point of
+execution.
+
+This instruction is able to work correctly if placed within non-uniform control
+flow within <Execution>.
+
+<Result Type> must be a 16-bit, 32-bit, or 64-bit floating-point type scalar.
+
+<Execution> must be Workgroup or Subgroup Scope.
+
+The type of <X> must be the same as <Result Type>.
+
+----
+6 | 5005 | <id> Result Type | <id> Result | <id> Scope Execution | Group Operation | <id> X
+----
+
+
+OpGroupUMaxNonUniformAMD
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+An unsigned integer maximum group operation specified for all values of <X>
+specified by invocations in the group.
+
+The identity <I> is 0.
+
+All invocations of this module within <Execution> must reach this point of execution.
+
+This instruction is able to work correctly if placed within non-uniform control flow
+within <Execution>.
+
+<Result Type> must be a 32-bit or 64-bit integer type scalar.
+
+<Execution> must be Workgroup or Subgroup Scope.
+
+The type of <X> must be the same as <Result Type>.
+
+----
+6 | 5006 | <id> Result Type | <id> Result | <id> Scope Execution> | Group Operation | <id> X
+----
+
+
+OpGroupSMaxNonUniformAMD
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+A signed integer maximum group operation specified for all values of <X> specified
+by invocations in the group.
+
+The identity <I> is INT_MIN when X is 32 bits wide and LONG_MIN when <X> is 64
+bits wide.
+
+All invocations of this module within <Execution> must reach this point of execution.
+
+This instruction is able to work correctly if placed within non-uniform control
+flow within <Execution>.
+
+<Result Type> must be a 32-bit or 64-bit integer type scalar.
+
+<Execution> must be Workgroup or Subgroup Scope.
+
+The type of <X> must be the same as <Result Type>.
+
+6 | 5007 | <id> Result Type | <id> Result | <id> Scope Execution | Group Operation | <id> X
+
+
+SwizzleInvocationsAMD
+~~~~~~~~~~~~~~~~~~~~
+
+Swizzles data within a group of 4 consecutive invocations of the subgroup based
+on <offset> as described below:
+
+----
+for (i = 0; i < SubgroupSize; i+=4) {
+    dataOut[i+0] = isActive[i+offset.x] ? dataIn[i+offset.x] : 0;
+    dataOut[i+1] = isActive[i+offset.y] ? dataIn[i+offset.y] : 0;
+    dataOut[i+2] = isActive[i+offset.z] ? dataIn[i+offset.z] : 0;
+    dataOut[i+3] = isActive[i+offset.w] ? dataIn[i+offset.w] : 0;
+}
+
+
+----
+
+Where:
+
+- isActive[i] tells whether the invocation with the index <i> is currently active
+within the subgroup.
+- dataIn[i] is the value of <data> for invocation index <i>.
+- dataOut[i] is the return value of the function for invocation index <i>.
+
+The operand data can be any scalar or vector type.
+
+The operand offset must be a unsigned integer vector with 4 components, and each
+component is constant integer with a value in the range [0, 3].
+
+Result Type and the type of operand <data> must be the same type.
+
+----
+3 | 1 | <id> data | <id> offset
+----
+
+
+SwizzleInvocationsMaskedAMD
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Swizzles data within a group of 32 consecutive invocations with a
+limited mask as described below:
+
+----
+for (i = 0; i < SubgroupSize; i++) {
+   j = (((i & 0x1f) & mask.x) | mask.y) ^ mask.z;
+   j |= (i & 0x20); // which group of 32
+   dataOut[i] = isActive[j] ? dataIn[j] : 0;
+}
+----
+
+Where:
+
+- isActive[i] tells whether the invocation with the index <i> is currently active
+within the subgroup.
+- dataIn[i] is the value of <data> for invocation index <i>.
+- dataOut[i] is the return value of the function for invocation index <i>.
+
+The operand data can be any scalar or vector type.
+
+The operand mask must be a unsigned integer vector with 3 components, and each
+component is constant integer with a value in the range [0, 31].
+
+Result Type and the type of operand <data> must be the same type.
+
+----
+3 | 2 | <id> data | <id> mask
+----
+
+
+WriteInvocationAMD
+~~~~~~~~~~~~~~~~~~
+
+Returns <inputValue> for all active invocations in the subgroup except for the
+invocation whose invocation index within the subgroup is <invocationIndex>.
+Within a subgroup, the outputs are defined as described below:
+
+----
+for (i = 0; i < SubgroupSize; i++) {
+   out[i] = (i == invocationIndex) ? writeValue : inputValue;
+}
+----
+
+Where out[i] is the return value of the function for invocation index <i>.
+
+Result Type must be a scalar or vector type.
+
+The type of inputValue and writeValue must be the same as Result Type.
+
+invocationIndex must be a 32-bit unsigned integer with a value in the range
+[0, SubgroupSize - 1].
+
+writeValue and invocationIndex must be dynamically uniform within the subgroup,
+otherwise the result of the operation is undefined.
+
+----
+4 | 3  | <id> inputValue | <id> writeValue | <id> invocationIndex
+----
+
+
+MbcntAMD
+~~~~~~~~
+
+Returns the bit count of SubgroupLtMaskARB with <mask> as described below:
+
+----
+%X = OpBitwiseAnd u64 %SubgroupLtMaskARB %mask
+<Result> = OpBitCount u64 %X
+----
+
+Result Type and mask must be 64-bit unsigned integers.
+
+----
+4 | <id> mask
+----
+
+Validation Rules
+----------------
+
+None.
+
+Issues
+------
+
+None
+
+Revision History
+----------------
+
+[cols="5%,10%,15%,70%"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|April 21, 2016|Quentin Lin|Initial revision based on AMD_shader_ballot.
+|2|May 20, 2016|Dominik Witczak|Document refactoring
+|3|May 20, 2016|Matthäus G. Chajdas|Document refactoring
+|4|August 11, 2016|Rex Xu|*Add new core instructions to handle group operations placed with non-uniform control flow.*
+|========================================

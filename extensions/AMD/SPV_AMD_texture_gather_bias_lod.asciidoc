@@ -1,0 +1,150 @@
+SPIR-V Extension SPV_AMD_texture_gather_bias_lod
+================================================
+
+Name Strings
+------------
+
+SPV_AMD_texture_gather_bias_lod
+
+Contact
+-------
+
+See *Issues* list in the Khronos SPIRV-Headers repository:
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Dominik Witczak, AMD
+- Daniel Rakos, AMD
+- Graham Sellers, AMD
+- Matthäus G. Chajdas, AMD
+- Qun Lin, AMD
+- Rex Xu, AMD
+- Timothy Lottes, AMD
+
+Notice
+------
+
+Copyright (c) 2016 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+Status
+------
+
+Proposed.
+
+Version
+-------
+
+Modified Date: June 22, 2017
+Revision:      2
+
+Dependencies
+------------
+
+This extension is written against Revision 4 of the version 1.10 of the
+SPIR-V Specification.
+
+The extension is written against Revision 1 of the OpenGL extension
+AMD_texture_gather_bias_lod.
+
+Overview
+--------
+
+This extension is written to provide the functionality of the
+AMD_texture_gather_bias_lod, OpenGL Shading Language Specification extension,
+for SPIR-V.
+
+This extension lets applications specify bias of implicit level of detail and
+explicit control of level of detail for texture gather operations.
+
+
+Extension Name
+--------------
+
+To enable SPV_AMD_texture_gather_bias_lod extension in SPIR-V, use
+
+  OpExtension "SPV_AMD_texture_gather_bias_lod"
+
+Summary
+-------
+
+This extension lets applications specify a bias applied to the implicit level of
+detail, or the explicit level of detail to use for texture gather operations.
+
+
+Token Number Assignments
+------------------------
+|==============================
+|CapabilityImageGatherBiasLodAMD|5009
+|==============================
+
+
+  Modifications to the SPIR-V Specification, Version 1.10
+-------------------------------------------------------
+
+Modify Section 3.14, Image Operands
+
+(Replace the following language, as included in the *"Image Operands"* section of the table
+for the *"Bias"* Image Operand:) +
+ +
+Only valid with implicit-lod instructions. +
+ +
+(with:) +
+ +
+Only valid with implicit-lod instructions, *OpImageGather*, or *OpImageSparseGather*. +
+ +
+ +
+(Replace the following language, as included in the *"Image Operands"* section of the table
+ for the *"Lod"* Image Operand): +
+ +
+Only valid with implicit-lod instructions. +
+ +
+(with:) +
+ +
+Only valid with explicit-lod instructions, *OpImageGather*, or *OpImageSparseGather*. +
+
+
+Modify Section 3.31, Capability
+
+Append the following Capability to the table:
+
+[options="header"]
+|========================================
+|Capability|Depends On|Enabled by Extension
+|*ImageGatherBiasLodAMD* 
+ 
+Uses texture gather with either bias added to the implicit level-of-detail or explicit level-of-detail.|Shader|SPV_AMD_texture_gather_bias_lod
+|========================================
+
+
+Validation Rules
+----------------
+
+None.
+
+Issues
+------
+1) What level-of-detail do texture gather functions use, if the extension is defined?
+
+
+*RESOLVED*: If SPV_AMD_texture_gather_bias_lod extension is *enabled*, *all* texture
+gather functions (ie. the ones which do not take the extra bias argument and
+the ones that do) fetch texels from implicit LOD in fragment shader stage. In all
+other shader stages, base level is used instead.
+
+If the extension is *disabled*, all texture gather functions always fetch texels
+from the base mip level.
+
+Revision History
+----------------
+
+[cols="5%,10%,15%,70%"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|2|June 22, 2017|Dominik Witczak|Typo fix (OpCapabilityImageGatherBiasLodAMD => CapabilityImageGatherBiasLodAMD)
+|1|February 21, 2017|Dominik Witczak|Initial revision based on AMD_texture_gather_bias_lod
+|========================================

@@ -1,0 +1,583 @@
+SPIR-V Extension SPV_AMD_gpu_shader_half_float_fetch
+====================================================
+
+Name Strings
+------------
+
+SPV_AMD_gpu_shader_half_float_fetch
+
+Contact
+-------
+
+See *Issues* list in the Khronos SPIRV-Headers repository:
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Daniel Rakos, AMD
+- Dominik Witczak, AMD
+- Graham Sellers, AMD
+- Qun Lin, AMD
+- Rex Xu, AMD
+
+Notice
+------
+
+Copyright (c) 2018 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+Status
+------
+
+Shipping.
+
+Version
+-------
+
+Modified Date: February 2, 2018
+Revision:      1
+
+Dependencies
+------------
+
+This extension is written against Revision 2 of the version 1.2 of the
+SPIR-V Specification.
+
+The extension is written against Revision 5 of the OpenGL extension
+AMD_gpu_shader_half_float_fetch.
+
+Overview
+--------
+
+This extension is written to provide the functionality of the
+AMD_gpu_shader_half_float_fetch, OpenGL Shading Language Specification extension,
+for SPIR-V.
+
+This extension introduces 16-bit sampled type support to image instructions.
+
+This extension introduces support for 16-bit floating-poing type which can now
+be used as a coordinate and a result texel type.
+
+Extension Name
+--------------
+
+To enable SPV_AMD_gpu_shader_half_float_fetch extension in SPIR-V, use
+
+  OpExtension "SPV_AMD_gpu_shader_half_float_fetch"
+
+Summary
+-------
+
+This extension adds a new *Float16ImageAMD* capability.
+
+This extension adds support for 16-bit float 'Result Type' which can now be used by the following image instructions:
+
+----
+OpImageDrefGather
+OpImageFetch
+OpImageGather
+OpImageRead
+OpImageSampleDrefExplicitLod
+OpImageSampleDrefImplicitLod
+OpImageSampleExplicitLod
+OpImageSampleImplicitLod
+OpImageSampleProjDrefExplicitLod
+OpImageSampleProjDrefImplicitLod
+OpImageSampleProjExplicitLod
+OpImageSampleProjImplicitLod
+OpImageSparseDrefGather
+OpImageSparseFetch
+OpImageSparseGather
+OpImageSparseRead
+OpImageSparseSampleDrefExplicitLod
+OpImageSparseSampleDrefImplicitLod
+OpImageSparseSampleExplicitLod
+OpImageSparseSampleImplicitLod
+----
+
+This extension adds support for 16-bit float type used as a coordinate type for the following image instructions:
+
+----
+OpImageDrefGather
+OpImageGather
+OpImageSampleDrefExplicitLod
+OpImageSampleDrefImplicitLod
+OpImageSampleExplicitLod
+OpImageSampleImplicitLod
+OpImageSampleProjDrefExplicitLod
+OpImageSampleProjDrefImplicitLod
+OpImageSampleProjExplicitLod
+OpImageSampleProjImplicitLod
+OpImageSparseDrefGather
+OpImageSparseGather
+OpImageSparseSampleDrefExplicitLod
+OpImageSparseSampleDrefImplicitLod
+OpImageSparseSampleExplicitLod
+OpImageSparseSampleImplicitLod
+----
+
+Token Number Assignments
+------------------------
+|==============================
+|*Float16ImageAMD*|5008
+|==============================
+
+
+
+Modifications to the SPIR-V Specification, Version 1.2
+------------------------------------------------------
+
+Modify Section 3.31, Capability:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Append the following Capability to the table:
+
+[options="header"]
+|========================================
+|Capability|Depends On|Enabled by Extension
+|*Float16ImageAMD*
+
+Expands image type declaration instruction and image instructions to allow them to use 16-bit type in image declaration/sampling/read/write/sparse read operations.|*Shader*|SPV_AMD_gpu_shader_half_float_fetch
+|========================================
+
+
+Modify Section 3.14, Image Operands:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+(For *Bias* Image Operand's description, replace the following sentence:) +
+It must be a 'floating-point' type scalar. +
+(with:) +
+It must be a 'floating-point' type (incl. 16-bit *OpTypeFloat*) scalar. +
+
+(For *Lod* Image Operand's description, replace the following sentence:) +
+For sampling operations, it must be a 'floating-point' type scalar. +
+(with:) +
+For sampling operations, it must be a 'floating-point' type (incl. 16-bit *OpTypeFloat*) scalar. +
+
+(For *Grad* Image Operand's description, replace the following sentence:) +
+They must be a scalar or vector of 'floating-point' type. +
+(with:) +
+They must be a scalar or vector of 'floating-point' type (incl. 16-bit *OpTypeFloat*). +
+
+(For *MinLod* Image Operand's description, replace the following sentence:) +
+It must be a 'floating-point' type scalar. +
+(with:) +
+It must be a 'floating-point' type (incl. 16-bit *OpTypeFloat*) scalar. +
+
+
+
+Modify Section 3.32.6, Type-Declaration Instructions:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Update language for the following types:
+
+*OpTypeImage*
+~~~~~~~~~~~~~
+
+(Replace the following sentence:) +
+ +
+'Sampled Type' is the type of the components that result from sampling or reading from this image type. Must be a 'scalar numerical type' or *OpTypeVoid*. +
+ +
+(with:) +
+ +
+'Sampled Type' is the type of the components that result from sampling or reading from this image type. Must be a 'scalar numerical type' (incl. 16-bit *OpTypeFloat*) or *OpTypeVoid*. +
+
+
+Modify Section 3.32.10, Image Instructions:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Update language for the following image instructions:
+
+*OpImageDrefGather*
+~~~~~~~~~~~~~~~~~~~
+
+(Replace the following sentence:) +
+ +
+'Result Type' must be a vector of four components of 'floating-point' type or 'integer' type. +
+ +
+(with:) +
+ +
+'Result Type' must be a vector of four components of 'floating-point' type (incl. 16-bit *OpTypeFloat*) or 'integer' type. +
+ +
+(Replace the following sentence:) +
+ +
+'Coordinate' must be a scalar or vector of 'floating-point' type. +
+ +
+(with:) +
+ +
+'Coordinate' must be a scalar or vector of 'floating-point' (incl. 16-bit *OpTypeFloat*) type. +
+
+
+*OpImageFetch*
+~~~~~~~~~~~~~~
+
+(Replace the following sentence:) +
+ +
+'Result Type' must be a vector of four components of 'floating-point' type or 'integer' type. +
+ +
+(with:) +
+ +
+'Result Type' must be a vector of four components of 'floating-point' type (incl. 16-bit *OpTypeFloat*) or 'integer' type. +
+
+
+*OpImageGather*
+~~~~~~~~~~~~~~~
+
+(Replace the following sentence:) +
+ +
+'Result Type' must be a vector of four components of 'floating-point' type or 'integer' type. +
+ +
+(with:) +
+ +
+'Result Type' must be a vector of four components of 'floating-point' type (incl. 16-bit *OpTypeFloat*) or 'integer' type. +
+ +
+(Replace the following sentence:) +
+ +
+'Coordinate' must be a scalar or vector of 'floating-point' type. +
+ +
+(with:) +
+ +
+'Coordinate' must be a scalar or vector of 'floating-point' (incl. 16-bit *OpTypeFloat*) type. +
+
+
+*OpImageRead*
+~~~~~~~~~~~~~
+
+(Replace the following sentence:) +
+ +
+'Result Type' must be a vector of four components of 'floating-point' type or 'integer' type. +
+ +
+(with:) +
+ +
+'Result Type' must be a vector of four components of 'floating-point' type (incl. 16-bit *OpTypeFloat*) or 'integer' type. +
+
+
+*OpImageSampleDrefExplicitLod*
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+(Replace the following sentence:) +
+ +
+'Result Type' must be a scalar of 'integer' type or 'floating-point' type. +
+ +
+(with:) +
+ +
+'Result Type' must be a scalar of 'integer' type or 'floating-point' (incl. 16-bit *OpTypeFloat*) type. +
+ +
+(Replace the following sentence:) +
+ +
+'Coordinate' must be a scalar or vector of 'floating-point' type. +
+ +
+(with:) +
+ +
+'Coordinate' must be a scalar or vector of 'floating-point' (incl. 16-bit *OpTypeFloat*) type. +
+
+
+*OpImageSampleDrefImplicitLod*
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+(Replace the following sentence:) +
+ +
+'Result Type' must be a scalar of 'integer' type or 'floating-point' type. +
+ +
+(with:) +
+ +
+'Result Type' must be a scalar of 'integer' type or 'floating-point' (incl. 16-bit *OpTypeFloat*) type. +
+ +
+(Replace the following sentence:) +
+ +
+'Coordinate' must be a scalar or vector of 'floating-point' type. +
+ +
+(with:) +
+ +
+'Coordinate' must be a scalar or vector of 'floating-point' (incl. 16-bit *OpTypeFloat*) type. +
+
+
+*OpImageSampleExplicitLod*
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+(Replace the following sentence:) +
+ +
+'Result Type' must be a vector of four components of 'floating-point' type or 'integer' type. +
+ +
+(with:) +
+ +
+'Result Type' must be a vector of four components of 'floating-point' type (incl. 16-bit *OpTypeFloat*) or 'integer' type. +
+ +
+(Replace the following sentence:) +
+ +
+'Coordinate' must be a scalar or vector of 'floating-point' type or 'integer' type. +
+ +
+(with:) +
+ +
+'Coordinate' must be a scalar or vector of 'floating-point' (incl. 16-bit *OpTypeFloat*) type or 'integer' type. +
+
+
+*OpImageSampleImplicitLod*
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+(Replace the following sentence:) +
+ +
+'Result Type' must be a vector of four components of 'floating-point' type or 'integer' type. +
+ +
+(with:) +
+ +
+'Result Type' must be a vector of four components of 'floating-point' type (incl. 16-bit *OpTypeFloat*) or 'integer' type. +
+ +
+(Replace the following sentence:) +
+ +
+'Coordinate' must be a scalar or vector of 'floating-point' type or 'integer' type. +
+ +
+(with:) +
+ +
+'Coordinate' must be a scalar or vector of 'floating-point' (incl. 16-bit *OpTypeFloat*) type or 'integer' type. +
+
+
+*OpImageSampleProjDrefExplicitLod*
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+(Replace the following sentence:) +
+ +
+'Result Type' must be a scalar of 'integer' type or 'floating-point' type. +
+ +
+(with:) +
+ +
+'Result Type' must be a scalar of 'integer' type or 'floating-point' (incl. 16-bit *OpTypeFloat*) type. +
+ +
+(Replace the following part of the sentence:) +
+ +
+'Coordinate' is a 'floating-point' vector containing (..) +
+ +
+(with:) +
+ +
+'Coordinate' is a 'floating-point' (incl. 16-bit) vector containing (..) +
+
+
+*OpImageSampleProjDrefImplicitLod*
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+(Replace the following sentence:) +
+ +
+'Result Type' must be a scalar of 'integer' type or 'floating-point' type. +
+ +
+(with:) +
+ +
+'Result Type' must be a scalar of 'integer' type or 'floating-point' (incl. 16-bit *OpTypeFloat*) type. +
+ +
+(Replace the following part of the sentence:) +
+ +
+'Coordinate' is a 'floating-point' vector containing (..) +
+ +
+(with:) +
+ +
+'Coordinate' is a 'floating-point' (incl. 16-bit) vector containing (..) +
+
+
+
+*OpImageSampleProjExplicitLod*
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+(Replace the following sentence:) +
+ +
+'Result Type' must be a vector of four components of 'floating-point' type or 'integer' type. +
+ +
+(with:) +
+ +
+'Result Type' must be a vector of four components of 'floating-point' type (incl. 16-bit *OpTypeFloat*) or 'integer' type. +
+ +
+(Replace the following part of the sentence:) +
+ +
+'Coordinate' is a 'floating-point' vector containing (..) +
+ +
+(with:) +
+ +
+'Coordinate' is a 'floating-point' (incl. 16-bit) vector containing (..) +
+
+
+*OpImageSampleProjImplicitLod*
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+(Replace the following sentence:) +
+ +
+'Result Type' must be a vector of four components of 'floating-point' type or 'integer' type. +
+ +
+(with:) +
+ +
+'Result Type' must be a vector of four components of 'floating-point' type (incl. 16-bit *OpTypeFloat*) or 'integer' type. +
+ +
+(Replace the following part of the sentence:) +
+ +
+'Coordinate' is a 'floating-point' vector containing (..) +
+ +
+(with:) +
+ +
+'Coordinate' is a 'floating-point' (incl. 16-bit) vector containing (..) +
+
+
+*OpImageSparseDrefGather*
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+(Replace the following sentence:) +
+ +
+'Result Type' must be an 'OpTypeStruct' with two members. (..) The second member must be a vector of four components of 'floating-point' type or 'integer' type. +
+ +
+(with:) +
+ +
+'Result Type' must be an 'OpTypeStruct' with two members. (..) The second member must be a vector of four components of 'floating-point' type (incl. 16-bit *OpTypeFloat*) or 'integer' type. +
+ +
+(Replace the following sentence:) +
+ +
+'Coordinate' must be a scalar or vector of 'floating-point' type. +
+ +
+(with:) +
+ +
+'Coordinate' must be a scalar or vector of 'floating-point' (incl. 16-bit *OpTypeFloat*) type. +
+
+
+*OpImageSparseFetch*
+~~~~~~~~~~~~~~~~~~~~
+
+(Replace the following sentence:) +
+ +
+'Result Type' must be an 'OpTypeStruct' with two members. (..) The second member must be a vector of four components of 'floating-point' type or 'integer' type. +
+ +
+(with:) +
+ +
+'Result Type' must be an 'OpTypeStruct' with two members. (..) The second member must be a vector of four components of 'floating-point' type (incl. 16-bit *OpTypeFloat*) or 'integer' type. +
+
+
+*OpImageSparseGather*
+~~~~~~~~~~~~~~~~~~~~~
+
+(Replace the following sentence:) +
+ +
+'Result Type' must be an 'OpTypeStruct' with two members. (..) The second member must be a vector of four components of 'floating-point' type or 'integer' type. +
+ +
+(with:) +
+ +
+'Result Type' must be an 'OpTypeStruct' with two members. (..) The second member must be a vector of four components of 'floating-point' type (incl. 16-bit *OpTypeFloat*) or 'integer' type. +
+
+(Replace the following sentence:) +
+ +
+'Coordinate' must be a scalar or vector of 'floating-point' type. +
+ +
+(with:) +
+ +
+'Coordinate' must be a scalar or vector of 'floating-point' (incl. 16-bit *OpTypeFloat*) type. +
+
+
+*OpImageSparseRead*
+~~~~~~~~~~~~~~~~~~~
+
+(Replace the following sentence:) +
+ +
+'Result Type' must be an 'OpTypeStruct' with two members. (..) The second member must be a scalar or vector of 'floating-point' type or 'integer' type. +
+ +
+(with:) +
+ +
+'Result Type' must be an 'OpTypeStruct' with two members. (..) The second member must be a scalar or vector of 'floating-point' (incl. 16-bit *OpTypeFloat*) type or 'integer' type. +
+
+
+*OpImageSparseSampleDrefExplicitLod*
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+(Replace the following sentence:) +
+ +
+'Result Type' must be an 'OpTypeStruct' with two members. (..) The second member must be a scalar of 'integer' type or 'floating-point' type. +
+ +
+(with:) +
+ +
+'Result Type' must be an 'OpTypeStruct' with two members. (..) The second member must be a scalar of 'integer' type or 'floating-point' (incl. 16-bit *OpTypeFloat*) type. +
+ +
+(Replace the following sentence:) +
+ +
+'Coordinate' must be a scalar or vector of 'floating-point' type. +
+ +
+(with:) +
+ +
+'Coordinate' must be a scalar or vector of 'floating-point' (incl. 16-bit *OpTypeFloat*) type. +
+
+
+*OpImageSparseSampleDrefImplicitLod*
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+(Replace the following sentence:) +
+ +
+'Result Type' must be an 'OpTypeStruct' with two members. (..) The second member must be a scalar of 'integer' type or 'floating-point' type. +
+ +
+(with:) +
+ +
+'Result Type' must be an 'OpTypeStruct' with two members. (..) The second member must be a scalar of 'integer' type or 'floating-point' (incl. 16-bit *OpTypeFloat*) type. +
+ +
+(Replace the following sentence:) +
+ +
+'Coordinate' must be a scalar or vector of 'floating-point' type. +
+ +
+(with:) +
+ +
+'Coordinate' must be a scalar or vector of 'floating-point' (incl. 16-bit *OpTypeFloat*) type. +
+
+
+
+*OpImageSparseSampleExplicitLod*
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+(Replace the following sentence:) +
+ +
+'Result Type' must be an 'OpTypeStruct' with two members. (..) The second member must be a vector of four components of 'floating-point' type or 'integer' type. +
+ +
+(with:) +
+ +
+'Result Type' must be an 'OpTypeStruct' with two members. (..) The second member must be a vector of four components of 'floating-point' type (incl. 16-bit *OpTypeFloat*) or 'integer' type. +
+ +
+(Replace the following sentence:) +
+ +
+'Coordinate' must be a scalar or vector of 'floating-point' type or 'integer' type. +
+ +
+(with:) +
+ +
+'Coordinate' must be a scalar or vector of 'floating-point' (incl. 16-bit *OpTypeFloat*) type or 'integer' type. +
+
+
+
+*OpImageSparseSampleImplicitLod*
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+(Replace the following sentence:) +
+ +
+'Result Type' must be an 'OpTypeStruct' with two members. (..) The second member must be a vector of four components of 'floating-point' type or 'integer' type. +
+ +
+(with:) +
+ +
+'Result Type' must be an 'OpTypeStruct' with two members. (..) The second member must be a vector of four components of 'floating-point' type (incl. 16-bit *OpTypeFloat*) or 'integer' type. +
+ +
+(Replace the following sentence:) +
+ +
+'Coordinate' must be a scalar or vector of 'floating-point' type or 'integer' type. +
+ +
+(with:) +
+ +
+'Coordinate' must be a scalar or vector of 'floating-point' (incl. 16-bit *OpTypeFloat*) type or 'integer' type. +
+
+
+
+Validation Rules
+----------------
+
+None.
+
+Issues
+------
+
+None
+
+Revision History
+----------------
+
+[cols="5%,10%,15%,70%"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|February 2, 2018|Dominik Witczak|Initial revision based on AMD_gpu_shader_half_float_fetch.
+|========================================
