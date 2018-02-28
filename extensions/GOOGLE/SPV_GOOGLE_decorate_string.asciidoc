@@ -1,0 +1,168 @@
+SPV_GOOGLE_decorate_string
+==========================
+
+Name Strings
+------------
+
+SPV_GOOGLE_decorate_string
+
+Contact
+-------
+
+See *Issues* list in the Khronos SPIRV-Headers repository:
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Hai Nguyen, Google
+- David Neto, Google
+- John Kessenich, Google
+- Lei Zhang, Google
+
+Status
+------
+
+- Draft
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2018-02-16
+| Revision           | 4
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.0 Revision 12.
+
+This extension requires SPIR-V 1.0.
+
+Overview
+--------
+
+This extension provides two new instructions to decorate a variable or a struct
+member with a string.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_GOOGLE_decorate_string"
+----
+
+Token Number Assignments
+------------------------
+
+[width="40%"]
+[cols="70%,30%"]
+[grid="rows"]
+|====
+|OpDecorateStringGOOGLE       | 5632
+|OpMemberDecorateStringGOOGLE | 5633
+|====
+
+Modifications to the SPIR-V Specification, Version 1.0
+------------------------------------------------------
+(Modify Section 2.4, Logical Layout of a Module) ::
+
+Add *OpDecorateStringGOOGLE* and *OpMemberDecorateStringGOOGLE* to the list
+of annotation instructions under layout section 8.a.
+
+(Modify Section 3.32.3, Annotation instructions) ::
+
+Add *OpDecorateStringGOOGLE* and *OpMemberDecorateStringGOOGLE*:
+
+--
+
+[cols="2*1,3*3",width="99%"]
+|=====
+5+|[[OpDecorateStringGOOGLE]]*OpDecorateStringGOOGLE* +
+ +
+Add a string decoration to another <id>. +
+ +
+'Target' is the '<id>' to decorate.  It can potentially be any '<id>' that is a
+forward reference, except it must not be the <id> of an OpDecorationGroup. +
+ +
+'Decoration' is a decoration that takes at least one 'Literal String' operand,
+and has only 'Literal String' operands.
+| 4 + variable | 5632
+ | '<id>' +
+'Target' | <<Decoration,'Decoration'>> +
+ | 'Literal String, Literal String, ...' +
+See <<Decoration,'Decoration'>>.
+|=====
+
+[cols="2*1,4*3",width="85%"]
+|=====
+6+|[[OpMemberDecorateStringGOOGLE]]*OpMemberDecorateStringGOOGLE* +
+ +
+Add a string decoration to a member of a structure type. +
+ +
+'Structure type' is the '<id>' of a type from <<OpTypeStruct,*OpTypeStruct*>>. +
+ +
+'Member' is the number of the member to decorate in the type. The first member is member 0, the next is member 1, ... +
+ +
+'Decoration' is a decoration that takes at least one 'Literal String' operand,
+and has only 'Literal String' operands.
+| 5 + variable | 5633
+ | '<id>' +
+'Structure Type' | <<Literal Number,'Literal Number'>> +
+'Member' | <<Decoration,'Decoration'>> +
+ | 'Literal String' +
+See <<Decoration,'Decoration'>>.
+|=====
+
+--
+
+
+Validation Rules
+----------------
+
+To use this extension within a SPIR-V module the following *OpExtension* instruction
+must be present in the module:
+
+----
+OpExtension "SPV_GOOGLE_decorate_string"
+----
+
+
+Issues
+------
+
+. Do we need *OpMemberDecorateStringGOOGLE*?
++
+--
+*RESOLVED*:
+  Yes. It may be desirable to decorate members of an builtins interface block with string decorations.
+--
+
+
+. Should *OpDecorateStringGOOGLE* and *OpMemberDecorateStringGOOGLE* be allowed to participate
+  in decoration groups?
++
+--
+*RESOLVED*:
+  No. String decorations are intended to only decorate variables or members of a structure type.
+--
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1 |2017-10-05 |Hai Nguyen|Initial draft
+|2 |2017-12-01 |David Neto|Make it a KHR extension, add validation rules, assign token numbers
+|3 |2018-02-04 |Hai Nguyen|Changed to GOOGLE extension, removed HLSL semantics
+|4 |2018-02-04 |Hai Nguyen|Added GOOGLE suffix, added token numbers, removed redundant sections
+|========================================
