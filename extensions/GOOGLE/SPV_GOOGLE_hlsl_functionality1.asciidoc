@@ -29,8 +29,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2018-02-16
-| Initial            | 2
+| Last Modified Date | 2018-03-16
+| Initial            | 3
 |========================================
 
 Dependencies
@@ -39,7 +39,9 @@ Dependencies
 This extension is written against the SPIR-V Specification,
 Version 1.2 Revision 4, Unified.
 
-This extension requires SPIR-V 1.2.
+This extension requires SPIR-V 1.0.
+
+This extension also requires the SPV_GOOGLE_decorate_string extension.
 
 Overview
 --------
@@ -48,7 +50,7 @@ This extension provides two new decorations to extend HLSL functionality:
 HlslCounterBuffer and HlslSemantic.
 
 The decoration HlslCounterBuffer is used with OpDecorateId to link a counter
-buffer to a UAV resources that has an associated counter.
+buffer to a UAV resource that has an associated counter.
 
 The decoration HlslSemantic is used with OpDecorateStringGOOGLE and
 OpMemberDeocrateStringGOOGLE to decorate an input or output variable id
@@ -113,7 +115,7 @@ An <id> of the counter buffer associated with the target buffer.
 | 5635 | *HlslSemanticGOOGLE* +
 A string describing the intended use of a value.
 Use this to express user-defined and system semantic values for shaders
-originally written in HLSL.
+originally written in HLSL. The semantic string is case insensitive.
   |
   2+| _Literal String_ +
       Semantic
@@ -156,4 +158,5 @@ Revision History
 |Rev|Date|Author|Changes
 |1 |2018-02-04 |Hai Nguyen|*Initial draft*
 |2 |2018-02-16 |Hai Nguyen|Added GOOGLE suffix, validation rules, and token numbers
+|3 |2018-03-16 |Lei Zhang |Clarified version and extension requirements
 |========================================
