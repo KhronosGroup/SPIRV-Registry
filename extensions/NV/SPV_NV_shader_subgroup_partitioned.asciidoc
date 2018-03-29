@@ -1,0 +1,229 @@
+SPV_NV_shader_subgroup_partitioned
+==================================
+
+Name Strings
+------------
+
+SPV_NV_shader_subgroup_partitioned
+
+Contact
+-------
+
+See *Issues* list in the Khronos SPIRV-Headers repository:
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Jeff Bolz, NVIDIA
+
+Status
+------
+
+- Draft
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2018-03-14
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.3 Revision 1.
+
+This extension requires SPIR-V 1.3.
+
+This extension provides SPIR-V support for the GL_NV_shader_subgroup_partitioned
+GLSL extension.
+
+Overview
+--------
+
+This extension adds new subgroup functionality to support the Vulkan
+GL_NV_shader_subgroup_partitioned GLSL extension.
+
+*OpGroupNonUniformPartitionNV* is a new instruction that computes a
+partition (a ballot value indicating which other invocations in the
+subgroup have the same value of the operand).
+
+*PartitionedReduceNV*, *PartitionedInclusiveScanNV*, and
+*PartitionedExclusiveScanNV* are new GroupOperation enum values that
+select the partitioned reduce/scan functionality.
+
+*GroupNonUniformPartitionedNV* is a capability that indicates a module
+uses these new features.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_NV_shader_subgroup_partitioned"
+----
+
+New Capabilities
+----------------
+
+This extension introduces the following new capabilities:
+
+----
+GroupNonUniformPartitionedNV
+----
+
+New Decorations
+---------------
+
+None
+
+New Builtins
+------------
+
+None.
+
+New Instructions
+----------------
+
+----
+OpGroupNonUniformPartitionNV
+----
+
+Token Number Assignments
+------------------------
+
+[options="header",width="75%"]
+[cols="50%,20%,30%"]
+[grid="rows"]
+|====
+| Name                                            | Value | Usage
+| *GroupNonUniformPartitionedNV*                  | 5297  | Capability
+| *OpGroupNonUniformPartitionNV*                  | 5296  | Opcode
+| *PartitionedReduceNV*                           |  6    | GroupOperation
+| *PartitionedInclusiveScanNV*                    |  7    | GroupOperation
+| *PartitionedExclusiveScanNV*                    |  8    | GroupOperation
+|====
+
+Modifications to the SPIR-V Specification, Version 1.3
+------------------------------------------------------
+
+(Add to the table in 3.28, Group Operation):
+
+[cols="50%,20%,30%"]
+[grid="rows"]
+|====
+| 6 | *PartitionedReduceNV* +
+A reduction operation performed across the invocations in a subset of a
+partition value, with a unique value computed for each subset.
+| *GroupNonUniformPartitionedNV*
+| 7 | *PartitionedInclusiveScanNV* +
+An inclusive scan operation performed across the invocations in a subset of a
+partition value, with a unique value computed for each subset.
+| *GroupNonUniformPartitionedNV*
+| 8 | *PartitionedExclusiveScanNV* +
+An exclusive scan operation performed across the invocations in a subset of a
+partition value, with a unique value computed for each subset.
+| *GroupNonUniformPartitionedNV*
+|====
+
+Add:
+"The _ballot_ parameter to the partitioned operations must form a valid
+partition of the active invocations in the subgroup. The values of _ballot_
+are a valid partition if:
+
+  * for each active invocation _i_, the bit corresponding to _i_ is
+    set in _i_'s value of _ballot_, and
+  * for any two active invocations _i_ and _j_, if the bit
+    corresponding to invocation _j_ is set in invocation _i_'s value
+    of _ballot_, then invocation _j_'s value of _ballot_ must equal
+    invocation _i_'s value of _ballot_, and
+  * bits not corresponding to any invocation in the subgroup are
+    ignored.
+
+If two active invocations _i_ and _j_ have the same value of _ballot_,
+they are said to be "in the same subset of the partition"."
+
+
+(Modify Section 3.32.21, Group Instructions, adding to the end of the list of instructions) ::
++
+--
+[cols="1,1,3*3",width="100%"]
+|=====
+4+|[[OpGroupNonUniformPartitionNV]]*OpGroupNonUniformPartitionNV* +
+ +
+Computes a ballot result that is a valid partition of the active invocations
+such that all invocations in each subset of the partition have the same value
+of _value_. For any two invocations in different subsets of the partition,
+either their values of _value_ must not be equal or one must be a floating
+point NaN
+. +
+ +
+'Value' must be a scalar or vector type. +
+ +
+'Result Type' must be a 4 component vector of 32 bit integer types. +
+ +
+'Result' is a set of bitfields where the first invocation is represented
+in bit 0 of the first vector component and the last (up to *SubgroupSize*)
+is the higher bit number of the last bitmask needed to represent all
+bits of the subgroup invocations.
+1+|Capability: +
+*GroupNonUniformPartitionedNV*
+| 4 | 5296 | '<id>' 'Result Type' | '<id>' 'Result' |  '<id>' 'Value'
+|=====
+--
+
+(Modify Section 3.32.21, Group Instructions, modify each GroupNonUniformArithmetic instruction) ::
+
+Add an optional operand "Optional <id> ballot".
+
+Add "If Operation is *PartitionedReduceNV*, *PartitionedInclusiveScanNV*, or
+*PartitionedExclusiveScanNV*, _ballot_ must be specified. _ballot_ specifies
+the partition of invocations to use when computing a partitioned operation."
+
+Add *GroupNonUniformPartitionedNV* to the capability list.
+
+(Modify Section 3.31, Capability, adding new rows to the Capability table) ::
++
+--
+[cols="1^.^,15,8^,30",options="header",width = "100%"]
+|====
+2+^.^| Capability | Depends On | Enabled by Extension
+| 5301 | *GroupNonUniformPartitionedNV* +
+Uses partitioned subgroup operations.
+| *Shader* | *SPV_NV_shader_subgroup_partitioned*
+|====
+--
+
+Validation Rules
+----------------
+
+An OpExtension must be added to the SPIR-V for validation layers to check
+legal use of this extension:
+
+----
+OpExtension "SPV_NV_shader_subgroup_partitioned"
+----
+
+
+Issues
+------
+
+None.
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1 |2018-03-14 |Jeff Bolz| *Initial draft*
+|========================================
+
