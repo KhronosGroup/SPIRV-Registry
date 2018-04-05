@@ -31,17 +31,13 @@ http://www.khronos.org/registry/speccopyright.html
 Status
 ------
 
-Proposed.
+Released.
 
 Version
 -------
 
-Modified Date: August 11, 2016
-Revision:      4
-
-Number
-------
-SPIR-V Extension #NNN _TBD_
+Modified Date: March 28, 2018
+Revision:      6
 
 Dependencies
 ------------
@@ -62,6 +58,7 @@ for SPIR-V.
 This extension introduces eight core instructions and four new extended
 instructions to SPIR-V that enable additional subgroup operations in shaders.
 
+This extension adds 16-bit result type support to a number of core group operations.
 
 Extension Name
 --------------
@@ -89,10 +86,10 @@ OpGroupSMaxNonUniformAMD = 5007
 This extension adds the following extended instructions
 
 ----
-SwizzleInvocationsAMD
-SwizzleInvocationsMaskedAMD
-WriteInvocationAMD
-MbcntAMD
+SwizzleInvocationsAMD = 1
+SwizzleInvocationsMaskedAMD = 2
+WriteInvocationAMD = 3
+MbcntAMD = 4
 ----
 
 To use the new core and extended instructions, declare:
@@ -106,6 +103,62 @@ Modifications to the SPIR-V Specification, Version 1.1
 ------------------------------------------------------
 
 Modify Section 3.32.21, Group Instructions
+
+OpGroupIAdd
+~~~~~~~~~~~
+
+(Replace the following sentence):
+
+<Result Type> must be a 32-bit or 64-bit <integer type> scalar.
+
+(with):
+
+<Result Type> must be an <integer type> scalar.
+
+
+OpGroupUMin
+~~~~~~~~~~~
+(Replace the following sentence):
+
+<Result Type> must be a 32-bit or 64-bit <integer type> scalar.
+
+(with):
+
+<Result Type> must be an <integer type> scalar.
+
+
+OpGroupSMin
+~~~~~~~~~~~
+(Replace the following sentence):
+
+<Result Type> must be a 32-bit or 64-bit <integer type> scalar.
+
+(with):
+
+<Result Type> must be an <integer type> scalar.
+
+
+OpGroupUMax
+~~~~~~~~~~~
+(Replace the following sentence):
+
+<Result Type> must be a 32-bit or 64-bit <integer type> scalar.
+
+(with):
+
+<Result Type> must be an <integer type> scalar.
+
+
+OpGroupSMax
+~~~~~~~~~~~
+(Replace the following sentence):
+
+<Result Type> must be a 32-bit or 64-bit <integer type> scalar.
+
+(with):
+
+<Result Type> must be an <integer type> scalar.
+
 
 (Add to the end of the section)
 
@@ -122,7 +175,7 @@ All invocations of this module within <Execution> must reach this point of execu
 This instruction is able to work correctly if placed within non-uniform control
 flow within <Execution>.
 
-<Result Type> must be a 32-bit or 64-bit integer type scalar.
+<Result Type> must be an <integer type> scalar.
 
 <Execution> must be Workgroup or Subgroup Scope.
 
@@ -147,7 +200,7 @@ execution.
 This instruction is able to work correctly if placed within non-uniform control
 flow within <Execution>.
 
-<Result Type> must be a 16-bit, 32-bit, or 64-bit floating-point type scalar.
+<Result Type> must be an <integer type> scalar.
 
 <Execution> must be Workgroup or Subgroup Scope.
 
@@ -173,7 +226,7 @@ execution.
 This instruction is able to work correctly if placed within non-uniform control
 flow within <Execution>.
 
-<Result Type> must be a 16-bit, 32-bit, or 64-bit floating-point type scalar.
+<Result Type> must be an <integer type> scalar.
 
 <Execution> must be Workgroup or Subgroup Scope.
 
@@ -198,7 +251,7 @@ All invocations of this module within <Execution> must reach this point of execu
 This instruction is able to work correctly if placed within non-uniform control flow
 within <Execution>.
 
-<Result Type> must be a 32-bit or 64-bit integer type scalar.
+<Result Type> must be an <integer type> scalar.
 
 <Execution> must be Workgroup or Subgroup Scope.
 
@@ -224,7 +277,7 @@ execution.
 This instruction is able to work correctly if placed within non-uniform control
 flow within <Execution>.
 
-<Result Type> must be a 32-bit or 64-bit integer type scalar.
+<Result Type> must be an <integer type> scalar.
 
 <Execution> must be Workgroup or Subgroup Scope.
 
@@ -249,7 +302,7 @@ execution.
 This instruction is able to work correctly if placed within non-uniform control
 flow within <Execution>.
 
-<Result Type> must be a 16-bit, 32-bit, or 64-bit floating-point type scalar.
+<Result Type> must be an <integer type> scalar.
 
 <Execution> must be Workgroup or Subgroup Scope.
 
@@ -273,7 +326,7 @@ All invocations of this module within <Execution> must reach this point of execu
 This instruction is able to work correctly if placed within non-uniform control flow
 within <Execution>.
 
-<Result Type> must be a 32-bit or 64-bit integer type scalar.
+<Result Type> must be an <integer type> scalar.
 
 <Execution> must be Workgroup or Subgroup Scope.
 
@@ -298,7 +351,7 @@ All invocations of this module within <Execution> must reach this point of execu
 This instruction is able to work correctly if placed within non-uniform control
 flow within <Execution>.
 
-<Result Type> must be a 32-bit or 64-bit integer type scalar.
+<Result Type> must be an <integer type> scalar.
 
 <Execution> must be Workgroup or Subgroup Scope.
 
@@ -430,7 +483,15 @@ None.
 Issues
 ------
 
-None
+1.
+
+Supported <result types> for group operation instructions depend on capabilities which are
+defined elsewhere in the SPIR-V code. In specific, these capabilities may come from
+other SPIR-V extensions, which are out of scope of this extension specification.
+
+Due to the above, we have decided to relax the language restricting allowed result types for 
+group operation instructions so that it now mentions general integer type, instead of
+specialized integer types.
 
 Revision History
 ----------------
@@ -443,5 +504,7 @@ Revision History
 |1|April 21, 2016|Quentin Lin|Initial revision based on AMD_shader_ballot.
 |2|May 20, 2016|Dominik Witczak|Document refactoring
 |3|May 20, 2016|Matthäus G. Chajdas|Document refactoring
-|4|August 11, 2016|Rex Xu|*Add new core instructions to handle group operations placed with non-uniform control flow.*
+|4|August 11, 2016|Rex Xu|Add new core instructions to handle group operations placed with non-uniform control flow.
+|5|October 13, 2016|Dominik Witczak|Added missing numerical value assignments, removed extension number
+|6|March 28, 2018|Dominik Witczak|Generalized type restrictions for result types of group operation instructions to integer types. Added issue#1.
 |========================================
