@@ -802,8 +802,8 @@ Matthäus G. Chajdas, AMD
 <div class="sect1">
 <h2 id="_version">Version</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Modified Date: October 13, 2016
-Revision:      5</p></div>
+<div class="paragraph"><p>Modified Date: March 28, 2018
+Revision:      6</p></div>
 </div>
 </div>
 <div class="sect1">
@@ -823,6 +823,7 @@ AMD_shader_ballot, OpenGL Shading Language Specification extension,
 for SPIR-V.</p></div>
 <div class="paragraph"><p>This extension introduces eight core instructions and four new extended
 instructions to SPIR-V that enable additional subgroup operations in shaders.</p></div>
+<div class="paragraph"><p>This extension adds 16-bit result type support to a number of core group operations.</p></div>
 </div>
 </div>
 <div class="sect1">
@@ -869,7 +870,42 @@ MbcntAMD = 4</code></pre>
 <h2 id="_modifications_to_the_spir_v_specification_version_1_1">Modifications to the SPIR-V Specification, Version 1.1</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Modify Section 3.32.21, Group Instructions</p></div>
+<div class="sect2">
+<h3 id="_opgroupiadd">OpGroupIAdd</h3>
+<div class="paragraph"><p>(Replace the following sentence):</p></div>
+<div class="paragraph"><p>&lt;Result Type&gt; must be a 32-bit or 64-bit &lt;integer type&gt; scalar.</p></div>
+<div class="paragraph"><p>(with):</p></div>
+<div class="paragraph"><p>&lt;Result Type&gt; must be an &lt;integer type&gt; scalar.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_opgroupumin">OpGroupUMin</h3>
+<div class="paragraph"><p>(Replace the following sentence):</p></div>
+<div class="paragraph"><p>&lt;Result Type&gt; must be a 32-bit or 64-bit &lt;integer type&gt; scalar.</p></div>
+<div class="paragraph"><p>(with):</p></div>
+<div class="paragraph"><p>&lt;Result Type&gt; must be an &lt;integer type&gt; scalar.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_opgroupsmin">OpGroupSMin</h3>
+<div class="paragraph"><p>(Replace the following sentence):</p></div>
+<div class="paragraph"><p>&lt;Result Type&gt; must be a 32-bit or 64-bit &lt;integer type&gt; scalar.</p></div>
+<div class="paragraph"><p>(with):</p></div>
+<div class="paragraph"><p>&lt;Result Type&gt; must be an &lt;integer type&gt; scalar.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_opgroupumax">OpGroupUMax</h3>
+<div class="paragraph"><p>(Replace the following sentence):</p></div>
+<div class="paragraph"><p>&lt;Result Type&gt; must be a 32-bit or 64-bit &lt;integer type&gt; scalar.</p></div>
+<div class="paragraph"><p>(with):</p></div>
+<div class="paragraph"><p>&lt;Result Type&gt; must be an &lt;integer type&gt; scalar.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_opgroupsmax">OpGroupSMax</h3>
+<div class="paragraph"><p>(Replace the following sentence):</p></div>
+<div class="paragraph"><p>&lt;Result Type&gt; must be a 32-bit or 64-bit &lt;integer type&gt; scalar.</p></div>
+<div class="paragraph"><p>(with):</p></div>
+<div class="paragraph"><p>&lt;Result Type&gt; must be an &lt;integer type&gt; scalar.</p></div>
 <div class="paragraph"><p>(Add to the end of the section)</p></div>
+</div>
 <div class="sect2">
 <h3 id="_opgroupiaddnonuniformamd">OpGroupIAddNonUniformAMD</h3>
 <div class="paragraph"><p>An integer add group operation specified for all values of &lt;X&gt;
@@ -878,7 +914,7 @@ specified by invocations in the group.</p></div>
 <div class="paragraph"><p>All invocations of this module within &lt;Execution&gt; must reach this point of execution.</p></div>
 <div class="paragraph"><p>This instruction is able to work correctly if placed within non-uniform control
 flow within &lt;Execution&gt;.</p></div>
-<div class="paragraph"><p>&lt;Result Type&gt; must be a 32-bit or 64-bit integer type scalar.</p></div>
+<div class="paragraph"><p>&lt;Result Type&gt; must be an &lt;integer type&gt; scalar.</p></div>
 <div class="paragraph"><p>&lt;Execution&gt; must be Workgroup or Subgroup Scope.</p></div>
 <div class="paragraph"><p>The type of &lt;X&gt; must be the same as &lt;Result Type&gt;.</p></div>
 <div class="listingblock">
@@ -895,7 +931,7 @@ by invocations in the group.</p></div>
 execution.</p></div>
 <div class="paragraph"><p>This instruction is able to work correctly if placed within non-uniform control
 flow within &lt;Execution&gt;.</p></div>
-<div class="paragraph"><p>&lt;Result Type&gt; must be a 16-bit, 32-bit, or 64-bit floating-point type scalar.</p></div>
+<div class="paragraph"><p>&lt;Result Type&gt; must be an &lt;integer type&gt; scalar.</p></div>
 <div class="paragraph"><p>&lt;Execution&gt; must be Workgroup or Subgroup Scope.</p></div>
 <div class="paragraph"><p>The type of &lt;X&gt; must be the same as &lt;Result Type&gt;.</p></div>
 <div class="listingblock">
@@ -912,7 +948,7 @@ by invocations in the group.</p></div>
 execution.</p></div>
 <div class="paragraph"><p>This instruction is able to work correctly if placed within non-uniform control
 flow within &lt;Execution&gt;.</p></div>
-<div class="paragraph"><p>&lt;Result Type&gt; must be a 16-bit, 32-bit, or 64-bit floating-point type scalar.</p></div>
+<div class="paragraph"><p>&lt;Result Type&gt; must be an &lt;integer type&gt; scalar.</p></div>
 <div class="paragraph"><p>&lt;Execution&gt; must be Workgroup or Subgroup Scope.</p></div>
 <div class="paragraph"><p>The type of &lt;X&gt; must be the same as &lt;Result Type&gt;.</p></div>
 <div class="listingblock">
@@ -929,7 +965,7 @@ specified by invocations in the group.</p></div>
 <div class="paragraph"><p>All invocations of this module within &lt;Execution&gt; must reach this point of execution.</p></div>
 <div class="paragraph"><p>This instruction is able to work correctly if placed within non-uniform control flow
 within &lt;Execution&gt;.</p></div>
-<div class="paragraph"><p>&lt;Result Type&gt; must be a 32-bit or 64-bit integer type scalar.</p></div>
+<div class="paragraph"><p>&lt;Result Type&gt; must be an &lt;integer type&gt; scalar.</p></div>
 <div class="paragraph"><p>&lt;Execution&gt; must be Workgroup or Subgroup Scope.</p></div>
 <div class="paragraph"><p>The type of &lt;X&gt; must be the same as &lt;Result Type&gt;.</p></div>
 <div class="listingblock">
@@ -947,7 +983,7 @@ bits wide.</p></div>
 execution.</p></div>
 <div class="paragraph"><p>This instruction is able to work correctly if placed within non-uniform control
 flow within &lt;Execution&gt;.</p></div>
-<div class="paragraph"><p>&lt;Result Type&gt; must be a 32-bit or 64-bit integer type scalar.</p></div>
+<div class="paragraph"><p>&lt;Result Type&gt; must be an &lt;integer type&gt; scalar.</p></div>
 <div class="paragraph"><p>&lt;Execution&gt; must be Workgroup or Subgroup Scope.</p></div>
 <div class="paragraph"><p>The type of &lt;X&gt; must be the same as &lt;Result Type&gt;.</p></div>
 <div class="listingblock">
@@ -964,7 +1000,7 @@ by invocations in the group.</p></div>
 execution.</p></div>
 <div class="paragraph"><p>This instruction is able to work correctly if placed within non-uniform control
 flow within &lt;Execution&gt;.</p></div>
-<div class="paragraph"><p>&lt;Result Type&gt; must be a 16-bit, 32-bit, or 64-bit floating-point type scalar.</p></div>
+<div class="paragraph"><p>&lt;Result Type&gt; must be an &lt;integer type&gt; scalar.</p></div>
 <div class="paragraph"><p>&lt;Execution&gt; must be Workgroup or Subgroup Scope.</p></div>
 <div class="paragraph"><p>The type of &lt;X&gt; must be the same as &lt;Result Type&gt;.</p></div>
 <div class="listingblock">
@@ -980,7 +1016,7 @@ specified by invocations in the group.</p></div>
 <div class="paragraph"><p>All invocations of this module within &lt;Execution&gt; must reach this point of execution.</p></div>
 <div class="paragraph"><p>This instruction is able to work correctly if placed within non-uniform control flow
 within &lt;Execution&gt;.</p></div>
-<div class="paragraph"><p>&lt;Result Type&gt; must be a 32-bit or 64-bit integer type scalar.</p></div>
+<div class="paragraph"><p>&lt;Result Type&gt; must be an &lt;integer type&gt; scalar.</p></div>
 <div class="paragraph"><p>&lt;Execution&gt; must be Workgroup or Subgroup Scope.</p></div>
 <div class="paragraph"><p>The type of &lt;X&gt; must be the same as &lt;Result Type&gt;.</p></div>
 <div class="listingblock">
@@ -997,7 +1033,7 @@ bits wide.</p></div>
 <div class="paragraph"><p>All invocations of this module within &lt;Execution&gt; must reach this point of execution.</p></div>
 <div class="paragraph"><p>This instruction is able to work correctly if placed within non-uniform control
 flow within &lt;Execution&gt;.</p></div>
-<div class="paragraph"><p>&lt;Result Type&gt; must be a 32-bit or 64-bit integer type scalar.</p></div>
+<div class="paragraph"><p>&lt;Result Type&gt; must be an &lt;integer type&gt; scalar.</p></div>
 <div class="paragraph"><p>&lt;Execution&gt; must be Workgroup or Subgroup Scope.</p></div>
 <div class="paragraph"><p>The type of &lt;X&gt; must be the same as &lt;Result Type&gt;.</p></div>
 <div class="paragraph"><p>6 | 5007 | &lt;id&gt; Result Type | &lt;id&gt; Result | &lt;id&gt; Scope Execution | Group Operation | &lt;id&gt; X</p></div>
@@ -1131,7 +1167,13 @@ otherwise the result of the operation is undefined.</p></div>
 <div class="sect1">
 <h2 id="_issues">Issues</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>None</p></div>
+<div class="paragraph"><p>1.</p></div>
+<div class="paragraph"><p>Supported &lt;result types&gt; for group operation instructions depend on capabilities which are
+defined elsewhere in the SPIR-V code. In specific, these capabilities may come from
+other SPIR-V extensions, which are out of scope of this extension specification.</p></div>
+<div class="paragraph"><p>Due to the above, we have decided to relax the language restricting allowed result types for
+group operation instructions so that it now mentions general integer type, instead of
+specialized integer types.</p></div>
 </div>
 </div>
 <div class="sect1">
@@ -1183,7 +1225,13 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">5</p></td>
 <td align="left" valign="top"><p class="table">October 13, 2016</p></td>
 <td align="left" valign="top"><p class="table">Dominik Witczak</p></td>
-<td align="left" valign="top"><p class="table"><strong>Added missing numerical value assignments, removed extension number</strong></p></td>
+<td align="left" valign="top"><p class="table">Added missing numerical value assignments, removed extension number</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">6</p></td>
+<td align="left" valign="top"><p class="table">March 28, 2018</p></td>
+<td align="left" valign="top"><p class="table">Dominik Witczak</p></td>
+<td align="left" valign="top"><p class="table">Generalized type restrictions for result types of group operation instructions to integer types. Added issue#1.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1194,7 +1242,7 @@ cellspacing="0" cellpadding="4">
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-10-13 18:05:08 Central European Daylight Time
+Last updated 2018-03-29 11:35:30 Central European Daylight Time
 </div>
 </div>
 </body>
