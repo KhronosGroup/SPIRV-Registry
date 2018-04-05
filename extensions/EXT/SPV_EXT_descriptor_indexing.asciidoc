@@ -1,0 +1,277 @@
+SPV_EXT_descriptor_indexing
+===========================
+
+Name Strings
+------------
+
+SPV_EXT_descriptor_indexing
+
+Contact
+-------
+
+See *Issues* list in the Khronos SPIRV-Headers repository:
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Daniel Koch, NVIDIA
+- Jeff Bolz, NVIDIA
+- Neil Henning, Codeplay
+- Matthaeus Chajdas, AMD
+- John Kessenich, Google
+
+Status
+------
+
+- Draft
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2018-02-21
+| Revision           | 3
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.3 Revision 1.
+
+This extension requires SPIR-V 1.0.
+
+This extension interacts with SPV_KHR_storage_buffer_storage_class.
+
+This extension provides SPIR-V support for the GL_EXT_nonuniform_qualifier
+GLSL extension.
+
+Overview
+--------
+
+This extension adds new capabilities to support the Vulkan
+VK_EXT_descriptor_indexing extension along with a new decoration
+in order to enable support for the GL_EXT_nonuniform_qualifier
+GLSL extension.
+
+The *NonUniformEXT* decoration is used to indicate that a variable
+or instruction is non-uniform (or divergent control flow) for
+different invocations. The *ShaderNonUniformEXT* capability is
+used to indicate that a module uses this decoration.
+
+The *RuntimeDescriptorArrayEXT* capability is used to indicate that
+a module uses arrays of resources which are declared with
+OpTypeRuntimeArray.
+
+The *InputAttachmentArrayDynamicIndexingEXT*,
+*UniformTexelBufferArrayDynamicIndexingEXT*, and
+*StorageTexelBufferArrayDynamicIndexingEXT* capabilities are used to
+indicate that a module uses an array of *InputAttachment*, *SampledBuffer*,
+or *ImageBuffer*, respectively, with dynamic indexing.
+
+The *UniformBufferArrayNonUniformIndexingEXT*,
+*SampledImageArrayNonUniformIndexingEXT*,
+*StorageBufferArrayNonUniformIndexingEXT*,
+*StorageImageArrayNonUniformIndexingEXT*,
+*InputAttachmentArrayNonUniformIndexingEXT*,
+*UniformTexelBufferArrayNonUniformIndexingEXT*, and
+*StorageTexelBufferArrayNonUniformIndexingEXT* capabilities are used to
+indicate that a module uses an array of *Block*-decorated uniforms,
+sampled images, *StorageBuffer*, non-sampled images, *InputAttachment*,
+*SampledBuffer*, or *ImageBuffer* resources, respectively, with
+non-uniform indexing.
+
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_EXT_descriptor_indexing"
+----
+
+New Capabilities
+----------------
+
+This extension introduces the following new capabilities:
+
+----
+ShaderNonUniformEXT
+RuntimeDescriptorArrayEXT
+InputAttachmentArrayDynamicIndexingEXT
+UniformTexelBufferArrayDynamicIndexingEXT
+StorageTexelBufferArrayDynamicIndexingEXT
+UniformBufferArrayNonUniformIndexingEXT
+SampledImageArrayNonUniformIndexingEXT
+StorageBufferArrayNonUniformIndexingEXT
+StorageImageArrayNonUniformIndexingEXT
+InputAttachmentArrayNonUniformIndexingEXT
+UniformTexelBufferArrayNonUniformIndexingEXT
+StorageTexelBufferArrayNonUniformIndexingEXT
+----
+
+New Decorations
+---------------
+
+Decoration added under the *ShaderNonUniformEXT* capability:
+
+----
+NonUniformEXT
+----
+
+New Builtins
+------------
+
+None.
+
+New Instructions
+----------------
+
+None.
+
+Token Number Assignments
+------------------------
+
+[options="header",width="75%"]
+[cols="50%,20%,30%"]
+[grid="rows"]
+|====
+| Name                                          | Value | Usage
+| NonUniformEXT                                 | 5300  | Decoration
+| ShaderNonUniformEXT                           | 5301  | Capability
+| RuntimeDescriptorArrayEXT                     | 5302  | Capability
+| InputAttachmentArrayDynamicIndexingEXT        | 5303  | Capability
+| UniformTexelBufferArrayDynamicIndexingEXT     | 5304  | Capability
+| StorageTexelBufferArrayDynamicIndexingEXT     | 5305  | Capability
+| UniformBufferArrayNonUniformIndexingEXT       | 5306  | Capability
+| SampledImageArrayNonUniformIndexingEXT        | 5307  | Capability
+| StorageBufferArrayNonUniformIndexingEXT       | 5308  | Capability
+| StorageImageArrayNonUniformIndexingEXT        | 5309  | Capability
+| InputAttachmentArrayNonUniformIndexingEXT     | 5310  | Capability
+| UniformTexelBufferArrayNonUniformIndexingEXT  | 5311  | Capability
+| StorageTexelBufferArrayNonUniformIndexingEXT  | 5312  | Capability
+|====
+
+Modifications to the SPIR-V Specification, Version 1.3
+------------------------------------------------------
+(Modify Section 3.20, Decoration, adding a row to the Decoration table) ::
++
+--
+[cols="1^,10,6^,2*2",options="header",width = "100%"]
+|====
+2+^.^| Decoration | <<Capability,Enabling Capabilities>> 2+<.^| Extra Operands
+| 5300 | *NonUniformEXT* +
+Apply to an object or a member of a structure type. Asserts that the value
+backing the decorated <id> is _not_ dynamically uniform.
+See the API specification for more information.
+|*ShaderNonUniformEXT* 2+|
+|====
+--
+
+(Modify Section 3.31, Capability, adding new rows to the Capability table) ::
++
+--
+[cols="1^.^,15,8^,30",options="header",width = "100%"]
+|====
+2+^.^| Capability | Depends On | Enabled by Extension
+| 5301 | *ShaderNonUniformEXT* +
+Uses the *NonUniformEXT* decoration on a variable or instruction.
+| *Shader* | *SPV_EXT_descriptor_indexing*
+| 5302 | *RuntimeDescriptorArrayEXT* +
+Uses arrays of resources which are sized at run-time.
+| *Shader* | *SPV_EXT_descriptor_indexing*
+| 5303 | *InputAttachmentArrayDynamicIndexingEXT* +
+Arrays of *InputAttachment*-s use _dynamically uniform_ indexing.
+| *InputAttachment* | *SPV_EXT_descriptor_indexing*
+| 5304 | *UniformTexelBufferArrayDynamicIndexingEXT* +
+Arrays of *SampledBuffer*-s use _dynamically uniform_ indexing
+| *SampledBuffer* | *SPV_EXT_descriptor_indexing*
+| 5305 | *StorageTexelBufferArrayDynamicIndexingEXT* +
+Arrays of *ImageBuffer*-s use _dynamically uniform_ indexing
+| *ImageBuffer* | *SPV_EXT_descriptor_indexing*
+| 5306 | *UniformBufferArrayNonUniformIndexingEXT* +
+*Block*-decorated arrays in uniform storage classes use non-uniform indexing.
+| *ShaderNonUniformEXT* | *SPV_EXT_descriptor_indexing*
+| 5307 | *SampledImageArrayNonUniformIndexingEXT* +
+Arrays of sampled images use non-uniform indexing.
+| *ShaderNonUniformEXT* | *SPV_EXT_descriptor_indexing*
+| 5308 | *StorageBufferArrayNonUniformIndexingEXT* +
+Arrays in the *StorageBuffer* Storage Class, or *BufferBlock*-decorated arrays
+use non-uniform indexing.
+| *ShaderNonUniformEXT* | *SPV_EXT_descriptor_indexing*
+| 5309 | *StorageImageArrayNonUniformIndexingEXT* +
+Arrays of non-sampled images use non-uniform indexing.
+| *ShaderNonUniformEXT* | *SPV_EXT_descriptor_indexing*
+| 5310 | *InputAttachmentArrayNonUniformIndexingEXT* +
+Arrays of *InputAttachment*-s use non-uniform indexing.
+| *InputAttachment*, *ShaderNonUniformEXT* | *SPV_EXT_descriptor_indexing*
+| 5311 | *UniformTexelBufferArrayNonUniformIndexingEXT* +
+Arrays of *SampledBuffer*-s use non-uniform indexing.
+| *SampledBuffer*, *ShaderNonUniformEXT* | *SPV_EXT_descriptor_indexing*
+| 5312 | *StorageTexelBufferArrayNonUniformIndexingEXT* +
+Arrays of *ImageBuffer*-s use non-uniform indexing.
+| *ImageBuffer*, *ShaderNonUniformEXT* | *SPV_EXT_descriptor_indexing*
+|====
+--
+
+
+
+Validation Rules
+----------------
+
+An OpExtension must be added to the SPIR-V for validation layers to check
+legal use of this extension:
+
+----
+OpExtension "SPV_EXT_descriptor_indexing"
+----
+
+
+Issues
+------
+
+ . SPIR-V 1.3 Core spec says the following for OpTypeRuntimeArray
+    "Objects of this type can only be created with OpVariable using the
+    StorageBuffer or Uniform Storage Classes. This should be removed and
+    defer to the environment specifications instead."
++
+--
+**RESOLVED**: Agree. This is superseded by the language in the Vulkan
+and OpenGL SPIR-V Environment specifications which states that
+"OpTypeRuntimeArray must only be used for the last member of an
+OpTypeStruct in the Uniform Storage Class and is decorated as
+BufferBlock."
+--
+
+ . What type of SPIR-V instructions can the NonUniformEXT decoration
+   be used on?
++
+--
+**RESOLVED**: Using the same language as Uniform (Apply to an object
+or a member of a structure type). In SPIR-V, we have the following
+definition:
+
+    Object: An instantiation of a non-void type, either as the
+    Result <id> of an operation, or created through OpVariable.
+
+which means it can apply to both variables declarations and specific
+instructions.
+--
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1 |2018-01-19 |Daniel Koch| *Initial draft*
+|2 |2018-02-14 |Daniel Koch| address WG feedback
+|3 |2018-02-21 |Daniel Koch| Resolve issue 2.
+|========================================
+
