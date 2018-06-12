@@ -36,8 +36,8 @@ Proposed.
 Version
 -------
 
-Modified Date: June 22, 2017
-Revision:      2
+Modified Date: June 12, 2018
+Revision:      3
 
 Dependencies
 ------------
@@ -73,31 +73,9 @@ This extension adds support for 16-bit floating-point component types for the
 following instructions described in the GLSL.std.450 extended instruction set:
 
 ----
-Acos
-Acosh
-Asin
-Asinh
-Atan2
-Atanh
-Asin
-Atan
-Cos
-Cosh
-Degrees
-Exp
-Exp2
 InterpolateAtCentroid
 InterpolateAtSample
 InterpolateAtOffset
-Log
-Log2
-Pow
-Radians
-Sin
-Sinh
-Tan
-Tanh
-
 ----
 
 
@@ -105,159 +83,6 @@ Modifications to the OpenGL Shading Language 4.50 Extended Instruction Set Speci
 ------------------------------------------------------------------------------------------------------
 
 Modify Section 2, Binary Form
-
-Acos
-~~~~
-
-(Replace the following sentence:) +
- +
-The operand 'x' must be a scalar or vector whose component type is 32-bit floating-point. +
- +
-(with:) +
- +
-The operand 'x' must be a scalar or vector whose component type is 16- or 32-bit
-floating-point. +
-
-
-Acosh
-~~~~~
-
-(Replace the following sentence:) +
- +
-The operand 'x' must be a scalar or vector whose component type is 32-bit floating-point. +
- +
-(with:) +
- +
-The operand 'x' must be a scalar or vector whose component type is 16- or 32-bit
-floating-point. +
-
-
-Asin
-~~~~
-
-(Replace the following sentence:) +
- +
-The operand 'x' must be a scalar or vector whose component type is 32-bit floating-point. +
- +
-(with:) +
- +
-The operand 'x' must be a scalar or vector whose component type is 16- or 32-bit
-floating-point. +
-
-
-Asinh
-~~~~~
-
-(Replace the following sentence:) +
- +
-The operand 'x' must be a scalar or vector whose component type is 32-bit floating-point. +
- +
-(with:) +
- +
-The operand 'x' must be a scalar or vector whose component type is 16- or 32-bit
-floating-point. +
-
-Atan
-~~~~
-
-(Replace the following sentence:) +
- +
-The operand 'y_over_x' must be a scalar or vector whose component type is 32-bit floating-point. +
- +
-(with:) +
- +
-The operand 'y_over_x' must be a scalar or vector whose component type is 16- or 32-bit
-floating-point. +
-
-Atan2
-~~~~~
-
-(Replace the following sentence:) +
- +
-The operand 'x' and 'y' must be a scalar or vector whose component type is 32-bit floating-point. +
- +
-(with:) +
- +
-The operand 'x' and 'y' must be a scalar or vector whose component type is 16- or 32-bit
-floating-point. +
-
-
-Atanh
-~~~~~
-
-(Replace the following sentence:) +
- +
-The operand 'x' must be a scalar or vector whose component type is 32-bit floating-point. +
- +
-(with:) +
- +
-The operand 'x' must be a scalar or vector whose component type is 16- or 32-bit
-floating-point. +
-
-Cos
-~~~
-
-(Replace the following sentence:) +
- +
-The operand 'x' must be a scalar or vector whose component type is 32-bit floating-point. +
- +
-(with:) +
- +
-The operand 'x' must be a scalar or vector whose component type is 16- or 32-bit
-floating-point. +
-
-
-Cosh
-~~~~
-
-(Replace the following sentence:) +
- +
-The operand 'x' must be a scalar or vector whose component type is 32-bit floating-point. +
- +
-(with:) +
- +
-The operand 'x' must be a scalar or vector whose component type is 16- or 32-bit
-floating-point. +
-
-
-Degrees
-~~~~~~~
-
-(Replace the following sentence:) +
- +
-The operand 'degrees' must be a scalar or vector whose component type is 32-bit floating-point. +
- +
-(with:) +
- +
-The operand 'degrees' must be a scalar or vector whose component type is 16- or 32-bit
-floating-point. +
-
-
-Exp
-~~~
-
-(Replace the following sentence:) +
- +
-The operand 'x' must be a scalar or vector whose component type is 32-bit floating-point. +
- +
-(with:) +
- +
-The operand 'x' must be a scalar or vector whose component type is 16- or 32-bit
-floating-point. +
-
-
-Exp2
-~~~~
-
-(Replace the following sentence:) +
- +
-The operand 'x' must be a scalar or vector whose component type is 32-bit floating-point. +
- +
-(with:) +
- +
-The operand 'x' must be a scalar or vector whose component type is 16- or 32-bit
-floating-point. +
-
 
 InterpolateAtCentroid
 ~~~~~~~~~~~~~~~~~~~~~
@@ -307,110 +132,6 @@ The 'offset' operand must be a vector of 2 components of 32-bit floating-point t
 The 'offset' operand must be a vector of 2 components of 16- or 32-bit floating-point type. +
 
 
-Log
-~~~
-
-(Replace the following sentence:) +
- +
-The operand 'x' must be a scalar or vector whose component type is 32-bit floating-point. +
- +
-(with:) +
- +
-The operand 'x' must be a scalar or vector whose component type is 16- or 32-bit
-floating-point. +
-
-
-Log2
-~~~~
-
-(Replace the following sentence:) +
- +
-The operand 'x' must be a scalar or vector whose component type is 32-bit floating-point. +
- +
-(with:) +
- +
-The operand 'x' must be a scalar or vector whose component type is 16- or 32-bit
-floating-point. +
-
-
-Pow
-~~~
-
-(Replace the following sentence:) +
- +
-The operand 'x' and 'y' must be a scalar or vector whose component type is 32-bit floating-point. +
- +
-(with:) +
-
-The operand 'x' and 'y' must be a scalar or vector whose component type is 16- or
-32-bit floating-point. +
-
-
-Radians
-~~~~~~~
-
-(Replace the following sentence:) +
- +
-The operand 'degrees' must be a scalar or vector whose component type is 32-bit floating-point. +
- +
-(with:) +
- +
-The operand 'degrees' must be a scalar or vector whose component type is 16- or 32-bit
-floating-point. +
-
-
-Sin
-~~~
-
-(Replace the following sentence:) +
- +
-The operand 'x' must be a scalar or vector whose component type is 32-bit floating-point. +
- +
-(with:) +
- +
-The operand 'x' must be a scalar or vector whose component type is 16- or 32-bit
-floating-point. +
-
-
-Sinh
-~~~~
-
-(Replace the following sentence:) +
- +
-The operand 'x' must be a scalar or vector whose component type is 32-bit floating-point. +
- +
-(with:) +
- +
-The operand 'x' must be a scalar or vector whose component type is 16- or 32-bit
-floating-point. +
-
-
-Tan
-~~~
-
-(Replace the following sentence:) +
- +
-The operand 'x' must be a scalar or vector whose component type is 32-bit floating-point. +
- +
-(with:) +
- +
-The operand 'x' must be a scalar or vector whose component type is 16- or 32-bit
-floating-point. +
-
-
-Tanh
-~~~~
-
-(Replace the following sentence:) +
- +
-The operand 'x' must be a scalar or vector whose component type is 32-bit floating-point. +
- +
-(with:) +
- +
-The operand 'x' must be a scalar or vector whose component type is 16- or 32-bit
-floating-point. +
-
-
 Validation Rules
 ----------------
 
@@ -429,6 +150,7 @@ Revision History
 [options="header"]
 |========================================
 |Rev|Date|Author|Changes
+|3|June 12, 2018|Dominik Witczak|Removenon-interpolate extended instruction modifications, as GLSL.std.450 spec now includes these changes.
 |2|June 22, 2017|Dominik Witczak|Removed incorrect language regarding accessing the new functionality.
 |1|September 21, 2016|Dominik Witczak|Initial revision based on AMD_gpu_shader_half_float.
 |========================================

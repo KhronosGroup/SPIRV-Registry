@@ -802,8 +802,8 @@ Graham Sellers, AMD
 <div class="sect1">
 <h2 id="_version">Version</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Modified Date: June 22, 2017
-Revision:      2</p></div>
+<div class="paragraph"><p>Modified Date: June 12, 2018
+Revision:      3</p></div>
 </div>
 </div>
 <div class="sect1">
@@ -842,30 +842,9 @@ described in the GLSL.std.450 extended instruction set.</p></div>
 following instructions described in the GLSL.std.450 extended instruction set:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>Acos
-Acosh
-Asin
-Asinh
-Atan2
-Atanh
-Asin
-Atan
-Cos
-Cosh
-Degrees
-Exp
-Exp2
-InterpolateAtCentroid
+<pre><code>InterpolateAtCentroid
 InterpolateAtSample
-InterpolateAtOffset
-Log
-Log2
-Pow
-Radians
-Sin
-Sinh
-Tan
-Tanh</code></pre>
+InterpolateAtOffset</code></pre>
 </div></div>
 </div>
 </div>
@@ -873,138 +852,6 @@ Tanh</code></pre>
 <h2 id="_modifications_to_the_opengl_shading_language_4_50_extended_instruction_set_specification_version_1_00">Modifications to the OpenGL Shading Language 4.50 Extended Instruction Set Specification, Version 1.00</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Modify Section 2, Binary Form</p></div>
-<div class="sect2">
-<h3 id="_acos">Acos</h3>
-<div class="paragraph"><p>(Replace the following sentence:)<br />
-<br />
-The operand <em>x</em> must be a scalar or vector whose component type is 32-bit floating-point.<br />
-<br />
-(with:)<br />
-<br />
-The operand <em>x</em> must be a scalar or vector whose component type is 16- or 32-bit
-floating-point.<br /></p></div>
-</div>
-<div class="sect2">
-<h3 id="_acosh">Acosh</h3>
-<div class="paragraph"><p>(Replace the following sentence:)<br />
-<br />
-The operand <em>x</em> must be a scalar or vector whose component type is 32-bit floating-point.<br />
-<br />
-(with:)<br />
-<br />
-The operand <em>x</em> must be a scalar or vector whose component type is 16- or 32-bit
-floating-point.<br /></p></div>
-</div>
-<div class="sect2">
-<h3 id="_asin">Asin</h3>
-<div class="paragraph"><p>(Replace the following sentence:)<br />
-<br />
-The operand <em>x</em> must be a scalar or vector whose component type is 32-bit floating-point.<br />
-<br />
-(with:)<br />
-<br />
-The operand <em>x</em> must be a scalar or vector whose component type is 16- or 32-bit
-floating-point.<br /></p></div>
-</div>
-<div class="sect2">
-<h3 id="_asinh">Asinh</h3>
-<div class="paragraph"><p>(Replace the following sentence:)<br />
-<br />
-The operand <em>x</em> must be a scalar or vector whose component type is 32-bit floating-point.<br />
-<br />
-(with:)<br />
-<br />
-The operand <em>x</em> must be a scalar or vector whose component type is 16- or 32-bit
-floating-point.<br /></p></div>
-</div>
-<div class="sect2">
-<h3 id="_atan">Atan</h3>
-<div class="paragraph"><p>(Replace the following sentence:)<br />
-<br />
-The operand <em>y_over_x</em> must be a scalar or vector whose component type is 32-bit floating-point.<br />
-<br />
-(with:)<br />
-<br />
-The operand <em>y_over_x</em> must be a scalar or vector whose component type is 16- or 32-bit
-floating-point.<br /></p></div>
-</div>
-<div class="sect2">
-<h3 id="_atan2">Atan2</h3>
-<div class="paragraph"><p>(Replace the following sentence:)<br />
-<br />
-The operand <em>x</em> and <em>y</em> must be a scalar or vector whose component type is 32-bit floating-point.<br />
-<br />
-(with:)<br />
-<br />
-The operand <em>x</em> and <em>y</em> must be a scalar or vector whose component type is 16- or 32-bit
-floating-point.<br /></p></div>
-</div>
-<div class="sect2">
-<h3 id="_atanh">Atanh</h3>
-<div class="paragraph"><p>(Replace the following sentence:)<br />
-<br />
-The operand <em>x</em> must be a scalar or vector whose component type is 32-bit floating-point.<br />
-<br />
-(with:)<br />
-<br />
-The operand <em>x</em> must be a scalar or vector whose component type is 16- or 32-bit
-floating-point.<br /></p></div>
-</div>
-<div class="sect2">
-<h3 id="_cos">Cos</h3>
-<div class="paragraph"><p>(Replace the following sentence:)<br />
-<br />
-The operand <em>x</em> must be a scalar or vector whose component type is 32-bit floating-point.<br />
-<br />
-(with:)<br />
-<br />
-The operand <em>x</em> must be a scalar or vector whose component type is 16- or 32-bit
-floating-point.<br /></p></div>
-</div>
-<div class="sect2">
-<h3 id="_cosh">Cosh</h3>
-<div class="paragraph"><p>(Replace the following sentence:)<br />
-<br />
-The operand <em>x</em> must be a scalar or vector whose component type is 32-bit floating-point.<br />
-<br />
-(with:)<br />
-<br />
-The operand <em>x</em> must be a scalar or vector whose component type is 16- or 32-bit
-floating-point.<br /></p></div>
-</div>
-<div class="sect2">
-<h3 id="_degrees">Degrees</h3>
-<div class="paragraph"><p>(Replace the following sentence:)<br />
-<br />
-The operand <em>degrees</em> must be a scalar or vector whose component type is 32-bit floating-point.<br />
-<br />
-(with:)<br />
-<br />
-The operand <em>degrees</em> must be a scalar or vector whose component type is 16- or 32-bit
-floating-point.<br /></p></div>
-</div>
-<div class="sect2">
-<h3 id="_exp">Exp</h3>
-<div class="paragraph"><p>(Replace the following sentence:)<br />
-<br />
-The operand <em>x</em> must be a scalar or vector whose component type is 32-bit floating-point.<br />
-<br />
-(with:)<br />
-<br />
-The operand <em>x</em> must be a scalar or vector whose component type is 16- or 32-bit
-floating-point.<br /></p></div>
-</div>
-<div class="sect2">
-<h3 id="_exp2">Exp2</h3>
-<div class="paragraph"><p>(Replace the following sentence:)<br />
-<br />
-The operand <em>x</em> must be a scalar or vector whose component type is 32-bit floating-point.<br />
-<br />
-(with:)<br />
-<br />
-The operand <em>x</em> must be a scalar or vector whose component type is 16- or 32-bit
-floating-point.<br /></p></div>
-</div>
 <div class="sect2">
 <h3 id="_interpolateatcentroid">InterpolateAtCentroid</h3>
 <div class="paragraph"><p>(Replace the following sentence:)<br />
@@ -1047,93 +894,6 @@ The <em>offset</em> operand must be a vector of 2 components of 32-bit floating-
 <br />
 The <em>offset</em> operand must be a vector of 2 components of 16- or 32-bit floating-point type.<br /></p></div>
 </div>
-<div class="sect2">
-<h3 id="_log">Log</h3>
-<div class="paragraph"><p>(Replace the following sentence:)<br />
-<br />
-The operand <em>x</em> must be a scalar or vector whose component type is 32-bit floating-point.<br />
-<br />
-(with:)<br />
-<br />
-The operand <em>x</em> must be a scalar or vector whose component type is 16- or 32-bit
-floating-point.<br /></p></div>
-</div>
-<div class="sect2">
-<h3 id="_log2">Log2</h3>
-<div class="paragraph"><p>(Replace the following sentence:)<br />
-<br />
-The operand <em>x</em> must be a scalar or vector whose component type is 32-bit floating-point.<br />
-<br />
-(with:)<br />
-<br />
-The operand <em>x</em> must be a scalar or vector whose component type is 16- or 32-bit
-floating-point.<br /></p></div>
-</div>
-<div class="sect2">
-<h3 id="_pow">Pow</h3>
-<div class="paragraph"><p>(Replace the following sentence:)<br />
-<br />
-The operand <em>x</em> and <em>y</em> must be a scalar or vector whose component type is 32-bit floating-point.<br />
-<br />
-(with:)<br /></p></div>
-<div class="paragraph"><p>The operand <em>x</em> and <em>y</em> must be a scalar or vector whose component type is 16- or
-32-bit floating-point.<br /></p></div>
-</div>
-<div class="sect2">
-<h3 id="_radians">Radians</h3>
-<div class="paragraph"><p>(Replace the following sentence:)<br />
-<br />
-The operand <em>degrees</em> must be a scalar or vector whose component type is 32-bit floating-point.<br />
-<br />
-(with:)<br />
-<br />
-The operand <em>degrees</em> must be a scalar or vector whose component type is 16- or 32-bit
-floating-point.<br /></p></div>
-</div>
-<div class="sect2">
-<h3 id="_sin">Sin</h3>
-<div class="paragraph"><p>(Replace the following sentence:)<br />
-<br />
-The operand <em>x</em> must be a scalar or vector whose component type is 32-bit floating-point.<br />
-<br />
-(with:)<br />
-<br />
-The operand <em>x</em> must be a scalar or vector whose component type is 16- or 32-bit
-floating-point.<br /></p></div>
-</div>
-<div class="sect2">
-<h3 id="_sinh">Sinh</h3>
-<div class="paragraph"><p>(Replace the following sentence:)<br />
-<br />
-The operand <em>x</em> must be a scalar or vector whose component type is 32-bit floating-point.<br />
-<br />
-(with:)<br />
-<br />
-The operand <em>x</em> must be a scalar or vector whose component type is 16- or 32-bit
-floating-point.<br /></p></div>
-</div>
-<div class="sect2">
-<h3 id="_tan">Tan</h3>
-<div class="paragraph"><p>(Replace the following sentence:)<br />
-<br />
-The operand <em>x</em> must be a scalar or vector whose component type is 32-bit floating-point.<br />
-<br />
-(with:)<br />
-<br />
-The operand <em>x</em> must be a scalar or vector whose component type is 16- or 32-bit
-floating-point.<br /></p></div>
-</div>
-<div class="sect2">
-<h3 id="_tanh">Tanh</h3>
-<div class="paragraph"><p>(Replace the following sentence:)<br />
-<br />
-The operand <em>x</em> must be a scalar or vector whose component type is 32-bit floating-point.<br />
-<br />
-(with:)<br />
-<br />
-The operand <em>x</em> must be a scalar or vector whose component type is 16- or 32-bit
-floating-point.<br /></p></div>
-</div>
 </div>
 </div>
 <div class="sect1">
@@ -1170,6 +930,12 @@ cellspacing="0" cellpadding="4">
 </thead>
 <tbody>
 <tr>
+<td align="left" valign="top"><p class="table">3</p></td>
+<td align="left" valign="top"><p class="table">June 12, 2018</p></td>
+<td align="left" valign="top"><p class="table">Dominik Witczak</p></td>
+<td align="left" valign="top"><p class="table">Removenon-interpolate extended instruction modifications, as GLSL.std.450 spec now includes these changes.</p></td>
+</tr>
+<tr>
 <td align="left" valign="top"><p class="table">2</p></td>
 <td align="left" valign="top"><p class="table">June 22, 2017</p></td>
 <td align="left" valign="top"><p class="table">Dominik Witczak</p></td>
@@ -1190,7 +956,7 @@ cellspacing="0" cellpadding="4">
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-06-22 09:27:50 Central European Daylight Time
+Last updated 2018-06-12 09:06:55 Central European Daylight Time
 </div>
 </div>
 </body>
