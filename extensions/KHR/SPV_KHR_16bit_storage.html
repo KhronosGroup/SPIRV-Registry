@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="generator" content="AsciiDoc 8.6.8">
+<meta name="generator" content="AsciiDoc 8.6.9">
 <title>SPV_KHR_16bit_storage</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
@@ -93,7 +93,9 @@ ul > li > * { color: black; }
   padding: 0;
   margin: 0;
 }
-
+pre {
+  white-space: pre-wrap;
+}
 
 #author {
   color: #527bbd;
@@ -222,7 +224,7 @@ div.exampleblock > div.content {
 }
 
 div.imageblock div.content { padding-left: 0; }
-span.image img { border-style: none; }
+span.image img { border-style: none; vertical-align: text-bottom; }
 a.image:visited { color: white; }
 
 dl {
@@ -867,11 +869,11 @@ width:40%;
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2017-03-23</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2018-06-11</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">8</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">9</p></td>
 </tr>
 </tbody>
 </table>
@@ -989,14 +991,14 @@ width:40%;
 <div class="sectionbody">
 <div class="dlist"><dl>
 <dt class="hdlist1">
-Modify Section 3.16, FP Rounding Mode, amend the <strong>Required Capability</strong> column to say: 
+Modify Section 3.16, FP Rounding Mode, amend the <strong>Enabling Capabilities</strong> column to say: 
 </dt>
 <dd>
 <div class="paragraph"><p>Any of <strong>Kernel</strong>, <strong>StorageUniformBufferBlock16</strong>, <strong>StorageUniform16</strong>,
 <strong>StoragePushConstant16</strong>, <strong>StorageInputOutput16</strong>.</p></div>
 </dd>
 <dt class="hdlist1">
-Modify Section 3.20, Decoration, amend the <strong>Required Capability</strong> column for the <strong>FPRoundingMode</strong> decoration to say: 
+Modify Section 3.20, Decoration, amend the <strong>Enabling Capabilities</strong> column for the <strong>FPRoundingMode</strong> decoration to say: 
 </dt>
 <dd>
 <div class="paragraph"><p>Any of <strong>Kernel</strong>, <strong>StorageUniformBufferBlock16</strong>, <strong>StorageUniform16</strong>,
@@ -1025,60 +1027,46 @@ width:100%;
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">4433</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>StorageUniformBufferBlock16</strong><br>
-Allows a 16-bit <a href="#OpTypeFloat"><strong>OpTypeFloat</strong></a> and <a href="#OpTypeInt"><strong>OpTypeInt</strong></a>
-instruction for the sole purpose of creating an <a href="#OpTypePointer"><strong>OpTypePointer</strong></a>
-to a 16-bit floating-point or 16-bit integer member of an object in <strong>Uniform</strong>
-<a href="#Storage_Class">Storage Class</a>. The object must have <strong>BufferBlock</strong> decoration.</p>
-<p class="tableblock">An object of a 16-bit type produced by dereferencing such a pointer
-may be the result of a width-only conversion instruction (<a href="#OpFConvert"><strong>OpFConvert</strong></a>,
-<a href="#OpSConvert"><strong>OpSConvert</strong></a>, or <a href="#OpUConvert"><strong>OpUConvert</strong></a>) from a 32-bit type or of
-an <a href="#OpLoad"><strong>OpLoad</strong></a>, and may be used as an operand to a width-only conversion
-instruction to a 32-bit type or as the object argument of an
-<a href="#OpStore"><strong>OpStore</strong></a>.</p>
+Allows 16-bit <a href="#OpTypeFloat"><strong>OpTypeFloat</strong></a> and <a href="#OpTypeInt"><strong>OpTypeInt</strong></a>
+instructions for creating scalar, vector, and composite types that become members of a block
+residing in the <strong>Uniform</strong> <a href="#Storage_Class">Storage Class</a>.
+A type that is or contains such a 16-bit type can be used only as an operand of an
+<a href="#OpTypePointer"><strong>OpTypePointer</strong></a> instruction.
+The block must be decorated with <strong>BufferBlock</strong>.</p>
 <p class="tableblock">Other uses of 16-bit types are not enabled by this capability.</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">4434</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>StorageUniform16</strong><br>
-Allows a 16-bit <a href="#OpTypeFloat"><strong>OpTypeFloat</strong></a> and <a href="#OpTypeInt"><strong>OpTypeInt</strong></a>
-instruction for the sole purpose of creating an <a href="#OpTypePointer"><strong>OpTypePointer</strong></a>
-to a 16-bit floating-point or 16-bit integer member of an object in <strong>Uniform</strong>
-<a href="#Storage_Class">Storage Class</a>. The object can have any supported decoration,
-including <strong>BufferBlock</strong> decoration.</p>
-<p class="tableblock">An object of a 16-bit type produced by dereferencing such a pointer
-may be the result of a width-only conversion instruction from a 32-bit type or of
-an <a href="#OpLoad"><strong>OpLoad</strong></a>, and may be used as an operand to a width-only conversion
-instruction to a 32-bit type or as the object argument of an
-<a href="#OpStore"><strong>OpStore</strong></a>.</p>
+Allows 16-bit <a href="#OpTypeFloat"><strong>OpTypeFloat</strong></a> and <a href="#OpTypeInt"><strong>OpTypeInt</strong></a>
+instructions for creating scalar, vector, and composite types that become members of a block
+residing in the <strong>Uniform</strong> <a href="#Storage_Class">Storage Class</a>.
+A type that is, or contains, such a 16-bit type can be used only as an operand of an
+<a href="#OpTypePointer"><strong>OpTypePointer</strong></a> instruction.
+The block can have any supported decoration, including <strong>BufferBlock</strong>.</p>
 <p class="tableblock">Other uses of 16-bit types are not enabled by this capability.</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>StorageUniformBufferBlock16</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">4435</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>StoragePushConstant16</strong><br>
-Allows a 16-bit <a href="#OpTypeFloat"><strong>OpTypeFloat</strong></a> and <a href="#OpTypeInt"><strong>OpTypeInt</strong></a>
-instruction for the sole purpose of creating an <a href="#OpTypePointer"><strong>OpTypePointer</strong></a>
-to a 16-bit floating-point or 16-bit integer object in <strong>PushConstant</strong>
-<a href="#Storage_Class">Storage Class</a>.</p>
-<p class="tableblock">An object of a 16-bit type produced by dereferencing such a pointer
-may only be the result of a width-only conversion instruction from a 32-bit type or of
-an <a href="#OpLoad"><strong>OpLoad</strong></a>.</p>
+Allows 16-bit <a href="#OpTypeFloat"><strong>OpTypeFloat</strong></a> and <a href="#OpTypeInt"><strong>OpTypeInt</strong></a>
+instructions for creating scalar, vector, and composite types that become members of a block
+residing in the <strong>PushConstant</strong> <a href="#Storage_Class">Storage Class</a>.
+A type that is, or contains, such a 16-bit type can be used only as an operand of an
+<a href="#OpTypePointer"><strong>OpTypePointer</strong></a> instruction.</p>
 <p class="tableblock">Other uses of 16-bit types are not enabled by this capability.</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">4436</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>StorageInputOutput16</strong><br>
-Allows a 16-bit <a href="#OpTypeFloat"><strong>OpTypeFloat</strong></a> and <a href="#OpTypeInt"><strong>OpTypeInt</strong></a>
-instruction for the sole purpose of creating an <a href="#OpTypePointer"><strong>OpTypePointer</strong></a>
-to a 16-bit floating-point or 16-bit integer object in <strong>Input</strong> or <strong>Output</strong>
-<a href="#Storage_Class">Storage Classes</a>.</p>
-<p class="tableblock">An object of a 16-bit type produced by
-dereferencing such a pointer may only be the result of a width-only conversion instruction
-from a 32-bit type or of an <a href="#OpLoad"><strong>OpLoad</strong></a>,
-and may only be used as an operand to a width-only conversion instruction to a 32-bit type
-or as the object argument of an <a href="#OpStore"><strong>OpStore</strong></a>.</p>
+Allows 16-bit <a href="#OpTypeFloat"><strong>OpTypeFloat</strong></a> and <a href="#OpTypeInt"><strong>OpTypeInt</strong></a>
+instructions for creating scalar, vector, and composite types that become members of a block
+residing in the <strong>Output</strong> <a href="#Storage_Class">Storage Class</a>.
+A type that is, or contains, such a 16-bit type can be used only as an operand of an
+<a href="#OpTypePointer"><strong>OpTypePointer</strong></a> instruction.</p>
 <p class="tableblock">Other uses of 16-bit types are not enabled by this capability.</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
 </tr>
@@ -1092,6 +1080,50 @@ or as the object argument of an <a href="#OpStore"><strong>OpStore</strong></a>.
 <div class="sect1">
 <h2 id="_validation_rules">Validation Rules</h2>
 <div class="sectionbody">
+<div class="paragraph"><p>If the <strong>StorageUniformBufferBlock16</strong>, <strong>StorageUniform16</strong>, <strong>StoragePushConstant16</strong>, or <strong>StorageInputOutput16</strong> capability is declared:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+An <a href="#OpTypePointer"><strong>OpTypePointer</strong></a> pointing to a 16-bit scalar, a 16-bit vector,
+or a composite containing a 16-bit member can be used as the result type of an <a href="#OpVariable"><strong>OpVariable</strong></a>,
+<a href="#OpAccessChain"><strong>OpAccessChain</strong></a>, or <a href="#OpInBoundsAccessChain"><strong>OpInBoundsAccessChain</strong></a>.
+</p>
+</li>
+<li>
+<p>
+<a href="#OpLoad"><strong>OpLoad</strong></a> can only load 16-bit scalars, 16-bit vectors, and 16-bit matrices.
+</p>
+</li>
+<li>
+<p>
+<a href="#OpStore"><strong>OpStore</strong></a> can only store 16-bit scalars, 16-bit vectors, and 16-bit matrices.
+</p>
+</li>
+<li>
+<p>
+<a href="#OpCopyObject"><strong>OpCopyObject</strong></a> can be used for 16-bit scalars or composites containing 16-bit members.
+</p>
+</li>
+<li>
+<p>
+16-bit scalars or 16-bit vectors can be used as operands to a width-only conversion
+instruction to a 32-bit type (<a href="#OpFConvert"><strong>OpFConvert</strong></a>, <a href="#OpSConvert"><strong>OpSConvert</strong></a>,
+or <a href="#OpUConvert"><strong>OpUConvert</strong></a>), and can be produced as results of a width-only conversion instruction
+from a 32-bit type.
+</p>
+</li>
+<li>
+<p>
+A structure containing a 16-bit member can be an operand to <a href="#OpArrayLength"><strong>OpArrayLength</strong></a>.
+</p>
+</li>
+<li>
+<p>
+Any other instructions not explicitly listed by the capabilities or allowed by the validations rules
+   cannot operate on variables with 16-bit scalar, 16-bit vector, or 16-bit composite types.
+</p>
+</li>
+</ul></div>
 <div class="paragraph"><p>A <strong>FPRoundingMode</strong> decoration can be applied only to:</p></div>
 <div class="ulist"><ul>
 <li>
@@ -1242,6 +1274,12 @@ Renamed capabilities and described them in terms of storage classes.</strong></p
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Alexander Galazin</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Added interactions with <strong>SPV_KHR_uniform_buffer_storage_class</strong></p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">9</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2018-06-11</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Alexander Galazin</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Added clarifications for SPIR-V issue 319</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1250,7 +1288,7 @@ Renamed capabilities and described them in terms of storage classes.</strong></p
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-07-05 17:03:23 MDT
+Last updated 2018-07-03 11:08:01 MDT
 </div>
 </div>
 </body>
