@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="generator" content="AsciiDoc 8.6.8">
+<meta name="generator" content="AsciiDoc 8.6.9">
 <title>SPV_KHR_shader_ballot</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
@@ -93,7 +93,9 @@ ul > li > * { color: black; }
   padding: 0;
   margin: 0;
 }
-
+pre {
+  white-space: pre-wrap;
+}
 
 #author {
   color: #527bbd;
@@ -222,7 +224,7 @@ div.exampleblock > div.content {
 }
 
 div.imageblock div.content { padding-left: 0; }
-span.image img { border-style: none; }
+span.image img { border-style: none; vertical-align: text-bottom; }
 a.image:visited { color: white; }
 
 dl {
@@ -780,8 +782,8 @@ asciidoc.install(1);
 <div class="sect1">
 <h2 id="_contact">Contact</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>See <strong>Issues</strong> list in the Khronos SPIRV-Headers repository:
-<a href="https://github.com/KhronosGroup/SPIRV-Headers">https://github.com/KhronosGroup/SPIRV-Headers</a></p></div>
+<div class="paragraph"><p>To report problems with this extension, please open a new issue at:</p></div>
+<div class="paragraph"><p><a href="https://github.com/KhronosGroup/SPIRV-Headers">https://github.com/KhronosGroup/SPIRV-Headers</a></p></div>
 </div>
 </div>
 <div class="sect1">
@@ -1019,7 +1021,7 @@ width:90%;
 <thead>
 <tr>
 <th class="tableblock halign-center valign-middle" colspan="2" > BuiltIn</th>
-<th class="tableblock halign-center valign-top" > Required Capability</th>
+<th class="tableblock halign-center valign-top" > Enabling Capabilities</th>
 </tr>
 </thead>
 <tbody>
@@ -1030,8 +1032,7 @@ Provides a 4 component 32 bit integer vector bitmask
 for all invocations with one bit per invocation starting with the
 least significant bit in the first vector component continuing to
 the last bit (less than <strong>SubgroupSize</strong>) in the last required vector
-component where <strong>SubgroupLocalInvocationId</strong> is <strong>equal to</strong> the bit
-index.</p></td>
+component where the bit index is <strong>equal to SubgroupLocalInvocationId</strong>.</p></td>
 <td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>SubgroupBallotKHR</strong></p></td>
 </tr>
 <tr>
@@ -1041,8 +1042,8 @@ Provides a 4 component 32 bit integer vector bitmask
 for all invocations with one bit per invocation starting with the
 least significant bit in the first vector component continuing to
 the last bit (less than <strong>SubgroupSize</strong>) in the last required vector
-component where <strong>SubgroupLocalInvocationId</strong> is <strong>greater than or equal
-to</strong> the bit index.</p></td>
+component where the bit index is <strong>greater than or equal to
+SubgroupLocalInvocationId</strong>.</p></td>
 <td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>SubgroupBallotKHR</strong></p></td>
 </tr>
 <tr>
@@ -1052,8 +1053,8 @@ Provides a 4 component 32 bit integer vector bitmask
 for all invocations with one bit per invocation starting with the
 least significant bit in the first vector component continuing to
 the last bit (less than <strong>SubgroupSize</strong>) in the last required vector
-component where <strong>SubgroupLocalInvocationId</strong> is <strong>greater than</strong> the
-bit index.</p></td>
+component where the bit index is <strong>greater than
+SubgroupLocalInvocationId</strong>.</p></td>
 <td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>SubgroupBallotKHR</strong></p></td>
 </tr>
 <tr>
@@ -1063,8 +1064,8 @@ Provides a 4 component 32 bit integer vector bitmask
 for all invocations with one bit per invocation starting with the
 least significant bit in the first vector component continuing to
 the last bit (less than <strong>SubgroupSize</strong>) in the last required vector
-component where <strong>SubgroupLocalInvocationId</strong> is <strong>less than or equal
-to</strong> the bit index.</p></td>
+component where the bit index is <strong>less than or equal to
+SubgroupLocalInvocationId</strong>.</p></td>
 <td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>SubgroupBallotKHR</strong></p></td>
 </tr>
 <tr>
@@ -1074,8 +1075,7 @@ Provides a 4 component 32 bit integer vector bitmask
 for all invocations with one bit per invocation starting with the
 least significant bit in the first vector component continuing to
 the last bit (less than <strong>SubgroupSize</strong>) in the last required vector
-component where <strong>SubgroupLocalInvocationId</strong> is <strong>less than</strong> the bit
-index.</p></td>
+component where the bit index is <strong>less than SubgroupLocalInvocationId</strong>.</p></td>
 <td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>SubgroupBallotKHR</strong></p></td>
 </tr>
 </tbody>
@@ -1255,6 +1255,20 @@ may artificially limit the number of subgroups.
 </li>
 <li>
 <p>
+How are the values of Subgroup??MaskKHR defined?
+</p>
+<div class="openblock">
+<div class="content">
+<div class="paragraph"><p><strong>RESOLVED</strong>: Earlier versions of this specification defined a bitmask such as
+"LtMask" ("less than mask") as having bits set if <strong>SubgroupLocalInvocationId</strong> &lt;
+bit index. However, this was reversed relative to the Vulkan extension and to
+the GL_ARB_shader_ballot extension (see issue 1 of that spec). Fortunately, all
+known implementations of this extension had implemented "wrong" behavior so the
+best thing to do is change the definition in the spec.</p></div>
+</div></div>
+</li>
+<li>
+<p>
 Should these instructions have a <strong>scope</strong> of <strong>Subgroup</strong> instead
 of limiting them to a set of sub-groups?
 </p>
@@ -1416,6 +1430,12 @@ width:100%;
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Kerch Holt</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Add instruction for readInvocationARB (as per Oct 18th SPIR-V meeting)</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">12</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2018-03-15</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Graeme Leese</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Correct definition of mask builtins.</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1424,7 +1444,7 @@ width:100%;
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-11-13 21:27:20 MST
+Last updated 2018-09-06 10:38:48 MDT
 </div>
 </div>
 </body>
