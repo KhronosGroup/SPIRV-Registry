@@ -1,0 +1,360 @@
+SPV_INTEL_shader_integer_functions2
+===================================
+
+== Name Strings
+
+SPV_INTEL_shader_integer_functions2
+
+== Contact
+
+See *Issues* list in the Khronos SPIRV-Headers repository:
+https://github.com/KhronosGroup/SPIRV-Headers
+
+== Contributors
+
+- Ian Romanick, Intel
+
+== Notice
+
+Copyright (c) 2018 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+== Status
+
+Final Draft
+
+== Version
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2018-09-10
+| Revision           | 1
+|========================================
+
+== Dependencies
+
+This extension is written against the SPIR-V Specification,
+Version 1.3 Revision 1.
+
+This extension requires SPIR-V 1.0.
+
+== Overview
+
+This extension is written to provide the functionality of the INTEL_shader_integer_functions2, OpenGL Shading Language Specification extensions, to SPIR-V.
+
+This extension introduces several new integer instructions to SPIR-V for use in graphics shaders.  Many of these instructions have pre-existing counterparts in the Kernel environment.
+
+== Extension Name
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_INTEL_shader_integer_functions2"
+----
+
+== New Capabilities
+
+This extension introduces a new capability:
+
+----
+IntegerFunctions2INTEL
+----
+
+== New Instructions
+
+Instructions added under *IntegerFunctions2INTEL* capability.
+----
+OpUCountLeadingZeros
+OpUCountTrailingZeros
+OpAbsISub
+OpAbsUSub
+OpIAddSat
+OpUAddSat
+OpIAverage
+OpUAverage
+OpIAverageRounded
+OpUAverageRounded
+OpISubSat
+OpUSubSat
+OpIMul32x16
+OpUMul32x16
+----
+
+== Token Number Assignments
+
+[options="header",width="75%"]
+[cols="50%,20%,30%"]
+[grid="rows"]
+|====
+| Name                          | Value | Usage
+| *IntegerFunctions2INTEL*      | 5584  | Capability
+| *OpUCountLeadingZeros*        | 5585  | Opcode
+| *OpUCountTrailingZeros*       | 5586  | Opcode
+| *OpAbsISub*                   | 5587  | Opcode
+| *OpAbsUSub*                   | 5588  | Opcode
+| *OpIAddSat*                   | 5589  | Opcode
+| *OpUAddSat*                   | 5590  | Opcode
+| *OpIAverage*                  | 5591  | Opcode
+| *OpUAverage*                  | 5592  | Opcode
+| *OpIAverageRounded*           | 5593  | Opcode
+| *OpUAverageRounded*           | 5594  | Opcode
+| *OpISubSat*                   | 5595  | Opcode
+| *OpUSubSat*                   | 5596  | Opcode
+| *OpIMul32x16*                 | 5597  | Opcode
+| *OpUMul32x16*                 | 5598  | Opcode
+|====
+
+== Modifications to the SPIR-V Specification, Version 1.3
+
+=== Capabilities
+
+Modify Section 3.31, "Capability", adding these rows to the Capability table:
+
+--
+[options="header"]
+|====
+2+^| Capability ^| Depends On
+| 5584 | *IntegerFunctions2INTEL* +
+Allow this new functionality... |
+|====
+--
+
+(Add to the table in 3.32.13, Arithmetic Instructions)
+
+[cols="2*1,3*2"]
+|======
+5+|[[OpUCountLeadingZeros]]*OpUCountLeadingZeros* +
+ +
+Returns the number of leading 0-bits, stating at the most significant bit, in the binary representation of value.  If value is zero, the size in bits of the type of value or component type of value, if value is a vector will be returned. +
+ +
+'Result Type' must be  a scalar or vector of <<Integer,'integer type'>>, whose 'Width' operand is 32 and whose 'Signedness' operand is 0. +
+ +
+The type of 'Operand' must be the same as 'Result Type'.
+
+| 4 | 5585 | '<id>' +
+'Result Type' | 'Result <id>' | '<id> +
+Operand'
+|======
+
+[cols="2*1,3*2"]
+|======
+5+|[[OpUCountTrailingZeros]]*OpUCountTrailingZeros* +
+ +
+Returns the number of trailing 0-bits, stating at the least significant bit, in the binary representation of value.  If value is zero, the size in bits of the type of value or component type of value, if value is a vector will be returned. +
+ +
+'Result Type' must be  a scalar or vector of <<Integer,'integer type'>>, whose 'Width' operand is 32 and whose 'Signedness' operand is 0. +
+ +
+The type of 'Operand' must be the same as 'Result Type'.
+
+| 4 | 5586 | '<id>' +
+'Result Type' | 'Result <id>' | '<id> +
+Operand'
+|======
+
+[cols="2*1,4*2"]
+|======
+6+|[[OpAbsISub]]*OpAbsISub* +
+ +
+Returns \|x - y\| clamped to the range of 'Result Type' (instead of modulo overflowing). +
+ +
+'Result Type' must be  a scalar or vector of <<Integer,'integer type'>>, whose 'Signedness' operand is 0. +
+ +
+The type of 'Operand 1' and 'Operand 2' must be a scalar or vector of <<Integer,'integer type'>>. They must have the same number of components as 'Result Type'. They must have the same component width as 'Result Type'.  However, the 'Signedness' operand must be 1.
+
+| 5 | 5587 '<id>' +
+'Result Type' | 'Result <id>' | '<id> +
+Operand 1' | '<id> +
+Operand 2'
+|======
+
+[cols="2*1,4*2"]
+|======
+6+|[[OpAbsUSub]]*OpAbsUSub* +
+ +
+Returns \|x - y\| clamped to the range of 'Result Type' (instead of modulo overflowing). +
+ +
+'Result Type' must be  a scalar or vector of <<Integer,'integer type'>>, whose 'Signedness' operand is 0. +
+ +
+The type of 'Operand 1' and 'Operand 2' must be the same as 'Result Type'.
+
+| 5 | 5588 | '<id>' +
+'Result Type' | 'Result <id>' | '<id> +
+Operand 1' | '<id> +
+Operand 2'
+|======
+
+[cols="2*1,4*2"]
+|======
+6+|[[OpIAddSat]]*OpIAddSat* +
+ +
+Returns x + y clamped to the range of 'Result Type' (instead of modulo overflowing). +
+ +
+'Result Type' must be  a scalar or vector of <<Integer,'integer type'>>, whose 'Signedness' operand is 1. +
+ +
+The type of 'Operand 1' and 'Operand 2' must be the same as 'Result Type'.
+
+| 5 | 5589 | '<id>' +
+'Result Type' | 'Result <id>' | '<id> +
+Operand 1' | '<id> +
+Operand 2'
+|======
+
+[cols="2*1,4*2"]
+|======
+6+|[[OpUAddSat]]*OpUAddSat* +
+ +
+Returns x + y clamped to the range of 'Result Type' (instead of modulo overflowing). +
+ +
+'Result Type' must be  a scalar or vector of <<Integer,'integer type'>>, whose 'Signedness' operand is 0. +
+ +
+The type of 'Operand 1' and 'Operand 2' must be the same as 'Result Type'.
+
+| 5 | 5590 | '<id>' +
+'Result Type' | 'Result <id>' | '<id> +
+Operand 1' | '<id> +
+Operand 2'
+|======
+
+[cols="2*1,4*2"]
+|======
+6+|[[OpIAverage]]*OpIAverage* +
+ +
+Returns (x+y) >> 1.  The intermediate sum does not modulo overflow. +
+ +
+'Result Type' must be  a scalar or vector of <<Integer,'integer type'>>, whose 'Signedness' operand is 1. +
+ +
+The type of 'Operand 1' and 'Operand 2' must be the same as 'Result Type'.
+
+| 5 | 5591 | '<id>' +
+'Result Type' | 'Result <id>' | '<id> +
+Operand 1' | '<id> +
+Operand 2'
+|======
+
+[cols="2*1,4*2"]
+|======
+6+|[[OpUAverage]]*OpUAverage* +
+ +
+Returns (x+y) >> 1.  The intermediate sum does not modulo overflow. +
+ +
+'Result Type' must be  a scalar or vector of <<Integer,'integer type'>>, whose 'Signedness' operand is 0. +
+ +
+The type of 'Operand 1' and 'Operand 2' must be the same as 'Result Type'.
+
+| 5 | 5592 | '<id>' +
+'Result Type' | 'Result <id>' | '<id> +
+Operand 1' | '<id> +
+Operand 2'
+|======
+
+[cols="2*1,4*2"]
+|======
+6+|[[OpIAverageRounded]]*OpIAverageRounded* +
+ +
+Returns (x+y+1) >> 1.  The intermediate sum does not modulo overflow. +
+ +
+'Result Type' must be  a scalar or vector of <<Integer,'integer type'>>, whose 'Signedness' operand is 1. +
+ +
+The type of 'Operand 1' and 'Operand 2' must be the same as 'Result Type'.
+
+| 5 | 5593 | '<id>' +
+'Result Type' | 'Result <id>' | '<id> +
+Operand 1' | '<id> +
+Operand 2'
+|======
+
+[cols="2*1,4*2"]
+|======
+6+|[[OpUAverageRounded]]*OpUAverageRounded* +
+ +
+Returns (x+y+1) >> 1.  The intermediate sum does not modulo overflow. +
+ +
+'Result Type' must be  a scalar or vector of <<Integer,'integer type'>>, whose 'Signedness' operand is 0. +
+ +
+The type of 'Operand 1' and 'Operand 2' must be the same as 'Result Type'.
+
+| 5 | 5594 | '<id>' +
+'Result Type' | 'Result <id>' | '<id> +
+Operand 1' | '<id> +
+Operand 2'
+|======
+
+[cols="2*1,4*2"]
+|======
+6+|[[OpISubSat]]*OpISubSat* +
+ +
+Returns x - y clamped to the range of 'Result Type' (instead of modulo overflowing). +
+ +
+'Result Type' must be  a scalar or vector of <<Integer,'integer type'>>, whose 'Signedness' operand is 1. +
+ +
+The type of 'Operand 1' and 'Operand 2' must be the same as 'Result Type'.
+
+| 5 | 5595 | '<id>' +
+'Result Type' | 'Result <id>' | '<id> +
+Operand 1' | '<id> +
+Operand 2'
+|======
+
+[cols="2*1,4*2"]
+|======
+6+|[[OpUSubSat]]*OpUSubSat* +
+ +
+Returns x - y clamped to the range of 'Result Type' (instead of modulo overflowing). +
+ +
+'Result Type' must be  a scalar or vector of <<Integer,'integer type'>>, whose 'Signedness' operand is 0. +
+ +
+The type of 'Operand 1' and 'Operand 2' must be the same as 'Result Type'.
+
+| 5 | 5596 | '<id>' +
+'Result Type' | 'Result <id>' | '<id> +
+Operand 1' | '<id> +
+Operand 2'
+|======
+
+[cols="2*1,4*2"]
+|======
+6+|[[OpIMul32x16]]*OpIMul32x16* +
+ +
+Integer multiplication of 'Operand 1' and 'Operand 2'.  The low 16-bits of 'Operand 2' are sign extended to 32-bits before performing the multiplication. +
+ +
+'Result Type' must be  a scalar or vector of <<Integer,'integer type'>>, whose 'Width' operand is 32 and whose 'Signedness' operand is 1. +
+ +
+The type of 'Operand 1' and 'Operand 2' must be the same type as 'Result Type'.
+
+| 5 | 5597 | '<id>' +
+'Result Type' | 'Result <id>' | '<id> +
+Operand 1' | '<id> +
+Operand 2'
+|======
+
+[cols="2*1,4*2"]
+|======
+6+|[[OpUMul32x16]]*OpUMul32x16* +
+ +
+Integer multiplication of 'Operand 1' and 'Operand 2'.  The high 16-bits of 'Operand 2' are replaced with 0x0000 before performing the multiplication. +
+ +
+'Result Type' must be  a scalar or vector of <<Integer,'integer type'>>, whose 'Width' operand is 32 and whose 'Signedness' operand is 0. +
+ +
+The type of 'Operand 1' and 'Operand 2' must be the same type as 'Result Type'.
+
+| 5 | 5598 | '<id>' +
+'Result Type' | 'Result <id>' | '<id> +
+Operand 1' | '<id> +
+Operand 2'
+|======
+
+
+== Issues
+
+None yet.
+
+== Revision History
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2018-09-10|idr|Initial revision
+|========================================
