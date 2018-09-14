@@ -1,0 +1,1566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="AsciiDoc 8.6.9">
+<title>SPV_NVX_raytracing</title>
+<style type="text/css">
+/* Shared CSS for AsciiDoc xhtml11 and html5 backends */
+
+/* Default font. */
+body {
+  font-family: Georgia,serif;
+}
+
+/* Title font. */
+h1, h2, h3, h4, h5, h6,
+div.title, caption.title,
+thead, p.table.header,
+#toctitle,
+#author, #revnumber, #revdate, #revremark,
+#footer {
+  font-family: Arial,Helvetica,sans-serif;
+}
+
+body {
+  margin: 1em 5% 1em 5%;
+}
+
+a {
+  color: blue;
+  text-decoration: underline;
+}
+a:visited {
+  color: fuchsia;
+}
+
+em {
+  font-style: italic;
+  color: navy;
+}
+
+strong {
+  font-weight: bold;
+  color: #083194;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #527bbd;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+  line-height: 1.3;
+}
+
+h1, h2, h3 {
+  border-bottom: 2px solid silver;
+}
+h2 {
+  padding-top: 0.5em;
+}
+h3 {
+  float: left;
+}
+h3 + * {
+  clear: left;
+}
+h5 {
+  font-size: 1.0em;
+}
+
+div.sectionbody {
+  margin-left: 0;
+}
+
+hr {
+  border: 1px solid silver;
+}
+
+p {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+ul, ol, li > p {
+  margin-top: 0;
+}
+ul > li     { color: #aaa; }
+ul > li > * { color: black; }
+
+.monospaced, code, pre {
+  font-family: "Courier New", Courier, monospace;
+  font-size: inherit;
+  color: navy;
+  padding: 0;
+  margin: 0;
+}
+pre {
+  white-space: pre-wrap;
+}
+
+#author {
+  color: #527bbd;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+#email {
+}
+#revnumber, #revdate, #revremark {
+}
+
+#footer {
+  font-size: small;
+  border-top: 2px solid silver;
+  padding-top: 0.5em;
+  margin-top: 4.0em;
+}
+#footer-text {
+  float: left;
+  padding-bottom: 0.5em;
+}
+#footer-badges {
+  float: right;
+  padding-bottom: 0.5em;
+}
+
+#preamble {
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+}
+div.imageblock, div.exampleblock, div.verseblock,
+div.quoteblock, div.literalblock, div.listingblock, div.sidebarblock,
+div.admonitionblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+div.admonitionblock {
+  margin-top: 2.0em;
+  margin-bottom: 2.0em;
+  margin-right: 10%;
+  color: #606060;
+}
+
+div.content { /* Block element content. */
+  padding: 0;
+}
+
+/* Block element titles. */
+div.title, caption.title {
+  color: #527bbd;
+  font-weight: bold;
+  text-align: left;
+  margin-top: 1.0em;
+  margin-bottom: 0.5em;
+}
+div.title + * {
+  margin-top: 0;
+}
+
+td div.title:first-child {
+  margin-top: 0.0em;
+}
+div.content div.title:first-child {
+  margin-top: 0.0em;
+}
+div.content + div.title {
+  margin-top: 0.0em;
+}
+
+div.sidebarblock > div.content {
+  background: #ffffee;
+  border: 1px solid #dddddd;
+  border-left: 4px solid #f0f0f0;
+  padding: 0.5em;
+}
+
+div.listingblock > div.content {
+  border: 1px solid #dddddd;
+  border-left: 5px solid #f0f0f0;
+  background: #f8f8f8;
+  padding: 0.5em;
+}
+
+div.quoteblock, div.verseblock {
+  padding-left: 1.0em;
+  margin-left: 1.0em;
+  margin-right: 10%;
+  border-left: 5px solid #f0f0f0;
+  color: #888;
+}
+
+div.quoteblock > div.attribution {
+  padding-top: 0.5em;
+  text-align: right;
+}
+
+div.verseblock > pre.content {
+  font-family: inherit;
+  font-size: inherit;
+}
+div.verseblock > div.attribution {
+  padding-top: 0.75em;
+  text-align: left;
+}
+/* DEPRECATED: Pre version 8.2.7 verse style literal block. */
+div.verseblock + div.attribution {
+  text-align: left;
+}
+
+div.admonitionblock .icon {
+  vertical-align: top;
+  font-size: 1.1em;
+  font-weight: bold;
+  text-decoration: underline;
+  color: #527bbd;
+  padding-right: 0.5em;
+}
+div.admonitionblock td.content {
+  padding-left: 0.5em;
+  border-left: 3px solid #dddddd;
+}
+
+div.exampleblock > div.content {
+  border-left: 3px solid #dddddd;
+  padding-left: 0.5em;
+}
+
+div.imageblock div.content { padding-left: 0; }
+span.image img { border-style: none; vertical-align: text-bottom; }
+a.image:visited { color: white; }
+
+dl {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+dt {
+  margin-top: 0.5em;
+  margin-bottom: 0;
+  font-style: normal;
+  color: navy;
+}
+dd > *:first-child {
+  margin-top: 0.1em;
+}
+
+ul, ol {
+    list-style-position: outside;
+}
+ol.arabic {
+  list-style-type: decimal;
+}
+ol.loweralpha {
+  list-style-type: lower-alpha;
+}
+ol.upperalpha {
+  list-style-type: upper-alpha;
+}
+ol.lowerroman {
+  list-style-type: lower-roman;
+}
+ol.upperroman {
+  list-style-type: upper-roman;
+}
+
+div.compact ul, div.compact ol,
+div.compact p, div.compact p,
+div.compact div, div.compact div {
+  margin-top: 0.1em;
+  margin-bottom: 0.1em;
+}
+
+tfoot {
+  font-weight: bold;
+}
+td > div.verse {
+  white-space: pre;
+}
+
+div.hdlist {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+div.hdlist tr {
+  padding-bottom: 15px;
+}
+dt.hdlist1.strong, td.hdlist1.strong {
+  font-weight: bold;
+}
+td.hdlist1 {
+  vertical-align: top;
+  font-style: normal;
+  padding-right: 0.8em;
+  color: navy;
+}
+td.hdlist2 {
+  vertical-align: top;
+}
+div.hdlist.compact tr {
+  margin: 0;
+  padding-bottom: 0;
+}
+
+.comment {
+  background: yellow;
+}
+
+.footnote, .footnoteref {
+  font-size: 0.8em;
+}
+
+span.footnote, span.footnoteref {
+  vertical-align: super;
+}
+
+#footnotes {
+  margin: 20px 0 20px 0;
+  padding: 7px 0 0 0;
+}
+
+#footnotes div.footnote {
+  margin: 0 0 5px 0;
+}
+
+#footnotes hr {
+  border: none;
+  border-top: 1px solid silver;
+  height: 1px;
+  text-align: left;
+  margin-left: 0;
+  width: 20%;
+  min-width: 100px;
+}
+
+div.colist td {
+  padding-right: 0.5em;
+  padding-bottom: 0.3em;
+  vertical-align: top;
+}
+div.colist td img {
+  margin-top: 0.3em;
+}
+
+@media print {
+  #footer-badges { display: none; }
+}
+
+#toc {
+  margin-bottom: 2.5em;
+}
+
+#toctitle {
+  color: #527bbd;
+  font-size: 1.1em;
+  font-weight: bold;
+  margin-top: 1.0em;
+  margin-bottom: 0.1em;
+}
+
+div.toclevel0, div.toclevel1, div.toclevel2, div.toclevel3, div.toclevel4 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+div.toclevel2 {
+  margin-left: 2em;
+  font-size: 0.9em;
+}
+div.toclevel3 {
+  margin-left: 4em;
+  font-size: 0.9em;
+}
+div.toclevel4 {
+  margin-left: 6em;
+  font-size: 0.9em;
+}
+
+span.aqua { color: aqua; }
+span.black { color: black; }
+span.blue { color: blue; }
+span.fuchsia { color: fuchsia; }
+span.gray { color: gray; }
+span.green { color: green; }
+span.lime { color: lime; }
+span.maroon { color: maroon; }
+span.navy { color: navy; }
+span.olive { color: olive; }
+span.purple { color: purple; }
+span.red { color: red; }
+span.silver { color: silver; }
+span.teal { color: teal; }
+span.white { color: white; }
+span.yellow { color: yellow; }
+
+span.aqua-background { background: aqua; }
+span.black-background { background: black; }
+span.blue-background { background: blue; }
+span.fuchsia-background { background: fuchsia; }
+span.gray-background { background: gray; }
+span.green-background { background: green; }
+span.lime-background { background: lime; }
+span.maroon-background { background: maroon; }
+span.navy-background { background: navy; }
+span.olive-background { background: olive; }
+span.purple-background { background: purple; }
+span.red-background { background: red; }
+span.silver-background { background: silver; }
+span.teal-background { background: teal; }
+span.white-background { background: white; }
+span.yellow-background { background: yellow; }
+
+span.big { font-size: 2em; }
+span.small { font-size: 0.6em; }
+
+span.underline { text-decoration: underline; }
+span.overline { text-decoration: overline; }
+span.line-through { text-decoration: line-through; }
+
+div.unbreakable { page-break-inside: avoid; }
+
+
+/*
+ * xhtml11 specific
+ *
+ * */
+
+div.tableblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+div.tableblock > table {
+  border: 3px solid #527bbd;
+}
+thead, p.table.header {
+  font-weight: bold;
+  color: #527bbd;
+}
+p.table {
+  margin-top: 0;
+}
+/* Because the table frame attribute is overriden by CSS in most browsers. */
+div.tableblock > table[frame="void"] {
+  border-style: none;
+}
+div.tableblock > table[frame="hsides"] {
+  border-left-style: none;
+  border-right-style: none;
+}
+div.tableblock > table[frame="vsides"] {
+  border-top-style: none;
+  border-bottom-style: none;
+}
+
+
+/*
+ * html5 specific
+ *
+ * */
+
+table.tableblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+thead, p.tableblock.header {
+  font-weight: bold;
+  color: #527bbd;
+}
+p.tableblock {
+  margin-top: 0;
+}
+table.tableblock {
+  border-width: 3px;
+  border-spacing: 0px;
+  border-style: solid;
+  border-color: #527bbd;
+  border-collapse: collapse;
+}
+th.tableblock, td.tableblock {
+  border-width: 1px;
+  padding: 4px;
+  border-style: solid;
+  border-color: #527bbd;
+}
+
+table.tableblock.frame-topbot {
+  border-left-style: hidden;
+  border-right-style: hidden;
+}
+table.tableblock.frame-sides {
+  border-top-style: hidden;
+  border-bottom-style: hidden;
+}
+table.tableblock.frame-none {
+  border-style: hidden;
+}
+
+th.tableblock.halign-left, td.tableblock.halign-left {
+  text-align: left;
+}
+th.tableblock.halign-center, td.tableblock.halign-center {
+  text-align: center;
+}
+th.tableblock.halign-right, td.tableblock.halign-right {
+  text-align: right;
+}
+
+th.tableblock.valign-top, td.tableblock.valign-top {
+  vertical-align: top;
+}
+th.tableblock.valign-middle, td.tableblock.valign-middle {
+  vertical-align: middle;
+}
+th.tableblock.valign-bottom, td.tableblock.valign-bottom {
+  vertical-align: bottom;
+}
+
+
+/*
+ * manpage specific
+ *
+ * */
+
+body.manpage h1 {
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  border-top: 2px solid silver;
+  border-bottom: 2px solid silver;
+}
+body.manpage h2 {
+  border-style: none;
+}
+body.manpage div.sectionbody {
+  margin-left: 3em;
+}
+
+@media print {
+  body.manpage div#toc { display: none; }
+}
+
+
+@media screen {
+  body {
+    max-width: 50em; /* approximately 80 characters wide */
+    margin-left: 16em;
+  }
+
+  #toc {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 13em;
+    padding: 0.5em;
+    padding-bottom: 1.5em;
+    margin: 0;
+    overflow: auto;
+    border-right: 3px solid #f8f8f8;
+    background-color: white;
+  }
+
+  #toc .toclevel1 {
+    margin-top: 0.5em;
+  }
+
+  #toc .toclevel2 {
+    margin-top: 0.25em;
+    display: list-item;
+    color: #aaaaaa;
+  }
+
+  #toctitle {
+    margin-top: 0.5em;
+  }
+}
+</style>
+<script type="text/javascript">
+/*<![CDATA[*/
+var asciidoc = {  // Namespace.
+
+/////////////////////////////////////////////////////////////////////
+// Table Of Contents generator
+/////////////////////////////////////////////////////////////////////
+
+/* Author: Mihai Bazon, September 2002
+ * http://students.infoiasi.ro/~mishoo
+ *
+ * Table Of Content generator
+ * Version: 0.4
+ *
+ * Feel free to use this script under the terms of the GNU General Public
+ * License, as long as you do not remove or alter this notice.
+ */
+
+ /* modified by Troy D. Hanson, September 2006. License: GPL */
+ /* modified by Stuart Rackham, 2006, 2009. License: GPL */
+
+// toclevels = 1..4.
+toc: function (toclevels) {
+
+  function getText(el) {
+    var text = "";
+    for (var i = el.firstChild; i != null; i = i.nextSibling) {
+      if (i.nodeType == 3 /* Node.TEXT_NODE */) // IE doesn't speak constants.
+        text += i.data;
+      else if (i.firstChild != null)
+        text += getText(i);
+    }
+    return text;
+  }
+
+  function TocEntry(el, text, toclevel) {
+    this.element = el;
+    this.text = text;
+    this.toclevel = toclevel;
+  }
+
+  function tocEntries(el, toclevels) {
+    var result = new Array;
+    var re = new RegExp('[hH]([1-'+(toclevels+1)+'])');
+    // Function that scans the DOM tree for header elements (the DOM2
+    // nodeIterator API would be a better technique but not supported by all
+    // browsers).
+    var iterate = function (el) {
+      for (var i = el.firstChild; i != null; i = i.nextSibling) {
+        if (i.nodeType == 1 /* Node.ELEMENT_NODE */) {
+          var mo = re.exec(i.tagName);
+          if (mo && (i.getAttribute("class") || i.getAttribute("className")) != "float") {
+            result[result.length] = new TocEntry(i, getText(i), mo[1]-1);
+          }
+          iterate(i);
+        }
+      }
+    }
+    iterate(el);
+    return result;
+  }
+
+  var toc = document.getElementById("toc");
+  if (!toc) {
+    return;
+  }
+
+  // Delete existing TOC entries in case we're reloading the TOC.
+  var tocEntriesToRemove = [];
+  var i;
+  for (i = 0; i < toc.childNodes.length; i++) {
+    var entry = toc.childNodes[i];
+    if (entry.nodeName.toLowerCase() == 'div'
+     && entry.getAttribute("class")
+     && entry.getAttribute("class").match(/^toclevel/))
+      tocEntriesToRemove.push(entry);
+  }
+  for (i = 0; i < tocEntriesToRemove.length; i++) {
+    toc.removeChild(tocEntriesToRemove[i]);
+  }
+
+  // Rebuild TOC entries.
+  var entries = tocEntries(document.getElementById("content"), toclevels);
+  for (var i = 0; i < entries.length; ++i) {
+    var entry = entries[i];
+    if (entry.element.id == "")
+      entry.element.id = "_toc_" + i;
+    var a = document.createElement("a");
+    a.href = "#" + entry.element.id;
+    a.appendChild(document.createTextNode(entry.text));
+    var div = document.createElement("div");
+    div.appendChild(a);
+    div.className = "toclevel" + entry.toclevel;
+    toc.appendChild(div);
+  }
+  if (entries.length == 0)
+    toc.parentNode.removeChild(toc);
+},
+
+
+/////////////////////////////////////////////////////////////////////
+// Footnotes generator
+/////////////////////////////////////////////////////////////////////
+
+/* Based on footnote generation code from:
+ * http://www.brandspankingnew.net/archive/2005/07/format_footnote.html
+ */
+
+footnotes: function () {
+  // Delete existing footnote entries in case we're reloading the footnodes.
+  var i;
+  var noteholder = document.getElementById("footnotes");
+  if (!noteholder) {
+    return;
+  }
+  var entriesToRemove = [];
+  for (i = 0; i < noteholder.childNodes.length; i++) {
+    var entry = noteholder.childNodes[i];
+    if (entry.nodeName.toLowerCase() == 'div' && entry.getAttribute("class") == "footnote")
+      entriesToRemove.push(entry);
+  }
+  for (i = 0; i < entriesToRemove.length; i++) {
+    noteholder.removeChild(entriesToRemove[i]);
+  }
+
+  // Rebuild footnote entries.
+  var cont = document.getElementById("content");
+  var spans = cont.getElementsByTagName("span");
+  var refs = {};
+  var n = 0;
+  for (i=0; i<spans.length; i++) {
+    if (spans[i].className == "footnote") {
+      n++;
+      var note = spans[i].getAttribute("data-note");
+      if (!note) {
+        // Use [\s\S] in place of . so multi-line matches work.
+        // Because JavaScript has no s (dotall) regex flag.
+        note = spans[i].innerHTML.match(/\s*\[([\s\S]*)]\s*/)[1];
+        spans[i].innerHTML =
+          "[<a id='_footnoteref_" + n + "' href='#_footnote_" + n +
+          "' title='View footnote' class='footnote'>" + n + "</a>]";
+        spans[i].setAttribute("data-note", note);
+      }
+      noteholder.innerHTML +=
+        "<div class='footnote' id='_footnote_" + n + "'>" +
+        "<a href='#_footnoteref_" + n + "' title='Return to text'>" +
+        n + "</a>. " + note + "</div>";
+      var id =spans[i].getAttribute("id");
+      if (id != null) refs["#"+id] = n;
+    }
+  }
+  if (n == 0)
+    noteholder.parentNode.removeChild(noteholder);
+  else {
+    // Process footnoterefs.
+    for (i=0; i<spans.length; i++) {
+      if (spans[i].className == "footnoteref") {
+        var href = spans[i].getElementsByTagName("a")[0].getAttribute("href");
+        href = href.match(/#.*/)[0];  // Because IE return full URL.
+        n = refs[href];
+        spans[i].innerHTML =
+          "[<a href='#_footnote_" + n +
+          "' title='View footnote' class='footnote'>" + n + "</a>]";
+      }
+    }
+  }
+},
+
+install: function(toclevels) {
+  var timerId;
+
+  function reinstall() {
+    asciidoc.footnotes();
+    if (toclevels) {
+      asciidoc.toc(toclevels);
+    }
+  }
+
+  function reinstallAndRemoveTimer() {
+    clearInterval(timerId);
+    reinstall();
+  }
+
+  timerId = setInterval(reinstall, 500);
+  if (document.addEventListener)
+    document.addEventListener("DOMContentLoaded", reinstallAndRemoveTimer, false);
+  else
+    window.onload = reinstallAndRemoveTimer;
+}
+
+}
+asciidoc.install(1);
+/*]]>*/
+</script>
+</head>
+<body class="article">
+<div id="header">
+<h1>SPV_NVX_raytracing</h1>
+<div id="toc">
+  <div id="toctitle">Table of Contents</div>
+  <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_name_strings">Name Strings</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>SPV_NVX_raytracing</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_contact">Contact</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>See <strong>Issues</strong> list in the Khronos SPIRV-Headers repository:
+<a href="https://github.com/KhronosGroup/SPIRV-Headers">https://github.com/KhronosGroup/SPIRV-Headers</a></p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_contributors">Contributors</h2>
+<div class="sectionbody">
+<div class="ulist"><ul>
+<li>
+<p>
+Eric Werness, NVIDIA
+</p>
+</li>
+<li>
+<p>
+Ashwin Lele, NVIDIA
+</p>
+</li>
+<li>
+<p>
+Daniel Koch, NVIDIA
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_status">Status</h2>
+<div class="sectionbody">
+<div class="ulist"><ul>
+<li>
+<p>
+Complete
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_version">Version</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all"
+style="
+width:40%;
+">
+<col style="width:50%;">
+<col style="width:50%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Last Modified Date</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2018-09-12</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Revision</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_dependencies">Dependencies</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>This extension is written against the SPIR-V Specification,
+Version 1.1 Revision 4.</p></div>
+<div class="paragraph"><p>This extension requires SPIR-V 1.0.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_overview">Overview</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>This extension adds new functionality to support the Vulkan
+VK_NVX_raytracing extensions in SPIR-V.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_extension_name">Extension Name</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>To use this extension within a SPIR-V module, the following
+<strong>OpExtension</strong> must be present in the module:</p></div>
+<div class="listingblock">
+<div class="content monospaced">
+<pre>OpExtension "SPV_NVX_raytracing"</pre>
+</div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_new_execution_models">New Execution Models</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>This extension introduces new execution models:</p></div>
+<div class="listingblock">
+<div class="content monospaced">
+<pre>RayGenerationNVX
+IntersectionNVX
+AnyHitNVX
+ClosestHitNVX
+MissNVX
+CallableNVX</pre>
+</div></div>
+<div class="paragraph"><p>these depend on the <strong>RaytracingNVX</strong> capability.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_new_capabilities">New Capabilities</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>This extension introduces new capabilities:</p></div>
+<div class="listingblock">
+<div class="content monospaced">
+<pre>RaytracingNVX</pre>
+</div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_new_storage_classes">New Storage Classes</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Storage classes added under the <strong>RaytracingNVX</strong> capability</p></div>
+<div class="listingblock">
+<div class="content monospaced">
+<pre>RayPayloadNVX
+IncomingRayPayloadNVX
+HitAttributeNVX
+ShaderRecordBufferNVX</pre>
+</div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_new_builtins">New Builtins</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Builtins added under the <strong>RaytracingNVX</strong> capability</p></div>
+<div class="listingblock">
+<div class="content monospaced">
+<pre>LaunchIdNVX
+LaunchSizeNVX
+InstanceCustomIndexNVX
+WorldRayOriginNVX
+WorldRayDirectionNVX
+ObjectRayOriginNVX
+ObjectRayDirectionNVX
+RayTminNVX
+RayTmaxNVX
+ObjectToWorldNVX
+WorldToObjectNVX
+HitTNVX
+HitKindNVX</pre>
+</div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_new_instructions">New Instructions</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Instructions added under the <strong>RaytracingNVX</strong> capability</p></div>
+<div class="listingblock">
+<div class="content monospaced">
+<pre>OpReportIntersectionNVX
+OpIgnoreIntersectionNVX
+OpTerminateRayNVX
+OpTraceNVX
+OpTypeAccelerationStructureNVX</pre>
+</div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_modifications_to_the_spir_v_specification_version_1_1">Modifications to the SPIR-V Specification, Version 1.1</h2>
+<div class="sectionbody">
+<div class="dlist"><dl>
+<dt class="hdlist1">
+(Modify Section 2.2.2, Types ) 
+</dt>
+<dd>
+<div class="paragraph"><p>add <strong>OpTypeAccelerationStructureNVX</strong> to list of opaque types</p></div>
+</dd>
+<dt class="hdlist1">
+(Modify Section 3.3, Execution Model, adding rows to the Execution Model table) 
+</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<table class="tableblock frame-all grid-all"
+style="
+width:80%;
+">
+<col style="width:3%;">
+<col style="width:42%;">
+<col style="width:53%;">
+<thead>
+<tr>
+<th class="tableblock halign-center valign-middle" colspan="2" > Execution Model </th>
+<th class="tableblock halign-left valign-top" > Enabling Capabilities</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">5313</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayGenerationNVX</strong><br>
+Ray generation shading stage.</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">5314</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>IntersectionNVX</strong> <br>
+Intersection shading stage.</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">5315</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>AnyHitNVX</strong><br>
+Any hit shading stage.</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">5316</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>ClosestHitNVX</strong><br>
+Closest hit shading stage.</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">5317</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>MissNVX</strong><br>
+Miss shading stage.</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">5318</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>CallableNVX</strong><br>
+Ray callable shading stage.<br>
+Currently unimplemented.</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
+</tr>
+</tbody>
+</table>
+</div></div>
+</dd>
+<dt class="hdlist1">
+(Modify Section 3.7, Storage Class, adding rows to the Storage Class table) 
+</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:6%;">
+<col style="width:66%;">
+<col style="width:13%;">
+<col style="width:13%;">
+<thead>
+<tr>
+<th class="tableblock halign-center valign-middle" colspan="2" > Storage Class </th>
+<th class="tableblock halign-left valign-top" > <a href="#Capability">Enabling Capabilities</a> </th>
+<th class="tableblock halign-left valign-top" > Enabled by Extension</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">5338</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayPayloadNVX</strong><br>
+Used for storing payload data associated with a ray. Visible across all functions in
+the current invocation. Not shared externally. Variables declared
+with this storage class can be both read and written to. Only allowed in <strong>RayGenerationNVX</strong>
+,<strong>AnyHitNVX</strong>, <strong>ClosestHitNVX</strong> and <strong>MissNVX</strong> execution models.</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">SPV_NVX_raytracing</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">5339</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>HitAttributeNVX</strong><br>
+Used for storing attributes of geometry intersected by a ray. Visible across all
+functions in the current invocation. Not shared externally. Variables declared with this
+storage class are allowed only in <strong>IntersectionNVX</strong>, <strong>AnyHitNVX</strong> and <strong>ClosestHitNVX</strong> execution models.
+They can be written to only in <strong>IntersectionNVX</strong> execution model and read from only
+in <strong>AnyHitNVX</strong> and <strong>ClosestHitNVX</strong> execution models.</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">SPV_NVX_raytracing</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">5342</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>IncomingRayPayloadNVX</strong><br>
+Used for storing parent payload data associated with a ray in current stage invoked from
+a trace call. Visible across all functions in current invocation. Not shared externally.
+Variables declared with the storage class are allowed only in <strong>AnyHitNVX</strong>, <strong>ClosestHitNVX</strong> and
+<strong>MissNVX</strong> execution models. Can be both read and written to in above execution models.</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">SPV_NVX_raytracing</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">5343</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>ShaderRecordBufferNVX</strong><br>
+Used for storing data in shader record associated with each unique shader in raytracing
+pipeline. Visible across all functions in current invocation. Can be initialized externally via API.
+Variables declared with this storage class are allowed in <strong>RayGenerationNVX</strong>, <strong>IntersectionNVX</strong>,
+<strong>AnyHitNVX</strong>, <strong>ClosestHitNVX</strong>, <strong>MissNVX</strong> and <strong>CallableNVX</strong> execution models and can be both read and written to
+but cannot have initializers. Refer to raytracing chapter of Vulkan API specification for details on shader records.</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">SPV_NVX_raytracing</p></td>
+</tr>
+</tbody>
+</table>
+</div></div>
+</dd>
+<dt class="hdlist1">
+(Modify Section 3.21, Builtin, adding rows to the Builtin table) 
+</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:4%;">
+<col style="width:47%;">
+<col style="width:28%;">
+<col style="width:9%;">
+<col style="width:9%;">
+<thead>
+<tr>
+<th class="tableblock halign-center valign-middle" colspan="2" > Decoration </th>
+<th class="tableblock halign-center valign-top" > <a href="#Capability">Enabling Capabilities</a> </th>
+<th class="tableblock halign-left valign-middle" colspan="2" > Extra Operands</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">5319</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>LaunchIdNVX</strong><br>
+Index of work item being processed in current invocation of ray tracing shader stage.
+Allowed in all ray tracing execution models.</p>
+<p class="tableblock">Refer to raytracing chapter of Vulkan API specification for more details.</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
+<td class="tableblock halign-left valign-top" colspan="2" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">5320</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>LaunchSizeNVX</strong><br>
+Width and height dimensions passed to vkCmdTraceRaysNVX call which resulted in invocation of
+current ray tracing shader stage. Allowed in all ray tracing execution models.</p>
+<p class="tableblock">Refer to raytracing chapter of Vulkan API specification for more details.</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
+<td class="tableblock halign-left valign-top" colspan="2" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">5321</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>WorldRayOriginNVX</strong><br>
+World-space origin coordinates for the ray being traced in the <strong>IntersectionNVX</strong>,
+<strong>AnyHitNVX</strong>, <strong>ClosestHitNVX</strong>, or <strong>MissNVX</strong> execution models.</p>
+<p class="tableblock">Refer to raytracing chapter of Vulkan API specification for more details.</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
+<td class="tableblock halign-left valign-top" colspan="2" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">5322</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>WorldRayDirectionNVX</strong><br>
+World-space direction for the ray being traced in the <strong>IntersectionNVX</strong>,
+<strong>AnyHitNVX</strong>, <strong>ClosestHitNVX</strong>, or <strong>MissNVX</strong> execution models.</p>
+<p class="tableblock">Refer to raytracing chapter of Vulkan API specification for more details.</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
+<td class="tableblock halign-left valign-top" colspan="2" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">5323</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>ObjectRayOriginNVX</strong><br>
+Object-space origin coordinates for the ray being traced in the <strong>IntersectionNVX</strong>,
+<strong>AnyHitNVX</strong>, <strong>ClosestHitNVX</strong>, or <strong>MissNVX</strong> execution models.</p>
+<p class="tableblock">Refer to raytracing chapter of Vulkan API specification for more details.</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
+<td class="tableblock halign-left valign-top" colspan="2" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">5324</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>ObjectRayDirectionNVX</strong><br>
+Object-space direction for the ray being traced in the <strong>IntersectionNVX</strong>,
+<strong>AnyHitNVX</strong>, <strong>ClosestHitNVX</strong>, or <strong>MissNVX</strong> execution models.</p>
+<p class="tableblock">Refer to raytracing chapter of Vulkan API specification for more details.</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
+<td class="tableblock halign-left valign-top" colspan="2" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">5325</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTminNVX</strong><br>
+The current <strong>Tmin</strong> parametric value for the ray being traced in the <strong>IntersectionNVX</strong>,
+<strong>AnyHitNVX</strong>, <strong>ClosestHitNVX</strong>, or <strong>MissNVX</strong> execution models.</p>
+<p class="tableblock">Refer to raytracing chapter of Vulkan API specification for more details.</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
+<td class="tableblock halign-left valign-top" colspan="2" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">5326</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTmaxNVX</strong><br>
+The current <strong>Tmax</strong> parametric value for the ray being traced in the <strong>IntersectionNVX</strong>,
+<strong>AnyHitNVX</strong>, <strong>ClosestHitNVX</strong>, or <strong>MissNVX</strong> execution models.</p>
+<p class="tableblock">Refer to raytracing chapter of Vulkan API specification for more details.</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
+<td class="tableblock halign-left valign-top" colspan="2" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">5327</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>InstanceCustomIndexNVX</strong><br>
+Application specified value associated with the instance that was hit by the current ray in the <strong>IntersectionNVX</strong>,
+<strong>AnyHitNVX</strong>, <strong>ClosestHitNVX</strong> execution models.</p>
+<p class="tableblock">Refer to raytracing chapter of Vulkan API specification for more details.</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
+<td class="tableblock halign-left valign-top" colspan="2" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">5330</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>ObjectToWorldNVX</strong><br>
+The <em>4x3</em> object to world transformation matrix for the ray being traced in the <strong>IntersectionNVX</strong>,
+<strong>AnyHitNV</strong>, or <strong>ClosestHitNVX</strong> execution models.</p>
+<p class="tableblock">Refer to raytracing chapter of Vulkan API specification for more details.</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
+<td class="tableblock halign-left valign-top" colspan="2" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">5331</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>WorldToObjectNVX</strong><br>
+The <em>4x3</em> world to object transformation matrix for the ray being traced in the <strong>IntersectionNVX</strong>,
+<strong>AnyHitNV</strong>, or <strong>ClosestHitNVX</strong> execution models.</p>
+<p class="tableblock">Refer to raytracing chapter of Vulkan API specification for more details.</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
+<td class="tableblock halign-left valign-top" colspan="2" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">5332</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>HitTNVX</strong><br>
+The parametric value <strong>T</strong> for the ray resulting in a hit for the ray being traced in the <strong>AnyHitNVX</strong> or
+<strong>ClosestHitNVX</strong> execution models. This is an alias for RayTMaxNVX for convenience.</p>
+<p class="tableblock">Refer to raytracing chapter of Vulkan API specification for more details.</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
+<td class="tableblock halign-left valign-top" colspan="2" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">5333</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>HitKindNVX</strong><br>
+The hit kind of the hit for the ray being traced in the <strong>AnyHitNVX</strong> or
+<strong>ClosestHitNVX</strong> execution models.</p>
+<p class="tableblock">Refer to raytracing chapter of Vulkan API specification for more details.</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
+<td class="tableblock halign-left valign-top" colspan="2" ><p class="tableblock"></p></td>
+</tr>
+</tbody>
+</table>
+</div></div>
+</dd>
+<dt class="hdlist1">
+(Modify the definition of following BuiltIns, allowing them to be used in <strong>IntersectionNVX</strong>, <strong>AnyHitNVX</strong>, or <strong>ClosestHitNVX</strong> Execution Models.)
+</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:4%;">
+<col style="width:40%;">
+<col style="width:16%;">
+<col style="width:40%;">
+<thead>
+<tr>
+<th class="tableblock halign-center valign-middle" colspan="2" > BuiltIn</th>
+<th class="tableblock halign-center valign-top" > Enabling Capabilities </th>
+<th class="tableblock halign-center valign-top" > Enabled by Extension</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-middle" rowspan="4" ><p class="tableblock">7</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>PrimitiveId</strong><br>
+Primitive identifier. See Vulkan or OpenGL API specifications for more detail.</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"></p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Primitive ID in a <strong>Geometry</strong> Execution Model</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>Geometry</strong></p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Primitive ID in a <strong>Tessellation</strong> Execution Model</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>Tessellation</strong></p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Primitive ID in an <strong>IntersectionNVX</strong>, <strong>AnyHitNVX</strong>, or <strong>ClosestHitNVX</strong> Execution Model</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>SPV_NVX_ray_tracing</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle" rowspan="2" ><p class="tableblock">43</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>InstanceIndex</strong><br>
+Instance index. See Vulkan or OpenGL API specifications for more detail.</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>Shader</strong></p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Instance index in an <strong>IntersectionNVX</strong>, <strong>AnyHitNVX</strong>, or <strong>ClosestHitNVX</strong> Execution Model</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>SPV_NVX_ray_tracing</strong></p></td>
+</tr>
+</tbody>
+</table>
+</div></div>
+</dd>
+<dt class="hdlist1">
+(Modify Section 3.31, Capability, adding a row to the Capability table) 
+</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:2%;">
+<col style="width:51%;">
+<col style="width:16%;">
+<col style="width:30%;">
+<thead>
+<tr>
+<th class="tableblock halign-center valign-middle" colspan="2" > Capability </th>
+<th class="tableblock halign-center valign-top" > Depends On </th>
+<th class="tableblock halign-left valign-top" > Enabled by Extension</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-middle" ><p class="tableblock">5340</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong><br>
+Uses the <strong>RayGenerationNVX</strong>, <strong>IntersectionNVX</strong>, <strong>AnyHitNVX</strong>, <strong>ClosestHitNVX</strong>,
+<strong>MissNVX</strong>, or <strong>CallableNVX</strong> Execution Models</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>SPV_NVX_raytracing</strong></p></td>
+</tr>
+</tbody>
+</table>
+</div></div>
+</dd>
+<dt class="hdlist1">
+(Modify Section 3.32.6, Type-Declaration Instructions, adding a new table) 
+</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:55%;">
+<col style="width:11%;">
+<col style="width:33%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="2" ><p class="tableblock"><a id="OpTypeAccelerationStructureNVX"></a><strong>OpTypeAccelerationStructureNVX</strong><br>
+<br>
+Declares an acceleration structure type which is an opaque reference to
+acceleration structure handle as defined in raytracing chapter of Vulkan API
+specification.</p>
+<p class="tableblock">Consumed by <strong>OpTraceNVX</strong></p>
+<p class="tableblock">This type is opaque: values of this type have no defined physical size or
+bit pattern.</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<strong>RaytracingNVX</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5341</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result</em></p></td>
+</tr>
+</tbody>
+</table>
+</div></div>
+</dd>
+<dt class="hdlist1">
+(Add a new sub section 3.32.24, Raytracing Instructions, adding to end of list of instructions) 
+</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:2%;">
+<col style="width:2%;">
+<col style="width:8%;">
+<col style="width:8%;">
+<col style="width:8%;">
+<col style="width:8%;">
+<col style="width:8%;">
+<col style="width:8%;">
+<col style="width:8%;">
+<col style="width:8%;">
+<col style="width:8%;">
+<col style="width:8%;">
+<col style="width:8%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="12" ><p class="tableblock"><a id="OpTraceNVX"></a><strong>OpTraceNVX</strong><br>
+<br>
+ Trace a ray into the acceleration structure.<br>
+<br>
+ <em>Acceleration Structure</em> is the descriptor for the acceleration structure to trace into.<br>
+<br>
+ <em>Ray Flags</em> controls the properties for the trace. See raytracing chapter of Vulkan API specification for more details.<br>
+<br>
+ <em>Cull Mask</em> is the 8-bit mask for test against the instance mask.<br>
+<br>
+ <em>SBT Offset</em> and <em>SBT Stride</em> control indexing into the SBT for hit shaders called from this trace.
+ <em>SBT</em> stands for Shader Binding Table. Refer to raytracing chapter of Vulkan API specification for details.<br>
+<br>
+ <em>Miss Index</em> is the index of the miss shader to be called from this trace call.<br>
+<br>
+ <em>Ray Origin</em>, <em>Ray Tmin</em>, <em>Ray Direction</em>, and <em>Ray Tmax</em> control the basic parameters of the ray to be traced.<br>
+<br>
+ <em>Payload number</em> matches the declared location of the payload structure to use for this trace.<br>
+<br>
+ <em>Ray Flags</em>, <em>Cull Mask</em>, <em>SBT Offset</em>, <em>SBT Stride</em>, and <em>Miss Index</em> must be a 32-bit <em>integer type</em> scalar.<br>
+<br>
+ <em>Ray Origin</em> and <em>Ray Direction</em> must be a 32-bit <em>float type</em> 3-component vector.<br>
+<br>
+ <em>Ray Tmin</em> and <em>Ray Tmax</em> must be a 32-bit <em>float type</em> scalar.<br>
+<br>
+ This instruction is allowed only in <strong>RayGenerationNVX</strong>, <strong>ClosestHitNVX</strong> and <strong>MissNVX</strong> execution models.<br>
+<br></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<strong>RaytracingNVX</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">12</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5337</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Acceleration Structure</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Ray Flags</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Cull Mask</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>SBT Offset</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>SBT Stride</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Miss Index</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray Origin</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray Tmin</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray Direction</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray Tmax</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Payload number</em></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:7%;">
+<col style="width:7%;">
+<col style="width:21%;">
+<col style="width:21%;">
+<col style="width:21%;">
+<col style="width:21%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="5" ><p class="tableblock"><a id="OpReportIntersectionNVX"></a><strong>OpReportIntersectionNVX</strong><br>
+<br>
+Reports an intersection back to the traversal infrastructure.</p>
+<p class="tableblock"><em>Hit</em> is the floating point parametric value along ray for the intersection.</p>
+<p class="tableblock"><em>Hit Kind</em> is the integer hit kind reported back to other shaders and accessible by the hit kind builtin.</p>
+<p class="tableblock"><em>Result Type</em> must be a scalar boolean.</p>
+<p class="tableblock"><em>Hit</em> must be a 32-bit <em>float type</em> scalar.</p>
+<p class="tableblock"><em>Hit Kind</em> must be a 32-bit <em>unsigned integer type</em> scalar.</p>
+<p class="tableblock">This instruction is allowed only in <strong>IntersectionNVX</strong> execution model.</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<strong>RaytracingNVX</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5334</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Hit</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Hit Kind</em></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:50%;">
+<col style="width:50%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><a id="OpIgnoreIntersectionNVX"></a><strong>OpIgnoreIntersectionNVX</strong><br>
+<br>
+Ignores the current potential intersection.</p>
+<p class="tableblock">This instruction is allowed only in <strong>AnyHitNVX</strong> execution model.</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<strong>RaytracingNVX</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5335</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:50%;">
+<col style="width:50%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><a id="OpTerminateRayNVX"></a><strong>OpTerminateRayNVX</strong><br>
+<br>
+Terminates further traversal of a ray.</p>
+<p class="tableblock">This instruction is allowed only in <strong>AnyHitNVX</strong> execution model.</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<strong>RaytracingNVX</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5336</p></td>
+</tr>
+</tbody>
+</table>
+</div></div>
+</dd>
+</dl></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_validation_rules">Validation Rules</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>An OpExtension must be added to the SPIR-V for validation layers to check
+legal use of this extension:</p></div>
+<div class="listingblock">
+<div class="content monospaced">
+<pre>OpExtension "SPV_NVX_raytracing"</pre>
+</div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_issues">Issues</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>None yet!</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_revision_history">Revision History</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-rows"
+style="
+width:100%;
+">
+<col style="width:4%;">
+<col style="width:14%;">
+<col style="width:14%;">
+<col style="width:66%;">
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top" >Rev</th>
+<th class="tableblock halign-left valign-top" >Date</th>
+<th class="tableblock halign-left valign-top" >Author</th>
+<th class="tableblock halign-left valign-top" >Changes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2018-09-12</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Eric Werness</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Internal revisions</strong></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="footnotes"><hr></div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2018-09-14 10:19:52 MDT
+</div>
+</div>
+</body>
+</html>

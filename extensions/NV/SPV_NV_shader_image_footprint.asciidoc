@@ -1,0 +1,225 @@
+SPV_NV_shader_image_footprint
+=============================
+
+Name Strings
+------------
+
+SPV_NV_shader_image_footprint
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Daniel Koch, NVIDIA
+- Chao Chen, NVIDIA
+- Jeff Bolz, NVIDIA
+
+Status
+------
+
+- Complete
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2018-08-14
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.3 Revision 2, Unified.
+
+This extension requires SPIR-V 1.0.
+
+Overview
+--------
+
+This extension adds support for a new image function for
+querying information about the texel footprint of a
+corresponding image sampling operation.
+This extension provides SPIR-V support for the GLSL
+*GL_NV_shader_texture_footprint* extension.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_NV_shader_image_footprint"
+----
+
+
+Modifications to the SPIR-V Specification, Version 1.3
+------------------------------------------------------
+
+(Modify Section 3.14, Image Operands) ::
+
+Add *OpImageSampleFootprintNV* to the list of opcodes that use 'Image Operands'.
+
+(Modify Section 3.31, Capability, adding a new row to the Capability table) ::
++
+--
+[cols="1^.^,10,8^,15",options="header",width = "80%"]
+|====
+2+^.^| Capability | Depends On | Enabled by Extension
+| 5282 | *ImageFootprintNV* | *Shader*
+| *SPV_NV_shader_image_footprint*
+|====
+
+--
+
+(Modify Section 3.32.10, Image Instructions, adding a new row to the table) ::
++
+--
+[cols="3,1,8*3",width="100%"]
+|=====
+8+|[[OpImageSampleFootprintNV]]*OpImageSampleFootprintNV* +
+ +
+ Return the texel footprint of a corresponding sampling instruction. +
+ +
+ 'Result Type' must be an *OpTypeStruct* with six members. +
+ Member 0 must be a 'Boolean type' scalar. Member 0 holds a boolean value indicating
+ whether the corresponding image sampling operation only touches a single LOD level. +
+ Member 1 must be a vector of 'integer type', whose 'Signedness' operand is 0, and
+ have the same number of components as 'Coordinate'. Member 1 holds the footprint
+ 'anchor'. +
+ Member 2 must be a vector of 'integer type', whose 'Signedness' operand is 0, and
+ have the same number of components as 'Coordinate'. Member 2 holds the footprint
+ 'offset'. +
+ Member 3 must be a vector of 'integer type', whose 'Signedness' operand is 0, and
+ have two components. Member 3 holds the footprint 'mask'. +
+ Member 4 must be a scalar of 'integer type', whose 'Signedness' operand is 0.
+ Member 4 holds the footprint 'LOD'. +
+ Member 5 must be a scalar of 'integer type', whose 'Signedness' operand is 0.
+ Member 5 holds the footprint <<Granularity,'granularity'>> after coarsening. A value
+ of zero means that no coarsening occurred. +
+ +
+ This structure type must be explicitly declared by the module.
+ +
+ +
+'Sampled Image' must be an object whose type is
+ <<OpTypeSampledImage,*OpTypeSampledImage*>>. The 'Dim' operand of the underlying
+ *OpTypeImage* must be *2D* or *3D*, and the 'Arrayed' and 'MS' operands must be 0. +
+ +
+'Coordinate' must be a vector of 'floating-point type'.
+It contains ('u', 'v'[, 'w']) as needed by the definition of 'Sampled Image'.  +
+ +
+'Granularity' must be a scalar of 'integer type' with the <<Granularity,granularity>>
+ of the returned image footprint 'mask', indicating how many texels each bit in the
+ bitmask corresponds to. +
+ +
+'Coarse' must be a 'constant instruction' of scalar 'Boolean type' indicating the
+ low (fine) or high (coarse) LOD level for trilinear filtering, where two
+ footprint operations are required to retrieve both bitmasks. +
+ +
+'Image Operands' encodes what operands follow, as per <<Image_Operands, Image Operands>>. +
+ Supported combinations are: +
+ For 'Dim' = *2D*: *None*, *Bias*, *MinLod*, (*MinLod* + *Bias*), *Lod*, *Grad*,
+    (*Grad* + *MinLod*). +
+ For 'Dim' = *3D*: *None*, *Bias*, *MinLod*, (*MinLod* + *Bias*), *Lod*. +
+
+2+|<<Capability,Capability>>: +
+*ImageFootprintNV*
+| 7 + variable | 5283
+ | '<id>' +
+'Result Type' | <<ResultId,'Result <id>' >> | '<id>' +
+'Sampled Image' | '<id>' +
+'Coordinate' | '<id>' +
+'Granularity' | '<id>' +
+'Coarse' | Optional <<Image_Operands,'Image Operands'>> +
+ | Optional +
+'<id>, <id>, ...' +
+|=====
+
+--
+
+(Add a new Section 3.Granularity, Granularity)
+
+=== [[Granularity]]Granularity
+
+Granularity of an image footprint mask.
+Used by <<OpImageSampleFootprintNV,*OpImageSampleFootprintNV*>>.
+[cols="1^.^,^10,^10,8^",options="header",width = "80%"]
+|====
+3+^.^| Granularity        | <<Capability,Enabling Capabilities>>
+|    |Dim=*2D* | Dim=*3D* |
+| 0  2+| Input: not valid +
+       Output: no coarsening  | *ImageFootprintNV*
+| 1  |   2x2   |   2x2x2  | *ImageFootprintNV*
+| 2  |   4x2   |(reserved)| *ImageFootprintNV*
+| 3  |   4x4   |   4x4x2  | *ImageFootprintNV*
+| 4  |   8x4   |(reserved)| *ImageFootprintNV*
+| 5  |   8x8   |(reserved)| *ImageFootprintNV*
+| 6  |  16x8   |(reserved)| *ImageFootprintNV*
+| 7  |  16x16  |(reserved)| *ImageFootprintNV*
+| 8  |(reserved)|(reserved)|
+| 9  |(reserved)|(reserved)|
+| 10 |(reserved)| 16x16x16 | *ImageFootprintNV*
+| 11 |  64x64  | 32x16x16 | *ImageFootprintNV*
+| 12 | 128x64  | 32x32x16 | *ImageFootprintNV*
+| 13 | 128x128 | 32x32x32 | *ImageFootprintNV*
+| 14 | 256x128 | 64x32x32 | *ImageFootprintNV*
+| 15 | 256x256 |(reserved)| *ImageFootprintNV*
+
+|====
+
+
+
+
+Validation Rules
+----------------
+
+An OpExtension must be added to the SPIR-V for validation layers to check
+legal use of this extension:
+
+----
+OpExtension "SPV_NV_shader_image_footprint"
+----
+
+Issues
+------
+
+. How do we handle out parameters from functions?
++
+--
+*RESOLVED*: Op returns a structure - see ModfStruct and FrexpStruct in
+the GLSL.std.450 extended instruction sets.
+--
+
+. How many variants of the "footprint" instructions do we need?
++
+--
+*RESOLVED*: Using the existing 'Image Operands', we can get away with just one.
+--
+
+. Should we allow expandable arguments for future targets (like cube maps)?
++
+--
+*RESOLVED*: Not at this time. It would likely be difficult to express footprint
+for cube maps, particularly access along the seams.
+--
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1  |2018-08-14 |Daniel Koch| Internal revisions
+|========================================
+

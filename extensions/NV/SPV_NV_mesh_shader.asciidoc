@@ -1,0 +1,474 @@
+SPV_NV_mesh_shader
+==================
+
+Name Strings
+------------
+
+SPV_NV_mesh_shader
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Daniel Koch, NVIDIA
+- Christoph Kubisch, NVIDIA
+- Jeff Bolz, NVIDIA
+- John Kessenich, Google
+
+Status
+------
+
+- Complete
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2018-09-12
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.3, Revision 2, Unified.
+
+This extension requires SPIR-V 1.0.
+
+This extension interacts with SPV_NV_viewport_array2.
+
+This extension interacts with SPV_EXT_shader_viewport_index_layer.
+
+This extension interacts with SPV_NVX_multiview_per_view_attributes.
+
+This extension interacts with SPIR-V 1.2 (LocalSizeId).
+
+This extension interacts with SPIR-V 1.3 and
+SPV_KHR_shader_draw_parameters (DrawIndex).
+
+Overview
+--------
+
+This extensions provides SPIR-V support for the GLSL *GL_NV_mesh_shader*
+extension which adds two new programmable shader types -- task and mesh
+shaders -- which are used instead of the standard programmable vertex
+processing pipeline. Both new shader types have execution environments
+similar to that of compute shaders.
+
+This extension enables or adds the following functionality under
+the new *MeshShadingNV* capability:
+
+  - adds *TaskNV* and *MeshNV* Execution Models for task and mesh shaders,
+    respectively
+  - adds *OutputLinesNV*, *OutputTrianglesNV*, and *OutputPrimitivesNV*
+    Execution Modes for mesh shaders
+  - enables *LocalSize*, *LocalSizeId*, *OutputVertices*, and *OutputPoints*
+    Execution Modes for mesh shaders
+  - adds *PerPrimitiveNV*, *PerViewNV*, *PerTaskNV* decorations for input
+    and/or output variables
+  - adds *TaskCountNV*, *PrimitiveCountNV*, *PrimitiveIndicesNV*,
+    *ClipDistancePerViewNV*, *CullDistancePerViewNV*, *LayerPerViewNV*,
+    *MeshViewCountNV*, and *MeshViewIndicesNV* builtins in mesh and/or task
+    shaders
+  - enables *Position*, *PointSize*, *ClipDistance*, *CullDistance*,
+    *PrimitiveId*, *Layer*, *ViewportIndex*, *WorkgroupSize*, *WorkgroupId*,
+    *LocalInvocationId*, *GlobalInvocationId*, *LocalInvocationIndex*,
+    *DrawIndex*, *ViewportMaskNV*, *PositionPerViewNV*, and
+    *ViewportMaskPerViewNV* in mesh and/or task shaders
+  - adds the *OpWritePackedPrimitiveIndices4x8NV* instruction
+
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_NV_mesh_shader"
+----
+
+
+Modifications to the SPIR-V Specification, Version 1.3
+------------------------------------------------------
+
+(Modify Section 2.16.2, Validation Rules for Shader Capabilities) ::
+
++
+--
+(Add new items under "Entry point and execution model") ::
+
+* Each *OpEntryPoint* with the *MeshNV* Execution Model must have an
+  *OpExecutionMode* with exactly one of *OutputPoints*, *OutputLinesNV*,
+  or *OutputTrianglesNV* execution modes.
+* Each *OpEntryPoint* with the *MeshNV* Execution Model must specify
+  both the *OutputPrimitivesNV* and *OutputVertices* execution modes.
+
+(Add new items under "Decorations") ::
+
+* The *PerPrimitiveNV* decoration can only be used in the *Output* Storage
+  Class in a *MeshNV* Execution Model and can only be used in the *Input*
+  Storage Class in the *Fragment* Execution Model.
+* The *PerViewNV* decoration can only be used in the *Output* Storage Class
+  in the *MeshNV* Execution Model.
+* The *PerTaskNV* decoration can only be used in the *Output* Storage Class
+  in the *TaskNV* Execution Model and can only be used in the *Input* Storage
+  Class in the *MeshNV* Execution Model.
+--
+
+
+
+(Modify Section 3.3, Execution Model, adding 2 new rows to the table) ::
++
+--
+[cols="1^.^,10,8^",options="header",width = "80%"]
+|====
+2+^.^| Execution Model| Enabling Capabilities
+| 5267 | *TaskNV* +
+Task shading stage. |*MeshShadingNV*
+| 5268 | *MeshNV* +
+Mesh shading stage. |*MeshShadingNV*
+|====
+--
+
+(Modify Section 3.6, Execution Mode) ::
+
++
+--
+(add new rows to the Execution Mode table)
+
+[cols="1^.^,20,10^,8<.<",options="header",width = "100%"]
+|====
+  2+^.^| Execution Mode  | Enabling Capabilities | Extra Operands
+| 5269 | *OutputLinesNV* +
+Stage output primitive is _lines_.
+Only valid with the *MeshNV* Execution Model.
+| *MeshShadingNV* |
+| 5298 | *OutputTrianglesNV* +
+Stage output primitive is _triangles_.
+Only valid with the *MeshNV* Execution Model.
+| *MeshShadingNV* |
+| 5270 | *OutputPrimitivesNV* +
+For the mesh stage, the maximum number of primitives the shader will ever
+emit for the invocation group.
+Only valid with the *MeshNV* Execution Model.
+| *MeshShadingNV* | <<Literal_Number,'Literal Number'>> +
+'Primitive count'
+|====
+
+
+(Modify the definition of *LocalSize*, *OutputVertices*, *OutputPoints*,
+ and *LocalSizeId* as follows, allowing them to be outputs from MeshNV shaders)
+
+[cols="1^,10,6^,3*2",options="header",width = "100%"]
+|====
+2+^.^| Execution Mode | <<Capability,Enabling Capabilities>> 3+<.^| Extra Operands
+| 17 | *LocalSize* +
+Indicates the work-group size in the 'x', 'y', and 'z' dimensions. Only valid with the *GLCompute*, *MeshNV*, or *Kernel* <<Execution_Model,Execution Models>>.| | <<Literal_Number,'Literal Number'>> +
+'x size' | <<Literal_Number,'Literal Number'>> +
+'y size' | <<Literal_Number,'Literal Number'>> +
+'z size'
+.4+| 26 | *OutputVertices* +
+Only valid with the *Geometry*, *TessellationControl*, *TessellationEvaluation*,
+or *MeshNV* <<Execution_Model,Execution Models>>. | 3+|
+<<Literal_Number,'Literal Number'>> +
+'Vertex count'
+| For a geometry stage, the maximum number of vertices the shader will
+ever emit in a single <<Invocation,invocation>>. | *Geometry* 3+|
+| For a tessellation-control stage, the number of vertices in the output
+patch produced by the tessellation control shader, which also specifies
+the number of times the tessellation control shader is invoked.| *Tessellation* 3+|
+| For a mesh stage, the maximum number of vertices the shader will ever emit
+for the invocation group. | *MeshShadingNV* 3+|
+| 27 | *OutputPoints* +
+Stage output primitive is 'points'.
+Only valid with the *Geometry* and *MeshNV* <<Execution_Model,Execution Models>>.|*Geometry*, *MeshShadingNV* 3+|
+| 38 | *LocalSizeId* +
+Indicates the work-group size in the 'x', 'y', and 'z' dimensions. Only valid with the *GLCompute*, *MeshNV*, or *Kernel* <<Execution_Model,Execution Models>>. +
+ +
+ Specified as Ids.|<<Unified, Missing before>> *version 1.2*.
+ | '<id>' +
+'x size' | '<id>' +
+'y size' | '<id>' +
+'z size'
+|====
+
+
+--
+
+
+(Modify Section 3.20, Decoration, adding new rows to the Decoration table) ::
++
+--
+[cols="1^,10,6^,2*2",options="header",width = "100%"]
+|====
+2+^.^| Decoration | <<Capability,Enabling Capabilities>> 2+<.^| Extra Operands
+| 5271 | *PerPrimitiveNV* +
+Must only be used on a memory object declaration or a member of a structure type.
+Indicates that the variable has separate instances for each primitive
+in the mesh output.
+Only valid for the *Input* and *Output* Storage Classes.
+|*MeshShadingNV* 2+|
+| 5272 | *PerViewNV* +
+Must only be used on a memory object declaration or a member of a structure type.
+Indicates that the variable has separate instances for each view
+in the mesh output.
+Only valid for the *Output* Storage Class.
+|*MeshShadingNV* 2+|
+| 5273 | *PerTaskNV* +
+Must only be used on a memory object declaration or a member of a structure type.
+Indicates that the variable is stored in task memory.
+Only valid for the *Input* and *Output* Storage Classes.
+|*MeshShadingNV* 2+|
+|====
+--
+
+(Modify Section 3.21, BuiltIn) ::
++
+--
+
+(add a new rows to the Builtin table)
+
+[cols="1^.^,10,4^,10^",options="header",width = "100%"]
+|====
+2+^.^| BuiltIn| Enabling Capabilities | Enabled by Extension
+| 5274 | *TaskCountNV* +
+Output task count in the *TaskNV* Execution Model.
+See the Vulkan API specification for more detail.
+| *MeshShadingNV* | *SPV_NV_mesh_shader*
+| 5275 | *PrimitiveCountNV* +
+Output primitive count in the *MeshNV* Execution Model.
+See the Vulkan API specification for more detail.
+| *MeshShadingNV* | *SPV_NV_mesh_shader*
+| 5276 | *PrimitiveIndicesNV* +
+Output array of vertex index values in the *MeshNV* Execution Model.
+See the Vulkan API specification for more detail.
+| *MeshShadingNV* | *SPV_NV_mesh_shader*
+| 5277 | *ClipDistancePerViewNV* +
+Output array of clip distances for each view in the *MeshNV* Execution Model.
+See the Vulkan API specification for more detail.
+| *MeshShadingNV* | *SPV_NV_mesh_shader*
+| 5278 | *CullDistancePerViewNV* +
+Output array of cull distances for each view in the *MeshNV* Execution Model.
+See the Vulkan API specification for more detail.
+| *MeshShadingNV* | *SPV_NV_mesh_shader*
+| 5279 | *LayerPerViewNV* +
+Output array of layer selection for each view in the *MeshNV* Execution Model.
+See the Vulkan API specification for more detail.
+| *MeshShadingNV* | *SPV_NV_mesh_shader*
+| 5280 | *MeshViewCountNV* +
+Input view count in the *TaskNV* and *MeshNV* Execution Models.
+See the Vulkan API specification for more detail.
+| *MeshShadingNV* | *SPV_NV_mesh_shader*
+| 5281 | *MeshViewIndicesNV* +
+Input array of view index values in the *TaskNV* and *MeshNV* Execution Models.
+See the Vulkan API specification for more detail.
+| *MeshShadingNV* | *SPV_NV_mesh_shader*
+|====
+
+(Modify the definition of following BuiltIns, allowing
+them to be used in *TaskNV* and/or *MeshNV* Execution Models.)
+
+[cols="1^.^,10,4^,10^",options="header",width = "100%"]
+|====
+2+^.^| BuiltIn| Enabling Capabilities | Enabled by Extension
+.3+| 0 | *Position* +
+Vertex position. See Vulkan or OpenGL API specifications
+for more detail. | |
+| Position input or output from a vertex processing Execution Model.
+| *Shader* |
+| Position output from a *MeshNV* Execution Model | *MeshShadingNV*
+| *SPV_NV_mesh_shader*
+.3+| 1 | *PointSize* +
+Vertex point size. See Vulkan or OpenGL API specifications for more detail. | |
+| Point size input or output from a vertex processing Execution Model.
+|*Shader* |
+| Point size output from a *MeshNV* Execution Model | *MeshShadingNV*
+| *SPV_NV_mesh_shader*
+.3+| 3 | *ClipDistance* +
+Array of clip distances. See Vulkan or OpenGL API specifications for more detail. | |
+| Clip distances input or output from a vertex processing Execution Model
+| *ClipDistance* |
+| Clip distances output from a *MeshNV* Execution Model | *MeshShadingNV*
+| *SPV_NV_mesh_shader*
+.3+| 4 | *CullDistance* +
+Array of cull distances. See Vulkan or OpenGL API specifications for more detail. | |
+| Cull distances input or output from a vertex processing Execution Model
+| *CullDistance* |
+| Cull distances output from a *MeshNV* Execution Model | *MeshShadingNV*
+| *SPV_NV_mesh_shader*
+.4+| 7 | *PrimitiveId* +
+Primitive identifier. See Vulkan or OpenGL API specifications for more detail. | |
+| Primitive ID in a *Geometry* Execution Model | *Geometry* |
+| Primitive ID in a *Tessellation* Execution Model | *Tessellation* |
+| Primitive ID output in a *MeshNV* Execution Model | *MeshShadingNV*
+| *SPV_NV_mesh_shader*
+.4+| 9 | *Layer* +
+Layer selection for multi-layer framebuffer. See Vulkan or OpenGL API
+specification for more detail. | |
+| Layer output by a *Geometry* Execution Model,
+input to a *Fragment* Execution Model.
+|*Geometry* |
+| Layer output by a *Vertex* or *Tessellation* Execution Model.
+|*ShaderViewportIndexLayerEXT* | *SPV_EXT_shader_viewport_index_layer*
+| Layer output by a *MeshNV* Execution Model.
+|*ShaderViewportIndexLayerEXT* *MeshShadingNV*
+| *SPV_EXT_shader_viewport_index_layer* *SPV_NV_mesh_shader*
+.4+| 10 | *ViewportIndex* +
+Viewport selection for viewport transformation when using multiple viewports.
+See Vulkan or OpenGL API specification for more detail. | |
+|Viewport index output by a *Geometry* Execution Model,
+input to a *Fragment* Execution Model.
+|*MultiViewport* |
+| Viewport index output by a *Vertex* or *Tessellation* Execution Model.
+|*ShaderViewportIndexLayerEXT* | *SPV_EXT_shader_viewport_index_layer*
+| Viewport index output by a *MeshNV* Execution Model
+| *ShaderViewportIndexLayerEXT* *MeshShadingNV*
+| *SPV_EXT_shader_viewport_index_layer* *SPV_NV_mesh_shader*
+.2+| 25 | *WorkgroupSize* +
+Work-group size in *GLCompute* or *Kernel* Execution Models.
+See OpenCL, Vulkan, or OpenGL API specifications for more detail. | |
+| Work-group size in *TaskNV* or *MeshNV* Execution Models.
+See Vulkan API specification for more detail. | *MeshShadingNV*
+| *SPV_NV_mesh_shader*
+.2+| 26 | *WorkgroupId* +
+Work-group ID in *GLCompute* or *Kernel*  <<Execution_Model,Execution Models>>.
+See OpenCL, Vulkan, or OpenGL API specifications for more detail. | |
+| Work-group ID in *TaskNV* or *MeshNV* Execution Models.
+See Vulkan API specification for more detail. | *MeshShadingNV*
+| *SPV_NV_mesh_shader*
+.2+| 27 | *LocalInvocationId* +
+Local invocation ID in *GLCompute* or *Kernel*  <<Execution_Model,Execution Models>>.
+See OpenCL, Vulkan, or OpenGL API specifications for more detail. | |
+|Local invocation ID in *TaskNV* or *MeshNV* Execution Models.
+See Vulkan API specification for more detail. | *MeshShadingNV*
+| *SPV_NV_mesh_shader*
+.2+| 28 | *GlobalInvocationId* +
+Global invocation ID in *GLCompute* or *Kernel* Execution Models.
+See OpenCL, Vulkan, or OpenGL API specifications for more detail. | |
+|Global invocation ID in *TaskNV* or *MeshNV* Execution Models. | *MeshShadingNV*
+| *SPV_NV_mesh_shader*
+.2+| 29 | *LocalInvocationIndex* +
+Local invocation index in *GLCompute* Execution Model.
+See Vulkan or OpenGL API specifications for more detail.  +
+ +
+Work-group Linear ID in *Kernel* Execution Model.
+See OpenCL API specification for more detail. | |
+|Local invocation index in *TaskNV* or *MeshNV* Execution Models.
+See Vulkan API specification for more detail. | *MeshShadingNV*
+| *SPV_NV_mesh_shader*
+.2+| 4426 | *DrawIndex* +
+Contains the index of the draw currently being processed. +
+See the Vulkan 1.1 or OpenGL 4.6 specifications for more details.|*DrawParameters* +
+ +
+<<Unified, Missing before>> *version 1.3*.
+|*SPV_KHR_shader_draw_parameters*
+| Draw index in *TaskNV* or *MeshNV* Execution Models| *DrawParameters* *MeshShadingNV*
+|*SPV_KHR_shader_draw_parameters* *SPV_NV_mesh_shader*
+.3+| 5253 | *ViewportMaskNV* | Reserved |
+|Output viewport mask in *Vertex*, *Tessellation*, or *Geometry* Execution Model.
+See Vulkan or OpenGL API specifications for more detail.
+| *ShaderViewportMaskNV* | *SPV_NV_viewport_array2*
+|Output viewport mask in *MeshNV* Execution Model.
+See Vulkan API specification for more detail. | *ShaderViewportMaskNV* *MeshShadingNV*
+| *SPV_NV_viewport_array2* *SPV_NV_mesh_shader*
+.3+| 5261 | *PositionPerViewNV* | Reserved |
+|Output vertex position for each view in *Vertex*, *Tessellation*, or
+*Geometry* Execution Model, and input position for each view in
+*Tessellation* and *Geometry* Execution Models. See Vulkan API
+specification for more detail.
+| *PerViewAttributesNV* | *SPV_NVX_multiview_per_view_attributes*
+|Output vertex position for each view in *MeshNV* Execution Model.
+See Vulkan API specification for more detail. | *PerViewAttributesNV* *MeshShadingNV*
+| *SPV_NVX_multiview_per_view_attributes* *SPV_NV_mesh_shader*
+.3+| 5262 | *ViewportMaskPerViewNV* | Reserved |
+|Output viewport mask for each view in *Vertex*, *Tessellation*, or *Geometry*
+Execution Model. See Vulkan API specification for more detail.
+| *PerViewAttributesNV* | SPV_NVX_multiview_per_view_attributes
+|Output viewport mask for each view in *MeshNV* Execution Model.
+See Vulkan API specification for more detail. | *PerViewAttributesNV* *MeshShadingNV*
+| *SPV_NVX_multiview_per_view_attributes* *SPV_NV_mesh_shader*
+|====
+
+--
+
+
+(Modify Section 3.31, Capability, adding a new row to the Capability table) ::
++
+--
+[cols="1^.^,20,8^,15",options="header",width = "80%"]
+|====
+2+^.^| Capability | Depends On | Enabled by Extension
+| 5266 | *MeshShadingNV* +
+Uses the *TaskNV* or *MeshNV* Execution Models. | *Shader*
+| *SPV_NV_mesh_shader*
+|====
+--
+
+(Modify Section 3.32.1, Miscellaneous Instructions, adding a new row to the table) ::
++
+--
+[cols="1,1,2*3",width="100%"]
+|=====
+3+|[[OpWritePackedPrimitiveIndices4x8NV]]*OpWritePackedPrimitiveIndices4x8NV* +
+ +
+Interprets 'Packed Indices' as four 8-bit unsigned integer values and
+stores them into the output variable decorated with the *PrimitiveIndicesNV* BuiltIn
+starting from the byte offset given by 'Index Offset'. The lower bytes of
+'Packed Indices' are stored at lower addresses in the output array variable. +
+ +
+'Index Offset' must be a scalar of 32-bit integer type, whose _Signedness_
+operand is 0, and must be a multiple of four. +
+ +
+'Packed Indices' must be a scalar of 32-bit integer type, whose _Signedness_
+operand is 0. +
+
+|<<Capability,Capability>>: +
+*MeshShadingNV*
+| 3 | 5299 | '<id>' +
+'Index Offset' | '<id>' +
+'Packed Indices'
+|=====
+--
+
+
+Validation Rules
+----------------
+
+An OpExtension must be added to the SPIR-V for validation layers to check
+legal use of this extension:
+
+----
+OpExtension "SPV_NV_mesh_shader"
+----
+
+Issues
+------
+
+. Should writePackedPrimitiveIndices4x8NV be added as a new core instruction
+  or should it be an extended instruction?
++
+--
+RESOLVED: adding it as a new core instruction as that's simpler (doesn't need
+a new grammar file) and that seems to be what the extension guide recommends.
+--
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1  |2018-09-12 |Daniel Koch|Internal revisions
+|========================================
+
