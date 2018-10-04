@@ -20,6 +20,7 @@ Contributors
 - Christoph Kubisch, NVIDIA
 - Jeff Bolz, NVIDIA
 - John Kessenich, Google
+- Sahil Parmar, NVIDIA
 
 Status
 ------
@@ -31,8 +32,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2018-09-12
-| Revision           | 1
+| Last Modified Date | 2018-10-04
+| Revision           | 2
 |========================================
 
 Dependencies
@@ -71,7 +72,7 @@ the new *MeshShadingNV* capability:
   - adds *OutputLinesNV*, *OutputTrianglesNV*, and *OutputPrimitivesNV*
     Execution Modes for mesh shaders
   - enables *LocalSize*, *LocalSizeId*, *OutputVertices*, and *OutputPoints*
-    Execution Modes for mesh shaders
+    Execution Modes for mesh and/or task shaders
   - adds *PerPrimitiveNV*, *PerViewNV*, *PerTaskNV* decorations for input
     and/or output variables
   - adds *TaskCountNV*, *PrimitiveCountNV*, *PrimitiveIndicesNV*,
@@ -166,13 +167,13 @@ Only valid with the *MeshNV* Execution Model.
 
 
 (Modify the definition of *LocalSize*, *OutputVertices*, *OutputPoints*,
- and *LocalSizeId* as follows, allowing them to be outputs from MeshNV shaders)
+ and *LocalSizeId* as follows, allowing them to be outputs from MeshNV and/or TaskNV shaders)
 
 [cols="1^,10,6^,3*2",options="header",width = "100%"]
 |====
 2+^.^| Execution Mode | <<Capability,Enabling Capabilities>> 3+<.^| Extra Operands
 | 17 | *LocalSize* +
-Indicates the work-group size in the 'x', 'y', and 'z' dimensions. Only valid with the *GLCompute*, *MeshNV*, or *Kernel* <<Execution_Model,Execution Models>>.| | <<Literal_Number,'Literal Number'>> +
+Indicates the work-group size in the 'x', 'y', and 'z' dimensions. Only valid with the *GLCompute*, *MeshNV*, *TaskNV* or *Kernel* <<Execution_Model,Execution Models>>.| | <<Literal_Number,'Literal Number'>> +
 'x size' | <<Literal_Number,'Literal Number'>> +
 'y size' | <<Literal_Number,'Literal Number'>> +
 'z size'
@@ -192,7 +193,7 @@ for the invocation group. | *MeshShadingNV* 3+|
 Stage output primitive is 'points'.
 Only valid with the *Geometry* and *MeshNV* <<Execution_Model,Execution Models>>.|*Geometry*, *MeshShadingNV* 3+|
 | 38 | *LocalSizeId* +
-Indicates the work-group size in the 'x', 'y', and 'z' dimensions. Only valid with the *GLCompute*, *MeshNV*, or *Kernel* <<Execution_Model,Execution Models>>. +
+Indicates the work-group size in the 'x', 'y', and 'z' dimensions. Only valid with the *GLCompute*, *MeshNV*, *TaskNV* or *Kernel* <<Execution_Model,Execution Models>>. +
  +
  Specified as Ids.|<<Unified, Missing before>> *version 1.2*.
  | '<id>' +
@@ -470,5 +471,6 @@ Revision History
 |========================================
 |Rev|Date|Author|Changes
 |1  |2018-09-12 |Daniel Koch|Internal revisions
+|2  |2018-10-04 |Sahil Parmar|Add support for LocalSize and LocalSizeId in TaskNV shaders
 |========================================
 
