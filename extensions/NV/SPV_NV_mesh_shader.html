@@ -810,6 +810,11 @@ Jeff Bolz, NVIDIA
 John Kessenich, Google
 </p>
 </li>
+<li>
+<p>
+Sahil Parmar, NVIDIA
+</p>
+</li>
 </ul></div>
 </div>
 </div>
@@ -837,11 +842,11 @@ width:40%;
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2018-09-12</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2018-10-04</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
 </tr>
 </tbody>
 </table>
@@ -887,7 +892,7 @@ adds <strong>OutputLinesNV</strong>, <strong>OutputTrianglesNV</strong>, and <st
 <li>
 <p>
 enables <strong>LocalSize</strong>, <strong>LocalSizeId</strong>, <strong>OutputVertices</strong>, and <strong>OutputPoints</strong>
-    Execution Modes for mesh shaders
+    Execution Modes for mesh and/or task shaders
 </p>
 </li>
 <li>
@@ -1081,7 +1086,7 @@ Only valid with the <strong>MeshNV</strong> Execution Model.</p></td>
 </tbody>
 </table>
 <div class="paragraph"><p>(Modify the definition of <strong>LocalSize</strong>, <strong>OutputVertices</strong>, <strong>OutputPoints</strong>,
- and <strong>LocalSizeId</strong> as follows, allowing them to be outputs from MeshNV shaders)</p></div>
+ and <strong>LocalSizeId</strong> as follows, allowing them to be outputs from MeshNV and/or TaskNV shaders)</p></div>
 <table class="tableblock frame-all grid-all"
 style="
 width:100%;
@@ -1103,7 +1108,7 @@ width:100%;
 <tr>
 <td class="tableblock halign-center valign-top" ><p class="tableblock">17</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>LocalSize</strong><br>
-Indicates the work-group size in the <em>x</em>, <em>y</em>, and <em>z</em> dimensions. Only valid with the <strong>GLCompute</strong>, <strong>MeshNV</strong>, or <strong>Kernel</strong> <a href="#Execution_Model">Execution Models</a>.</p></td>
+Indicates the work-group size in the <em>x</em>, <em>y</em>, and <em>z</em> dimensions. Only valid with the <strong>GLCompute</strong>, <strong>MeshNV</strong>, <strong>TaskNV</strong> or <strong>Kernel</strong> <a href="#Execution_Model">Execution Models</a>.</p></td>
 <td class="tableblock halign-center valign-top" ><p class="tableblock"></p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><a href="#Literal_Number"><em>Literal Number</em></a><br>
 <em>x size</em></p></td>
@@ -1151,7 +1156,7 @@ Only valid with the <strong>Geometry</strong> and <strong>MeshNV</strong> <a hre
 <tr>
 <td class="tableblock halign-center valign-top" ><p class="tableblock">38</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>LocalSizeId</strong><br>
-Indicates the work-group size in the <em>x</em>, <em>y</em>, and <em>z</em> dimensions. Only valid with the <strong>GLCompute</strong>, <strong>MeshNV</strong>, or <strong>Kernel</strong> <a href="#Execution_Model">Execution Models</a>.<br>
+Indicates the work-group size in the <em>x</em>, <em>y</em>, and <em>z</em> dimensions. Only valid with the <strong>GLCompute</strong>, <strong>MeshNV</strong>, <strong>TaskNV</strong> or <strong>Kernel</strong> <a href="#Execution_Model">Execution Models</a>.<br>
 <br>
  Specified as Ids.</p></td>
 <td class="tableblock halign-center valign-top" ><p class="tableblock"><a href="#Unified">Missing before</a> <strong>version 1.2</strong>.</p></td>
@@ -1749,6 +1754,12 @@ width:100%;
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Daniel Koch</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Internal revisions</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2018-10-04</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Sahil Parmar</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Add support for LocalSize and LocalSizeId in TaskNV shaders</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1757,7 +1768,7 @@ width:100%;
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-09-14 10:19:52 MDT
+Last updated 2018-10-08 20:45:55 MDT
 </div>
 </div>
 </body>
