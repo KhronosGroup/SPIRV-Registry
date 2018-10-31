@@ -1,10 +1,10 @@
-SPV_NVX_raytracing
+SPV_NV_ray_tracing
 ==================
 
 Name Strings
 ------------
 
-SPV_NVX_raytracing
+SPV_NV_ray_tracing
 
 Contact
 -------
@@ -29,8 +29,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2018-09-12
-| Revision           | 1
+| Last Modified Date | 2018-10-19
+| Revision           | 2
 |========================================
 
 Dependencies
@@ -45,7 +45,7 @@ Overview
 --------
 
 This extension adds new functionality to support the Vulkan
-VK_NVX_raytracing extensions in SPIR-V.
+VK_NV_ray_tracing extension in SPIR-V.
 
 Extension Name
 --------------
@@ -54,7 +54,7 @@ To use this extension within a SPIR-V module, the following
 *OpExtension* must be present in the module:
 
 ----
-OpExtension "SPV_NVX_raytracing"
+OpExtension "SPV_NV_ray_tracing"
 ----
 
 New Execution Models
@@ -63,15 +63,15 @@ New Execution Models
 This extension introduces new execution models:
 
 ----
-RayGenerationNVX
-IntersectionNVX
-AnyHitNVX
-ClosestHitNVX
-MissNVX
-CallableNVX
+RayGenerationNV
+IntersectionNV
+AnyHitNV
+ClosestHitNV
+MissNV
+CallableNV
 ----
 
-these depend on the *RaytracingNVX* capability.
+these depend on the *RayTracingNV* capability.
 
 
 New Capabilities
@@ -80,53 +80,57 @@ New Capabilities
 This extension introduces new capabilities:
 
 ----
-RaytracingNVX
+RayTracingNV
 ----
 
 New Storage Classes
 -------------------
 
-Storage classes added under the *RaytracingNVX* capability
+Storage classes added under the *RayTracingNV* capability
 
 ----
-RayPayloadNVX
-IncomingRayPayloadNVX
-HitAttributeNVX
-ShaderRecordBufferNVX
+RayPayloadNV
+IncomingRayPayloadNV
+HitAttributeNV
+CallableDataNV
+IncomingCallableDataNV
+ShaderRecordBufferNV
 ----
 
 New Builtins
 ------------
 
-Builtins added under the *RaytracingNVX* capability
+Builtins added under the *RayTracingNV* capability
 
 ----
-LaunchIdNVX
-LaunchSizeNVX
-InstanceCustomIndexNVX
-WorldRayOriginNVX
-WorldRayDirectionNVX
-ObjectRayOriginNVX
-ObjectRayDirectionNVX
-RayTminNVX
-RayTmaxNVX
-ObjectToWorldNVX
-WorldToObjectNVX
-HitTNVX
-HitKindNVX
+LaunchIdNV
+LaunchSizeNV
+InstanceCustomIndexNV
+WorldRayOriginNV
+WorldRayDirectionNV
+ObjectRayOriginNV
+ObjectRayDirectionNV
+RayTminNV
+RayTmaxNV
+ObjectToWorldNV
+WorldToObjectNV
+HitTNV
+HitKindNV
+IncomingRayFlagsNV
 ----
 
 New Instructions
 ----------------
 
-Instructions added under the *RaytracingNVX* capability
+Instructions added under the *RayTracingNV* capability
 
 ----
-OpReportIntersectionNVX
-OpIgnoreIntersectionNVX
-OpTerminateRayNVX
-OpTraceNVX
-OpTypeAccelerationStructureNVX
+OpReportIntersectionNV
+OpIgnoreIntersectionNV
+OpTerminateRayNV
+OpTraceNV
+OpTypeAccelerationStructureNV
+OpExecuteCallableNV
 ----
 
 Modifications to the SPIR-V Specification, Version 1.1
@@ -134,7 +138,7 @@ Modifications to the SPIR-V Specification, Version 1.1
 
 (Modify Section 2.2.2, Types ) ::
 +
-add *OpTypeAccelerationStructureNVX* to list of opaque types
+add *OpTypeAccelerationStructureNV* to list of opaque types
 
 
 
@@ -144,25 +148,24 @@ add *OpTypeAccelerationStructureNVX* to list of opaque types
 [cols="1^,12,15",options="header",width = "80%"]
 |====
 2+^.^| Execution Model | Enabling Capabilities
-| 5313 | *RayGenerationNVX* +
+| 5313 | *RayGenerationNV* +
 Ray generation shading stage.
-| *RaytracingNVX*
-| 5314 | *IntersectionNVX*  +
+| *RayTracingNV*
+| 5314 | *IntersectionNV*  +
 Intersection shading stage.
-| *RaytracingNVX*
-| 5315 | *AnyHitNVX* +
+| *RayTracingNV*
+| 5315 | *AnyHitNV* +
 Any hit shading stage.
-| *RaytracingNVX*
-| 5316 | *ClosestHitNVX* +
+| *RayTracingNV*
+| 5316 | *ClosestHitNV* +
 Closest hit shading stage.
-| *RaytracingNVX*
-| 5317 | *MissNVX* +
+| *RayTracingNV*
+| 5317 | *MissNV* +
 Miss shading stage.
-| *RaytracingNVX*
-| 5318 | *CallableNVX* +
+| *RayTracingNV*
+| 5318 | *CallableNV* +
 Ray callable shading stage. +
-Currently unimplemented.
-| *RaytracingNVX*
+| *RayTracingNV*
 |====
 --
 
@@ -172,32 +175,44 @@ Currently unimplemented.
 [cols="1^,10,2*2",options="header",width = "100%"]
 |====
 2+^.^| Storage Class | <<Capability,Enabling Capabilities>> | Enabled by Extension
-| 5338 | *RayPayloadNVX* +
+| 5328 | *CallableDataNV* +
+Used for storing arbitrary data associated with a ray to pass to callables.
+Visible across all functions in the current invocation. Not shared externally. Variables declared
+with this storage class can be both read and written to. Only allowed in *RayGenerationNV*,
+*ClosestHitNV*, *CallableNV*, and *MissNV* execution models.
+| *RayTracingNV* | SPV_NV_ray_tracing
+| 5329 | *IncomingCallableDataNV* +
+Used for storing arbitrary data from parent sent to current callable stage invoked from
+an executeCallable call. Visible across all functions in current invocation. Not shared externally.
+Variables declared with the storage class are allowed only in *CallableNV* execution models.
+Can be both read and written to in above execution models.
+| *RayTracingNV* | SPV_NV_ray_tracing
+| 5338 | *RayPayloadNV* +
 Used for storing payload data associated with a ray. Visible across all functions in
 the current invocation. Not shared externally. Variables declared
-with this storage class can be both read and written to. Only allowed in *RayGenerationNVX*
-,*AnyHitNVX*, *ClosestHitNVX* and *MissNVX* execution models.
-| *RaytracingNVX* | SPV_NVX_raytracing
-| 5339 | *HitAttributeNVX* +
+with this storage class can be both read and written to. Only allowed in *RayGenerationNV*,
+*AnyHitNV*, *ClosestHitNV* and *MissNV* execution models.
+| *RayTracingNV* | SPV_NV_ray_tracing
+| 5339 | *HitAttributeNV* +
 Used for storing attributes of geometry intersected by a ray. Visible across all
 functions in the current invocation. Not shared externally. Variables declared with this
-storage class are allowed only in *IntersectionNVX*, *AnyHitNVX* and *ClosestHitNVX* execution models.
-They can be written to only in *IntersectionNVX* execution model and read from only
-in *AnyHitNVX* and *ClosestHitNVX* execution models.
-| *RaytracingNVX* | SPV_NVX_raytracing
-| 5342 | *IncomingRayPayloadNVX* +
+storage class are allowed only in *IntersectionNV*, *AnyHitNV* and *ClosestHitNV* execution models.
+They can be written to only in *IntersectionNV* execution model and read from only
+in *AnyHitNV* and *ClosestHitNV* execution models.
+| *RayTracingNV* | SPV_NV_ray_tracing
+| 5342 | *IncomingRayPayloadNV* +
 Used for storing parent payload data associated with a ray in current stage invoked from
 a trace call. Visible across all functions in current invocation. Not shared externally.
-Variables declared with the storage class are allowed only in *AnyHitNVX*, *ClosestHitNVX* and
-*MissNVX* execution models. Can be both read and written to in above execution models.
-| *RaytracingNVX* | SPV_NVX_raytracing
-| 5343 | *ShaderRecordBufferNVX* +
-Used for storing data in shader record associated with each unique shader in raytracing
+Variables declared with the storage class are allowed only in *AnyHitNV*, *ClosestHitNV* and
+*MissNV* execution models. Can be both read and written to in above execution models.
+| *RayTracingNV* | SPV_NV_ray_tracing
+| 5343 | *ShaderRecordBufferNV* +
+Used for storing data in shader record associated with each unique shader in ray_tracing
 pipeline. Visible across all functions in current invocation. Can be initialized externally via API.
-Variables declared with this storage class are allowed in *RayGenerationNVX*, *IntersectionNVX*,
-*AnyHitNVX*, *ClosestHitNVX*, *MissNVX* and *CallableNVX* execution models and can be both read and written to
-but cannot have initializers. Refer to raytracing chapter of Vulkan API specification for details on shader records.
-| *RaytracingNVX* | SPV_NVX_raytracing
+Variables declared with this storage class are allowed in *RayGenerationNV*, *IntersectionNV*,
+*AnyHitNV*, *ClosestHitNV*, *MissNV* and *CallableNV* execution models and can be both read and written to
+but cannot have initializers. Refer to the Ray Tracing chapter of Vulkan API specification for details on shader records.
+| *RayTracingNV* | SPV_NV_ray_tracing
 |====
 --
 
@@ -207,89 +222,95 @@ but cannot have initializers. Refer to raytracing chapter of Vulkan API specific
 [cols="1^,10,6^,2*2",options="header",width = "100%"]
 |====
 2+^.^| Decoration | <<Capability,Enabling Capabilities>> 2+<.^| Extra Operands
-| 5319 | *LaunchIdNVX* +
+| 5319 | *LaunchIdNV* +
 Index of work item being processed in current invocation of ray tracing shader stage.
 Allowed in all ray tracing execution models.
 
-Refer to raytracing chapter of Vulkan API specification for more details.
-|*RaytracingNVX* 2+|
-| 5320 | *LaunchSizeNVX* +
-Width and height dimensions passed to vkCmdTraceRaysNVX call which resulted in invocation of
+Refer to the Ray Tracing chapter of Vulkan API specification for more details.
+|*RayTracingNV* 2+|
+| 5320 | *LaunchSizeNV* +
+Width and height dimensions passed to vkCmdTraceRaysNV call which resulted in invocation of
 current ray tracing shader stage. Allowed in all ray tracing execution models.
 
-Refer to raytracing chapter of Vulkan API specification for more details.
-|*RaytracingNVX* 2+|
-| 5321 | *WorldRayOriginNVX* +
-World-space origin coordinates for the ray being traced in the *IntersectionNVX*,
-*AnyHitNVX*, *ClosestHitNVX*, or *MissNVX* execution models.
+Refer to the Ray Tracing chapter of Vulkan API specification for more details.
+|*RayTracingNV* 2+|
+| 5321 | *WorldRayOriginNV* +
+World-space origin coordinates for the ray being traced in the *IntersectionNV*,
+*AnyHitNV*, *ClosestHitNV*, or *MissNV* execution models.
 
-Refer to raytracing chapter of Vulkan API specification for more details.
-|*RaytracingNVX* 2+|
-| 5322 | *WorldRayDirectionNVX* +
-World-space direction for the ray being traced in the *IntersectionNVX*,
-*AnyHitNVX*, *ClosestHitNVX*, or *MissNVX* execution models.
+Refer to the Ray Tracing chapter of Vulkan API specification for more details.
+|*RayTracingNV* 2+|
+| 5322 | *WorldRayDirectionNV* +
+World-space direction for the ray being traced in the *IntersectionNV*,
+*AnyHitNV*, *ClosestHitNV*, or *MissNV* execution models.
 
-Refer to raytracing chapter of Vulkan API specification for more details.
-|*RaytracingNVX* 2+|
-| 5323 | *ObjectRayOriginNVX* +
-Object-space origin coordinates for the ray being traced in the *IntersectionNVX*,
-*AnyHitNVX*, *ClosestHitNVX*, or *MissNVX* execution models.
+Refer to the Ray Tracing chapter of Vulkan API specification for more details.
+|*RayTracingNV* 2+|
+| 5323 | *ObjectRayOriginNV* +
+Object-space origin coordinates for the ray being traced in the *IntersectionNV*,
+*AnyHitNV*, *ClosestHitNV*, or *MissNV* execution models.
 
-Refer to raytracing chapter of Vulkan API specification for more details.
-|*RaytracingNVX* 2+|
-| 5324 | *ObjectRayDirectionNVX* +
-Object-space direction for the ray being traced in the *IntersectionNVX*,
-*AnyHitNVX*, *ClosestHitNVX*, or *MissNVX* execution models.
+Refer to the Ray Tracing chapter of Vulkan API specification for more details.
+|*RayTracingNV* 2+|
+| 5324 | *ObjectRayDirectionNV* +
+Object-space direction for the ray being traced in the *IntersectionNV*,
+*AnyHitNV*, *ClosestHitNV*, or *MissNV* execution models.
 
-Refer to raytracing chapter of Vulkan API specification for more details.
-|*RaytracingNVX* 2+|
-| 5325 | *RayTminNVX* +
-The current *Tmin* parametric value for the ray being traced in the *IntersectionNVX*,
-*AnyHitNVX*, *ClosestHitNVX*, or *MissNVX* execution models.
+Refer to the Ray Tracing chapter of Vulkan API specification for more details.
+|*RayTracingNV* 2+|
+| 5325 | *RayTminNV* +
+The current *Tmin* parametric value for the ray being traced in the *IntersectionNV*,
+*AnyHitNV*, *ClosestHitNV*, or *MissNV* execution models.
 
-Refer to raytracing chapter of Vulkan API specification for more details.
-|*RaytracingNVX* 2+|
-| 5326 | *RayTmaxNVX* +
-The current *Tmax* parametric value for the ray being traced in the *IntersectionNVX*,
-*AnyHitNVX*, *ClosestHitNVX*, or *MissNVX* execution models.
+Refer to the Ray Tracing chapter of Vulkan API specification for more details.
+|*RayTracingNV* 2+|
+| 5326 | *RayTmaxNV* +
+The current *Tmax* parametric value for the ray being traced in the *IntersectionNV*,
+*AnyHitNV*, *ClosestHitNV*, or *MissNV* execution models.
 
-Refer to raytracing chapter of Vulkan API specification for more details.
-|*RaytracingNVX* 2+|
-| 5327 | *InstanceCustomIndexNVX* +
-Application specified value associated with the instance that was hit by the current ray in the *IntersectionNVX*,
-*AnyHitNVX*, *ClosestHitNVX* execution models.
+Refer to the Ray Tracing chapter of Vulkan API specification for more details.
+|*RayTracingNV* 2+|
+| 5327 | *InstanceCustomIndexNV* +
+Application specified value associated with the instance that was hit by the current ray in the *IntersectionNV*,
+*AnyHitNV*, *ClosestHitNV* execution models.
 
-Refer to raytracing chapter of Vulkan API specification for more details.
-|*RaytracingNVX* 2+|
-| 5330 | *ObjectToWorldNVX* +
-The _4x3_ object to world transformation matrix for the ray being traced in the *IntersectionNVX*,
-*AnyHitNV*, or *ClosestHitNVX* execution models.
+Refer to the Ray Tracing chapter of Vulkan API specification for more details.
+|*RayTracingNV* 2+|
+| 5330 | *ObjectToWorldNV* +
+The _4x3_ object to world transformation matrix for the ray being traced in the *IntersectionNV*,
+*AnyHitNV*, or *ClosestHitNV* execution models.
 
-Refer to raytracing chapter of Vulkan API specification for more details.
-|*RaytracingNVX* 2+|
-| 5331 | *WorldToObjectNVX* +
-The _4x3_ world to object transformation matrix for the ray being traced in the *IntersectionNVX*,
-*AnyHitNV*, or *ClosestHitNVX* execution models.
+Refer to the Ray Tracing chapter of Vulkan API specification for more details.
+|*RayTracingNV* 2+|
+| 5331 | *WorldToObjectNV* +
+The _4x3_ world to object transformation matrix for the ray being traced in the *IntersectionNV*,
+*AnyHitNV*, or *ClosestHitNV* execution models.
 
-Refer to raytracing chapter of Vulkan API specification for more details.
-|*RaytracingNVX* 2+|
-| 5332 | *HitTNVX* +
-The parametric value *T* for the ray resulting in a hit for the ray being traced in the *AnyHitNVX* or
-*ClosestHitNVX* execution models. This is an alias for RayTMaxNVX for convenience.
+Refer to the Ray Tracing chapter of Vulkan API specification for more details.
+|*RayTracingNV* 2+|
+| 5332 | *HitTNV* +
+The parametric value *T* for the ray resulting in a hit for the ray being traced in the *AnyHitNV* or
+*ClosestHitNV* execution models. This is an alias for RayTMaxNV for convenience.
 
-Refer to raytracing chapter of Vulkan API specification for more details.
-|*RaytracingNVX* 2+|
-| 5333 | *HitKindNVX* +
-The hit kind of the hit for the ray being traced in the *AnyHitNVX* or
-*ClosestHitNVX* execution models.
+Refer to the Ray Tracing chapter of Vulkan API specification for more details.
+|*RayTracingNV* 2+|
+| 5333 | *HitKindNV* +
+The hit kind of the hit for the ray being traced in the *AnyHitNV* or
+*ClosestHitNV* execution models.
 
-Refer to raytracing chapter of Vulkan API specification for more details.
-|*RaytracingNVX* 2+|
+Refer to the Ray Tracing chapter of Vulkan API specification for more details.
+|*RayTracingNV* 2+|
+| 5351 | *IncomingRayFlagsNV* +
+The ray flags in current stage as passed in through trace call in parent. Available in *AnyHitNV*,
+*ClosestHitNV*, *IntersectionNV*, *MissNV*, and *CallableNV* stage
+
+Refer to the Ray Tracing chapter of Vulkan API specification for more details.
+|*RayTracingNV* 2+|
 
 |====
 --
 
-(Modify the definition of following BuiltIns, allowing them to be used in *IntersectionNVX*, *AnyHitNVX*, or *ClosestHitNVX* Execution Models.)::
+(Modify the definition of following BuiltIns, allowing them to be used in *IntersectionNV*, *AnyHitNV*, or *ClosestHitNV* Execution Models.)::
 +
 --
 [cols="1^.^,10,4^,10^",options="header",width = "100%"]
@@ -299,14 +320,14 @@ Refer to raytracing chapter of Vulkan API specification for more details.
 Primitive identifier. See Vulkan or OpenGL API specifications for more detail. | |
 | Primitive ID in a *Geometry* Execution Model | *Geometry* |
 | Primitive ID in a *Tessellation* Execution Model | *Tessellation* |
-| Primitive ID in an *IntersectionNVX*, *AnyHitNVX*, or *ClosestHitNVX* Execution Model
-| *RaytracingNVX*
-| *SPV_NVX_ray_tracing*
+| Primitive ID in an *IntersectionNV*, *AnyHitNV*, or *ClosestHitNV* Execution Model
+| *RayTracingNV*
+| *SPV_NV_ray_tracing*
 .2+| 43 | *InstanceIndex* +
 Instance index. See Vulkan or OpenGL API specifications for more detail. | *Shader* |
-| Instance index in an *IntersectionNVX*, *AnyHitNVX*, or *ClosestHitNVX* Execution Model
-| *RaytracingNVX*
-| *SPV_NVX_ray_tracing*
+| Instance index in an *IntersectionNV*, *AnyHitNV*, or *ClosestHitNV* Execution Model
+| *RayTracingNV*
+| *SPV_NV_ray_tracing*
 |====
 
 --
@@ -318,10 +339,10 @@ Instance index. See Vulkan or OpenGL API specifications for more detail. | *Shad
 [cols="1^.^,25,8^,15",options="header",width = "100%"]
 |====
 2+^.^| Capability | Depends On | Enabled by Extension
-| 5340 | *RaytracingNVX* +
-Uses the *RayGenerationNVX*, *IntersectionNVX*, *AnyHitNVX*, *ClosestHitNVX*,
-*MissNVX*, or *CallableNVX* Execution Models
-|  | *SPV_NVX_raytracing*
+| 5340 | *RayTracingNV* +
+Uses the *RayGenerationNV*, *IntersectionNV*, *AnyHitNV*, *ClosestHitNV*,
+*MissNV*, or *CallableNV* Execution Models
+|  | *SPV_NV_ray_tracing*
 |====
 --
 
@@ -330,40 +351,40 @@ Uses the *RayGenerationNVX*, *IntersectionNVX*, *AnyHitNVX*, *ClosestHitNVX*,
 --
 [cols="5,1,1*3",width="100%"]
 |=====
-2+|[[OpTypeAccelerationStructureNVX]]*OpTypeAccelerationStructureNVX* +
+2+|[[OpTypeAccelerationStructureNV]]*OpTypeAccelerationStructureNV* +
  +
 Declares an acceleration structure type which is an opaque reference to
-acceleration structure handle as defined in raytracing chapter of Vulkan API
+acceleration structure handle as defined in the Ray Tracing chapter of Vulkan API
 specification.
 
-Consumed by *OpTraceNVX*
+Consumed by *OpTraceNV*
 
 This type is opaque: values of this type have no defined physical size or
 bit pattern.
 
 1+|Capability: +
-*RaytracingNVX*
+*RayTracingNV*
 | 2 | 5341 | '<id>' 'Result'
 |=====
 --
 
-(Add a new sub section 3.32.24, Raytracing Instructions, adding to end of list of instructions) ::
+(Add a new sub section 3.32.24, Ray Tracing Instructions, adding to end of list of instructions) ::
 +
 --
 [cols="1,1,11*3"]
 |======
-12+|[[OpTraceNVX]]*OpTraceNVX* +
+12+|[[OpTraceNV]]*OpTraceNV* +
  +
  Trace a ray into the acceleration structure. +
  +
  'Acceleration Structure' is the descriptor for the acceleration structure to trace into. +
  +
- 'Ray Flags' controls the properties for the trace. See raytracing chapter of Vulkan API specification for more details. +
+ 'Ray Flags' controls the properties for the trace. See the Ray Tracing chapter of Vulkan API specification for more details. +
  +
  'Cull Mask' is the 8-bit mask for test against the instance mask. +
  +
  'SBT Offset' and 'SBT Stride' control indexing into the SBT for hit shaders called from this trace.
- 'SBT' stands for Shader Binding Table. Refer to raytracing chapter of Vulkan API specification for details. +
+ 'SBT' stands for Shader Binding Table. Refer to the Ray Tracing chapter of Vulkan API specification for details. +
  +
  'Miss Index' is the index of the miss shader to be called from this trace call. +
  +
@@ -377,10 +398,10 @@ bit pattern.
  +
  'Ray Tmin' and 'Ray Tmax' must be a 32-bit 'float type' scalar. +
  +
- This instruction is allowed only in *RayGenerationNVX*, *ClosestHitNVX* and *MissNVX* execution models. +
+ This instruction is allowed only in *RayGenerationNV*, *ClosestHitNV* and *MissNV* execution models. +
  +
 1+|Capability: +
-*RaytracingNVX*
+*RayTracingNV*
 | 12 | 5337
 | '<id> Acceleration Structure'
 | '<id> Ray Flags'
@@ -397,7 +418,7 @@ bit pattern.
 
 [cols="1,1,4*3",width="100%"]
 |=====
-5+|[[OpReportIntersectionNVX]]*OpReportIntersectionNVX* +
+5+|[[OpReportIntersectionNV]]*OpReportIntersectionNV* +
  +
 Reports an intersection back to the traversal infrastructure.
 
@@ -411,37 +432,54 @@ Reports an intersection back to the traversal infrastructure.
 
 'Hit Kind' must be a 32-bit 'unsigned integer type' scalar.
 
-This instruction is allowed only in *IntersectionNVX* execution model.
+This instruction is allowed only in *IntersectionNV* execution model.
 
 1+|Capability: +
-*RaytracingNVX*
+*RayTracingNV*
 | 5 | 5334 | '<id>' 'Result Type' | '<id>' 'Result' |  '<id>' 'Hit' | '<id>' 'Hit Kind'
 |=====
 
 [cols="1,1,0*3",width="100%"]
 |=====
-1+|[[OpIgnoreIntersectionNVX]]*OpIgnoreIntersectionNVX* +
+1+|[[OpIgnoreIntersectionNV]]*OpIgnoreIntersectionNV* +
  +
 Ignores the current potential intersection.
 
-This instruction is allowed only in *AnyHitNVX* execution model.
+This instruction is allowed only in *AnyHitNV* execution model.
 
 1+|Capability: +
-*RaytracingNVX*
+*RayTracingNV*
 | 1 | 5335
 |=====
 
 [cols="1,1,0*3",width="100%"]
 |=====
-1+|[[OpTerminateRayNVX]]*OpTerminateRayNVX* +
+1+|[[OpTerminateRayNV]]*OpTerminateRayNV* +
  +
 Terminates further traversal of a ray.
 
-This instruction is allowed only in *AnyHitNVX* execution model.
+This instruction is allowed only in *AnyHitNV* execution model.
 
 1+|Capability: +
-*RaytracingNVX*
+*RayTracingNV*
 | 1 | 5336
+|=====
+
+[cols="1,1,2*2",width="100%"]
+|=====
+3+|[[OpExecuteCallableNV]]*OpExecuteCallableNV* +
+ +
+Invoke a callable shader
+
+'SBT Index' is the index into the SBT table to select callable shader to execute
+
+'Callable Data Number' matches the declared location of the callable data to pass into through this call
+
+This instruction is allowed only in *RayGenerationNV*, *ClosestHitNV*, *MissNV* and *CallableNV* execution models.
+
+1+|Capability: +
+*RayTracingNV*
+| 3 | 5344 | '<id>' 'SBT Index' | '<id>' 'Callable Data Number'
 |=====
 --
 
@@ -453,7 +491,7 @@ An OpExtension must be added to the SPIR-V for validation layers to check
 legal use of this extension:
 
 ----
-OpExtension "SPV_NVX_raytracing"
+OpExtension "SPV_NV_ray_tracing"
 ----
 
 Issues
@@ -470,5 +508,7 @@ Revision History
 |========================================
 |Rev|Date|Author|Changes
 |1 |2018-09-12 |Eric Werness|*Internal revisions*
+|2 |2018-10-19 |Ashwin Lele | Rename from NVX_raytracing to NV_ray_tracing.
+                              Add IncomingRayFlagsNV, CallableDataNV, IncomingCallableDataNV, OpExecuteCallableNV
 |========================================
 

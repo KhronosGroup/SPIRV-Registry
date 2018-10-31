@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="generator" content="AsciiDoc 8.6.9">
-<title>SPV_NVX_raytracing</title>
+<title>SPV_NV_ray_tracing</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
 
@@ -766,7 +766,7 @@ asciidoc.install(1);
 </head>
 <body class="article">
 <div id="header">
-<h1>SPV_NVX_raytracing</h1>
+<h1>SPV_NV_ray_tracing</h1>
 <div id="toc">
   <div id="toctitle">Table of Contents</div>
   <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
@@ -776,7 +776,7 @@ asciidoc.install(1);
 <div class="sect1">
 <h2 id="_name_strings">Name Strings</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>SPV_NVX_raytracing</p></div>
+<div class="paragraph"><p>SPV_NV_ray_tracing</p></div>
 </div>
 </div>
 <div class="sect1">
@@ -832,11 +832,11 @@ width:40%;
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2018-09-12</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2018-10-19</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
 </tr>
 </tbody>
 </table>
@@ -854,7 +854,7 @@ Version 1.1 Revision 4.</p></div>
 <h2 id="_overview">Overview</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>This extension adds new functionality to support the Vulkan
-VK_NVX_raytracing extensions in SPIR-V.</p></div>
+VK_NV_ray_tracing extension in SPIR-V.</p></div>
 </div>
 </div>
 <div class="sect1">
@@ -864,7 +864,7 @@ VK_NVX_raytracing extensions in SPIR-V.</p></div>
 <strong>OpExtension</strong> must be present in the module:</p></div>
 <div class="listingblock">
 <div class="content monospaced">
-<pre>OpExtension "SPV_NVX_raytracing"</pre>
+<pre>OpExtension "SPV_NV_ray_tracing"</pre>
 </div></div>
 </div>
 </div>
@@ -874,14 +874,14 @@ VK_NVX_raytracing extensions in SPIR-V.</p></div>
 <div class="paragraph"><p>This extension introduces new execution models:</p></div>
 <div class="listingblock">
 <div class="content monospaced">
-<pre>RayGenerationNVX
-IntersectionNVX
-AnyHitNVX
-ClosestHitNVX
-MissNVX
-CallableNVX</pre>
+<pre>RayGenerationNV
+IntersectionNV
+AnyHitNV
+ClosestHitNV
+MissNV
+CallableNV</pre>
 </div></div>
-<div class="paragraph"><p>these depend on the <strong>RaytracingNVX</strong> capability.</p></div>
+<div class="paragraph"><p>these depend on the <strong>RayTracingNV</strong> capability.</p></div>
 </div>
 </div>
 <div class="sect1">
@@ -890,56 +890,60 @@ CallableNVX</pre>
 <div class="paragraph"><p>This extension introduces new capabilities:</p></div>
 <div class="listingblock">
 <div class="content monospaced">
-<pre>RaytracingNVX</pre>
+<pre>RayTracingNV</pre>
 </div></div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_new_storage_classes">New Storage Classes</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Storage classes added under the <strong>RaytracingNVX</strong> capability</p></div>
+<div class="paragraph"><p>Storage classes added under the <strong>RayTracingNV</strong> capability</p></div>
 <div class="listingblock">
 <div class="content monospaced">
-<pre>RayPayloadNVX
-IncomingRayPayloadNVX
-HitAttributeNVX
-ShaderRecordBufferNVX</pre>
+<pre>RayPayloadNV
+IncomingRayPayloadNV
+HitAttributeNV
+CallableDataNV
+IncomingCallableDataNV
+ShaderRecordBufferNV</pre>
 </div></div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_new_builtins">New Builtins</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Builtins added under the <strong>RaytracingNVX</strong> capability</p></div>
+<div class="paragraph"><p>Builtins added under the <strong>RayTracingNV</strong> capability</p></div>
 <div class="listingblock">
 <div class="content monospaced">
-<pre>LaunchIdNVX
-LaunchSizeNVX
-InstanceCustomIndexNVX
-WorldRayOriginNVX
-WorldRayDirectionNVX
-ObjectRayOriginNVX
-ObjectRayDirectionNVX
-RayTminNVX
-RayTmaxNVX
-ObjectToWorldNVX
-WorldToObjectNVX
-HitTNVX
-HitKindNVX</pre>
+<pre>LaunchIdNV
+LaunchSizeNV
+InstanceCustomIndexNV
+WorldRayOriginNV
+WorldRayDirectionNV
+ObjectRayOriginNV
+ObjectRayDirectionNV
+RayTminNV
+RayTmaxNV
+ObjectToWorldNV
+WorldToObjectNV
+HitTNV
+HitKindNV
+IncomingRayFlagsNV</pre>
 </div></div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_new_instructions">New Instructions</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Instructions added under the <strong>RaytracingNVX</strong> capability</p></div>
+<div class="paragraph"><p>Instructions added under the <strong>RayTracingNV</strong> capability</p></div>
 <div class="listingblock">
 <div class="content monospaced">
-<pre>OpReportIntersectionNVX
-OpIgnoreIntersectionNVX
-OpTerminateRayNVX
-OpTraceNVX
-OpTypeAccelerationStructureNVX</pre>
+<pre>OpReportIntersectionNV
+OpIgnoreIntersectionNV
+OpTerminateRayNV
+OpTraceNV
+OpTypeAccelerationStructureNV
+OpExecuteCallableNV</pre>
 </div></div>
 </div>
 </div>
@@ -951,7 +955,7 @@ OpTypeAccelerationStructureNVX</pre>
 (Modify Section 2.2.2, Types ) 
 </dt>
 <dd>
-<div class="paragraph"><p>add <strong>OpTypeAccelerationStructureNVX</strong> to list of opaque types</p></div>
+<div class="paragraph"><p>add <strong>OpTypeAccelerationStructureNV</strong> to list of opaque types</p></div>
 </dd>
 <dt class="hdlist1">
 (Modify Section 3.3, Execution Model, adding rows to the Execution Model table) 
@@ -975,40 +979,39 @@ width:80%;
 <tbody>
 <tr>
 <td class="tableblock halign-center valign-top" ><p class="tableblock">5313</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayGenerationNVX</strong><br>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayGenerationNV</strong><br>
 Ray generation shading stage.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTracingNV</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top" ><p class="tableblock">5314</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>IntersectionNVX</strong> <br>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>IntersectionNV</strong> <br>
 Intersection shading stage.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTracingNV</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top" ><p class="tableblock">5315</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>AnyHitNVX</strong><br>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>AnyHitNV</strong><br>
 Any hit shading stage.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTracingNV</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top" ><p class="tableblock">5316</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>ClosestHitNVX</strong><br>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>ClosestHitNV</strong><br>
 Closest hit shading stage.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTracingNV</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top" ><p class="tableblock">5317</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>MissNVX</strong><br>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>MissNV</strong><br>
 Miss shading stage.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTracingNV</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top" ><p class="tableblock">5318</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>CallableNVX</strong><br>
-Ray callable shading stage.<br>
-Currently unimplemented.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>CallableNV</strong><br>
+Ray callable shading stage.<br></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTracingNV</strong></p></td>
 </tr>
 </tbody>
 </table>
@@ -1037,46 +1040,66 @@ width:100%;
 </thead>
 <tbody>
 <tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">5328</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>CallableDataNV</strong><br>
+Used for storing arbitrary data associated with a ray to pass to callables.
+Visible across all functions in the current invocation. Not shared externally. Variables declared
+with this storage class can be both read and written to. Only allowed in <strong>RayGenerationNV</strong>,
+<strong>ClosestHitNV</strong>, <strong>CallableNV</strong>, and <strong>MissNV</strong> execution models.</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTracingNV</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">SPV_NV_ray_tracing</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">5329</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>IncomingCallableDataNV</strong><br>
+Used for storing arbitrary data from parent sent to current callable stage invoked from
+an executeCallable call. Visible across all functions in current invocation. Not shared externally.
+Variables declared with the storage class are allowed only in <strong>CallableNV</strong> execution models.
+Can be both read and written to in above execution models.</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTracingNV</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">SPV_NV_ray_tracing</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-center valign-top" ><p class="tableblock">5338</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayPayloadNVX</strong><br>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayPayloadNV</strong><br>
 Used for storing payload data associated with a ray. Visible across all functions in
 the current invocation. Not shared externally. Variables declared
-with this storage class can be both read and written to. Only allowed in <strong>RayGenerationNVX</strong>
-,<strong>AnyHitNVX</strong>, <strong>ClosestHitNVX</strong> and <strong>MissNVX</strong> execution models.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">SPV_NVX_raytracing</p></td>
+with this storage class can be both read and written to. Only allowed in <strong>RayGenerationNV</strong>,
+<strong>AnyHitNV</strong>, <strong>ClosestHitNV</strong> and <strong>MissNV</strong> execution models.</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTracingNV</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">SPV_NV_ray_tracing</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top" ><p class="tableblock">5339</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>HitAttributeNVX</strong><br>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>HitAttributeNV</strong><br>
 Used for storing attributes of geometry intersected by a ray. Visible across all
 functions in the current invocation. Not shared externally. Variables declared with this
-storage class are allowed only in <strong>IntersectionNVX</strong>, <strong>AnyHitNVX</strong> and <strong>ClosestHitNVX</strong> execution models.
-They can be written to only in <strong>IntersectionNVX</strong> execution model and read from only
-in <strong>AnyHitNVX</strong> and <strong>ClosestHitNVX</strong> execution models.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">SPV_NVX_raytracing</p></td>
+storage class are allowed only in <strong>IntersectionNV</strong>, <strong>AnyHitNV</strong> and <strong>ClosestHitNV</strong> execution models.
+They can be written to only in <strong>IntersectionNV</strong> execution model and read from only
+in <strong>AnyHitNV</strong> and <strong>ClosestHitNV</strong> execution models.</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTracingNV</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">SPV_NV_ray_tracing</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top" ><p class="tableblock">5342</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>IncomingRayPayloadNVX</strong><br>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>IncomingRayPayloadNV</strong><br>
 Used for storing parent payload data associated with a ray in current stage invoked from
 a trace call. Visible across all functions in current invocation. Not shared externally.
-Variables declared with the storage class are allowed only in <strong>AnyHitNVX</strong>, <strong>ClosestHitNVX</strong> and
-<strong>MissNVX</strong> execution models. Can be both read and written to in above execution models.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">SPV_NVX_raytracing</p></td>
+Variables declared with the storage class are allowed only in <strong>AnyHitNV</strong>, <strong>ClosestHitNV</strong> and
+<strong>MissNV</strong> execution models. Can be both read and written to in above execution models.</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTracingNV</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">SPV_NV_ray_tracing</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top" ><p class="tableblock">5343</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>ShaderRecordBufferNVX</strong><br>
-Used for storing data in shader record associated with each unique shader in raytracing
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>ShaderRecordBufferNV</strong><br>
+Used for storing data in shader record associated with each unique shader in ray_tracing
 pipeline. Visible across all functions in current invocation. Can be initialized externally via API.
-Variables declared with this storage class are allowed in <strong>RayGenerationNVX</strong>, <strong>IntersectionNVX</strong>,
-<strong>AnyHitNVX</strong>, <strong>ClosestHitNVX</strong>, <strong>MissNVX</strong> and <strong>CallableNVX</strong> execution models and can be both read and written to
-but cannot have initializers. Refer to raytracing chapter of Vulkan API specification for details on shader records.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">SPV_NVX_raytracing</p></td>
+Variables declared with this storage class are allowed in <strong>RayGenerationNV</strong>, <strong>IntersectionNV</strong>,
+<strong>AnyHitNV</strong>, <strong>ClosestHitNV</strong>, <strong>MissNV</strong> and <strong>CallableNV</strong> execution models and can be both read and written to
+but cannot have initializers. Refer to the Ray Tracing chapter of Vulkan API specification for details on shader records.</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTracingNV</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">SPV_NV_ray_tracing</p></td>
 </tr>
 </tbody>
 </table>
@@ -1107,119 +1130,128 @@ width:100%;
 <tbody>
 <tr>
 <td class="tableblock halign-center valign-top" ><p class="tableblock">5319</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>LaunchIdNVX</strong><br>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>LaunchIdNV</strong><br>
 Index of work item being processed in current invocation of ray tracing shader stage.
 Allowed in all ray tracing execution models.</p>
-<p class="tableblock">Refer to raytracing chapter of Vulkan API specification for more details.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
+<p class="tableblock">Refer to the Ray Tracing chapter of Vulkan API specification for more details.</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RayTracingNV</strong></p></td>
 <td class="tableblock halign-left valign-top" colspan="2" ><p class="tableblock"></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top" ><p class="tableblock">5320</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>LaunchSizeNVX</strong><br>
-Width and height dimensions passed to vkCmdTraceRaysNVX call which resulted in invocation of
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>LaunchSizeNV</strong><br>
+Width and height dimensions passed to vkCmdTraceRaysNV call which resulted in invocation of
 current ray tracing shader stage. Allowed in all ray tracing execution models.</p>
-<p class="tableblock">Refer to raytracing chapter of Vulkan API specification for more details.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
+<p class="tableblock">Refer to the Ray Tracing chapter of Vulkan API specification for more details.</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RayTracingNV</strong></p></td>
 <td class="tableblock halign-left valign-top" colspan="2" ><p class="tableblock"></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top" ><p class="tableblock">5321</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>WorldRayOriginNVX</strong><br>
-World-space origin coordinates for the ray being traced in the <strong>IntersectionNVX</strong>,
-<strong>AnyHitNVX</strong>, <strong>ClosestHitNVX</strong>, or <strong>MissNVX</strong> execution models.</p>
-<p class="tableblock">Refer to raytracing chapter of Vulkan API specification for more details.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>WorldRayOriginNV</strong><br>
+World-space origin coordinates for the ray being traced in the <strong>IntersectionNV</strong>,
+<strong>AnyHitNV</strong>, <strong>ClosestHitNV</strong>, or <strong>MissNV</strong> execution models.</p>
+<p class="tableblock">Refer to the Ray Tracing chapter of Vulkan API specification for more details.</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RayTracingNV</strong></p></td>
 <td class="tableblock halign-left valign-top" colspan="2" ><p class="tableblock"></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top" ><p class="tableblock">5322</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>WorldRayDirectionNVX</strong><br>
-World-space direction for the ray being traced in the <strong>IntersectionNVX</strong>,
-<strong>AnyHitNVX</strong>, <strong>ClosestHitNVX</strong>, or <strong>MissNVX</strong> execution models.</p>
-<p class="tableblock">Refer to raytracing chapter of Vulkan API specification for more details.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>WorldRayDirectionNV</strong><br>
+World-space direction for the ray being traced in the <strong>IntersectionNV</strong>,
+<strong>AnyHitNV</strong>, <strong>ClosestHitNV</strong>, or <strong>MissNV</strong> execution models.</p>
+<p class="tableblock">Refer to the Ray Tracing chapter of Vulkan API specification for more details.</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RayTracingNV</strong></p></td>
 <td class="tableblock halign-left valign-top" colspan="2" ><p class="tableblock"></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top" ><p class="tableblock">5323</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>ObjectRayOriginNVX</strong><br>
-Object-space origin coordinates for the ray being traced in the <strong>IntersectionNVX</strong>,
-<strong>AnyHitNVX</strong>, <strong>ClosestHitNVX</strong>, or <strong>MissNVX</strong> execution models.</p>
-<p class="tableblock">Refer to raytracing chapter of Vulkan API specification for more details.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>ObjectRayOriginNV</strong><br>
+Object-space origin coordinates for the ray being traced in the <strong>IntersectionNV</strong>,
+<strong>AnyHitNV</strong>, <strong>ClosestHitNV</strong>, or <strong>MissNV</strong> execution models.</p>
+<p class="tableblock">Refer to the Ray Tracing chapter of Vulkan API specification for more details.</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RayTracingNV</strong></p></td>
 <td class="tableblock halign-left valign-top" colspan="2" ><p class="tableblock"></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top" ><p class="tableblock">5324</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>ObjectRayDirectionNVX</strong><br>
-Object-space direction for the ray being traced in the <strong>IntersectionNVX</strong>,
-<strong>AnyHitNVX</strong>, <strong>ClosestHitNVX</strong>, or <strong>MissNVX</strong> execution models.</p>
-<p class="tableblock">Refer to raytracing chapter of Vulkan API specification for more details.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>ObjectRayDirectionNV</strong><br>
+Object-space direction for the ray being traced in the <strong>IntersectionNV</strong>,
+<strong>AnyHitNV</strong>, <strong>ClosestHitNV</strong>, or <strong>MissNV</strong> execution models.</p>
+<p class="tableblock">Refer to the Ray Tracing chapter of Vulkan API specification for more details.</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RayTracingNV</strong></p></td>
 <td class="tableblock halign-left valign-top" colspan="2" ><p class="tableblock"></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top" ><p class="tableblock">5325</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTminNVX</strong><br>
-The current <strong>Tmin</strong> parametric value for the ray being traced in the <strong>IntersectionNVX</strong>,
-<strong>AnyHitNVX</strong>, <strong>ClosestHitNVX</strong>, or <strong>MissNVX</strong> execution models.</p>
-<p class="tableblock">Refer to raytracing chapter of Vulkan API specification for more details.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTminNV</strong><br>
+The current <strong>Tmin</strong> parametric value for the ray being traced in the <strong>IntersectionNV</strong>,
+<strong>AnyHitNV</strong>, <strong>ClosestHitNV</strong>, or <strong>MissNV</strong> execution models.</p>
+<p class="tableblock">Refer to the Ray Tracing chapter of Vulkan API specification for more details.</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RayTracingNV</strong></p></td>
 <td class="tableblock halign-left valign-top" colspan="2" ><p class="tableblock"></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top" ><p class="tableblock">5326</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTmaxNVX</strong><br>
-The current <strong>Tmax</strong> parametric value for the ray being traced in the <strong>IntersectionNVX</strong>,
-<strong>AnyHitNVX</strong>, <strong>ClosestHitNVX</strong>, or <strong>MissNVX</strong> execution models.</p>
-<p class="tableblock">Refer to raytracing chapter of Vulkan API specification for more details.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTmaxNV</strong><br>
+The current <strong>Tmax</strong> parametric value for the ray being traced in the <strong>IntersectionNV</strong>,
+<strong>AnyHitNV</strong>, <strong>ClosestHitNV</strong>, or <strong>MissNV</strong> execution models.</p>
+<p class="tableblock">Refer to the Ray Tracing chapter of Vulkan API specification for more details.</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RayTracingNV</strong></p></td>
 <td class="tableblock halign-left valign-top" colspan="2" ><p class="tableblock"></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top" ><p class="tableblock">5327</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>InstanceCustomIndexNVX</strong><br>
-Application specified value associated with the instance that was hit by the current ray in the <strong>IntersectionNVX</strong>,
-<strong>AnyHitNVX</strong>, <strong>ClosestHitNVX</strong> execution models.</p>
-<p class="tableblock">Refer to raytracing chapter of Vulkan API specification for more details.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>InstanceCustomIndexNV</strong><br>
+Application specified value associated with the instance that was hit by the current ray in the <strong>IntersectionNV</strong>,
+<strong>AnyHitNV</strong>, <strong>ClosestHitNV</strong> execution models.</p>
+<p class="tableblock">Refer to the Ray Tracing chapter of Vulkan API specification for more details.</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RayTracingNV</strong></p></td>
 <td class="tableblock halign-left valign-top" colspan="2" ><p class="tableblock"></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top" ><p class="tableblock">5330</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>ObjectToWorldNVX</strong><br>
-The <em>4x3</em> object to world transformation matrix for the ray being traced in the <strong>IntersectionNVX</strong>,
-<strong>AnyHitNV</strong>, or <strong>ClosestHitNVX</strong> execution models.</p>
-<p class="tableblock">Refer to raytracing chapter of Vulkan API specification for more details.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>ObjectToWorldNV</strong><br>
+The <em>4x3</em> object to world transformation matrix for the ray being traced in the <strong>IntersectionNV</strong>,
+<strong>AnyHitNV</strong>, or <strong>ClosestHitNV</strong> execution models.</p>
+<p class="tableblock">Refer to the Ray Tracing chapter of Vulkan API specification for more details.</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RayTracingNV</strong></p></td>
 <td class="tableblock halign-left valign-top" colspan="2" ><p class="tableblock"></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top" ><p class="tableblock">5331</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>WorldToObjectNVX</strong><br>
-The <em>4x3</em> world to object transformation matrix for the ray being traced in the <strong>IntersectionNVX</strong>,
-<strong>AnyHitNV</strong>, or <strong>ClosestHitNVX</strong> execution models.</p>
-<p class="tableblock">Refer to raytracing chapter of Vulkan API specification for more details.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>WorldToObjectNV</strong><br>
+The <em>4x3</em> world to object transformation matrix for the ray being traced in the <strong>IntersectionNV</strong>,
+<strong>AnyHitNV</strong>, or <strong>ClosestHitNV</strong> execution models.</p>
+<p class="tableblock">Refer to the Ray Tracing chapter of Vulkan API specification for more details.</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RayTracingNV</strong></p></td>
 <td class="tableblock halign-left valign-top" colspan="2" ><p class="tableblock"></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top" ><p class="tableblock">5332</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>HitTNVX</strong><br>
-The parametric value <strong>T</strong> for the ray resulting in a hit for the ray being traced in the <strong>AnyHitNVX</strong> or
-<strong>ClosestHitNVX</strong> execution models. This is an alias for RayTMaxNVX for convenience.</p>
-<p class="tableblock">Refer to raytracing chapter of Vulkan API specification for more details.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>HitTNV</strong><br>
+The parametric value <strong>T</strong> for the ray resulting in a hit for the ray being traced in the <strong>AnyHitNV</strong> or
+<strong>ClosestHitNV</strong> execution models. This is an alias for RayTMaxNV for convenience.</p>
+<p class="tableblock">Refer to the Ray Tracing chapter of Vulkan API specification for more details.</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RayTracingNV</strong></p></td>
 <td class="tableblock halign-left valign-top" colspan="2" ><p class="tableblock"></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top" ><p class="tableblock">5333</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>HitKindNVX</strong><br>
-The hit kind of the hit for the ray being traced in the <strong>AnyHitNVX</strong> or
-<strong>ClosestHitNVX</strong> execution models.</p>
-<p class="tableblock">Refer to raytracing chapter of Vulkan API specification for more details.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>HitKindNV</strong><br>
+The hit kind of the hit for the ray being traced in the <strong>AnyHitNV</strong> or
+<strong>ClosestHitNV</strong> execution models.</p>
+<p class="tableblock">Refer to the Ray Tracing chapter of Vulkan API specification for more details.</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RayTracingNV</strong></p></td>
+<td class="tableblock halign-left valign-top" colspan="2" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">5351</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>IncomingRayFlagsNV</strong><br>
+The ray flags in current stage as passed in through trace call in parent. Available in <strong>AnyHitNV</strong>,
+<strong>ClosestHitNV</strong>, <strong>IntersectionNV</strong>, <strong>MissNV</strong>, and <strong>CallableNV</strong> stage</p>
+<p class="tableblock">Refer to the Ray Tracing chapter of Vulkan API specification for more details.</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RayTracingNV</strong></p></td>
 <td class="tableblock halign-left valign-top" colspan="2" ><p class="tableblock"></p></td>
 </tr>
 </tbody>
@@ -1227,7 +1259,7 @@ The hit kind of the hit for the ray being traced in the <strong>AnyHitNVX</stron
 </div></div>
 </dd>
 <dt class="hdlist1">
-(Modify the definition of following BuiltIns, allowing them to be used in <strong>IntersectionNVX</strong>, <strong>AnyHitNVX</strong>, or <strong>ClosestHitNVX</strong> Execution Models.)
+(Modify the definition of following BuiltIns, allowing them to be used in <strong>IntersectionNV</strong>, <strong>AnyHitNV</strong>, or <strong>ClosestHitNV</strong> Execution Models.)
 </dt>
 <dd>
 <div class="openblock">
@@ -1266,9 +1298,9 @@ Primitive identifier. See Vulkan or OpenGL API specifications for more detail.</
 <td class="tableblock halign-center valign-top" ><p class="tableblock"></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Primitive ID in an <strong>IntersectionNVX</strong>, <strong>AnyHitNVX</strong>, or <strong>ClosestHitNVX</strong> Execution Model</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>SPV_NVX_ray_tracing</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Primitive ID in an <strong>IntersectionNV</strong>, <strong>AnyHitNV</strong>, or <strong>ClosestHitNV</strong> Execution Model</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RayTracingNV</strong></p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>SPV_NV_ray_tracing</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-middle" rowspan="2" ><p class="tableblock">43</p></td>
@@ -1278,9 +1310,9 @@ Instance index. See Vulkan or OpenGL API specifications for more detail.</p></td
 <td class="tableblock halign-center valign-top" ><p class="tableblock"></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Instance index in an <strong>IntersectionNVX</strong>, <strong>AnyHitNVX</strong>, or <strong>ClosestHitNVX</strong> Execution Model</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong></p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>SPV_NVX_ray_tracing</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Instance index in an <strong>IntersectionNV</strong>, <strong>AnyHitNV</strong>, or <strong>ClosestHitNV</strong> Execution Model</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RayTracingNV</strong></p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>SPV_NV_ray_tracing</strong></p></td>
 </tr>
 </tbody>
 </table>
@@ -1310,11 +1342,11 @@ width:100%;
 <tbody>
 <tr>
 <td class="tableblock halign-center valign-middle" ><p class="tableblock">5340</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RaytracingNVX</strong><br>
-Uses the <strong>RayGenerationNVX</strong>, <strong>IntersectionNVX</strong>, <strong>AnyHitNVX</strong>, <strong>ClosestHitNVX</strong>,
-<strong>MissNVX</strong>, or <strong>CallableNVX</strong> Execution Models</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTracingNV</strong><br>
+Uses the <strong>RayGenerationNV</strong>, <strong>IntersectionNV</strong>, <strong>AnyHitNV</strong>, <strong>ClosestHitNV</strong>,
+<strong>MissNV</strong>, or <strong>CallableNV</strong> Execution Models</p></td>
 <td class="tableblock halign-center valign-top" ><p class="tableblock"></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>SPV_NVX_raytracing</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>SPV_NV_ray_tracing</strong></p></td>
 </tr>
 </tbody>
 </table>
@@ -1335,16 +1367,16 @@ width:100%;
 <col style="width:33%;">
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" colspan="2" ><p class="tableblock"><a id="OpTypeAccelerationStructureNVX"></a><strong>OpTypeAccelerationStructureNVX</strong><br>
+<td class="tableblock halign-left valign-top" colspan="2" ><p class="tableblock"><a id="OpTypeAccelerationStructureNV"></a><strong>OpTypeAccelerationStructureNV</strong><br>
 <br>
 Declares an acceleration structure type which is an opaque reference to
-acceleration structure handle as defined in raytracing chapter of Vulkan API
+acceleration structure handle as defined in the Ray Tracing chapter of Vulkan API
 specification.</p>
-<p class="tableblock">Consumed by <strong>OpTraceNVX</strong></p>
+<p class="tableblock">Consumed by <strong>OpTraceNV</strong></p>
 <p class="tableblock">This type is opaque: values of this type have no defined physical size or
 bit pattern.</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
-<strong>RaytracingNVX</strong></p></td>
+<strong>RayTracingNV</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
@@ -1356,7 +1388,7 @@ bit pattern.</p></td>
 </div></div>
 </dd>
 <dt class="hdlist1">
-(Add a new sub section 3.32.24, Raytracing Instructions, adding to end of list of instructions) 
+(Add a new sub section 3.32.24, Ray Tracing Instructions, adding to end of list of instructions) 
 </dt>
 <dd>
 <div class="openblock">
@@ -1380,18 +1412,18 @@ width:100%;
 <col style="width:8%;">
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" colspan="12" ><p class="tableblock"><a id="OpTraceNVX"></a><strong>OpTraceNVX</strong><br>
+<td class="tableblock halign-left valign-top" colspan="12" ><p class="tableblock"><a id="OpTraceNV"></a><strong>OpTraceNV</strong><br>
 <br>
  Trace a ray into the acceleration structure.<br>
 <br>
  <em>Acceleration Structure</em> is the descriptor for the acceleration structure to trace into.<br>
 <br>
- <em>Ray Flags</em> controls the properties for the trace. See raytracing chapter of Vulkan API specification for more details.<br>
+ <em>Ray Flags</em> controls the properties for the trace. See the Ray Tracing chapter of Vulkan API specification for more details.<br>
 <br>
  <em>Cull Mask</em> is the 8-bit mask for test against the instance mask.<br>
 <br>
  <em>SBT Offset</em> and <em>SBT Stride</em> control indexing into the SBT for hit shaders called from this trace.
- <em>SBT</em> stands for Shader Binding Table. Refer to raytracing chapter of Vulkan API specification for details.<br>
+ <em>SBT</em> stands for Shader Binding Table. Refer to the Ray Tracing chapter of Vulkan API specification for details.<br>
 <br>
  <em>Miss Index</em> is the index of the miss shader to be called from this trace call.<br>
 <br>
@@ -1405,10 +1437,10 @@ width:100%;
 <br>
  <em>Ray Tmin</em> and <em>Ray Tmax</em> must be a 32-bit <em>float type</em> scalar.<br>
 <br>
- This instruction is allowed only in <strong>RayGenerationNVX</strong>, <strong>ClosestHitNVX</strong> and <strong>MissNVX</strong> execution models.<br>
+ This instruction is allowed only in <strong>RayGenerationNV</strong>, <strong>ClosestHitNV</strong> and <strong>MissNV</strong> execution models.<br>
 <br></p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
-<strong>RaytracingNVX</strong></p></td>
+<strong>RayTracingNV</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">12</p></td>
@@ -1439,7 +1471,7 @@ width:100%;
 <col style="width:21%;">
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" colspan="5" ><p class="tableblock"><a id="OpReportIntersectionNVX"></a><strong>OpReportIntersectionNVX</strong><br>
+<td class="tableblock halign-left valign-top" colspan="5" ><p class="tableblock"><a id="OpReportIntersectionNV"></a><strong>OpReportIntersectionNV</strong><br>
 <br>
 Reports an intersection back to the traversal infrastructure.</p>
 <p class="tableblock"><em>Hit</em> is the floating point parametric value along ray for the intersection.</p>
@@ -1447,9 +1479,9 @@ Reports an intersection back to the traversal infrastructure.</p>
 <p class="tableblock"><em>Result Type</em> must be a scalar boolean.</p>
 <p class="tableblock"><em>Hit</em> must be a 32-bit <em>float type</em> scalar.</p>
 <p class="tableblock"><em>Hit Kind</em> must be a 32-bit <em>unsigned integer type</em> scalar.</p>
-<p class="tableblock">This instruction is allowed only in <strong>IntersectionNVX</strong> execution model.</p></td>
+<p class="tableblock">This instruction is allowed only in <strong>IntersectionNV</strong> execution model.</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
-<strong>RaytracingNVX</strong></p></td>
+<strong>RayTracingNV</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
@@ -1469,12 +1501,12 @@ width:100%;
 <col style="width:50%;">
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><a id="OpIgnoreIntersectionNVX"></a><strong>OpIgnoreIntersectionNVX</strong><br>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><a id="OpIgnoreIntersectionNV"></a><strong>OpIgnoreIntersectionNV</strong><br>
 <br>
 Ignores the current potential intersection.</p>
-<p class="tableblock">This instruction is allowed only in <strong>AnyHitNVX</strong> execution model.</p></td>
+<p class="tableblock">This instruction is allowed only in <strong>AnyHitNV</strong> execution model.</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
-<strong>RaytracingNVX</strong></p></td>
+<strong>RayTracingNV</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
@@ -1490,16 +1522,43 @@ width:100%;
 <col style="width:50%;">
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><a id="OpTerminateRayNVX"></a><strong>OpTerminateRayNVX</strong><br>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><a id="OpTerminateRayNV"></a><strong>OpTerminateRayNV</strong><br>
 <br>
 Terminates further traversal of a ray.</p>
-<p class="tableblock">This instruction is allowed only in <strong>AnyHitNVX</strong> execution model.</p></td>
+<p class="tableblock">This instruction is allowed only in <strong>AnyHitNV</strong> execution model.</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
-<strong>RaytracingNVX</strong></p></td>
+<strong>RayTracingNV</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">5336</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:16%;">
+<col style="width:16%;">
+<col style="width:33%;">
+<col style="width:33%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="3" ><p class="tableblock"><a id="OpExecuteCallableNV"></a><strong>OpExecuteCallableNV</strong><br>
+<br>
+Invoke a callable shader</p>
+<p class="tableblock"><em>SBT Index</em> is the index into the SBT table to select callable shader to execute</p>
+<p class="tableblock"><em>Callable Data Number</em> matches the declared location of the callable data to pass into through this call</p>
+<p class="tableblock">This instruction is allowed only in <strong>RayGenerationNV</strong>, <strong>ClosestHitNV</strong>, <strong>MissNV</strong> and <strong>CallableNV</strong> execution models.</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<strong>RayTracingNV</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5344</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>SBT Index</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Callable Data Number</em></p></td>
 </tr>
 </tbody>
 </table>
@@ -1515,7 +1574,7 @@ Terminates further traversal of a ray.</p>
 legal use of this extension:</p></div>
 <div class="listingblock">
 <div class="content monospaced">
-<pre>OpExtension "SPV_NVX_raytracing"</pre>
+<pre>OpExtension "SPV_NV_ray_tracing"</pre>
 </div></div>
 </div>
 </div>
@@ -1551,6 +1610,13 @@ width:100%;
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Eric Werness</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Internal revisions</strong></p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2018-10-19</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Ashwin Lele</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Rename from NVX_raytracing to NV_ray_tracing.
+                              Add IncomingRayFlagsNV, CallableDataNV, IncomingCallableDataNV, OpExecuteCallableNV</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1559,7 +1625,7 @@ width:100%;
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-09-14 10:19:52 MDT
+Last updated 2018-10-31 16:55:31 EDT
 </div>
 </div>
 </body>
