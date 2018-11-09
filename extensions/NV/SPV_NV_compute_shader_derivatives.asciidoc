@@ -172,7 +172,7 @@ Uses the *DerivativeGroupLinearNV* execution mode. | *Shader*
  x or y coordinate with "In the *Fragment* Execution Model:")
 
 (Add the following to the descriptions of OpDPd{x,y}{Fine,Course}, describing
- how partial derivatives work in in compute shaders)
+ how partial derivatives work in compute shaders)
 
 In the *GLCompute* Execution Model: +
 _Result_ is the partial derivative of _P_ evaluated over groups of four invocations.
