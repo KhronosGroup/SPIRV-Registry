@@ -53,3 +53,6 @@ Khronos SPIR-V Registry](https://www.khronos.org/registry/spir-v/).
 1. [SPV_NV_mesh_shader                      ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/master/extensions/NV/SPV_NV_mesh_shader.html)
 1. [SPV_NV_shader_image_footprint           ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/master/extensions/NV/SPV_NV_shader_image_footprint.html)
 1. [SPV_NV_shading_rate                     ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/master/extensions/NV/SPV_NV_shading_rate.html)
+1. [SPV_INTEL_subgroups                     ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/master/extensions/INTEL/SPV_INTEL_subgroups.html)
+1. [SPV_INTEL_media_block_io                ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/master/extensions/INTEL/SPV_INTEL_media_block_io.html)
+1. [SPV_INTEL_device_side_avc_motion_estimation]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/master/extensions/INTEL/SPV_INTEL_device_side_avc_motion_estimation.html)

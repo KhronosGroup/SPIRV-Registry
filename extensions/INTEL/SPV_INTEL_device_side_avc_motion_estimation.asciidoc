@@ -1,0 +1,3683 @@
+= SPV_INTEL_device_side_avc_motion_estimation
+
+== Name Strings
+
+SPV_INTEL_device_side_avc_motion_estimation
+
+== Contact
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+== Contributors
+
+- Biju George, Intel +
+- Ben Ashbaugh, Intel +
+- Kristina Bessonova, Intel +
+- Pawel Jurek, Intel +
+- Alexey Sachkov, Intel +
+- Alexey Sotkin, Intel +
+
+== Notice
+
+Copyright (c) 2018 Intel Corporation.  All rights reserved.
+
+== Status
+
+- Final Draft
+
+== Version
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | {docdate}
+| Revision           | 1
+|========================================
+
+== Dependencies
+
+This extension is written against the SPIR-V Specification,
+Version 1.2 Revision 1.
+
+This extension requires SPIR-V 1.0.
+
+== Overview
+
+Video motion estimation (VME) is defined as of set motion estimation operations that are used to determine the motion vectors, intra estimation angles and macroblock partitioning combination that best describe the transformation to the source macroblock, from blocks in one or more previous reference pictures (inter-prediction), or from other blocks in the same source picture (intra-prediction). It does this by searching for spatial and temporal patterns on the current and various forward and backward reference pictures.
+
+The goal of this extension is to provide programmers with a fine-grained interface to the AVC VME media sampler in Intel graphics processors. It describes the specification of instructions that facilitate the programming of the VME media sampler to evaluate specific AVC motion estimation operations.
+
+Instructions are defined for all the major operations of the VME media sampler. The major operations of the AVC VME media sampler in Intel Graphics Processors can be described as follows:
+    
+. *Integer motion estimation (IME)* +
+    Perform motion estimation on a given source macroblock in a source image over a single or dual reference window in a reference image, at full-pixel resolution, to determine the best integer motion vectors and their associated distortions, and the best macroblock shape partitioning combination.
+
+. *Motion estimation refinement (REF)* +
+    Perform refinement operations on the results of IME. The two sub-operations are:
+
+*   *Fractional motion estimation (FME)* +
+    Perform sub-pixel refinement on the results of an IME operation. Half-pixel (HPEL) or quarter-pixel (QPEL) refinements are performed to determine the best sub-pixel motion vectors and their associated distortions. 
+
+*   *Bidirectional motion estimation (BME)* +
+    Perform bidirectional refinement on the results of an IME     operation using two reference images to check if the bidirectional mode using two references yields lesser distortions. An FME can optionally be performed implicitly as part of a bidirectional refinement.
+
+. *Skip and Intra check (SIC)* +
+    Performs the following two sub-operations:
+
+*   *Skip check (SKC)* +
+    Compute the pixel distortion of a user-specified shape and motion vector combination. The VME media sampler fetches necessary pixels, performs fractional and bidirectional filtering (as necessary), and then computes the distortion between the derived reference and source. The skip decision can optionally be enhanced to include a 4x4 forward transform, the results of which are compared against a user specified threshold to emulate the effects of the forward quantization zeroing effect.
+
+*   *Intra prediction estimation (IPE)* +
+    Perform intra prediction on a given source macroblock to determine the best intra prediction modes and the best shape partitioning combination.
+
+== Extension Name
+
+To use this extension within a SPIR-V module, the appropriate *OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_INTEL_device_side_avc_motion_estimation"
+----
+
+== New Capabilities
+
+This extension introduces new capabilities:
+
+----
+SubgroupAvcMotionEstimationINTEL
+SubgroupAvcMotionEstimationIntraINTEL
+SubgroupAvcMotionEstimationChromaINTEL
+----
+<<<
+== New Instructions
+
+Instructions added under the *SubgroupAvcMotionEstimationINTEL* capability (some are additionally defined under the *SubgroupAvcMotionEstimationIntraINTEL* or *SubgroupAvcMotionEstimationChromaINTEL* capability):
+----
+OpSubgroupAvcMceGetDefaultInterBaseMultiReferencePenaltyINTEL
+OpSubgroupAvcMceSetInterBaseMultiReferencePenaltyINTEL
+OpSubgroupAvcMceGetDefaultInterShapePenaltyINTEL
+OpSubgroupAvcMceSetInterShapePenaltyINTEL
+OpSubgroupAvcMceGetDefaultInterDirectionPenaltyINTEL
+OpSubgroupAvcMceSetInterDirectionPenaltyINTEL
+OpSubgroupAvcMceGetDefaultIntraLumaShapePenaltyINTEL
+OpSubgroupAvcMceGetDefaultInterMotionVectorCostTableINTEL
+OpSubgroupAvcMceGetDefaultHighPenaltyCostTableINTEL
+OpSubgroupAvcMceGetDefaultMediumPenaltyCostTableINTEL
+OpSubgroupAvcMceGetDefaultLowPenaltyCostTableINTEL
+OpSubgroupAvcMceSetMotionVectorCostFunctionINTEL
+OpSubgroupAvcMceGetDefaultIntraLumaModePenaltyINTEL
+OpSubgroupAvcMceGetDefaultNonDcLumaIntraPenaltyINTEL
+OpSubgroupAvcMceGetDefaultIntraChromaModeBasePenaltyINTEL
+OpSubgroupAvcMceSetAcOnlyHaarINTEL
+OpSubgroupAvcMceSetSourceInterlacedFieldPolarityINTEL
+OpSubgroupAvcMceSetSingleReferenceInterlacedFieldPolarityINTEL
+OpSubgroupAvcMceSetDualReferenceInterlacedFieldPolaritiesINTEL
+OpSubgroupAvcMceConvertToImePayloadINTEL
+OpSubgroupAvcMceConvertToImeResultINTEL
+OpSubgroupAvcMceConvertToRefPayloadINTEL
+OpSubgroupAvcMceConvertToRefResultINTEL
+OpSubgroupAvcMceConvertToSicPayloadINTEL
+OpSubgroupAvcMceConvertToSicResultINTEL
+OpSubgroupAvcMceGetMotionVectorsINTEL
+OpSubgroupAvcMceGetInterDistortionsINTEL
+OpSubgroupAvcMceGetBestInterDistortionsINTEL
+OpSubgroupAvcMceGetInterMajorShapeINTEL
+OpSubgroupAvcMceGetInterMinorShapeINTEL
+OpSubgroupAvcMceGetInterDirectionsINTEL
+OpSubgroupAvcMceGetInterMotionVectorCountINTEL
+OpSubgroupAvcMceGetInterReferenceIdsINTEL
+OpSubgroupAvcMceGetInterReferenceInterlacedFieldPolaritiesINTEL
+----
+----
+OpVmeImageINTEL
+OpSubgroupAvcImeInitializeINTEL
+OpSubgroupAvcImeSetSingleReferenceINTEL
+OpSubgroupAvcImeSetDualReferenceINTEL
+OpSubgroupAvcImeRefWindowSizeINTEL
+OpSubgroupAvcImeAdjustRefOffsetINTEL
+OpSubgroupAvcImeConvertToMcePayloadINTEL
+OpSubgroupAvcImeSetMaxMotionVectorCountINTEL
+OpSubgroupAvcImeSetUnidirectionalMixDisableINTEL
+OpSubgroupAvcImeSetEarlySearchTerminationThresholdINTEL
+OpSubgroupAvcImeSetWeightedSadINTEL
+OpSubgroupAvcImeEvaluateWithSingleReferenceINTEL
+OpSubgroupAvcImeEvaluateWithDualReferenceINTEL
+OpSubgroupAvcImeEvaluateWithSingleReferenceStreamoutINTEL
+OpSubgroupAvcImeEvaluateWithDualReferenceStreamoutINTEL
+OpSubgroupAvcImeEvaluateWithSingleReferenceStreaminoutINTEL
+OpSubgroupAvcImeEvaluateWithDualReferenceStreaminoutINTEL
+OpSubgroupAvcImeConvertToMceResultINTEL
+OpSubgroupAvcImeGetSingleReferenceStreaminINTEL
+OpSubgroupAvcImeGetDualReferenceStreaminINTEL
+SubgroupAvcImeStripSingleReferenceStreamoutINTEL
+SubgroupAvcImeStripDualReferenceStreamoutINTEL
+OpSubgroupAvcImeGetStreamoutSingleReferenceMajorShapeMotionVectorsINTEL
+OpSubgroupAvcImeGetStreamoutSingleReferenceMajorShapeDistortionsINTEL
+OpSubgroupAvcImeGetStreamoutSingleReferenceMajorShapeReferenceIdsINTEL
+OpSubgroupAvcImeGetStreamoutDualReferenceMajorShapeMotionVectorsINTEL
+OpSubgroupAvcImeGetStreamoutDualReferenceMajorShapeDistortionsINTEL
+OpSubgroupAvcImeGetStreamoutDualReferenceMajorShapeReferenceIdsINTEL
+OpSubgroupAvcImeGetBorderReachedINTEL
+OpSubgroupAvcImeGetTruncatedSearchIndicationINTEL
+OpSubgroupAvcImeGetUnidirectionalEarlySearchTerminationINTEL
+OpSubgroupAvcImeGetWeightingPatternMinimumMotionVectorINTEL
+OpSubgroupAvcImeGetWeightingPatternMinimumDistortionINTEL
+----
+----
+OpSubgroupAvcFmeInitializeINTEL
+OpSubgroupAvcBmeInitializeINTEL
+OpSubgroupAvcRefConvertToMcePayloadINTEL
+OpSubgroupAvcRefSetBidirectionalMixDisableINTEL
+OpSubgroupAvcRefSetBilinearFilterEnableINTEL
+OpSubgroupAvcRefEvaluateWithSingleReferenceINTEL
+OpSubgroupAvcRefEvaluateWithDualReferenceINTEL
+OpSubgroupAvcRefEvaluateWithMultiReferenceINTEL
+OpSubgroupAvcRefEvaluateWithMultiReferenceInterlacedINTEL
+OpSubgroupAvcRefConvertToMceResultINTEL
+----
+----
+OpSubgroupAvcSicInitializeINTEL
+OpSubgroupAvcSicConfigureSkcINTEL
+OpSubgroupAvcSicConfigureIpeLumaINTEL
+OpSubgroupAvcSicConfigureIpeLumaChromaINTEL
+OpSubgroupAvcSicGetMotionVectorMaskINTEL
+OpSubgroupAvcSicConvertToMcePayloadINTEL
+OpSubgroupAvcSicSetIntraLumaShapePenaltyINTEL
+OpSubgroupAvcSicSetIntraLumaModeCostFunctionINTEL
+OpSubgroupAvcSicSetIntraChromaModeCostFunctionINTEL
+OpSubgroupAvcSicSetBilinearFilterEnableINTEL
+OpSubgroupAvcSicSetSkcForwardTransformEnableINTEL
+OpSubgroupAvcSicSetBlockBasedRawSkipSadINTEL
+OpSubgroupAvcSicEvaluateIpeINTEL
+OpSubgroupAvcSicEvaluateWithSingleReferenceINTEL
+OpSubgroupAvcSicEvaluateWithDualReferenceINTEL
+OpSubgroupAvcSicEvaluateWithMultiReferenceINTEL
+OpSubgroupAvcSicEvaluateWithMultiReferenceInterlacedINTEL
+OpSubgroupAvcSicConvertToMceResultINTEL
+OpSubgroupAvcSicGetIpeLumaShapeINTEL
+OpSubgroupAvcSicGetBestIpeLumaDistortionINTEL
+OpSubgroupAvcSicGetBestIpeChromaDistortionINTEL
+OpSubgroupAvcSicGetPackedIpeLumaModesINTEL
+OpSubgroupAvcSicGetIpeChromaModeINTEL
+OpSubgroupAvcSicGetPackedSkcLumaCountThresholdINTEL
+OpSubgroupAvcSicGetPackedSkcLumaSumThresholdINTEL
+OpSubgroupAvcSicGetInterRawSadsINTEL
+----
+
+<<<
+== New Types
+
+Opaque Types added under the *SubgroupAvcMotionEstimationINTEL* capability:
+----
+OpTypeVmeImageINTEL
+OpTypeAvcMcePayloadINTEL
+OpTypeAvcImePayloadINTEL
+OpTypeAvcRefPayloadINTEL
+OpTypeAvcSicPayloadINTEL
+OpTypeAvcMceResultINTEL
+OpTypeAvcImeResultINTEL
+OpTypeAvcImeResultSingleReferenceStreamoutINTEL
+OpTypeAvcImeResultDualReferenceStreamoutINTEL
+OpTypeAvcImeSingleReferenceStreaminINTEL
+OpTypeAvcImeDualReferenceStreaminINTEL
+OpTypeAvcRefResultINTEL
+OpTypeAvcSicResultINTEL
+----
+
+<<<
+== Token Number Assignments
+
+[width="40%"]
+[cols="70%,30%"]
+[grid="rows"]
+|====
+|OpVmeImageINTEL | 5699
+
+|OpTypeVmeImageINTEL | 5700
+|OpTypeAvcImePayloadINTEL | 5701
+|OpTypeAvcRefPayloadINTEL | 5702
+|OpTypeAvcSicPayloadINTEL | 5703
+|OpTypeAvcMcePayloadINTEL | 5704
+|OpTypeAvcMceResultINTEL | 5705
+|OpTypeAvcImeResultINTEL | 5706
+|OpTypeAvcImeResultSingleReferenceStreamoutINTEL | 5707
+|OpTypeAvcImeResultDualReferenceStreamoutINTEL | 5708
+|OpTypeAvcImeSingleReferenceStreaminINTEL | 5709
+|OpTypeAvcImeDualReferenceStreaminINTEL | 5710
+|OpTypeAvcRefResultINTEL | 5711
+|OpTypeAvcSicResultINTEL | 5712
+
+|OpSubgroupAvcMceGetDefaultInterBaseMultiReferencePenaltyINTEL | 5713
+|OpSubgroupAvcMceSetInterBaseMultiReferencePenaltyINTEL | 5714
+|OpSubgroupAvcMceGetDefaultInterShapePenaltyINTEL | 5715
+|OpSubgroupAvcMceSetInterShapePenaltyINTEL | 5716
+|OpSubgroupAvcMceGetDefaultInterDirectionPenaltyINTEL | 5717
+|OpSubgroupAvcMceSetInterDirectionPenaltyINTEL | 5718
+|OpSubgroupAvcMceGetDefaultIntraLumaShapePenaltyINTEL | 5719
+|OpSubgroupAvcMceGetDefaultInterMotionVectorCostTableINTEL | 5720
+|OpSubgroupAvcMceGetDefaultHighPenaltyCostTableINTEL | 5721
+|OpSubgroupAvcMceGetDefaultMediumPenaltyCostTableINTEL | 5722
+|OpSubgroupAvcMceGetDefaultLowPenaltyCostTableINTEL | 5723
+|OpSubgroupAvcMceSetMotionVectorCostFunctionINTEL | 5724
+|OpSubgroupAvcMceGetDefaultIntraLumaModePenaltyINTEL | 5725
+|OpSubgroupAvcMceGetDefaultNonDcLumaIntraPenaltyINTEL | 5726
+|OpSubgroupAvcMceGetDefaultIntraChromaModeBasePenaltyINTEL | 5727
+|OpSubgroupAvcMceSetAcOnlyHaarINTEL | 5728
+|OpSubgroupAvcMceSetSourceInterlacedFieldPolarityINTEL | 5729
+|OpSubgroupAvcMceSetSingleReferenceInterlacedFieldPolarityINTEL | 5730
+|OpSubgroupAvcMceSetDualReferenceInterlacedFieldPolaritiesINTEL | 5731
+|OpSubgroupAvcMceConvertToImePayloadINTEL | 5732
+|OpSubgroupAvcMceConvertToImeResultINTEL | 5733
+|OpSubgroupAvcMceConvertToRefPayloadINTEL | 5734
+|OpSubgroupAvcMceConvertToRefResultINTEL | 5735
+|OpSubgroupAvcMceConvertToSicPayloadINTEL | 5736
+|OpSubgroupAvcMceConvertToSicResultINTEL | 5737
+|OpSubgroupAvcMceGetMotionVectorsINTEL | 5738
+|OpSubgroupAvcMceGetInterDistortionsINTEL | 5739
+|OpSubgroupAvcMceGetBestInterDistortionsINTEL | 5740
+|OpSubgroupAvcMceGetInterMajorShapeINTEL | 5741
+|OpSubgroupAvcMceGetInterMinorShapeINTEL | 5742
+|OpSubgroupAvcMceGetInterDirectionsINTEL | 5743
+|OpSubgroupAvcMceGetInterMotionVectorCountINTEL | 5744
+|OpSubgroupAvcMceGetInterReferenceIdsINTEL | 5745
+|OpSubgroupAvcMceGetInterReferenceInterlacedFieldPolaritiesINTEL | 5746
+
+|OpSubgroupAvcImeInitializeINTEL | 5747
+|OpSubgroupAvcImeSetSingleReferenceINTEL | 5748
+|OpSubgroupAvcImeSetDualReferenceINTEL | 5749
+|OpSubgroupAvcImeRefWindowSizeINTEL | 5750
+|OpSubgroupAvcImeAdjustRefOffsetINTEL | 5751
+|OpSubgroupAvcImeConvertToMcePayloadINTEL | 5752
+|OpSubgroupAvcImeSetMaxMotionVectorCountINTEL | 5753
+|OpSubgroupAvcImeSetUnidirectionalMixDisableINTEL | 5754
+|OpSubgroupAvcImeSetEarlySearchTerminationThresholdINTEL | 5755
+|OpSubgroupAvcImeSetWeightedSadINTEL | 5756
+|OpSubgroupAvcImeEvaluateWithSingleReferenceINTEL | 5757
+|OpSubgroupAvcImeEvaluateWithDualReferenceINTEL | 5758
+|OpSubgroupAvcImeEvaluateWithSingleReferenceStreaminINTEL | 5759
+|SubgroupAvcImeEvaluateWithDualReferenceStreaminINTEL | 5760
+|OpSubgroupAvcImeEvaluateWithSingleReferenceStreamoutINTEL | 5761
+|OpSubgroupAvcImeEvaluateWithDualReferenceStreamoutINTEL | 5762
+|OpSubgroupAvcImeEvaluateWithSingleReferenceStreaminoutINTEL | 5763
+|OpSubgroupAvcImeEvaluateWithDualReferenceStreaminoutINTEL | 5764
+|OpSubgroupAvcImeConvertToMceResultINTEL | 5765
+|OpSubgroupAvcImeGetSingleReferenceStreaminINTEL | 5766
+|OpSubgroupAvcImeGetDualReferenceStreaminINTEL | 5767
+|SubgroupAvcImeStripSingleReferenceStreamoutINTEL | 5768
+|SubgroupAvcImeStripDualReferenceStreamoutINTEL | 5769
+|OpSubgroupAvcImeGetStreamoutSingleReferenceMajorShapeMotionVectorsINTEL | 5770
+|OpSubgroupAvcImeGetStreamoutSingleReferenceMajorShapeDistortionsINTEL | 5771
+|OpSubgroupAvcImeGetStreamoutSingleReferenceMajorShapeReferenceIdsINTEL | 5772
+|OpSubgroupAvcImeGetStreamoutDualReferenceMajorShapeMotionVectorsINTEL | 5773
+|OpSubgroupAvcImeGetStreamoutDualReferenceMajorShapeDistortionsINTEL | 5774
+|OpSubgroupAvcImeGetStreamoutDualReferenceMajorShapeReferenceIdsINTEL | 5775
+|OpSubgroupAvcImeGetBorderReachedINTEL | 5776
+|OpSubgroupAvcImeGetTruncatedSearchIndicationINTEL | 5777
+|OpSubgroupAvcImeGetUnidirectionalEarlySearchTerminationINTEL | 5778
+|OpSubgroupAvcImeGetWeightingPatternMinimumMotionVectorINTEL | 5779
+|OpSubgroupAvcImeGetWeightingPatternMinimumDistortionINTEL | 5780
+
+|OpSubgroupAvcFmeInitializeINTEL | 5781
+|OpSubgroupAvcBmeInitializeINTEL | 5782
+|OpSubgroupAvcRefConvertToMcePayloadINTEL | 5783
+|OpSubgroupAvcRefSetBidirectionalMixDisableINTEL | 5784
+|OpSubgroupAvcRefSetBilinearFilterEnableINTEL | 5785
+|OpSubgroupAvcRefEvaluateWithSingleReferenceINTEL | 5786
+|OpSubgroupAvcRefEvaluateWithDualReferenceINTEL | 5787
+|OpSubgroupAvcRefEvaluateWithMultiReferenceINTEL | 5788
+|OpSubgroupAvcRefEvaluateWithMultiReferenceInterlacedINTEL | 5789
+|OpSubgroupAvcRefConvertToMceResultINTEL | 5790
+
+|OpSubgroupAvcSicInitializeINTEL | 5791
+|OpSubgroupAvcSicConfigureSkcINTEL | 5792
+|OpSubgroupAvcSicConfigureIpeLumaINTEL | 5793
+|OpSubgroupAvcSicConfigureIpeLumaChromaINTEL | 5794
+|OpSubgroupAvcSicGetMotionVectorMaskINTEL | 5795
+|OpSubgroupAvcSicConvertToMcePayloadINTEL | 5796
+|OpSubgroupAvcSicSetIntraLumaShapePenaltyINTEL | 5797
+|OpSubgroupAvcSicSetIntraLumaModeCostFunctionINTEL | 5798
+|OpSubgroupAvcSicSetIntraChromaModeCostFunctionINTEL | 5799
+|OpSubgroupAvcSicSetBilinearFilterEnableINTEL | 5800
+|OpSubgroupAvcSicSetSkcForwardTransformEnableINTEL | 5801
+|OpSubgroupAvcSicSetBlockBasedRawSkipSadINTEL | 5802
+|OpSubgroupAvcSicEvaluateIpeINTEL | 5803
+|OpSubgroupAvcSicEvaluateWithSingleReferenceINTEL | 5804
+|OpSubgroupAvcSicEvaluateWithDualReferenceINTEL | 5805
+|OpSubgroupAvcSicEvaluateWithMultiReferenceINTEL | 5806
+|OpSubgroupAvcSicEvaluateWithMultiReferenceInterlacedINTEL | 5807
+|OpSubgroupAvcSicConvertToMceResultINTEL | 5808
+|OpSubgroupAvcSicGetIpeLumaShapeINTEL | 5809
+|OpSubgroupAvcSicGetBestIpeLumaDistortionINTEL | 5810
+|OpSubgroupAvcSicGetBestIpeChromaDistortionINTEL | 5811
+|OpSubgroupAvcSicGetPackedIpeLumaModesINTEL | 5812
+|OpSubgroupAvcSicGetIpeChromaModeINTEL | 5813
+|OpSubgroupAvcSicGetPackedSkcLumaCountThresholdINTEL | 5814
+|OpSubgroupAvcSicGetPackedSkcLumaSumThresholdINTEL | 5815
+|OpSubgroupAvcSicGetInterRawSadsINTEL | 5816
+|====
+
+<<<
+== Modifications to the SPIR-V Specification, Version 1.2
+=== Terms
+
+Modify Section 2.2, Terms, adding to the numbered list a new sub-section 2.2.X "AVC Motion Estimation":
+
+The following terms, acronyms and definitions are used in and provide context for the AVE motion estimation group instructions.
+
+*Macro-block (MB)* +
+An image is partitioned into macro-blocks of size 16x16 pixels. It is the basic unit of processing for AVC video motion estimation operations.
+
+*Shape* +
+A MB may be partitioned into sub-blocks of one of the major shapes. A sub-block with an 8x8 major shape may be further independently partitioned into sub-blocks of one of the minor shapes. It is represented by predefined shape values.
+
+*Major Shapes* +
+Shapes of 16x16, 16x8, 8x16, or 8x8 partitions of a MB. A 16x16 major shape merely indicates that the MB was not further partitioned.
+
+*Minor Shapes* +
+Shapes of 8x8, 8x4, 4x8, or 4x4 sub-partitions of an 8x8 partition. A   8x8 minor shape merely indicates that the 8x8 major partition was not   further sub-partitioned.
+
+*Block* +
+A sub-block of a MB with one of the major or minor shapes.
+
+*Reference Image* +
+An image (typically from the previously decoded buffer in an encoder   pipeline) from which motion estimation predictions are made.
+
+*Source Image* +
+The current image for which motion estimation predictions are made.
+
+*Source Macro-block Offset* +
+The 2D offset of the top left corner of the source MB in pixel units.   It is represented by a pair of unsigned 16-bit integers.
+
+*Reference Window Offset* +
+The 2D offset of the top left corner reference search window w.r.t to   the top left corner of the source MB in pixel units. It is represented   by a pair of signed 16-bit integers in the range [-2048, 2047].
+
+*Reference identifier* +
+Reference identifiers are associated to pairs of forward(L0)/ backward(L1) reference image parameters. Up to 16 pairs of reference pairs of reference image parameters are permitted, with the permitted values of reference identifiers ranging from 0 to 15. The reference identifiers are assigned in increasing order in which the reference image parameter pairs are declared in the kernel parameter operand list.
+
+*Motion Vector (MV)* +
+A 2D vector used for inter motion estimation that provides an offset from the top left corner of a block in the source image to the top left corner an identically sized block in the reference image. Generally it is used to represent the best match of a block in the reference image to a block in the source image. The best match is determined as the block minimizing the distortion. MVs are specified in QPEL resolution with the 2 LSB representing the fractional part of the offset. It is represented by a pair of signed 16-bit signed integers.
+
+*Packed Motion Vector* +
+A motion vector represented as a packed 32-bit unsigned integer. The lower 16 bits contains the X coordinate and the upper 16 bits contains the Y coordinate.
+
+*Bidirectional Motion Vector (BMV)* +
+A pair of MVs for the forward(L0) and backward(L1) images. Depending on how the VME operation is configured only the forward or the backward MV or both may be valid.
+
+*Packed Bidirectional Motion Vector* +
+A bidirectional MV represented as a packed 64-bit unsigned integer. The lower 32-bits contain the forward packed MV, and the upper 32-bits contain the backward packed MV.
+
+*Sum Of Absolute Difference (SAD)* +
+The sum of absolute differences of every full/sub-pixel location in the source block w.r.t every corresponding full/sub pixel in the reference block as specified by a given MV. The sum of absolute differences may be optionally Haar transform adjusted. It is represented by an unsigned 16-bit integer value.
+
+*Haar Transform (HAAR)* +
+A simple wavelet transform that is used to refine the distortion measure of SAD. The per pixel difference goes through a 4x4 Haar transform. Then the SAD is replaced by the sum of the absolute values of the transform domain coefficients in the distortion. Haar transform is used as a coarse estimation of the integer transform.
+
+*Motion Vector Cost Center (CC)* +
+A MV has an associated cost w.r.t a cost center coordinate. The further away from the cost center, the larger will be the cost associated with the MV. Cost centers are specified in QPEL resolution with the 2 LSB representing the fractional part of the offset. 
+
+*Motion Vector Cost Center Delta (CCD)* +
+The 2D offset of the cost center relative to the top left corner of the source MB. Cost center deltas are specified in QPEL resolution with the 2 LSB representing the fractional part of the offset. It is represented by a pair of signed 16-bit integers.
+
+*Packed Motion Vector Cost Center Delta* +
+A motion vector cost center delta represented as a packed 32-bit unsigned integer. The lower 16 bits contains the X coordinate and the upper 16 bits contains the Y coordinate.
+
+*Bidirectional Motion Vector Cost Center Delta* +
+A pair of cost center deltas for the forward and backward images.
+
+*Packed Bidirectional Motion Vector Cost Center Delta* +
+A packed bidirectional motion vector cost center delta represented as a 64-bit unsigned integer. The lower 32-bits contain the forward packed CCD, and the upper 32-bits contain the backward packed CCD.
+
+*Motion Vector Cost* +
+The MV cost is determined using a cost function described by a cost table that is indexed based on power-of-two distances from the user specified cost center, with a user specified precision (or unit) of the distances from the cost center.
+
+*U4U4 Byte Format* +
+Represents a value of (B<<S), where B, called base, is the 4 bit LSB of the byte and S, called shift, is the 4 bit MSB of the byte.
+
+*Motion Vector Cost Table* +
+A table which specifies the cost penalties at 8 control points. The first 7 control points represent the distances from cost center at powers-of-two locations (2^0^ to 2^6^), and the last control point represents the base penalty for distances that are out of range of the cost function curve. It is represented by a packed array of 8 U4U4 unsigned integer values.
+
+*Motion Vector Cost Precision* +
+The precision (or unit) of the control points in the MV cost table. It can be used to control the precision and range of the cost function. It is represented by pre-defined cost precision  values.
+
+*Shape Cost* +
+The cost associated with encoding a particular partition shape using inter or intra prediction. It is represented by a packed array of 10 U4U4 unsigned integer values.
+
+*Distortion* +
+The distortion is the sum of SAD, MV cost, shape cost and multi-reference cost for inter estimation, and the sum of SAD, mode cost, shape cost and non-dc cost for intra estimation. It is a measure of the cost of encoding a block and is represented by an unsigned 16-bit integer value.
+
+*Intra Mode* +
+An intra-prediction angle which provides a prediction for the current  block from the edge pixels in its neighboring blocks. It is represented by pre-defined intra mode values.
+
+*Intra Mode Cost* +
+The cost associated with a computed intra mode for a block w.r.t a predicted intra mode based on the computed intra modes for itsneighboring blocks.
+
+*Mode* +
+The decision whether the inter-prediction or intra-prediction minimizes distortion of a given MB.
+
+*Search unit (SU)* +
+The basic unit of searching. Possible reference search locations are   grouped in a predefined 4x4 pattern, and all locations within the same group must be completely chosen or completely skipped. These predefined groups are called search units.
+
+*Search Path (SP)* +
+The path taken during searching in a reference window. The steps taken in a search path are in units of SUs. The search path must lie within the defined search window.
+
+*Luma* +
+Luma refers to either the Y-plane of a NV12 image or a regular image with the 'Image Channel Order' and 'Image Channel Data Type' restricted as R and UnormInt8.
+
+*Chroma* +
+Chroma refer to the UV-plane of a NV12 image.
+ 
+*Search Window (SW)* +
+The search area that will be covered during searching. The area of the search window is limited to 2K luma pixels.
+ 
+*Search Window Configuration* +
+The configuration of a search window which is a combination of the search path and search window.
+                                                          
+The predefined search window configurations are:
+
+[width="100%"]
+[cols="25%,75%"]
+[grid="rows"]
+|====================
+| EXHAUSTIVE |  48x40 SW with exhaustive single reference search (or 32x32 dual SW for exhaustive dual-reference search); an exhaustive search means that all SU within the search window are searched in a spiral pattern with the search center being the middle of the search window.
+| SMALL |  28x28 SW with exhaustive search
+| TINY |  24x24 SW with exhaustive search
+| EXTRA TINY  |  20x20 SW with exhaustive search 
+| DIAMOND |  48x40 SW with diamond single reference search (or 32x32 dual SW for diamond dual-reference search); a diamond pattern search path is used for the first 16 (or 7 per reference for dual reference search) SUs, and then gradient based searching is used for up to a maximum of 57 search unit.
+| LARGE DIAMOND |  48x40 SW with large diamond single reference search(or 32x32 dual SW for large diamond dual-reference search); a diamond pattern search pattern is used for the first 32 (or 10 per reference for dual reference search) SUs, and then gradient based searching is used for up to a maximum of 57 search units.
+|====================
+
+*Inter Estimation* +
+The process of determining motion vectors and shapes that best describe the transformation from 2D images from previously decoded images in a video sequence to the currently processed image.
+ 
+*Intra-Prediction Estimation (IPE)* +
+The process of determining prediction angles and shapes that best describe the transformation from neighboring MBs in an image to the currently processed MB in the same image.
+ 
+*Luma Mode* +
+The prediction angle returned by IPE for the luma component for a block. It is represented by an unsigned 8-bit integer with the upper 4 bits set to zero.
+ 
+*Integer Motion Estimation (IME)* +
+Inter-motion estimation in integer pixel resolution.
+ 
+*Fractional Motion Estimation (FME)* +
+Inter-motion estimation in sub-pixel resolution. The result of integer motion estimation on a reference image is used to perform fractional refinement.
+ 
+*Bidirectional Motion Estimation (BME)* +
+The process of determining if the bi-directional prediction minimizes the distortion w.r.t to unidirectional prediction. The results of IME on forward(L0) and backward(L1) reference images are used to perform bi-directional refinement. BME can be performed in integer or sub-pixel resolution. If performed in sub-pixel resolution an implicit FME operation is done before performing the BME.
+ 
+*Refinement (REF)* +
+A FME and/or BME refinement operation.
+ 
+*Skip/Spot Check (SKC)* +
+The operation determining the distortion associated with a given (uni or bidirectional) MV in a reference image(s) w.r.t a source image.
+ 
+*Skip and Intra Check (SIC)* +
+The process of performing both SKC and IPE in the same operation.
+ 
+*Motion Check or Estimation (MCE)* +
+A generic IME, REF, or SIC operation.
+ 
+*Forward Transform (FT)* +
+An 8x8 or 4x4 integer transform used to transform the residual to the frequency domain.
+
+<<<
+=== Capabilities
+
+Modify Section 3.31, Capability, adding rows to the Capability table:
+
+[width="100%"]
+|====================
+| 5696 | SubgroupAvcMotionEstimationINTEL | Groups | SPV_INTEL_device_side_motion_estimation
+| 5697 | SubgroupAvcMotionEstimationIntraINTEL | SubgroupAvcMotionEstimationINTEL, SubgroupImageMediaBlockIOINTEL | SPV_INTEL_device_side_motion_estimation
+| 5698 | SubgroupAvcMotionEstimationChromaINTEL | SubgroupAvcMotionEstimationIntraINTEL | SPV_INTEL_device_side_motion_estimation
+|====================
+
+<<<
+=== Types
+
+Modify Section **2.2.2**, **Types**, adding "VME image" type after the definition of _Sampler_ as follows: +
+
+*__Sampler__*:  There are essentially two categories of samplers: texture and media samplers. Texture samplers essentially describe settings how to access, filter, or sample on an image, that come either from literal declarations of settings or be an opaque reference to externally bound settings. Media samplers essentially settings for motion estimation on an image, that come only from literal declarations of settings. Refer to section [blue]#<<bookmark-InstructionsGroup,3.32.21 Group Instructions>># for a detailed description the instructions that use of this type. In general, the use of the word "sampler" by itself refers to a texture sampler. A media sampler will be explicitly refered to as "media sampler". A sampler does not include an image.
+
+Modify Section **2.2.2**, **Types**, adding "VME image" type after the definition of _Sampled Image_ as follows: +
+
+*__VME Image__*: An image combined with a sampler, enabling VME accesses of the image’s contents.
+
+Modify Section **2.2.2**, **Types**, adding the following to the Opaque types: +
+
+[[bookmark-OpTypesVME]]
+
+* OpTypeVmeImageINTEL +
+* OpTypeAvcMcePayloadINTEL +
+* OpTypeAvcImePayloadINTEL +
+* OpTypeAvcRefPayloadINTEL +
+* OpTypeAvcSicPayloadINTEL +
+* OpTypeAvcMceResultINTEL +
+* OpTypeAvcImeResultINTEL +
+* OpTypeAvcImeResultSingleReferenceStreamoutINTEL +
+* OpTypeAvcImeResultDualReferenceStreamoutINTEL +
+* OpTypeAvcImeSingleReferenceStreaminINTEL +
+* OpTypeAvcImeDualReferenceStreaminINTEL +
+* OpTypeAvcRefResultINTEL +
+* OpTypeAvcSicResultINTEL 
+
+Modify Section **2.8**, **Types and Variables**, adding the following to the third paragraph: +
+
+To do motion estimation operations, a type from [blue]#<<bookmark-OpTypeVmeImageINTEL,__OpTypeVmeImageINTEL__>># is used that contains both an image and a media sampler. Such an image can be set only in a SPIR-V module from an independent image and an independent sampler. Furthermore its OpTypeImage must have a Dim of 2D.
+
+Modify Section **3.32.6**, **Type Declaration Instructions**, amending the description of OpTypeSampler as follows:
+
+[[bookmark-OpTypeSampler]]
+[cols="1a"]
+|====================
+
+|*OpTypeSampler* +
+ +
+Declare the sampler type. Consumed by OpSampledImage or [blue]#<<bookmark-OpVmeImageINTEL, OpVmeImageINTEL>>#. This type is opaque: values of this type have no defined physical size or bit pattern.
+
+[cols="1,1,2"]
+!====================
+! 2 ! 26 ! _Result <id>_
+!====================
+|====================
+
+Modify Section **3.32.6**, **Type Declaration Instructions**, adding the description of OpTypeSampledImage as follows:
+
+[[bookmark-OpTypeVmeImageINTEL]]
+[cols="1a"]
+|====================
+|*OpTypeVmeImageINTEL* +
+ +
+Declare a VME image type, the _Result Type_ of [blue]#<<bookmark-OpVmeImageINTEL,OpVmeImageINTEL>>#. This type is opaque: values of this type have no defined physical size or bit pattern.
+
+Image Type must be an OpTypeImage. It is the type of the image in the combined sampler and image type.
+
+[cols="1,1,2,2"]
+!====================
+! 3 ! 5700 ! Result <id> ! <id> Image Type
+!====================
+|====================
+
+Modify Section **3.32.6**, **Type Declaration Instructions**, adding to the end of the list of type declarations: +
+
+[[bookmark-OpTypeAvcMcePayloadINTEL]]
+[cols="1a"]
+|====================
+
+|*OpTypeAvcMcePayloadINTEL* +
+ +
+Declare the _Operand_ and/or _Result Type_ of a [blue]#<<bookmark-GroupMCEInstructions,AVC MCE Group Instruction>>#. Consumed by AVC MCE Group Instruction and represents the payload for a basic IME/REF/SIC operation. This type is opaque: values of this type have no defined physical size or bit pattern.
+
+[cols="1,1,2"]
+!====================
+! 2 ! 5704 ! Result <id>
+!====================
+|====================
+
+[[bookmark-OpTypeAvcImePayloadINTEL]]
+[cols="1a"]
+|====================
+
+|*OpTypeAvcImePayloadINTEL* +
+ +
+Declare the _Operand_ and/or _Result Type_ of a [blue]#<<bookmark-GroupIMEInstructions,AVC IME Group Instruction>>#. Consumed by AVC MCE Group Instruction and represents the payload for a basic IME operation. This type is opaque: values of this type have no defined physical size or bit pattern.
+
+[cols="1,1,2"]
+!====================
+! 2 ! 5701 ! _Result <id>_
+!====================
+|====================
+
+[[bookmark-OpTypeAvcRefPayloadINTEL]]
+[cols="1a"]
+|====================
+
+|*OpTypeAvcRefPayloadINTEL* +
+ +
+Declare the _Operand_ and/or _Result Type_ of a [blue]#<<bookmark-GroupREFInstructions,AVC REF Group Instruction>>#. Consumed by AVC REF Group Instruction and represents the payload for a basic REF operation. This type is opaque: values of this type have no defined physical size or bit pattern.
+
+[cols="1,1,2"]
+!====================
+! 2 ! 5702 ! _Result <id>_
+!====================
+|====================
+
+[[bookmark-OpTypeAvcSicPayloadINTEL]]
+[cols="1a"]
+|====================
+
+|*OpTypeAvcSicPayloadINTEL* +
+ +
+Declare the _Operand_ and/or _Result Type_ of a [blue]#<<bookmark-GroupSICGroupInstructions,AVC SIC Group Instruction>>#. Consumed by AVC SIC Group Instruction and represents the payload for a basic SIC operation. This type is opaque: values of this type have no defined physical size or bit pattern.
+
+[cols="1,1,2"]
+!====================
+! 2 ! 5703 ! _Result <id>_
+!====================
+|====================
+
+[[bookmark-OpTypeAvcMceResultINTEL]]
+[cols="1a"]
+|====================
+
+|*OpTypeAvcMceResultINTEL* +
+ +
+Declare the _Operand_ and/or _Result Type_ of a [blue]#<<bookmark-GroupMCEInstructions,AVC MCE Group Instruction>>#. Consumed by AVC MCE Group Instruction and represents the evluation results of a basic IME/REF/SIC operation. This type is opaque: values of this type have no defined physical size or bit pattern.
+
+[cols="1,1,2"]
+!====================
+! 2 ! 5705 ! _Result <id>_
+!====================
+|====================
+
+[[bookmark-OpTypeAvcImeResultINTEL]]
+[cols="1a"]
+|====================
+
+|*OpTypeAvcImeResultINTEL* +
+ +
+Declare the _Operand_ and/or _Result Type_ of a [blue]#<<bookmark-GroupIMEInstructions,AVC IME Group Instruction>>#. Consumed by AVC IME Group Instruction and represents the evaluation of a basic IME operation not using the stream-in/streamout functionality. This type is opaque: values of this type have no defined physical size or bit pattern.
+
+[cols="1,1,2"]
+!====================
+! 2 ! 5706 ! _Result <id>_
+!====================
+|====================
+[[bookmark-OpTypeAvcImeResultSingleReferenceStreamoutINTEL]]
+[cols="1a"]
+|====================
+
+|*OpTypeAvcImeResultSingleReferenceStreamoutINTEL* +
+ +
+Declare the _Operand_ and/or _Result Type_ of a [blue]#<<bookmark-GroupIMEInstructions,AVC IME Group Instruction>>#. Consumed by AVC IME Group Instruction and represents the additional results from the result of an IME evaluation using the streamout functionality that may be streamed-in in a subsequent IME streamin call. This type is opaque: values of this type have no defined physical size or bit pattern.
+
+[cols="1,1,2"]
+!====================
+! 2 ! 5707 ! _Result <id>_
+!====================
+|====================
+
+[[bookmark-OpTypeAvcImeResultDualReferenceStreamoutINTEL]]
+[cols="1a"]
+|====================
+
+|*OpTypeAvcImeResultDualReferenceStreamoutINTEL* +
+ +
+Declare the _Operand_ and/or _Result Type_ of a [blue]#<<bookmark-GroupIMEInstructions,AVC IME Group Instruction>>#. Consumed by AVC IME Group Instruction and represents the additional results from the result of an IME evaluation using the streamout functionality that may be streamed-in in a subsequent IME streamin call. This type is opaque: values of this type have no defined physical size or bit pattern.
+
+[cols="1,1,2"]
+!====================
+! 2 ! 5708 ! _Result <id>_
+!====================
+|====================
+
+[[bookmark-OpTypeAvcImeSingleReferenceStreaminINTEL]]
+[cols="1a"]
+|====================
+
+|*OpTypeAvcImeSingleReferenceStreaminINTEL* +
+ +
+Declare the _Operand_ and/or _Result Type_ of a [blue]#<<bookmark-GroupIMEInstructions,AVC IME Group Instruction>>#. Consumed by AVC IME Group Instruction and represents the additional results from the result of an IME evaluation using the streamout functionality that may be streamed-in in a subsequent IME streamin call. This type is opaque: values of this type have no defined physical size or bit pattern.
+
+[cols="1,1,2"]
+!====================
+! 2 ! 5709 ! _Result <id>_
+!====================
+|====================
+
+[[bookmark-OpTypeAvcImeDualReferenceStreaminINTEL]]
+[cols="1a"]
+|====================
+
+|*OpTypeAvcImeDualReferenceStreaminINTEL* +
+ +
+Declare the _Operand_ and/or _Result Type_ of a [blue]#<<bookmark-GroupIMEInstructions,AVC IME Group Instruction>>#. Consumed by AVC IME Group Instruction and represents the additional results from the result of an IME evaluation using the streamout functionality that may be streamed-in in a subsequent IME streamin call. This type is opaque: values of this type have no defined physical size or bit pattern.
+
+[cols="1,1,2"]
+!====================
+! 2 ! 5710 ! _Result <id>_
+!====================
+|====================
+
+[[bookmark-OpTypeAvcRefResultINTEL]]
+[cols="1a"]
+|====================
+
+|*OpTypeAvcRefResultINTEL* +
+ +
+Declare the _Operand_ and/or _Result Type_ of a [blue]#<<bookmark-GroupREFInstructions,AVC REF Group Instruction>>#. Consumed by AVC REF Group Instruction and represents the evaluation of a basic REF operation. This type is opaque: values of this type have no defined physical size or bit pattern.
+
+[cols="1,1,2"]
+!====================
+! 2 ! 5711 ! _Result <id>_
+!====================
+|====================
+
+[[bookmark-OpTypeAvcSicResultINTEL]]
+[cols="1a"]
+|====================
+
+|*OpTypeAvcSicResultINTEL* +
+ +
+Declare the _Operand_ and/or _Result Type_ of a [blue]#<<bookmark-GroupSICGroupInstructions,AVC SIC Group Instruction>>#. Consumed by AVC SIC Group Instruction and represents the evaluation of a basic SIC operation. This type is opaque: values of this type have no defined physical size or bit pattern.
+
+[cols="1,1,2"]
+!====================
+! 2 ! 5712 ! _Result <id>_
+!====================
+|====================
+
+<<<
+[[bookmark-BF]]
+=== Binary Form
+
+Modify Section **3**, **Binary Form**, adding to the numbered list the following sub-sections: +
+
+*Interlaced image field polarity values:* +
+
+[options="header"]
+[cols="10%,55%,35%"]
+|====================
+| | Field polarity values |  Enabling Capabilities 
+| 0x0 | AVC_ME_INTERLACED_SCAN_TOP_FIELD_INTEL | SubgroupAvcMotionEstimationINTEL 
+| 0x1 | AVC_ME_INTERLACED_SCAN_BOTTOM_FIELD_INTEL | SubgroupAvcMotionEstimationINTEL
+|====================
+
+*Inter macro-block major shape values:* +
+
+[options="header"]
+[cols="10%,55%,35%"]
+|====================
+| | Major shape values |  Enabling Capabilities 
+| 0x0 | AVC_ME_MAJOR_16x16_INTEL | SubgroupAvcMotionEstimationINTEL 
+| 0x1 | AVC_ME_MAJOR_16x8_INTEL | SubgroupAvcMotionEstimationINTEL
+| 0x2 | AVC_ME_MAJOR_8x16_INTEL | SubgroupAvcMotionEstimationINTEL 
+| 0x3 | AVC_ME_MAJOR_8x8_INTEL | SubgroupAvcMotionEstimationINTEL
+|====================
+
+*Inter macro-block minor shape values:* +
+
+[options="header"]
+[cols="10%,55%,35%"]
+|====================
+| | Minor shape values |  Enabling Capabilities 
+| 0x0 | AVC_ME_MINOR_8x8_INTEL | SubgroupAvcMotionEstimationINTEL 
+| 0x1 | AVC_ME_MINOR_8x4_INTEL | SubgroupAvcMotionEstimationINTEL
+| 0x2 | AVC_ME_MINOR_4x8_INTEL | SubgroupAvcMotionEstimationINTEL 
+| 0x3 | AVC_ME_MINOR_4x4_INTEL | SubgroupAvcMotionEstimationINTEL
+|====================
+
+*Inter macro-block major direction values:* +
+
+[options="header"]
+[cols="10%,55%,35%"]
+|====================
+| | Major direction values |  Enabling Capabilities 
+| 0x0 | AVC_ME_MAJOR_FORWARD_INTEL | SubgroupAvcMotionEstimationINTEL 
+| 0x1 | AVC_ME_MAJOR_BACKWARD_INTEL | SubgroupAvcMotionEstimationINTEL
+| 0x2 | AVC_ME_MAJOR_BIDIRECTIONAL_INTEL | SubgroupAvcMotionEstimationINTEL
+|====================
+
+*Inter (IME) partition mask values:* +
+
+[options="header"]
+[cols="10%,55%,35%"]
+|====================
+| | Partition mask values |  Enabling Capabilities 
+| 0x0 | AVC_ME_PARTITION_MASK_ALL_INTEL | SubgroupAvcMotionEstimationINTEL 
+| 0x7E | AVC_ME_PARTITION_MASK_16x16_INTEL | SubgroupAvcMotionEstimationINTEL
+| 0x7D | AVC_ME_PARTITION_MASK_16x8_INTEL | SubgroupAvcMotionEstimationINTEL
+| 0x7B | AVC_ME_PARTITION_MASK_8x16_INTEL | SubgroupAvcMotionEstimationINTEL
+| 0x77 | AVC_ME_PARTITION_MASK_8x8_INTEL | SubgroupAvcMotionEstimationINTEL
+| 0x6F | AVC_ME_PARTITION_MASK_8x4_INTEL | SubgroupAvcMotionEstimationINTEL
+| 0x5F | AVC_ME_PARTITION_MASK_4x8_INTEL | SubgroupAvcMotionEstimationINTEL
+| 0x3F | AVC_ME_PARTITION_MASK_4x4_INTEL | SubgroupAvcMotionEstimationINTEL
+|====================
+
+*Slice type values:* +
+[options="header"]
+[cols="10%,55%,35%"]
+|====================
+| | Polarity values |  Enabling Capabilities 
+| 0x0 | AVC_ME_SLICE_TYPE_PRED_INTEL | SubgroupAvcMotionEstimationINTEL 
+| 0x1 | AVC_ME_SLICE_TYPE_BPRED_INTEL | SubgroupAvcMotionEstimationINTEL 
+| 0x2 | AVC_ME_SLICE_TYPE_INTRA_INTEL | SubgroupAvcMotionEstimationINTEL 
+|====================
+
+*Search window configuration:* +
+[options="header"]
+[cols="10%,55%,35%"]
+|====================
+| | Search window configuration values |  Enabling Capabilities 
+| 0x0 | AVC_ME_SEARCH_WINDOW_EXHAUSTIVE_INTEL | SubgroupAvcMotionEstimationINTEL 
+| 0x1 | AVC_ME_SEARCH_WINDOW_SMALL_INTEL | SubgroupAvcMotionEstimationINTEL
+| 0x2 | AVC_ME_SEARCH_WINDOW_TINY_INTEL | SubgroupAvcMotionEstimationINTEL
+| 0x3 | AVC_ME_SEARCH_WINDOW_EXTRA_TINY_INTEL | SubgroupAvcMotionEstimationINTEL 
+| 0x4 | AVC_ME_SEARCH_WINDOW_DIAMOND_INTEL | SubgroupAvcMotionEstimationINTEL 
+| 0x5 | AVC_ME_SEARCH_WINDOW_LARGE_DIAMOND_INTEL | SubgroupAvcMotionEstimationINTEL 
+| 0x6 | AVC_ME_SEARCH_WINDOW_RESERVED0_INTEL | SubgroupAvcMotionEstimationINTEL 
+| 0x7 | AVC_ME_SEARCH_WINDOW_RESERVED1_INTEL | SubgroupAvcMotionEstimationINTEL 
+|====================
+
+*SAD adjustment mode:* +
+[options="header"]
+[cols="10%,55%,35%"]
+|====================
+| | SAD adjustment values |  Enabling Capabilities 
+| 0x0 | AVC_ME_SAD_ADJUST_MODE_NONE_INTEL | SubgroupAvcMotionEstimationINTEL 
+[[bookmark-HAAR]] | 0x2 | AVC_ME_SAD_ADJUST_MODE_HAAR_INTEL | SubgroupAvcMotionEstimationINTEL 
+|====================
+
+*Pixel resolution values:* +
+[options="header"]
+[cols="10%,55%,35%"]
+|====================
+| | Pixel resolution values |  Enabling Capabilities 
+| 0x0 | AVC_ME_SUBPIXEL_MODE_INTEGER_INTEL | SubgroupAvcMotionEstimationINTEL 
+| 0x1 | [[bookmark-AVC_ME_SUBPIXEL_MODE_HPEL_INTEL]]AVC_ME_SUBPIXEL_MODE_HPEL_INTEL | SubgroupAvcMotionEstimationINTEL 
+| 0x3 | [[bookmark-AVC_ME_SUBPIXEL_MODE_QPEL_INTEL]]AVC_ME_SUBPIXEL_MODE_QPEL_INTEL | SubgroupAvcMotionEstimationINTEL 
+|====================
+
+*Cost precision values:* +
+[options="header"]
+[cols="10%,55%,35%"]
+|====================
+| | Cost precision values |  Enabling Capabilities 
+| 0x0 | AVC_ME_COST_PRECISION_QPEL_INTEL | SubgroupAvcMotionEstimationINTEL 
+| 0x1 | AVC_ME_COST_PRECISION_HPEL_INTEL | SubgroupAvcMotionEstimationINTEL 
+| 0x2 | AVC_ME_COST_PRECISION_PEL_INTEL | SubgroupAvcMotionEstimationINTEL
+| 0x3 | AVC_ME_COST_PRECISION_DPEL_INTEL | SubgroupAvcMotionEstimationINTEL 
+|====================
+
+*Inter bidirectional weights:* +
+[options="header"]
+[cols="10%,55%,35%"]
+|====================
+| | Inter bidirectional weight values |  Enabling Capabilities 
+| 0x10 | AVC_ME_BIDIR_WEIGHT_QUARTER_INTEL | SubgroupAvcMotionEstimationINTEL 
+| 0x15 | AVC_ME_BIDIR_WEIGHT_THIRD_INTEL | SubgroupAvcMotionEstimationINTEL 
+| 0x20 | AVC_ME_BIDIR_WEIGHT_HALF_INTEL | SubgroupAvcMotionEstimationINTEL
+| 0x2B | AVC_ME_BIDIR_WEIGHT_TWO_THIRD_INTEL | SubgroupAvcMotionEstimationINTEL
+| 0x30 | AVC_ME_BIDIR_WEIGHT_THREE_QUARTER_INTEL | SubgroupAvcMotionEstimationINTEL 
+|====================
+
+*Inter border reached values* +
+[options="header"]
+[cols="10%,55%,35%"]
+|====================
+| | Inter border reached values |  Enabling Capabilities 
+| 0x0 | AVC_ME_BORDER_REACHED_LEFT_INTEL | SubgroupAvcMotionEstimationINTEL 
+| 0x2 | AVC_ME_BORDER_REACHED_RIGHT_INTEL | SubgroupAvcMotionEstimationINTEL 
+| 0x4 | AVC_ME_BORDER_REACHED_TOP_INTEL | SubgroupAvcMotionEstimationINTEL
+| 0x8 | AVC_ME_BORDER_REACHED_BOTTOM_INTEL | SubgroupAvcMotionEstimationINTEL
+|====================
+
+*Intra macro-block shape values* +
+[options="header"]
+[cols="10%,55%,35%"]
+|====================
+| | Intra macro-block shape values |  Enabling Capabilities 
+| 0x0 | AVC_ME_INTRA_16x16_INTEL | SubgroupAvcMotionEstimationINTEL 
+| 0x1 | AVC_ME_INTRA_8x8_INTEL | SubgroupAvcMotionEstimationINTEL
+| 0x2 | AVC_ME_INTRA_4x4_INTEL | SubgroupAvcMotionEstimationINTEL
+|====================
+
+*Inter skip block partition type:* +
+[options="header"]
+[cols="10%,55%,35%"]
+|====================
+| | Intra macro-block shape values |  Enabling Capabilities 
+| 0x0 | AVC_ME_SKIP_BLOCK_PARTITION_16x16_INTEL | SubgroupAvcMotionEstimationINTEL 
+| 0x04000 | AVC_ME_SKIP_BLOCK_PARTITION_8x8_INTEL | SubgroupAvcMotionEstimationINTEL
+|====================
+
+*Inter skip motion vector mask:* +
+[options="header"]
+[cols="10%,55%,35%"]
+|====================
+| | Inter skip motion vector values |  Enabling Capabilities 
+| (0x1<<24) | AVC_ME_SKIP_BLOCK_16x16_FORWARD_ENABLE_INTEL | SubgroupAvcMotionEstimationINTEL 
+| (0x2<<24) | AVC_ME_SKIP_BLOCK_16x16_BACKWARD_ ENABLE_INTEL | SubgroupAvcMotionEstimationINTEL 
+| (0x3<<24) | AVC_ME_SKIP_BLOCK_16x16_DUAL_ENABLE_INTEL | SubgroupAvcMotionEstimationINTEL 
+| (0x55<<24) | AVC_ME_SKIP_BLOCK_8x8_FORWARD_ENABLE_INTEL  | SubgroupAvcMotionEstimationINTEL 
+| (0xAA<<24) | AVC_ME_SKIP_BLOCK_8x8_BACKWARD_ENABLE_INTEL | SubgroupAvcMotionEstimationINTEL 
+| (0xFF<<24) | AVC_ME_SKIP_BLOCK_8x8_DUAL_ENABLE_INTEL  | SubgroupAvcMotionEstimationINTEL 
+| (0x1<<24) | AVC_ME_SKIP_BLOCK_8x8_0_FORWARD_ENABLE_INTEL  | SubgroupAvcMotionEstimationINTEL 
+| (0x2<<24) |  AVC_ME_SKIP_BLOCK_8x8_0_BACKWARD_ENABLE_INTEL | SubgroupAvcMotionEstimationINTEL 
+| (0x1<<26) |  AVC_ME_SKIP_BLOCK_8x8_1_FORWARD_ENABLE_INTEL  | SubgroupAvcMotionEstimationINTEL 
+| (0x2<<26) |  AVC_ME_SKIP_BLOCK_8x8_1_BACKWARD_ENABLE_INTEL | SubgroupAvcMotionEstimationINTEL 
+| (0x1<<28) | AVC_ME_SKIP_BLOCK_8x8_2_FORWARD_ENABLE_INTEL  | SubgroupAvcMotionEstimationINTEL 
+| (0x2<<28) | AVC_ME_SKIP_BLOCK_8x8_2_BACKWARD_ENABLE_INTEL | SubgroupAvcMotionEstimationINTEL 
+| (0x1<<30) | AVC_ME_SKIP_BLOCK_8x8_3_FORWARD_ENABLE_INTEL  | SubgroupAvcMotionEstimationINTEL 
+| (0x2<<30) | AVC_ME_SKIP_BLOCK_8x8_3_BACKWARD_ENABLE_INTEL | SubgroupAvcMotionEstimationINTEL 
+|====================
+
+*Block based skip type values:* +
+[options="header"]
+[cols="10%,55%,35%"]
+|====================
+| | Block based skip type values |  Enabling Capabilities 
+| 0x0 | AVC_ME_BLOCK_BASED_SKIP_4x4_INTEL | SubgroupAvcMotionEstimationINTEL
+| 0x80 | AVC_ME_BLOCK_BASED_SKIP_8x8_INTEL | SubgroupAvcMotionEstimationINTEL
+|====================
+
+*Luma intra partition mask values:* +
+[options="header"]
+[cols="10%,55%,35%"]
+|====================
+| | Luma intra partition mask values |  Enabling Capabilities 
+| 0x0 | AVC_ME_INTRA_LUMA_PARTITION_MASK_ALL_INTEL   | SubgroupAvcMotionEstimationINTEL, SubgroupAvcMotionEstimationIntraINTEL
+| 0x6 | AVC_ME_INTRA_LUMA_PARTITION_MASK_16x16_INTEL | SubgroupAvcMotionEstimationINTEL, SubgroupAvcMotionEstimationIntraINTEL
+| 0x5 | AVC_ME_INTRA_LUMA_PARTITION_MASK_8x8_INTEL   | SubgroupAvcMotionEstimationINTEL, SubgroupAvcMotionEstimationIntraINTEL
+| 0x3  | AVC_ME_INTRA_LUMA_PARTITION_MASK_4x4_INTEL   | SubgroupAvcMotionEstimationINTEL, SubgroupAvcMotionEstimationIntraINTEL
+|====================
+
+*Intra neighbor availability mask values:* +
+[options="header"]
+[cols="10%,55%,35%"]
+|====================
+| | Intra neighbor availability mask values |  Enabling Capabilities 
+| 0x60 | AVC_ME_INTRA_NEIGHBOR_LEFT_MASK_ENABLE_INTEL        | SubgroupAvcMotionEstimationINTEL, SubgroupAvcMotionEstimationIntraINTEL
+| 0x10 | AVC_ME_INTRA_NEIGHBOR_UPPER_MASK_ENABLE_INTEL       | SubgroupAvcMotionEstimationINTEL, SubgroupAvcMotionEstimationIntraINTEL
+| 0x8 | AVC_ME_INTRA_NEIGHBOR_UPPER_RIGHT_MASK_ENABLE_INTEL | SubgroupAvcMotionEstimationINTEL, SubgroupAvcMotionEstimationIntraINTEL
+| 0x4 | AVC_ME_INTRA_NEIGHBOR_UPPER_LEFT_MASK_ENABLE_INTEL  | SubgroupAvcMotionEstimationINTEL, SubgroupAvcMotionEstimationIntraINTEL
+|====================
+
+*Luma intra modes:* +
+[options="header"]
+[cols="10%,55%,35%"]
+|====================
+| | Luma intra mode values |  Enabling Capabilities 
+| 0x0 | AVC_ME_LUMA_PREDICTOR_MODE_VERTICAL_INTEL            | SubgroupAvcMotionEstimationINTEL, SubgroupAvcMotionEstimationIntraINTEL
+| 0x1 | AVC_ME_LUMA_PREDICTOR_MODE_HORIZONTAL_INTEL          | SubgroupAvcMotionEstimationINTEL, SubgroupAvcMotionEstimationIntraINTEL
+| 0x2 | AVC_ME_LUMA_PREDICTOR_MODE_DC_INTEL                  | SubgroupAvcMotionEstimationINTEL, SubgroupAvcMotionEstimationIntraINTEL
+| 0x3 | AVC_ME_LUMA_PREDICTOR_MODE_DIAGONAL_DOWN_LEFT_INTEL  | SubgroupAvcMotionEstimationINTEL, SubgroupAvcMotionEstimationIntraINTEL
+| 0x4 | AVC_ME_LUMA_PREDICTOR_MODE_DIAGONAL_DOWN_RIGHT_INTEL | SubgroupAvcMotionEstimationINTEL, SubgroupAvcMotionEstimationIntraINTEL
+| 0x4 | AVC_ME_LUMA_PREDICTOR_MODE_PLANE_INTEL               | SubgroupAvcMotionEstimationINTEL, SubgroupAvcMotionEstimationIntraINTEL
+| 0x5 | AVC_ME_LUMA_PREDICTOR_MODE_VERTICAL_RIGHT_INTEL      | SubgroupAvcMotionEstimationINTEL, SubgroupAvcMotionEstimationIntraINTEL
+| 0x6 | AVC_ME_LUMA_PREDICTOR_MODE_HORIZONTAL_DOWN_INTEL     | SubgroupAvcMotionEstimationINTEL, SubgroupAvcMotionEstimationIntraINTEL
+| 0x7 | AVC_ME_LUMA_PREDICTOR_MODE_VERTICAL_LEFT_INTEL       | SubgroupAvcMotionEstimationINTEL, SubgroupAvcMotionEstimationIntraINTEL
+| 0x8 | AVC_ME_LUMA_PREDICTOR_MODE_HORIZONTAL_UP_INTEL       | SubgroupAvcMotionEstimationINTEL, SubgroupAvcMotionEstimationIntraINTEL
+|====================
+          
+*Chroma intra modes:* +
+[options="header"]
+[cols="10%,55%,35%"]
+|====================
+| | Chroma intra mode values |  Enabling Capabilities 
+| 0x0 | AVC_ME_CHROMA_PREDICTOR_MODE_DC_INTEL         | SubgroupAvcMotionEstimationINTEL,  SubgroupAvcMotionEstimationChromaINTEL
+| 0x1 | AVC_ME_CHROMA_PREDICTOR_MODE_HORIZONTAL_INTEL | SubgroupAvcMotionEstimationINTEL, SubgroupAvcMotionEstimationChromaINTEL
+| 0x2 | AVC_ME_CHROMA_PREDICTOR_MODE_VERTICAL_INTEL   | SubgroupAvcMotionEstimationINTEL, SubgroupAvcMotionEstimationChromaINTEL
+| 0x3 | AVC_ME_CHROMA_PREDICTOR_MODE_PLANE_INTEL      | SubgroupAvcMotionEstimationINTEL, SubgroupAvcMotionEstimationChromaINTEL
+|====================
+
+*Reference image select values:* +
+[options="header"]
+[cols="10%,55%,35%"]
+|====================
+| | Reference image select values |  Enabling Capabilities 
+| 0x1 | [[bookmark-forward]]AVC_ME_FRAME_FORWARD_INTEL  | SubgroupAvcMotionEstimationINTEL
+| 0x2 | [[bookmark-backward]]AVC_ME_FRAME_BACKWARD_INTEL | SubgroupAvcMotionEstimationINTEL
+| 0x3 | [[bookmark-dual]]AVC_ME_FRAME_DUAL_INTEL     | SubgroupAvcMotionEstimationINTEL
+|====================
+
+<<<
+[[bookmark-Instructions]]
+=== Instructions
+
+Modify Section **3.32.7**, **Constant-Creation Instructions**, amending the desciption of OpConstantNull as follow:
+
+[cols="1a"]
+|====================
+|*OpConstantNull* +
+ +
+Declare a new null constant value.
+
+The null value is type dependent, defined as follows:
+
+- Scalar Boolean: false
+- Scalar integer: 0
+- Scalar floating point: +0.0 (all bits 0)
+- All other scalars: Abstract
+- Composites: Members are set recursively to the null constant according to the null value of their constituent types.
+- [blue]#<<bookmark-OpTypesVME, IME/REF/SIC payload & result types>>#: Abstract
+
+Result Type must be one of the following types:
+
+- Scalar or vector Boolean type
+- Scalar or vector integer type
+- Scalar or vector floating-point type
+- Pointer type
+- Event type
+- Device side event type
+- Reservation id type
+- Queue type
+- Composite type
+- [blue]#<<bookmark-OpTypesVME, IME/REF/SIC payload or result type>>#
+
+[cols="1,1,2,2"]
+!====================
+! 3 ! 46 ! <id> Result Type ! Result <id> !
+!====================
+|====================
+
+
+Modify Section **3.32.10**, **Image Instructions**, amending the description of OpImage as follows:
+
+[cols="1a"]
+|====================
+|*OpImage* +
+ +
+Extract the image from a sampled or VME image.
+
+Result Type must be OpTypeImage.
+
+Sampled Image must have type OpTypeSampledImage or [blue]#<<bookmark-OpTypeVmeImageINTEL,__OpTypeVmeImageINTEL__>># whose Image Type is the same as Result Type.
+
+[cols="1,1,2,2,3"]
+!====================
+! 4 ! 100 ! <id> Result Type ! Result <id> ! <id> VME Image !
+!====================
+|====================
+
+Modify Section **3.32.10**, **Image Instructions**, adding the description of OpVmeImageINTEL as follows:
+
+[[bookmark-OpVmeImageINTEL]]
+[cols="1a"]
+|====================
+|*OpVmeImageINTEL* +
+ +
+Create a VME image, containing both a (media) sampler and an image.
+
+Result Type must be the [blue]#<<bookmark-OpTypeVmeImageINTEL,__OpTypeVmeImageINTEL__>># type.
+
+Image is an object whose type is an OpTypeImage, whose Sampled operand is 0 or 1, and whose Dim operand is not SubpassData.
+
+Sampler must be an object whose type is [blue]#<<bookmark-OpTypeSampler,__OpTypeSampler__>>#.
+
+[cols="1,1,2,2,2,2"]
+!====================
+! 5 ! 5699 ! <id> Result Type ! Result <id> ! <id> Image Type ! <id> Sampler
+!====================
+|====================
+
+[[bookmark-InstructionsGroup]]
+
+Modify Section 3.32.21, **Group Instructions**, adding to the end of the list of instructions the following MCE instructions:
+
+<<<
+[[bookmark-GroupMCEInstructions]]
+==== MCE instructions
+
+A set of generic MCE operations which may be called for IME, REF, or SIC operations with the restrictions as stated in their descriptions. They can be called only during specific phases of these operations as indicated in the description of the instructions.
+
+These instruction are only guaranteed to work correctly if placed strictly within uniform control flow within the Subgroup execution scope. This ensures that if any invocation executes it, all invocations will execute it. If placed elsewhere, the results are undefined.
+
+===== Multi-reference cost configuration instructions:
+
+These instructions enable multi-reference image costing. They allow for the configuration of the payloads to favorably bias the major partitions coming from reference images that are closer to the source image, than the ones coming from reference images that are further away. The distance of the reference images, in the timing order, from the source image is implied based on the order in which the reference images are declared in the kernel parameter operand list.
+
+[cols="1,1,1,1,1,1",width="100%"]
+|=====
+5+|*OpSubgroupAvcMceGetDefaultInterBaseMultiReferencePenaltyINTEL* +
+ +
+Get the default base multi-reference cost penalty in U4U4 format when HW assisted multi-reference search is used. 
+
+'Result Type' must be an OpTypeInt with 8-bit Width and 0 Signedness in U4U4 format.
+
+'Slice Type' must be an OpTypeInt with 8-bit Width and 0 Signedness that must evaluate to a valid slice type value as per [blue]#<<bookmark-BF,Section 3, Binary Form>>#.
+
+'Qp' must be a 8-bit scalar integer type and a valid quantization parameter value between 0 and 51. It is treated as an unsigned value.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 5 | 5713 | <id> Result Type | Result <id> | <id> Slice Type | <id> Qp
+|=====
+
+[cols="1a,1,1,1,1,1",width="100%"]
+|=====
+5+|*OpSubgroupAvcMceSetInterBaseMultiReferencePenaltyINTEL* +
+ +
+Set the multi-reference base penalty when HW assisted multi-reference search is performed.
+
+Reference major partitions get associated with a penalty based on its distance from the source image. The 'Reference Base Penalty' is scaled using a scaling factor based on the implied distance of the reference image from
+the source image as shown below.
+
+[cols="1,1",tablepcwidth=50]
+!====================
+! 0 !  0x
+! [1, 2] !  1x
+! [3, 6] !  2x
+! [7, 15] !  3x
+!====================
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcMcePayloadINTEL,__OpTypeAvcMcePayloadINTEL__>># type.
+
+'Reference Base Penalty' must be 8-bit scalar integer type in U4U4 format and the decoded integer value must fit within 12 bits. It is treated as an unsigned value.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcMcePayloadINTEL,__OpTypeAvcMcePayloadINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 5 | 5714 | <id> Result Type | Result <id> | <id> Reference Base Penalty | <id> Payload
+|=====
+
+===== Inter shape and direction cost configuration instructions
+
+These instructions enable shape costing for inter estimation. They allow for the configuration of payloads for the biasing of certain shapes over others based on the configured parameters.
+
+[cols="1,1,1,1,1,1",width="100%"]
+|=====
+5+|*OpSubgroupAvcMceGetDefaultInterShapePenaltyINTEL* +
+ +
+Get the default packed shape cost for inter estimation in U4U4 format.
+
+'Result Type' must be an OpTypeInt with 64-bit Width and 0 Signedness.
+
+'Slice Type' must be an OpTypeInt with 8-bit Width and 0 Signedness that must evaluate to a valid slice type value as per [blue]#<<bookmark-BF,Section 3, Binary Form>>#.
+
+'Qp' must be a 8-bit scalar integer type and a valid quantization parameter value between 0 and 51. It is treated as an unsigned value.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 5 | 5715 | <id> Result Type | Result <id> | <id> Slice Type | <id> Qp
+|=====
+
+[cols="1a,1,1,1,1,1",width="100%"]
+|=====
+5+|*OpSubgroupAvcMceSetInterShapePenaltyINTEL* +
+ +
+Set the shape penalty for inter motion estimation.
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcMcePayloadINTEL,__OpTypeAvcMcePayloadINTEL__>># type.
+
+'Packed Shape Penalty' must be 64-bit scalar integer type. It is treated as an unsigned value. The following bits specify the shape penalty in U4U4 format:
+
+[cols="1,3",tablepcwidth=55]
+!====================
+! 7:0 !  16x8 and 8x16
+! 15:8 !  8x8
+! 23:16 !  8x4 and 4x8
+! 31:24 !  4x4
+! 39:32 ! 16x16
+! 63:40 ! Must be zero
+!====================
+
+The U4U4 decoded integer values for byte 0 and byte 4 must bit fit in 12 bits, while the U4U4 decoded integer values for the other bytes must fit within 10 bits.      
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcMcePayloadINTEL,__OpTypeAvcMcePayloadINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 5 | 5716 | <id> Result Type | Result <id> | <id> Packed Shape Penalty | <id> Payload
+|=====
+
+[cols="1,1,1,1,1,1",width="100%"]
+|=====
+5+|*OpSubgroupAvcMceGetDefaultInterDirectionPenaltyINTEL* +
+ +
+Get the default direction penalty for inter estimation in U4U4 format.     
+
+'Result Type' must be an OpTypeInt with 8-bit Width and 0 Signedness.
+
+'Slice Type' must be an OpTypeInt with 8-bit Width and 0 Signedness that must evaluate to a valid slice type value as per [blue]#<<bookmark-BF,Section 3, Binary Form>>#.
+
+'Qp' must be a 8-bit scalar integer type and a valid quantization parameter value between 0 and 51. It is treated as an unsigned value.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 5 | 5717 | <id> Result Type | Result <id> | <id> Slice Type | <id> Qp
+|=====
+
+[cols="1,1,1,1,1,1",width="100%"]
+|=====
+5+|*OpSubgroupAvcMceSetInterDirectionPenaltyINTEL* +
+ +
+Set the direction penalty for backward images used in inter motion estimation. 
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcMcePayloadINTEL,__OpTypeAvcMcePayloadINTEL__>># type.
+
+'Direction Cost' must be 8-bit scalar integer type in U4U4 format and
+the decoded integer value must fit within 12 bits. It is treated as an unsigned value.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcMcePayloadINTEL,__OpTypeAvcMcePayloadINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 5 | 5718 | <id> Result Type | Result <id> | <id> Direction Cost | <id> Payload
+|=====
+
+===== Intra shape cost configuration phase instructions
+
+These instructions enable shape costing for intra estimation. They allow for the configuration of payloads for biasing of certain shapes over others based on the configured parameters. Only the instruction providing the default shape penalty is specified as an MCE instruction. The instruction which actually configures the payload for the intra estimation operation is specified as a SIC instruction.
+
+[cols="1,1,1,1,1,1",width="100%"]
+|=====
+5+|*OpSubgroupAvcMceGetDefaultIntraLumaShapePenaltyINTEL* +
+ +
+Get the default packed luma intra penalty estimation in U4U4 format.     
+
+'Result Type' must be an OpTypeInt with 32-bit Width and 0 Signedness.
+
+'Slice Type' must be an OpTypeInt with 8-bit Width and 0 Signedness that must evaluate to a valid slice type value as per [blue]#<<bookmark-BF,Section 3, Binary Form>>#.
+
+'Qp' must be a 8-bit scalar integer type and a valid quantization parameter value between 0 and 51. It is treated as an unsigned value.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL, SubgroupAvcMotionEstimationIntraINTEL* +
+| 5 | 5719 | <id> Result Type | Result <id> | <id> Slice Type | <id> Qp
+|=====
+
+===== Inter motion vector cost configuration phase instructions
+
+These instructions enable motion vector costing for inter estimation. The distortion measure is augmented to favor motion vectors closer to the cost-center considered in conjunction with the primary objective of minimizing the SAD between the source and reference blocks.
+
+[cols="1,1,1,1,1,1",width="100%"]
+|=====
+5+|*OpSubgroupAvcMceGetDefaultInterMotionVectorCostTableINTEL* +
+ +
+Get the default inter motion vector cost table for the pre-defined control points in U4U4 format for the input Qp and slice type.
+
+'Result Type' must be a vector(2) of i32 values and 0 Signedness.
+
+'Slice Type' must be an OpTypeInt with 8-bit Width and 0 Signedness that must evaluate to a valid slice type value as per [blue]#<<bookmark-BF,Section 3, Binary Form>>#.
+
+'Qp' must be a 8-bit scalar integer type and a valid quantization parameter value between 0 and 51. It is treated as an unsigned value.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 5 | 5720 | <id> Result Type | Result <id> | <id> Slice Type | <id> Qp
+|=====
+
+[cols="1,1,1,1",width="100%"]
+|=====
+3+|*OpSubgroupAvcMceGetDefaultHighPenaltyCostTableINTEL* +
+ +
+Get the default predefined packed U4U4 format high cost table for high Qp. This may be more appropriate for frame sequences with high motion.
+
+'Result Type' must be a vector(2) of i32 values and 0 Signedness.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 3 | 5721 | <id> Result Type | Result <id>
+|=====
+
+[cols="1,1,1,1",width="100%"]
+|=====
+3+|*OpSubgroupAvcMceGetDefaultMediumPenaltyCostTableINTEL* +
+ +
+Get the default predefined packed U4U4 format high cost table for medium Qp. This may be more appropriate for frame sequences with high motion.
+
+'Result Type' must be a vector(2) of i32 values and 0 Signedness.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 3 | 5722 | <id> Result Type | Result <id>
+|=====
+
+[cols="1,1,1,1",width="100%"]
+|=====
+3+|*OpSubgroupAvcMceGetDefaultLowPenaltyCostTableINTEL* +
+ +
+Get the default predefined packed U4U4 format low cost table for high Qp. This may be more appropriate for frame sequences with high motion.
+
+'Result Type' must be a vector(2) of i32 values and 0 Signedness.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 3 | 5723 | <id> Result Type | Result <id>
+|=====
+
+[cols="1a,1,1,1,1,1,1,1",width="100%"]
+|=====
+7+|*OpSubgroupAvcMceSetMotionVectorCostFunctionINTEL* +
+ +
+Update the input payload to set the cost precision along with the cost center and cost table and return it.
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcMcePayloadINTEL,__OpTypeAvcMcePayloadINTEL__>># type.
+
+'Packed Cost Center Delta' must be an OpTypeInt with 64-bit Width and 0 Signedness. It is the packed bidirectional cost center delta value relative to the source macroblock, which specifies the 4 bidirectional cost centers of each of the 8x8 partitions of the reference image.  If only unidirectional search is performed then the values of the backward reference cost centers must be zero. Work-item 'n' provides the value of cost center 'n'. It is specified in QPEL units. For 16x16 partitions work-item '0' provides the cost center. For 8x16 partitions work-items '0' and '1' provide the cost centers. For 16x8 partitions work-items '0' and '2' provide the cost centers. The X and Y coordinates of each cost center delta must be in the range [-2048, 2047] and [-512.00 to 511.75] respectively, otherwise the results are undefined.
+
+'Packed Cost Table' must be a vector(2) of i32 values and 0 Signedness and specifies the cost penalties for pre-defined control points in U4U4 format in the cost function curve. The first 7 bytes specify 7 control points representing consecutive powers-of-two delta units (2^0^ to 2^6^).  Each delta unit, dx, is the distance of a motion vector, mv, from the specified cost center, cc (dx=abs(mv-cc)). The cost penalty values at in-between control points are linearly interpolated. The range of the cost function is defined to be from 2^0^ to 2^6^ delta units. The 8th byte of the packed cost table specifies the penalty base factor (over_cost) for dx distances that are out-of-range. The penalty of out-of-range cost dx distances is computed as min(over_cost + int(dx) - 64, 255).
+
+'Cost Precision' must be an OpTypeInt with 8-bit Width and 0 Signedness that must evaluate to a valid cost precision value as per [blue]#<<bookmark-BF,Section 3, Binary Form>>#, and specifies the precision of the delta units from the cost center, dx. This effectively can be used to control the range of the cost function as follows:
+
+[options="header"]
+[cols="10,15,15",tablepcwidth=55]
+!====================
+!Precision ! Deltas ! Pixel Range
+! PEL !  pixel ! 0-64
+! DPEL !  dual pixel ! 0-127
+! HALF !  half pixel ! 0-31 
+! QUARTER !  quarter pixel ! 0-15
+!====================
+
+The inter distortion for a block can be described by the following formula:
+
+........................................
+Distortion = 
+    SAD(or HAAR) + MV_Cost_Penalty +
+    Shape_Penalty + Direction_Cost +
+    Multi_Reference_Penalty 
+........................................
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcMcePayloadINTEL,__OpTypeAvcMcePayloadINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 7 | 5724 | <id> Result Type | Result <id> | <id> Packed Cost Center Delta | <id> Packed Cost Table | <id> Cost Precision | <id> Payload
+|=====
+
+===== Intra mode cost configuration phase instructions
+
+These instructions enable mode costing for intra estimation. They allow for the configuration of payloads to bias the computed intra modes to be closer to their configured neighbor modes. This form of costing is similar to the inter motion vector costing. Only the instructions providing the defaults mode costs are specified as MCE instructions. The remaining instructions which actually configure the payload for the intra estimation operation is specified as SIC instruction.
+
+[cols="1,1,1,1,1,1",width="100%"]
+|=====
+5+|*OpSubgroupAvcMceGetDefaultIntraLumaModePenaltyINTEL* +
+ +
+Get the default inter motion vector cost table for the pre-defined control points in U4U4 format for the input Qp and slice type.
+
+'Result Type' must be an OpTypeInt with 8-bit Width and 0 Signedness in U4U4 format.
+
+'Slice Type' must be an OpTypeInt with 8-bit Width and 0 Signedness that must evaluate to a valid slice type value as per [blue]#<<bookmark-BF,Section 3, Binary Form>>#.
+
+'Qp' must be a 8-bit scalar integer type and a valid quantization parameter value between 0 and 51. It is treated as an unsigned value.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL, SubgroupAvcMotionEstimationIntraINTEL* +
+| 5 | 5725 | <id> Result Type | Result <id> | <id> Slice Type | <id> Qp
+|=====
+
+[cols="1,1,1,1",width="100%"]
+|=====
+3+|*OpSubgroupAvcMceGetDefaultNonDcLumaIntraPenaltyINTEL* +
+ +
+Get the default intra non-dc cost penalty for intra luma estimation in packed 32-bit integer format.
+
+'Result Type' must be an OpTypeInt with 32-bit Width and 0 Signedness.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL, SubgroupAvcMotionEstimationIntraINTEL* +
+| 3 | 5726 | <id> Result Type | Result <id>
+|=====
+
+[cols="1,1,1,1",width="100%"]
+|=====
+3+|*OpSubgroupAvcMceGetDefaultIntraChromaModeBasePenaltyINTEL* +
+ +
+Get the default chroma mode base penalty in U4U4 format.       
+
+'Result Type' must be an OpTypeInt with 8-bit Width and 0 Signedness in U4U4 format.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL, SubgroupAvcMotionEstimationChromaINTEL* +
+| 3 | 5727 | <id> Result Type | Result <id>
+|=====
+
+===== Miscellaneous property configuration phase instructions
+
+These instructions enable miscellaneous MCE properties settings.
+
+[cols="1,1,1,1,1",width="100%"]
+|=====
+4+|*OpSubgroupAvcMceSetAcOnlyHaarINTEL* +
+ +
+Update the input payload to enable an AC only HAAR SAD mode and return it. It overrides any previous setting for sad adjustment. This feature is mainly intended for improved block matching in frame-rate conversion (FRC) kernels.
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcMcePayloadINTEL,__OpTypeAvcMcePayloadINTEL__>># type.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcMcePayloadINTEL,__OpTypeAvcMcePayloadINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 4 | 5728 | <id> Result Type | Result <id> | <id> Payload
+|=====
+
+[cols="1,1,1,1,1,1",width="100%"]
+|=====
+5+|*OpSubgroupAvcMceSetSourceInterlacedFieldPolarityINTEL* +
+ +
+Update the input payload to specify the field polarities for interlaced source images used for inter or intra operations.
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcMcePayloadINTEL,__OpTypeAvcMcePayloadINTEL__>># type.
+
+'Source Field Polarity' must be an OpTypeInt with 8-bit Width and 0 Signedness that must evaluate to an OpTypeInt with 8-bit Width and 0 Signedness that must evaluate to a valid field polarity value as per [blue]#<<bookmark-BF,Section 3, Binary Form>># indicating the field polarity for the source image.  
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcMcePayloadINTEL,__OpTypeAvcMcePayloadINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 5 | 5729 | <id> Result Type | Result <id> | <id> Source Field Polarity | <id> Payload
+|=====
+
+[cols="1,1,1,1,1,1",width="100%"]
+|=====
+5+|*OpSubgroupAvcMceSetSingleReferenceInterlacedFieldPolarityINTEL* +
+ +
+Update the input payload to specify the field polarities for interlaced reference images used for single reference inter search or check operation.  
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcMcePayloadINTEL,__OpTypeAvcMcePayloadINTEL__>># type.
+
+'Reference Field Polarity' must be an OpTypeInt with 8-bit Width and 0 Signedness that must evaluate to a valid field polarity value as per [blue]#<<bookmark-BF,Section 3, Binary Form>># indicating the field polarity for the reference image.  
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcMcePayloadINTEL,__OpTypeAvcMcePayloadINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 5 | 5730 | <id> Result Type | Result <id> | <id> Reference Field Polarity | <id> Payload
+|=====
+
+[cols="1,1,1,1,1,1,1",width="100%"]
+|=====
+6+|*OpSubgroupAvcMceSetDualReferenceInterlacedFieldPolaritiesINTEL* +
+ +
+Update the input payload to specify the field polarities for interlaced reference images used for dual reference inter search or check operation.  
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcMcePayloadINTEL,__OpTypeAvcMcePayloadINTEL__>># type.
+
+'Forward Reference Field Polarity' must be an OpTypeInt with 8-bit Width and 0 Signedness that must evaluate to a valid field polarity value as per [blue]#<<bookmark-BF,Section 3, Binary Form>># indicating the field polarity for the forward reference image.
+
+'Backward Reference Field Polarity' must be an OpTypeInt with 8-bit Width and 0 Signedness that must evaluate to a valid field polarity value as per [blue]#<<bookmark-BF,Section 3, Binary Form>># indicating the field polarity for the forward reference image.  
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcMcePayloadINTEL,__OpTypeAvcMcePayloadINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 6 | 5731 | <id> Result Type | Result <id> | <id> Forward Reference Field Polarity | <id> Backward Reference Field Polarity | <id> Payload
+|=====
+
+===== Result processing phase instructions
+
+These instructions facilitate the extraction of components of the result from VME unit.
+
+[[bookmark-OpSubgroupAvcMceGetMotionVectorsINTEL]]
+[cols="1a,1,1,1,1",width="100%"]
+|=====
+4+|*OpSubgroupAvcMceGetMotionVectorsINTEL* +
+ +
+Get the MCE packed BMVs result. +
+
+Up to 16 packed BMVs are returned, one per work-item. If the MCE search operation's payload was setup for unidirectional search then only the forward packed MV will be valid in each BMV, otherwise both packed MVs will be valid. The BMVs have to be selected by their respective work-items based on the result block major and minor shapes.  +
+
+If the major shape is:
+
+* 16x16, then one BMV is returned by work-item 0  +
+* 16x8, or 8x16, then two BMVs are returned by work-items 0 and 8  +
+* 8x8, then four sets of BMVs corresponding to the four partitions in traditional Z-order are returned by work-items in the ranges [0, 3], [4, 7], [8, 11], and [12, 15]; the minor shape will determine exactly which work-items in the reserved inclusive range for the partition returns the BMVs for that partition  +
+
+If the range of work-items for the 8x8 major partition is [n, n+3] and the minor shape is:
+
+* 8x8, then work-item 'n' returns the BMV for each minor partition  +
+* 8x4 or 4x8, then work-items 'n' and 'n+2' returns the BMVs for each minor partition  +
+* 4x4, then all work-items in [n, n+3] return the BMVs for each minor partition in traditional Z-order  +
+
+[IMPORTANT]
+====
+. All sub-block BMVs get replicated for each partition. For example, for a 16x16
+partition, all smaller sub-block BMVs are replicated to the same BMV, and for 8x8 partition, each 8x8 must have its respective sub-block BMVs replicated. This
+is not important to extract the component BMVs itself, but is needed if the result of this instruction is used to initialize the input motion vectors of a REF initialization instruction.
+
+. With interlaced images, the MBs for the top field MBs are considered as logically
+overlapping with the bottom MBs. 
+====
+
+'Result Type' must be an OpTypeInt with 64-bit Width and 0 Signedness.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcImeResultINTEL,__OpTypeAvcImeResultINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 4 | 5738 | <id> Result Type | Result <id> | <id> Payload
+|=====
+
+[cols="1,1,1,1,1",width="100%"]
+|=====
+4+|*OpSubgroupAvcMceGetInterDistortionsINTEL* +
+ +
+Get the MCE inter distortions result corresponding to the BMVs returned by [blue]#<<bookmark-OpSubgroupAvcMceGetMotionVectorsINTEL,OpSubgroupAvcMceGetMotionVectorsINTEL>>#. The MCE inter directions result
+returned by [blue]#<<bookmark-OpSubgroupAvcMceGetInterDirectionsINTEL,OpSubgroupAvcMceGetInterDirectionsINTEL>># will specify if the distortion corresponds to the forward MV, backward MV, or the bidirectional MV in the BMV. Up to 16 distortions are returned, one per work-item.
+
+The distortions have to be selected by their respective work-items based on the result block major and minor shapes just as for the result MVs as described above.
+
+'Result Type' must be an OpTypeInt with 16-bit Width and 0 Signedness.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcImeResultINTEL,__OpTypeAvcImeResultINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 4 | 5739 | <id> Result Type | Result <id> | <id> Payload
+|=====
+
+[cols="1,1,1,1,1",width="100%"]
+|=====
+4+|*OpSubgroupAvcMceGetBestInterDistortionsINTEL* +
+ +
+Get the best inter distortion for the whole MB. 
+
+'Result Type' must be an OpTypeInt with 16-bit Width and 0 Signedness.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcImeResultINTEL,__OpTypeAvcImeResultINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 4 | 5740 | <id> Result Type | Result <id> | <id> Payload
+|=====
+
+[[bookmark-OpSubgroupAvcMceGetInterMajorShapeINTEL]]
+[cols="1,1,1,1,1",width="100%"]
+|=====
+4+|*OpSubgroupAvcMceGetInterMajorShapeINTEL* +
+ +
+Get the MCE inter MB major partition shape.
+
+The returned values are as per the inter-MB major shapes values as per [blue]#<<bookmark-BF,Section 3, Binary Form>>#.
+
+This can only be called as part of an IME or REF operation evaluation.
+
+'Result Type' must be an OpTypeInt with 8-bit Width and 0 Signedness.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcImeResultINTEL,__OpTypeAvcImeResultINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 4 | 5741 | <id> Result Type | Result <id> | <id> Payload
+|=====
+
+[[bookmark-OpSubgroupAvcMceGetInterMinorShapeINTEL]]
+[cols="1,1,1,1,1",width="100%"]
+|=====
+4+|*OpSubgroupAvcMceGetInterMinorShapeINTEL* +
+ +
+Get the MCE inter MB minor partition shapes.
+
+It returns a bit field with the minor shapes for the 4 8x8 sub-partitions in traditional Z order. Two bits are reserved for each of the four sub-partitions in row-major order.  The returned 2-bit values are as per the inter-MB minor shapes values as per [blue]#<<bookmark-BF,Section 3, Binary Form>>#.
+
+This instruction returns valid results only if the major shape is 8x8, otherwise the results are undefined.
+
+This can only be called as part of an IME or REF operation evaluation.
+
+'Result Type' must be an OpTypeInt with 8-bit Width and 0 Signedness.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcImeResultINTEL,__OpTypeAvcImeResultINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 4 | 5742 | <id> Result Type | Result <id> | <id> Payload
+|=====
+
+[[bookmark-OpSubgroupAvcMceGetInterDirectionsINTEL]]
+[cols="1a,1,1,1,1",width="100%"]
+|=====
+4+|*OpSubgroupAvcMceGetInterDirectionsINTEL* +
+ +
+Get the MCE inter MB major partition directions.
+
+It returns a bit field with the direction for up to 4 major sub-partitions in traditional Z order. Two bits are reserved for each of the four sub-partitions. The returned 2-bit values are as per the inter-MB major shape direction values as per [blue]#<<bookmark-BF,Section 3, Binary Form>>#.
+
+If the major partition is:
+
+* 16x16, then bits in the range [0, 1] contains the direction
+* 16x8 or 8x16, then bits in the ranges [0, 1] and [2,3] contains the two partitions
+  directions
+* 8x8, then bits in the ranges [0, 1], [2, 3], [4,5], and [6, 7] contains the four  partitions directions
+
+The returned values are as per the inter direction values as per [blue]#<<bookmark-BF,Section 3, Binary Form>>#.
+
+This can only be called as part of an IME or REF operation evaluation.
+
+'Result Type' must be an OpTypeInt with 8-bit Width and 0 Signedness.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcImeResultINTEL,__OpTypeAvcImeResultINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 4 | 5743 | <id> Result Type | Result <id> | <id> Payload
+|=====
+
+[cols="1,1,1,1,1",width="100%"]
+|=====
+4+|*OpSubgroupAvcMceGetInterMotionVectorCountINTEL* +
+ +
+Get the count of motion vectors (based on the partitioning decision) returned by the search operation.
+
+This can only be called as part of an IME or REF operation evaluation.
+
+'Result Type' must be an OpTypeInt with 8-bit Width and 0 Signedness.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcImeResultINTEL,__OpTypeAvcImeResultINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 4 | 5744 | <id> Result Type | Result <id> | <id> Payload
+|=====
+
+[[bookmark-OpSubgroupAvcMceGetInterReferenceIdsINTEL]]
+[cols="1a,1,1,1,1",width="100%"]
+|=====
+4+|*OpSubgroupAvcMceGetInterReferenceIdsINTEL* +
+ +
+Get the MCE inter MB reference identifiers in a packed integer format, with the following bits specifying the reference identifiers for the major partitions.
+
+[cols="15,40",tablepcwidth=55]
+!====================
+! 3:0   ! Fwd reference block 0
+! 7:4   ! Bwd reference block 0
+! 11:8  ! Fwd reference block 1
+! 15:12 ! Bwd reference block 1
+! 19:16 ! Fwd reference block 2
+! 23:20 ! Bwd reference block 2
+! 27:24 ! Fwd reference block 3
+! 31:28 ! Bwd reference block 3
+!====================
+
+The values of each individual 4-bit reference identifier range from 0 to 15, with each value identifying the distance of ordered pair of forward/backward reference images as declared in the VME kernel parameter operand list.
+
+If the dual-reference evaluation instructions are not used, then the values of the backward reference identifiers are undefined.
+
+The blocks are numbered using the traditional Z order. For larger block sizes, the
+sub-block reference identifier pairs are replicated. For example, for a 16x16 block all
+four pairs of reference identifiers are replicated to the value of the first pair for
+block 0.
+
+[NOTE]
+====
+Unless HW assisted multi-reference search was performed using the IME streamin/streamout evaluation instructions, the individual 4-bit reference identifier pair values will all be the same (pointing to the same pair for forward/backward reference
+images). 
+====
+
+'Result Type' must be an OpTypeInt with 32-bit Width and 0 Signedness.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcImeResultINTEL,__OpTypeAvcImeResultINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 4 | 5745 | <id> Result Type | Result <id> | <id> Payload
+|=====
+
+[cols="1a,1,1,1,1,1,1",width="100%"]
+|=====
+6+|*OpSubgroupAvcMceGetInterReferenceInterlacedFieldPolaritiesINTEL* +
+ +
+Get the MCE inter MB reference field polarities for the corresponding reference identifiers returned by [blue]#<<bookmark-OpSubgroupAvcMceGetInterReferenceIdsINTEL,OpSubgroupAvcMceGetInterReferenceIdsINTEL>># in a packed integer format, with the following bits specifying the reference field polarities
+for the major partitions.  
+
+[cols="15,40",tablepcwidth=55]
+!====================
+! 0 ! Fwd reference block 0
+! 1 ! Fwd reference block 1
+! 2 ! Fwd reference block 2
+! 3 ! Fwd reference block 3
+! 4 ! Bwd reference block 4
+! 5 ! Bwd reference block 5
+! 6 ! Bwd reference block 6
+! 7 ! Bwd reference block 7
+!====================
+
+If the dual-reference evaluation instructions are not used, then the values of the backward reference field polarities are undefined.
+
+The blocks are numbered using the traditional Z order. For larger block sizes, the sub-block reference field polarities are replicated. For example, for a 16x16 block all
+four pairs of reference field polarities are replicated to the value of the first pair for block 0.
+
+[IMPORTANT]
+====
+An important restriction is that when multiple IME operations are performed for a
+HW multi-assisted multi-reference search operation using the streamin/streamout capabilities, the same reference image parameter cannot be used with different polarities in the sequence of IME operations used for a HW-assisted search
+operation. In other words, the field polarities for reference image parameters must be used consistently across IME operations used in a HW assisted multi-reference search
+operation.
+====
+
+'Result Type' must be an OpTypeInt with 8-bit Width and 0 Signedness.
+
+'Packed Reference Ids' must be an OpTypeInt with 32-bit Width and 0 Signedness, and is as defined by the return value of [blue]#<<bookmark-OpSubgroupAvcMceGetInterReferenceIdsINTEL,OpSubgroupAvcMceGetInterReferenceIdsINTEL>>#. 
+
+'Packed Reference Parameter Field Polarities' must be an OpTypeInt with 32-bit Width and 0 Signedness, and specifies the packed bit field of field polarities for each of the (up to 16) forward/backward interleaved pairs of reference images in the same order as specified in the kernel parameter operand list, as used for the inter search operation. If less than 16 pairs are used then the corresponding bit field values are ignored.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcImeResultINTEL,__OpTypeAvcImeResultINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 6 | 5746 | <id> Result Type | Result <id> | <id> Packed Reference Ids | <id> Packed Reference Parameter Field Polarities | <id> Payload
+|=====
+
+<<<
+[[bookmark-GroupIMEInstructions]]
+==== IME instructions
+
+A set of ordered phases of instructions are required to be called to evaluate an integer motion estimation result.
+
+These instruction are only guaranteed to work correctly if placed strictly within uniform control flow within the Subgroup execution scope. This ensures that if any invocation executes it, all invocations will execute it. If placed elsewhere, the results are undefined.
+
+===== Initialization instructions
+
+These instructions create a properly initialized payload that can be used for further configured for evaluating IME operations. This is a required initial phase.
+
+[cols="1a,1,1,1,1,1,1",width="100%"]
+|=====
+6+|*OpSubgroupAvcImeInitializeINTEL* +
+ +
+Return an initialized payload for a VME integer search (IME) operation.
+
+The payload is initialized for progressive frame operations, and the cost configuration values and the miscellaneous property values are all initialized to zero. The cost configuration and the miscellaneous property configuration instructions must be used to override the initial configurations in the payload.
+
+[IMPORTANT]
+====
+If the source image is an interlaced scan image, then the bottom field lines are considered as logically overlapping with the top field lines (i.e. the top field MBs are considered as logically overlapping with the bottom MBs) for the purposes for specifying the Src Coord' value.
+====
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcImePayloadINTEL,__OpTypeAvcImePayloadINTEL__>># type.
+
+'Src Coord' must be a vector(2) of i16 values and 0 Signedness. It represents the 2D offset of the top left corner of the source MB in pixel units in the source image. Source MBs at the image borders are allowed to be partial, but the top-left corner must be within the image.
+
+[[bookmark-PartitionMask]]
+'Partition Mask' must be an OpTypeInt with 8-bit Width and 0 Signedness. The legal values can be composed by setting the appropriate bit fields specified by partition mask values as per [blue]#<<bookmark-BF,Section 3, Binary Form>>#  using OpBitwiseAnd.
+
+'SAD Adjustment' must be an OpTypeInt with 8-bit Width and 0 Signedness that must evaluate to a valid SAD adjustment mode as per [blue]#<<bookmark-BF,Section 3, Binary Form>>#. If it is set to [blue]#<<bookmark-HAAR, __AVC_ME_SAD_ADJUST_MODE_HAAR_INTEL__>>#, a simple wavelet transform, Haar transform, is used to refine the distortion measure of SAD. Haar transform here is used as a coarse estimation of the integer transform.  
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 6 | 5747 | <id> Result Type | Result <id> | <id> Src Coord | <id> Partition Mask | <id> SAD Adjustment
+|=====
+
+===== Configuration instructions
+
+These instructions allow for configuration of the search window. A call to either [blue]#<<bookmark-OpSubgroupAvcImeSetSingleReferenceINTEL,OpSubgroupAvcImeSetSingleReferenceINTEL>># or [blue]#<<bookmark-OpSubgroupAvcImeSetDualReferenceINTEL,OpSubgroupAvcImeSetDualReferenceINTEL>># is required. This is a required phase immediately following the initialization phase.
+[[bookmark-OpSubgroupAvcImeSetSingleReferenceINTEL]]
+[cols="1a,1,1,1,1,1,1",width="100%"]
+|=====
+6+|*OpSubgroupAvcImeSetSingleReferenceINTEL* +
+ +
+Update the input payload for a VME single-reference search with the configuration for the reference window search region, and return it.
+
+[IMPORTANT]
+====
+If the reference image is an interlaced scan image, then the top field lines are considered as logically overlapping with the bottom field lines (i.e. the top field MBs are considered as logically overlapping with the bottom MBs) for the purposes for
+specifying the 'Ref Offset' value.
+====
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcImePayloadINTEL,__OpTypeAvcImePayloadINTEL__>># type.
+
+'Ref Offset' specifies the 2D reference window offset, and must be a vector(2) of i16 values and interpreted as signed values. The X and Y coordinates must be in the range [-2048, 2047], otherwise the results are undefined. The reference window is allowed to be partially outside the image. Pixel replication is applied to generate out-of-bound reference pixels. It is specified in PEL units. Results are undefined in the reference region is completely outside the image.
+
+[[bookmark-SearchWindow]]
+'Search Window Config' must be an OpTypeInt with 8-bit Width and 0 Signedness, and must come from a constant instruction of an integer-type scalar whose value is a valid unreserved search window configuration value as per [blue]#<<bookmark-BF,Section 3, Binary Form>>#.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcImePayloadINTEL,__OpTypeAvcImePayloadINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 6 | 5748 | <id> Result Type | Result <id> | <id> Ref Offset | <id> Search Window Config | <id> Payload
+|=====
+
+[[bookmark-OpSubgroupAvcImeSetDualReferenceINTEL]]
+[cols="1a,1,1,1,1,1,1,1",width="100%"]
+|=====
+7+|*OpSubgroupAvcImeSetDualReferenceINTEL* +
+ +
+Update the input payload for a VME dual-reference search with the configurations for the
+reference window search regions, and return it. 
+
+[IMPORTANT]
+====
+If a reference image is an interlaced scan image, then the top field lines are considered as logically overlapping with the bottom field lines (i.e. the top field MBs are considered as logically overlapping with the bottom MBs) for the purposes for specifying the corresponding 'Fwd Ref Offset' and/or 'Bwd Ref Offset' values.
+====
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcImePayloadINTEL,__OpTypeAvcImePayloadINTEL__>># type.
+
+'Fwd Ref Offset'/'Bwd Ref Offset' specify the 2D forward/backward reference window offset, and must be a vector(2) of i16 values and interpreted as signed values. The X and Y coordinates must be in the range [-2048, 2047], otherwise the results are undefined. The reference window is allowed to be partially outside the image. Pixel replication is applied to generate out-of-bound reference pixels. It is specified in PEL units. Results are undefined in the reference region is completely outside the image.
+
+'Search Window Config' must be an OpTypeInt with 8-bit Width and 0 Signedness, and must come from a constant instruction of an integer-type scalar whose value is a valid unreserved search window configuration value as per [blue]#<<bookmark-BF,Section 3, Binary Form>>#.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcImePayloadINTEL,__OpTypeAvcImePayloadINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 7 | 5749 | <id> Result Type | Result <id> | <id> Fwd Ref Offset | <id> Bwd Ref Offset | id> Search Window Config | <id> Payload
+|=====
+
+[cols="1,1,1,1,1,1",width="100%"]
+|=====
+5+|*OpSubgroupAvcImeRefWindowSizeINTEL* +
+ +
+Get the 2D size of the reference window in pixel units.
+            
+'Result Type' must be a vector(2) of i16 values and 0 Signedness.
+
+'Search Window Config' must be an OpTypeInt with 8-bit Width and 0 Signedness, and must come from a constant instruction of an integer-type scalar whose value is a valid unreserved search window configuration value as per [blue]#<<bookmark-BF,Section 3, Binary Form>>#.
+
+'Dual Ref' must be a 8-bit scalar integer type and must evaluate to zero for a single reference search window and one for a dual-reference search window. It is treated as an unsigned value.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 5 | 5750 | <id> Result Type | Result <id> | <id> Search Window Config | <id> Dual Ref
+|=====
+
+[cols="1a,1,1,1,1,1,1,1",width="100%"]
+|=====
+7+|*OpSubgroupAvcImeAdjustRefOffsetINTEL* +
+ +
+If the input 2D reference window offset, 'Ref Offset', causes the reference window to be fully out-of-bound of the reference image, adjust it such that the reference window is
+within bounds of the reference image.
+
+[IMPORTANT]
+====
+If the reference image is an interlaced scan image, then the bottom field lines are considered as logically overlapping with the top field lines the purposes for specifying the image size value. Since, the actual layout of the top and bottom fields in the reference image is in an interleaved fashion, the height of the top or bottom fields should be exactly half of the actual reference image height.
+====
+
+[NOTE]
+====
+A call to OpSubgroupAvcImeAdjustRefOffsetINTEL is optional. It is required only if the reference window offsets inputs to [blue]#<<bookmark-OpSubgroupAvcImeSetSingleReferenceINTEL,OpSubgroupAvcImeSetSingleReferenceINTEL>>#  or
+[blue]#<<bookmark-OpSubgroupAvcImeSetDualReferenceINTEL,OpSubgroupAvcImeSetDualReferenceINTEL>>#  is potentially out-of-bounds and need to be adjusted.
+====
+            
+'Result Type' must be a vector(2) of i16 values and interpreted as signed values.
+
+'Ref Offset' must be a vector(2) of i16 values and interpreted as signed values. It specifies the 2D reference window offset. The X and Y coordinates must be in the range [-2048, 2047], otherwise the results are undefined.         
+
+'Src Coord' must be a vector(2) of i16 values and 0 Signedness. It represents the 2D offset of the top left corner of the source MB in pixel units in the source image. Source MBs at the image borders are allowed to be partial, but the top-left corner must be within the image.
+
+'Ref Window Size' must be a vector(2) of i16 values and 0 Signedness. It specifies
+the 2D size of the reference window in pixel units.
+
+'Image Size' must be a vector(2) of i16 values and 0 Signedness. It specifies the 2D
+size of the progressive scan, or top or bottom fields, of the interlaced scan image in pixel units.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 7 | 5751 | <id> Result Type | Result <id> | <id> Ref Offset | <id> Src Coord | <id> Ref Window Size | <id> Image Size
+|=====
+
+=====  Payload type conversion instructions
+
+These are optional instructions that may be called following the search configuration phase to convert IME payload to MCE payloads and vice-versa.
+
+[cols="1,1,1,1,1",width="100%"]
+|=====
+4+|*OpSubgroupAvcImeConvertToMcePayloadINTEL* +
+ +
+Convert the IME payload to a generic MCE payload.
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcMcePayloadINTEL,__OpTypeAvcMcePayloadINTEL__>># type.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcImePayloadINTEL,__OpTypeAvcImePayloadINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 4 | 5752 | <id> Result Type | Result <id> | <id> Payload
+|=====
+
+[cols="1,1,1,1,1",width="100%"]
+|=====
+4+|*OpSubgroupAvcMceConvertToImePayloadINTEL* +
+ +
+Convert the generic MCE payload to a IME payload.
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcImePayloadINTEL,__OpTypeAvcImePayloadINTEL__>># type.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcMcePayloadINTEL,__OpTypeAvcMcePayloadINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 4 | 5732 | <id> Result Type | Result <id> | <id> Payload
+|=====
+
+===== Miscellaneous property configuration instructions
+
+These are optional instructions that may be called following the search configuration phase to enable miscellaneous properties setting in the payload.
+
+[cols="1a,1,1,1,1,1",width="100%"]
+|=====
+5+|*OpSubgroupAvcImeSetMaxMotionVectorCountINTEL* +
+ +
+Specify the maximum number of motion vectors allowed for the current MB. The default setting is 32. Any other value may alter the MB partitioning decision. The IME operation
+will compute the best allowed partitioning such that the number of sub-block motion vectors will not exceed `Max Motion Vector Count`.
+
+[TIP]
+====
+This can be used to handle the restriction for certain profiles for AVC in that the maximum number of motion vectors allowed for two consecutive MBs can only be 16.
+====
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcImePayloadINTEL,__OpTypeAvcImePayloadINTEL__>># type.
+
+'Max Motion Vector Count' must be an OpTypeInt with 8-bit Width and 0 Signedness, and specifies the maximum number of motion vectors allowed for the current MB. It must be in the range [1, 32], otherwise the results are undefined.  
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcImePayloadINTEL,__OpTypeAvcImePayloadINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 5 | 5753 | <id> Result Type | Result <id> | <id> Max Motion Vector Count | <id> Payload
+|=====
+
+[cols="1,1,1,1,1",width="100%"]
+|=====
+4+|*OpSubgroupAvcImeSetUnidirectionalMixDisableINTEL* +
+ +
+Update the input payload to disable a mix of forward and backward MVs in the result.
+
+Default is to enable it.
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcImePayloadINTEL,__OpTypeAvcImePayloadINTEL__>># type.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcImePayloadINTEL,__OpTypeAvcImePayloadINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 4 | 5754 | <id> Result Type | Result <id> | <id> Payload
+|=====
+
+[cols="1,1,1,1,1,1",width="100%"]
+|=====
+5+|*OpSubgroupAvcImeSetEarlySearchTerminationThresholdINTEL* +
+ +
+Specifies the threshold value of a distortion compute of a 16x16 partition of a MB for a
+single-reference search, below which no more searching is performed for the MB.
+
+The input payload must have been configured for a single-reference search with the 16x16 partition enabled for this threshold to be set, or else the results are undefined. 
+'Result Type' must be an OpTypeInt with 8-bit Width and 0 Signedness.
+
+'Threshold' must be an OpTypeInt with 8-bit Width and 0 Signedness, and is specified in U4U4 format. Additionally, the integer value must fit within 14 bits.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcImePayloadINTEL,__OpTypeAvcImePayloadINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 5 | 5755 | <id> Result Type | Result <id> | <id> Threshold | <id> Payload
+|=====
+
+[[bookmark-weightedsad]]
+[cols="1a,1,1,1,1,1",width="100%"]
+|=====
+5+|*OpSubgroupAvcImeSetWeightedSadINTEL* +
+ +
+Set the (16) SAD weights for each 4x4 sub-block.
+
+These values are used to decrease the SAD magnitude of each 4x4 sub-block by dividing
+the SAD of 4x4 sub-block of the source MB by its mapped weight. It requires a [blue]#<<bookmark-PartitionMask,'Partition Mask'>># of 16x16 and forward [blue]#<<bookmark-SearchWindow,'Search Window Configuration'>>#.
+
+The weighting pattern used is the traditional Z order for each 4x4 block. Weighted-SAD
+Control Mapping:
+
+   0 1 4 5
+   2 3 6 7
+   8 9 C D
+   A B E F            
+
+A prior call to [blue]#<<bookmark-OpSubgroupAvcImeSetSingleReferenceINTEL,OpSubgroupAvcImeSetSingleReferenceINTEL>># to set up the forward reference image is required.
+
+[NOTE]
+====
+This feature is mainly intended for improved block matching in image-rate conversion (FRC) kernels. 
+====
+
+'Packed Sad Weights' must be an OpTypeInt with 32-bit Width and 0 Signedness. Each weight is of 2 bits represented in a packed format for each of the 4x4 blocks in Z order.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcImePayloadINTEL,__OpTypeAvcImePayloadINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 5 | 5756 | <id> Result Type | Result <id> | <id> Packed Sad Weights | <id> Payload
+|=====
+
+===== Evaluation instructions
+
+These instructions perform the evaluation of the IME operation configured in the payload with a VME media sampler and return the results.
+
+[cols="1,1,1,1,1,1,1",width="100%"]
+|=====
+6+|*OpSubgroupAvcImeEvaluateWithSingleReferenceINTEL* +
+ +
+Evaluate the basic IME operation with a single reference and return its results. The IME payload must have been configured with [blue]#<<bookmark-OpSubgroupAvcImeSetSingleReferenceINTEL,OpSubgroupAvcImeSetSingleReferenceINTEL>># .
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcImeResultINTEL,__OpTypeAvcImeResultINTEL__>># type.
+
+'Src Image' is an object whose type is an [blue]#<<bookmark-OpTypeVmeImageINTEL,__OpTypeVmeImageINTEL__>>#, and specifies the source image.  
+
+'Ref Image' is an object whose type is an [blue]#<<bookmark-OpTypeVmeImageINTEL,__OpTypeVmeImageINTEL__>>#, and specifies a forward reference image.   
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcImePayloadINTEL,__OpTypeAvcImePayloadINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 6 | 5757 | <id> Result Type | Result <id> | <id> Src Image | <id> Ref Image | <id> Payload
+|=====
+
+[cols="1,1,1,1,1,1,1,1",width="100%"]
+|=====
+7+|*OpSubgroupAvcImeEvaluateWithDualReferenceINTEL* +
+ +
+Evaluate the basic IME operation with dual references and return its results. The IME payload must have been configured with [blue]#<<bookmark-OpSubgroupAvcImeSetDualReferenceINTEL,OpSubgroupAvcImeSetDualReferenceINTEL>>#.
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcImeResultINTEL,__OpTypeAvcImeResultINTEL__>># type.
+
+'Src Image' is an object whose type is an [blue]#<<bookmark-OpTypeVmeImageINTEL,__OpTypeVmeImageINTEL__>>#, and specifies the source image.  
+
+'Fwd Ref Image' is an object whose type is an [blue]#<<bookmark-OpTypeVmeImageINTEL,__OpTypeVmeImageINTEL__>>#, and specifies a forward reference image.  
+
+'Bwd Ref Image' is an object whose type is an [blue]#<<bookmark-OpTypeVmeImageINTEL,__OpTypeVmeImageINTEL__>>#, and specifies a backward reference image.   
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcImePayloadINTEL,__OpTypeAvcImePayloadINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 7 | 5758 | <id> Result Type | Result <id> | <id> Src Image | <id> Fwd Ref Image | <id> Bwd Ref Image | <id> Payload
+|=====
+
+[cols="1,1,1,1,1,1,1",width="100%"]
+|=====
+6+|*OpSubgroupAvcImeEvaluateWithSingleReferenceStreamoutINTEL* +
+ +
+Evaluate the single reference IME operation with streamout and return its results. The IME payload must have been configured with [blue]#<<bookmark-OpSubgroupAvcImeSetSingleReferenceINTEL,OpSubgroupAvcImeSetSingleReferenceINTEL>>#.
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcImeResultSingleReferenceStreamoutINTEL,__OpTypeAvcImeResultSingleReferenceStreamoutINTEL__>># type.
+
+'Src Image' is an object whose type is an [blue]#<<bookmark-OpTypeVmeImageINTEL,__OpTypeVmeImageINTEL__>>#, and specifies the source image.  
+
+'Ref Image' is an object whose type is an [blue]#<<bookmark-OpTypeVmeImageINTEL,__OpTypeVmeImageINTEL__>>#, and specifies a forward reference image.   
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcImePayloadINTEL,__OpTypeAvcImePayloadINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 6 | 5761 | <id> Result Type | Result <id> | <id> Src Image | <id> Ref Image | <id> Payload
+|=====
+
+[cols="1,1,1,1,1,1,1,1",width="100%"]
+|=====
+7+|*OpSubgroupAvcImeEvaluateWithDualReferenceStreamoutINTEL* +
+ +
+Evaluate the basic IME operation with dual references with streamout and return its results. The IME payload must have been configured with [blue]#<<bookmark-OpSubgroupAvcImeSetDualReferenceINTEL,OpSubgroupAvcImeSetDualReferenceINTEL>>#.
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcImeResultDualReferenceStreamoutINTEL,__OpTypeAvcImeResultDualReferenceStreamoutINTEL__>># type.
+
+'Src Image' is an object whose type is an [blue]#<<bookmark-OpTypeVmeImageINTEL,__OpTypeVmeImageINTEL__>>#, and specifies the source image.  
+
+'Fwd Ref Image' is an object whose type is an [blue]#<<bookmark-OpTypeVmeImageINTEL,__OpTypeVmeImageINTEL__>>#, and specifies a forward reference image.  
+
+'Bwd Ref Image' is an object whose type is an [blue]#<<bookmark-OpTypeVmeImageINTEL,__OpTypeVmeImageINTEL__>>#, and specifies a backward reference image.   
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcImePayloadINTEL,__OpTypeAvcImePayloadINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 7 | 5762 | <id> Result Type | Result <id> | <id> Src Image | <id> Fwd Ref Image | <id> Bwd Ref Image | <id> Payload
+|=====
+
+[cols="1,1,1,1,1,1,1,1",width="100%"]
+|=====
+7+|*OpSubgroupAvcImeEvaluateWithSingleReferenceStreaminINTEL* +
+ +
+Evaluate the single reference IME operation with streamin and return its results. The IME payload must have been configured with [blue]#<<bookmark-OpSubgroupAvcImeSetSingleReferenceINTEL,OpSubgroupAvcImeSetSingleReferenceINTEL>>#.
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcImeResultINTEL,__OpTypeAvcImeResultINTEL__>># type.
+
+'Src Image' is an object whose type is an [blue]#<<bookmark-OpTypeVmeImageINTEL,__OpTypeVmeImageINTEL__>>#, and specifies the source image. +  
+
+'Ref Image' is an object whose type is an [blue]#<<bookmark-OpTypeVmeImageINTEL,__OpTypeVmeImageINTEL__>>#, and specifies a forward reference image.   
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcImePayloadINTEL,__OpTypeAvcImePayloadINTEL__>># type.
+
+'Streamin Components' must be the [blue]#<<bookmark-OpTypeAvcImeSingleReferenceStreaminINTEL,__OpTypeAvcImeSingleReferenceStreaminINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 7 | 5759 | <id> Result Type | Result <id> | <id> Src Image | <id> Ref Image | <id> Payload | <id> Streamin Components
+|=====
+
+[cols="1,1,1,1,1,1,1,1,1",width="100%"]
+|=====
+8+|*OpSubgroupAvcImeEvaluateWithDualReferenceStreaminINTEL* +
+ +
+Evaluate the dual reference IME operation with streamin and return its results. The IME payload must have been configured with [blue]#<<bookmark-OpSubgroupAvcImeSetDualReferenceINTEL,OpSubgroupAvcImeSetDualReferenceINTEL>>#.
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcImeResultINTEL,__OpTypeAvcImeResultINTEL__>># type.
+
+'Src Image' is an object whose type is an [blue]#<<bookmark-OpTypeVmeImageINTEL,__OpTypeVmeImageINTEL__>>#, and specifies the source image. +  
+
+'Fwd Ref Image' is an object whose type is an [blue]#<<bookmark-OpTypeVmeImageINTEL,__OpTypeVmeImageINTEL__>>#, and specifies a forward reference image.   
+
+'Bwd Ref Image' is an object whose type is an [blue]#<<bookmark-OpTypeVmeImageINTEL,__OpTypeVmeImageINTEL__>>#, and specifies a backward reference image.  
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcImePayloadINTEL,__OpTypeAvcImePayloadINTEL__>># type.
+
+'Streamin Components' must be the [blue]#<<bookmark-OpTypeAvcImeDualReferenceStreaminINTEL,__OpTypeAvcImeDualReferenceStreaminINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 8 | 5760 | <id> Result Type | Result <id> | <id> Src Image | <id> Fwd Ref Image | <id> Bwd Ref Image | <id> Payload | <id> Streamin Components
+|=====
+
+[cols="1,1,1,1,1,1,1,1",width="100%"]
+|=====
+7+|*OpSubgroupAvcImeEvaluateWithSingleReferenceStreaminoutINTEL* +
+ +
+Evaluate the single reference IME operation with streamin/streamout and return its results. The IME payload must have been configured with [blue]#<<bookmark-OpSubgroupAvcImeSetSingleReferenceINTEL,OpSubgroupAvcImeSetSingleReferenceINTEL>>#.
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcImeResultSingleReferenceStreamoutINTEL,__OpTypeAvcImeResultSingleReferenceStreamoutINTEL__>># type.
+
+'Src Image' is an object whose type is an [blue]#<<bookmark-OpTypeVmeImageINTEL,__OpTypeVmeImageINTEL__>>#, and specifies the source image. +  
+
+'Ref Image' is an object whose type is an [blue]#<<bookmark-OpTypeVmeImageINTEL,__OpTypeVmeImageINTEL__>>#, and specifies a forward reference image.+
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcImePayloadINTEL,__OpTypeAvcImePayloadINTEL__>># type.
+
+'Streamin Components' must be the [blue]#<<bookmark-OpTypeAvcImeSingleReferenceStreaminINTEL,__OpTypeAvcImeSingleReferenceStreaminINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 7 | 5763 | <id> Result Type | Result <id> | <id> Src Image | <id> Ref Image | <id> Payload | <id> Streamin Components
+|=====
+
+[cols="1,1,1,1,1,1,1,1,1",width="100%"]
+|=====
+8+|*OpSubgroupAvcImeEvaluateWithDualReferenceStreaminoutINTEL* +
+ +
+Evaluate the dual reference IME operation with streamin/streamout and return its results. The IME payload must have been configured with [blue]#<<bookmark-OpSubgroupAvcImeSetDualReferenceINTEL,OpSubgroupAvcImeSetDualReferenceINTEL>>#.
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcImeResultDualReferenceStreamoutINTEL,__OpTypeAvcImeResultDualReferenceStreamoutINTEL__>># type.
+
+'Src Image' is an object whose type is an [blue]#<<bookmark-OpTypeVmeImageINTEL,__OpTypeVmeImageINTEL__>>#, and specifies the source image. +  
+
+'Fwd Ref Image' is an object whose type is an [blue]#<<bookmark-OpTypeVmeImageINTEL,__OpTypeVmeImageINTEL__>>#, and specifies a forward reference image.   
+
+'Bwd Ref Image' is an object whose type is an [blue]#<<bookmark-OpTypeVmeImageINTEL,__OpTypeVmeImageINTEL__>>#, and specifies a backward reference image.  
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcImePayloadINTEL,__OpTypeAvcImePayloadINTEL__>># type.
+
+'Streamin Components' must be the [blue]#<<bookmark-OpTypeAvcImeDualReferenceStreaminINTEL,__OpTypeAvcImeDualReferenceStreaminINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 8 | 5764 | <id> Result Type | Result <id> | <id> Src Image | <id> Fwd Ref Image | <id> Bwd Ref Image | <id> Payload | <id> Streamin Components
+|=====
+
+=====  Result type conversion instructions
+
+These are optional instructions that may be called following the evaluation phase to convert IME results to MCE results and vice-versa.
+
+[cols="1,1,1,1,1",width="100%"]
+|=====
+4+|*OpSubgroupAvcImeConvertToMceResultINTEL* +
+ +
+Convert the IME result to a generic MCE result.
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcMceResultINTEL,__OpTypeAvcMceResultINTEL__>># type.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcImeResultINTEL,__OpTypeAvcImeResultINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 4 | 5765 | <id> Result Type | Result <id> | <id> Payload
+|=====
+
+[cols="1,1,1,1,1",width="100%"]
+|=====
+4+|*OpSubgroupAvcMceConvertToImeResultINTEL* +
+ +
+Convert the generic MCE result to a IME result.
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcImeResultINTEL,__OpTypeAvcImeResultINTEL__>># type.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcMceResultINTEL,__OpTypeAvcMceResultINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 4 | 5733 | <id> Result Type | Result <id> | <id> Payload
+|=====
+
+=====   Result processing instructions
+
+These instructions are called following the evaluation phase to extract the various result components from an IME evaluation result.
+
+[cols="1,1,1,1,1",width="100%"]
+|=====
+4+|*OpSubgroupAvcImeGetSingleReferenceStreaminINTEL* +
+ +
+Return the streamed out BMVs and distortions from the input result from a single reference streamout IME operation that can be used as streamin input for a subsequent IME operation.
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcImeSingleReferenceStreaminINTEL,__OpTypeAvcImeSingleReferenceStreaminINTEL__>># type.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcImeResultSingleReferenceStreamoutINTEL,__OpTypeAvcImeResultSingleReferenceStreamoutINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 4 | 5766 | <id> Result Type | Result <id> | <id> Payload
+|=====
+
+[cols="1,1,1,1,1",width="100%"]
+|=====
+4+|*OpSubgroupAvcImeGetDualReferenceStreaminINTEL* +
+ +
+Return the streamed out BMVs and distortions from the input result from a dual reference streamout IME operation that can be used as streamin input for a subsequent IME operation.
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcImeDualReferenceStreaminINTEL,__OpTypeAvcImeDualReferenceStreaminINTEL__>># type.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcImeResultDualReferenceStreamoutINTEL,__OpTypeAvcImeResultDualReferenceStreamoutINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 4 | 5767 | <id> Result Type | Result <id> | <id> Payload
+|=====
+
+[cols="1,1,1,1,1",width="100%"]
+|=====
+4+|*OpSubgroupAvcImeStripSingleReferenceStreamoutINTEL* +
+ +
+Strip out the single reference streamout BMVs and distortions from the streamout results and return the rest.
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcImeResultINTEL,__OpTypeAvcImeResultINTEL__>># type.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcImeResultSingleReferenceStreamoutINTEL,__OpTypeAvcImeResultSingleReferenceStreamoutINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 4 | 5768 | <id> Result Type | Result <id> | <id> Payload
+|=====
+
+[cols="1,1,1,1,1",width="100%"]
+|=====
+4+|*OpSubgroupAvcImeStripDualReferenceStreamoutINTEL* +
+ +
+Strip out the dual reference streamout BMVs and distortions from the streamout results and return the rest.
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcImeResultINTEL,__OpTypeAvcImeResultINTEL__>># type.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcImeResultDualReferenceStreamoutINTEL,__OpTypeAvcImeResultDualReferenceStreamoutINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 4 | 5769 | <id> Result Type | Result <id> | <id> Payload
+|=====
+
+[[bookmark-singlerefmv]]
+[cols="1a,1,1,1,1,1",width="100%"]
+|=====
+5+|*OpSubgroupAvcImeGetStreamoutSingleReferenceMajorShapeMotionVectorsINTEL* +
+ +
+Get the packed motion vectors for the input major shape from the IME single reference
+streamout results.
+
+Up to 4 packed MVs are returned, one per work-item. If the major shape is:
+
+* 16x6, then one packed MV is returned by work-item 0
+* 16x8, or 8x16, then two packed MVs are returned by work-items 0 and 1
+* 8x8, then four packed MVs are returned by work-items 0 to 3.   
+
+'Result Type' must be a OpTypeInt with 32-bit Width and 0 Signedness.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcImeResultSingleReferenceStreamoutINTEL,__OpTypeAvcImeResultSingleReferenceStreamoutINTEL__>># type.
+
+'Major Shape' must be a OpTypeInt with 8-bit Width and 0 Signedness, and must come from a constant instruction of an integer-type scalar whose value is a valid inter macro-block major shape value as per [blue]#<<bookmark-BF,Section 3, Binary Form>>#.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 5 | 5770 | <id> Result Type | Result <id> | <id> Payload | <id> Major Shape
+|=====
+
+[cols="1a,1,1,1,1,1,1",width="100%"]
+|=====
+6+|*OpSubgroupAvcImeGetStreamoutDualReferenceMajorShapeMotionVectorsINTEL* +
+ +
+Get the packed motion vectors for the input major shape from the IME dual reference
+streamout results.
+
+Up to 4 packed MVs are returned, one per work-item in the same format as for motion
+vectors for single reference streamout as described in [blue]#<<bookmark-singlerefmv,OpSubgroupAvcImeGetStreamoutSingleReferenceMajorShapeMotionVectorsINTEL>>#.
+
+'Result Type' must be a OpTypeInt with 32-bit Width and 0 Signedness.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcImeResultDualReferenceStreamoutINTEL,__OpTypeAvcImeResultDualReferenceStreamoutINTEL__>># type.
+
+'Major Shape' must be a OpTypeInt with 8-bit Width and 0 Signedness, and must come from a constant instruction of an integer-type scalar whose value is a valid inter macro-block major shape value as per [blue]#<<bookmark-BF,Section 3, Binary Form>>#.
+
+'Direction' must be a OpTypeInt with 8-bit Width and 0 Signedness, and must come from a constant instruction of an integer-type scalar whose value is a valid inter macro-block major direction value as per [blue]#<<bookmark-BF,Section 3, Binary Form>>#.
+
+| Capability: +
+*SubgroupAvcMotionEstimationINTEL* +
+| 6 | 5773 | <id> Result Type | Result <id> | <id> Payload | <id> Major Shape | <id> Direction
+|=====
+
+[cols="1a,1,1,1,1,1",width="100%"]
+|=====
+5+|*OpSubgroupAvcImeGetStreamoutSingleReferenceMajorShapeDistortionsINTEL* +
+ +
+Get the distortions for the input major shape from the IME single reference streamout results.
+           
+Up to 4 distortions are returned, one per work-item in the same format as for motion
+vectors as described in [blue]#<<bookmark-singlerefmv,OpSubgroupAvcImeGetStreamoutSingleReferenceMajorShapeMotionVectorsINTEL>>#.
+
+'Result Type' must be a OpTypeInt with 16-bit Width and 0 Signedness.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcImeResultSingleReferenceStreamoutINTEL,__OpTypeAvcImeResultSingleReferenceStreamoutINTEL__>># type.
+
+'Major Shape' must be a OpTypeInt with 8-bit Width and 0 Signedness, and must come from a constant instruction of an integer-type scalar whose value is a valid inter macro-block major shape value as per [blue]#<<bookmark-BF,Section 3, Binary Form>>#.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 5 | 5771 | <id> Result Type | Result <id> | <id> Payload | <id> Major Shape
+|=====
+
+[cols="1a,1,1,1,1,1,1",width="100%"]
+|=====
+6+|*OpSubgroupAvcImeGetStreamoutDualReferenceMajorShapeDistortionsINTEL* +
+ +
+Get the distortions for the input major shape from the IME dual reference streamout results.
+
+Up to 4 distortion are returned, one per work-item in the same format as for motion
+vectors for single reference streamout as described in [blue]#<<bookmark-singlerefmv,OpSubgroupAvcImeGetStreamoutSingleReferenceMajorShapeMotionVectorsINTEL>>#.
+
+'Result Type' must be a OpTypeInt with 16-bit Width and 0 Signedness.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcImeResultDualReferenceStreamoutINTEL,__OpTypeAvcImeResultDualReferenceStreamoutINTEL__>># type.
+
+'Major Shape' must be a OpTypeInt with 8-bit Width and 0 Signedness, and must come from a constant instruction of an integer-type scalar whose value is a valid inter macro-block major shape value as per [blue]#<<bookmark-BF,Section 3, Binary Form>>#.
+
+'Direction' must be a OpTypeInt with 8-bit Width and 0 Signedness, and must come from a constant instruction of an integer-type scalar whose value is a valid inter macro-block major direction value as per [blue]#<<bookmark-BF,Section 3, Binary Form>>#.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 6 | 5774| <id> Result Type | Result <id> | <id> Payload | <id> Major Shape | <id> Direction
+|=====
+
+[cols="1a,1,1,1,1,1",width="100%"]
+|=====
+5+|*OpSubgroupAvcImeGetStreamoutSingleReferenceMajorShapeReferenceIdsINTEL* +
+ +
+Get the reference identifiers for the input major shape and direction from the IME dual reference streamout results
+           
+Up to 4 reference identifiers are returned, one per work-item in the same format as for motion
+vectors as described in [blue]#<<bookmark-singlerefmv,OpSubgroupAvcImeGetStreamoutSingleReferenceMajorShapeMotionVectorsINTEL>>#.
+
+'Result Type' must be a OpTypeInt with 8-bit Width and 0 Signedness.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcImeResultSingleReferenceStreamoutINTEL,__OpTypeAvcImeResultSingleReferenceStreamoutINTEL__>># type.
+
+'Major Shape' must be a OpTypeInt with 8-bit Width and 0 Signedness, and must come from a constant instruction of an integer-type scalar whose value is a valid inter macro-block major shape value as per [blue]#<<bookmark-BF,Section 3, Binary Form>>#.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 5 | 5772 | <id> Result Type | Result <id> | <id> Payload | <id> Major Shape
+|=====
+
+[cols="1a,1,1,1,1,1,1",width="100%"]
+|=====
+6+|*OpSubgroupAvcImeGetStreamoutDualReferenceMajorShapeReferenceIdsINTEL* +
+ +
+Get the reference identifiers for the input major shape from the IME dual reference streamout results.
+
+Up to 4 reference identifiers are returned, one per work-item in the same format as for motion vectors for single reference streamout as described in [blue]#<<bookmark-singlerefmv,OpSubgroupAvcImeGetStreamoutSingleReferenceMajorShapeMotionVectorsINTEL>>#.
+
+'Result Type' must be a OpTypeInt with 8-bit Width and 0 Signedness.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcImeResultDualReferenceStreamoutINTEL,__OpTypeAvcImeResultDualReferenceStreamoutINTEL__>># type.
+
+'Major Shape' must be a OpTypeInt with 8-bit Width and 0 Signedness, and must come from a constant instruction of an integer-type scalar whose value is a valid inter macro-block major shape value as per [blue]#<<bookmark-BF,Section 3, Binary Form>>#.
+
+'Direction' must be a OpTypeInt with 8-bit Width and 0 Signedness, and must come from a constant instruction of an integer-type scalar whose value is a valid inter macro-block major direction value as per [blue]#<<bookmark-BF,Section 3, Binary Form>>#.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 6 | 5775 | <id> Result Type | Result <id> | <id> Payload | <id> Major Shape | <id> Direction
+|=====
+
+[cols="1a,1,1,1,1,1",width="100%"]
+|=====
+5+|*OpSubgroupAvcImeGetBorderReachedINTEL* +
+ +
+Get the bitmask indicating whether any border of forward/backward reference image is reached by one or more MVs in the winning inter shape. The bitmask values are as per the inter border reached values as per [blue]#<<bookmark-BF,Section 3, Binary Form>>#.
+
+The search window must have been configured for a forward reference if image_select is
+set as [blue]#<<bookmark-forward,AVC_ME_FRAME_FORWARD_INTEL>># and with a backward reference if image_select is set as [blue]#<<bookmark-backward,AVC_ME_FRAME_BACKWARD_INTEL>>#.
+
+'Result Type' must be a OpTypeInt with 8-bit Width and 0 Signedness.
+
+'Image Select' must be a OpTypeInt with 8-bit Width and 0 Signedness, and must come from a constant instruction of an integer-type scalar whose value is either [blue]#<<bookmark-forward,AVC_ME_FRAME_FORWARD_INTEL>># or [blue]#<<bookmark-backward,AVC_ME_FRAME_BACKWARD_INTEL>>#.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcImeResultINTEL,__OpTypeAvcImeResultINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 5 | 5776 | <id> Result Type | Result <id> | <id> Image Select | <id> Payload
+|=====
+
+[cols="1a,1,1,1,1",width="100%"]
+|=====
+4+|*OpSubgroupAvcImeGetTruncatedSearchIndicationINTEL* +
+ +
+Get the indication that the search operation was prevented from providing the lowest
+distortion solution due to the tighter constraints on the maximum number of MB motion
+vectors configured for the search operation.   
+
+'Result Type' must be a OpTypeInt with 8-bit Width and 0 Signedness.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcImeResultINTEL,__OpTypeAvcImeResultINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 4 | 5777 | <id> Result Type | Result <id> | <id> Payload
+|=====
+
+[cols="1a,1,1,1,1",width="100%"]
+|=====
+4+|*OpSubgroupAvcImeGetUnidirectionalEarlySearchTerminationINTEL* +
+ +
+Get the indication that unidirectional search operation terminated early because the configured distortion threshold was met.   
+
+'Result Type' must be a OpTypeInt with 8-bit Width and 0 Signedness.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcImeResultINTEL,__OpTypeAvcImeResultINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 4 | 5778 | <id> Result Type | Result <id> | <id> Payload
+|=====
+
+[cols="1a,1,1,1,1",width="100%"]
+|=====
+4+|*OpSubgroupAvcImeGetWeightingPatternMinimumMotionVectorINTEL* +
+ +
+Get the 16x16 motion vector corresponding to the minimum 16x16 distortion when applying
+the traditional Z-order SAD weighting pattern.
+
+[IMPORTANT]
+====
+This can only be called if a SAD weighting pattern was set prior to evaluation using
+[blue]#<<bookmark-weightedsad,OpSubgroupAvcImeSetWeightedSadINTEL>>#.
+====
+
+'Result Type' must be a OpTypeInt with 32-bit Width and 0 Signedness.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcImeResultINTEL,__OpTypeAvcImeResultINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 4 | 5779 | <id> Result Type | Result <id> | <id> Payload
+|=====
+
+[cols="1a,1,1,1,1",width="100%"]
+|=====
+4+|*OpSubgroupAvcImeGetWeightingPatternMinimumDistortionINTEL* +
+ +
+Get the minimum 16x16 distortion when applying the traditional Z-order SAD weighting pattern.
+
+'Result Type' must be a OpTypeInt with 16-bit Width and 0 Signedness.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcImeResultINTEL,__OpTypeAvcImeResultINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 4 | 5780 | <id> Result Type | Result <id> | <id> Payload
+|=====
+
+<<<
+[[bookmark-GroupREFInstructions]]
+==== REF instructions
+
+These instruction are only guaranteed to work correctly if placed strictly within uniform control flow within the Subgroup execution scope. This ensures that if any invocation executes it, all invocations will execute it. If placed elsewhere, the results are undefined.
+
+===== Initialization instructions
+
+These instructions create a properly initialized payload that can be used for further configured for evaluating REF operations. This is a required initial phase. A call to either [blue]#<<bookmark-OpSubgroupAvcFmeInitializeINTEL,OpSubgroupAvcFmeInitializeINTEL>># or [blue]#<<bookmark-OpSubgroupAvcBmeInitializeINTEL,OpSubgroupAvcBmeInitializeINTEL>># is required.
+
+[[bookmark-OpSubgroupAvcFmeInitializeINTEL]]
+[cols="1a,1,1,1,1,1,1,1,1,1,1",width="100%"]
+|=====
+10+|*OpSubgroupAvcFmeInitializeINTEL* +
+ +
+Return an initialized payload for a VME fractional motion estimation operation (FME).
+
+The payload is initialized for progressive frame operations, and the cost configuration
+values and the miscellaneous property values are all initialized to zero. The cost configuration and the miscellaneous property configuration instructions must be used to override the initial configurations in the payload.
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcRefPayloadINTEL,__OpTypeAvcRefPayloadINTEL__>># type.
+
+'Src Coord' must be a vector(2) of i16 values and 0 Signedness, and represents the 2D offset of the top left corner of the source MB in pixel units in the source image.
+
+[IMPORTANT]
+====
+If the source image is an interlaced scan image, then the bottom field lines are considered as logically overlapping with the top field lines (i.e. the top field MBs are considered as logically overlapping with the bottom MBs) for the purposes for specifying
+the 'Src Coord' value.
+====
+
+'Motion Vectors' must be an OpTypeInt with 64-bit Width and 0 Signedness. It represents the BMVs returned by an IME in the same format as
+returned by [blue]#<<bookmark-OpSubgroupAvcMceGetMotionVectorsINTEL,OpSubgroupAvcMceGetMotionVectorsINTEL>>#. The MVs are in QPEL units. The X and Y coordinates of each MV must be in the range [-2048.00, 2047.75), otherwise the results are undefined.
+
+[CAUTION]
+====
+If this operand's value is manually composed, all sub-block MVs must be replicated per its format for each partition.  For example for 16x16 partition, all sub-block MVs must be replicated to the same MV, and for 8x8 partition, each 8x8 must have its respective sub-block MVs replicated.
+====
+
+'Major Shapes' must be an OpTypeInt with 8-bit Width and 0 Signedness. Legal values and format for it are as per the return value of [blue]#<<bookmark-OpSubgroupAvcMceGetInterMajorShapeINTEL,OpSubgroupAvcMceGetInterMajorShapeINTEL>>#.
+
+'Minor Shapes' must be an OpTypeInt with 8-bit Width and 0 Signedness. Legal values and format for it are as per the return value of [blue]#<<bookmark-OpSubgroupAvcMceGetInterMajorShapeINTEL,OpSubgroupAvcMceGetInterMajorShapeINTEL>>#.
+
+'Directions' must be an OpTypeInt with 8-bit Width and 0 Signedness. Legal values and format for it are as per the return value of
+[blue]#<<bookmark-OpSubgroupAvcMceGetInterDirectionsINTEL,OpSubgroupAvcMceGetInterDirectionsINTEL>>#.
+
+'Pixel Resolution' must be an OpTypeInt with 8-bit Width and 0 Signedness. Legal values for it are either [blue]#<<bookmark-AVC_ME_SUBPIXEL_MODE_HPEL_INTEL,__AVC_ME_SUBPIXEL_MODE_HPEL_INTEL__>># or [blue]#<<bookmark-AVC_ME_SUBPIXEL_MODE_HPEL_INTEL,__AVC_ME_SUBPIXEL_MODE_QPEL_INTEL__>>#.
+
+'Sad Adjustment' must be an OpTypeInt with 8-bit Width and 0 Signedness that must evaluate to a valid sad adjustment value as per [blue]#<<bookmark-BF,Section 3, Binary Form>>#.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 10 | 5781 | <id> Result Type | Result <id> | <id> Src Coord | <id> Motion Vectors | <id> Major Shapes | <id> Minor Shapes | <id> Direction | <id> Pixel Resolution | <id> Sad Adjustment
+|=====
+
+[[bookmark-OpSubgroupAvcBmeInitializeINTEL]]
+[cols="1a,1,1,1,1,1,1,1,1,1,1,1",width="100%"]
+|=====
+11+|*OpSubgroupAvcBmeInitializeINTEL* +
+ +
+Return an initialized payload for a VME bidirectional motion estimation (BME) operation.
+
+The payload is initialized for progressive frame operations, and the cost configuration
+values and the miscellaneous property values are all initialized to zero. The cost configuration and the miscellaneous property configuration instructions must be used to override the initial configurations in the payload.
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcRefPayloadINTEL,__OpTypeAvcRefPayloadINTEL__>># type.
+
+'Src Coord' must be a vector(2) of i16 values and 0 Signedness, and represents the 2D offset of the top left corner of the source MB in pixel units in the source image.
+
+[IMPORTANT]
+====
+If the source image is an interlaced scan image, then the bottom field lines are considered as logically overlapping with the top field lines (i.e. the top field MBs are considered as logically overlapping with the bottom MBs) for the purposes for specifying
+the 'Src Coord' value.
+====
+
+'Motion Vectors' must be an OpTypeInt with 64-bit Width and 0 Signedness. It represents the BMVs returned by an IME in the same format as
+returned by [blue]#<<bookmark-OpSubgroupAvcMceGetMotionVectorsINTEL,OpSubgroupAvcMceGetMotionVectorsINTEL>>#. The MVs are in QPEL units. The X and Y coordinates of each MV must be in the range [-2048.00, 2047.75), otherwise the results are undefined.
+
+[CAUTION]
+====
+If this operand's value is manually composed, all sub-block MVs must be replicated per its format for each partition.  For example for 16x16 partition, all sub-block MVs must be replicated to the same MV, and for 8x8 partition, each 8x8 must have its respective sub-block MVs replicated.
+====
+
+'Major Shapes' must be an OpTypeInt with 8-bit Width and 0 Signedness. Legal values and format for it are as per the return value of [blue]#<<bookmark-OpSubgroupAvcMceGetInterMajorShapeINTEL,OpSubgroupAvcMceGetInterMajorShapeINTEL>>#.
+
+'Minor Shapes' must be an OpTypeInt with 8-bit Width and 0 Signedness. Legal values and format for it are as per the return value of [blue]#<<bookmark-OpSubgroupAvcMceGetInterMajorShapeINTEL,OpSubgroupAvcMceGetInterMajorShapeINTEL>>#.
+
+'Directions' must be an OpTypeInt with 8-bit Width and 0 Signedness. Legal values and format for it are as per the return value of
+[blue]#<<bookmark-OpSubgroupAvcMceGetInterDirectionsINTEL,OpSubgroupAvcMceGetInterDirectionsINTEL>>#.
+
+'Pixel Resolution' must be an OpTypeInt with 8-bit Width and 0 Signedness. Legal values for it are either [blue]#<<bookmark-AVC_ME_SUBPIXEL_MODE_HPEL_INTEL,__AVC_ME_SUBPIXEL_MODE_HPEL_INTEL__>># or [blue]#<<bookmark-AVC_ME_SUBPIXEL_MODE_HPEL_INTEL,__AVC_ME_SUBPIXEL_MODE_QPEL_INTEL__>>#.
+
+'Bidirectional Weight' must be an OpTypeInt with 8-bit Width and 0 Signedness that must evaluate to a valid bidirectional weight value as per [blue]#<<bookmark-BF,Section 3, Binary Form>>#.
+
+'Sad Adjustment' must be an OpTypeInt with 8-bit Width and 0 Signedness that must evaluate to a valid sad adjustment value as per [blue]#<<bookmark-BF,Section 3, Binary Form>>#.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 11 | 5782 | <id> Result Type | Result <id> | <id> Src Coord | <id> Motion Vectors | <id> Major Shapes | <id> Minor Shapes | <id> Direction | <id> Pixel Resolution | <id> Bidirectional Weight | <id> Sad Adjustment
+|=====
+
+===== Payload type conversion instructions
+These are optional instructions that may be called following the initialization phase to convert REF payload to MCE payloads and vice-versa.
+
+[cols="1,1,1,1,1",width="100%"]
+|=====
+4+|*OpSubgroupAvcRefConvertToMcePayloadINTEL* +
+ +
+Convert the REF payload to a generic MCE payload.
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcMcePayloadINTEL,__OpTypeAvcMcePayloadINTEL__>># type.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcRefPayloadINTEL,__OpTypeAvcRefPayloadINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 4 | 5783 | <id> Result Type | Result <id> | <id> Payload
+|=====
+
+[cols="1,1,1,1,1",width="100%"]
+|=====
+4+|*OpSubgroupAvcMceConvertToRefPayloadINTEL* +
+ +
+Convert the generic MCE payload to a REF payload.
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcRefPayloadINTEL,__OpTypeAvcRefPayloadINTEL__>># type.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcMcePayloadINTEL,__OpTypeAvcMcePayloadINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 4 | 5734 | <id> Result Type | Result <id> | <id> Payload
+|=====
+
+===== Miscellaneous property configuration instructions
+
+These are optional instructions that may be called following the initialization phase to enable miscellaneous properties setting in the payload.
+
+[cols="1,1,1,1,1",width="100%"]
+|=====
+4+|*OpSubgroupAvcRefSetBidirectionalMixDisableINTEL* +
+ +
+Update the input payload to disable a mix of bidirectional and unidirectional MVs in the result.
+
+Default is to enable it.
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcRefPayloadINTEL,__OpTypeAvcRefPayloadINTEL__>># type.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcRefPayloadINTEL,__OpTypeAvcRefPayloadINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 4 | 5784 | <id> Result Type | Result <id> | <id> Payload
+|=====
+
+[cols="1a,1,1,1,1",width="100%"]
+|=====
+4+|*OpSubgroupAvcRefSetBilinearFilterEnableINTEL* +
+ +
+Update the input payload to do enable bilinear filter interpolation instead of 4-tap
+filter interpolation. Default is 4-tap filter interpolation.
+
+[CAUTION]
+====
+This should not be called if the payload was initialized with integer pixel resolution.
+====
+
+Default is to enable it.
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcRefPayloadINTEL,__OpTypeAvcRefPayloadINTEL__>># type.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcRefPayloadINTEL,__OpTypeAvcRefPayloadINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 4 | 5785 | <id> Result Type | Result <id> | <id> Payload
+|=====
+
+=====  Evaluation instructions
+These instructions perform the evaluation of the REF operation configured in the payload with a VME media sampler and return the results.
+
+[[bookmark-OpSubgroupAvcRefEvaluateWithSingleReferenceINTEL]]
+[cols="1,1,1,1,1,1,1",width="100%"]
+|=====
+6+|*OpSubgroupAvcRefEvaluateWithSingleReferenceINTEL* +
+ +
+Evaluate the basic REF operation with a single reference and return its results.
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcRefResultINTEL,__OpTypeAvcRefResultINTEL__>># type.
+
+'Src Image' is an object whose type is an [blue]#<<bookmark-OpTypeVmeImageINTEL,__OpTypeVmeImageINTEL__>>#, and specifies the source image.  
+
+'Ref Image' is an object whose type is an [blue]#<<bookmark-OpTypeVmeImageINTEL,__OpTypeVmeImageINTEL__>>#, and specifies a forward reference image.   
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcRefPayloadINTEL,__OpTypeAvcRefPayloadINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 6 | 5786 | <id> Result Type | Result <id> | <id> Src Image | <id> Ref Image | <id> Payload
+|=====
+
+[[bookmark-OpSubgroupAvcRefEvaluateWithDualReferenceINTEL]]
+[cols="1,1,1,1,1,1,1,1",width="100%"]
+|=====
+7+|*OpSubgroupAvcRefEvaluateWithDualReferenceINTEL* +
+ +
+Evaluate the basic REF operation with dual references and return its results.
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcRefResultINTEL,__OpTypeAvcRefResultINTEL__>># type.
+
+'Src Image' is an object whose type is an [blue]#<<bookmark-OpTypeVmeImageINTEL,__OpTypeVmeImageINTEL__>>#, and specifies the source image.  
+
+'Fwd Ref Image' is an object whose type is an [blue]#<<bookmark-OpTypeVmeImageINTEL,__OpTypeVmeImageINTEL__>>#, and specifies a forward reference image.  
+
+'Bwd Ref Image' is an object whose type is an [blue]#<<bookmark-OpTypeVmeImageINTEL,__OpTypeVmeImageINTEL__>>#, and specifies a backward reference image.   
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcRefPayloadINTEL,__OpTypeAvcRefPayloadINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 7 | 5787 | <id> Result Type | Result <id> | <id> Src Image | <id> Fwd Ref Image | <id> Bwd Ref Image | <id> Payload
+|=====
+
+[[bookmark-OpSubgroupAvcRefEvaluateWithMultiReferenceINTEL]]
+[cols="1a,1,1,1,1,1,1",width="100%"]
+|=====
+6+|*OpSubgroupAvcRefEvaluateWithMultiReferenceINTEL* +
+ +
+Evaluate the basic REF operation with multi references and return its results.
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcRefResultINTEL,__OpTypeAvcRefResultINTEL__>># type.
+
+'Src Image' is an object whose type is an [blue]#<<bookmark-OpTypeVmeImageINTEL,__OpTypeVmeImageINTEL__>>#, and specifies the source image.  
+
+'Packed Reference Ids' must be an OpTypeInt with 32-bit Width and 0 Signedness, with the following bits specifying the values for the pair of reference images for each major partition.
+
+[cols="1,2",tablepcwidth=55]
+!====================
+! 3:0   ! Fwd reference block 0
+! 7:4   ! Bwd reference block 0
+! 11:8  ! Fwd reference block 1
+! 15:12 ! Bwd reference block 1
+! 19:16 ! Fwd reference block 2
+! 23:20 ! Bwd reference block 2
+! 27:24 ! Fwd reference block 3
+! 31:28 ! Bwd reference block 3
+!====================
+
+A forward[backward] reference identifier value of 'n' indicates the forward[backward]
+image from the 'n'^th^ pair of forward/backward reference images, with the value of 'n'
+ranging from 0 to 15.
+
+If the REF operation is configured with only forward reference images then, the
+values of the backward reference identifiers are not used.
+
+The blocks are numbered using the traditional Z order. For larger block sizes, the
+sub-block reference identifier pairs must be replicated. For example, for a 16x16 block, all four pair of reference identifiers must be replicated to the value of the first pair
+for block 0.
+
+[NOTE]
+====
+The value for the 'Packed Reference Ids' is typically obtained by calling [blue]#<<bookmark-OpSubgroupAvcMceGetInterReferenceIdsINTEL,OpSubgroupAvcMceGetInterReferenceIdsINTEL>># for the preceding IME operation's result.
+====
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcRefPayloadINTEL,__OpTypeAvcRefPayloadINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 6 | 5788 | <id> Result Type | Result <id> | <id> Src Image | <id> Packed Reference Ids | <id> Payload
+|=====
+
+[[bookmark-OpSubgroupAvcRefEvaluateWithMultiReferenceInterlacedINTEL]]
+[cols="1a,1,1,1,1,1,1,1",width="100%"]
+|=====
+7+|*OpSubgroupAvcRefEvaluateWithMultiReferenceInterlacedINTEL* +
+ +
+Evaluate the basic REF operation with multi references and return its results. This
+is used for interlaced source and reference images.     
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcRefResultINTEL,__OpTypeAvcRefResultINTEL__>># type.
+
+'Src Image' is an object whose type is an [blue]#<<bookmark-OpTypeVmeImageINTEL,__OpTypeVmeImageINTEL__>>#, and specifies the source image.  
+
+'Packed Reference Ids' must be an OpTypeInt with 32-bit Width and 0 Signedness, with the following bits specifying the values for the pair of reference images for each major partition.
+
+[cols="1,2",tablepcwidth=55]
+!====================
+! 3:0   ! Fwd reference block 0
+! 7:4   ! Bwd reference block 0
+! 11:8  ! Fwd reference block 1
+! 15:12 ! Bwd reference block 1
+! 19:16 ! Fwd reference block 2
+! 23:20 ! Bwd reference block 2
+! 27:24 ! Fwd reference block 3
+! 31:28 ! Bwd reference block 3
+!====================
+
+A forward[backward] reference identifier value of 'n' indicates the forward[backward]
+image from the 'n'^th^ pair of forward/backward reference images, with the value of 'n'
+ranging from 0 to 15.
+
+If the REF operation is configured with only forward reference images then, the
+values of the backward reference identifiers are not used.
+
+The blocks are numbered using the traditional Z order. For larger block sizes, the
+sub-block reference identifier pairs must be replicated. For example, for a 16x16 block, all four pair of reference identifiers must be replicated to the value of the first pair
+for block 0.
+
+[NOTE]
+====
+The value for the 'Packed Reference Ids' is typically obtained by calling [blue]#<<bookmark-OpSubgroupAvcMceGetInterReferenceIdsINTEL,OpSubgroupAvcMceGetInterReferenceIdsINTEL>># for the preceding IME operation's result.
+====
+
+'Packed Reference Field Polarities' must be an OpTypeInt with 8-bit Width and 0 Signedness. Reference field polarities for forward and backward reference images are specified for each of the allowed major partitions using it, with the following bits specifying the reference field polarities for the major partitions.
+
+[cols="1,2",tablepcwidth=50]
+!====================
+! 0 ! Fwd reference block 0
+! 1 ! Fwd reference block 1
+! 2 ! Fwd reference block 2
+! 3 ! Fwd reference block 3
+! 4 ! Bwd reference block 0
+! 5 ! Bwd reference block 1
+! 6 ! Bwd reference block 2
+! 7 ! Bwd reference block 3
+!====================
+
+If the dual-reference evaluation instructions are not used, then the values of the
+backward reference field polarities are not used.
+
+The blocks are numbered using the traditional Z order. For larger block sizes, the
+sub-block reference field polarities are replicated. For example, for a 16x16 block all
+four pairs of reference field polarities are replicated to the value of the first pair for block 0.   
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcRefPayloadINTEL,__OpTypeAvcRefPayloadINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 7 | 5789 | <id> Result Type | Result <id> | <id> Src Image | <id> Packed Reference Ids | <id> Packed Reference Field Polarities | <id> Payload
+|=====
+
+=====  Result type conversion instructions
+
+These are optional instructions that may be called following the evaluation phase to convert REF results to MCE results and vice-versa.
+
+[cols="1,1,1,1,1",width="100%"]
+|=====
+4+|*OpSubgroupAvcRefConvertToMceResultINTEL* +
+ +
+Convert the REF result to a generic MCE result.
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcMceResultINTEL,__OpTypeAvcMceResultINTEL__>># type.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcRefResultINTEL,__OpTypeAvcRefResultINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 4 | 5790 | <id> Result Type | Result <id> | <id> Payload
+|=====
+
+[cols="1,1,1,1,1",width="100%"]
+|=====
+4+|*OpSubgroupAvcMceConvertToRefResultINTEL* +
+ +
+Convert the generic MCE result to a REF result.
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcRefResultINTEL,__OpTypeAvcRefResultINTEL__>># type.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcMceResultINTEL,__OpTypeAvcMceResultINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 4 | 5735 | <id> Result Type | Result <id> | <id> Payload
+|=====
+
+<<<
+[[bookmark-GroupSICInstructions]]
+==== SIC instructions
+
+These instruction are only guaranteed to work correctly if placed strictly within uniform control flow within the Subgroup execution scope. This ensures that if any invocation executes it, all invocations will execute it. If placed elsewhere, the results are undefined.
+
+=====  Initialization instructions
+
+These instructions create a properly initialized payload that can be used for further configured for evaluating SIC operations. This is a required initial phase.
+
+[cols="1a,1,1,1,1",width="100%"]
+|=====
+4+|*OpSubgroupAvcSicInitializeINTEL* +
+ +
+Return an initialized payload for a VME SIC operation.
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcSicPayloadINTEL,__OpTypeAvcSicPayloadINTEL__>># type.
+
+'Src Coord' must be a vector(2) of i16 values and 0 Signedness. It represents the 2D offset of the top left corner of the source MB in pixel units in the source image. Source MBs at the image borders are allowed to be partial, but the top-left corner must be within the image.
+
+[IMPORTANT]
+====
+. If the source image is an interlaced scan image, then the bottom field lines are
+considered as logically overlapping with the top field lines (i.e. the top field MBs
+are considered as logically overlapping with the bottom MBs) for the purposes for specifying the 'Src Coord' value.
+
+. If the SIC operation is being configured for chroma based intra estimation, then the x and y coordinates of 'Src Coord' must be multiples of 2.
+====
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 4 | 5791 | <id> Result Type | Result <id> | <id> Src Coord
+|=====
+
+===== Configuration instructions
+
+[[bookmark-OpSubgroupAvcSicConfigureSkcINTEL]]
+[cols="1a,1,1,1,1,1,1,1,1,1",width="100%"]
+|=====
+9+|*OpSubgroupAvcSicConfigureSkcINTEL* +
+ +
+Configure the SIC payload for (uni or bi-directional) skip checks.
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcSicPayloadINTEL,__OpTypeAvcSicPayloadINTEL__>># type.
+
+'Skip Block Partition Type' must be an OpTypeInt with 8-bit Width and 0 Signedness that must evaluate to one of the specified partition mask values as per [blue]#<<bookmark-BF,Section 3, Binary Form>>#.
+
+'Skip Motion Vector Mask' must be an OpTypeInt with 32-bit Width and 0 Signedness. Legal values for it can be composed using the OpBitwiseOr instruction from the values defined for it as per [blue]#<<bookmark-BF,Section 3, Binary Form>>#; both unidirectional and bidirectional skip vectors can be specified uniquely for each major partition (16x16 or 8x8) by an appropriate selection of the skip motion vector mask enumeration values. If the 16x16 'Skip Block Partition Type' is specified, then only the 16x16 enumeration values may be used, else only the 8x8 enumeration values may be used.
+
+[TIP]
+====
+The instruction [blue]#<<bookmark-OpSubgroupAvcSicGetMotionVectorMask,OpSubgroupAvcSicGetMotionVectorMask>># may be used to set this operand's value.
+====
+
+'Motion Vectors' must be an OpTypeInt with 64-bit Width and 0 Signedness, and specifies the input packed BMVs. Either the forward or backward is ignored if the setting in 'Skip Motion Vector Mask' is backward or forward respectively. If the setting is bidirectional, then both the forward and backward motion vectors will be used.  If the 'Skip Block Partition Type' is 16x16, work-item 0 in the subgroup provides the BMV, and if the 'Skip Block Partition Type' is 8x8, work-items 0 to 4 in the subgroup provide the four BMVs. The MVs are in QPEL units. The X and Y coordinates of each MV must be in the range [-2048.00, 2047.75] and [-512.00 to 511.75] respectively, otherwise the results are undefined.
+
+'Bidirectional Weight' must be an OpTypeInt with 8-bit Width and 0 Signedness that must evaluate to a valid bidirectional weight value as per [blue]#<<bookmark-BF,Section 3, Binary Form>>#.  If the setting is unidirectional, then the this parameter value is ignored and can be set to the value '0'.
+
+'Sad Adjustment' must be an OpTypeInt with 8-bit Width and 0 Signedness that must evaluate to a valid sad adjustment value as per [blue]#<<bookmark-BF,Section 3, Binary Form>>#.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 9 | 5792 | <id> Result Type | Result <id> | <id> Skip Block Partition Type | | <id> Skip Motion Vector Mask | <id> Motion Vectors | <id> Bidirectional Weight | <id> Sad Adjustment | <id> Payload
+|=====
+
+[[bookmark-OpSubgroupAvcSicConfigureIpeLumaINTEL]]
+[cols="1a,1,1,1,1,1,1,1,1,1,1,1",width="100%"]
+|=====
+11+|*OpSubgroupAvcSicConfigureIpeLumaINTEL* +
+ +
+Return an initialized payload for a VME luma intra prediction estimation (IPE) operation.
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcSicPayloadINTEL,__OpTypeAvcSicPayloadINTEL__>># type.
+
+'Luma Intra Partition Mask' must be an OpTypeInt with 8-bit Width and 0 Signedness, which can be composed from their respective values as per [blue]#<<bookmark-BF,Section 3, Binary Form>># using the OpBitwiseAnd instruction.
+
+'Intra Neighbour Availabilty' must be an OpTypeInt with 8-bit Width and 0 Signedness that must evaluate to a valid intra neighbour availabilty value as per [blue]#<<bookmark-BF,Section 3, Binary Form>>#.
+
+'Left Edge Luma Pixels', 'Upper Left Corner Luma Pixel', 'Upper Edge Luma Pixels', 'Upper Right Edge Luma Pixels' must be an OpTypeInt with 8-bit Width and 0 Signedness, and specify the neighbor edge pixels for the left, top-left corner, top
+and top right edges with each work-item providing each pixel value. These pixels values are used to perform the intra mode estimation.
+
+For the left and top edge pixels, successive subgroup work-items 0 to 15 provide the
+successive edge pixels. For the top-right edge, successive work-items 0 to 7 provide the
+successive edge pixels; the pixel values in work-items 8 to 15 are ignored. The top-left
+corner pixel is a uniform pixel value with each work-item providing the same corner pixel.   
+
+'Sad Adjustment' must be an OpTypeInt with 8-bit Width and 0 Signedness that must evaluate to a valid sad adjustment value as per [blue]#<<bookmark-BF,Section 3, Binary Form>>#.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL, SubgroupAvcMotionEstimationIntraINTEL* +
+| 11 | 5793 | <id> Result Type | Result <id> | <id> Luma Intra Partition Mask | <id> Intra Neighbour Availabilty | <id> Left Edge Luma Pixels | <id> Upper Left Corner Luma Pixel | <id> Upper Edge Luma Pixels | <id> Upper Right Edge Luma Pixels | <id> Sad Adjustment | <id> Payload
+|=====
+
+[[bookmark-OpSubgroupAvcSicConfigureIpeLumaChromaINTEL]]
+[cols="1a,1,1,1,1,1,1,1,1,1,1,1,1,1,1",width="100%"]
+|=====
+14+|*OpSubgroupAvcSicConfigureIpeLumaChromaINTEL* +
+ +
+Return an initialized payload for a VME luma and chroma intra prediction estimation (IPE) operation.  
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcSicPayloadINTEL,__OpTypeAvcSicPayloadINTEL__>># type.
+
+'Luma Intra Partition Mask' must be an OpTypeInt with 8-bit Width and 0 Signedness, which can be composed from their respective values as per [blue]#<<bookmark-BF,Section 3, Binary Form>># using the OpBitwiseAnd instruction.
+
+'Intra Neighbour Availabilty' must be an OpTypeInt with 8-bit Width and 0 Signedness that must evaluate to a valid intra neighbour availabilty value as per [blue]#<<bookmark-BF,Section 3, Binary Form>>#.
+
+'Left Edge Luma Pixels', 'Upper Left Corner Luma Pixel', 'Upper Edge Luma Pixels', 'Upper Right Edge Luma Pixels', 'Left Edge Chroma Pixels', 'Upper Left Corner Chroma Pixel', 'Upper Edge Chroma Pixels'  must be an OpTypeInt with 8-bit Width and 0 Signedness, and  specify the neighbor luma and chroma edge pixels for the left, top-left corner, top and top-right (luma only) edges with each work-item providing each pixel value. These pixels values are used to perform the intra mode estimation.  
+
+For the left and top edge pixels, successive subgroup work-items 0 to 15 provide the
+successive edge pixels. For the top-right edge, successive work-items 0 to 7 provide the
+successive edge pixels; the pixel values in work-items 8 to 15 are ignored. The top-left
+corner pixel is a uniform pixel value with each work-item providing the same corner pixel.
+
+For the left and top chroma CbCr pixels, successive subgroup work-items 0 to 7 provide the successive CbCr pixels; the pixel values in work-items 8 to 15 are ignored. The top-left corner pixel is a uniform CbCr pixel value with each work-item providing the same corner CbCr pixel.   
+
+'Sad Adjustment' must be an OpTypeInt with 8-bit Width and 0 Signedness that must evaluate to a valid sad adjustment value as per [blue]#<<bookmark-BF,Section 3, Binary Form>>#.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL, SubgroupAvcMotionEstimationChromaINTEL* +
+| 14 | 5794 | <id> Result Type | Result <id> | <id> Luma Intra Partition Mask | <id> Intra Neighbour Availabilty | <id> Left Edge Luma Pixels | <id> Upper Left Corner Luma Pixel | <id> Upper Edge Luma Pixels | <id> Upper Right Edge Luma Pixels | <id> Left Edge Chroma Pixels | <id> Upper Left Corner Chroma Pixel | <id> Upper Edge Chroma Pixels | <id> Sad Adjustment | <id> Payload
+|=====
+
+[cols="1,1,1,1,1,1",width="100%"]
+|=====
+5+|*OpSubgroupAvcSicGetMotionVectorMaskINTEL* +
+ +
+Compose the value for the input argument 'Skip Motion Vector Mask' for the
+input 'Skip Block Partition Type' and direction.
+
+'Result Type' must be an OpTypeInt with 32-bit Width and 0 Signedness.
+
+'Skip Block Partition Type' must be an OpTypeInt with 32-bit Width and 0 Signedness, which must evaluate to valid partition mask values for either 16x16 or 8x8 as per [blue]#<<bookmark-BF,Section 3, Binary Form>>#.
+
+'Direction' must be an OpTypeInt with 8-bit Width and 0 Signedness. It is a bit field with the directions for the 4 8x8 sub-partitions in traditional Z order, or for only the 16x16 partition. Two bits are reserved for each of the four sub-partitions in row-major order.  The 2-bit values are as per the inter macro-block major direction values. If the 'Skip Block Partition Type' indicates a 16x16 shape, then only the 1^st^ 2 bits contains the direction, and other bits must be zeroed.  
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 5 | 5795 | <id> Result Type | Result <id> | <id> Skip Block Partition Type | <id> Direction
+|=====
+
+===== Payload type conversion instructions
+   
+These are optional instructions that may be called following the search configuration phase to convert SIC payload to MCE payloads and vice-versa.
+
+[cols="1,1,1,1,1",width="100%"]
+|=====
+4+|*OpSubgroupAvcSicConvertToMcePayloadINTEL* +
+ +
+Convert the SIC payload to a generic MCE payload.
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcMcePayloadINTEL,__OpTypeAvcMcePayloadINTEL__>># type.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcSicPayloadINTEL,__OpTypeAvcSicPayloadINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 4 | 5796 | <id> Result Type | Result <id> | <id> Payload
+|=====
+
+[cols="1,1,1,1,1",width="100%"]
+|=====
+4+|*OpSubgroupAvcMceConvertToSicPayloadINTEL* +
+ +
+Convert the generic MCE payload to a SIC payload.
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcSicPayloadINTEL,__OpTypeAvcSicPayloadINTEL__>># type.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcMcePayloadINTEL,__OpTypeAvcMcePayloadINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 4 | 5736 | <id> Result Type | Result <id> | <id> Payload
+|=====
+
+===== Intra shape cost configuration instructions
+
+[cols="1a,1,1,1,1,1",width="100%"]
+|=====
+5+|*OpSubgroupAvcSicSetIntraLumaShapePenaltyINTEL* +
+ +
+Set the shape penalty for inter motion estimation.
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcSicPayloadINTEL,__OpTypeAvcSicPayloadINTEL__>># type.
+
+'Packed Shape Penalty' must be a 32-bit scalar integer type. It is treated as an unsigned value. The following bits specify the shape penalty in U4U4 format:
+
+[cols="1,3",tablepcwidth=55]
+!====================
+! 7:0 !  Must be zero
+! 15:8 !  16x16
+! 23:16 !  8x8
+! 31:24 !  4x4
+!====================
+
+The U4U4 decoded integer values for each of the bytes must fit within 12 bits.      
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcSicPayloadINTEL,__OpTypeAvcSicPayloadINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 5 | 5797 | <id> Result Type | Result <id> | <id> Packed Shape Penalty | <id> Payload
+|=====
+
+===== Intra mode cost configuration instructions
+
+[[bookmark-OpSubgroupAvcSicSetIntraLumaModeCostFunctionINTEL]]
+[cols="1a,1,1,1,1,1,1,1",width="100%"]
+|=====
+7+|*OpSubgroupAvcSicSetIntraLumaModeCostFunctionINTEL* +
+ +
+Update the payload to configure the luma mode cost function to be applied to the computed luma mode for SIC intra operations.
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcSicPayloadINTEL,__OpTypeAvcSicPayloadINTEL__>># type.
+
+'Luma Mode Penalty' specifies the penalty to be applied to the estimated luma mode if it differs from its predicted luma mode (based on its neighbor intra modes). It is specified in U4U4 format and must bit in 10 bits.
+
+'Luma Packed Neighbor Modes' specifies the values of the already computed top and left neighbor modes for the bordering 4x4 blocks, with the 4x4 blocks numbered in the traditional Z-order as shown
+below.
+
+    0 1 4 5
+    2 3 6 7
+    8 9 C D
+    A B E F    
+
+The following bits specify the neighbor modes. 
+
+[cols="1,3",tablepcwidth=55]
+!====================
+! 3:0   ! Left neighbor block 5
+! 7:4   ! Left neighbor block 7
+! 11:8  ! Left neighbor block D
+! 15:12 ! Left neighbor block F
+! 19:16 ! Top neighbor block A
+! 23:20 ! Top neighbor block B
+! 27:24 ! Top neighbor block E
+! 31:28 ! Top neighbor block F
+!====================
+
+'Luma Packed Non Dc Penalty' specifies the penalty to be applied for any computed non-DC luma mode for each of the 16x16, 8x8, and 4x4 shapes, with the following bits specifying the penalties.
+
+[cols="1,2",tablepcwidth=55]
+!====================
+! 7:0   ! Intra16x16
+! 15:8  ! Intra8x8
+! 23:16 ! Intra4x4
+! 31:24 ! Must be zero
+!====================
+
+The component byte values are specified in 8-bit integer format.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcSicPayloadINTEL,__OpTypeAvcSicPayloadINTEL__>># type.
+
+The intra distortion for each intra luma block can be described by the following formulas:
+
+.....................................................
+Intra_4x4_SAD(or Haar) +  
+Luma_Shape_Penalty_4x4 +  
+Luma_Non_Dc_4x4_Penalty(if not  DC) +  
+Luma_Mode_Penalty(if computed mode is not 
+the same predicted mode from neighbor modes)
+
+Intra_8x8_SAD(or Haar) +  
+Luma_Shape_Penalty_8x8 +   
+Luma_Non_Dc_8x8_Penalty(if not  DC) +  
+Luma_Mode_Penalty(if computed mode is not 
+the same predicted mode from neighbor modes)
+end{gather}
+
+Intra_16x16_SAD(or Haar) +  
+Luma_Shape_Penalty_16x16 +  
+Luma_Non_Dc_16x16_Penalty(if not DC)
+.....................................................
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL, SubgroupAvcMotionEstimationIntraINTEL* +
+| 7 | 5798 | <id> Result Type | Result <id> | <id> Luma Mode Penalty | <id> Luma Packed Neighbor Modes | <id> Luma Packed Non Dc Penalty | <id> Payload
+|=====
+
+[[bookmark-OpSubgroupAvcSicSetIntraChromaModeCostFunctionINTEL]]
+[cols="1a,1,1,1,1,1",width="100%"]
+|=====
+5+|*OpSubgroupAvcSicSetIntraChromaModeCostFunctionINTEL* +
+ +
+Update the payload to configure the intra chroma mode cost function by specifying the penalty to be applied to the computed chroma mode for SIC intra operations.
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcSicPayloadINTEL,__OpTypeAvcSicPayloadINTEL__>># type.
+
+'Chroma Mode Base Penalty'  is the base penalty to be applied to the computed intra chroma modes. This penalty is in U4U4 format.
+
+The U4U4 decoded integer value must fit in 12 bits.
+
+The base penalty is scaled based on the computed mode as defined below.
+
+[cols="1,2",tablepcwidth=55]
+!====================
+! DC  ! 0x
+! HORZ ! 1x
+! VERT ! 1x
+! PLANE ! 2x
+!====================
+
+The component byte values are specified in 8-bit integer format.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcSicPayloadINTEL,__OpTypeAvcSicPayloadINTEL__>># type.
+
+The intra distortion for each intra 8x8 chroma block can be described by the following
+formula:
+
+.....................................
+Distortion =
+    SAD(or Haar) +
+    Chroma_Mode_Base_Penalty 
+    (scaled based on computed mode)
+.....................................
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL, SubgroupAvcMotionEstimationChromaINTEL* +
+| 7 | 5799 | <id> Result Type | Result <id> | <id> Chroma Mode Base Penalty | <id> Payload
+|=====
+
+===== Miscellaneous property configuration instructions
+
+These are optional instructions that may be called following the configuration phase to enable miscellaneous properties setting in the payload.
+
+[cols="1a,1,1,1,1",width="100%"]
+|=====
+4+|*OpSubgroupAvcSicSetBilinearFilterEnableINTEL* +
+ +
+Update the input payload to do enable bilinear filter interpolation instead of 4-tap
+filter interpolation. Default is 4-tap filter interpolation. +
+
+[CAUTION]
+====
+This should not be called if the payload was initialized with integer pixel resolution.
+====
+
+Default is to enable it.
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcSicPayloadINTEL,__OpTypeAvcSicPayloadINTEL__>># type.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcSicPayloadINTEL,__OpTypeAvcSicPayloadINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 4 | 5800 | <id> Result Type | Result <id> | <id> Payload
+|=====
+
+[[bookmark-OpSubgroupAvcSicSetSkcForwardTransformEnableINTEL]]
+[cols="1a,1,1,1,1,1",width="100%"]
+|=====
+5+|*OpSubgroupAvcSicSetSkcForwardTransformEnableINTEL* +
+ +
+Enable skip check forward transform with the specified SAD coefficients thresholds in
+the frequency domain to approximate the effects of forward quantization.
+
+The skip decision will be enhanced to include an accurate AVC forward transform for skip
+estimation. This feature is in addition to the previous SAD or HAAR skip estimation. The
+results of the forward transform are compared one coefficient at a time against a
+user-specified threshold, in the input argument packed_sad_coefficients, to
+emulate quantization's zeroing effect. The user is returned the count of coefficients that exceeded their threshold along with a sum of the amount exceeded, both grouped at the 8x8 block level (i.e. for each 8x8 block).
+
+This is valid only for SKC operations. 
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcSicPayloadINTEL,__OpTypeAvcSicPayloadINTEL__>># type.
+
+'Packed Sad Coefficients' must be an OpTypeInt with 64-bit Width and 0 Signedness, and spoecifies the SAD coefficient threshold matrix. The SAD coefficient threshold matrix for a 4x4 transform as shown in the table below is packed into a 64-bit integer. The low 16 bits contains the larger DC threshold. The coefficient thresholds for the remaining 6 AC thresholds in the order of increasing frequency are provided by the successive 8-bit bit ranges.
+
+[cols="1,1,1,1",tablepcwidth=70]
+!====================
+! 0 (DC) ! 1 (AC) ! 2 (AC) ! 3 (AC)
+! 1 (AC) ! 2 (AC) ! 3 (AC) ! 4 (AC)
+! 2 (AC) ! 3 (AC) ! 4 (AC) ! 5 (AC)
+! 3 (AC) ! 4 (AC) ! 5 (AC) ! 6 (AC)
+!====================
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcSicPayloadINTEL,__OpTypeAvcSicPayloadINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 5 | 5801 | <id> Result Type | Result <id> | <id> Packed Sad Coefficients | <id> Payload
+|=====
+
+[cols="1a,1,1,1,1,1",width="100%"]
+|=====
+5+|*OpSubgroupAvcSicSetBlockBasedRawSkipSadINTEL* +
+ +
+The raw skip SAD computed during the evaluation phase will be the maximal SAD of individual 4x4 (or 8x8) blocks, instead of the sum of the entire individual 4x4 block
+SADs of the MB.
+
+It is valid to call this function only if the payload is configured for a skip check
+operation by a prior call to [blue]#<<bookmark-OpSubgroupAvcSicConfigureSkcINTEL,OpSubgroupAvcSicConfigureSkcINTEL>>.
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcSicPayloadINTEL,__OpTypeAvcSicPayloadINTEL__>># type.
+
+'Block Based Skip Type' must be an OpTypeInt with 8-bit Width and 0 Signedness, that must evaluate to a valid block based skip type value as per [blue]#<<bookmark-BF,Section 3, Binary Form>>#.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcSicPayloadINTEL,__OpTypeAvcSicPayloadINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 5 | 5802 | <id> Result Type | Result <id> | <id> Block Based Skip Type | <id> Payload
+|=====
+
+===== Evaluation instructions
+
+These instructions perform the evaluation of the SIC operation configured in the payload with a VME media sampler and return the results.
+
+[cols="1,1,1,1,1,1",width="100%"]
+|=====
+5+|*OpSubgroupAvcSicEvaluateIPEINTEL* +
+ +
+Evaluate the SIC IPE operation and return its results. 
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcSicResultINTEL,__OpTypeAvcSicResultINTEL__>># type.
+
+'Src Image' is an object whose type is an [blue]#<<bookmark-OpTypeVmeImageINTEL,__OpTypeVmeImageINTEL__>>#, and specifies the source image.  
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcSicPayloadINTEL,__OpTypeAvcSicPayloadINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL, SubgroupAvcMotionEstimationIntraINTEL* +
+| 5 | 5803 | <id> Result Type | Result <id> | <id> Src Image | <id> Payload
+|=====
+
+[cols="1,1,1,1,1,1,1",width="100%"]
+|=====
+6+|*OpSubgroupAvcSicEvaluateWithSingleReferenceINTEL* +
+ +
+Evaluate the SIC operation with single reference and return its results.
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcSicResultINTEL,__OpTypeAvcSicResultINTEL__>># type.
+
+'Src Image' is an object whose type is an [blue]#<<bookmark-OpTypeVmeImageINTEL,__OpTypeVmeImageINTEL__>>#, and specifies the source image.  
+
+'Ref Image' is an object whose type is an [blue]#<<bookmark-OpTypeVmeImageINTEL,__OpTypeVmeImageINTEL__>>#, and specifies a forward reference image.   
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcSicPayloadINTEL,__OpTypeAvcSicPayloadINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 6 | 5804 | <id> Result Type | Result <id> | <id> Src Image | <id> Ref Image | <id> Payload
+|=====
+
+[cols="1,1,1,1,1,1,1,1",width="100%"]
+|=====
+7+|*OpSubgroupAvcSicEvaluateWithDualReferenceINTEL* +
+ +
+Evaluate the SIC operation with dual references and return its results.
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcSicResultINTEL,__OpTypeAvcSicResultINTEL__>># type.
+
+'Src Image' is an object whose type is an [blue]#<<bookmark-OpTypeVmeImageINTEL,__OpTypeVmeImageINTEL__>>#, and specifies the source image.  
+
+'Fwd Ref Image' is an object whose type is an [blue]#<<bookmark-OpTypeVmeImageINTEL,__OpTypeVmeImageINTEL__>>#, and specifies a forward reference image.
+
+'Bwd Ref Image' is an object whose type is an [blue]#<<bookmark-OpTypeVmeImageINTEL,__OpTypeVmeImageINTEL__>>#, and specifies a backward reference image.   
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcSicPayloadINTEL,__OpTypeAvcSicPayloadINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 7 | 5805 | <id> Result Type | Result <id> | <id> Src Image | <id> Fwd Ref Image | <id> Bwd Ref Image | <id> Payload
+|=====
+
+[[bookmark-OpSubgroupAvcSicEvaluateWithMultiReferenceINTEL]]
+[cols="1a,1,1,1,1,1,1",width="100%"]
+|=====
+6+|*OpSubgroupAvcSicEvaluateWithMultiReferenceINTEL* +
+ +
+Evaluate the SIC operation with multi references and return its results.  
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcSicResultINTEL,__OpTypeAvcSicResultINTEL__>># type.
+
+'Src Image' is an object whose type is an [blue]#<<bookmark-OpTypeVmeImageINTEL,__OpTypeVmeImageINTEL__>>#, and specifies the source image.  
+
+'Packed Reference Ids' must be an OpTypeInt with 32-bit Width and 0 Signedness, with the following bits specifying the values for the pair of reference images for each major partition.
+
+[cols="1,2",tablepcwidth=55]
+!====================
+! 3:0   ! Fwd reference block 0
+! 7:4   ! Bwd reference block 0
+! 11:8  ! Fwd reference block 1
+! 15:12 ! Bwd reference block 1
+! 19:16 ! Fwd reference block 2
+! 23:20 ! Bwd reference block 2
+! 27:24 ! Fwd reference block 3
+! 31:28 ! Bwd reference block 3
+!====================
+
+A forward[backward] reference identifier value of 'n' indicates the forward[backward]
+image from the 'n'^th^ pair of forward/backward reference images, with the value of 'n'
+ranging from 0 to 15.
+
+If the SIC operation is configured with only forward reference images then, the
+values of the backward reference identifiers are not used.
+
+The blocks are numbered using the traditional Z order. For larger block sizes, the
+sub-block reference identifier pairs must be replicated. For example, for a 16x16 block, all four pair of reference identifiers must be replicated to the value of the first pair
+for block 0.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcSicPayloadINTEL,__OpTypeAvcSicPayloadINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 6 | 5806 | <id> Result Type | Result <id> | <id> Src Image | <id> Packed Reference Ids | <id> Payload
+|=====
+
+[[bookmark-OpSubgroupAvcSicEvaluateWithMultiReferenceInterlacedINTEL]]
+[cols="1a,1,1,1,1,1,1,1",width="100%"]
+|=====
+7+|*OpSubgroupAvcSicEvaluateWithMultiReferenceInterlacedINTEL* +
+ +
+Evaluate the SIC operation with multi references and return its results. This is used for interlaced source and reference images.     
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcSicResultINTEL,__OpTypeAvcSicResultINTEL__>># type.
+
+'Src Image' is an object whose type is an [blue]#<<bookmark-OpTypeVmeImageINTEL,__OpTypeVmeImageINTEL__>>#, and specifies the source image.  
+
+'Packed Reference Ids' must be an OpTypeInt with 32-bit Width and 0 Signedness, with the following bits specifying the values for the pair of reference images for each major partition.
+
+[cols="1,2",tablepcwidth=55]
+!====================
+! 3:0   ! Fwd reference block 0
+! 7:4   ! Bwd reference block 0
+! 11:8  ! Fwd reference block 1
+! 15:12 ! Bwd reference block 1
+! 19:16 ! Fwd reference block 2
+! 23:20 ! Bwd reference block 2
+! 27:24 ! Fwd reference block 3
+! 31:28 ! Bwd reference block 3
+!====================
+
+A forward[backward] reference identifier value of 'n' indicates the forward[backward]
+image from the 'n'^th^ pair of forward/backward reference images, with the value of 'n'
+ranging from 0 to 15.
+
+If the SIC operation is configured with only forward reference images then, the
+values of the backward reference identifiers are not used.
+
+The blocks are numbered using the traditional Z order. For larger block sizes, the
+sub-block reference identifier pairs must be replicated. For example, for a 16x16 block, all four pair of reference identifiers must be replicated to the value of the first pair
+for block 0.
+
+[NOTE]
+====
+The value for the 'Packed Reference Ids' is typically obtained by calling [blue]#<<bookmark-OpSubgroupAvcMceGetInterSicerenceIdsINTEL,OpSubgroupAvcMceGetInterSicerenceIdsINTEL>># for the preceding IME operation's result.
+====
+
+'Packed Reference Field Polarities' must be an OpTypeInt with 8-bit Width and 0 Signedness. Reference field polarities for forward and backward reference images are specified for each of the allowed major partitions using it, with the following bits specifying the reference field polarities for the major partitions.
+
+[cols="1,2",tablepcwidth=50]
+!====================
+! 0 ! Fwd reference block 0
+! 1 ! Fwd reference block 1
+! 2 ! Fwd reference block 2
+! 3 ! Fwd reference block 3
+! 4 ! Bwd reference block 0
+! 5 ! Bwd reference block 1
+! 6 ! Bwd reference block 2
+! 7 ! Bwd reference block 3
+!====================
+
+If the dual-reference evaluation instructions are not used, then the values of the
+backward reference field polarities are not used.
+
+The blocks are numbered using the traditional Z order. For larger block sizes, the
+sub-block reference field polarities are replicated. For example, for a 16x16 block all
+four pairs of reference field polarities are replicated to the value of the first pair for block 0.   
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcSicPayloadINTEL,__OpTypeAvcSicPayloadINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 7 | 5807 | <id> Result Type | Result <id> | <id> Src Image | <id> Packed Reference Ids | <id> Packed Reference Field Polarities | <id> Payload
+|=====
+
+=====  Result type conversion instructions
+
+These are optional instructions that may be called following the evaluation phase to convert SIC results to MCE results and vice-versa.
+
+[cols="1,1,1,1,1",width="100%"]
+|=====
+4+|*OpSubgroupAvcSicConvertToMceResultINTEL* +
+ +
+Convert the SIC result to a generic MCE result.
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcMceResultINTEL,__OpTypeAvcMceResultINTEL__>># type.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcSicResultINTEL,__OpTypeAvcSicResultINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 4 | 5808 | <id> Result Type | Result <id> | <id> Payload
+|=====
+
+[cols="1,1,1,1,1",width="100%"]
+|=====
+4+|*OpSubgroupAvcMceConvertToSicResultINTEL* +
+ +
+Convert the generic MCE result to a SIC result.
+
+'Result Type' must be the [blue]#<<bookmark-OpTypeAvcSicResultINTEL,__OpTypeAvcSicResultINTEL__>># type.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcMceResultINTEL,__OpTypeAvcMceResultINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 4 | 5737 | <id> Result Type | Result <id> | <id> Payload
+|=====
+
+=====   Result processing instructions
+
+These instructions are called following the evaluation phase to extract the various result components from an SIC evaluation result.
+
+[[bookmark-OpSubgroupAvcSicGetIpeLumaShapeINTEL]]
+[cols="1,1,1,1,1",width="100%"]
+|=====
+4+|*OpSubgroupAvcSicGetIpeLumaShapeINTEL* +
+ +
+Return the best intra shape from the SIC result. 
+
+The returned values are valid intra-MB shapes as per [blue]#<<bookmark-BF,Section 3, Binary Form>>#.
+
+'Result Type' must be a OpTypeInt with 8-bit Width and 0 Signedness.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcSicResultINTEL,__OpTypeAvcSicResultINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL, SubgroupAvcMotionEstimationIntraINTEL* +
+| 4 | 5809 | <id> Result Type | Result <id> | <id> Payload
+|=====
+
+[cols="1,1,1,1,1",width="100%"]
+|=====
+4+|*OpSubgroupAvcSicGetBestIpeLumaDistortionINTEL* +
+ +
+Return the best intra luma distortion for the shape return by [blue]#<<bookmark-OpSubgroupAvcSicGetIpeLumaShapeINTEL,__OpSubgroupAvcSicGetIpeLumaShapeINTEL__>>#  from the SIC result.  
+
+'Result Type' must be a OpTypeInt with 16-bit Width and 0 Signedness.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcSicResultINTEL,__OpTypeAvcSicResultINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL, SubgroupAvcMotionEstimationIntraINTEL* +
+| 4 | 5810 | <id> Result Type | Result <id> | <id> Payload
+|=====
+
+[cols="1,1,1,1,1",width="100%"]
+|=====
+4+|*OpSubgroupAvcSicGetBestIpeChromaDistortionINTEL* +
+ +
+Return the best intra chroma distortion for the 8x8 shape from the SIC result.  
+
+'Result Type' must be a OpTypeInt with 16-bit Width and 0 Signedness.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcSicResultINTEL,__OpTypeAvcSicResultINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 4 | 5811 | <id> Result Type | Result <id> | <id> Payload
+|=====
+
+[cols="1a,1,1,1,1",width="100%"]
+|=====
+4+|*OpSubgroupAvcSicGetPackedIpeLumaModesINTEL* +
+ +
+
+Return the packed intra luma modes for all blocks from the SIC result. 
+
+There are four bits per
+luma mode for a block and legal values are valid intra luma modes as per [blue]#<<bookmark-BF,Section 3, Binary Form>>#.
+
+The number of blocks is based on the result of [blue]#<<bookmark-OpSubgroupAvcSicGetIpeLumaShapeINTEL,__OpSubgroupAvcSicGetIpeLumaShapeINTEL__>>#.
+
+If the luma shape is:
+
+* 16x16, then one mode is  returned in bits [0, 3]
+* 8x8, then four modes corresponding to the four partitions are returned by bits in the ranges [0, 3], [16,19], [32, 35], and [48, 51]; the order of the four partitions are in the traditional Z-order
+* 4x4, then 16 modes (4 bits per mode) are returned of all 16 partitions by all the bits; the order of the 16 partitions are in the traditional Z-order as shown below:
+
+   0 1 4 5
+   2 3 6 7
+   8 9 C D
+   A B E F     
+
+'Result Type' must be a OpTypeInt with 64-bit Width and 0 Signedness.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcSicResultINTEL,__OpTypeAvcSicResultINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL, SubgroupAvcMotionEstimationIntraINTEL* +
+| 4 | 5812 | <id> Result Type | Result <id> | <id> Payload
+|=====
+
+[cols="1,1,1,1,1",width="100%"]
+|=====
+4+|*OpSubgroupAvcSicGetIpeChromaModeINTEL* +
+ +
+Return the intra chroma mode for the 8x8 block from the SIC result.
+
+The returned values are valid intra chroma modes as per [blue]#<<bookmark-BF,Section 3, Binary Form>>#.
+
+'Result Type' must be a OpTypeInt with 8-bit Width and 0 Signedness.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcSicResultINTEL,__OpTypeAvcSicResultINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL, SubgroupAvcMotionEstimationChromaINTEL* +
+| 4 | 5813 | <id> Result Type | Result <id> | <id> Payload
+|=====
+
+[cols="1a,1,1,1,1",width="100%"]
+|=====
+4+|*OpSubgroupAvcSicGetPackedSkcLumaCountThresholdINTEL* +
+ +
+Return the packed count of luma coefficient components that exceeded their transform thresholds from the SIC result for each 8x8 partition in traditional Z-order.
+
+The format of the results is as follows:
+
+* count of coefficients that exceeded their respective threshold for block 8x8_0 is   returned in bit [0, 7]
+* count of coefficients that exceeded their respective threshold for block 8x8_1 is returned in bit [8, 15]
+* count of coefficients that exceeded their respective threshold for block 8x8_2 is returned in bit [16, 23]
+* count of coefficients that exceeded their respective threshold for block 8x8_0 is returned in bit [24, 31]
+
+The results are only valid if the SIC operation was configured with frequency domain SAD transform coefficients using  [blue]#<<bookmark-OpSubgroupAvcSicSetSkcForwardTransformEnableINTEL,__OpSubgroupAvcSicSetSkcForwardTransformEnableINTEL__>>#  . 
+
+'Result Type' must be a OpTypeInt with 32-bit Width and 0 Signedness.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcSicResultINTEL,__OpTypeAvcSicResultINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL, SubgroupAvcMotionEstimationIntraINTEL* +
+| 4 | 5814 | <id> Result Type | Result <id> | <id> Payload
+|=====
+
+[cols="1a,1,1,1,1",width="100%"]
+|=====
+4+|*OpSubgroupAvcSicGetPackedSkcLumaSumThresholdINTEL* +
+ +
+Return the packed sum of luma coefficient components that exceeded their transform thresholds from the SIC result for each 8x8 partition in traditional Z-order.
+
+The format of the results is as follows:
+
+* sum of coefficients that exceeded their respective threshold for block 8x8_0 is returned in bit [0, 15]
+* sum of coefficients that exceeded their respective threshold for block 8x8_1 is returned in bit [16,31]
+* sum of coefficients that exceeded their respective threshold for block 8x8_2 is returned in bit [32,47]
+* sum of coefficients that exceeded their respective threshold for block 8x8_0 is returned in bit [48, 63]
+
+The results are only valid if the SIC operation was configured with frequency domain SAD transform coefficients using  [blue]#<<bookmark-OpSubgroupAvcSicSetSkcForwardTransformEnableINTEL,__OpSubgroupAvcSicSetSkcForwardTransformEnableINTEL__>>#  . 
+
+'Result Type' must be a OpTypeInt with 64-bit Width and 0 Signedness.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcSicResultINTEL,__OpTypeAvcSicResultINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL, SubgroupAvcMotionEstimationIntraINTEL* +
+| 4 | 5815 | <id> Result Type | Result <id> | <id> Payload
+|=====
+
+[cols="1,1,1,1,1",width="100%"]
+|=====
+4+|*OpSubgroupAvcSicGetInterRawSadsINTEL* +
+ +
+Return the skip check raw SAD (i.e. without any mode or shape costs included) for the entire MB if the input payload was note configured for block based skip checks, otherwise return the maximal SAD of individual 4x4 (or 8x8, if the block size for block based skip checking was configured as 8x8) blocks with the MB.    
+
+'Result Type' must be a OpTypeInt with 16-bit Width and 0 Signedness.
+
+'Payload' must be the [blue]#<<bookmark-OpTypeAvcSicResultINTEL,__OpTypeAvcSicResultINTEL__>># type.
+
+| Capability: + 
+*SubgroupAvcMotionEstimationINTEL* +
+| 4 | 5816 | <id> Result Type | Result <id> | <id> Payload
+|=====
+
+<<<
+== Validation Rules
+
+Modify Section **2.16.1**, **Universal Validation Rules**, adding the following under the "Data Rules" bullet: +
+
+All [blue]#<<bookmark-OpVmeImageINTEL,OpVmeImageINTEL>># instructions must be in the same block in which their Result <id> are consumed. Result <id> from OpVmeImageINTEL instructions must not appear as operands to OpPhi instructions or OpSelect instructions, or any instructions other than the image lookup and query instructions specified to take an operand whose type is OpTypeVmeImageINTEL.
+
+== Issues
+
+None.
+
+//. Issue.
+//+
+//--
+//*RESOLVED*: Resolution.
+//--
+
+== Revision History
+
+[cols="5,15,25,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2018-10-29|Biju George|*Initial version*
+|========================================

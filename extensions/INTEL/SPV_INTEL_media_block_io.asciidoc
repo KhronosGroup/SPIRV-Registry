@@ -1,0 +1,177 @@
+= SPV_INTEL_media_block_io
+
+== Name Strings
+
+SPV_INTEL_media_block_io
+
+== Contact
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+== Contributors
+
+- Ben Ashbaugh, Intel +
+- Biju George, Intel
+
+== Notice
+
+Copyright (c) 2018 Intel Corporation.  All rights reserved.
+
+== Status
+
+- Final Draft
+
+== Version
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | {docdate}
+| Revision           | 1
+|========================================
+
+== Dependencies
+
+This extension is written against the SPIR-V Specification,
+Version 1.2 Revision 1.
+
+This extension requires SPIR-V 1.0.
+
+== Overview
+
+This extension adds additional subgroup block read and write functionality that allow applications to flexibly specify the width and height of the block to read from or write to a 2D image.
+
+== Extension Name
+
+To use this extension within a SPIR-V module, the appropriate *OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_INTEL_media_block_io"
+----
+
+== New Capabilities
+
+This extension introduces new capabilities:
+
+----
+SubgroupImageMediaBlockIOINTEL
+----
+
+== New Instructions
+
+Instructions added under the *SubgroupImageMediaBlockIOINTEL* capability:
+
+// <rettype> intel_sub_group_media_block_read_<suffix>(
+//              int2 src_byte_offset,
+//              int width,
+//              int height,
+//              <access qualifier> image2d_t image )
+// void      intel_sub_group_media_block_write_<suffix>(
+//              int2 dst_byte_offset,
+//              int width,
+//              int height,
+//              <writetype> data,
+//              <access qualifier> image2d_t image )
+
+----
+OpSubgroupImageMediaBlockReadINTEL
+OpSubgroupImageMediaBlockWriteINTEL
+----
+
+== Token Number Assignments
+
+[width="40%"]
+[cols="70%,30%"]
+[grid="rows"]
+|====
+|SubgroupImageMediaBlockIOINTEL     |   5579
+|OpSubgroupImageMediaBlockReadINTEL |   5580
+|OpSubgroupImageMediaBlockWriteINTEL|   5581
+|====
+
+== Modifications to the SPIR-V Specification, Version 1.2
+
+=== Capabilities
+
+Modify Section 3.31, Capability, adding rows to the Capability table:
+
+[cols="1,10,4,4",options="header"]
+|====
+2+^| Capability ^| Implicitly Declares ^| Enabled by Extension
+
+| 5579 | *SubgroupImageMediaBlockIOINTEL* | | *SPV_INTEL_media_block_io*
+
+|====
+
+=== Instructions
+
+Modify Section 3.32.21, Group Instructions, adding to the end of the list of instructions:
+
+[cols="1,1,6*3",width="100%"]
+|=====
+7+|[[OpSubgroupImageMediaBlockReadINTEL]]*OpSubgroupImageMediaBlockReadINTEL* +
+ +
+Reads a block of data from a 2D region of the specified 'Image'.
+
+'Image' must be an object whose type is *OpTypeImage* with a 'Sampled' operand of 0 or 2.
+
+The 'Result Type' is used to compute the maximum size of the 2D region that may be read, and may be a scalar or a vector type.  For this description, the block read 'Component Type' is defined as the 'Result Type' if 'Result Type' is a scalar type, or as the vector 'Component Type' if 'Result Type' is a vector type.
+
+The size of the 2D region to read is specified by the 'Width' and 'Height' operands.  The 'Width' of the 2D region is expressed in units of the block read 'Component Type', and the 'Height' directly describes the number of rows of the 2D region to read.
+
+The 'Coordinate' describes where in the 'Image' to start reading the 2D region, and must be a vector of integer type.  The first component of the 'Coordinate' is a byte coordinate into a row of the 'Image' and is not expressed in units of the block read 'Component Type'.  Remaining coordinates are non-normalized texel coordinates.
+
+The data read from the 2D region is assigned to 'Result' for each invocation in the subgroup by reorganizing the data read from the 2D region into a different 2D destination region in row major order.  The width of the destination 2D region is equivalent to *SubgroupMaxSize* in units of the 'Component Type', and the height of the destination 2D region is equivalent to one if 'Result Type' is a scalar type, or to the vector 'Component Count' if 'Result Type' is a vector type.  The reorganization assigns rows of the source 2D region to the destination 2D region in row-major order.  If the source 2D region row byte width is not a power-of-two then the source 2D region row is assigned to the destination 2D region with undefined padding values to make a power-of-two row byte width.  Each invocation in the subgroup is then assigned a 'Component Type' column vector of the reorganized 2D region, i.e. each invocation's subsequent data element's index is strided by the *SubgroupMaxSize* in the 2D destination region.
+
+If the size of the requested 2D region to read is smaller than the 2D destination region then some tail components of some 'Result' values will not be assigned values.  If the size of the 2D region to read is larger than the 2D destination region then some parts of the 2D region to read will be not be assigned and will be dropped.
+1+|Capability: +
+*SubgroupImageMediaBlockIOINTEL*
+| 7 | 5580 | '<id>' 'Result Type' | '<id>' 'Result' |  '<id>' 'Image' | '<id>' 'Coordinate' | '<id>' 'Width' | '<id>' 'Height'
+|=====
+
+[cols="1,1,5*3",width="100%"]
+|=====
+6+|[[OpSubgroupImageMediaBlockWriteINTEL]]*OpSubgroupImageMediaBlockWriteINTEL* +
+ +
+Writes a block of data into a 2D region of the specified 'Image'.
+
+'Image' must be an object whose type is *OpTypeImage* with a 'Sampled' operand of 0 or 2.
+
+The type of 'Data' is used to compute the maximum size of the 2D region that may be written, and may be a scalar or a vector type.  For this description, the block write 'Component Type' is defined as the type of 'Data' if it is a scalar type, or the vector 'Component Type' if it is a vector type.
+
+The size of the 2D region to write is specified by the 'Width' and 'Height' operands.  The 'Width' of the 2D region is expressed in units of the block write 'Component Type', and the 'Height' directly describes the number of rows of the 2D region to write.
+
+The 'Coordinate' describes where in the 'Image' to start writing the 2D region, and must be a vector of integer type.  The first component of the 'Coordinate' is a byte coordinate into a row of the 'Image' and is not expressed in units of the 'Component Type'.  Remaining coordinates are non-normalized texel coordinates.
+
+The 'Data' for each invocation in the subgroup collectively forms a 2D source region, where the width of the 2D source region is equivalent to the *SubgroupMaxSize* in units of the block write 'Component Type', and the height of the 2D source region is equivalent to one if the type of 'Data' is a scalar type, or to the vector 'Component Count' if it is a vector type.  This 2D source region is then reorganized into a different 2D region to write.  The reorganization assigns data from the 2D source region to rows of the 2D region to write in row-major order.  If the row byte width of the 2D region to write is not a power-of-two, then some values from the 2D source region are skipped during assignment, so that each row of the 2D region to write begins at an byte offset that is a power-of-two.
+
+If the size of the 2D source region is greater than the size of the 2D region to write then some tail components of some 'Data' values will not be written.  This SPIR-V extension does not require any specific behavior when the size of the 2D source region is smaller than the size of the 2D region to write, but some environments may define behavior for this case.
+1+|Capability: +
+*SubgroupImageMediaBlockIOINTEL*
+| 6 | 5581 |  '<id>' 'Image' | '<id>' 'Coordinate' | '<id>' 'Width' | '<id>' 'Height' | '<id>' 'Data'
+|=====
+
+== Validation Rules
+
+None.
+
+== Issues
+
+None.
+
+//. Issue.
+//+
+//--
+//*RESOLVED*: Resolution.
+//--
+
+== Revision History
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2018-10-29|Ben Ashbaugh|*Initial revision*
+|========================================
