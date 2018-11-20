@@ -1,0 +1,366 @@
+= SPV_INTEL_subgroups
+
+== Name Strings
+
+SPV_INTEL_subgroups
+
+== Contact
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+== Contributors
+
+- Ben Ashbaugh, Intel +
+- Biju George, Intel +
+- Michael Kinsner, Intel +
+- Mariusz Merecki, Intel
+
+== Notice
+
+Copyright (c) 2017-2018 Intel Corporation.  All rights reserved.
+
+== Status
+
+- Final Draft
+
+== Version
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | {docdate}
+| Revision           | 2
+|========================================
+
+== Dependencies
+
+This extension is written against the SPIR-V Specification,
+Version 1.2 Revision 1.
+
+This extension requires SPIR-V 1.0.
+
+== Overview
+
+The goal of this extension is to allow programmers to improve the performance of their applications by taking advantage of the fact that some work items in a work group execute together as a group (a "subgroup"), and that work items in a subgroup can use hardware features that are not available to all work items in a work group. Specifically, this extension is designed to allow work items in a subgroup to share data without the use of local memory and work group barriers, and to utilize specialized hardware to load and store blocks of data from images or buffers.
+
+This extension builds upon "subgroups" functionality that is already in core SPIR-V, so this extension reuses many of the names, concepts, and instructions already described in SPIR-V.  The key additions in this extension are:
+
+* Intel subgroups adds "shuffle" instructions to allow data interchange between work items within a subgroup without the use of local memory or barriers.
+
+* Intel subgroups adds "block read and write" instructions to take advantage of specialized hardware to read or write blocks of data from or to buffers or images.
+
+This extension has a source language counterpart extension for the OpenCL-C kernel language, +cl_intel_subgroups+, which can be used for online compilation in an OpenCL environment.
+
+== Extension Name
+
+To use this extension within a SPIR-V module, the appropriate *OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_INTEL_subgroups"
+----
+
+== New Capabilities
+
+This extension introduces new capabilities:
+
+----
+SubgroupShuffleINTEL
+SubgroupBufferBlockIOINTEL
+SubgroupImageBlockIOINTEL
+----
+
+== New Instructions
+
+Instructions added under the *SubgroupShuffleINTEL* capability:
+
+// <gentype> intel_sub_group_shuffle( <gentype> data, uint c );
+// <gentype> intel_sub_group_shuffle_down( <gentype> current, <gentype> next, uint delta );
+// <gentype> intel_sub_group_shuffle_up( <gentype> previous, <gentype> current, uint delta );
+// <gentype> intel_sub_group_shuffle_xor( <gentype> data, uint value );
+
+----
+OpSubgroupShuffleINTEL
+OpSubgroupShuffleDownINTEL
+OpSubgroupShuffleUpINTEL
+OpSubgroupShuffleXorINTEL
+----
+
+Instructions added under the *SubgroupBufferBlockIOINTEL* capability:
+
+// uint    intel_sub_group_block_read( const __global uint* p );
+// uint2   intel_sub_group_block_read2( const __global uint* p );
+// uint4   intel_sub_group_block_read4( const __global uint* p );
+// uint8   intel_sub_group_block_read8( const __global uint* p );
+// void    intel_sub_group_block_write( __global uint* p, uint data );
+// void    intel_sub_group_block_write2( __global uint* p, uint2 data );
+// void    intel_sub_group_block_write4( __global uint* p, uint4 data );
+// void    intel_sub_group_block_write8( __global uint* p, uint8 data );
+
+----
+OpSubgroupBlockReadINTEL
+OpSubgroupBlockWriteINTEL
+----
+
+Instructions added under the *SubgroupImageBlockIOINTEL* capability:
+
+// uint    intel_sub_group_block_read( image2d_t image, int2 byte_coord );
+// uint2   intel_sub_group_block_read2( image2d_t image, int2 byte_coord );
+// uint4   intel_sub_group_block_read4( image2d_t image, int2 byte_coord );
+// uint8   intel_sub_group_block_read8( image2d_t image, int2 byte_coord );
+// void    intel_sub_group_block_write( image2d_t image, int2 byte_coord, uint data );
+// void    intel_sub_group_block_write2( image2d_t image, int2 byte_coord, uint2 data );
+// void    intel_sub_group_block_write4( image2d_t image, int2 byte_coord, uint4 data );
+// void    intel_sub_group_block_write8( image2d_t image, int2 byte_coord, uint8 data );
+
+----
+OpSubgroupImageBlockReadINTEL
+OpSubgroupImageBlockWriteINTEL
+----
+
+== Token Number Assignments
+
+[width="40%"]
+[cols="70%,30%"]
+[grid="rows"]
+|====
+|SubgroupShuffleINTEL           |   5568
+|SubgroupBufferBlockIOINTEL     |   5569
+|SubgroupImageBlockIOINTEL      |   5570
+|OpSubgroupShuffleINTEL         |   5571
+|OpSubgroupShuffleDownINTEL     |   5572
+|OpSubgroupShuffleUpINTEL       |   5573
+|OpSubgroupShuffleXorINTEL      |   5574
+|OpSubgroupBlockReadINTEL       |   5575
+|OpSubgroupBlockWriteINTEL      |   5576
+|OpSubgroupImageBlockReadINTEL  |   5577
+|OpSubgroupImageBlockWriteINTEL |   5578
+|====
+
+== Modifications to the SPIR-V Specification, Version 1.2
+
+=== Capabilities
+
+Modify Section 3.31, Capability, adding rows to the Capability table:
+
+[cols="1,10,4,4",options="header"]
+|====
+2+^| Capability ^| Implicitly Declares ^| Enabled by Extension
+
+| 5568
+| *SubgroupShuffleINTEL*
+|
+| *SPV_INTEL_subgroups*
+
+| 5569
+| *SubgroupBufferBlockIOINTEL*
+|
+| *SPV_INTEL_subgroups*
+
+| 5570
+| *SubgroupImageBlockIOINTEL*
+|
+| *SPV_INTEL_subgroups*
+
+|====
+
+=== Instructions
+
+Modify Section 3.32.21, Group Instructions, adding to the end of the list of instructions:
+
+[cols="1,1,4*3",width="100%"]
+|=====
+5+|[[OpSubgroupShuffleINTEL]]*OpSubgroupShuffleINTEL* +
+ +
+Allows data to be arbitrarily transferred between invocations in a subgroup.  The data that is returned for this invocation is the value of 'Data' for the invocation identified by 'InvocationId'.
+
+'InvocationId' need not be the same value for all invocations in the subgroup.
+
+'Result Type' may be a scalar or vector type.
+
+The type of 'Data' must be the same as 'Result Type'.
+
+'InvocationId' must be a 32-bit 'integer type' scalar.
+1+|Capability: +
+*SubgroupShuffleINTEL*
+| 5 | 5571 | '<id>' 'Result Type' | '<id>' 'Result' |  '<id>' 'Data' | '<id>' 'InvocationId'
+|=====
+
+[cols="1,1,5*3",width="100%"]
+|=====
+6+|[[OpSubgroupShuffleDownINTEL]]*OpSubgroupShuffleDownINTEL* +
+ +
+Allows data to be transferred from an invocation in the subgroup with a higher *SubgroupLocalInvocationId* down to a invocation in the subgroup with a lower *SubgroupLocalInvocationId*.
+
+There are two data sources to this built-in function: 'Current' and 'Next'.  To determine the result of this built-in function, first let the unsigned shuffle index be equivalent to the sum of this invocation's *SubgroupLocalInvocationId* plus the specified 'Delta':
+
+If the shuffle index is less than the *SubgroupMaxSize*, the result of this built-in function is the value of the 'Current' data source for the invocation with *SubgroupLocalInvocationId* equal to the shuffle index.
+
+If the shuffle index is greater than or equal to the *SubgroupMaxSize* but less than twice the *SubgroupMaxSize*, the result of this built-in function is the value of the 'Next' data source for the invocation with *SubgroupLocalInvocationId* equal to the shuffle index minus the *SubgroupMaxSize*.
+
+All other values of the shuffle index are considered to be out-of-range.
+
+'Delta' need not be the same value for all invocations in the subgroup.
+
+'Result Type' may be a scalar or vector type.
+
+The type of 'Current' and 'Next' must be the same as 'Result Type'.
+
+'Delta' must be a 32-bit 'integer type' scalar.
+1+|Capability: +
+*SubgroupShuffleINTEL*
+| 6 | 5572 | '<id>' 'Result Type' | '<id>' 'Result' |  '<id>' 'Current' | '<id>' 'Next' | '<id>' 'Delta'
+|=====
+
+[cols="1,1,5*3",width="100%"]
+|=====
+6+|[[OpSubgroupShuffleUpINTEL]]*OpSubgroupShuffleUpINTEL* +
+ +
+Allows data to be transferred from an invocation in the subgroup with a lower *SubgroupLocalInvocationId* up to an invocation in the subgroup with a higher *SubgroupLocalInvocationId*.
+
+There are two data sources to this built-in function: 'Previous' and 'Current'.  To determine the result of this built-in function, first let the signed shuffle index be equivalent to this invocation's *SubgroupLocalInvocationId* minus the specified 'Delta':
+
+If the shuffle index is greater than or equal to zero and less than the *SubgroupMaxSize*, the result of this built-in function is the value of the 'Current' data source for the invocation with *SubgroupLocalInvocationId* equal to the shuffle index.
+
+If the shuffle index is less than zero but greater than or equal to the negative *SubgroupMaxSize*, the result of this built-in function is the value of the 'Previous' data source for the invocation with *SubgroupLocalInvocationId* equal to the shuffle index plus the *SubgroupMaxSize*.
+
+All other values of the shuffle index are considered to be out-of-range.
+
+'Delta' need not be the same value for all invocations in the subgroup.
+
+'Result Type' may be a scalar or vector type.
+
+The type of 'Previous' and 'Current' must be the same as 'Result Type'.
+
+'Delta' must be a 32-bit 'integer type' scalar.
+1+|Capability: +
+*SubgroupShuffleINTEL*
+| 6 | 5573 | '<id>' 'Result Type' | '<id>' 'Result' |  '<id>' 'Previous' | '<id>' 'Current' | '<id>' 'Delta'
+|=====
+
+[cols="1,1,4*3",width="100%"]
+|=====
+5+|[[OpSubgroupShuffleXorINTEL]]*OpSubgroupShuffleXorINTEL* +
+ +
+Allows data to be transferred between invocations in a subgroup as a function of the invocation's *SubgroupLocalInvocationId*.  The data that is returned for this invocation is the value of 'Data' for the invocation with *SubgroupLocalInvocationId* equal to this invocation's *SubgroupLocalInvocationId* XOR'd with the specified 'Value'.  If the result of the XOR is greater than *SubgroupMaxSize* then it is considered out-of-range.
+
+'Value' need not be the same for all invocations in the subgroup.
+
+'Result Type' may be a scalar or vector type.
+
+The type of 'Data' must be the same as 'Result Type'.
+
+'Value' must be a 32-bit 'integer type' scalar.
+1+|Capability: +
+*SubgroupShuffleINTEL*
+| 5 | 5574 | '<id>' 'Result Type' | '<id>' 'Result' |  '<id>' 'Data' | '<id>' 'Value'
+|=====
+
+[cols="1,1,3*3",width="100%"]
+|=====
+4+|[[OpSubgroupBlockReadINTEL]]*OpSubgroupBlockReadINTEL* +
+ +
+Reads one or more components of 'Result' data for each invocation in the subgroup from the specified 'Ptr' as a block operation.
+
+The data is read strided, so the first value read is:
+
++Ptr[ *SubgroupLocalInvocationId* ]+
+
+and the second value read is:
+
++Ptr[ *SubgroupLocalInvocationId* + *SubgroupMaxSize* ]+
+
+etc.
+
+'Result Type' may be a scalar or vector type, and its component type must be equal to the type pointed to by 'Ptr'.
+
+The type of 'Ptr' must be a 'pointer type', and must point to a 'scalar type'.
+1+|Capability: +
+*SubgroupBufferBlockIOINTEL*
+| 4 | 5575 | '<id>' 'Result Type' | '<id>' 'Result' |  '<id>' 'Ptr'
+|=====
+
+[cols="1,1,2*3",width="100%"]
+|=====
+3+|[[OpSubgroupBlockWriteINTEL]]*OpSubgroupBlockWriteINTEL* +
+ +
+Writes one or more components of 'Data' for each invocation in the subgroup from the specified 'Ptr' as a block operation.
+
+The data is written strided, so the first value is written to:
+
++Ptr[ *SubgroupLocalInvocationId* ]+
+
+and the second value written is:
+
++Ptr[ *SubgroupLocalInvocationId* + *SubgroupMaxSize* ]+
+
+etc.
+
+The type of 'Ptr' must be a 'pointer type', and must point to a 'scalar type'.
+
+The component type of 'Data' must be equal to the type pointed to by 'Ptr'.
+1+|Capability: +
+*SubgroupBufferBlockIOINTEL*
+| 3 | 5576 | '<id>' 'Ptr' | '<id>' 'Data'
+|=====
+
+[cols="1,1,4*3",width="100%"]
+|=====
+5+|[[OpSubgroupImageBlockReadINTEL]]*OpSubgroupImageBlockReadINTEL* +
+ +
+Reads one or more components of 'Result' data for each invocation in the subgroup from the specified 'Image' at the specified 'Coordinate' as a block operation.  Note that the 'Coordinate' is a byte coordinate, not a texel coordinate.  Also note that the image data is read without format conversion, so each invocation may read multiple image elements.
+
+The data is read row-by-row, so the first value read is from the row specified by the y-component of the provided 'Coordinate', the second value is read from the row specified by the y-component of the provided 'Coordinate' plus one, etc.
+
+'Result Type' may be a scalar or vector type.
+
+'Image' must be an object whose type is *OpTypeImage* with a 'Sampled' operand of 0 or 2.  If the 'Sampled' operand is 2, then some dimensions require a capability.
+
+'Coordinate' is an integer scalar or vector.  The x-component is a byte coordinate into rows of the image and remaining coordinates are non-normalized texel coordinates.
+1+|Capability: +
+*SubgroupImageBlockIOINTEL*
+| 5 | 5577 | '<id>' 'Result Type' | '<id>' 'Result' |  '<id>' 'Image' | '<id>' 'Coordinate'
+|=====
+
+[cols="1,1,3*3",width="100%"]
+|=====
+4+|[[OpSubgroupImageBlockWriteINTEL]]*OpSubgroupImageBlockWriteINTEL* +
+ +
+Writes one or more components of 'Data' for each invocation in the subgroup to the specified 'Image' at the specified 'Coordinate' as a block operation.  Note that the 'Coordinate' is a byte coordinate, not a texel coordinate.  Also note that the image data is read without format conversion, so each invocation may write multiple image elements.
+
+The data is written row-by-row, so the first value is written to the row specified by the y-component of the provided 'Coordinate', the second value is written to the row specified by the y-component of the provided 'Coordinate' plus one, etc.
+
+'Image' must be an object whose type is *OpTypeImage* with a 'Sampled' operand of 0 or 2.  If the 'Sampled' operand is 2, then some dimensions require a capability.
+
+'Coordinate' is an integer scalar or vector.  The x-component is a byte coordinate into rows of the image and remaining coordinates are non-normalized texel coordinates.
+
+'Result Type' may be a scalar or vector type.
+1+|Capability: +
+*SubgroupImageBlockIOINTEL*
+| 4 | 5578 |  '<id>' 'Image' | '<id>' 'Coordinate' | '<id>' 'Data'
+|=====
+
+== Validation Rules
+
+None.
+
+== Issues
+
+None.
+
+//. Issue.
+//+
+//--
+//*RESOLVED*: Resolution.
+//--
+
+== Revision History
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2017-09-29|Ben Ashbaugh|*Initial revision*
+|2|2018-10-22|Ben Ashbaugh|Minor formatting updates.
+|========================================
