@@ -29,8 +29,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2018-10-19
-| Revision           | 2
+| Last Modified Date | 2018-11-20
+| Revision           | 3
 |========================================
 
 Dependencies
@@ -316,16 +316,18 @@ Refer to the Ray Tracing chapter of Vulkan API specification for more details.
 [cols="1^.^,10,4^,10^",options="header",width = "100%"]
 |====
 2+^.^| BuiltIn| Enabling Capabilities | Enabled by Extension
+.3+| 6 | *InstanceId* +
+Input Instance identifier. See the client API specifications
+for more detail. | |
+| Instance ID in a *Vertex* Execution Model| *Shader* |
+| Instance ID in an *IntersectionNV*, *AnyHitNV*, or *ClosestHitNV* Execution Model
+| *RayTracingNV*
+| *SPV_NV_ray_tracing*
 .4+| 7 | *PrimitiveId* +
-Primitive identifier. See Vulkan or OpenGL API specifications for more detail. | |
+Primitive identifier. See the client API specifications for more detail. | |
 | Primitive ID in a *Geometry* Execution Model | *Geometry* |
 | Primitive ID in a *Tessellation* Execution Model | *Tessellation* |
 | Primitive ID in an *IntersectionNV*, *AnyHitNV*, or *ClosestHitNV* Execution Model
-| *RayTracingNV*
-| *SPV_NV_ray_tracing*
-.2+| 43 | *InstanceIndex* +
-Instance index. See Vulkan or OpenGL API specifications for more detail. | *Shader* |
-| Instance index in an *IntersectionNV*, *AnyHitNV*, or *ClosestHitNV* Execution Model
 | *RayTracingNV*
 | *SPV_NV_ray_tracing*
 |====
@@ -509,6 +511,9 @@ Revision History
 |Rev|Date|Author|Changes
 |1 |2018-09-12 |Eric Werness|*Internal revisions*
 |2 |2018-10-19 |Ashwin Lele | Rename from NVX_raytracing to NV_ray_tracing.
-                              Add IncomingRayFlagsNV, CallableDataNV, IncomingCallableDataNV, OpExecuteCallableNV
+                              Add IncomingRayFlagsNV, CallableDataNV,
+                              IncomingCallableDataNV, OpExecuteCallableNV
+|3 |2018-11-20 |Daniel Koch | Uses InstanceId not InstanceIndex for
+                              Intersection, Any Hit and Closest Hit shaders
 |========================================
 
