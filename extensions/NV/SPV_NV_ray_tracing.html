@@ -832,11 +832,11 @@ width:40%;
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2018-10-19</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2018-11-20</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">3</p></td>
 </tr>
 </tbody>
 </table>
@@ -1281,9 +1281,27 @@ width:100%;
 </thead>
 <tbody>
 <tr>
+<td class="tableblock halign-center valign-middle" rowspan="3" ><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>InstanceId</strong><br>
+Input Instance identifier. See the client API specifications
+for more detail.</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"></p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Instance ID in a <strong>Vertex</strong> Execution Model</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>Shader</strong></p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Instance ID in an <strong>IntersectionNV</strong>, <strong>AnyHitNV</strong>, or <strong>ClosestHitNV</strong> Execution Model</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RayTracingNV</strong></p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>SPV_NV_ray_tracing</strong></p></td>
+</tr>
+<tr>
 <td class="tableblock halign-center valign-middle" rowspan="4" ><p class="tableblock">7</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>PrimitiveId</strong><br>
-Primitive identifier. See Vulkan or OpenGL API specifications for more detail.</p></td>
+Primitive identifier. See the client API specifications for more detail.</p></td>
 <td class="tableblock halign-center valign-top" ><p class="tableblock"></p></td>
 <td class="tableblock halign-center valign-top" ><p class="tableblock"></p></td>
 </tr>
@@ -1299,18 +1317,6 @@ Primitive identifier. See Vulkan or OpenGL API specifications for more detail.</
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Primitive ID in an <strong>IntersectionNV</strong>, <strong>AnyHitNV</strong>, or <strong>ClosestHitNV</strong> Execution Model</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RayTracingNV</strong></p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>SPV_NV_ray_tracing</strong></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-middle" rowspan="2" ><p class="tableblock">43</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>InstanceIndex</strong><br>
-Instance index. See Vulkan or OpenGL API specifications for more detail.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>Shader</strong></p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Instance index in an <strong>IntersectionNV</strong>, <strong>AnyHitNV</strong>, or <strong>ClosestHitNV</strong> Execution Model</p></td>
 <td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RayTracingNV</strong></p></td>
 <td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>SPV_NV_ray_tracing</strong></p></td>
 </tr>
@@ -1615,7 +1621,15 @@ width:100%;
 <td class="tableblock halign-left valign-top" ><p class="tableblock">2018-10-19</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Ashwin Lele</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Rename from NVX_raytracing to NV_ray_tracing.
-                              Add IncomingRayFlagsNV, CallableDataNV, IncomingCallableDataNV, OpExecuteCallableNV</p></td>
+                              Add IncomingRayFlagsNV, CallableDataNV,
+                              IncomingCallableDataNV, OpExecuteCallableNV</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2018-11-20</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Daniel Koch</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Uses InstanceId not InstanceIndex for
+                              Intersection, Any Hit and Closest Hit shaders</p></td>
 </tr>
 </tbody>
 </table>
@@ -1625,7 +1639,7 @@ width:100%;
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-10-31 16:55:31 EDT
+Last updated 2018-11-21 13:37:53 EST
 </div>
 </div>
 </body>
