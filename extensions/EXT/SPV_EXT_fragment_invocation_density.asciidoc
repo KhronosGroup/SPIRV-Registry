@@ -1,0 +1,181 @@
+SPV_EXT_fragment_invocation_density
+===================================
+
+Name Strings
+------------
+
+SPV_EXT_fragment_invocation_density
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Daniel Koch, NVIDIA
+- Pat Brown,  NVIDIA
+- Matthew Netsch, Qualcomm
+- Jan-Harald Fredriksen, Arm
+- Jeff Leger, Qualcomm
+
+Status
+------
+
+- Complete
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2018-11-07
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.3, Revision 2, Unified.
+
+This extension requires SPIR-V 1.0.
+
+Overview
+--------
+
+This extension provides SPIR-V support for the GLSL
+*GL_EXT_fragment_invocation_density* extension.
+
+In the corresponding API extensions, applications can use a texture
+(such as a shading rate image, or fragment density map) to control the
+number of fragment shader invocations that will be spawned for a
+particular neighborhood of covered pixels. We refer to the density
+of fragment shader invocations as the "fragment invocation density".
+
+This extension adds support for two new fragment shader built-ins under the
+new *FragmentDensityEXT* capability. These built-ins can be used to determine
+the density of fragment shader invocations.
+
+A *FragSizeEXT* decorated variable will represent the width and height
+of a rectangle of pixels that is being shaded by this fragment shader
+invocation.
+
+A *FragInvocationCountEXT* decorated variable will represent the maximum number
+of fragment shader invocations executed for each fragment.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_EXT_fragment_invocation_density"
+----
+
+Modifications to the SPIR-V Specification, Version 1.3
+------------------------------------------------------
+
+(Modify Section 3.21, BuiltIn) ::
++
+--
+
+(add new rows to the Builtin table)
+
+[options="header"]
+|====
+2+| BuiltIn| Enabling Capabilities | Enabled by Extension
+| 5292 | *FragSizeEXT* +
+Input that represents the width and height of a rectangle of pixels
+corresponding to this invocation.
+Only valid in the *Fragment* Execution Model.
+See the API specification for more detail.
+| *FragmentDensityEXT* | *SPV_EXT_fragment_invocation_density*
+| 5293 | *FragInvocationCountEXT* +
+Input that represents the maximum number of fragment shader invocations
+executed for each fragment, as derived from the effective invocation density
+for the fragment.
+Only valid in the *Fragment* Execution Model.
+See the API specification for more detail.
+| *FragmentDensityEXT* | *SPV_EXT_fragment_invocation_density*
+|====
+
+--
+
+
+(Modify Section 3.31, Capability, adding a new row to the Capability table) ::
++
+--
+[options="header"]
+|====
+2+| Capability | Depends On | Enabled by Extension
+| 5291 | *FragmentDensityEXT* +
+Uses the *FragSizeEXT* or *FragInvocationCountEXT* Builtins. | *Shader*
+| *SPV_EXT_fragment_invocation_density*
+|====
+--
+
+
+Validation Rules
+----------------
+
+An OpExtension must be added to the SPIR-V for validation layers to check
+legal use of this extension:
+
+----
+OpExtension "SPV_EXT_fragment_invocation_density"
+----
+
+
+Issues
+------
+
+. How does this extension compare to SPV_NV_shading_rate?
++
+--
+*RESOLVED*: SPV_NV_shading rate was to support the VK_NV_shading_rate_image
+extension.  This version is a little bit more generic and is intended
+to support both VK_NV_shading_rate_image and VK_EXT_fragment_density_map.
+However, neither of those extensions is strictly needed for this extension
+to be of interest to applications.
+
+This extension uses the slightly more generic term
+"Fragment invocation density" instead of "shading rate" and the
+names of various tokens are different, per the following table,
+but otherwise the extensions are intended to provide equivalent
+functionality.
+
+[options="header"]
+|====
+| SPV_NV_shading_rate   | SPV_EXT_fragment_invocation_density
+| ShadingRateNV         | FragmentDensityEXT
+| FragmentSizeNV        | FragSizeEXT
+| InvocationsPerPixelNV | FragInvocationCountEXT
+|====
+
+--
+
+. Should we re-use the tokens from SPV_NV_shading_rate or do we need to
+  assign new ones?
++
+--
+*RESOLVED*: Re-using the tokens from SPV_NV_shading_rate as this is meant
+to be a drop-in replacement.
+--
+
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1  |2018-11-07 |Daniel Koch| Initial draft
+|========================================
+
