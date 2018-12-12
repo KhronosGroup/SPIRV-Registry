@@ -9,7 +9,8 @@ SPV_EXT_descriptor_indexing
 Contact
 -------
 
-See *Issues* list in the Khronos SPIRV-Headers repository:
+To report problems with this extension, please open a new issue at:
+
 https://github.com/KhronosGroup/SPIRV-Headers
 
 Contributors
@@ -24,15 +25,15 @@ Contributors
 Status
 ------
 
-- Draft
+- Complete
 
 Version
 -------
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2018-02-21
-| Revision           | 3
+| Last Modified Date | 2018-12-11
+| Revision           | 4
 |========================================
 
 Dependencies
@@ -165,7 +166,7 @@ Modifications to the SPIR-V Specification, Version 1.3
 |====
 2+^.^| Decoration | <<Capability,Enabling Capabilities>> 2+<.^| Extra Operands
 | 5300 | *NonUniformEXT* +
-Apply to an object or a member of a structure type. Asserts that the value
+Apply to an object. Asserts that the value
 backing the decorated <id> is _not_ dynamically uniform.
 See the API specification for more information.
 |*ShaderNonUniformEXT* 2+|
@@ -230,7 +231,6 @@ legal use of this extension:
 OpExtension "SPV_EXT_descriptor_indexing"
 ----
 
-
 Issues
 ------
 
@@ -251,9 +251,8 @@ BufferBlock."
    be used on?
 +
 --
-**RESOLVED**: Using the same language as Uniform (Apply to an object
-or a member of a structure type). In SPIR-V, we have the following
-definition:
+**RESOLVED**: Using the same language as Uniform (Apply to an object).
+In SPIR-V, we have the following definition:
 
     Object: An instantiation of a non-void type, either as the
     Result <id> of an operation, or created through OpVariable.
@@ -273,5 +272,6 @@ Revision History
 |1 |2018-01-19 |Daniel Koch| *Initial draft*
 |2 |2018-02-14 |Daniel Koch| address WG feedback
 |3 |2018-02-21 |Daniel Koch| Resolve issue 2.
+|4 |2018-12-11 |Daniel Koch| Update issue 2 for resolution of Issue 317.
 |========================================
 
