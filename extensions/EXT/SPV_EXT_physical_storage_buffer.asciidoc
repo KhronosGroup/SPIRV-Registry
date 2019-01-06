@@ -1,0 +1,350 @@
+SPV_EXT_physical_storage_buffer
+===============================
+
+Name Strings
+------------
+
+SPV_EXT_physical_storage_buffer
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Jeff Bolz, NVIDIA
+- Neil Henning, AMD
+- Tobias Hector, AMD
+- Jason Ekstrand, Intel
+
+Notice
+------
+
+Copyright (c) 2018 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+Status
+------
+
+- Complete
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2018-12-07
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.3, Revision 5, Unified.
+
+This extension requires SPIR-V 1.3.
+
+Overview
+--------
+
+This extension adds a new storage class *PhysicalStorageBufferEXT* which is
+similar to *StorageBuffer* except pointers to the *PhysicalStorageBufferEXT*
+storage class are treated as physical pointer types according to a new
+addressing model *PhysicalStorageBuffer64EXT*. This addressing model is a
+hybrid of logical and physical addressing, with only pointers to
+*PhysicalStorageBufferEXT* storage class being physical, and using 64-bit
+addresses. It also adds a new capablity *PhysicalStorageBufferAddressesEXT*
+and enables a few instructions currently supported for *Addresses*.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_EXT_physical_storage_buffer"
+----
+
+Modifications to the SPIR-V Specification, Version 1.3
+------------------------------------------------------
+
+2.2 Terms
+~~~~~~~~~
+
+Add new terms to section 2.2.2 Types:
+
+[[PhysicalPointerType]]'Physical Pointer Type:' A pointer type is a physical
+pointer type if the storage class of the type pointed to uses physical
+addressing according to the addressing model. For *Physical32* and
+*Physical64* addressing models, that is all storage classes. For the
+*PhysicalStorageBuffer64EXT* addressing model, it is only the
+*PhysicalStorageBufferEXT* storage class. For the *Logical* addressing model,
+there are no physical pointer types.
+
+[[LogicalPointerType]]'Logical Pointer Type:' A pointer type is a logical
+pointer type if it is not a physical pointer type.
+
+Modify the following definitions:
+
+[[ConcreteType]]'Concrete Type:' A numerical scalar, vector, matrix type,
+or physical pointer type, or any aggregate containing only these types.
+
+[[AbstractType]]'Abstract Type:' An *OpTypeVoid* or *OpTypeBool*, or logical
+pointer type, or any aggregate type containing any of these.
+
+Modify the definition of 'Memory Object Declaration':
+
+[[MemoryObjectDeclaration]]'Memory Object Declaration:' An *OpVariable*, or
+an *OpFunctionParameter* of pointer type, or the contents of an *OpVariable*
+that holds a pointer to *PhysicalStorageBufferEXT* storage class (or an array
+of such pointers).
+
+2.16 Validation Rules
+~~~~~~~~~~~~~~~~~~~~~
+
+Modify section 2.16.1. Universal Validation Rules:
+
+Change the rules for *Logical* addressing to apply only to logical pointer
+types.
+
+If the addressing model is not *PhysicalStorageBuffer64EXT*, then the
+*PhysicalStorageBufferEXT* storage class must not be used.
+
+Add *PhysicalStorageBufferEXT* to the list of storage classes that support
+atomic access.
+
+*OpVariable* must not use a storage class of *PhysicalStorageBufferEXT*.
+
+If an *OpVariable*'s pointee type is a pointer (or array of pointers) in
+*PhysicalStorageBufferEXT* storage class, then the variable must be decorated
+with exactly one of *AliasedPointerEXT* or *RestrictPointerEXT*.
+
+If an *OpFunctionParameter* is a pointer (or array of pointers) in
+*PhysicalStorageBufferEXT* storage class, then the function parameter must be
+decorated with exactly one of *Aliased* or *Restrict*.
+
+If an *OpFunctionParameter* is a pointer (or array of pointers) and its
+pointee type is a pointer in *PhysicalStorageBufferEXT* storage class, then
+the function parameter must be decorated with exactly one of
+*AliasedPointerEXT* or *RestrictPointerEXT*.
+
+
+Modify section 2.16.2. Validation Rules for Shader Capabilities:
+
+Add *PhysicalStorageBufferEXT* to the list of storage classes in which
+composite objects must be explicitly laid out.
+
+Add *PhysicalStorageBufferEXT* to the list of storage classes to which the
+result of a *FPRoundingMode*-decorated conversion instruction can be stored.
+
+2.18 Memory Model
+~~~~~~~~~~~~~~~~~
+
+Modify section 2.18.2. Aliasing:
+
+Replace the paragraph about *Simple*, *GLSL*, and *VulkanKHR* memory models:
+
+The *Simple*, *GLSL*, and *VulkanKHR* memory models can assume that aliasing
+is generally not present between the memory object declarations.
+Specifically, the consumer is free to assume aliasing is not present between
+memory object declarations, unless the memory object declarations explicitly
+indicate they alias.
+
+Aliasing is indicated by applying the *Aliased* decoration to a memory object
+declaration's <id>, for *OpVariable* and *OpFunctionParameter* <id>s.
+Applying *Restrict* is allowed, but has no effect.
+
+For variables holding *PhysicalStorageBufferEXT* pointers, applying the
+*AliasedPointerEXT* decoration on the *OpVariable* <id> indicates that the
+*PhysicalStorageBufferEXT* pointers are potentially aliased. Applying
+*RestrictPointerEXT* is allowed, but has no effect. Variables holding
+*PhysicalStorageBufferEXT* pointers must be decorated as either
+*AliasedPointerEXT* or *RestrictPointerEXT*.
+
+Only those memory object declarations decorated with *Aliased* or
+*AliasedPointerEXT* may alias each other.
+
+Modify the Aliasing table in section 2.18.2:
+
+Add a new row for *PhysicalStorageBufferEXT* that is a copy of
+*StorageBuffer*. Add *PhysicalStorageBufferEXT* everywhere *StorageBuffer* is
+used in the "Second Storage Classes" column.
+
+Add to the description of the Aliasing table:
+
+For the *PhysicalStorageBufferEXT* storage class, *OpVariable* is understood
+to mean the *PhysicalStorageBufferEXT* pointer value(s) stored in the
+variable. An *Aliased* *PhysicalStorageBufferEXT* pointer stored in a
+*Function* variable can potentially alias with other variables in the same
+function, or with global variables or function parameters.
+
+
+3.4 Addressing Model
+~~~~~~~~~~~~~~~~~~~~
+
+--
+[options="header"]
+|====
+2+^| Addressing Model ^| Enabling Capabilities
+| 5348 | *PhysicalStorageBuffer64EXT* +
+Indicates *PhysicalStorageBufferEXT* pointers are physical pointer types
+with width equal to 64 bits, and pointers to all other storage classes are
+logical.
+| *PhysicalStorageBufferAddressesEXT*
+|====
+--
+
+3.7 Storage Class
+~~~~~~~~~~~~~~~~~
+
+--
+[options="header"]
+|====
+2+^| Storage Class ^| Enabling Capabilities
+| 5349 | *PhysicalStorageBufferEXT* +
+Shared externally, readable and writable, visible across all functions in all
+invocations in all work groups. Graphics storage buffers using physical
+addressing.
+| *PhysicalStorageBufferAddressesEXT*
+|====
+--
+
+3.20 Decorations
+~~~~~~~~~~~~~~~~
+
+--
+[cols="1^,10,6^,2*2",options="header",width = "100%"]
+|====
+2+^.^| Decoration | Enabling Capabilities 2+<.^| Extra Operands
+| 5355 | *RestrictPointerEXT* +
+Apply to an *OpVariable*, to indicate the compiler may compile as if there
+is no aliasing of the pointer stored in the variable. See the Aliasing
+section for more detail.
+|*PhysicalStorageBufferAddressesEXT* 2+|
+| 5356 | *AliasedPointerEXT* +
+Apply to an *OpVariable*, to indicate the compiler is to generate accesses to
+the pointer stored in the variable that work correctly in the presence of
+aliasing. See the Aliasing section for more detail.
+|*PhysicalStorageBufferAddressesEXT* 2+|
+|====
+--
+
+
+3.25 Memory Semantics <id>
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Add *PhysicalStorageBufferEXT* to the list of storage classes synchronized by
+*UniformMemory*.
+
+3.26 Memory Access
+~~~~~~~~~~~~~~~~~~
+
+Add to the description of 'Aligned':
+
+Valid values are defined by the execution environment.
+
+3.31 Capabilities
+~~~~~~~~~~~~~~~~~
+
+Modify Section 3.31, "Capability", adding these rows to the Capability table:
+
+--
+[options="header"]
+|====
+2+^| Capability ^| Enabling Capabilities
+| 5347 | *PhysicalStorageBufferAddressesEXT* +
+Enables *PhysicalStorageBuffer64EXT* 'Addressing Model'.
+Enables *OpTypeForwardPointer*, *OpConvertUToPtr*, *OpConvertPtrToU*, and
+*OpPtrAccessChain* instructions.
+| *Shader*
+|====
+--
+
+Add *PhysicalStorageBufferEXT* to the list of storage classes for the
+*StorageBuffer16BitAccess*, *UniformAndStorageBuffer16BitAccess*, 
+*StorageBuffer8BitAccess*, and *UniformAndStorageBuffer8BitAccess*
+capabilities.
+
+
+Instructions
+~~~~~~~~~~~~
+
+Modify the *OpTypeForwardPointer*, *OpConvertUToPtr*, *OpConvertPtrToU*, and
+*OpPtrAccessChain* instructions to add *PhysicalStorageBufferAddressesEXT* to
+their capability lists.
+
+Modify *OpConvertUToPtr* to require that the result type must be a physical
+pointer type.
+
+Modify *OpConvertPtrToU* to require that the 'Pointer' operand must have a
+physical pointer type.
+
+Issues
+------
+
+1) How can we support comparing pointers to "null"?
+
+Resolution: This can be accomplished by converting the pointer to an integer
+with OpConvertPtrToU. But as mentioned in issue (5), doing so requires the
+*Int64* capability.
+
+2) Should we define a null pointer value in memory?
+
+Discussion: The environment spec can define a particular bit pattern for
+NULL, the core SPIR-V spec should not.
+
+Resolution: SPIR-V doesn't define it, but Vulkan defines it to 0.
+
+3) Can we reuse *Aligned* to specify a minimum alignment on a load/store?
+
+Resolution: The SPIR-V spec will be changed to say that the meaning of
+*Aligned* is defined by the execution environment, and Vulkan will define
+it to be the minimum alignment, at least for physical storage buffer
+pointers.
+
+4) Which instructions from *Addresses* don't we need?
+
+Discussion: *OpSizeOf* seems unnecessary without polymorphism in the high
+level language. Variable pointers doesn't enable *OpInBoundsPtrAccessChain*,
+do we need it? *OpCopyMemorySized*? *MaxByteOffset(Id)* decorations?
+
+Resolution: Omit all of them listed above, as they are not strictly needed.
+
+5) Does this extension depend on the *Int64* capability?
+
+Resolution: This extension can be used without *Int64*, but *OpConvertUToPtr*
+and *OpConvertPtrToU* can't be used in that case.
+
+6) How do Coherent/Volatile work?
+
+Resolution: We rely on the per-instruction availability/visibility and
+volatile memory access operands and image operands, many of which were added
+by the SPV_KHR_vulkan_memory_model extension. So that extension must be used
+to get coherent/volatile access.
+
+7) What changes are needed to the Aliasing section?
+
+Resolution: Pointers to the PhysicalStorageBufferEXT storage class don't
+quite fit the pre-existing definitions because the pointer is not created by
+OpVariable, rather it is loaded from memory or generated with
+OpConvertUToPtr. So we extend the definition of a memory object declaration
+to include a variable that holds a PhysicalStorageBufferEXT pointer, and add
+a way to decorate that the object in the variable is aliased/restrict rather
+than just the variable itself.
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2018-12-07|Jeff Bolz|Initial revision
+|========================================
