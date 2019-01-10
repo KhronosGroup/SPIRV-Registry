@@ -842,11 +842,11 @@ width:40%;
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2018-12-11</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2018-12-17</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
 </tr>
 </tbody>
 </table>
@@ -1040,6 +1040,35 @@ width:75%;
 <h2 id="_modifications_to_the_spir_v_specification_version_1_3">Modifications to the SPIR-V Specification, Version 1.3</h2>
 <div class="sectionbody">
 <div class="dlist"><dl>
+<dt class="hdlist1">
+(Add a new Section 2.X, Uniformity) 
+</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<div class="paragraph"><p>SPIR-V has multiple notions of uniformity of values. A result &lt;id&gt; decorated
+as <strong>Uniform</strong> (for a particular scope) is a contract that all invocations
+within that scope will compute the same value for that result, for a given
+dynamic instance of an instruction. This is useful to enable implementations
+to store results in a scalar register file (<em>scalarization</em>), for example.
+Results are assumed not to be uniform unless decorated as such.</p></div>
+<div class="paragraph"><p>An &lt;id&gt; is defined to be <em>dynamically uniform</em> for a dynamic instance of an
+instruction if all invocations (in an <em>invocation group</em>) that execute the
+dynamic instance have the same value for that &lt;id&gt;. This is not something that
+is explicitly decorated, it is just a property that arises. This property is
+assumed to hold for operands of certain instructions, such as the Image
+operand of image instructions, unless that operand is decorated as
+<strong>NonUniformEXT</strong>. Some implementations require more complex instruction
+expansions to handle non-dynamically uniform values in certain instructions,
+and thus it is mandatory for certain operands to be decorated as
+<strong>NonUniformEXT</strong> if they are not guaranteed to be dynamically uniform.</p></div>
+<div class="paragraph"><p>While the names may suggest otherwise, nothing forbids an &lt;id&gt; from being
+decorated as both <strong>Uniform</strong> and <strong>NonUniformEXT</strong>. Since <em>dynamically uniform</em>
+is at a larger scope (invocation group) than the default <strong>Uniform</strong> scope
+(subgroup), it is even possible for the &lt;id&gt; to be uniform at the subgroup
+scope but not dynamically uniform.</p></div>
+</div></div>
+</dd>
 <dt class="hdlist1">
 (Modify Section 3.20, Decoration, adding a row to the Decoration table) 
 </dt>
@@ -1286,6 +1315,12 @@ width:100%;
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Daniel Koch</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Update issue 2 for resolution of Issue 317.</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2018-12-17</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Daniel Koch</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Add 2.x Uniformity section.</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1294,7 +1329,7 @@ width:100%;
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-12-12 14:59:25 EST
+Last updated 2019-01-09 12:28:21 EST
 </div>
 </div>
 </body>

@@ -32,8 +32,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2018-12-11
-| Revision           | 4
+| Last Modified Date | 2018-12-17
+| Revision           | 5
 |========================================
 
 Dependencies
@@ -159,6 +159,35 @@ Token Number Assignments
 
 Modifications to the SPIR-V Specification, Version 1.3
 ------------------------------------------------------
+
+(Add a new Section 2.X, Uniformity) ::
++
+--
+SPIR-V has multiple notions of uniformity of values. A result <id> decorated
+as *Uniform* (for a particular scope) is a contract that all invocations
+within that scope will compute the same value for that result, for a given
+dynamic instance of an instruction. This is useful to enable implementations
+to store results in a scalar register file (_scalarization_), for example.
+Results are assumed not to be uniform unless decorated as such.
+
+An <id> is defined to be _dynamically uniform_ for a dynamic instance of an
+instruction if all invocations (in an _invocation group_) that execute the
+dynamic instance have the same value for that <id>. This is not something that
+is explicitly decorated, it is just a property that arises. This property is
+assumed to hold for operands of certain instructions, such as the Image
+operand of image instructions, unless that operand is decorated as
+*NonUniformEXT*. Some implementations require more complex instruction
+expansions to handle non-dynamically uniform values in certain instructions,
+and thus it is mandatory for certain operands to be decorated as
+*NonUniformEXT* if they are not guaranteed to be dynamically uniform.
+
+While the names may suggest otherwise, nothing forbids an <id> from being
+decorated as both *Uniform* and *NonUniformEXT*. Since _dynamically uniform_
+is at a larger scope (invocation group) than the default *Uniform* scope
+(subgroup), it is even possible for the <id> to be uniform at the subgroup
+scope but not dynamically uniform.
+--
+
 (Modify Section 3.20, Decoration, adding a row to the Decoration table) ::
 +
 --
@@ -273,5 +302,6 @@ Revision History
 |2 |2018-02-14 |Daniel Koch| address WG feedback
 |3 |2018-02-21 |Daniel Koch| Resolve issue 2.
 |4 |2018-12-11 |Daniel Koch| Update issue 2 for resolution of Issue 317.
+|5 |2018-12-17 |Daniel Koch| Add 2.x Uniformity section.
 |========================================
 
