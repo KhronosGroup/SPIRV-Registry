@@ -12,7 +12,8 @@ https://github.com/KhronosGroup/SPIRV-Headers
 
 == Contributors
 
-- Ian Romanick, Intel
+- Ian Romanick, Intel +
+- Ben Ashbaugh, Intel
 
 == Notice
 
@@ -27,8 +28,8 @@ Final Draft
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2018-09-10
-| Revision           | 1
+| Last Modified Date | 2019-01-22
+| Revision           | 2
 |========================================
 
 == Dependencies
@@ -160,7 +161,7 @@ Returns \|x - y\| clamped to the range of 'Result Type' (instead of modulo overf
  +
 'Result Type' must be  a scalar or vector of <<Integer,'integer type'>>, whose 'Signedness' operand is 0. +
  +
-The type of 'Operand 1' and 'Operand 2' must be a scalar or vector of <<Integer,'integer type'>>. They must have the same number of components as 'Result Type'. They must have the same component width as 'Result Type'.  However, the 'Signedness' operand must be 1.
+The type of 'Operand 1' and 'Operand 2' must be a scalar or vector of <<Integer,'integer type'>>. They must have the same number of components as 'Result Type'. They must have the same component width as 'Result Type'.
 
 | 5 | 5587 '<id>' +
 'Result Type' | 'Result <id>' | '<id> +
@@ -190,7 +191,7 @@ Operand 2'
  +
 Returns x + y clamped to the range of 'Result Type' (instead of modulo overflowing). +
  +
-'Result Type' must be  a scalar or vector of <<Integer,'integer type'>>, whose 'Signedness' operand is 1. +
+'Result Type' must be  a scalar or vector of <<Integer,'integer type'>>. +
  +
 The type of 'Operand 1' and 'Operand 2' must be the same as 'Result Type'.
 
@@ -222,7 +223,7 @@ Operand 2'
  +
 Returns (x+y) >> 1.  The intermediate sum does not modulo overflow. +
  +
-'Result Type' must be  a scalar or vector of <<Integer,'integer type'>>, whose 'Signedness' operand is 1. +
+'Result Type' must be  a scalar or vector of <<Integer,'integer type'>>. +
  +
 The type of 'Operand 1' and 'Operand 2' must be the same as 'Result Type'.
 
@@ -254,7 +255,7 @@ Operand 2'
  +
 Returns (x+y+1) >> 1.  The intermediate sum does not modulo overflow. +
  +
-'Result Type' must be  a scalar or vector of <<Integer,'integer type'>>, whose 'Signedness' operand is 1. +
+'Result Type' must be  a scalar or vector of <<Integer,'integer type'>>. +
  +
 The type of 'Operand 1' and 'Operand 2' must be the same as 'Result Type'.
 
@@ -286,7 +287,7 @@ Operand 2'
  +
 Returns x - y clamped to the range of 'Result Type' (instead of modulo overflowing). +
  +
-'Result Type' must be  a scalar or vector of <<Integer,'integer type'>>, whose 'Signedness' operand is 1. +
+'Result Type' must be  a scalar or vector of <<Integer,'integer type'>>. +
  +
 The type of 'Operand 1' and 'Operand 2' must be the same as 'Result Type'.
 
@@ -318,7 +319,7 @@ Operand 2'
  +
 Integer multiplication of 'Operand 1' and 'Operand 2'.  The low 16-bits of 'Operand 2' are sign extended to 32-bits before performing the multiplication. +
  +
-'Result Type' must be  a scalar or vector of <<Integer,'integer type'>>, whose 'Width' operand is 32 and whose 'Signedness' operand is 1. +
+'Result Type' must be  a scalar or vector of <<Integer,'integer type'>>, whose 'Width' operand is 32. +
  +
 The type of 'Operand 1' and 'Operand 2' must be the same type as 'Result Type'.
 
@@ -357,4 +358,5 @@ None yet.
 |========================================
 |Rev|Date|Author|Changes
 |1|2018-09-10|idr|Initial revision
+|2|2019-01-22|idr|Remove all references to Signedness being 1
 |========================================
