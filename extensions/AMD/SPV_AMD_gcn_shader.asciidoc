@@ -44,7 +44,7 @@ Number
 Dependencies
 ------------
 
-This extension is written against Revision 1 of the version 1.10 of the
+This extension is written against Revision 1 of the version 1.1 of the
 SPIR-V Specification.
   
 Overview
