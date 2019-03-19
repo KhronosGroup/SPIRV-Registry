@@ -30,7 +30,7 @@ Final draft
 [width="40%",cols="25,25"]
 |========================================
 | Last Modified Date | {docdate}
-| Revision           | A
+| Revision           | B
 |========================================
 
 == Dependencies
@@ -67,6 +67,7 @@ RegisterINTEL
 MemoryINTEL
 NumbanksINTEL
 BankwidthINTEL
+MaxconcurrencyINTEL
 ----
 
 == Token Number Assignments
@@ -81,6 +82,7 @@ BankwidthINTEL
 |MemoryINTEL              |5826
 |NumbanksINTEL            |5827
 |BankwidthINTEL           |5828
+|MaxconcurrencyINTEL      |5829
 |==== 
 --
 
@@ -101,7 +103,7 @@ Apply to a variable or a structure-type member. Request, to the extent possible,
 Apply to a variable or a structure-type member. Request, to the extent possible, that the variable or structure member should be implemented in memory of the specified type. 
 | *FPGAMemoryAttributesINTEL* | Literal String +
 _Memory Type_
-| 5827 | *NumBanksINTEL*  +
+| 5827 | *NumbanksINTEL*  +
 Apply to a variable or a structure-type member. Request, to the extent possible, that the variable or structure member should be implemented in a memory with the specified number of banks.
 | *FPGAMemoryAttributesINTEL* | Literal Number +
 _Banks_
@@ -109,6 +111,10 @@ _Banks_
 Apply to a variable or a structure-type member. Request, to the extent possible, that the variable or structure member should be implemented in a memory whose banks have the specified width in bytes.
 | *FPGAMemoryAttributesINTEL* | Literal Number +
 _Bank Width_
+| 5829 | *MaxconcurrencyINTEL* +
+Apply to a variable or a structure-type member. Request, to the extent possible, that the implementation allow no more than the specified number of threads or loop iterations to access the variable or structure-type member concurrently.  
+| *FPGAMemoryAttributesINTEL* | Literal Number +
+_Maximum Concurrency_
 |====
 --
 
@@ -148,4 +154,5 @@ None.
 |========================================
 |Rev|Date|Author|Changes
 |A|2019-02-27|Joe Garvey|*Initial public release*
+|B|2019-03-18|Joe Garvey|Added MaxconcurrencyINTEL decoration.  Fixed NumbanksINTEL capitalization
 |======================================== 
