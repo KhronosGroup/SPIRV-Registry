@@ -29,8 +29,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2018-11-20
-| Revision           | 3
+| Last Modified Date | 2019-03-25
+| Revision           | 4
 |========================================
 
 Dependencies
@@ -302,7 +302,7 @@ Refer to the Ray Tracing chapter of Vulkan API specification for more details.
 |*RayTracingNV* 2+|
 | 5351 | *IncomingRayFlagsNV* +
 The ray flags in current stage as passed in through trace call in parent. Available in *AnyHitNV*,
-*ClosestHitNV*, *IntersectionNV*, *MissNV*, and *CallableNV* stage
+*ClosestHitNV*, *IntersectionNV*, and *MissNV* stage
 
 Refer to the Ray Tracing chapter of Vulkan API specification for more details.
 |*RayTracingNV* 2+|
@@ -515,5 +515,7 @@ Revision History
                               IncomingCallableDataNV, OpExecuteCallableNV
 |3 |2018-11-20 |Daniel Koch | Uses InstanceId not InstanceIndex for
                               Intersection, Any Hit and Closest Hit shaders
+|4 |2019-03-25 |Eric Werness| Incoming ray flags shouldn't be exposed in
+                              Callable shaders
 |========================================
 
