@@ -1,0 +1,234 @@
+SPV_KHR_storage_buffer_storage_class
+====================================
+
+Name Strings
+------------
+
+SPV_KHR_storage_buffer_storage_class
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Alexander Galazin, ARM
+- David Neto, Google
+- John Kessenich, Google
+
+Notice
+------
+
+Copyright (c) 2017 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+Status
+------
+
+ - Approved by SPIR-V working group 2017-Mar-29.
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2017-03-23
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.1.
+
+This extension requires SPIR-V 1.0.
+
+This extension interacts with https://www.khronos.org/registry/spir-v/extensions/KHR/SPV_KHR_16bit_storage.html[SPV_KHR_16bit_storage].
+
+This extension interacts with https://www.khronos.org/registry/vulkan/specs/misc/GL_KHR_vulkan_glsl.txt[GL_KHR_vulkan_glsl].
+
+Overview
+--------
+
+This extension adds a new *StorageBuffer* <<Storage_Class,Storage Class>>.
+A *Block*-decorated object in this class is equivalent to a *BufferBlock*-decorated
+object in the *Uniform* <<Storage_Class,Storage Class>>.
+
+This extension also deprecates the *BufferBlock* <<Decoration,Decoration>>.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_KHR_storage_buffer_storage_class"
+----
+
+New Storage Classes
+-------------------
+
+This extension introduces new storage class:
+
+----
+StorageBuffer
+----
+
+New Capabilities
+----------------
+
+None.
+
+New Builtins
+------------
+
+None.
+
+New Instructions
+----------------
+
+None.
+
+Token Number Assignments
+------------------------
+
+[width="40%"]
+[cols="70%,30%"]
+[grid="rows"]
+|====
+|StorageBuffer                | 12
+|====
+
+
+Modifications to the SPIR-V Specification, Version 1.1
+------------------------------------------------------
+
+Modify Section 3.7, Storage Class, adding this row to the Storage Classes table:
+
+--
+[options="header"]
+|====
+2+^| Storage Class ^| Enabling Capabilities
+|  12 | *StorageBuffer* +
+Shared externally, readable and writeable, visible across all functions
+in all invocations in all work groups. Graphics storage buffers (buffer blocks).| *Shader*
+|====
+--
+
+Modify Section 2.16.1, Universal Validation Rules, change the Atomic access rules: ::
+
+add *StorageBuffer* to the list of allowed <<Storage_Class,Storage Classes>>.
+
+Modify Section 2.16.2, Validation Rules for Shader Capabilities, change the first sentence in the Composite objects rules to say: ::
+
+Composite objects in the *StorageBuffer*, *UniformConstant*, *Uniform*, and *PushConstant* <<Storage_Class,Storage Classes>> must be explicitly laid out.
+
+Modify Section 3.20, Decoration ::
+
+Change the description of the *BufferBlock* decoration to say: :::
+
+Apply to a structure type to establish it is a SSBO-like shader-interface block.
+_This decoration is deprecated. SPIR-V producers are encouraged to generate
+*Block*-decorated objects in the *StorageBuffer* <<Storage_Class,Storage Class>> instead_.
+
+Change the second sentence in the description of the *Volatile* decoration to say: :::
+
+Can only be used for objects declared as storage images (see <<OpTypeImage, *OpTypeImage*>>),
+in the *StorageBuffer* <<Storage_Class,Storage Class>>, or in
+the *Uniform* <<Storage_Class,Storage Class>> with the *BufferBlock* <<Decoration, Decoration>>.
+
+Change the second sentence in the description of the *Coherent* decoration to say: :::
+
+Can only be used for objects declared as storage images (see <<OpTypeImage, *OpTypeImage*>>),
+in the *StorageBuffer* <<Storage_Class,Storage Class>>, or in
+the *Uniform* <<Storage_Class,Storage Class>> with the *BufferBlock* <<Decoration, Decoration>>.
+
+Change the second sentence in the description of the *NonWritable* decoration to say: :::
+
+Can only be used for objects declared as storage images (see <<OpTypeImage, *OpTypeImage*>>),
+in the *StorageBuffer* <<Storage_Class,Storage Class>>, or in
+the *Uniform* <<Storage_Class,Storage Class>> with the *BufferBlock* <<Decoration, Decoration>>.
+
+Change the second sentence in the description of the *NonReadable* decoration to say: :::
+
+Can only be used for objects declared as storage images (see <<OpTypeImage, *OpTypeImage*>>),
+in the *StorageBuffer* <<Storage_Class,Storage Class>>, or in
+the *Uniform* <<Storage_Class,Storage Class>> with the *BufferBlock* <<Decoration, Decoration>>.
+
+Modify Section 3.25, Memory Semantics <id> ::
+
+Change the description of the *UniformMemory* semantics to say: :::
+
+Apply the memory-ordering constraints to *Uniform* or *StorageBuffer* <<Storage_Class,Storage Class>> memory.
+
+Modify Section 3.31, Capability ::
+
+Change the description of the *StorageBufferArrayDynamicIndexing* capability to say: :::
+
+Arrays in the *StorageBuffer* <<Storage_Class,Storage Class>> or
+*BufferBlock*-decorated arrays in the *Uniform* <<Storage_Class,Storage Class>> use <<DynamicallyUniform, dynamically uniform>> indexing.
+
+Modify Section 3.32.6, Type-Declaration Instructions ::
+
+Change the fourth sentence of the description of the *OpTypeRuntimeArray* instruction to say: :::
+
+<<Object,Objects>> of this type can only be created with <<OpVariable,*OpVariable*>>
+using the *Uniform* or the *StorageBuffer* <<Storage_Class,Storage Classes>>.
+
+Validation Rules
+----------------
+It is invalid to have a construct that uses the *StorageBuffer* <<Storage_Class,Storage Class>>  and
+a construct that uses the *Uniform* <<Storage_Class,Storage Class>> with the *BufferBlock* <<Decoration, Decoration>>
+in the same SPIR-V module.
+
+Interactions with SPV_KHR_16bit_storage
+---------------------------------------
+
+If https://www.khronos.org/registry/spir-v/extensions/KHR/SPV_KHR_16bit_storage.html[SPV_KHR_16bit_storage] is supported, ::
+
+modify the description of the *StorageUniformBufferBlock16* capability, adding the following sentence to the first paragraph of the description: :::
+
+The object can also be in the *StorageBuffer* <<Storage_Class,Storage Class>> and have any decorations supported for this <<Storage_Class,Storage Class>>.
+
+modify the description of the *StorageUniform16* capability, adding the following sentence to the first paragraph of the description: :::
+
+The object can also be in the *StorageBuffer* <<Storage_Class,Storage Class>> and have any decorations supported for this <<Storage_Class,Storage Class>>.
+
+Modify Section 3.31, Capability, adding the following rows to the Capability table: ::
+
+[options="header"]
+|====
+2+^| Capability ^| Depends On
+| 4433 | *StorageBuffer16BitAccess* +
+Same as *StorageUniformBufferBlock16* |
+| 4434 | *UniformAndStorageBuffer16BitAccess* +
+Same as *StorageUniform16*| *StorageBuffer16BitAccess*
+|====
+
+Interactions with GL_KHR_vulkan_glsl
+------------------------------------
+If https://www.khronos.org/registry/vulkan/specs/misc/GL_KHR_vulkan_glsl.txt[GL_KHR_vulkan_glsl] is supported, ::
+
+Modify Mapping to SPIR-V section, adding the following statement to mapping of storage classes: :::
+
+buffer  blockN { ... } ...;  -> StorageBuffer, with Block decoration
+
+Issues
+------
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2017-03-23|Alexander Galazin|*Initial revision*
+|========================================

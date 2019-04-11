@@ -1,0 +1,224 @@
+SPV_NV_viewport_array2
+======================
+
+Name Strings
+------------
+
+SPV_NV_viewport_array2
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Daniel Koch, NVIDIA
+
+Status
+------
+
+- Complete
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2017-02-15
+| Revision           | 2
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.1 Revision 4.
+
+This extension requires SPIR-V 1.0.
+
+Overview
+--------
+
+This extension adds new capabilities to support the OpenGL
+GL_ARB_shader_viewport_layer_array and
+GL_NV_viewport_array2 extensions, as well as the Vulkan
+VK_NV_viewport_array2 extension in SPIR-V.
+
+The new *ShaderViewportIndexLayerNV* capability allows the
+*Layer* and *ViewportIndex* builtin variables to be exported
+from Vertex or Tessellation shaders, in addition to Geometry
+shaders. This is functionality added by both
+GL_ARB_shader_viewport_layer_array and GL_NV_viewport_array2,
+and separately by GL_AMD_vertex_shader_layer, and
+GL_AMD_vertex_shader_viewport_index.
+
+The new *ShaderViewportMaskNV* capability adds a new *ViewportMaskNV*
+builtin variable which can be exported from Vertex, Tessellation,
+or Geometry shaders. This corresponds to the *gl_ViewportMask*
+variable in GLSL. It also adds a new *ViewportRelativeNV* decoration
+that corresponds to the *viewport_relative* layout qualifier that
+can be applied to the *gl_Layer* shader output variable in GLSL.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_NV_viewport_array2"
+----
+
+New Capabilities
+----------------
+
+This extension introduces two new capabilities:
+
+----
+ShaderViewportIndexLayerNV
+ShaderViewportMaskNV
+----
+
+New Decorations
+---------------
+
+Decoration added under the *ShaderViewportMaskNV* capability:
+
+----
+ViewportRelativeNV
+----
+
+New Builtins
+------------
+
+A new builtin is added as an ouput for the *Vertex*, *Tessellation*,
+and *Geometry* Execution Models under the *ShaderViewportMaskNV* capability:
+
+----
+ViewportMaskNV
+----
+
+The existing *Layer* and *ViewportIndex* builtins are extended and may
+also be used as outputs in the *Vertex* and *Tessellation* Execution
+Models under the *ShaderViewportIndexLayerNV* capability.
+
+New Instructions
+----------------
+
+None.
+
+Token Number Assignments
+------------------------
+
+[width="40%"]
+[cols="70%,30%"]
+[grid="rows"]
+|====
+|ViewportRelativeNV         | 5252
+|ViewportMaskNV             | 5253
+|ShaderViewportIndexLayerNV | 5254
+|ShaderViewportMaskNV       | 5255
+|====
+
+Modifications to the SPIR-V Specification, Version 1.1
+------------------------------------------------------
+(Modify Section 3.20, Decoration, adding a row to the Decoration table) ::
++
+--
+[cols="1^,10,6^,2*2",options="header",width = "100%"]
+|====
+2+^.^| Decoration | <<Capability,Enabling Capabilities>> 2+<.^| Extra Operands
+| 5252 | *ViewportRelativeNV* +
+Apply to a variable. Indicates that the value of the variable decorated with
+*ViewportIndex* is added to this variable. Only valid for the *Output*
+Storage Class.
+|*ShaderViewportMaskNV* 2+|
+|====
+--
+
+(Modify Section 3.21, BuiltIn) ::
++
+--
+
+(add a new row to the Builtin table)
+
+[cols="1^.^,20,8^",options="header",width = "90%"]
+|====
+2+^.^| BuiltIn| Enabling Capabilities
+| 5253 | *ViewportMaskNV* +
+Output viewport mask in *Vertex*, *Tessellation*, or *Geometry* Execution Model.
+See Vulkan or OpenGL API specifications for more detail.
+| *ShaderViewportMaskNV*
+|====
+
+(Modify the definition of *Layer* and *ViewportIndex* as follows, allowing
+them to be outputs from Vertex and Tessellation shaders)
+
+[cols="1^.^,20,8^",options="header",width = "90%"]
+|====
+2+^.^| BuiltIn| Enabling Capabilities
+.3+| 9 2+| *Layer* +
+Layer selection for multi-layer framebuffer. See Vulkan or OpenGL API
+specification for more detail.
+| Layer output by a *Geometry* <<Execution_Model,Execution Model>>,
+input to a *Fragment* Execution Model.
+|*Geometry*
+| Layer output by a *Vertex* or *Tessellation* <<Execution_Model,Execution Model>>.
+|*ShaderViewportIndexLayerNV*
+.3+| 10 2+| *ViewportIndex* +
+Viewport selection for viewport transformation when using multipe viewports.
+See Vulkan or OpenGL API specification for more detail.
+|Viewport Index output by a *Geometry* <<Execution_Model, Execution Model>>,
+input to a *Fragment* Execution Model.
+|*MultiViewport*
+| Viewport Index output by a *Vertex* or *Tessellation* <<Execution_Model,Execution Model>>.
+|*ShaderViewportIndexLayerNV*
+|====
+--
+
+
+(Modify Section 3.31, Capability, adding new rows to the Capability table) ::
++
+--
+[cols="1^.^,10,8^,15",options="header",width = "80%"]
+|====
+2+^.^| Capability | Depends On | Enabled by Extension
+| 5254 | *ShaderViewportIndexLayerNV* | *MultiViewport*
+| *SPV_NV_viewport_array2*
+| 5255 | *ShaderViewportMaskNV* | *ShaderViewportIndexLayerNV*
+| *SPV_NV_viewport_array2*
+|====
+--
+
+
+Validation Rules
+----------------
+
+An OpExtension must be added to the SPIR-V for validation layers to check
+legal use of this extension:
+
+----
+OpExtension "SPV_NV_viewport_array2"
+----
+
+Issues
+------
+
+None yet!
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1 |2016-11-25 |Daniel Koch|*Initial draft*
+|2 |2017-02-15 |Daniel Koch|Mark Complete, add mention of Vulkan extension
+|========================================
+

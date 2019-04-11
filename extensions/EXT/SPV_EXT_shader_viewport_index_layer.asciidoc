@@ -1,0 +1,184 @@
+SPV_EXT_shader_viewport_index_layer
+===================================
+
+Name Strings
+------------
+
+SPV_EXT_shader_viewport_index_layer
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Daniel Koch, NVIDIA
+- Daniel Rakos, AMD
+- Slawomir Grajewski, Intel
+
+Status
+------
+
+- Complete
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2017-07-25
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.2 Revision 1.
+
+This extension requires SPIR-V 1.0.
+
+This extension interacts with SPV_NV_viewport_array2.
+
+Overview
+--------
+
+This extension adds new capabilities to support the OpenGL
+GL_ARB_shader_viewport_layer_array and the Vulkan
+VK_EXT_shader_viewport_index_layer extensions in SPIR-V.
+
+The new *ShaderViewportIndexLayerEXT* capability allows the
+*Layer* and *ViewportIndex* builtin variables to be exported
+from Vertex or Tessellation shaders, in addition to Geometry
+shaders. This is functionality added GLSL by both
+GL_ARB_shader_viewport_layer_array and GL_NV_viewport_array2,
+and separately by GL_AMD_vertex_shader_layer, and
+GL_AMD_vertex_shader_viewport_index.
+
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_EXT_shader_viewport_index_layer"
+----
+
+New Capabilities
+----------------
+
+This extension introduces a new capability:
+
+----
+ShaderViewportIndexLayerEXT
+----
+
+New Decorations
+---------------
+
+None.
+
+New Builtins
+------------
+
+The existing *Layer* and *ViewportIndex* builtins are extended and may
+also be used as outputs in the *Vertex* and *Tessellation* Execution
+Models under the *ShaderViewportIndexLayerEXT* capability.
+
+New Instructions
+----------------
+
+None.
+
+Token Number Assignments
+------------------------
+
+[width="40%"]
+[cols="70%,30%"]
+[grid="rows"]
+|====
+|ShaderViewportIndexLayerEXT | 5254
+|====
+
+Modifications to the SPIR-V Specification, Version 1.2
+------------------------------------------------------
+(Modify Section 3.21, BuiltIn) ::
++
+--
+(Modify the definition of *Layer* and *ViewportIndex* as follows, allowing
+them to be outputs from Vertex and Tessellation shaders)
+
+[cols="1^.^,20,8^",options="header",width = "90%"]
+|====
+2+^.^| BuiltIn| Enabling Capabilities
+.3+| 9 2+| *Layer* +
+Layer selection for multi-layer framebuffer. See Vulkan or OpenGL API
+specification for more detail.
+| Layer output by a *Geometry* <<Execution_Model,Execution Model>>,
+input to a *Fragment* Execution Model.
+|*Geometry*
+| Layer output by a *Vertex* or *Tessellation* <<Execution_Model,Execution Model>>.
+|*ShaderViewportIndexLayerEXT*
+.3+| 10 2+| *ViewportIndex* +
+Viewport selection for viewport transformation when using multipe viewports.
+See Vulkan or OpenGL API specification for more detail.
+|Viewport Index output by a *Geometry* <<Execution_Model, Execution Model>>,
+input to a *Fragment* Execution Model.
+|*MultiViewport*
+| Viewport Index output by a *Vertex* or *Tessellation* <<Execution_Model,Execution Model>>.
+|*ShaderViewportIndexLayerEXT*
+|====
+--
+
+
+(Modify Section 3.31, Capability, adding a new row to the Capability table) ::
++
+--
+[cols="1^.^,10,8^,15",options="header",width = "80%"]
+|====
+2+^.^| Capability | Depends On | Enabled by Extension
+| 5254 | *ShaderViewportIndexLayerEXT* | *MultiViewport*
+| *SPV_EXT_shader_viewport_index_layer*
+|====
+--
+
+
+Validation Rules
+----------------
+
+An OpExtension must be added to the SPIR-V for validation layers to check
+legal use of this extension:
+
+----
+OpExtension "SPV_EXT_shader_viewport_index_layer"
+----
+
+Issues
+------
+
+. How does this extension relate to the similar functionality in
+SPV_NV_viewport_array2?
++
+--
+*RESOLVED*: The ShaderViewportIndexLayerEXT capability in this extension
+is an alias of ShaderViewportIndexLayerNV from SPV_NV_viewport_array2, and
+provides the same functionality.
+--
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1 |2017-07-25 |Daniel Koch| Initial draft based on subset of SPV_NV_viewport_array2.
+|========================================
+
