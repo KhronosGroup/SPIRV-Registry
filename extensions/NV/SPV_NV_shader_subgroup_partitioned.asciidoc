@@ -9,7 +9,8 @@ SPV_NV_shader_subgroup_partitioned
 Contact
 -------
 
-See *Issues* list in the Khronos SPIRV-Headers repository:
+To report problems with this extension, please open a new issue at:
+
 https://github.com/KhronosGroup/SPIRV-Headers
 
 Contributors

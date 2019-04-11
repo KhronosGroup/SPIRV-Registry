@@ -9,7 +9,8 @@ SPV_EXT_shader_stencil_export
 Contact
 -------
 
-See *Issues* list in the Khronos SPIRV-Headers repository:
+To report problems with this extension, please open a new issue at:
+
 https://github.com/KhronosGroup/SPIRV-Headers
 
 Contributors
@@ -18,7 +19,7 @@ Contributors
 - Dominik Witczak, AMD
 - Daniel Rakos, AMD
 - Rex Xu, AMD
-
+- Aaron Hagan, AMD
 
 Notice
 ------
@@ -34,9 +35,9 @@ Released.
 Version
 -------
 
-Modified Date: 07/26/2017 
- 
-Revision:      2
+Modified Date: 08/10/2017
+
+Revision:      3
 
 Dependencies
 ------------
@@ -66,6 +67,15 @@ To enable SPV_EXT_shader_stencil_export extension in SPIR-V, use
 
   OpExtension "SPV_EXT_shader_stencil_export"
 
+New Execution Mode
+------------------
+
+This extension introduces a new execution mode:
+
+----
+ExecutionModeStencilRefReplacingEXT
+----
+
 New Builtins
 ------------
 
@@ -82,6 +92,8 @@ Token Number Assignments
 ------------------------
 |==============================
 |CapabilityStencilExportEXT|5013
+|BuiltInFragStencilRefEXT|5014
+|ExecutionModeStencilRefReplacingEXT|5027
 |==============================
 
 
@@ -117,6 +129,7 @@ Revision History
 [options="header"]
 |========================================
 |Rev|Date|Author|Changes
+|3|08/10/2017|Aaron Hagan|Add ExecutionModeStencilRefReplacingEXT execution mode.
 |2|07/26/2017|Dominik Witczak|Language improvements.
 |1|07/19/2017|Dominik Witczak|Initial revision based on ARB_shader_stencil_export.
 |========================================
