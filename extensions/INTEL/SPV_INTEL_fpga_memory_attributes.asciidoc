@@ -30,7 +30,7 @@ Final draft
 [width="40%",cols="25,25"]
 |========================================
 | Last Modified Date | {docdate}
-| Revision           | B
+| Revision           | C
 |========================================
 
 == Dependencies
@@ -68,6 +68,8 @@ MemoryINTEL
 NumbanksINTEL
 BankwidthINTEL
 MaxconcurrencyINTEL
+SinglepumpINTEL
+DoublepumpINTEL
 ----
 
 == Token Number Assignments
@@ -83,6 +85,8 @@ MaxconcurrencyINTEL
 |NumbanksINTEL            |5827
 |BankwidthINTEL           |5828
 |MaxconcurrencyINTEL      |5829
+|SinglepumpINTEL          |5830
+|DoublepumpINTEL          |5831
 |==== 
 --
 
@@ -115,6 +119,12 @@ _Bank Width_
 Apply to a variable or a structure-type member. Request, to the extent possible, that the implementation allow no more than the specified number of threads or loop iterations to access the variable or structure-type member concurrently.  
 | *FPGAMemoryAttributesINTEL* | Literal Number +
 _Maximum Concurrency_
+| 5830 | *SinglepumpINTEL* +
+Apply to a variable or a structure-type member. Request, to the extent possible, that the variable or structure member should be implemented in a memory that is clocked at the same rate as accesses to it.
+| *FPGAMemoryAttributesINTEL* |
+| 5831 | *DoublepumpINTEL* +
+Apply to a variable or a structure-type member. Request, to the extent possible, that the variable or structure member should be implemented in a memory that is clocked at twice the rate of accesses to it.
+| *FPGAMemoryAttributesINTEL* |
 |====
 --
 
@@ -155,4 +165,5 @@ None.
 |Rev|Date|Author|Changes
 |A|2019-02-27|Joe Garvey|*Initial public release*
 |B|2019-03-18|Joe Garvey|Added MaxconcurrencyINTEL decoration.  Fixed NumbanksINTEL capitalization
+|C|2019-04-23|Joe Garvey|Added SinglepumpINTEL and DoublepumpINTEL decorations
 |======================================== 
