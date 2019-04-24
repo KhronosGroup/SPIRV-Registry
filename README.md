@@ -62,3 +62,4 @@ Khronos SPIR-V Registry](https://www.khronos.org/registry/spir-v/).
 1. [SPV_EXT_physical_storage_buffer         ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/master/extensions/EXT/SPV_EXT_physical_storage_buffer.html)
 1. [SPV_INTEL_fpga_memory_attributes        ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/master/extensions/INTEL/SPV_INTEL_fpga_memory_attributes.html)
 1. [SPV_NV_cooperative_matrix               ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/master/extensions/NV/SPV_NV_cooperative_matrix.html)
+1. [SPV_INTEL_shader_integer_functions2     ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/master/extensions/INTEL/SPV_INTEL_shader_integer_functions2.html)
