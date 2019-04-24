@@ -1,0 +1,308 @@
+SPV_KHR_variable_pointers
+=========================
+
+Name Strings
+------------
+
+SPV_KHR_variable_pointers
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- John Kessenich, Google
+- Neil Henning, Codeplay
+- David Neto, Google
+- Daniel Koch, Nvidia
+- Graeme Leese, Broadcom
+- Weifeng Zhang, Qualcomm
+- Stephen Clarke, Imagination Technologies
+- Jason Ekstrand, Intel
+
+Notice
+------
+
+Copyright (c) 2017 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+Status
+------
+
+- Approved by the SPIR-V Working group: 2017-02-08
+- Approved by the Khronos Board of Promoters: 2017-03-31
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2017-07-05
+| Revision           | 13
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.1 Revision 1.
+
+This extension requires SPIR-V 1.0.
+
+This extension requires SPV_KHR_storage_buffer_storage_class.
+
+Overview
+--------
+
+This extension adds new pointer capabilities to the *Logical* addressing model
+that keep pointers as an abstract type while allowing a 'variable pointer' that has the
+following additional features:
+
+- A pointer is allowed to not know statically what object (or what part of a composite object)
+  it points to, by being selected from multiple pointers.
+  E.g, it can come from an *OpSelect* instruction, which selects between two *OpAccessChain*
+  instructions.
+
+- Depending on the capability selected, a variable pointer might be restricted to select only
+  from within a single *StorageBuffer* object.
+
+- As with the abstract Boolean type, a pointer can be stored to non-externally visible shader
+  Storage Classes, but is limited to *Private* and *Function*.
+
+- Allow use of *OpConstantNull* as a variable pointer.
+
+Variable pointers still have no exposed physical bit pattern or size.
+
+This extension does not add any "generic" pointer ability, or modify existing aliasing rules.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_KHR_variable_pointers"
+----
+
+
+Modifications to the SPIR-V Specification, Version 1.1
+------------------------------------------------------
+
+Terms
+~~~~~
+
+Add a new term to section 2.2.2 Types:
+
+[[VariablePointer]]'Variable pointer:' A pointer that results from one of the following instructions:
+
+ - *OpSelect*
+ - *OpPhi*
+ - *OpFunctionCall*
+ - *OpPtrAccessChain*
+ - *OpCopyObject*
+ - *OpLoad*
+ - *OpConstantNull*
+
+Types
+~~~~~
+
+In section 2.8 "Types and Variables", in type matching, add this after discussing aggregate matching rules
+under decoration:
+
+Pointer types are also allowed to have multiple '<id>s' for the same opcode and operands,
+to allow for differing *ArrayStride* 'Array Stride' decoration values.
+
+Also, in that paragraph, "non-aggregate types" will then generally be "non-aggregate non-pointer types."
+
+Validation Rules
+~~~~~~~~~~~~~~~~
+
+Modify the *Logical* Address Model list of rules, by changing:
+
+- If the Logical addressing model is selected:
+
+To:
+
+- If the Logical addressing model is selected and the *VariablePointers*
+capability is not declared:
+
+Keeping the subsequent list the same.  (That is, there is no change here).
+
+Add another set of rules, after the above:
+
+- If the *Logical* addressing model is selected and the *VariablePointers* or
+  *VariablePointersStorageBuffer* capability is declared (in addition to
+  what is allowed above by the *Logical* addressing model):
+
+  * *OpVariable* can allocate an object whose type is a pointer type, if
+    the 'Storage Class' of the *OpVariable* is one of the following:
+    ** *Function*
+    ** *Private*
+
+  * A pointer can be the 'Object' operand of *OpStore* or result of *OpLoad*, if the storage class
+    the pointer is stored to or loaded from is one of the following:
+    ** *Function*
+    ** *Private*
+
+  * A pointer type can be the:
+    ** 'Result Type' of *OpFunction*
+    ** 'Result Type' of *OpFunctionCall*
+    ** 'Return Type' of *OpTypeFunction*
+
+  * A pointer can be a <<VariablePointer, 'variable pointer'>> or an operand to *OpPtrAccessChain*.
+
+  * If the *VariablePointers* capability is declared,
+    A <<VariablePointer, 'variable pointer'>> can be the 'Pointer' operand of *OpStore* or *OpLoad*,
+    or result of *OpConstantNull*, if it points to one of the following storage classes:
+    ** *StorageBuffer*
+    ** *Workgroup*
+
+  * If the *VariablePointers* capability is not declared,
+    A <<VariablePointer, 'variable pointer'>> can be the 'Pointer' operand of *OpStore* or *OpLoad*
+    only if:
+    ** it points into the *StorageBuffer* storage classes
+    ** it is selected from pointers pointing into the same structure, or is *OpConstantNull*
+
+- A <<VariablePointer, 'variable pointer'>> with the *Logical* addressing model cannot
+  * be an operand to an *OpArrayLength* instruction
+  * point to an object that is or contains any *OpTypeMatrix* types
+
+Add under the rules for "Composite objects in the *UniformConstant*, *Uniform*, and *PushConstant* ...":
+
+  * Each *OpPtrAccessChain* must have a 'Base' whose type is decorated with *ArrayStride*.
+  * When an array-element pointer is derived from an array (e.g., using *OpAccessChain*),
+    and the resulting element-pointer type was decorated with *ArrayStride*,
+    its 'Array Stride' must match the 'Array Stride' of the originating array's type.
+
+Memory Model
+~~~~~~~~~~~~
+
+Add a new section:
+
+*2.18.3 Null pointers*
+
+A "null" pointer can be formed from an *OpConstantNull* instruction with a pointer result type.
+The resulting pointer value is abstract, and will not equal the pointer value formed from any
+declared object or access chain into a declared object. Behavior is undefined when loading or storing
+through an *OpConstantNull* value.
+
+Decorations
+~~~~~~~~~~~
+
+In section 3.20 "Decoration", update the description of what *ArrayStride* applies to:
+
+Apply to an array type to specify the stride, in bytes, of the array's elements.
+Can also apply to a pointer type to an array element, to specify the stride of the array that the element resides in.
+Must not be applied to any other type.
+
+Capabilities
+~~~~~~~~~~~~
+
+Modify Section 3.31, Capability, adding these rows to the Capability table:
+
+--
+[options="header"]
+|====
+2+^| Capability ^| Depends On
+| 4441 | *VariablePointersStorageBuffer* +
+Allow <<VariablePointer, 'variable pointers'>>, each confined to a single *Block*-decorated struct in the *StorageBuffer* storage class. | *Shader*
+| 4442 | *VariablePointers* +
+Allow <<VariablePointer, 'variable pointers'>> | *VariablePointersStorageBuffer*
+|====
+--
+
+Modify section 3.32.8. "Memory Instructions"
+
+Add these capabilities to the *OpPtrAccessChain* instruction:
+
+- *VariablePointers*
+- *VariablePointersStorageBuffer*
+
+Instructions
+~~~~~~~~~~~~
+
+Modify the *OpPtrAccessChain* instruction. Add to the paragraph explaining that Element does an array dereference:
+
+"When the type of 'Base' is decorated with *ArrayStride*,
+this array is dereferenced as an array whose stride is the 'Base'-type's 'Array Stride'."
+
+Modify the *OpSelect* instruction description by changing this existing text from:
+
+"Select between two objects.
+
+"'Result Type' must be a scalar or vector."
+
+To:
+
+"Select components from two objects.
+
+"'Result Type' must be a pointer, scalar, or vector."
+
+Issues
+------
+
+1) Do we need a NULL value?
+
+Discussion:
+
+Pro: It can be symmetric with *OpTypeBool* having *OpConstantTrue* and *OpConstantFalse*.
+
+Con: Can be worked around.
+
+Resolution: Allow use of *OpConstantNull* for this.
+
+2) Can pointer selection be across buffers? E.g.:
+
+----------
+  P = c ? P1 : P2; // P1 and P2 must be in the same buffer block
+----------
+
+Discussion: It may be hardware dependent whether this is easy to implement or not.
+
+Resolution: This is selected by the difference between the *VariablePointers* and
+*VariablePointersStorageBuffer* capabilities.
+
+3) Can pointers be to the *Private* storage class?
+
+Discussion:
+
+Con: What's the real use case?  (Alloca becomes OpVariable in Private space.).
+Can subset the language: fail the high-level compile if it can't fit in existing Vulkan rules.
+(If you aggressively inline, then into-SSA fixes up most "real" code examples.)
+
+Pro: The SPIR-V can more closely match the original shader intent.
+If the shader had two functions, the SPIR-V can have two functions to match.
+This is particularly useful when we look at things like debugger support
+(something that is later in the pipe for sure, but I'd like to if possible leave the door open!).
+
+Resolution: Don't have variable pointers into the *Private* storage class.
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2016-10-31|JohnK|Initial revision
+|2|2016-11-15|JohnK|Add *VariablePointers* to address model table
+|3|2016-11-21|JohnK|Address feedback: use a capability instead of an address model and make load/store levels of indirection more clear
+|4|2016-12-13|JohnK|Split into two capabilities, eliminating the need for a Vulkan extension to define the difference
+|5|2017-01-16|JohnK|Address editorial feedback in the overview
+|6|2017-01-17|JohnK|Add NULL pointer
+|7|2017-01-18|JohnK|Remove Private, CrossWorkGroup, and UBO storage classes
+|8|2017-02-07|JohnK|Don't allow *OpTypeMatrix* for variable pointers
+|9|2017-02-08|JohnK|Disallow *OpArrayLength*, list *OpPtrAccessChain* capabilities, and make additional allowances all in the positive
+|10|2017-02-09|DavidN|Assign token values
+|11|2017-03-23|Alexander Galazin| Added interactions with *SPV_KHR_storage_buffer_storage_class*
+|12|2017-05-11|JohnK|Be explicit that *OpSelect* supports pointers, and record ratification date.
+|13|2017-07-05|JohnK|Add generator requirement to decorate *OpPtrAccessChain* base-pointer type with *ArrayStride*,
+                     optional for driver consumption.
+|========================================

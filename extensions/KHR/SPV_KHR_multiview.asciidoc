@@ -1,0 +1,154 @@
+SPV_KHR_multiview
+=================
+
+Name Strings
+------------
+
+SPV_KHR_multiview
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Ashwin Kolhe, NVIDIA
+
+Status
+------
+
+- Complete
+- Approved by the SPIR Working group: 2017-01-11
+- Approved by the Khronos Board of Promoters: 2017-02-24
+
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2016-12-12
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.1 Revision 4.
+
+This extension requires SPIR-V 1.0.
+
+Overview
+--------
+
+This extension adds a new capability to support the Vulkan
+VK_KHX_multiview extension in SPIR-V.
+
+The new *MultiView* capability allows the *ViewIndex* builtin
+variable to be exported from all shaders stages except compute,
+which represents the index of view currently being rendered to.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_KHR_multiview"
+----
+
+New Capabilities
+----------------
+
+This extension introduces a new capability:
+
+----
+MultiView
+----
+
+New Builtins
+------------
+
+A new builtin is added as an input for all shader stages except compute.
+
+----
+ViewIndex
+----
+
+Input view index of the view currently being rendered to.
+
+New Instructions
+----------------
+
+None.
+
+Token Number Assignments
+------------------------
+
+[width="40%"]
+[cols="70%,30%"]
+[grid="rows"]
+|====
+|MultiView                | 4439
+|ViewIndex                | 4440
+|====
+
+(Modify Section 3.21, BuiltIn) ::
++
+--
+
+(add a new row to the Builtin table)
+
+[cols="1^.^,20,8^",options="header",width = "90%"]
+|====
+2+^.^| BuiltIn| Enabling Capabilities
+| 4440 | *ViewIndex* +
+Input view index of the view currently being rendered to. See VK_KHX_multiview for more details.
+| *MultiView*
+|====
+
+--
+
+(Modify Section 3.31, Capability, adding new row to the Capability table) ::
++
+--
+[cols="1^.^,10,8^,15",options="header",width = "80%"]
+|====
+2+^.^| Capability | Depends On | Enabled by Extension
+| 4439    | *MultiView* | Shader
+| *SPV_KHR_multiview*
+|====
+--
+
+
+Validation Rules
+----------------
+
+An OpExtension must be added to the SPIR-V for validation layers to check
+legal use of this extension:
+
+----
+OpExtension "SPV_KHR_multiview"
+----
+
+Issues
+------
+
+None yet.
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1 |2016-12-12 |Ashwin Kolhe|*Initial draft*
+|========================================

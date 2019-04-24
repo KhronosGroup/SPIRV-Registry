@@ -1,0 +1,261 @@
+SPV_KHR_16bit_storage
+======================
+
+Name Strings
+------------
+
+SPV_KHR_16bit_storage
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Alexander Galazin, ARM
+- Jan-Harald Fredriksen, ARM
+- Joerg Wagner, ARM
+- Neil Henning, Codeplay
+- Jeff Bolz, Nvidia
+- David Neto, Google
+- John Kessenich, Google
+
+Notice
+------
+
+Copyright (c) 2016-2017 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+Status
+------
+
+- Complete
+- Approved by the SPIR Working Group: 2017-01-11
+- Approved by the Khronos Board of Promoters: 2017-02-24
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2018-06-11
+| Revision           | 9
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.1 Revision 1.
+
+This extension requires SPIR-V 1.0.
+
+This extension interacts with *SPV_KHR_storage_buffer_storage_class*.
+
+Overview
+--------
+
+This extension adds new *StorageUniformBufferBlock16*, *StorageUniform16*
+capabilities that allow to access 16-bit data in objects in *Uniform* storage
+class with *BufferBlock* and *Block* decorations.
+
+If the *SPV_KHR_storage_buffer_storage_class* extension is supported, it also
+allows use of the *StorageBuffer16BitAccess* and the *UniformAndStorageBuffer16BitAccess*
+capabilities, providing the same functionality as the
+*StorageUniformBufferBlock16* and the *StorageUniform16* capabilities.
+
+It also adds new *StoragePushConstant16* capability that allows access to 16-bit
+data in objects in *PushConstant* storage class.
+
+Finally, this extension adds new *StorageInputOutput16* capability that allows
+to access to 16-bit data in objects in *Input* and *Output* storage classes.
+
+To facilitate stores of 32-bit data to 16-bit storage this extensions enables
+use of the FP Rounding Mode decoration in graphics shaders.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_KHR_16bit_storage"
+----
+
+New Capabilities
+----------------
+
+This extension introduces new capabilities:
+
+----
+StorageUniformBufferBlock16
+StorageUniform16
+StoragePushConstant16
+StorageInputOutput16
+----
+
+If the *SPV_KHR_storage_buffer_storage_class* extension is supported, the following capabilities are also supported:
+
+----
+StorageBuffer16BitAccess
+UniformAndStorageBuffer16BitAccess
+----
+
+New Builtins
+------------
+
+None.
+
+New Instructions
+----------------
+
+None.
+
+Token Number Assignments
+------------------------
+
+[width="40%"]
+[cols="70%,30%"]
+[grid="rows"]
+|====
+|StorageUniformBufferBlock16        | 4433
+|StorageBuffer16BitAccess           | 4433
+|StorageUniform16                   | 4434
+|UniformAndStorageBuffer16BitAccess | 4434
+|StoragePushConstant16              | 4435
+|StorageInputOutput16               | 4436
+|====
+
+
+Modifications to the SPIR-V Specification, Version 1.1
+------------------------------------------------------
+Modify Section 3.16, FP Rounding Mode, amend the *Enabling Capabilities* column to say: ::
++
+Any of *Kernel*, *StorageUniformBufferBlock16*, *StorageUniform16*,
+*StoragePushConstant16*, *StorageInputOutput16*.
++
+Modify Section 3.20, Decoration, amend the *Enabling Capabilities* column for the *FPRoundingMode* decoration to say: ::
++
+Any of *Kernel*, *StorageUniformBufferBlock16*, *StorageUniform16*,
+*StoragePushConstant16*, *StorageInputOutput16*.
++
+Modify Section 3.31, Capability, adding the following rows to the Capability table: ::
++
+--
+[options="header"]
+|====
+2+^| Capability ^| Depends On
+| 4433 | *StorageUniformBufferBlock16* +
+Allows 16-bit <<OpTypeFloat, *OpTypeFloat*>> and <<OpTypeInt, *OpTypeInt*>>
+instructions for creating scalar, vector, and composite types that become members of a block
+residing in the *Uniform* <<Storage_Class,Storage Class>>.
+A type that is or contains such a 16-bit type can be used only as an operand of an
+<<OpTypePointer, *OpTypePointer*>> instruction.
+The block must be decorated with *BufferBlock*.
+
+Other uses of 16-bit types are not enabled by this capability. |
+| 4434 | *StorageUniform16* +
+Allows 16-bit <<OpTypeFloat, *OpTypeFloat*>> and <<OpTypeInt, *OpTypeInt*>>
+instructions for creating scalar, vector, and composite types that become members of a block
+residing in the *Uniform* <<Storage_Class,Storage Class>>.
+A type that is, or contains, such a 16-bit type can be used only as an operand of an
+<<OpTypePointer, *OpTypePointer*>> instruction.
+The block can have any supported decoration, including *BufferBlock*.
+
+Other uses of 16-bit types are not enabled by this capability. | *StorageUniformBufferBlock16*
+| 4435 | *StoragePushConstant16* +
+Allows 16-bit <<OpTypeFloat, *OpTypeFloat*>> and <<OpTypeInt, *OpTypeInt*>>
+instructions for creating scalar, vector, and composite types that become members of a block
+residing in the *PushConstant* <<Storage_Class,Storage Class>>. 
+A type that is, or contains, such a 16-bit type can be used only as an operand of an
+<<OpTypePointer, *OpTypePointer*>> instruction.
+
+Other uses of 16-bit types are not enabled by this capability.|
+| 4436 | *StorageInputOutput16* +
+Allows 16-bit <<OpTypeFloat, *OpTypeFloat*>> and <<OpTypeInt, *OpTypeInt*>>
+instructions for creating scalar, vector, and composite types that become members of a block
+residing in the *Output* <<Storage_Class,Storage Class>>.
+A type that is, or contains, such a 16-bit type can be used only as an operand of an
+<<OpTypePointer, *OpTypePointer*>> instruction.
+
+Other uses of 16-bit types are not enabled by this capability.|
+|====
+--
+
+Validation Rules
+----------------
+
+If the *StorageUniformBufferBlock16*, *StorageUniform16*, *StoragePushConstant16*, or *StorageInputOutput16* capability is declared:
+ 
+ - An <<OpTypePointer, *OpTypePointer*>> pointing to a 16-bit scalar, a 16-bit vector,
+or a composite containing a 16-bit member can be used as the result type of an <<OpVariable, *OpVariable*>>,
+<<OpAccessChain, *OpAccessChain*>>, or <<OpInBoundsAccessChain, *OpInBoundsAccessChain*>>.
+ - <<OpLoad, *OpLoad*>> can only load 16-bit scalars, 16-bit vectors, and 16-bit matrices.
+ - <<OpStore, *OpStore*>> can only store 16-bit scalars, 16-bit vectors, and 16-bit matrices.
+ - <<OpCopyObject, *OpCopyObject*>> can be used for 16-bit scalars or composites containing 16-bit members.
+ - 16-bit scalars or 16-bit vectors can be used as operands to a width-only conversion
+instruction to a 32-bit type (<<OpFConvert, *OpFConvert*>>, <<OpSConvert, *OpSConvert*>>,
+or <<OpUConvert, *OpUConvert*>>), and can be produced as results of a width-only conversion instruction 
+from a 32-bit type.
+ - A structure containing a 16-bit member can be an operand to <<OpArrayLength, *OpArrayLength*>>.
+ - Any other instructions not explicitly listed by the capabilities or allowed by the validations rules 
+   cannot operate on variables with 16-bit scalar, 16-bit vector, or 16-bit composite types. 
+
+A *FPRoundingMode* decoration can be applied only to:
+
+ - a width-only conversion instruction that is used as the object argument of an
+ <<OpStore, *OpStore*>> storing through a pointer to a 16-bit floating-point
+ object in *Uniform*, or *PushConstant*, or *Input*, or *Output*
+ <<Storage_Class,Storage Classes>>.
+
+Interactions with SPV_KHR_storage_buffer_storage_class
+------------------------------------------------------
+
+If https://gitlab.khronos.org/spirv/spirv-extensions/blob/master/SPV_KHR_uniform_buffer_storage_class.asciidoc[SPV_KHR_uniform_buffer_storage_class] is supported, ::
+
+modify the description of the *StorageUniformBufferBlock16* capability, adding the following sentence to the first paragraph of the description: :::
+
+The object can also be in the *StorageBuffer* <<Storage_Class,Storage Class>> and have any decorations supported for this <<Storage_Class,Storage Class>>.
+
+modify the description of the *StorageUniform16* capability, adding the following sentence to the first paragraph of the description: :::
+
+The object can also be in the *StorageBuffer* <<Storage_Class,Storage Class>> and have any decorations supported for this <<Storage_Class,Storage Class>>.
+
+Modify Section 3.31, Capability, adding the following rows to the Capability table: ::
+
+[options="header"]
+|====
+2+^| Capability ^| Depends On
+| 4433 | *StorageBuffer16BitAccess* +
+Same as *StorageUniformBufferBlock16* |
+| 4434 | *UniformAndStorageBuffer16BitAccess* +
+Same as *StorageUniform16*| *StorageBuffer16BitAccess*
+|====
+
+Issues
+------
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2016-11-22|Alexander Galazin|*Initial revision*
+|2|2016-11-28|Alexander Galazin|*Address first round of feedback*
+|3|2016-12-01|Alexander Galazin|*Removed combined Load/Store and Convert instructions.
+Renamed capabilities and described them in terms of storage classes.*
+|4|2016-12-08|David Neto|*Assigned token numbers*
+|5|2016-12-14|Alexander Galazin| *Renamed the extension. Removed changes to the default rounding modes. Made StorageUniform16 dependent on StorageUniformBufferBlock16*
+|6|2017-02-22|JohnK| *Clarified that conversions for changing width can only change the width, not the fundamental type domain.*
+|7|2017-03-15|Alexander Galazin| *Clarified that FP Rounding mode can be used only if the capabilities from this extension are enabled*
+|8|2017-03-23|Alexander Galazin| Added interactions with *SPV_KHR_uniform_buffer_storage_class*
+|9|2018-06-11|Alexander Galazin| Added clarifications for SPIR-V issue 319
+|========================================

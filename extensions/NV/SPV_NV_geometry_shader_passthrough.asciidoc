@@ -1,0 +1,158 @@
+SPV_NV_geometry_shader_passthrough
+==================================
+
+Name Strings
+------------
+
+SPV_NV_geometry_shader_passthrough
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Daniel Koch, NVIDIA
+
+Status
+------
+
+- Complete
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2017-02-15
+| Revision           | 2
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.1 Revision 4.
+
+This extension requires SPIR-V 1.0.
+
+Overview
+--------
+
+This extension adds a new variable decoration to support the OpenGL
+GL_NV_geometry_shader_passthrough and the Vulkan
+VK_NV_geometry_shader_passthrough extensions in SPIR-V.
+
+The *PassthroughNV* decoration corresponds to the *passthrough* layout qualifier.
+
+The new functionality is enabled under the *GeometryShaderPassthroughNV* capability.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_NV_geometry_shader_passthrough"
+----
+
+New Capabilities
+----------------
+
+This extension introduces a new capability:
+
+----
+GeometryShaderPassthroughNV
+----
+
+that depends on the *Geometry* capability.
+
+New Decorations
+---------------
+
+Decorations added under the *GeometryShaderPassthroughNV* capability
+
+----
+PassthroughNV
+----
+
+New Builtins
+------------
+
+None.
+
+New Instructions
+----------------
+
+None.
+
+Token Number Assignments
+------------------------
+
+[width="40%"]
+[cols="70%,30%"]
+[grid="rows"]
+|====
+|PassthroughNV                | 5250
+|GeometryShaderPassthroughNV  | 5251
+|====
+
+Modifications to the SPIR-V Specification, Version 1.1
+------------------------------------------------------
+(Modify Section 3.20, Decoration, adding a row to the Decoration table) ::
++
+--
+[cols="1^,10,6^,2*2",options="header",width = "100%"]
+|====
+2+^.^| Decoration | <<Capability,Enabling Capabilities>> 2+<.^| Extra Operands
+| 5250 | *PassthroughNV* +
+Apply to an object or a member of a structure type. Indictates a variable that
+is passed through a shader stage unmodified. Only valid for the *Input*
+Storage Class.
+|*GeometryShaderPassthroughNV* 2+|
+|====
+--
+
+(Modify Section 3.31, Capability, adding a row to the Capability table) ::
++
+--
+[cols="1^.^,10,8^,15",options="header",width = "80%"]
+|====
+2+^.^| Capability | Depends On | Enabled by Extension
+| 5251 | *GeometryShaderPassthroughNV* | *Geometry* | *SPV_NV_geometry_shader_passthrough*
+|====
+--
+
+
+Validation Rules
+----------------
+
+An OpExtension must be added to the SPIR-V for validation layers to check
+legal use of this extension:
+
+----
+OpExtension "SPV_NV_geometry_shader_passthrough"
+----
+
+Issues
+------
+
+None yet!
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1 |2016-11-24 |Daniel Koch|*Initial draft*
+|2 |2017-02-15 |Daniel Koch|Mark complete, mention Vulkan extension
+|========================================
+

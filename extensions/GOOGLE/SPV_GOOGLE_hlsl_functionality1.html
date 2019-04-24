@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="generator" content="AsciiDoc 8.6.9">
-<title>SPV_NV_shader_subgroup_partitioned</title>
+<title>SPV_GOOGLE_hlsl_functionality1</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
 
@@ -766,7 +766,7 @@ asciidoc.install(1);
 </head>
 <body class="article">
 <div id="header">
-<h1>SPV_NV_shader_subgroup_partitioned</h1>
+<h1>SPV_GOOGLE_hlsl_functionality1</h1>
 <div id="toc">
   <div id="toctitle">Table of Contents</div>
   <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
@@ -776,14 +776,14 @@ asciidoc.install(1);
 <div class="sect1">
 <h2 id="_name_strings">Name Strings</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>SPV_NV_shader_subgroup_partitioned</p></div>
+<div class="paragraph"><p>SPV_GOOGLE_hlsl_functionality1</p></div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_contact">Contact</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>To report problems with this extension, please open a new issue at:</p></div>
-<div class="paragraph"><p><a href="https://github.com/KhronosGroup/SPIRV-Headers">https://github.com/KhronosGroup/SPIRV-Headers</a></p></div>
+<div class="paragraph"><p>See <strong>Issues</strong> list in the Khronos SPIRV-Headers repository:
+<a href="https://github.com/KhronosGroup/SPIRV-Headers">https://github.com/KhronosGroup/SPIRV-Headers</a></p></div>
 </div>
 </div>
 <div class="sect1">
@@ -792,7 +792,22 @@ asciidoc.install(1);
 <div class="ulist"><ul>
 <li>
 <p>
-Jeff Bolz, NVIDIA
+Hai Nguyen, Google
+</p>
+</li>
+<li>
+<p>
+David Neto, Google
+</p>
+</li>
+<li>
+<p>
+John Kessenich, Google
+</p>
+</li>
+<li>
+<p>
+Lei Zhang, Google
 </p>
 </li>
 </ul></div>
@@ -804,7 +819,7 @@ Jeff Bolz, NVIDIA
 <div class="ulist"><ul>
 <li>
 <p>
-Draft
+Complete
 </p>
 </li>
 </ul></div>
@@ -822,11 +837,11 @@ width:40%;
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2018-03-14</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2018-09-12</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Initial</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
 </tr>
 </tbody>
 </table>
@@ -836,25 +851,23 @@ width:40%;
 <h2 id="_dependencies">Dependencies</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>This extension is written against the SPIR-V Specification,
-Version 1.3 Revision 1.</p></div>
-<div class="paragraph"><p>This extension requires SPIR-V 1.3.</p></div>
-<div class="paragraph"><p>This extension provides SPIR-V support for the GL_NV_shader_subgroup_partitioned
-GLSL extension.</p></div>
+Version 1.2 Revision 4, Unified.</p></div>
+<div class="paragraph"><p>This extension requires SPIR-V 1.0.</p></div>
+<div class="paragraph"><p>This extension also subsumes the SPV_GOOGLE_decorate_string extension.</p></div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_overview">Overview</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>This extension adds new subgroup functionality to support the Vulkan
-GL_NV_shader_subgroup_partitioned GLSL extension.</p></div>
-<div class="paragraph"><p><strong>OpGroupNonUniformPartitionNV</strong> is a new instruction that computes a
-partition (a ballot value indicating which other invocations in the
-subgroup have the same value of the operand).</p></div>
-<div class="paragraph"><p><strong>PartitionedReduceNV</strong>, <strong>PartitionedInclusiveScanNV</strong>, and
-<strong>PartitionedExclusiveScanNV</strong> are new GroupOperation enum values that
-select the partitioned reduce/scan functionality.</p></div>
-<div class="paragraph"><p><strong>GroupNonUniformPartitionedNV</strong> is a capability that indicates a module
-uses these new features.</p></div>
+<div class="paragraph"><p>This extension provides two new decorations to extend HLSL functionality:
+HlslCounterBuffer and HlslSemantic.</p></div>
+<div class="paragraph"><p>The decoration HlslCounterBuffer is used with OpDecorateId to link a counter
+buffer to a UAV resource that has an associated counter.</p></div>
+<div class="paragraph"><p>The decoration HlslSemantic is used with OpDecorateStringGOOGLE and
+OpMemberDeocrateStringGOOGLE to decorate an input or output variable id
+with a string representing semantic as defined in the HLSL source. The
+decoration HlslSemantic can also be used with future string decorations that
+may get added to SPIR-V.</p></div>
 </div>
 </div>
 <div class="sect1">
@@ -864,24 +877,24 @@ uses these new features.</p></div>
 <strong>OpExtension</strong> must be present in the module:</p></div>
 <div class="listingblock">
 <div class="content monospaced">
-<pre>OpExtension "SPV_NV_shader_subgroup_partitioned"</pre>
+<pre>OpExtension "SPV_GOOGLE_hlsl_functionality1"</pre>
 </div></div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_new_capabilities">New Capabilities</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>This extension introduces the following new capabilities:</p></div>
-<div class="listingblock">
-<div class="content monospaced">
-<pre>GroupNonUniformPartitionedNV</pre>
-</div></div>
+<div class="paragraph"><p>None.</p></div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_new_decorations">New Decorations</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>None</p></div>
+<div class="listingblock">
+<div class="content monospaced">
+<pre>HlslCounterBufferGOOGLE
+HlslSemanticGOOGLE</pre>
+</div></div>
 </div>
 </div>
 <div class="sect1">
@@ -893,10 +906,7 @@ uses these new features.</p></div>
 <div class="sect1">
 <h2 id="_new_instructions">New Instructions</h2>
 <div class="sectionbody">
-<div class="listingblock">
-<div class="content monospaced">
-<pre>OpGroupNonUniformPartitionNV</pre>
-</div></div>
+<div class="paragraph"><p>None.</p></div>
 </div>
 </div>
 <div class="sect1">
@@ -904,206 +914,83 @@ uses these new features.</p></div>
 <div class="sectionbody">
 <table class="tableblock frame-all grid-rows"
 style="
-width:75%;
+width:40%;
 ">
-<col style="width:50%;">
-<col style="width:20%;">
+<col style="width:70%;">
 <col style="width:30%;">
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top" > Name                                            </th>
-<th class="tableblock halign-left valign-top" > Value </th>
-<th class="tableblock halign-left valign-top" > Usage</th>
-</tr>
-</thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>GroupNonUniformPartitionedNV</strong></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">5297</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">HlslCounterBufferGOOGLE</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5634</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>OpGroupNonUniformPartitionNV</strong></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">5296</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Opcode</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>PartitionedReduceNV</strong></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">6</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">GroupOperation</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>PartitionedInclusiveScanNV</strong></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">7</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">GroupOperation</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>PartitionedExclusiveScanNV</strong></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">8</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">GroupOperation</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">HlslSemanticGOOGLE</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5635</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_modifications_to_the_spir_v_specification_version_1_3">Modifications to the SPIR-V Specification, Version 1.3</h2>
+<h2 id="_modifications_to_the_spir_v_specification_version_1_0">Modifications to the SPIR-V Specification, Version 1.0</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>(Add to the table in 3.28, Group Operation):</p></div>
-<table class="tableblock frame-all grid-rows"
-style="
-width:100%;
-">
-<col style="width:50%;">
-<col style="width:20%;">
-<col style="width:30%;">
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">6</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>PartitionedReduceNV</strong><br>
-A reduction operation performed across the invocations in a subset of a
-partition value, with a unique value computed for each subset.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>GroupNonUniformPartitionedNV</strong></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">7</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>PartitionedInclusiveScanNV</strong><br>
-An inclusive scan operation performed across the invocations in a subset of a
-partition value, with a unique value computed for each subset.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>GroupNonUniformPartitionedNV</strong></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">8</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>PartitionedExclusiveScanNV</strong><br>
-An exclusive scan operation performed across the invocations in a subset of a
-partition value, with a unique value computed for each subset.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>GroupNonUniformPartitionedNV</strong></p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph"><p>Add:
-"The <em>ballot</em> parameter to the partitioned operations must form a valid
-partition of the active invocations in the subgroup. The values of <em>ballot</em>
-are a valid partition if:</p></div>
-<div class="ulist"><ul>
-<li>
-<p>
-for each active invocation <em>i</em>, the bit corresponding to <em>i</em> is
-    set in <em>i</em>'s value of <em>ballot</em>, and
-</p>
-</li>
-<li>
-<p>
-for any two active invocations <em>i</em> and <em>j</em>, if the bit
-    corresponding to invocation <em>j</em> is set in invocation <em>i</em>'s value
-    of <em>ballot</em>, then invocation <em>j</em>'s value of <em>ballot</em> must equal
-    invocation <em>i</em>'s value of <em>ballot</em>, and
-</p>
-</li>
-<li>
-<p>
-bits not corresponding to any invocation in the subgroup are
-    ignored.
-</p>
-</li>
-</ul></div>
-<div class="paragraph"><p>If two active invocations <em>i</em> and <em>j</em> have the same value of <em>ballot</em>,
-they are said to be "in the same subset of the partition"."</p></div>
 <div class="dlist"><dl>
 <dt class="hdlist1">
-(Modify Section 3.32.21, Group Instructions, adding to the end of the list of instructions) 
+(Modify Section 3.20, Decoration) 
 </dt>
 <dd>
-<div class="openblock">
-<div class="content">
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:9%;">
-<col style="width:9%;">
-<col style="width:27%;">
-<col style="width:27%;">
-<col style="width:27%;">
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top" colspan="4" ><p class="tableblock"><a id="OpGroupNonUniformPartitionNV"></a><strong>OpGroupNonUniformPartitionNV</strong><br>
-<br>
-Computes a ballot result that is a valid partition of the active invocations
-such that all invocations in each subset of the partition have the same value
-of <em>value</em>. For any two invocations in different subsets of the partition,
-either their values of <em>value</em> must not be equal or one must be a floating
-point NaN
-.<br>
-<br>
-<em>Value</em> must be a scalar or vector type.<br>
-<br>
-<em>Result Type</em> must be a 4 component vector of 32 bit integer types.<br>
-<br>
-<em>Result</em> is a set of bitfields where the first invocation is represented
-in bit 0 of the first vector component and the last (up to <strong>SubgroupSize</strong>)
-is the higher bit number of the last bitmask needed to represent all
-bits of the subgroup invocations.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
-<strong>GroupNonUniformPartitionedNV</strong></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">5296</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Value</em></p></td>
-</tr>
-</tbody>
-</table>
-</div></div>
-</dd>
-<dt class="hdlist1">
-(Modify Section 3.32.21, Group Instructions, modify each GroupNonUniformArithmetic instruction) 
-</dt>
-<dd>
-<p>
-Add an optional operand "Optional &lt;id&gt; ballot".
-</p>
 </dd>
 </dl></div>
-<div class="paragraph"><p>Add "If Operation is <strong>PartitionedReduceNV</strong>, <strong>PartitionedInclusiveScanNV</strong>, or
-<strong>PartitionedExclusiveScanNV</strong>, <em>ballot</em> must be specified. <em>ballot</em> specifies
-the partition of invocations to use when computing a partitioned operation."</p></div>
-<div class="paragraph"><p>Add <strong>GroupNonUniformPartitionedNV</strong> to the capability list.</p></div>
-<div class="dlist"><dl>
-<dt class="hdlist1">
-(Modify Section 3.31, Capability, adding new rows to the Capability table) 
-</dt>
-<dd>
-<div class="openblock">
-<div class="content">
 <table class="tableblock frame-all grid-all"
 style="
 width:100%;
 ">
-<col style="width:1%;">
-<col style="width:27%;">
-<col style="width:14%;">
-<col style="width:55%;">
+<col style="width:5%;">
+<col style="width:50%;">
+<col style="width:25%;">
+<col style="width:10%;">
+<col style="width:10%;">
 <thead>
 <tr>
-<th class="tableblock halign-center valign-middle" colspan="2" > Capability </th>
-<th class="tableblock halign-center valign-top" > Depends On </th>
-<th class="tableblock halign-left valign-top" > Enabled by Extension</th>
+<th class="tableblock halign-center valign-middle" colspan="2" > Decoration </th>
+<th class="tableblock halign-left valign-top" > Enabling Capabilities </th>
+<th class="tableblock halign-left valign-middle" colspan="2" > Extra Operands</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-middle" ><p class="tableblock">5301</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>GroupNonUniformPartitionedNV</strong><br>
-Uses partitioned subgroup operations.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>Shader</strong></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>SPV_NV_shader_subgroup_partitioned</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5634</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>HlslCounterBufferGOOGLE</strong><br>
+An &lt;id&gt; of the counter buffer associated with the target buffer.</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+<td class="tableblock halign-left valign-top" colspan="2" ><p class="tableblock"><em>&lt;id&gt;</em><br>
+      Counter Buffer ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5635</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>HlslSemanticGOOGLE</strong><br>
+A string describing the intended use of a value.
+Use this to express user-defined and system semantic values for shaders
+originally written in HLSL. The semantic string is case insensitive.</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+<td class="tableblock halign-left valign-top" colspan="2" ><p class="tableblock"><em>Literal String</em><br>
+      Semantic</p></td>
 </tr>
 </tbody>
 </table>
-</div></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+(Modify Section 3.32 "Instructions") 
+</dt>
+<dd>
+<p>
+In the OpDecorateId instruction&#8217;s Capability box, remove the statement
+"Missing before version 1.2", to allow this instruction to be used with
+this extension. Also, in the description of the OpDecorateId instruction,
+change "All such &lt;id&gt; Extra Operands must be constant instructions." to
+"All such &lt;id&gt; Extra Operands must be constant instructions or the
+result &lt;id&gt; of OpVariable instructions."
+</p>
 </dd>
 </dl></div>
 </div>
@@ -1115,14 +1002,18 @@ Uses partitioned subgroup operations.</p></td>
 legal use of this extension:</p></div>
 <div class="listingblock">
 <div class="content monospaced">
-<pre>OpExtension "SPV_NV_shader_subgroup_partitioned"</pre>
+<pre>OpExtension "SPV_GOOGLE_hlsl_functionality1"</pre>
 </div></div>
+<div class="paragraph"><p>HLSLCounterBuffer can only be applied to a variable in the Uniform storage
+class. The parameter should also be a variable in the Uniform storage class.</p></div>
+<div class="paragraph"><p>HLSLSemantic can only be applied to a variable or a member of a struct type.
+If applied to a variable, it must be in the Input or Output storage class.</p></div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_issues">Issues</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>None.</p></div>
+<div class="paragraph"><p>None yet.</p></div>
 </div>
 </div>
 <div class="sect1">
@@ -1147,9 +1038,33 @@ width:100%;
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2018-03-14</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Jeff Bolz</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2018-02-04</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Hai Nguyen</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Initial draft</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2018-02-16</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Hai Nguyen</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Added GOOGLE suffix, validation rules, and token numbers</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2018-03-16</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Lei Zhang</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Clarified version and extension requirements</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2018-04-13</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Lei Zhang</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Subsumed the SPV_GOOGLE_decorate_string extension</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2018-09-12</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Lei Zhang</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Allowed OpDecorateId to take result &lt;id&gt; of OpVariable</p></td>
 </tr>
 </tbody>
 </table>
@@ -1159,7 +1074,7 @@ width:100%;
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-04-11 09:44:02 MDT
+Last updated 2018-10-01 09:27:07 MDT
 </div>
 </div>
 </body>

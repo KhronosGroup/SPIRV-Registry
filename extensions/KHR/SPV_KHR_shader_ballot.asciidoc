@@ -1,0 +1,368 @@
+SPV_KHR_shader_ballot
+=====================
+
+Name Strings
+------------
+
+SPV_KHR_shader_ballot
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Neil Henning, Codeplay
+- Kerch Holt, NVIDIA
+- John Kessenich, Google
+- Daniel Koch, NVIDIA
+- David Neto, Google
+- Daniel Rakos, AMD
+- Rex Xu, AMD
+
+Notice
+------
+
+Copyright (c) 2016 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+Status
+------
+
+- Complete
+- Approved by the SPIR Working Group: 2016-07-12
+- Ratified by the Khronos Board: 2016-09-02
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2016-10-18
+| Revision           | 11
+|========================================
+
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.1 Revision 1.
+
+This extension requires SPIR-V 1.0.
+
+Overview
+--------
+
+This extension provides new builtin variable decorations and instructions
+to support the OpenGL GL_ARB_shader_ballot extension in SPIR-V.
+
+Unlike GL_ARB_shader_ballot the SPIR-V extension does not depend on
+GL_ARB_shader_gpu_int64 because the types representing subgroup IDs
+are held in a 4 component vector of integers.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, OpExtension
+"SPV_KHR_shader_ballot", must be present in the module:
+
+----
+OpExtension "SPV_KHR_shader_ballot"
+----
+
+New Capabilities
+----------------
+
+This extension introduces a new capability.
+
+----
+SubgroupBallotKHR
+----
+
+New Builtins
+------------
+
+Builtin variables provide a bitmask for invocations.
+
+----
+SubgroupEqMaskKHR
+SubgroupGeMaskKHR
+SubgroupGtMaskKHR
+SubgroupLeMaskKHR
+SubgroupLtMaskKHR
+----
+
+New Instructions
+----------------
+
+Instructions added under *SubgroupBallotKHR* capability.
+
+----
+OpSubgroupBallotKHR
+OpSubgroupFirstInvocationKHR
+OpSubgroupReadInvocationKHR
+----
+
+Token Number Assignments
+------------------------
+
+[width="40%"]
+[cols="70%,30%"]
+[grid="rows"]
+|====
+|SubgroupEqMaskKHR|4416
+|SubgroupGeMaskKHR|4417
+|SubgroupGtMaskKHR|4418
+|SubgroupLeMaskKHR|4419
+|SubgroupLtMaskKHR|4420
+|OpSubgroupBallotKHR|4421
+|OpSubgroupFirstInvocationKHR|4422
+|SubgroupBallotKHR|4423
+|OpSubgroupReadInvocationKHR|4432
+|====
+
+Modifications to the SPIR-V Specification, Version 1.1
+------------------------------------------------------
+
+(Modify Section 3.21, *BuiltIn*) ::
++
+--
+(add the following new builtins to the table) ::
++
+--
+[cols="1^.^,20,8^",options="header",width = "90%"]
+|====
+2+^.^| BuiltIn| Enabling Capabilities
+| 4416 | *SubgroupEqMaskKHR* +
+Provides a 4 component 32 bit integer vector bitmask
+for all invocations with one bit per invocation starting with the
+least significant bit in the first vector component continuing to
+the last bit (less than *SubgroupSize*) in the last required vector
+component where the bit index is *equal to SubgroupLocalInvocationId*.
+| *SubgroupBallotKHR*
+| 4417 | *SubgroupGeMaskKHR* +
+Provides a 4 component 32 bit integer vector bitmask
+for all invocations with one bit per invocation starting with the
+least significant bit in the first vector component continuing to
+the last bit (less than *SubgroupSize*) in the last required vector
+component where the bit index is *greater than or equal to
+SubgroupLocalInvocationId*.
+| *SubgroupBallotKHR*
+| 4418 | *SubgroupGtMaskKHR* +
+Provides a 4 component 32 bit integer vector bitmask
+for all invocations with one bit per invocation starting with the
+least significant bit in the first vector component continuing to
+the last bit (less than *SubgroupSize*) in the last required vector
+component where the bit index is *greater than
+SubgroupLocalInvocationId*.
+| *SubgroupBallotKHR*
+| 4419 | *SubgroupLeMaskKHR* +
+Provides a 4 component 32 bit integer vector bitmask
+for all invocations with one bit per invocation starting with the
+least significant bit in the first vector component continuing to
+the last bit (less than *SubgroupSize*) in the last required vector
+component where the bit index is *less than or equal to
+SubgroupLocalInvocationId*.
+| *SubgroupBallotKHR*
+| 4420 | *SubgroupLtMaskKHR* +
+Provides a 4 component 32 bit integer vector bitmask
+for all invocations with one bit per invocation starting with the
+least significant bit in the first vector component continuing to
+the last bit (less than *SubgroupSize*) in the last required vector
+component where the bit index is *less than SubgroupLocalInvocationId*.
+| *SubgroupBallotKHR*
+|====
+--
+
+(Add the *SubgroupBallotKHR* capability to *SubgroupSize*.)
+
+(Add the *SubgroupBallotKHR* capability to *SubgroupLocalInvocationId*.)
+
+--
+
+(Modify Section 3.31, Capability, adding a row to the Capability table) ::
++
+--
+[cols="1^.^,10,8^",options="header",width = "80%"]
+|====
+2+^.^| Capability| Depends On
+| 4423 | *SubgroupBallotKHR* |    |
+|====
+
+--
+
+(Modify Section 3.32.21, Group Instructions, adding to the end of the list of instructions) ::
++
+--
+[cols="1,1,3*3",width="100%"]
+|=====
+4+|[[OpSubgroupBallotKHR]]*OpSubgroupBallotKHR* +
+ +
+Computes a bitfield value combining the _Predicate_ value from all
+invocations in the current *Subgroup* that execute the same dynamic
+instance of this instruction. The bit is set to one if the corresponding
+invocation is active and the predicate is evaluated to true; otherwise,
+it is set to zero. +
+ +
+'Predicate' must be a 'Boolean type'. +
+ +
+'Result Type' must be a 4 component vector of 32 bit integer types. +
+ +
+'Result' is a set of bitfields where the first invocation is represented
+in bit 0 of the first vector component and the last (up to *SubgroupSize*)
+is the higher bit number of the last bitmask needed to represent all
+bits of the subgroup invocations.
+1+|Capability: +
+*SubgroupBallotKHR*
+| 4 | 4421 | '<id>' 'Result Type' | '<id>' 'Result' |  '<id>' 'Predicate'
+|=====
+
+[cols="1,1,3*3",width="100%"]
+|=====
+4+|[[OpSubgroupFirstInvocationKHR]]*OpSubgroupFirstInvocationKHR* +
+ +
+Return the _Value_ from the invocation in the current subgroup which has the
+lowest subgroup local invocation ID, and which executes the same dynamic
+instance of this instruction. +
+ +
+The type of 'Value' must be the same as 'Result Type'. +
+ +
+'Result Type' must be a 32-bit integer type or a 32-bit float type scalar. +
+1+|Capability: +
+*SubgroupBallotKHR*
+| 4 | 4422 | '<id>' 'Result Type' | '<id>' 'Result' |  '<id>' 'Value'
+|=====
+
+[cols="1,1,4*3",width="100%"]
+|=====
+5+|[[OpSubgroupReadInvocationKHR]]*OpSubgroupReadInvocationKHR* +
+ +
+Return the _Value_ from the invocation in the subgroup with an invocation ID
+equal to _Index_. The _Index_ must be the same for all active invocations in 
+the subgroup, otherwise the results are undefined. +
+ +
+The type of 'Value' must be the same as 'Result Type'. +
+ +
+'Result Type' must be a 32-bit integer type or a 32-bit float type scalar. +
+1+|Capability: +
+*SubgroupBallotKHR*
+| 5 | 4432 | '<id>' 'Result Type' | '<id>' 'Result' |  '<id>' 'Value' | '<id>' 'Index'
+|=====
+--
+
+Validation Rules
+----------------
+
+None.
+
+Issues
+------
+
+. The subgroup mask is specified as a 64 bit integer type which
+may artificially limit the number of subgroups.
++
+--
+*RESOLVED*: Result type and masks now changed to 4 component vector of
+32 bit integers.
+--
+
+. How are the values of Subgroup??MaskKHR defined?
++
+--
+*RESOLVED*: Earlier versions of this specification defined a bitmask such as
+"LtMask" ("less than mask") as having bits set if *SubgroupLocalInvocationId* <
+bit index. However, this was reversed relative to the Vulkan extension and to
+the GL_ARB_shader_ballot extension (see issue 1 of that spec). Fortunately, all
+known implementations of this extension had implemented "wrong" behavior so the
+best thing to do is change the definition in the spec.
+--
+
+. Should these instructions have a *scope* of *Subgroup* instead
+of limiting them to a set of sub-groups?
++
+--
+*RESOLVED*: The scope is *Subgroup* (SPIR-V WG 6/28/2016)
+--
+
+. The functionality for readInvocationARB is presumed to be
+supported through the OpGroupBroadcast with Subgroup scope.
++
+--
+*RESOLVED*: The use of OpGroupBroadcast is sufficient (SPIR-V WG 6/28/2016)
+*RE-RESOLVED*: OpGroupBroadcast has a different semantic than what is 
+precisely desired. readInvocationARB may appear in dynamically non-uniform
+control flow paths and doesn't have a scope. Concluded that a new
+instruction is required.
+(SPIR-V WG 10/18/2016)
+--
+
+. The GL_ARB_shader_ballot extension calls out explicitly a dependency
+on the int64 bit type. Does this dependency need to be called out?
++
+--
+*RESOLVED*: Result type and mask type changed to 4 component vector and
+thus removes dependency on GL_ARB_shader_gpu_int64.
+--
+
+. GL_ARB_shader_ballot allows calls to ballotARB in control flow so the
+semantics of *subgroup* may be different than the current SPIR-V
+definition of *subgroup*.
++
+--
+*RESOLVED*: (Paraphrasing David Neto) A "lockstep" concept of execution
+is replaced by use of the concept of "dynamic instance" (already in the
+SPIR-V spec), and subgroups. This doesn't force B=D in the following
+example. It does not define pair-wise reconvergence of invocations in
+the absence of completely uniform control flow.
+
+----
+void foo() {
+  const bool odd = gl_VertexID & 1;
+  const bool odd2 = gl_VertexID & 2;
+
+  uint64_t A = 0;
+  uint64_t B = 0;
+  uint64_t C = 0;
+  uint64_t D = 0;
+  uint64_t E = 0;
+
+  A = ballotARB(true)
+  if (odd) {
+    B = ballotARB(true);
+    if (odd2) {
+      C = ballotARB(true);
+    }
+    D = ballotARB(true);
+  }
+  E = ballotARB(true);
+}
+----
+--
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2016-05-10|Kerch Holt|*Initial revision*
+|2|2016-05-17|Kerch Holt|Changes as per SPIR-V WG May 17th
+|3|2016-05-24|Kerch Holt|Change result type and mask type to 4 component int 32 vector
+|4|2016-06-08|Kerch Holt|Change names to include "KHR" and update to include suggestions from reviews and SPIR-V WG.
+|5|2016-06-28|Kerch Holt|Filled in the remaining "UNRESOLVED" text as per SPIR-V WG. Added token number assignments
+|6|2016-08-02|Kerch Holt|Added wording to cover case of bit values for inactive invocations.
+|7|2016-09-02|Kerch Holt|Added token number for ShaderBallot capability.
+|8|2016-09-06|David Neto|Rename SubgroupBallot capability to SubgroupBallotKHR
+|9|2016-09-13|Kerch Holt|Changed status to "ratified" with date
+|10|2016-09-20|Daniel Koch| Improve formatting, use ISO dates, remove extension number
+|11|2016-10-18|Kerch Holt| Add instruction for readInvocationARB (as per Oct 18th SPIR-V meeting)
+|12|2018-03-15|Graeme Leese|Correct definition of mask builtins.
+|========================================
+

@@ -1,0 +1,180 @@
+SPV_NVX_multiview_per_view_attributes
+=====================================
+
+Name Strings
+------------
+
+SPV_NVX_multiview_per_view_attributes
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Jeff Bolz, NVIDIA
+
+Status
+------
+
+- Complete
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2017-02-20
+| Revision           | 2
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.1 Revision 4.
+
+This extension requires SPIR-V 1.0.
+
+Overview
+--------
+
+This extension adds a new capability to support the Vulkan
+VK_NVX_multiview_per_view_attributes extension in SPIR-V.
+
+The new *PerViewAttributesNV* capability adds two builtin variables,
+*PositionPerViewNV* and *ViewportMaskPerViewNV*, which can be
+exported from Vertex, Tessellation, or Geometry shaders.
+*PositionPerViewNV* can be imported to Tessellation or Geometry shaders.
+
+The *PositionPerViewNV* builtin decoration corresponds to the
+*gl_PositionPerViewNV[]* array in GLSL and is used to specify
+per-view positions.
+
+The *ViewportMaskPerViewNV* builtin decoration corresponds to the
+*gl_ViewportMaskPerViewNV[]* array in GLSL and is used to specify
+the per-view viewport masks.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_NVX_multiview_per_view_attributes"
+----
+
+New Capabilities
+----------------
+
+This extension introduces a new capability:
+
+----
+PerViewAttributesNV
+----
+
+New Decorations
+---------------
+
+None.
+
+New Builtins
+------------
+
+Two new builtins are added as outputs for the *Vertex*, *Tessellation*
+and *Geometry* Execution Models under the *PerViewAttributesNV* capability:
+
+----
+PositionPerViewNV
+ViewportMaskPerViewNV
+----
+
+*PositionPerViewNV* can also be used as an input for the *Tesselation* and
+*Geometry* Execution Models.
+
+New Instructions
+----------------
+
+None.
+
+Token Number Assignments
+------------------------
+
+[width="40%"]
+[cols="70%,30%"]
+[grid="rows"]
+|====
+|PerViewAttributesNV         | 5260
+|PositionPerViewNV           | 5261
+|ViewportMaskPerViewNV       | 5262
+|====
+
+Modifications to the SPIR-V Specification, Version 1.1
+------------------------------------------------------
+(Modify Section 3.21, BuiltIn) ::
++
+--
+
+(add two new rows to the BuiltIn table)
+
+[cols="1^.^,20,8^",options="header",width = "90%"]
+|====
+2+^.^| BuiltIn| Enabling Capabilities
+| 5261 | *PositionPerViewNV* +
+Output vertex position for each view in *Vertex*, *Tessellation*, or
+*Geometry* Execution Model, and input position for each view in
+*Tessellation* and *Geometry* Execution Models. See Vulkan API
+specification for more detail.
+| *PerViewAttributesNV*
+| 5262 | *ViewportMaskPerViewNV* +
+Output viewport mask for each view in *Vertex*, *Tessellation*, or *Geometry*
+Execution Model. See Vulkan API specification for more detail.
+| *PerViewAttributesNV*
+|====
+--
+
+
+(Modify Section 3.31, Capability, add a new row to the Capability table) ::
++
+--
+[cols="1^.^,10,8^,15",options="header",width = "80%"]
+|====
+2+^.^| Capability | Depends On | Enabled by Extension
+| 5260 | *PerViewAttributesNV* | *MultiView*
+| *SPV_NVX_multiview_per_view_attributes*
+|====
+--
+
+
+Validation Rules
+----------------
+
+An OpExtension must be added to the SPIR-V for validation layers to check
+legal use of this extension:
+
+----
+OpExtension "SPV_NVX_multiview_per_view_attributes"
+----
+
+Issues
+------
+
+None yet!
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1 |2017-02-01 |Jeff Bolz|*Initial draft*
+|2 |2017-02-20 |Jeff Bolz|Mark complete.
+|========================================
+

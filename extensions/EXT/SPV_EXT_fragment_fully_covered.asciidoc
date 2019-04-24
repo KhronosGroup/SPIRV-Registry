@@ -1,0 +1,150 @@
+SPV_EXT_fragment_fully_covered
+==============================
+
+Name Strings
+------------
+
+SPV_EXT_fragment_fully_covered
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Piers Daniell, NVIDIA
+- Daniel Koch, NVIDIA
+
+Status
+------
+
+Complete
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2017-07-07
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.2 Revision 1.
+
+This extension requires SPIR-V 1.0.
+
+Overview
+--------
+
+This extension provides a new built-in variable *FullyCoveredEXT* in SPIR-V.
+
+The new functionality is enabled under the *FragmentFullyCoveredEXT* capability.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_EXT_fragment_fully_covered"
+----
+
+New Capabilities
+----------------
+
+This extension introduces a new capability:
+
+----
+FragmentFullyCoveredEXT
+----
+
+
+New Builtins
+------------
+
+Builtin IDs added:
+
+----
+FullyCoveredEXT
+----
+
+New Instructions
+----------------
+
+None.
+
+
+Token Number Assignments
+------------------------
+
+[width="40%"]
+[cols="70%,30%"]
+[grid="rows"]
+|====
+|FullyCoveredEXT|5264
+|FragmentFullyCoveredEXT|5265
+|====
+
+Modifications to the SPIR-V Specification, Version 1.2
+------------------------------------------------------
+
+(Modify Section 3.21, *BuiltIn* to include new builtins) ::
++
+--
+[cols="1^.^,20,8^",options="header",width = "80%"]
+|====
+2+^.^| BuiltIn| Required Capability
+| 5264 | *FullyCoveredEXT* +
+Rasterized fragment is fully covered by the generating primitive.
+Input to the *Fragment* Execution Model.
+See Vulkan EXT_conservative_rasterization extension for more detail.
+| *FragmentFullyCoveredEXT*
+|====
+--
+
+(Modify Section 3.31, *Capability*, adding a row to the Capability table) ::
++
+--
+[cols="1^.^,10,12,8^",options="header",width = "80%"]
+|====
+2+^.^| Capability| Depends On | Enabled by Extension
+| 5265 | *FragmentFullyCoveredEXT* |  *Shader*  | SPV_EXT_fragment_fully_covered
+|====
+
+--
+
+Validation Rules
+----------------
+
+An *OpExtension* must be added to the SPIR-V for validation layers to check
+legal use of this extension:
+
+----
+OpExtension "SPV_EXT_fragment_fully_covered"
+----
+
+Issues
+------
+
+None.
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2017-07-07|Daniel Koch|*Initial revision*
+|========================================
+
