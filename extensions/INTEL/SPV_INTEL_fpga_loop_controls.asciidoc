@@ -29,7 +29,7 @@ Final draft
 [width="40%",cols="25,25"]
 |========================================
 | Last Modified Date | {docdate}
-| Revision           | A
+| Revision           | B
 |========================================
 
 == Dependencies
@@ -41,7 +41,7 @@ This extension requires SPIR-V 1.0.
 
 == Overview
 
-This extension adds a mechanism to allow more than the current limit of 32 loop controls.  It uses that new mechanism to add new loop controls for FPGA targets.
+This extension adds a mechanism to annotate vendor extension loop controls without allocation of a bit in the loop control bitfield, or an extended version of the bitfield, for each vendor control.  The new mechanism is used to add additional loop controls for FPGA targets.  These new loop controls may eventually be migrated to formal bitfield locations if deemed useful more broadly, either through Khronos mechanisms, or through a revision of this extension.
 
 == Extension Name
 To use this extension within a SPIR-V module, the following *OpExtension* must be present in the module:
@@ -132,5 +132,6 @@ None.
 |========================================
 |Rev|Date|Author|Changes
 |A|2019-05-06|Joe Garvey|*Initial public release*
+|B|2019-05-07|Michael Kinsner|Update overview wording
 |======================================== 
 

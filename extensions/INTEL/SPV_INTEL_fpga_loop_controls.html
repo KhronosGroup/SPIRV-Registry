@@ -481,7 +481,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="_status">Status</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Draft</p>
+<p>Final draft</p>
 </div>
 </div>
 </div>
@@ -496,11 +496,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2019-05-06</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2019-05-07</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">B</p></td>
 </tr>
 </tbody>
 </table>
@@ -522,7 +522,7 @@ Version 1.3 Revision 6.</p>
 <h2 id="_overview">Overview</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This extension adds a mechanism to allow more than the current limit of 32 loop controls.  It uses that new mechanism to add new loop controls for FPGA targets.</p>
+<p>This extension adds a mechanism to annotate vendor extension loop controls without allocation of a bit in the loop control bitfield, or an extended version of the bitfield, for each vendor control.  The new mechanism is used to add additional loop controls for FPGA targets.  These new loop controls may eventually be migrated to formal bitfield locations if deemed useful more broadly, either through Khronos mechanisms, or through a revision of this extension.</p>
 </div>
 </div>
 </div>
@@ -566,7 +566,7 @@ Version 1.3 Revision 6.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">5888</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">InitiationIntervalIntel</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">InitiationIntervalINTEL</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">5889</p></td>
 </tr>
 <tr>
@@ -637,7 +637,7 @@ Indicates that there will follow a sequence of additional loop control and loop 
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">5889</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>InitiationIntervalIntel</strong><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>InitiationIntervalINTEL</strong><br>
 Strong request, to the extent possible, to implement this loop with an initiation interval specified as a subsequent literal-number operand to the instruction.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Literal Number<br>
 <em>II</em></p></td>
@@ -729,9 +729,15 @@ For each variable an &lt;id&gt; and literal number pair are provided indicating 
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2019-04-22</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2019-05-06</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Joe Garvey</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Initial public release</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">B</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2019-05-07</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Michael Kinsner</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Update overview wording</p></td>
 </tr>
 </tbody>
 </table>
@@ -740,7 +746,7 @@ For each variable an &lt;id&gt; and literal number pair are provided indicating 
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-05-06 15:19:43 EDT
+Last updated 2019-05-07 08:34:55 EDT
 </div>
 </div>
 </body>
