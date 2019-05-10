@@ -127,7 +127,7 @@ Allow this new functionality... |
 |======
 5+|[[OpUCountLeadingZeros]]*OpUCountLeadingZeros* +
  +
-Returns the number of leading 0-bits, stating at the most significant bit, in the binary representation of value.  If value is zero, the size in bits of the type of value or component type of value, if value is a vector will be returned. +
+Returns the number of leading 0-bits, starting at the most significant bit, in the binary representation of value.  If value is zero, the size in bits of the type of value or component type of value (if value is a vector) will be returned. +
  +
 'Result Type' must be  a scalar or vector of <<Integer,'integer type'>>, whose 'Width' operand is 32 and whose 'Signedness' operand is 0. +
  +
@@ -142,7 +142,7 @@ Operand'
 |======
 5+|[[OpUCountTrailingZeros]]*OpUCountTrailingZeros* +
  +
-Returns the number of trailing 0-bits, stating at the least significant bit, in the binary representation of value.  If value is zero, the size in bits of the type of value or component type of value, if value is a vector will be returned. +
+Returns the number of trailing 0-bits, starting at the least significant bit, in the binary representation of value.  If value is zero, the size in bits of the type of value or component type of value (if value is a vector) will be returned. +
  +
 'Result Type' must be  a scalar or vector of <<Integer,'integer type'>>, whose 'Width' operand is 32 and whose 'Signedness' operand is 0. +
  +
@@ -163,7 +163,7 @@ Returns \|x - y\| clamped to the range of 'Result Type' (instead of modulo overf
  +
 The type of 'Operand 1' and 'Operand 2' must be a scalar or vector of <<Integer,'integer type'>>. They must have the same number of components as 'Result Type'. They must have the same component width as 'Result Type'.
 
-| 5 | 5587 '<id>' +
+| 5 | 5587 | '<id>' +
 'Result Type' | 'Result <id>' | '<id> +
 Operand 1' | '<id> +
 Operand 2'
