@@ -792,7 +792,12 @@ asciidoc.install(1);
 <div class="ulist"><ul>
 <li>
 <p>
-Ian Romanick, Intel
+Ian Romanick, Intel<br>
+</p>
+</li>
+<li>
+<p>
+Ben Ashbaugh, Intel
 </p>
 </li>
 </ul></div>
@@ -1034,7 +1039,7 @@ width:100%;
 <tr>
 <td class="tableblock halign-left valign-top" colspan="5" ><p class="tableblock"><a id="OpUCountLeadingZeros"></a><strong>OpUCountLeadingZeros</strong><br>
 <br>
-Returns the number of leading 0-bits, stating at the most significant bit, in the binary representation of value.  If value is zero, the size in bits of the type of value or component type of value, if value is a vector will be returned.<br>
+Returns the number of leading 0-bits, starting at the most significant bit, in the binary representation of value.  If value is zero, the size in bits of the type of value or component type of value (if value is a vector) will be returned.<br>
 <br>
 <em>Result Type</em> must be  a scalar or vector of <a href="#Integer"><em>integer type</em></a>, whose <em>Width</em> operand is 32 and whose <em>Signedness</em> operand is 0.<br>
 <br>
@@ -1064,7 +1069,7 @@ width:100%;
 <tr>
 <td class="tableblock halign-left valign-top" colspan="5" ><p class="tableblock"><a id="OpUCountTrailingZeros"></a><strong>OpUCountTrailingZeros</strong><br>
 <br>
-Returns the number of trailing 0-bits, stating at the least significant bit, in the binary representation of value.  If value is zero, the size in bits of the type of value or component type of value, if value is a vector will be returned.<br>
+Returns the number of trailing 0-bits, starting at the least significant bit, in the binary representation of value.  If value is zero, the size in bits of the type of value or component type of value (if value is a vector) will be returned.<br>
 <br>
 <em>Result Type</em> must be  a scalar or vector of <a href="#Integer"><em>integer type</em></a>, whose <em>Width</em> operand is 32 and whose <em>Signedness</em> operand is 0.<br>
 <br>
@@ -1100,6 +1105,17 @@ Returns |x - y| clamped to the range of <em>Result Type</em> (instead of modulo 
 <em>Result Type</em> must be  a scalar or vector of <a href="#Integer"><em>integer type</em></a>, whose <em>Signedness</em> operand is 0.<br>
 <br>
 The type of <em>Operand 1</em> and <em>Operand 2</em> must be a scalar or vector of <a href="#Integer"><em>integer type</em></a>. They must have the same number of components as <em>Result Type</em>. They must have the same component width as <em>Result Type</em>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5587</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>Result &lt;id&gt;</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;<br>
+Operand 1</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;<br>
+Operand 2</em></p></td>
 </tr>
 </tbody>
 </table>
@@ -1516,7 +1532,7 @@ width:100%;
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2019-04-23 18:10:22 PDT
+ 2019-05-09 22:15:20 PDT
 </div>
 </div>
 </body>
