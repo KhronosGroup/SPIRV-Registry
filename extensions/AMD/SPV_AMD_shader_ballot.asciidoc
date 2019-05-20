@@ -1,4 +1,4 @@
-SPIR-V Extension SPV_AMD_shader_ballot
+﻿SPIR-V Extension SPV_AMD_shader_ballot
 ======================================
 
 Name Strings
@@ -42,7 +42,7 @@ Revision:      6
 Dependencies
 ------------
 
-This extension is written against Revision 1 of the version 1.1 of the
+This extension is written against Revision 1 of the version 1.10 of the
 SPIR-V Specification.
 
 The extension is written against Revision 1 of the OpenGL extension
@@ -92,9 +92,17 @@ WriteInvocationAMD = 3
 MbcntAMD = 4
 ----
 
-To use the new core and extended instructions, declare:
+To use the new core instructions, declare:
 
 ---------------------------------------------------------------
+OpCapability Groups
+OpExtension "SPV_AMD_shader_ballot"
+---------------------------------------------------------------
+
+To use the new extended instructions, declare:
+
+---------------------------------------------------------------
+OpExtension "SPV_AMD_shader_ballot"
 OpExtInstImport %ext "SPV_AMD_shader_ballot"
 ---------------------------------------------------------------
 
@@ -465,11 +473,11 @@ MbcntAMD
 Returns the bit count of SubgroupLtMaskARB with <mask> as described below:
 
 ----
-%X = OpBitwiseAnd u64 %SubgroupLtMaskARB %mask
-<Result> = OpBitCount u64 %X
+%X = OpBitwiseAnd u32 %SubgroupLtMaskARB %mask
+<Result> = OpBitCount u32 %X
 ----
 
-Result Type and mask must be 64-bit unsigned integers.
+Result Type and mask must be 32-bit unsigned integers.
 
 ----
 4 | <id> mask
@@ -507,4 +515,5 @@ Revision History
 |4|August 11, 2016|Rex Xu|Add new core instructions to handle group operations placed with non-uniform control flow.
 |5|October 13, 2016|Dominik Witczak|Added missing numerical value assignments, removed extension number
 |6|March 28, 2018|Dominik Witczak|Generalized type restrictions for result types of group operation instructions to integer types. Added issue#1.
+|7|May 16, 2019|Dominik Witczak|Fixed an issue in the section describing how to use the new functionality. Fixed MbcntAMD's return type.
 |========================================
