@@ -496,11 +496,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2019-05-07</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2019-06-02</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">B</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C</p></td>
 </tr>
 </tbody>
 </table>
@@ -511,7 +511,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sectionbody">
 <div class="paragraph">
 <p>This extension is written against the SPIR-V Specification,
-Version 1.3 Revision 6.</p>
+Version 1.4 Revision 1.</p>
 </div>
 <div class="paragraph">
 <p>This extension requires SPIR-V 1.0.</p>
@@ -522,7 +522,7 @@ Version 1.3 Revision 6.</p>
 <h2 id="_overview">Overview</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This extension adds a mechanism to annotate vendor extension loop controls without allocation of a bit in the loop control bitfield, or an extended version of the bitfield, for each vendor control.  The new mechanism is used to add additional loop controls for FPGA targets.  These new loop controls may eventually be migrated to formal bitfield locations if deemed useful more broadly, either through Khronos mechanisms, or through a revision of this extension.</p>
+<p>This extension introduces additional loop controls for FPGA targets.</p>
 </div>
 </div>
 </div>
@@ -565,29 +565,17 @@ Version 1.3 Revision 6.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">FPGALoopControlsINTEL</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">5888</p></td>
 </tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">InitiationIntervalINTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5889</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">MaxConcurrencyINTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5890</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">DependencyArrayINTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5891</p></td>
-</tr>
 </tbody>
 </table>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_modifications_to_the_spir_v_specification_version_1_3">Modifications to the SPIR-V Specification, Version 1.3</h2>
+<h2 id="_modifications_to_the_spir_v_specification_version_1_4">Modifications to the SPIR-V Specification, Version 1.4</h2>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_loop_control">Loop Control</h3>
 <div class="paragraph">
-<p>In section 3.23, Loop Control, add the following entry to the table:</p>
+<p>In section 3.23, Loop Control, add the following entries to the table:</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -597,70 +585,26 @@ Version 1.3 Revision 6.</p>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0x80000000</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>ExtendedControls</strong><br>
-Indicates that there will follow a sequence of additional loop control and loop control parameter pairs.  The parameters for these additional loop controls are documented in Section 3.23.1.</p></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top" colspan="2"><p class="tableblock"><strong>Loop Control</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Enabling Capabilities</strong></p></td>
 </tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>At the end of the section add a new sub-section as follows:</p>
-</div>
-<div class="paragraph">
-<p><strong>3.23.1 Extended Loop Controls</strong></p>
-</div>
-<div class="paragraph">
-<p>Used by:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>OpLoopMerge</strong></p>
-</li>
-</ul>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<thead>
 <tr>
-<th class="tableblock halign-center valign-top" colspan="2"><strong>Loop Control</strong></th>
-<th class="tableblock halign-left valign-top"><strong>Extra Operands</strong></th>
-<th class="tableblock halign-left valign-top"><strong>Enabling Capabilities</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5889</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0x10000</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>InitiationIntervalINTEL</strong><br>
 Strong request, to the extent possible, to implement this loop with an initiation interval specified as a subsequent literal-number operand to the instruction.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Literal Number<br>
-<em>II</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGALoopControlsINTEL</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5890</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0x20000</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MaxConcurrencyINTEL</strong><br>
 Strong request, to the extent possible, to allow no more than a fixed number of threads or loop iterations to execute the loop concurrently as specified by a subsequent literal-number operand to the instruction.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Literal Number<br>
-<em>Maximum Concurrency</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGALoopControlsINTEL</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5891</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0x40000</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>DependencyArrayINTEL</strong><br>
 Guarantees that there are no dependencies on a particular variable between a number of loop iterations.
-Can be applied to multiple variables, the number of which is specified as a subsequent literal-number operand to the instruction.
-For each variable an &lt;id&gt; and literal number pair are provided indicating the variable and number of loop iterations. A number of loop iterations of 0 indicates that there are no loop-carried dependences on that variable.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Literal Number,<br>
-&lt;id&gt;, Literal Number, &lt;id&gt;, Literal Number, &#8230;&#8203;
-<em>Number of Variables</em>,<br>
-<em>Variable</em>, <em>Length</em>, <em>Variable</em>, <em>Length</em> &#8230;&#8203;</p></td>
+Can be applied to multiple variables, the number of which is specified as a subsequent literal-number operand to the instruction. Following that, for each variable, an &lt;id&gt; and literal number pair are provided indicating the variable and number of loop iterations. A number of loop iterations of 0 indicates that there are no loop-carried dependences on that variable.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGALoopControlsINTEL</strong></p></td>
 </tr>
 </tbody>
@@ -739,6 +683,12 @@ For each variable an &lt;id&gt; and literal number pair are provided indicating 
 <td class="tableblock halign-left valign-top"><p class="tableblock">Michael Kinsner</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Update overview wording</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2019-06-02</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Michael Kinsner</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use loop control bits directly, as allocated in SPIRV-Headers spir-v.xml</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -746,7 +696,7 @@ For each variable an &lt;id&gt; and literal number pair are provided indicating 
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-05-07 08:34:55 EDT
+Last updated 2019-06-02 13:19:57 EDT
 </div>
 </div>
 </body>

@@ -29,19 +29,19 @@ Final draft
 [width="40%",cols="25,25"]
 |========================================
 | Last Modified Date | {docdate}
-| Revision           | B
+| Revision           | C
 |========================================
 
 == Dependencies
 
 This extension is written against the SPIR-V Specification,
-Version 1.3 Revision 6.
+Version 1.4 Revision 1.
 
 This extension requires SPIR-V 1.0.
 
 == Overview
 
-This extension adds a mechanism to annotate vendor extension loop controls without allocation of a bit in the loop control bitfield, or an extended version of the bitfield, for each vendor control.  The new mechanism is used to add additional loop controls for FPGA targets.  These new loop controls may eventually be migrated to formal bitfield locations if deemed useful more broadly, either through Khronos mechanisms, or through a revision of this extension.
+This extension introduces additional loop controls for FPGA targets.
 
 == Extension Name
 To use this extension within a SPIR-V module, the following *OpExtension* must be present in the module:
@@ -64,46 +64,22 @@ FPGALoopControlsINTEL
 [grid="rows"]
 |====
 |FPGALoopControlsINTEL  |5888
-|InitiationIntervalINTEL|5889
-|MaxConcurrencyINTEL|5890
-|DependencyArrayINTEL   |5891
 |====
 
-== Modifications to the SPIR-V Specification, Version 1.3
+== Modifications to the SPIR-V Specification, Version 1.4
 
 === Loop Control
-In section 3.23, Loop Control, add the following entry to the table:
+In section 3.23, Loop Control, add the following entries to the table:
 
-|=====
-| 0x80000000 | *ExtendedControls* +
-Indicates that there will follow a sequence of additional loop control and loop control parameter pairs.  The parameters for these additional loop controls are documented in Section 3.23.1. |
-|=====
-
-At the end of the section add a new sub-section as follows:
-
-*3.23.1 Extended Loop Controls*
-
-Used by:
-
-* *OpLoopMerge*
-
-[options="header"]
-[cols=4]
 |====
-2+^| *Loop Control* | *Extra Operands* | *Enabling Capabilities*
-| 5889 | *InitiationIntervalINTEL* +
-Strong request, to the extent possible, to implement this loop with an initiation interval specified as a subsequent literal-number operand to the instruction. | Literal Number +
-_II_ | *FPGALoopControlsINTEL*
-| 5890 | *MaxConcurrencyINTEL* +
-Strong request, to the extent possible, to allow no more than a fixed number of threads or loop iterations to execute the loop concurrently as specified by a subsequent literal-number operand to the instruction. | Literal Number +
-_Maximum Concurrency_ | *FPGALoopControlsINTEL*
-| 5891 | *DependencyArrayINTEL* +
+2+^| *Loop Control* | *Enabling Capabilities*
+| 0x10000 | *InitiationIntervalINTEL* +
+Strong request, to the extent possible, to implement this loop with an initiation interval specified as a subsequent literal-number operand to the instruction. | *FPGALoopControlsINTEL*
+| 0x20000 | *MaxConcurrencyINTEL* +
+Strong request, to the extent possible, to allow no more than a fixed number of threads or loop iterations to execute the loop concurrently as specified by a subsequent literal-number operand to the instruction. | *FPGALoopControlsINTEL*
+| 0x40000 | *DependencyArrayINTEL* +
 Guarantees that there are no dependencies on a particular variable between a number of loop iterations.  
-Can be applied to multiple variables, the number of which is specified as a subsequent literal-number operand to the instruction.  
-For each variable an <id> and literal number pair are provided indicating the variable and number of loop iterations. A number of loop iterations of 0 indicates that there are no loop-carried dependences on that variable.  | Literal Number, +
-<id>, Literal Number, <id>, Literal Number, ...
-_Number of Variables_, +
-_Variable_, _Length_, _Variable_, _Length_ ... | *FPGALoopControlsINTEL*
+Can be applied to multiple variables, the number of which is specified as a subsequent literal-number operand to the instruction. Following that, for each variable, an <id> and literal number pair are provided indicating the variable and number of loop iterations. A number of loop iterations of 0 indicates that there are no loop-carried dependences on that variable. | *FPGALoopControlsINTEL*
 |====
 
 === Capability
@@ -133,5 +109,6 @@ None.
 |Rev|Date|Author|Changes
 |A|2019-05-06|Joe Garvey|*Initial public release*
 |B|2019-05-07|Michael Kinsner|Update overview wording
+|C|2019-06-02|Michael Kinsner|Use loop control bits directly, as allocated in SPIRV-Headers spir-v.xml
 |======================================== 
 
