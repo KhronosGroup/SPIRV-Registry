@@ -893,8 +893,8 @@ and enables a few instructions currently supported for <strong>Addresses</strong
 <h3 id="_2_2_terms">2.2 Terms</h3>
 <div class="paragraph"><p>Add new terms to section 2.2.2 Types:</p></div>
 <div class="paragraph"><p><a id="PhysicalPointerType"></a><em>Physical Pointer Type:</em> A pointer type is a physical
-pointer type if the storage class of the type pointed to uses physical
-addressing according to the addressing model. For <strong>Physical32</strong> and
+pointer type if the <a href="#Storage_Class">storage class</a> of the type pointed to uses physical
+addressing according to the <a href="#Addressing_Model">addressing model</a>. For <strong>Physical32</strong> and
 <strong>Physical64</strong> addressing models, that is all storage classes. For the
 <strong>PhysicalStorageBuffer64EXT</strong> addressing model, it is only the
 <strong>PhysicalStorageBufferEXT</strong> storage class. For the <strong>Logical</strong> addressing model,
@@ -909,33 +909,57 @@ pointer type, or any aggregate type containing any of these.</p></div>
 <div class="paragraph"><p>Modify the definition of <em>Memory Object Declaration</em>:</p></div>
 <div class="paragraph"><p><a id="MemoryObjectDeclaration"></a><em>Memory Object Declaration:</em> An <strong>OpVariable</strong>, or
 an <strong>OpFunctionParameter</strong> of pointer type, or the contents of an <strong>OpVariable</strong>
-that holds a pointer to <strong>PhysicalStorageBufferEXT</strong> storage class (or an array
-of such pointers).</p></div>
+that holds a pointer to <strong>PhysicalStorageBufferEXT</strong> <a href="#Storage_Class">storage class</a>
+or holds an array of such pointers.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_2_16_validation_rules">2.16 Validation Rules</h3>
 <div class="paragraph"><p>Modify section 2.16.1. Universal Validation Rules:</p></div>
-<div class="paragraph"><p>Change the rules for <strong>Logical</strong> addressing to apply only to logical pointer
-types.</p></div>
-<div class="paragraph"><p>If the addressing model is not <strong>PhysicalStorageBuffer64EXT</strong>, then the
-<strong>PhysicalStorageBufferEXT</strong> storage class must not be used.</p></div>
-<div class="paragraph"><p>Add <strong>PhysicalStorageBufferEXT</strong> to the list of storage classes that support
+<div class="paragraph"><p>Change:</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>"If the *Logical* &lt;&lt;Addressing_Model, addressing model&gt;&gt; is selected and the
+*VariablePointers* &lt;&lt;Capability,capability&gt;&gt; is not declared:"</pre>
+</div></div>
+<div class="paragraph"><p>to:</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>"If the *VariablePointers* &lt;&lt;Capability,capability&gt;&gt; is not declared, the
+following rules apply to &lt;&lt;LogicalPointerType,logical pointer types&gt;&gt;:".</pre>
+</div></div>
+<div class="paragraph"><p>Change:</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>"If the *Logical *&lt;&lt;Addressing_Model, addressing model&gt;&gt; is selected and the
+*VariablePointers* or *VariablePointersStorageBuffer* &lt;&lt;Capability,capability&gt;&gt; is
+declared (in addition to what is allowed above by the *Logical* addressing model):"</pre>
+</div></div>
+<div class="paragraph"><p>to:</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>"If the *VariablePointers* or *VariablePointersStorageBuffer* &lt;&lt;Capability,capability&gt;&gt;
+is declared, the following are allowed for &lt;&lt;LogicalPointerType,logical pointer types&gt;&gt;:".</pre>
+</div></div>
+<div class="paragraph"><p>Add the following rules:</p></div>
+<div class="paragraph"><p>If the <a href="#Addressing_Model">addressing model</a> is not <strong>PhysicalStorageBuffer64EXT</strong>, then the
+<strong>PhysicalStorageBufferEXT</strong> <a href="#Storage_Class">storage class</a> must not be used.</p></div>
+<div class="paragraph"><p>Add <strong>PhysicalStorageBufferEXT</strong> to the list of <a href="#Storage_Class">storage classes</a> that support
 atomic access.</p></div>
-<div class="paragraph"><p><strong>OpVariable</strong> must not use a storage class of <strong>PhysicalStorageBufferEXT</strong>.</p></div>
+<div class="paragraph"><p><strong>OpVariable</strong> must not use a <a href="#Storage_Class">storage class</a> of <strong>PhysicalStorageBufferEXT</strong>.</p></div>
 <div class="paragraph"><p>If an <strong>OpVariable</strong>'s pointee type is a pointer (or array of pointers) in
-<strong>PhysicalStorageBufferEXT</strong> storage class, then the variable must be decorated
+<strong>PhysicalStorageBufferEXT</strong> <a href="#Storage_Class">storage class</a>, then the variable must be decorated
 with exactly one of <strong>AliasedPointerEXT</strong> or <strong>RestrictPointerEXT</strong>.</p></div>
 <div class="paragraph"><p>If an <strong>OpFunctionParameter</strong> is a pointer (or array of pointers) in
-<strong>PhysicalStorageBufferEXT</strong> storage class, then the function parameter must be
+<strong>PhysicalStorageBufferEXT</strong> <a href="#Storage_Class">storage class</a>, then the function parameter must be
 decorated with exactly one of <strong>Aliased</strong> or <strong>Restrict</strong>.</p></div>
 <div class="paragraph"><p>If an <strong>OpFunctionParameter</strong> is a pointer (or array of pointers) and its
-pointee type is a pointer in <strong>PhysicalStorageBufferEXT</strong> storage class, then
+pointee type is a pointer in <strong>PhysicalStorageBufferEXT</strong> <a href="#Storage_Class">storage class</a>, then
 the function parameter must be decorated with exactly one of
 <strong>AliasedPointerEXT</strong> or <strong>RestrictPointerEXT</strong>.</p></div>
 <div class="paragraph"><p>Modify section 2.16.2. Validation Rules for Shader Capabilities:</p></div>
-<div class="paragraph"><p>Add <strong>PhysicalStorageBufferEXT</strong> to the list of storage classes in which
+<div class="paragraph"><p>Add <strong>PhysicalStorageBufferEXT</strong> to the list of <a href="#Storage_Class">storage classes</a> in which
 composite objects must be explicitly laid out.</p></div>
-<div class="paragraph"><p>Add <strong>PhysicalStorageBufferEXT</strong> to the list of storage classes to which the
+<div class="paragraph"><p>Add <strong>PhysicalStorageBufferEXT</strong> to the list of <a href="#Storage_Class">storage classes</a> to which the
 result of a <strong>FPRoundingMode</strong>-decorated conversion instruction can be stored.</p></div>
 </div>
 <div class="sect2">
@@ -943,11 +967,11 @@ result of a <strong>FPRoundingMode</strong>-decorated conversion instruction can
 <div class="paragraph"><p>Modify section 2.18.2. Aliasing:</p></div>
 <div class="paragraph"><p>Replace the paragraph about <strong>Simple</strong>, <strong>GLSL</strong>, and <strong>VulkanKHR</strong> memory models:</p></div>
 <div class="paragraph"><p>The <strong>Simple</strong>, <strong>GLSL</strong>, and <strong>VulkanKHR</strong> memory models can assume that aliasing
-is generally not present between the memory object declarations.
+is generally not present between the <a href="#MemoryObjectDeclaration">memory object declarations</a>.
 Specifically, the consumer is free to assume aliasing is not present between
 memory object declarations, unless the memory object declarations explicitly
 indicate they alias.</p></div>
-<div class="paragraph"><p>Aliasing is indicated by applying the <strong>Aliased</strong> decoration to a memory object
+<div class="paragraph"><p>Aliasing is indicated by applying the <strong>Aliased</strong> <a href="#Decoration">decoration</a> to a memory object
 declaration&#8217;s &lt;id&gt;, for <strong>OpVariable</strong> and <strong>OpFunctionParameter</strong> &lt;id&gt;s.
 Applying <strong>Restrict</strong> is allowed, but has no effect.</p></div>
 <div class="paragraph"><p>For variables holding <strong>PhysicalStorageBufferEXT</strong> pointers, applying the
@@ -963,7 +987,7 @@ Applying <strong>Restrict</strong> is allowed, but has no effect.</p></div>
 <strong>StorageBuffer</strong>. Add <strong>PhysicalStorageBufferEXT</strong> everywhere <strong>StorageBuffer</strong> is
 used in the "Second Storage Classes" column.</p></div>
 <div class="paragraph"><p>Add to the description of the Aliasing table:</p></div>
-<div class="paragraph"><p>For the <strong>PhysicalStorageBufferEXT</strong> storage class, <strong>OpVariable</strong> is understood
+<div class="paragraph"><p>For the <strong>PhysicalStorageBufferEXT</strong> <a href="#Storage_Class">storage class</a>, <strong>OpVariable</strong> is understood
 to mean the <strong>PhysicalStorageBufferEXT</strong> pointer value(s) stored in the
 variable. An <strong>Aliased</strong> <strong>PhysicalStorageBufferEXT</strong> pointer stored in a
 <strong>Function</strong> variable can potentially alias with other variables in the same
@@ -990,9 +1014,9 @@ width:100%;
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">5348</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>PhysicalStorageBuffer64EXT</strong><br>
-Indicates <strong>PhysicalStorageBufferEXT</strong> pointers are physical pointer types
-with width equal to 64 bits, and pointers to all other storage classes are
-logical.</p></td>
+Indicates pointers whose <a href="#Storage_Class">storage classes</a> are <strong>PhysicalStorageBufferEXT</strong>
+are physical pointer types with address width equal to 64 bits, and pointers to all other
+<a href="#Storage_Class">storage classes</a> are logical.</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>PhysicalStorageBufferAddressesEXT</strong></p></td>
 </tr>
 </tbody>
@@ -1054,7 +1078,7 @@ width:100%;
 <td class="tableblock halign-center valign-top" ><p class="tableblock">5355</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RestrictPointerEXT</strong><br>
 Apply to an <strong>OpVariable</strong>, to indicate the compiler may compile as if there
-is no aliasing of the pointer stored in the variable. See the Aliasing
+is no aliasing of the pointer stored in the variable. See the <a href="#AliasingSection">Aliasing</a>
 section for more detail.</p></td>
 <td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>PhysicalStorageBufferAddressesEXT</strong></p></td>
 <td class="tableblock halign-left valign-top" colspan="2" ><p class="tableblock"></p></td>
@@ -1104,7 +1128,7 @@ width:100%;
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">5347</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>PhysicalStorageBufferAddressesEXT</strong><br>
-Enables <strong>PhysicalStorageBuffer64EXT</strong> <em>Addressing Model</em>.
+Enables <strong>PhysicalStorageBuffer64EXT</strong> <a href="#Addressing_Model">addressing model</a>.
 Enables <strong>OpTypeForwardPointer</strong>, <strong>OpConvertUToPtr</strong>, <strong>OpConvertPtrToU</strong>, and
 <strong>OpPtrAccessChain</strong> instructions.</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Shader</strong></p></td>
@@ -1202,7 +1226,7 @@ width:100%;
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-01-07 09:51:55 CST
+Last updated 2019-06-05 10:11:46 CDT
 </div>
 </div>
 </body>
