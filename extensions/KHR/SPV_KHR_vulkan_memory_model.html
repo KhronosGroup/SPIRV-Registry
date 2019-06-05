@@ -884,8 +884,8 @@ of it with the new memory model requires a new capability
 <div class="paragraph"><p>The <strong>Coherent</strong> decoration is deprecated and replaced (and extended) by
 <strong>MakePointerAvailableKHR</strong> or <strong>MakePointerVisibleKHR</strong> and
 <strong>MakeTexelAvailableKHR</strong> or <strong>MakeTexelVisibleKHR</strong>. Similarly, the <strong>Volatile</strong>
-decoration is deprecated and replaced by the <strong>Volatile</strong> Memory Access bit for
-pointers and the <strong>VolatileTexelKHR</strong> Image Operands bit for image accesses.</p></div>
+decoration is deprecated and replaced by the <strong>Volatile</strong> <a href="#Memory_Access">Memory Access</a> bit for
+pointers and the <strong>VolatileTexelKHR</strong> <a href="#Image_Operands">Image Operands</a> bit for image accesses.</p></div>
 <div class="paragraph"><p><strong>VulkanKHR</strong> is a new Memory Model enum which indicates that a module opts into
 the Vulkan Memory Model.</p></div>
 <div class="paragraph"><p><strong>VulkanMemoryModelKHR</strong> is a capability that indicates a module uses the new
@@ -958,22 +958,22 @@ width:100%;
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">3</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>VulkanKHR</strong><br>
-Vulkan Memory Model, as defined in the Vulkan Memory Model Appendix.
-This <strong>OpMemoryModel</strong> must be used if and only if the <strong>VulkanMemoryModelKHR</strong>
-capability is declared.</p></td>
+Vulkan Memory Model, as specified by the client API.
+This <strong>OpMemoryModel</strong> memory model must be used if and only if the
+<strong>VulkanMemoryModelKHR</strong> capability is declared.</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>VulkanMemoryModelKHR</strong></p></td>
 </tr>
 </tbody>
 </table>
 <div class="paragraph"><p>(Modify the table in 3.20, Decoration):</p></div>
 <div class="paragraph"><p>Add to the description of <strong>Coherent</strong></p></div>
-<div class="paragraph"><p><strong>Coherent</strong> is not allowed when the <strong>OpMemoryModel</strong> is <strong>VulkanKHR</strong>.
-The Memory Access bits <strong>MakePointerAvailableKHR</strong> and <strong>MakePointerVisibleKHR</strong> or the
-Image Operands bits <strong>MakeTexelAvailableKHR</strong> and <strong>MakeTexelVisibleKHR</strong> can be
+<div class="paragraph"><p><strong>Coherent</strong> is not allowed when the declared memory model is <strong>VulkanKHR</strong>.
+The <a href="#Memory_Access">Memory Access</a> bits <strong>MakePointerAvailableKHR</strong> and <strong>MakePointerVisibleKHR</strong> or the
+<a href="#Image_Operands">Image Operands</a> bits <strong>MakeTexelAvailableKHR</strong> and <strong>MakeTexelVisibleKHR</strong> can be
 used instead.</p></div>
 <div class="paragraph"><p>Add to the description of <strong>Volatile</strong></p></div>
-<div class="paragraph"><p><strong>Volatile</strong> is not allowed when the <strong>OpMemoryModel</strong> is <strong>VulkanKHR</strong>.
-The Memory Access bit <strong>Volatile</strong> or the Image Operands bit <strong>VolatileTexelKHR</strong>
+<div class="paragraph"><p><strong>Volatile</strong> is not allowed when the declared memory model is <strong>VulkanKHR</strong>.
+The <a href="#Memory_Access">Memory Access</a> bit <strong>Volatile</strong> or the <a href="#Image_Operands">Image Operands</a> bit <strong>VolatileTexelKHR</strong>
 can be used instead.</p></div>
 <div class="paragraph"><p>(Modify Section 3.14, Image Operands, adding to the end of the table)</p></div>
 <table class="tableblock frame-all grid-rows"
@@ -990,7 +990,7 @@ width:100%;
 Perform an availability operation on the texel locations after the store.
 A following operand is the Scope &lt;id&gt; that controls the scope of the
 availability operation.
-Requires <strong>NonPrivateTexelKHR</strong> also be set. Only valid with <strong>OpImageWrite</strong>.</p></td>
+Requires <strong>NonPrivateTexelKHR</strong> to also be set. Only valid with <strong>OpImageWrite</strong>.</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>VulkanMemoryModelKHR</strong></p></td>
 </tr>
 <tr>
@@ -999,14 +999,14 @@ Requires <strong>NonPrivateTexelKHR</strong> also be set. Only valid with <stron
 Perform a visibility operation on the texel locations before the load.
 A following operand is the Scope &lt;id&gt; that controls the scope of the
 visibility operation.
-Requires <strong>NonPrivateTexelKHR</strong> also be set. Only valid with <strong>OpImageRead</strong> and
+Requires <strong>NonPrivateTexelKHR</strong> to also be set. Only valid with <strong>OpImageRead</strong> and
 <strong>OpImageSparseRead</strong>.</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>VulkanMemoryModelKHR</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">0x400</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>NonPrivateTexelKHR</strong><br>
-The image access obeys inter-thread ordering.</p></td>
+The image access obeys inter-thread ordering, as specified by the client API.</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>VulkanMemoryModelKHR</strong></p></td>
 </tr>
 <tr>
@@ -1019,8 +1019,8 @@ accesses.</p></td>
 </tbody>
 </table>
 <div class="paragraph"><p>(Modify Section 3.25, Memory Semantics)</p></div>
-<div class="paragraph"><p>Add to the description of <strong>SequentiallyConsistent</strong>
-If <strong>OpMemoryModel</strong> is <strong>VulkanKHR</strong>, <strong>SequentiallyConsistent</strong> must not be used.</p></div>
+<div class="paragraph"><p>Add to the description of <strong>SequentiallyConsistent</strong></p></div>
+<div class="paragraph"><p>If the declared memory model is <strong>VulkanKHR</strong>, <strong>SequentiallyConsistent</strong> must not be used.</p></div>
 <div class="paragraph"><p>Add new entries to the end of the table:</p></div>
 <table class="tableblock frame-all grid-rows"
 style="
@@ -1052,17 +1052,7 @@ classes.</p></td>
 </tr>
 </tbody>
 </table>
-<div class="paragraph"><p>(Modify Section 3.26, Memory Access)</p></div>
-<div class="paragraph"><p>Rename the section to <strong>Memory Access Operands</strong>.</p></div>
-<div class="paragraph"><p>Insert the following paragraph after "Memory access semantics." and
-before "This value is a literal mask&#8230;":</p></div>
-<div class="verseblock">
-<pre class="content">    Additional operands to ordinary (non-atomic) load, store, and copy instructions.
-    Bits that are set can indicate that another operand follows.
-    If there are multiple following operands indicated, they are ordered:
-    Those indicated by smaller-numbered bits appear first.</pre>
-<div class="attribution">
-</div></div>
+<div class="paragraph"><p>(Modify Section 3.26, Memory Operands)</p></div>
 <div class="paragraph"><p>Add to the end of the table:</p></div>
 <table class="tableblock frame-all grid-rows"
 style="
@@ -1079,7 +1069,7 @@ Perform an availability operation on the locations pointed to by the
 pointer operand, after a store.
 A following operand is a Scope &lt;id&gt; specifying the scope of
 the availability operation.
-Requires <strong>NonPrivatePointerKHR</strong> also be set. Not valid with <strong>OpLoad</strong>.</p></td>
+Requires <strong>NonPrivatePointerKHR</strong> to also be set. Not valid with <strong>OpLoad</strong>.</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>VulkanMemoryModelKHR</strong></p></td>
 </tr>
 <tr>
@@ -1089,13 +1079,13 @@ Perform a visibility operation on the locations pointed to by the
 pointer operand, before a load.
 A following operand is a Scope &lt;id&gt; specifying the scope of
 the visibility operation.
-Requires <strong>NonPrivatePointerKHR</strong> also be set. Not valid with <strong>OpStore</strong>.</p></td>
+Requires <strong>NonPrivatePointerKHR</strong> to also be set. Not valid with <strong>OpStore</strong>.</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>VulkanMemoryModelKHR</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">0x20</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>NonPrivatePointerKHR</strong><br>
-The memory access obeys inter-thread ordering.</p></td>
+The memory access obeys inter-thread ordering, as specified by the client API.</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>VulkanMemoryModelKHR</strong></p></td>
 </tr>
 </tbody>
@@ -1144,7 +1134,7 @@ width:100%;
 <td class="tableblock halign-center valign-middle" ><p class="tableblock">5345</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>VulkanMemoryModelKHR</strong><br>
 Uses the Vulkan Memory Model. This capability must be declared if and only if
-the <strong>VulkanKHR</strong> <strong>OpMemoryModel</strong> enum is used.</p></td>
+the <strong>VulkanKHR</strong> <strong>OpMemoryModel</strong> memory model is used.</p></td>
 <td class="tableblock halign-center valign-top" ><p class="tableblock">None</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>SPV_KHR_vulkan_memory_model</strong></p></td>
 </tr>
@@ -1153,7 +1143,7 @@ the <strong>VulkanKHR</strong> <strong>OpMemoryModel</strong> enum is used.</p><
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>VulkanMemoryModelDeviceScopeKHR</strong><br>
 Uses <strong>Device</strong> scope with the Vulkan Memory Model. This capability must be
 declared if a scope of <strong>Device</strong> is used with any instruction and the
-<strong>VulkanKHR</strong> <strong>OpMemoryModel</strong> is used.</p></td>
+<strong>VulkanKHR</strong> <strong>OpMemoryModel</strong> memory model is used.</p></td>
 <td class="tableblock halign-center valign-top" ><p class="tableblock">None</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>SPV_KHR_vulkan_memory_model</strong></p></td>
 </tr>
@@ -1163,24 +1153,7 @@ declared if a scope of <strong>Device</strong> is used with any instruction and 
 </dd>
 </dl></div>
 <div class="paragraph"><p>(Modify Section 3.32.8. Memory Instructions)</p></div>
-<div class="paragraph"><p>In <strong>OpLoad</strong>, <strong>OpStore</strong>, <strong>OpCopyMemory</strong>, <strong>OpCopyMemorySized</strong>, replace
-<em>Optional Memory Access</em> operand with <em>Optional Memory Access Operands</em>.</p></div>
-<div class="paragraph"><p>Also in the description of those instructions, replace:</p></div>
-<div class="verseblock">
-<pre class="content">     <em>Memory Access</em> must be a <strong>Memory Access</strong> literal.
-     If not present, it is the same as specifying <strong>None</strong>.</pre>
-<div class="attribution">
-</div></div>
-<div class="paragraph"><p>with:</p></div>
-<div class="verseblock">
-<pre class="content">     <em>Memory Access Operands</em> encodes what operands may follow,
-     as per <strong>Memory Access Operands</strong>.</pre>
-<div class="attribution">
-</div></div>
-<div class="paragraph"><p>Also in those instructions,
-rename operand "Memory Access" to "Memory Access Operands", and
-append operand "Optional &lt;id&gt;s and Literals".</p></div>
-<div class="paragraph"><p>Also in <strong>OpCopyMemory</strong> and <strong>OpCopyMemorySized</strong>, if this extension is being used
+<div class="paragraph"><p>In <strong>OpCopyMemory</strong> and <strong>OpCopyMemorySized</strong>, if this extension is being used
 with SPIR-V 1.4, replace:</p></div>
 <div class="verseblock">
 <pre class="content">    If two masks are present, the first applies to Target and the second
@@ -1222,8 +1195,8 @@ operand must be present.</p></div>
 must be present.</p></div>
 <div class="paragraph"><p>Memory accesses that use <strong>NonPrivatePointerKHR</strong> must use pointers in the Uniform,
 Workgroup, CrossWorkgroup, Generic, Image, or StorageBuffer storage classes.</p></div>
-<div class="paragraph"><p>If <strong>OpMemoryModel</strong> <strong>VulkanKHR</strong> is used and any instruction uses <strong>Device</strong> scope,
-<strong>VulkanMemoryModelDeviceScopeKHR</strong> must be declared.</p></div>
+<div class="paragraph"><p>If <strong>OpMemoryModel</strong> memory model is <strong>VulkanKHR</strong> and any instruction uses <strong>Device</strong>
+scope, <strong>VulkanMemoryModelDeviceScopeKHR</strong> must be declared.</p></div>
 </div>
 </div>
 <div class="sect1">
@@ -1297,7 +1270,7 @@ width:100%;
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-04-11 09:44:02 MDT
+Last updated 2019-06-05 09:47:40 CDT
 </div>
 </div>
 </body>

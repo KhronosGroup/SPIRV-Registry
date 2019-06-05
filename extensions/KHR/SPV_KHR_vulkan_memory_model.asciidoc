@@ -86,8 +86,8 @@ of it with the new memory model requires a new capability
 The *Coherent* decoration is deprecated and replaced (and extended) by
 *MakePointerAvailableKHR* or *MakePointerVisibleKHR* and
 *MakeTexelAvailableKHR* or *MakeTexelVisibleKHR*. Similarly, the *Volatile*
-decoration is deprecated and replaced by the *Volatile* Memory Access bit for
-pointers and the *VolatileTexelKHR* Image Operands bit for image accesses.
+decoration is deprecated and replaced by the *Volatile* <<Memory_Access,Memory Access>> bit for
+pointers and the *VolatileTexelKHR* <<Image_Operands, Image Operands>> bit for image accesses.
 
 *VulkanKHR* is a new Memory Model enum which indicates that a module opts into
 the Vulkan Memory Model.
@@ -154,9 +154,9 @@ How aliasing is managed depends on the Memory Model:
 [grid="rows"]
 |====
 | 3 | *VulkanKHR* +
-Vulkan Memory Model, as defined in the Vulkan Memory Model Appendix.
-This *OpMemoryModel* must be used if and only if the *VulkanMemoryModelKHR*
-capability is declared.
+Vulkan Memory Model, as specified by the client API.
+This *OpMemoryModel* memory model must be used if and only if the
+*VulkanMemoryModelKHR* capability is declared.
 | *VulkanMemoryModelKHR*
 |====
 
@@ -164,15 +164,15 @@ capability is declared.
 
 Add to the description of *Coherent*
 
-*Coherent* is not allowed when the *OpMemoryModel* is *VulkanKHR*.
-The Memory Access bits *MakePointerAvailableKHR* and *MakePointerVisibleKHR* or the
-Image Operands bits *MakeTexelAvailableKHR* and *MakeTexelVisibleKHR* can be
+*Coherent* is not allowed when the declared memory model is *VulkanKHR*.
+The <<Memory_Access,Memory Access>> bits *MakePointerAvailableKHR* and *MakePointerVisibleKHR* or the
+<<Image_Operands, Image Operands>> bits *MakeTexelAvailableKHR* and *MakeTexelVisibleKHR* can be
 used instead.
 
 Add to the description of *Volatile*
 
-*Volatile* is not allowed when the *OpMemoryModel* is *VulkanKHR*.
-The Memory Access bit *Volatile* or the Image Operands bit *VolatileTexelKHR*
+*Volatile* is not allowed when the declared memory model is *VulkanKHR*.
+The <<Memory_Access,Memory Access>> bit *Volatile* or the <<Image_Operands, Image Operands>> bit *VolatileTexelKHR*
 can be used instead.
 
 (Modify Section 3.14, Image Operands, adding to the end of the table)
@@ -184,17 +184,17 @@ can be used instead.
 Perform an availability operation on the texel locations after the store.
 A following operand is the Scope <id> that controls the scope of the
 availability operation.
-Requires *NonPrivateTexelKHR* also be set. Only valid with *OpImageWrite*.
+Requires *NonPrivateTexelKHR* to also be set. Only valid with *OpImageWrite*.
 | *VulkanMemoryModelKHR*
 | 0x200 | *MakeTexelVisibleKHR* +
 Perform a visibility operation on the texel locations before the load.
 A following operand is the Scope <id> that controls the scope of the
 visibility operation.
-Requires *NonPrivateTexelKHR* also be set. Only valid with *OpImageRead* and
+Requires *NonPrivateTexelKHR* to also be set. Only valid with *OpImageRead* and
 *OpImageSparseRead*.
 | *VulkanMemoryModelKHR*
 | 0x400 | *NonPrivateTexelKHR* +
-The image access obeys inter-thread ordering.
+The image access obeys inter-thread ordering, as specified by the client API.
 | *VulkanMemoryModelKHR*
 | 0x800 | *VolatileTexelKHR* +
 This access cannot be eliminated, duplicated, or combined with other
@@ -205,7 +205,8 @@ accesses.
 (Modify Section 3.25, Memory Semantics)
 
 Add to the description of *SequentiallyConsistent*
-If *OpMemoryModel* is *VulkanKHR*, *SequentiallyConsistent* must not be used.
+
+If the declared memory model is *VulkanKHR*, *SequentiallyConsistent* must not be used.
 
 Add new entries to the end of the table:
 
@@ -225,20 +226,7 @@ classes.
 | *VulkanMemoryModelKHR*
 |====
 
-(Modify Section 3.26, Memory Access)
-
-Rename the section to **Memory Access Operands**.
-
-Insert the following paragraph after "Memory access semantics." and
-before "This value is a literal mask...":
-
-[verse]
---
-    Additional operands to ordinary (non-atomic) load, store, and copy instructions.
-    Bits that are set can indicate that another operand follows.
-    If there are multiple following operands indicated, they are ordered:
-    Those indicated by smaller-numbered bits appear first.
---
+(Modify Section 3.26, Memory Operands)
 
 Add to the end of the table:
 
@@ -250,17 +238,17 @@ Perform an availability operation on the locations pointed to by the
 pointer operand, after a store.
 A following operand is a Scope <id> specifying the scope of
 the availability operation.
-Requires *NonPrivatePointerKHR* also be set. Not valid with *OpLoad*.
+Requires *NonPrivatePointerKHR* to also be set. Not valid with *OpLoad*.
 | *VulkanMemoryModelKHR*
 | 0x10 | *MakePointerVisibleKHR* +
 Perform a visibility operation on the locations pointed to by the
 pointer operand, before a load.
 A following operand is a Scope <id> specifying the scope of
 the visibility operation.
-Requires *NonPrivatePointerKHR* also be set. Not valid with *OpStore*.
+Requires *NonPrivatePointerKHR* to also be set. Not valid with *OpStore*.
 | *VulkanMemoryModelKHR*
 | 0x20 | *NonPrivatePointerKHR* +
-The memory access obeys inter-thread ordering.
+The memory access obeys inter-thread ordering, as specified by the client API.
 | *VulkanMemoryModelKHR*
 |====
 
@@ -282,42 +270,19 @@ Scope is the current queue family.
 2+^.^| Capability | Implicitly Declares | Enabled by Extension
 | 5345 | *VulkanMemoryModelKHR* +
 Uses the Vulkan Memory Model. This capability must be declared if and only if
-the *VulkanKHR* *OpMemoryModel* enum is used.
+the *VulkanKHR* *OpMemoryModel* memory model is used.
 | None | *SPV_KHR_vulkan_memory_model*
 | 5346 | *VulkanMemoryModelDeviceScopeKHR* +
 Uses *Device* scope with the Vulkan Memory Model. This capability must be
 declared if a scope of *Device* is used with any instruction and the
-*VulkanKHR* *OpMemoryModel* is used.
+*VulkanKHR* *OpMemoryModel* memory model is used.
 | None | *SPV_KHR_vulkan_memory_model*
 |====
 --
 
 (Modify Section 3.32.8. Memory Instructions)
 
-In *OpLoad*, *OpStore*, *OpCopyMemory*, *OpCopyMemorySized*, replace
-_Optional Memory Access_ operand with _Optional Memory Access Operands_.
-
-Also in the description of those instructions, replace:
-
-[verse]
---
-     _Memory Access_ must be a **Memory Access** literal.
-     If not present, it is the same as specifying *None*.
---
-
-with:
-
-[verse]
---
-     _Memory Access Operands_ encodes what operands may follow,
-     as per **Memory Access Operands**.
---
-
-Also in those instructions,
-rename operand "Memory Access" to "Memory Access Operands", and
-append operand "Optional <id>s and Literals".
-
-Also in *OpCopyMemory* and *OpCopyMemorySized*, if this extension is being used
+In *OpCopyMemory* and *OpCopyMemorySized*, if this extension is being used
 with SPIR-V 1.4, replace:
 
 [verse]
@@ -368,8 +333,8 @@ must be present.
 Memory accesses that use *NonPrivatePointerKHR* must use pointers in the Uniform,
 Workgroup, CrossWorkgroup, Generic, Image, or StorageBuffer storage classes.
 
-If *OpMemoryModel* *VulkanKHR* is used and any instruction uses *Device* scope,
-*VulkanMemoryModelDeviceScopeKHR* must be declared.
+If *OpMemoryModel* memory model is *VulkanKHR* and any instruction uses *Device*
+scope, *VulkanMemoryModelDeviceScopeKHR* must be declared.
 
 Issues
 ------
