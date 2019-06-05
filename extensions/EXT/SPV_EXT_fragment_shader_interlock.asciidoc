@@ -1,0 +1,357 @@
+SPV_EXT_fragment_shader_interlock
+=================================
+
+Name Strings
+------------
+
+SPV_EXT_fragment_shader_interlock
+
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+
+Contributors
+------------
+
+- Daniel Koch, NVIDIA
+- Jeff Bolz, NVIDIA
+- Kerch Holt, NVIDIA
+- Piers Daniell, NVIDIA
+
+
+Status
+------
+
+- Complete
+
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2019-05-09
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.4, Revision 1, Unified.
+
+This extension interacts with the SPV_NV_shading_rate and
+SPV_EXT_fragment_invocation_density extensions.
+
+This extension requires SPIR-V 1.0.
+
+This extension provides SPIR-V support for the
+GL_ARB_fragment_shader_interlock GLSL extension.
+
+This extension provides SPIR-V support for the shading_rate_interlock_ordered
+and shading_rate_interlock_unordered layouts defined in the
+GL_NV_shading_rate_image GLSL extension.
+
+
+Overview
+--------
+
+This extension provides new instructions
+*OpBeginInvocationInterlockEXT* and *OpEndInvocationInterlockEXT* that
+delimit a critical section of fragment shader code. For pairs of shader
+invocations with "overlapping" coverage in a given pixel, the
+implementation will guarantee that the critical section of the fragment
+shader will be executed for only one fragment at a time.
+
+There are six different interlock execution modes supported by this extension.
+The execution modes *PixelInterlockOrderedEXT* and *PixelInterlockUnorderedEXT*
+provide mutual exclusion in the critical section for any pair of fragments
+corresponding to the same pixel, or pixels if the fragment covers more
+than one pixel.  When using multisampling, the execution
+modes *SampleInterlockOrderedEXT* and *SampleInterlockUnorderedEXT* only provide
+mutual exclusion for pairs of fragments that both cover at least one
+common sample in the same pixel; these are recommended for performance if
+shaders use per-sample data structures. When using the *ShadingRateNV* or
+*FragmentDensityEXT* capabilities, the execution modes *ShadingRateInterlockOrderedEXT* and
+*ShadingRateInterlockUnorderedEXT* provide mutual exclusion for pairs of
+fragments with at least one or more associated samples in common from
+all pixels belonging to the fragments.
+
+Additionally, when the *PixelInterlockOrderedEXT*,
+*SampleInterlockOrderedEXT* or *ShadingRateInterlockOrderedEXT* execution
+mode is used, the interlock also guarantees that the critical section for
+multiple shader invocations with "overlapping" coverage will be executed
+in primitive order, as defined by the
+https://www.khronos.org/registry/vulkan/specs/1.1/html/vkspec.html#drawing-primitive-order[Primitive Order]
+section of the Vulkan specification.
+Such a guarantee is useful for applications that perform blending in
+the fragment shader, where the application requires fragment values
+to be composited in primitive order.
+
+This extension can be useful for algorithms that need to access per-pixel
+data structures via shader loads and stores. Algorithms using this
+extension can access per-pixel data structures in critical sections
+without other invocations accessing the same per-pixel data. Additionally,
+the ordering guarantees are useful for cases where the API ordering of
+fragments is meaningful. For example, applications may be able to execute
+programmable blending operations in the fragment shader, where the
+destination buffer is read via image loads and the final value is written
+via image stores.
+
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_EXT_fragment_shader_interlock"
+----
+
+New Execution Modes
+-------------------
+
+This extension introduces these new execution modes:
+
+----
+SampleInterlockOrderedEXT
+SampleInterlockUnorderedEXT
+----
+
+which can be used with the *FragmentShaderSampleInterlockEXT* capability.
+
+This extension introduces these new execution modes:
+
+----
+PixelInterlockOrderedEXT
+PixelInterlockUnorderedEXT
+----
+
+which can be used with the *FragmentShaderPixelInterlockEXT* capability.
+
+This extension introduces these new execution modes:
+
+----
+ShadingRateInterlockOrderedEXT
+ShadingRateInterlockUnorderedEXT
+----
+
+which can be used with the *FragmentShaderShadingRateInterlockEXT* capability.
+
+
+New Capabilities
+----------------
+
+This extension introduces new capabilities:
+
+----
+FragmentShaderSampleInterlockEXT
+FragmentShaderPixelInterlockEXT
+FragmentShaderShadingRateInterlockEXT
+----
+
+
+New Instructions
+----------------
+
+Instructions added under the *FragmentShaderSampleInterlockEXT*,
+*FragmentShaderPixelInterlockEXT*, or *FragmentShaderShadingRateInterlockEXT*
+capabilities.
+
+----
+OpBeginInvocationInterlockEXT
+OpEndInvocationInterlockEXT
+----
+
+
+Token Number Assignments
+------------------------
+
+[width="40%"]
+[cols="70%,30%"]
+[grid="rows"]
+|====
+|FragmentShaderSampleInterlockEXT      | 5363
+|OpBeginInvocationInterlockEXT         | 5364
+|OpEndInvocationInterlockEXT           | 5365
+|PixelInterlockOrderedEXT              | 5366
+|PixelInterlockUnorderedEXT            | 5367
+|SampleInterlockOrderedEXT             | 5368
+|SampleInterlockUnorderedEXT           | 5369
+|ShadingRateInterlockOrderedEXT        | 5370
+|ShadingRateInterlockUnorderedEXT      | 5371
+|FragmentShaderShadingRateInterlockEXT | 5372
+|FragmentShaderPixelInterlockEXT       | 5378
+
+|====
+
+
+Modifications to the SPIR-V Specification, Version 1.3
+------------------------------------------------------
+
+(Modify Section 2.16.2, Validation Rules for Shader Capabilities) ::
+
++
+--
+(Add new items under "Entry point and execution model") ::
+
+* An *OpEntryPoint* with the *Fragment* Execution Model can set at most
+  one of the *PixelInterlockOrderedEXT*, *PixelInterlockUnorderedEXT*,
+  *SampleInterlockOrderedEXT*, *SampleInterlockUnorderedEXT*,
+  *ShadingRateInterlockOrderedEXT*, or *ShadingRateInterlockUnorderedEXT*
+  <<Execution_Mode, Execution Modes>>.
+
+* If the entry point has any of the interlock ordering execution modes,
+  it must dynamically execute each of *OpBeginInvocationInterlockEXT* and
+  *OpEndInvocationInterlockEXT*, in that program order, exactly once.
+
+--
+(Modify Section 3.6, Execution Mode) ::
+
++
+--
+(add new rows to the Execution Mode table)
+
+[cols="1,6,2,1",options="header"]
+|====
+2+^| Execution mode ^| Enabling Capabilities ^| Extra Operands
+| 5366 | *PixelInterlockOrderedEXT* +
+controls overlap behavior of fragment shader interlock.
+See the https://www.khronos.org/registry/vulkan/specs/1.1/html/vkspec.html#shaders-fragment-shader-interlock[Fragment Shader Interlock]
+section of the Vulkan specification for details. Only valid in the *Fragment* Execution Model. 
+| *FragmentShaderPixelInterlockEXT*  | 
+
+| 5367 | *PixelInterlockUnorderedEXT* + 
+controls overlap behavior of fragment shader interlock.
+See the https://www.khronos.org/registry/vulkan/specs/1.1/html/vkspec.html#shaders-fragment-shader-interlock[Fragment Shader Interlock]
+section of the Vulkan specification for details. Only valid in the *Fragment* Execution Model. 
+| *FragmentShaderPixelInterlockEXT*  | 
+
+| 5368 | *SampleInterlockOrderedEXT* +
+controls overlap behavior of fragment shader interlock.
+See the https://www.khronos.org/registry/vulkan/specs/1.1/html/vkspec.html#shaders-fragment-shader-interlock[Fragment Shader Interlock]
+section of the Vulkan specification for details. Only valid in the *Fragment* Execution Model. 
+| *FragmentShaderSampleInterlockEXT*  | 
+
+| 5369 | *SampleInterlockUnorderedEXT* +
+controls overlap behavior of fragment shader interlock.
+See the https://www.khronos.org/registry/vulkan/specs/1.1/html/vkspec.html#shaders-fragment-shader-interlock[Fragment Shader Interlock]
+section of the Vulkan specification for details. Only valid in the *Fragment* Execution Model. 
+| *FragmentShaderSampleInterlockEXT*  | 
+
+| 5370 | *ShadingRateInterlockOrderedEXT* +
+controls overlap behavior of fragment shader interlock.
+See the https://www.khronos.org/registry/vulkan/specs/1.1/html/vkspec.html#shaders-fragment-shader-interlock[Fragment Shader Interlock]
+section of the Vulkan specification for details. Only valid in the *Fragment* Execution Model. 
+| *FragmentShaderShadingRateInterlockEXT*  | 
+
+| 5371 | *ShadingRateInterlockUnorderedEXT* +
+controls overlap behavior of fragment shader interlock.
+See the https://www.khronos.org/registry/vulkan/specs/1.1/html/vkspec.html#shaders-fragment-shader-interlock[Fragment Shader Interlock]
+section of the Vulkan specification for details. Only valid in the *Fragment* Execution Model. 
+| *FragmentShaderShadingRateInterlockEXT*  | 
+|====
+
+--
+(Modify Section 3.31, Capability, adding new rows to the Capability table) ::
++
+--
+[options="header"]
+|====
+2+^| Capability ^| Implicitly Declares ^| Enabled by Extension
+| 5363 | *FragmentShaderSampleInterlockEXT* +
+Uses the *SampleInterlockOrderedEXT*, or *SampleInterlockUnorderedEXT*,
+<<Execution_Mode,Execution Modes>> | *Shader* | *SPV_EXT_fragment_shader_interlock*
+| 5378 | *FragmentShaderPixelInterlockEXT* +
+Uses the *PixelInterlockOrderedEXT*, or *PixelInterlockUnorderedEXT*,
+<<Execution_Mode,Execution Modes>> | *Shader* | *SPV_EXT_fragment_shader_interlock*
+| 5372 | *FragmentShaderShadingRateInterlockEXT* +
+Uses the *ShadingRateInterlockOrderedEXT*, or *ShadingRateInterlockUnorderedEXT*
+<<Execution_Mode,Execution Modes>> | *Shader* | *SPV_EXT_fragment_shader_interlock*, and *SPV_NV_shading_rate* or *SPV_EXT_fragment_invocation_density*
+|====
+
+--
+(Modify Section 3.32.1, Miscellaneous Instructions, adding new rows to the table) ::
++
+--
+[cols="1,1,0*3",width="100%"]
+|=====
+|[[OpBeginInvocationInterlockEXT]]*OpBeginInvocationInterlockEXT* +
+ +
+Delimits the start of a critical section of the *Fragment* shader. +
+ +
+See the https://www.khronos.org/registry/vulkan/specs/1.1/html/vkspec.html#shaders-fragment-shader-interlock[Fragment Shader Interlock]
+section in the Vulkan specification for details.
+
+|Capability: +
+*FragmentShaderSampleInterlockEXT*, *FragmentShaderPixelInterlockEXT*, *FragmentShaderShadingRateInterlockEXT*
+
+| 1 | 5364
+|=====
+
+[cols="1,1,0*3",width="100%"]
+|=====
+|[[OpEndInvocationInterlockEXT]]*OpEndInvocationInterlockEXT* +
+ +
+Delimits the end of a critical section of the *Fragment* shader. +
+ +
+See the https://www.khronos.org/registry/vulkan/specs/1.1/html/vkspec.html#shaders-fragment-shader-interlock[Fragment Shader Interlock]
+section in the Vulkan specification for details.
+
+|Capability: +
+*FragmentShaderSampleInterlockEXT*, *FragmentShaderPixelInterlockEXT*, *FragmentShaderShadingRateInterlockEXT*
+| 1 | 5365
+|=====
+--
+
+Validation Rules
+----------------
+
+An OpExtension must be added to the SPIR-V for validation layers to check
+legal use of this extension:
+
+----
+OpExtension "SPV_EXT_fragment_shader_interlock"
+----
+
+
+
+Issues
+------
+
+. Where does the language specification the synchronization
+  between the critical sections belong?
++
+--
+*RESOLVED*: It's defined in the Vulkan specification
+in the https://www.khronos.org/registry/vulkan/specs/1.1/html/vkspec.html#shaders-fragment-shader-interlock[Fragment Shader Interlock]
+and https://www.khronos.org/registry/vulkan/specs/1.1-extensions/html/vkspec.html#memory-model[Memory Model] sections.
+--
+
+. Is there an implicit memory barrier between critical sections?
++
+--
+*RESOLVED*: Yes, this is also defined in the Vulkan specification and
+is defined in terms of a new memory model Scope for fragment shader
+interlock. Doing an implicit memory barrier allows implementations
+to use the most optimal scope for their implementation, that is not
+necessarily covered by one of the existing scopes.
+
+--
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2019-05-09|Piers Daniell|Initial revisions
+|========================================
