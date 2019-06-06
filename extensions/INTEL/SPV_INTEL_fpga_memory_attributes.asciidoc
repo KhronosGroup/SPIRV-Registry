@@ -30,7 +30,7 @@ Final draft
 [width="40%",cols="25,25"]
 |========================================
 | Last Modified Date | {docdate}
-| Revision           | C
+| Revision           | D
 |========================================
 
 == Dependencies
@@ -67,7 +67,7 @@ RegisterINTEL
 MemoryINTEL
 NumbanksINTEL
 BankwidthINTEL
-MaxconcurrencyINTEL
+MaxPrivateCopiesINTEL
 SinglepumpINTEL
 DoublepumpINTEL
 ----
@@ -84,7 +84,7 @@ DoublepumpINTEL
 |MemoryINTEL              |5826
 |NumbanksINTEL            |5827
 |BankwidthINTEL           |5828
-|MaxconcurrencyINTEL      |5829
+|MaxPrivateCopiesINTEL    |5829
 |SinglepumpINTEL          |5830
 |DoublepumpINTEL          |5831
 |==== 
@@ -115,10 +115,10 @@ _Banks_
 Apply to a variable or a structure-type member. Request, to the extent possible, that the variable or structure member should be implemented in a memory whose banks have the specified width in bytes.
 | *FPGAMemoryAttributesINTEL* | Literal Number +
 _Bank Width_
-| 5829 | *MaxconcurrencyINTEL* +
-Apply to a variable or a structure-type member. Request, to the extent possible, that the implementation allow no more than the specified number of threads or loop iterations to access the variable or structure-type member concurrently.  
+| 5829 | *MaxPrivateCopiesINTEL* +
+Apply to a variable or a structure-type member. Request, to the extent possible, that the memory synthesized for the variable or structure member should be copied no more than the specified number of times to enable concurrent thread or loop iteration accesses.
 | *FPGAMemoryAttributesINTEL* | Literal Number +
-_Maximum Concurrency_
+_Maximum Copies_
 | 5830 | *SinglepumpINTEL* +
 Apply to a variable or a structure-type member. Request, to the extent possible, that the variable or structure member should be implemented in a memory that is clocked at the same rate as accesses to it.
 | *FPGAMemoryAttributesINTEL* |
@@ -135,10 +135,7 @@ Modify Section 3.31, Capability, adding a row to the Capability table:
 [options="header"]
 |====
 2+^| Capability ^| Implicitly Declares
-| 5824 | FPGAMemoryAttributesINTEL | Reserved. +
-
-Also see extension: + 
-*SPV_INTEL_fpga_memory_attributes*
+| 5824 | FPGAMemoryAttributesINTEL |
 |====
 --
 
@@ -166,4 +163,5 @@ None.
 |A|2019-02-27|Joe Garvey|*Initial public release*
 |B|2019-03-18|Joe Garvey|Added MaxconcurrencyINTEL decoration.  Fixed NumbanksINTEL capitalization
 |C|2019-04-23|Joe Garvey|Added SinglepumpINTEL and DoublepumpINTEL decorations
+|D|2019-06-06|Joe Garvey|Changed the name of MaxconcurrencyINTEL to MaxPrivateCopiesINTEL
 |======================================== 

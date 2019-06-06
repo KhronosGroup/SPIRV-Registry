@@ -499,11 +499,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2019-04-23</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2019-06-06</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">C</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">D</p></td>
 </tr>
 </tbody>
 </table>
@@ -567,7 +567,7 @@ Version 1.3 Revision 6.</p>
 MemoryINTEL
 NumbanksINTEL
 BankwidthINTEL
-MaxconcurrencyINTEL
+MaxPrivateCopiesINTEL
 SinglepumpINTEL
 DoublepumpINTEL</pre>
 </div>
@@ -606,7 +606,7 @@ DoublepumpINTEL</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">5828</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">MaxconcurrencyINTEL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MaxPrivateCopiesINTEL</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">5829</p></td>
 </tr>
 <tr>
@@ -681,11 +681,11 @@ Apply to a variable or a structure-type member. Request, to the extent possible,
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">5829</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MaxconcurrencyINTEL</strong><br>
-Apply to a variable or a structure-type member. Request, to the extent possible, that the implementation allow no more than the specified number of threads or loop iterations to access the variable or structure-type member concurrently.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MaxPrivateCopiesINTEL</strong><br>
+Apply to a variable or a structure-type member. Request, to the extent possible, that the memory synthesized for the variable or structure member should be copied no more than the specified number of times to enable concurrent thread or loop iteration accesses.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGAMemoryAttributesINTEL</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Literal Number<br>
-<em>Maximum Concurrency</em></p></td>
+<em>Maximum Copies</em></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">5830</p></td>
@@ -729,9 +729,7 @@ Apply to a variable or a structure-type member. Request, to the extent possible,
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">5824</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">FPGAMemoryAttributesINTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Reserved.<br></p>
-<p class="tableblock">Also see extension:<br>
-<strong>SPV_INTEL_fpga_memory_attributes</strong></p></td>
+<td class="tableblock halign-left valign-top"></td>
 </tr>
 </tbody>
 </table>
@@ -791,6 +789,12 @@ Apply to a variable or a structure-type member. Request, to the extent possible,
 <td class="tableblock halign-left valign-top"><p class="tableblock">Joe Garvey</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Added SinglepumpINTEL and DoublepumpINTEL decorations</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">D</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2019-06-06</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Joe Garvey</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Changed the name of MaxconcurrencyINTEL to MaxPrivateCopiesINTEL</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -798,7 +802,7 @@ Apply to a variable or a structure-type member. Request, to the extent possible,
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-04-23 09:56:31 EDT
+Last updated 2019-06-06 13:31:00 EDT
 </div>
 </div>
 </body>
