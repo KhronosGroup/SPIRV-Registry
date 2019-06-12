@@ -1,0 +1,185 @@
+SPV_KHR_shader_clock
+====================
+
+Name Strings
+------------
+
+SPV_KHR_shader_clock
+
+Contact
+-------
+
+See *Issues* list in the Khronos SPIRV-Headers repository:
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Aaron Hagan, AMD
+- Neil Henning, AMD
+- Daniel Rakos, AMD
+- David Neto, Google
+- Daniel Koch, NVIDIA
+
+Status
+------
+
+- Complete
+- Approved by the SPIR Working Group: 2019-03-06
+- Ratified by Khronos on 2019-05-03
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2019-02-22
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.3 Revision 1.
+
+This extension requires SPIR-V 1.0.
+
+Overview
+--------
+
+This extension adds new capabilities to support the *GL_ARB_shader_clock*
+and *GL_EXT_shader_realtime_clock* extensions in SPIR-V.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_KHR_shader_clock"
+----
+
+New Capabilities
+----------------
+
+This extension introduces a new capability:
+
+----
+ShaderClockKHR
+----
+
+New Instructions
+----------------
+
+Instructions added under the *ShaderClockKHR* capability:
+
+----
+OpReadClockKHR
+----
+
+Token Number Assignments
+------------------------
+
+[width="40%"]
+[cols="70%,30%"]
+[grid="rows"]
+|====
+|ShaderClockKHR|5055
+|OpReadClockKHR|5056
+|====
+
+Modifications to the SPIR-V Specification, Version 1.3
+------------------------------------------------------
+=== Capabilities
+
+Modify Section 3.31, Capability, adding rows to the Capability table:
+
+[cols="1^.^,10,8^",options="header",width = "80%"]
+|====
+2+^.^| Capability
+| Implicitly Declares
+
+| 5055
+| *ShaderClockKHR*
+|
+
+|====
+
+=== Instructions
+
+(Add Section 3.32.25, Time Instructions) ::
++
+--
+[cols="1,1,3*3",width="100%"]
+|=====
+4+|[[ReadClockKHR]]*ReadClockKHR* +
+ +
+_Result_ is the sample value of a clock as seen by the shader processor.
+An idealized clock is an unbounded unsigned scalar integer tick count
+increasing monotonically over time. A clock's rate of progress may vary
+within the lifetime of an invocation, may vary across different executions
+of the program, and may be affected by conditions beyond the control of
+the programmer. The sampled value read by this instruction consists of
+the least significant bits of the idealized clock's tick count at the
+time the instruction was executed. In particular, an observer may see
+sampled values wrap around zero.
+
+'Result Type' must be a 64-bit unsigned integer type or a vector of
+two-components of 32-bit unsigned integer type with the first component
+containing the 32 least significant bits and the second component containing
+the 32 most significant bits.
+
+All invocations within the 'Execution' read from the same source clock.
+_Execution_ must be a valid execution scope.
+1+|Capability: +
+*ShaderClockKHR*
+| 4 | 5055 | '<id>' 'Result Type' | '<id>' 'Result' | 'Scope <id>' 'Execution'
+|=====
+
+--
+
+(Add to Used by: list in Section 3.27, Scope <id>) ::
+----
+OpReadClockKHR
+----
+
+Validation Rules
+----------------
+
+An OpExtension must be added to SPIR-V for validation layers to check
+legal use of this extension:
+
+----
+OpExtension "SPV_KHR_shader_clock"
+----
+
+Issues
+------
+
+. How does this extension interact with *ARB_shader_clock* ?
++
+--
+*RESOLVED*: This extension purposefully does not fully implement
+*ARB_shader_clock*, as there is no guarantee of code motion barriers.
+--
+
+. If two invocations execute the same dynamic instance of the *ReadClockKHR*
+instruction, do both invocations get exactly the same value ?
++
+--
+*RESOLVED*: There is no guarantee that two invocations will produce exactly
+the same value.
+--
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1 |2019-02-22 |Aaron Hagan|*Initial draft*
+|========================================
