@@ -1,0 +1,138 @@
+SPV_INTEL_unstructured_loop_controls
+====================================
+
+== Name Strings
+
+SPV_INTEL_unstructured_loop_controls
+
+== Contact
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+== Contributors
+
+- Joe Garvey, Intel +
+- Michael Kinsner, Intel +
+- Ben Ashbaugh, Intel +
+- Alexey Sotkin, Intel
+
+== Notice
+
+Copyright (c) 2019 Intel Corporation.  All rights reserved.
+
+== Status
+
+Final draft
+
+== Version
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | {docdate}
+| Revision           | 1
+|========================================
+
+== Dependencies
+
+This extension is written against the SPIR-V Specification,
+Version 1.4 Revision 1.
+
+This extension requires SPIR-V 1.0.
+
+== Overview
+
+This extension introduces a new instruction that allows loop control parameters to be applied to unstructured loops.  This instruction can be used in place of an *OpLoopMerge* on such loops.  As both must be the second-to-last instruction in a loop header block, they can't co-exist and there can't be multiple instances of either in the same loop.
+
+== Extension Name
+To use this extension within a SPIR-V module, the following *OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_INTEL_unstructured_loop_controls"
+----
+
+== New Capabilities
+
+This extension introduces a new capability:
+
+----
+UnstructuredLoopControlsINTEL
+----
+
+== New Instructions
+
+Instructions added under the *UnstructuredLoopControlsINTEL* capability:
+
+----
+OpLoopControlINTEL
+----
+
+== Token Number Assignments
+
+--
+[width="40%"]
+[cols="70%,30%"]
+[grid="rows"]
+|====
+|UnstructuredLoopControlsINTEL | 5886
+|OpLoopControlINTEL  | 5887
+|==== 
+--
+
+== Modifications to the SPIR-V Specification, Version 1.4
+
+=== Loop Control
+In Section 3.23, Loop Control, add *OpLoopControlINTEL* to the set of instructions that can use Loop Controls:
+
+Used by *OpLoopMerge* and *OpLoopControlINTEL*.
+
+=== Capability
+
+Modify Section 3.31, Capability, adding a row to the Capability table:
+--
+[options="header"]
+|====
+2+^| Capability ^| Implicitly Declares
+| 5886 | UnstructuredLoopControlsINTEL | 
+|====
+--
+
+=== Instructions
+In section 3.32.17, Control-Flow Instructions, add a new instruction, *OpLoopControlINTEL*, as follows:
+[cols="4", width="100%"]
+|=====
+3+^|*OpLoopControlINTEL* +
+
+Declare a loop.
+
+This instruction must be in a block that is the target of a back edge and that block must dominate the back-edge block from which that edge originated.
+
+This instruction must immediately precede either an *OpBranch* or *OpBranchConditional* instruction.  That is, it must be the second-to-last instruction in its block.
+
+_Loop Control Parameters_ appear in Loop Control-table order for any _Loop Control_ setting that requires such a parameter. | Capability:
+*UnstructuredLoopControlsINTEL*
+
+| 2 + variable | 5887 | Loop Control | Literal, Literal, ... + 
+Loop Control Parameters
+|=====
+
+== Issues
+
+None.
+
+//. Issue.
+//+
+//--
+//*RESOLVED*: Resolution.
+//--
+
+== Revision History
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2019-06-12|Joe Garvey|*Initial public release*
+|======================================== 
