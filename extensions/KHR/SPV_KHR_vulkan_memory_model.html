@@ -832,11 +832,11 @@ width:40%;
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2019-02-19</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2019-06-13</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
 </tr>
 </tbody>
 </table>
@@ -885,7 +885,8 @@ of it with the new memory model requires a new capability
 <strong>MakePointerAvailableKHR</strong> or <strong>MakePointerVisibleKHR</strong> and
 <strong>MakeTexelAvailableKHR</strong> or <strong>MakeTexelVisibleKHR</strong>. Similarly, the <strong>Volatile</strong>
 decoration is deprecated and replaced by the <strong>Volatile</strong> <a href="#Memory_Access">Memory Access</a> bit for
-pointers and the <strong>VolatileTexelKHR</strong> <a href="#Image_Operands">Image Operands</a> bit for image accesses.</p></div>
+pointers, the <strong>VolatileTexelKHR</strong> <a href="#Image_Operands">Image Operands</a> bit for image accesses,
+and the <strong>Volatile</strong> <a href="#Memory_Semantics">Memory Semantics</a> bit for atomics.</p></div>
 <div class="paragraph"><p><strong>VulkanKHR</strong> is a new Memory Model enum which indicates that a module opts into
 the Vulkan Memory Model.</p></div>
 <div class="paragraph"><p><strong>VulkanMemoryModelKHR</strong> is a capability that indicates a module uses the new
@@ -973,8 +974,8 @@ The <a href="#Memory_Access">Memory Access</a> bits <strong>MakePointerAvailable
 used instead.</p></div>
 <div class="paragraph"><p>Add to the description of <strong>Volatile</strong></p></div>
 <div class="paragraph"><p><strong>Volatile</strong> is not allowed when the declared memory model is <strong>VulkanKHR</strong>.
-The <a href="#Memory_Access">Memory Access</a> bit <strong>Volatile</strong> or the <a href="#Image_Operands">Image Operands</a> bit <strong>VolatileTexelKHR</strong>
-can be used instead.</p></div>
+The <a href="#Memory_Access">Memory Access</a> bit <strong>Volatile</strong>, the <a href="#Image_Operands">Image Operands</a> bit <strong>VolatileTexelKHR</strong>,
+or the <a href="#Memory_Semantics">Memory Semantics</a> bit <strong>Volatile</strong> can be used instead.</p></div>
 <div class="paragraph"><p>(Modify Section 3.14, Image Operands, adding to the end of the table)</p></div>
 <table class="tableblock frame-all grid-rows"
 style="
@@ -1048,6 +1049,13 @@ classes.</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>MakeVisibleKHR</strong><br>
 Perform a visibility operation on all references in the selected storage
 classes.</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>VulkanMemoryModelKHR</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0x8000</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Volatile</strong><br>
+This access cannot be eliminated, duplicated, or combined with other
+accesses.</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>VulkanMemoryModelKHR</strong></p></td>
 </tr>
 </tbody>
@@ -1262,6 +1270,12 @@ width:100%;
 <td class="tableblock halign-left valign-top" ><p class="tableblock">David Neto</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Khronos SPIR-V Issue #413: Interaction with SPIR-V 1.4: Restrictions on memory access bits in two-operand OpCopyMemory and OpCopyMemorySized.</strong></p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2019-06-13</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Jeff Bolz</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Added Volatile to <a href="#Memory_Semantics">Memory Semantics</a></strong></p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1270,7 +1284,7 @@ width:100%;
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-06-05 09:47:40 CDT
+Last updated 2019-06-15 10:55:12 CDT
 </div>
 </div>
 </body>
