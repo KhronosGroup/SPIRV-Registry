@@ -37,7 +37,7 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2018-12-07
+| Last Modified Date | 2019-06-12
 | Revision           | 1
 |========================================
 
@@ -81,11 +81,7 @@ Add new terms to section 2.2.2 Types:
 
 [[PhysicalPointerType]]'Physical Pointer Type:' A pointer type is a physical
 pointer type if the <<Storage_Class, storage class>> of the type pointed to uses physical
-addressing according to the <<Addressing_Model, addressing model>>. For *Physical32* and
-*Physical64* addressing models, that is all storage classes. For the
-*PhysicalStorageBuffer64EXT* addressing model, it is only the
-*PhysicalStorageBufferEXT* storage class. For the *Logical* addressing model,
-there are no physical pointer types.
+addressing according to the <<Addressing_Model, addressing model>>.
 
 [[LogicalPointerType]]'Logical Pointer Type:' A pointer type is a logical
 pointer type if it is not a physical pointer type.
@@ -105,6 +101,16 @@ an *OpFunctionParameter* of pointer type, or the contents of an *OpVariable*
 that holds a pointer to *PhysicalStorageBufferEXT* <<Storage_Class, storage class>>
 or holds an array of such pointers.
 
+Modify the first part of the definition of 'Variable pointer' from:
+
+[[VariablePointer]]'Variable pointer:' A pointer that results from one of the
+following instructions: ...
+
+to:
+
+[[VariablePointer]]'Variable pointer:' A pointer of logical pointer type that
+results from one of the following instructions: ...
+
 2.16 Validation Rules
 ~~~~~~~~~~~~~~~~~~~~~
 
@@ -120,6 +126,21 @@ to:
     "If the *VariablePointers* <<Capability,capability>> is not declared, the
     following rules apply to <<LogicalPointerType,logical pointer types>>:".
 
+
+Change:
+
+    *OpVariable* cannot allocate an object whose type is a pointer type (that
+    is, it cannot create an object in memory that is itself a pointer and
+    whose result would thus be a pointer to a pointer)
+
+to:
+
+    *OpVariable* cannot allocate an object whose type is a
+    <<LogicalPointerType,logical pointer type>> (that is, it cannot create an
+    object in memory that is itself a logical pointer and whose result would
+    thus be a pointer to a logical pointer)
+
+
 Change:
 
     "If the *Logical *<<Addressing_Model, addressing model>> is selected and the
@@ -130,6 +151,29 @@ to:
 
     "If the *VariablePointers* or *VariablePointersStorageBuffer* <<Capability,capability>>
     is declared, the following are allowed for <<LogicalPointerType,logical pointer types>>:".
+
+
+Change:
+
+    *OpVariable* can allocate an object whose type is a pointer type, if the
+    <<Storage_Class, Storage Class>> of the *OpVariable* is one of the
+    following: ...
+
+to:
+
+    *OpVariable* can allocate an object whose type is a
+    <<LogicalPointerType,logical pointer type>>, if the
+    <<Storage_Class, Storage Class>> of the *OpVariable* is one of the
+    following: ...
+
+
+Change:
+
+    A <<VariablePointer,variable pointer>> with the Logical addressing model cannot ...
+
+to:
+
+    A <<VariablePointer,variable pointer>> cannot ...
 
 Add the following rules:
 
@@ -279,9 +323,6 @@ Modify Section 3.31, "Capability", adding these rows to the Capability table:
 |====
 2+^| Capability ^| Enabling Capabilities
 | 5347 | *PhysicalStorageBufferAddressesEXT* +
-Enables *PhysicalStorageBuffer64EXT* <<Addressing_Model, addressing model>>.
-Enables *OpTypeForwardPointer*, *OpConvertUToPtr*, *OpConvertPtrToU*, and
-*OpPtrAccessChain* instructions.
 | *Shader*
 |====
 --
