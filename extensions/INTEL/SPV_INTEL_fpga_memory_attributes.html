@@ -499,11 +499,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2019-06-06</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2019-06-18</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">D</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">E</p></td>
 </tr>
 </tbody>
 </table>
@@ -569,7 +569,10 @@ NumbanksINTEL
 BankwidthINTEL
 MaxPrivateCopiesINTEL
 SinglepumpINTEL
-DoublepumpINTEL</pre>
+DoublepumpINTEL
+MaxReplicatesINTEL
+SimpleDualPortINTEL
+MergeINTEL</pre>
 </div>
 </div>
 </div>
@@ -617,6 +620,18 @@ DoublepumpINTEL</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">DoublepumpINTEL</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">5831</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MaxReplicatesINTEL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5832</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SimpleDualPortINTEL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5833</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MergeINTEL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5834</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -635,16 +650,17 @@ DoublepumpINTEL</pre>
 <div class="content">
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
 </colgroup>
 <thead>
 <tr>
 <th class="tableblock halign-center valign-top" colspan="2">Decoration</th>
 <th class="tableblock halign-center valign-top">Enabling Capabilities</th>
-<th class="tableblock halign-center valign-top">Extra Operands</th>
+<th class="tableblock halign-center valign-top" colspan="2">Extra Operands</th>
 </tr>
 </thead>
 <tbody>
@@ -653,14 +669,14 @@ DoublepumpINTEL</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RegisterINTEL</strong><br>
 Apply to a variable or a structure-type member. Request, to the extent possible, that the variable or structure member should be implemented in logic and carried through the datapath.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGAMemoryAttributesINTEL</strong></p></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top" colspan="2"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">5826</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MemoryINTEL</strong><br>
 Apply to a variable or a structure-type member. Request, to the extent possible, that the variable or structure member should be implemented in memory of the specified type.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGAMemoryAttributesINTEL</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Literal String<br>
+<td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock">Literal String<br>
 <em>Memory Type</em></p></td>
 </tr>
 <tr>
@@ -668,7 +684,7 @@ Apply to a variable or a structure-type member. Request, to the extent possible,
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>NumbanksINTEL</strong> <br>
 Apply to a variable or a structure-type member. Request, to the extent possible, that the variable or structure member should be implemented in a memory with the specified number of banks.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGAMemoryAttributesINTEL</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Literal Number<br>
+<td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock">Literal Number<br>
 <em>Banks</em></p></td>
 </tr>
 <tr>
@@ -676,15 +692,15 @@ Apply to a variable or a structure-type member. Request, to the extent possible,
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>BankwidthINTEL</strong><br>
 Apply to a variable or a structure-type member. Request, to the extent possible, that the variable or structure member should be implemented in a memory whose banks have the specified width in bytes.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGAMemoryAttributesINTEL</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Literal Number<br>
+<td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock">Literal Number<br>
 <em>Bank Width</em></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">5829</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MaxPrivateCopiesINTEL</strong><br>
-Apply to a variable or a structure-type member. Request, to the extent possible, that the memory synthesized for the variable or structure member should be copied no more than the specified number of times to enable concurrent thread or loop iteration accesses.</p></td>
+Apply to a variable or a structure-type member. Request, to the extent possible, that no more than the specified number of independent copies of the memory synthesized for the variable or structure member should be created for the purpose of enabling concurrent thread or loop iteration accesses.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGAMemoryAttributesINTEL</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Literal Number<br>
+<td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock">Literal Number<br>
 <em>Maximum Copies</em></p></td>
 </tr>
 <tr>
@@ -692,14 +708,39 @@ Apply to a variable or a structure-type member. Request, to the extent possible,
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>SinglepumpINTEL</strong><br>
 Apply to a variable or a structure-type member. Request, to the extent possible, that the variable or structure member should be implemented in a memory that is clocked at the same rate as accesses to it.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGAMemoryAttributesINTEL</strong></p></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top" colspan="2"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">5831</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>DoublepumpINTEL</strong><br>
 Apply to a variable or a structure-type member. Request, to the extent possible, that the variable or structure member should be implemented in a memory that is clocked at twice the rate of accesses to it.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGAMemoryAttributesINTEL</strong></p></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top" colspan="2"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5832</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MaxReplicatesINTEL</strong><br>
+Apply to a variable or a structure-type member. Request, to the extent possible, that each copy of the memory synthesized for the variable or structure member should be replicated no more than the specified number of times for the purpose of enabling simultaneous accesses from different load/store sites in the program.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGAMemoryAttributesINTEL</strong></p></td>
+<td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock">Literal Number<br>
+<em>Maximum Replicates</em></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5833</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>SimpleDualPortINTEL</strong><br>
+Apply to a variable or a structure-type member. Request, to the extent possible, that the variable or structure member should be implemented in a memory that is configured such that no memory port services both stores and loads.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGAMemoryAttributesINTEL</strong></p></td>
+<td class="tableblock halign-left valign-top" colspan="2"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5834</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MergeINTEL</strong><br>
+Apply to a variable or a structure-type member.  Request, to the extent possible, that the variable or structure member should be implemented in a memory that is merged with any memories synthesized from arrays or structure members that are decorated with this decoration and the same specified merge key.  The mechanism of this merging is specified as a subsequent literal string.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGAMemoryAttributesINTEL</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Literal String<br>
+<em>Merge Key</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Literal String<br>
+<em>Merge Type</em></p></td>
 </tr>
 </tbody>
 </table>
@@ -795,6 +836,12 @@ Apply to a variable or a structure-type member. Request, to the extent possible,
 <td class="tableblock halign-left valign-top"><p class="tableblock">Joe Garvey</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Changed the name of MaxconcurrencyINTEL to MaxPrivateCopiesINTEL</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">E</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2019-06-18</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Joe Garvey</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Added the MaxReplicatesINTEL, SimpleDualPortINTEL, and MergeINTEL decorations</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -802,7 +849,7 @@ Apply to a variable or a structure-type member. Request, to the extent possible,
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-06-06 13:31:00 EDT
+Last updated 2019-06-18 09:04:56 EDT
 </div>
 </div>
 </body>
