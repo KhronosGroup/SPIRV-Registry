@@ -122,7 +122,7 @@ Apply to a variable or a structure-type member. Request, to the extent possible,
 | *FPGAMemoryAttributesINTEL* 2+| Literal Number +
 _Bank Width_
 | 5829 | *MaxPrivateCopiesINTEL* +
-Apply to a variable or a structure-type member. Request, to the extent possible, that no more than the specified number of independent copies of the memory synthesized for the variable of structure member should be created for the purpose of enabling concurrent thread or loop iteration accesses.
+Apply to a variable or a structure-type member. Request, to the extent possible, that no more than the specified number of independent copies of the memory synthesized for the variable or structure member should be created for the purpose of enabling concurrent thread or loop iteration accesses.
 | *FPGAMemoryAttributesINTEL* 2+| Literal Number +
 _Maximum Copies_
 | 5830 | *SinglepumpINTEL* +
