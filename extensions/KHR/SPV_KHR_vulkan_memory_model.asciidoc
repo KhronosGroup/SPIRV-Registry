@@ -30,8 +30,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2019-02-19
-| Revision           | 3
+| Last Modified Date | 2019-06-13
+| Revision           | 4
 |========================================
 
 Dependencies
@@ -87,7 +87,8 @@ The *Coherent* decoration is deprecated and replaced (and extended) by
 *MakePointerAvailableKHR* or *MakePointerVisibleKHR* and
 *MakeTexelAvailableKHR* or *MakeTexelVisibleKHR*. Similarly, the *Volatile*
 decoration is deprecated and replaced by the *Volatile* <<Memory_Access,Memory Access>> bit for
-pointers and the *VolatileTexelKHR* <<Image_Operands, Image Operands>> bit for image accesses.
+pointers, the *VolatileTexelKHR* <<Image_Operands, Image Operands>> bit for image accesses,
+and the *Volatile* <<Memory_Semantics, Memory Semantics>> bit for atomics.
 
 *VulkanKHR* is a new Memory Model enum which indicates that a module opts into
 the Vulkan Memory Model.
@@ -172,8 +173,8 @@ used instead.
 Add to the description of *Volatile*
 
 *Volatile* is not allowed when the declared memory model is *VulkanKHR*.
-The <<Memory_Access,Memory Access>> bit *Volatile* or the <<Image_Operands, Image Operands>> bit *VolatileTexelKHR*
-can be used instead.
+The <<Memory_Access,Memory Access>> bit *Volatile*, the <<Image_Operands, Image Operands>> bit *VolatileTexelKHR*,
+or the <<Memory_Semantics, Memory Semantics>> bit *Volatile* can be used instead.
 
 (Modify Section 3.14, Image Operands, adding to the end of the table)
 
@@ -223,6 +224,10 @@ classes.
 | 0x4000 | *MakeVisibleKHR* +
 Perform a visibility operation on all references in the selected storage
 classes.
+| *VulkanMemoryModelKHR*
+| 0x8000 | *Volatile* +
+This access cannot be eliminated, duplicated, or combined with other
+accesses.
 | *VulkanMemoryModelKHR*
 |====
 
@@ -376,4 +381,5 @@ Revision History
 |1 |2018-04-20 |Jeff Bolz| *Initial draft*
 |2 |2018-09-05 |Jeff Bolz, David Neto| *Add QueueFamilyKHR, update Memory Access Operands*
 |3 |2019-02-19 |David Neto| *Khronos SPIR-V Issue #413: Interaction with SPIR-V 1.4: Restrictions on memory access bits in two-operand OpCopyMemory and OpCopyMemorySized.*
+|4 |2019-06-13 |Jeff Bolz| *Added Volatile to <<Memory_Semantics, Memory Semantics>>*
 |========================================
