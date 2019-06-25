@@ -810,6 +810,11 @@ Tobias Hector, AMD
 Jason Ekstrand, Intel
 </p>
 </li>
+<li>
+<p>
+Mariusz Merecki, Intel
+</p>
+</li>
 </ul></div>
 </div>
 </div>
@@ -844,7 +849,7 @@ width:40%;
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2019-06-12</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2019-06-25</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Revision</p></td>
@@ -998,6 +1003,11 @@ decorated with exactly one of <strong>Aliased</strong> or <strong>Restrict</stro
 pointee type is a pointer in <strong>PhysicalStorageBufferEXT</strong> <a href="#Storage_Class">storage class</a>, then
 the function parameter must be decorated with exactly one of
 <strong>AliasedPointerEXT</strong> or <strong>RestrictPointerEXT</strong>.</p></div>
+<div class="paragraph"><p>Any pointer value whose <a href="#Storage_Class">storage class</a> is <strong>PhysicalStorageBufferEXT</strong> and that
+points to a matrix or an array of matrices or a row or element of a matrix must be the result of
+an <strong>OpAccessChain</strong> or <strong>OpPtrAccessChain</strong> instruction whose base is a structure type (or
+recursively must be the result of a sequence of only access chains from a structure to the final
+value). Such a pointer must only be used as the <em>Pointer</em> operand to <strong>OpLoad</strong> or <strong>OpStore</strong>.</p></div>
 <div class="paragraph"><p>Modify section 2.16.2. Validation Rules for Shader Capabilities:</p></div>
 <div class="paragraph"><p>Add <strong>PhysicalStorageBufferEXT</strong> to the list of <a href="#Storage_Class">storage classes</a> in which
 composite objects must be explicitly laid out.</p></div>
@@ -1265,7 +1275,7 @@ width:100%;
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-06-12 14:03:33 CDT
+Last updated 2019-06-25 11:28:42 CDT
 </div>
 </div>
 </body>
