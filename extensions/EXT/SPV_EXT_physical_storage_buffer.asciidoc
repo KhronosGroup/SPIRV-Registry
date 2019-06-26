@@ -20,6 +20,7 @@ Contributors
 - Neil Henning, AMD
 - Tobias Hector, AMD
 - Jason Ekstrand, Intel
+- Mariusz Merecki, Intel
 
 Notice
 ------
@@ -37,7 +38,7 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2019-06-12
+| Last Modified Date | 2019-06-25
 | Revision           | 1
 |========================================
 
@@ -198,6 +199,11 @@ pointee type is a pointer in *PhysicalStorageBufferEXT* <<Storage_Class, storage
 the function parameter must be decorated with exactly one of
 *AliasedPointerEXT* or *RestrictPointerEXT*.
 
+Any pointer value whose <<Storage_Class, storage class>> is *PhysicalStorageBufferEXT* and that
+points to a matrix or an array of matrices or a row or element of a matrix must be the result of
+an *OpAccessChain* or *OpPtrAccessChain* instruction whose base is a structure type (or
+recursively must be the result of a sequence of only access chains from a structure to the final
+value). Such a pointer must only be used as the 'Pointer' operand to *OpLoad* or *OpStore*.
 
 Modify section 2.16.2. Validation Rules for Shader Capabilities:
 
