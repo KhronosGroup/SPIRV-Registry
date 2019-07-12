@@ -838,11 +838,11 @@ width:40%;
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2019-01-30</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2019-07-12</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
 </tr>
 </tbody>
 </table>
@@ -1213,7 +1213,10 @@ width:100%;
 <br>
 Linear-algebraic matrix multiply of <em>A</em> by <em>B</em> and then component-wise
 add <em>C</em>. The order of the operations is implementation-dependent. The
-internal precision of the operations is defined by the client API.<br>
+internal precision of floating-point operations is defined by the client
+API. Integer operations are performed at the precision of the <em>Result Type</em>
+and are exact unless there is overflow or underflow, in which case the
+result is undefined.<br>
 <br>
 <em>Result Type</em> must be a cooperative matrix type with M rows and N columns.<br>
 <br>
@@ -1229,6 +1232,10 @@ This is referred to as an <em>MxNxK</em> matrix multiply.<br>
 <em>A</em>, <em>B</em>, <em>C</em>, and <em>Result Type</em> must have the same scope, and this defines
 the scope of the operation. <em>A</em>, <em>B</em>, <em>C</em>, and <em>Result Type</em> need not
 necessarily have the same component type, this is defined by the client API.<br>
+<br>
+If the <em>Component Type</em> of any matrix operand is an integer type, then its
+components are treated as signed if its <em>Component Type</em> has <em>Signedness</em> of 1
+and are treated as unsigned otherwise.<br>
 <br>
 For a given dynamic instance of this instruction, all invocations in a given
 scope instance must be active or all must be inactive (where the scope is the
@@ -1342,6 +1349,12 @@ width:100%;
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Jeff Bolz</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Initial revision</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2019-07-12</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Jeff Bolz</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Added details for integer operations</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1350,7 +1363,7 @@ width:100%;
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-02-19 09:20:40 CST
+Last updated 2019-07-12 10:09:30 CDT
 </div>
 </div>
 </body>
