@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.7">
-<title>SPV_INTEL_fpga_memory_attributes</title>
+<title>SPV_INTEL_fpga_reg</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -432,14 +432,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>SPV_INTEL_fpga_memory_attributes</h1>
+<h1>SPV_INTEL_fpga_reg</h1>
 </div>
 <div id="content">
 <div class="sect1">
 <h2 id="_name_strings">Name Strings</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>SPV_INTEL_fpga_memory_attributes</p>
+<p>SPV_INTEL_fpga_reg</p>
 </div>
 </div>
 </div>
@@ -459,9 +459,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sectionbody">
 <div class="ulist">
 <ul>
-<li>
-<p>Ben Ashbaugh, Intel<br></p>
-</li>
 <li>
 <p>Joe Garvey, Intel<br></p>
 </li>
@@ -499,11 +496,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2019-06-18</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2019-07-12</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">E</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
 </tr>
 </tbody>
 </table>
@@ -514,7 +511,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sectionbody">
 <div class="paragraph">
 <p>This extension is written against the SPIR-V Specification,
-Version 1.3 Revision 6.</p>
+Version 1.4 Revision 1.</p>
 </div>
 <div class="paragraph">
 <p>This extension requires SPIR-V 1.0.</p>
@@ -525,7 +522,7 @@ Version 1.3 Revision 6.</p>
 <h2 id="_overview">Overview</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This extension adds decorations that influence compiler generation of memory structures on an FPGA target.</p>
+<p>This extension adds an instruction which explicitly requests that a pipelining register be introduced at a particular point in a program (on a specific assignment).  The instruction is useful for FPGA targets, to separate regions of the program that are expected to end up in geographically distant regions of a device.  This instruction is purely an optimization hint, and is functionally equivalent to an assignment.</p>
 </div>
 </div>
 </div>
@@ -537,7 +534,7 @@ Version 1.3 Revision 6.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>OpExtension "SPV_INTEL_fpga_memory_attributes"</pre>
+<pre>OpExtension "SPV_INTEL_fpga_reg"</pre>
 </div>
 </div>
 </div>
@@ -550,29 +547,20 @@ Version 1.3 Revision 6.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>FPGAMemoryAttributesINTEL</pre>
+<pre>FPGARegINTEL</pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_new_decorations">New Decorations</h2>
+<h2 id="_new_instructions">New Instructions</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Decorations added under the <strong>FPGAMemoryAttributes</strong> capability:</p>
+<p>Instructions added under the <strong>FPGARegINTEL</strong> capability:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>RegisterINTEL
-MemoryINTEL
-NumbanksINTEL
-BankwidthINTEL
-MaxPrivateCopiesINTEL
-SinglepumpINTEL
-DoublepumpINTEL
-MaxReplicatesINTEL
-SimpleDualPortINTEL
-MergeINTEL</pre>
+<pre>OpFPGARegINTEL</pre>
 </div>
 </div>
 </div>
@@ -589,48 +577,12 @@ MergeINTEL</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">FPGAMemoryAttributesINTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5824</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FPGARegINTEL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5948</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">RegisterINTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5825</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">MemoryINTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5826</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">NumbanksINTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5827</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">BankwidthINTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5828</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">MaxPrivateCopiesINTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5829</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">SinglepumpINTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5830</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">DoublepumpINTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5831</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">MaxReplicatesINTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5832</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">SimpleDualPortINTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5833</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">MergeINTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5834</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OpFPGARegINTEL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5949</p></td>
 </tr>
 </tbody>
 </table>
@@ -639,114 +591,8 @@ MergeINTEL</pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_modifications_to_the_spir_v_specification_version_1_3">Modifications to the SPIR-V Specification, Version 1.3</h2>
+<h2 id="_modifications_to_the_spir_v_specification_version_1_4">Modifications to the SPIR-V Specification, Version 1.4</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="_decoration">Decoration</h3>
-<div class="paragraph">
-<p>Modify Section 3.20, Decoration, adding these rows to the Decoration table:</p>
-</div>
-<div class="openblock">
-<div class="content">
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-center valign-top" colspan="2">Decoration</th>
-<th class="tableblock halign-center valign-top">Enabling Capabilities</th>
-<th class="tableblock halign-center valign-top" colspan="2">Extra Operands</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5825</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RegisterINTEL</strong><br>
-Apply to a variable or a structure-type member. Request, to the extent possible, that the variable or structure member should be implemented in logic and carried through the datapath.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGAMemoryAttributesINTEL</strong></p></td>
-<td class="tableblock halign-left valign-top" colspan="2"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5826</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MemoryINTEL</strong><br>
-Apply to a variable or a structure-type member. Request, to the extent possible, that the variable or structure member should be implemented in memory of the specified type.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGAMemoryAttributesINTEL</strong></p></td>
-<td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock">Literal String<br>
-<em>Memory Type</em></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5827</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>NumbanksINTEL</strong> <br>
-Apply to a variable or a structure-type member. Request, to the extent possible, that the variable or structure member should be implemented in a memory with the specified number of banks.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGAMemoryAttributesINTEL</strong></p></td>
-<td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock">Literal Number<br>
-<em>Banks</em></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5828</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>BankwidthINTEL</strong><br>
-Apply to a variable or a structure-type member. Request, to the extent possible, that the variable or structure member should be implemented in a memory whose banks have the specified width in bytes.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGAMemoryAttributesINTEL</strong></p></td>
-<td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock">Literal Number<br>
-<em>Bank Width</em></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5829</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MaxPrivateCopiesINTEL</strong><br>
-Apply to a variable or a structure-type member. Request, to the extent possible, that no more than the specified number of independent copies of the memory synthesized for the variable or structure member should be created for the purpose of enabling concurrent thread or loop iteration accesses.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGAMemoryAttributesINTEL</strong></p></td>
-<td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock">Literal Number<br>
-<em>Maximum Copies</em></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5830</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>SinglepumpINTEL</strong><br>
-Apply to a variable or a structure-type member. Request, to the extent possible, that the variable or structure member should be implemented in a memory that is clocked at the same rate as accesses to it.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGAMemoryAttributesINTEL</strong></p></td>
-<td class="tableblock halign-left valign-top" colspan="2"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5831</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>DoublepumpINTEL</strong><br>
-Apply to a variable or a structure-type member. Request, to the extent possible, that the variable or structure member should be implemented in a memory that is clocked at twice the rate of accesses to it.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGAMemoryAttributesINTEL</strong></p></td>
-<td class="tableblock halign-left valign-top" colspan="2"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5832</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MaxReplicatesINTEL</strong><br>
-Apply to a variable or a structure-type member. Request, to the extent possible, that each copy of the memory synthesized for the variable or structure member should be replicated no more than the specified number of times for the purpose of enabling simultaneous accesses from different load/store sites in the program.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGAMemoryAttributesINTEL</strong></p></td>
-<td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock">Literal Number<br>
-<em>Maximum Replicates</em></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5833</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>SimpleDualPortINTEL</strong><br>
-Apply to a variable or a structure-type member. Request, to the extent possible, that the variable or structure member should be implemented in a memory that is configured such that no memory port services both stores and loads.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGAMemoryAttributesINTEL</strong></p></td>
-<td class="tableblock halign-left valign-top" colspan="2"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5834</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MergeINTEL</strong><br>
-Apply to a variable or a structure-type member.  Request, to the extent possible, that the variable or structure member should be implemented in a memory that is merged with any memories synthesized from arrays or structure members that are decorated with this decoration and the same specified merge key.  The mechanism of this merging is specified as a subsequent literal string.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGAMemoryAttributesINTEL</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Literal String<br>
-<em>Merge Key</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Literal String<br>
-<em>Merge Type</em></p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
 <div class="sect2">
 <h3 id="_capability">Capability</h3>
 <div class="paragraph">
@@ -768,14 +614,46 @@ Apply to a variable or a structure-type member.  Request, to the extent possible
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5824</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">FPGAMemoryAttributesINTEL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5948</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FPGARegINTEL</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_instructions">Instructions</h3>
+<div class="paragraph">
+<p>In section 3.32.1, Miscellaneous Instructions, add a new instruction, <strong>OpFPGARegINTEL</strong>, as follows:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top" colspan="4"><p class="tableblock"><strong>OpFPGARegINTEL</strong><br></p>
+<p class="tableblock">Used to indicate to FPGA backends that pipelining registers should be inserted between the definition of <em>Input</em> and uses of <em>Result</em>.  The value passed in as <em>Input</em> is returned in <em>Result</em>. This instruction is strictly an optimization hint and thus it would be functionally correct for a consumer to treat it as an assignment.</p>
+<p class="tableblock"><em>Result Type</em> can be any type and is the type of both <em>Result</em> and <em>Input</em>.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:
+<strong>FPGARegINTEL</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5949</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;id&gt;<br>
+Result Type</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Result &lt;id&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Input &lt;id&gt;</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_validation_rules">Validation Rules</h3>
@@ -813,34 +691,10 @@ Apply to a variable or a structure-type member.  Request, to the extent possible
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2019-02-27</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2019-07-12</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Joe Garvey</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Initial public release</strong></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">B</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2019-03-18</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Joe Garvey</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Added MaxconcurrencyINTEL decoration.  Fixed NumbanksINTEL capitalization</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">C</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2019-04-23</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Joe Garvey</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Added SinglepumpINTEL and DoublepumpINTEL decorations</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">D</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2019-06-06</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Joe Garvey</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Changed the name of MaxconcurrencyINTEL to MaxPrivateCopiesINTEL</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">E</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2019-06-18</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Joe Garvey</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Added the MaxReplicatesINTEL, SimpleDualPortINTEL, and MergeINTEL decorations</p></td>
 </tr>
 </tbody>
 </table>
@@ -849,7 +703,7 @@ Apply to a variable or a structure-type member.  Request, to the extent possible
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-06-18 09:04:56 EDT
+Last updated 2019-07-12 12:13:51 EDT
 </div>
 </div>
 </body>

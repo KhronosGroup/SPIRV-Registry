@@ -810,6 +810,11 @@ Tobias Hector, AMD
 Jason Ekstrand, Intel
 </p>
 </li>
+<li>
+<p>
+Mariusz Merecki, Intel
+</p>
+</li>
 </ul></div>
 </div>
 </div>
@@ -844,7 +849,7 @@ width:40%;
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2018-12-07</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2019-06-25</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Revision</p></td>
@@ -894,11 +899,7 @@ and enables a few instructions currently supported for <strong>Addresses</strong
 <div class="paragraph"><p>Add new terms to section 2.2.2 Types:</p></div>
 <div class="paragraph"><p><a id="PhysicalPointerType"></a><em>Physical Pointer Type:</em> A pointer type is a physical
 pointer type if the <a href="#Storage_Class">storage class</a> of the type pointed to uses physical
-addressing according to the <a href="#Addressing_Model">addressing model</a>. For <strong>Physical32</strong> and
-<strong>Physical64</strong> addressing models, that is all storage classes. For the
-<strong>PhysicalStorageBuffer64EXT</strong> addressing model, it is only the
-<strong>PhysicalStorageBufferEXT</strong> storage class. For the <strong>Logical</strong> addressing model,
-there are no physical pointer types.</p></div>
+addressing according to the <a href="#Addressing_Model">addressing model</a>.</p></div>
 <div class="paragraph"><p><a id="LogicalPointerType"></a><em>Logical Pointer Type:</em> A pointer type is a logical
 pointer type if it is not a physical pointer type.</p></div>
 <div class="paragraph"><p>Modify the following definitions:</p></div>
@@ -911,6 +912,12 @@ pointer type, or any aggregate type containing any of these.</p></div>
 an <strong>OpFunctionParameter</strong> of pointer type, or the contents of an <strong>OpVariable</strong>
 that holds a pointer to <strong>PhysicalStorageBufferEXT</strong> <a href="#Storage_Class">storage class</a>
 or holds an array of such pointers.</p></div>
+<div class="paragraph"><p>Modify the first part of the definition of <em>Variable pointer</em> from:</p></div>
+<div class="paragraph"><p><a id="VariablePointer"></a><em>Variable pointer:</em> A pointer that results from one of the
+following instructions: &#8230;</p></div>
+<div class="paragraph"><p>to:</p></div>
+<div class="paragraph"><p><a id="VariablePointer"></a><em>Variable pointer:</em> A pointer of logical pointer type that
+results from one of the following instructions: &#8230;</p></div>
 </div>
 <div class="sect2">
 <h3 id="_2_16_validation_rules">2.16 Validation Rules</h3>
@@ -930,6 +937,21 @@ following rules apply to &lt;&lt;LogicalPointerType,logical pointer types&gt;&gt
 <div class="paragraph"><p>Change:</p></div>
 <div class="literalblock">
 <div class="content monospaced">
+<pre>*OpVariable* cannot allocate an object whose type is a pointer type (that
+is, it cannot create an object in memory that is itself a pointer and
+whose result would thus be a pointer to a pointer)</pre>
+</div></div>
+<div class="paragraph"><p>to:</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>*OpVariable* cannot allocate an object whose type is a
+&lt;&lt;LogicalPointerType,logical pointer type&gt;&gt; (that is, it cannot create an
+object in memory that is itself a logical pointer and whose result would
+thus be a pointer to a logical pointer)</pre>
+</div></div>
+<div class="paragraph"><p>Change:</p></div>
+<div class="literalblock">
+<div class="content monospaced">
 <pre>"If the *Logical *&lt;&lt;Addressing_Model, addressing model&gt;&gt; is selected and the
 *VariablePointers* or *VariablePointersStorageBuffer* &lt;&lt;Capability,capability&gt;&gt; is
 declared (in addition to what is allowed above by the *Logical* addressing model):"</pre>
@@ -939,6 +961,31 @@ declared (in addition to what is allowed above by the *Logical* addressing model
 <div class="content monospaced">
 <pre>"If the *VariablePointers* or *VariablePointersStorageBuffer* &lt;&lt;Capability,capability&gt;&gt;
 is declared, the following are allowed for &lt;&lt;LogicalPointerType,logical pointer types&gt;&gt;:".</pre>
+</div></div>
+<div class="paragraph"><p>Change:</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>*OpVariable* can allocate an object whose type is a pointer type, if the
+&lt;&lt;Storage_Class, Storage Class&gt;&gt; of the *OpVariable* is one of the
+following: ...</pre>
+</div></div>
+<div class="paragraph"><p>to:</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>*OpVariable* can allocate an object whose type is a
+&lt;&lt;LogicalPointerType,logical pointer type&gt;&gt;, if the
+&lt;&lt;Storage_Class, Storage Class&gt;&gt; of the *OpVariable* is one of the
+following: ...</pre>
+</div></div>
+<div class="paragraph"><p>Change:</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>A &lt;&lt;VariablePointer,variable pointer&gt;&gt; with the Logical addressing model cannot ...</pre>
+</div></div>
+<div class="paragraph"><p>to:</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>A &lt;&lt;VariablePointer,variable pointer&gt;&gt; cannot ...</pre>
 </div></div>
 <div class="paragraph"><p>Add the following rules:</p></div>
 <div class="paragraph"><p>If the <a href="#Addressing_Model">addressing model</a> is not <strong>PhysicalStorageBuffer64EXT</strong>, then the
@@ -956,6 +1003,11 @@ decorated with exactly one of <strong>Aliased</strong> or <strong>Restrict</stro
 pointee type is a pointer in <strong>PhysicalStorageBufferEXT</strong> <a href="#Storage_Class">storage class</a>, then
 the function parameter must be decorated with exactly one of
 <strong>AliasedPointerEXT</strong> or <strong>RestrictPointerEXT</strong>.</p></div>
+<div class="paragraph"><p>Any pointer value whose <a href="#Storage_Class">storage class</a> is <strong>PhysicalStorageBufferEXT</strong> and that
+points to a matrix or an array of matrices or a row or element of a matrix must be the result of
+an <strong>OpAccessChain</strong> or <strong>OpPtrAccessChain</strong> instruction whose base is a structure type (or
+recursively must be the result of a sequence of only access chains from a structure to the final
+value). Such a pointer must only be used as the <em>Pointer</em> operand to <strong>OpLoad</strong> or <strong>OpStore</strong>.</p></div>
 <div class="paragraph"><p>Modify section 2.16.2. Validation Rules for Shader Capabilities:</p></div>
 <div class="paragraph"><p>Add <strong>PhysicalStorageBufferEXT</strong> to the list of <a href="#Storage_Class">storage classes</a> in which
 composite objects must be explicitly laid out.</p></div>
@@ -1127,10 +1179,7 @@ width:100%;
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">5347</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>PhysicalStorageBufferAddressesEXT</strong><br>
-Enables <strong>PhysicalStorageBuffer64EXT</strong> <a href="#Addressing_Model">addressing model</a>.
-Enables <strong>OpTypeForwardPointer</strong>, <strong>OpConvertUToPtr</strong>, <strong>OpConvertPtrToU</strong>, and
-<strong>OpPtrAccessChain</strong> instructions.</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>PhysicalStorageBufferAddressesEXT</strong><br></p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Shader</strong></p></td>
 </tr>
 </tbody>
@@ -1226,7 +1275,7 @@ width:100%;
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-06-05 10:11:46 CDT
+Last updated 2019-06-25 11:28:42 CDT
 </div>
 </div>
 </body>
