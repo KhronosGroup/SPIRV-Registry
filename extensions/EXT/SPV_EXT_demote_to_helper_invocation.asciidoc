@@ -1,0 +1,160 @@
+SPV_EXT_demote_to_helper_invocation
+===================================
+
+Name Strings
+------------
+
+SPV_EXT_demote_to_helper_invocation
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Jeff Bolz, NVIDIA Corporation
+- Alan Baker, Google LLC
+
+Notice
+------
+
+Copyright (c) 2019 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+Status
+------
+
+- Complete.
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2019-06-06
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.4 Revision 1.
+
+This extension requires SPIR-V 1.0.
+
+Overview
+--------
+
+This extension adds a new *OpDemoteToHelperInvocationEXT* instruction which is
+similar to *OpKill* in that it suppresses subsequent stores and writes to
+outputs, but is not a flow control instruction and does not necessarily terminate
+the shader invocation. This is a better match for D3D's discard instruction,
+and preserves the ability to rely on uniform flow control for derivatives
+after the discard.
+
+This extension also adds a new *OpIsHelperInvocationEXT* instruction which
+returns whether the invocation is currently a helper invocation. That is, at
+the beginning of a fragment shader invocation it returns the same value as
+the *HelperInvocation* input, and after demotion it returns *true*. The
+*HelperInvocation* builtin decoration is used on a variable in the *Input*
+storage class, and it wouldn't make sense for an input variable's value to
+change over the course of the invocation's execution.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_EXT_demote_to_helper_invocation"
+----
+
+Modifications to the SPIR-V Specification, Version 1.4
+------------------------------------------------------
+
+Capabilities
+~~~~~~~~~~~~
+
+Modify Section 3.31, "Capability", adding these rows to the Capability table:
+
+--
+[options="header"]
+|====
+2+^| Capability ^| Enabling Capabilities
+| 5379 | *DemoteToHelperInvocationEXT* +
+Allow the *OpDemoteToHelperInvocationEXT* and *OpIsHelperInvocationEXT*
+instructions
+| *Shader*
+|====
+--
+
+Instructions
+~~~~~~~~~~~~
+
+Modify Section 3.32.1, "Miscellaneous Instructions", adding the new instructions:
+
+[cols="1,1,0*3",width="100%"]
+|=====
+1+|[[OpDemoteToHelperInvocationEXT]]*OpDemoteToHelperInvocationEXT* +
+ +
+Demote fragment shader invocation to a helper invocation. Any stores to memory
+after this instruction are suppressed and the fragment does not write outputs to
+the framebuffer. +
+ +
+Unlike the *OpKill* instruction, this does not necessarily terminate the
+invocation. It is not considered a flow control instruction (flow control does
+not become non-uniform) and does not terminate the block. The implementation 
+may terminate helper invocations before the end of the shader as an
+optimization, but doing so must not affect derivative calculations and does not
+make control flow non-uniform. +
+ +
+After this instruction executes, the value of a *HelperInvocation* builtin
+variable is undefined. Use *OpIsHelperInvocationEXT* to determine whether
+invocations are helper invocations in the presence of
+*OpDemoteToHelperInvocationEXT*. +
+ +
+This instruction is only valid in the *Fragment* Execution Model. +
+1+|Capability: +
+*DemoteToHelperInvocationEXT*
+1+| 1 | 5380
+|=====
+
+[cols="1,1,2*3",width="100%"]
+|=====
+3+|[[OpIsHelperInvocationEXT]]*OpIsHelperInvocationEXT* +
+ +
+Result is *true* if the invocation is currently a helper invocation,
+otherwise result is *false*. An invocation is currently a helper invocation
+if it was originally invoked as a helper invocation or if it has been demoted
+to a helper invocation by *OpDemoteToHelperInvocationEXT*. +
+ +
+'Result Type' must be a 'Boolean type' scalar. +
+ +
+This instruction is only valid in the *Fragment* Execution Model. +
+1+|Capability: +
+*DemoteToHelperInvocationEXT*
+1+| 3 | 5381 | '<id>' 'Result Type' | '<id>' 'Result' 
+|=====
+
+
+Issues
+------
+
+None.
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2019-06-06|Jeff Bolz|Initial revision
+|========================================
