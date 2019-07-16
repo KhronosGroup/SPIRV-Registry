@@ -1,0 +1,132 @@
+SPV_INTEL_fpga_reg
+==================
+
+== Name Strings
+
+SPV_INTEL_fpga_reg
+
+== Contact
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+== Contributors
+
+- Joe Garvey, Intel +
+- Michael Kinsner, Intel
+
+== Notice
+
+Copyright (c) 2019 Intel Corporation.  All rights reserved.
+
+== Status
+
+Final draft
+
+== Version
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | {docdate}
+| Revision           | 1
+|========================================
+
+== Dependencies
+
+This extension is written against the SPIR-V Specification,
+Version 1.4 Revision 1.
+
+This extension requires SPIR-V 1.0.
+
+== Overview
+
+This extension adds an instruction which explicitly requests that a pipelining register be introduced at a particular point in a program (on a specific assignment).  The instruction is useful for FPGA targets, to separate regions of the program that are expected to end up in geographically distant regions of a device.  This instruction is purely an optimization hint, and is functionally equivalent to an assignment.
+
+== Extension Name
+To use this extension within a SPIR-V module, the following *OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_INTEL_fpga_reg"
+----
+ 
+== New capabilities
+This extension introduces a new capability:
+
+----
+FPGARegINTEL
+----
+
+== New Instructions
+
+Instructions added under the *FPGARegINTEL* capability:
+
+----
+OpFPGARegINTEL
+----
+
+== Token Number Assignments
+
+--
+[width="40%"]
+[cols="70%,30%"]
+[grid="rows"]
+|====
+|FPGARegINTEL   |5948
+|OpFPGARegINTEL |5949
+|==== 
+--
+
+== Modifications to the SPIR-V Specification, Version 1.4
+
+=== Capability
+
+Modify Section 3.31, Capability, adding a row to the Capability table:
+--
+[options="header"]
+|====
+2+^| Capability ^| Implicitly Declares
+| 5948 | FPGARegINTEL | 
+|====
+--
+
+=== Instructions
+In section 3.32.1, Miscellaneous Instructions, add a new instruction, *OpFPGARegINTEL*, as follows:
+[cols="5", width="100%"]
+|=====
+4+^|*OpFPGARegINTEL* +
+
+Used to indicate to FPGA backends that pipelining registers should be inserted between the definition of _Input_ and uses of _Result_.  The value passed in as _Input_ is returned in _Result_. This instruction is strictly an optimization hint and thus it would be functionally correct for a consumer to treat it as an assignment.  
+
+_Result Type_ can be any type and is the type of both _Result_ and _Input_.
+
+| Capability:
+*FPGARegINTEL*
+
+| 4 | 5949 | <id> +
+Result Type | Result <id> | Input <id>
+|=====
+
+=== Validation Rules
+
+None.
+
+== Issues
+
+None.
+
+//. Issue.
+//+
+//--
+//*RESOLVED*: Resolution.
+//--
+
+== Revision History
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2019-07-12|Joe Garvey|*Initial public release*
+|======================================== 
