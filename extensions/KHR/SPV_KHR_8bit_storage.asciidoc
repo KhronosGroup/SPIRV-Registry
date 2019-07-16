@@ -36,8 +36,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2018-03-28
-| Revision           | 3
+| Last Modified Date | 2019-06-10
+| Revision           | 4
 |========================================
 
 Dependencies
@@ -55,12 +55,9 @@ This extension interacts with *SPV_KHR_16bit_storage*.
 Overview
 --------
 
-This extension adds new *StorageBuffer8BitAccess*, *UniformAndStorageBuffer8BitAccess*
-capabilities that allow to access 8-bit data in objects in *Uniform* and *StorageBuffer* storage
-classes.
-
-It also adds new *StoragePushConstant8* capability that allows access to 8-bit
-data in objects in *PushConstant* storage class.
+This extension adds new *StorageBuffer8BitAccess*, *UniformAndStorageBuffer8BitAccess*,
+and *StoragePushConstant8* capabilities to allow accesses to 8-bit integer types in
+the *StorageBuffer*, *Uniform*, and *PushConstant* storage classes.
 
 Extension Name
 --------------
@@ -72,41 +69,6 @@ To use this extension within a SPIR-V module, the following
 OpExtension "SPV_KHR_8bit_storage"
 ----
 
-New Capabilities
-----------------
-
-This extension introduces new capabilities:
-
-----
-StorageBuffer8BitAccess
-UniformAndStorageBuffer8BitAccess
-StoragePushConstant8
-----
-
-
-New Builtins
-------------
-
-None.
-
-New Instructions
-----------------
-
-None.
-
-Token Number Assignments
-------------------------
-
-[width="40%"]
-[cols="70%,30%"]
-[grid="rows"]
-|====
-|StorageBuffer8BitAccess           | 4448
-|UniformAndStorageBuffer8BitAccess | 4449
-|StoragePushConstant8              | 4450
-|====
-
-
 Modifications to the SPIR-V Specification, Version 1.1
 ------------------------------------------------------
 Modify Section 3.31, Capability, adding the following rows to the Capability table: ::
@@ -116,71 +78,67 @@ Modify Section 3.31, Capability, adding the following rows to the Capability tab
 |====
 2+^| Capability ^| Depends On
 | 4448 | *StorageBuffer8BitAccess* +
-Allows a 8-bit <<OpTypeInt, *OpTypeInt*>>
-instruction for the sole purpose of creating an <<OpTypePointer, *OpTypePointer*>>
-to a 8-bit integer member of an object in *StorageBuffer*
-<<Storage_Class,Storage Class>>.
+Allows an <<OpTypePointer, *OpTypePointer*>> to an 8-bit <<OpTypeInt, *OpTypeInt*>>
+type used as a member of a structure in the *StorageBuffer* <<Storage_Class, storage class>>.
 
-An object of a 8-bit type produced by dereferencing such a pointer
-may be the result of a width-only conversion instruction (<<OpSConvert, *OpSConvert*>>,
+The 8-bit object pointed to by such a pointer may be the result of a width-only
+conversion instruction (<<OpSConvert, *OpSConvert*>>,
 or <<OpUConvert, *OpUConvert*>>) from another type or of
 an <<OpLoad, *OpLoad*>>, and may be used as an operand to a width-only conversion
-instruction to another type or as the object argument of an
+instruction to another type or as the 'Object' operand of an
 <<OpStore, *OpStore*>>.
 
 Other uses of 8-bit types are not enabled by this capability. |
 | 4449 | *UniformAndStorageBuffer8BitAccess* +
-Allows a 8-bit <<OpTypeInt, *OpTypeInt*>>
-instruction for the sole purpose of creating an <<OpTypePointer, *OpTypePointer*>>
-to a 8-bit integer member of an object in *Uniform* and *StorageBuffer*
-<<Storage_Class,Storage Class>>.
+Allows an <<OpTypePointer, *OpTypePointer*>> to an 8-bit <<OpTypeInt, *OpTypeInt*>>
+type used as a member of a structure in either of the *Uniform* or *StorageBuffer*
+<<Storage_Class, storage classes>>.
 
-An object of a 8-bit type produced by dereferencing such a pointer
-may be the result of a width-only conversion instruction from another type or of
+The 8-bit object pointed to by such a pointer may be the result of a width-only
+conversion instruction (<<OpSConvert, *OpSConvert*>>,
+or <<OpUConvert, *OpUConvert*>>) from another type or of
 an <<OpLoad, *OpLoad*>>, and may be used as an operand to a width-only conversion
-instruction to another type or as the object argument of an
+instruction to another type or as the 'Object' operand of an
 <<OpStore, *OpStore*>>.
 
 Other uses of 8-bit types are not enabled by this capability. | *StorageBuffer8BitAccess*
 | 4450 | *StoragePushConstant8* +
-Allows a 8-bit <<OpTypeInt, *OpTypeInt*>>
-instruction for the sole purpose of creating an <<OpTypePointer, *OpTypePointer*>>
-to a 8-bit integer object in *PushConstant*
-<<Storage_Class,Storage Class>>.
+Allows an <<OpTypePointer, *OpTypePointer*>> to an 8-bit <<OpTypeInt, *OpTypeInt*>>
+type used as a member of a structure in the *PushConstant* <<Storage_Class, storage class>>.
 
-An object of a 8-bit type produced by dereferencing such a pointer
-may only be the result of a width-only conversion instruction from another type or of
+The 8-bit object pointed to by such a pointer may be the result of a width-only
+conversion instruction (<<OpSConvert, *OpSConvert*>>,
+or <<OpUConvert, *OpUConvert*>>) from another type or of
 an <<OpLoad, *OpLoad*>>.
 
 Other uses of 8-bit types are not enabled by this capability.|
-
 |====
 --
 
 Interactions with optional types
 --------------------------------
-If the *Int8* capability is enabled, then the 8-bit <<OpTypeInt, *OpTypeInt*>>
-instruction mentioned eariler can be used as an operand or a result to any supported instruction
-with a 8-bit result type or a 8-bit operand type.
+If the *Int8* capability is declared, then the 8-bit <<OpTypeInt, *OpTypeInt*>>
+instruction mentioned earlier can be used as an operand or a result to any supported instruction
+with an 8-bit result type or an 8-bit operand type.
 
-If the *Int16* or the *Float16* capability is enabled, then the 8-bit <<OpTypeInt, *OpTypeInt*>>
+If the *Int16* or the *Float16* capability is declared, then the 8-bit <<OpTypeInt, *OpTypeInt*>>
 instruction mentioned earlier can be used as an operand or a result to any supported conversion
 instruction with a 16-bit result type or a 16-bit operand type.
 
-If the *Int64* or the *Float64* capability is enabled, then the 8-bit <<OpTypeInt, *OpTypeInt*>>
+If the *Int64* or the *Float64* capability is declared, then the 8-bit <<OpTypeInt, *OpTypeInt*>>
 instruction mentioned earlier can be used as an operand or result to any supported conversion
 instruction with a 64-bit result type or a 64-bit operand type.
 
 Interactions with SPV_KHR_16bit_storage
 ---------------------------------------
-If any capability introduced by the *SPV_KHR_16bit_storage* extension is enabled,
+If any capability is declared from the *SPV_KHR_16bit_storage* extension,
 then the object produced by dereferencing a pointer pointing to 8-bit data can be used
 as an operand or a result to a width-only conversion instruction with
 a 16-bit result type or a 16-bit operand type, and in addition,
 the object produced by dereferencing a pointer pointing to 16-bit data mentioned
 in the *Capability* section of the *SPV_KHR_16bit_storage* extension
 can be used as an operand or a result to a width-only conversion instruction with
-a 8-bit result type or a 8-bit operand type.
+an 8-bit result type or an 8-bit operand type.
 
 
 Issues
@@ -197,4 +155,5 @@ Revision History
 |1|2017-10-05|Alexander Galazin|Initial revision
 |2|2017-11-01|Alexander Galazin|Assigned token numbers
 |3|2018-03-28|David Neto|Record approval by SPIR Working Group
+|4|2019-06-10|John Kessenich|Rationalize and clean up
 |========================================
