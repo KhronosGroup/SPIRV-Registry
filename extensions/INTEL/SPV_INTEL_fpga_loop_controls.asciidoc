@@ -29,7 +29,7 @@ Final draft
 [width="40%",cols="25,25"]
 |========================================
 | Last Modified Date | {docdate}
-| Revision           | C
+| Revision           | D
 |========================================
 
 == Dependencies
@@ -80,6 +80,8 @@ Strong request, to the extent possible, to allow no more than a fixed number of 
 | 0x40000 | *DependencyArrayINTEL* +
 Guarantees that there are no dependencies on a particular variable between a number of loop iterations.  
 Can be applied to multiple variables, the number of which is specified as a subsequent literal-number operand to the instruction. Following that, for each variable, an <id> and literal number pair are provided indicating the variable and number of loop iterations. A number of loop iterations of 0 indicates that there are no loop-carried dependences on that variable. | *FPGALoopControlsINTEL*
+| 0x80000 | *ArrayInitializerINTEL* +
+Indicates that this loop is a compiler-generated array initialization loop.  This can be useful for FPGA targets that wish to optimize these loops differently from other loops. | *FPGALoopControlsINTEL*
 |====
 
 === Capability
@@ -110,5 +112,6 @@ None.
 |A|2019-05-06|Joe Garvey|*Initial public release*
 |B|2019-05-07|Michael Kinsner|Update overview wording
 |C|2019-06-02|Michael Kinsner|Use loop control bits directly, as allocated in SPIRV-Headers spir-v.xml
+|D|2019-07-17|Joe Garvey|Add ArrayInitializerINTEL
 |======================================== 
 

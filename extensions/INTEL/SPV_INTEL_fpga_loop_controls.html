@@ -496,11 +496,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2019-06-02</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2019-07-17</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">C</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">D</p></td>
 </tr>
 </tbody>
 </table>
@@ -607,6 +607,12 @@ Guarantees that there are no dependencies on a particular variable between a num
 Can be applied to multiple variables, the number of which is specified as a subsequent literal-number operand to the instruction. Following that, for each variable, an &lt;id&gt; and literal number pair are provided indicating the variable and number of loop iterations. A number of loop iterations of 0 indicates that there are no loop-carried dependences on that variable.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGALoopControlsINTEL</strong></p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0x80000</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>ArrayInitializerINTEL</strong><br>
+Indicates that this loop is a compiler-generated array initialization loop.  This can be useful for FPGA targets that wish to optimize these loops differently from other loops.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGALoopControlsINTEL</strong></p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -689,6 +695,12 @@ Can be applied to multiple variables, the number of which is specified as a subs
 <td class="tableblock halign-left valign-top"><p class="tableblock">Michael Kinsner</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Use loop control bits directly, as allocated in SPIRV-Headers spir-v.xml</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">D</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2019-07-17</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Joe Garvey</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Add ArrayInitializerINTEL</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -696,7 +708,7 @@ Can be applied to multiple variables, the number of which is specified as a subs
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-06-02 13:19:57 EDT
+Last updated 2019-07-17 14:28:50 EDT
 </div>
 </div>
 </body>
