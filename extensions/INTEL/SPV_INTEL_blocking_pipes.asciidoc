@@ -1,0 +1,176 @@
+SPV_INTEL_blocking_pipes
+========================
+
+== Name Strings
+
+SPV_INTEL_blocking_pipes
+
+== Contact
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+== Contributors
+
+- Joe Garvey, Intel +
+- Michael Kinsner, Intel
+
+== Notice
+
+Copyright (c) 2019 Intel Corporation.  All rights reserved.
+
+== Status
+
+Final draft
+
+== Version
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | {docdate}
+| Revision           | 1
+|========================================
+
+== Dependencies
+
+This extension is written against the SPIR-V Specification,
+Version 1.4 Revision 1.
+
+This extension requires SPIR-V 1.0.
+
+== Overview
+
+This extension adds new pipe read and write functions that have blocking semantics instead of the non-blocking semantics of the existing pipe read/write functions.  In this version, only the variants that don't support reservations are specified.
+
+== Extension Name
+To use this extension within a SPIR-V module, the following *OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_INTEL_blocking_pipes"
+----
+
+== New Capabilities
+
+This extension introduces a new capability:
+
+----
+BlockingPipesINTEL
+----
+
+== New Instructions
+
+Instructions added under the *BlockingPipesINTEL* capability:
+
+----
+OpReadPipeBlockingINTEL
+OpWritePipeBlockingINTEL
+----
+
+== Token Number Assignments
+
+--
+[width="40%"]
+[cols="70%,30%"]
+[grid="rows"]
+|====
+|BlockingPipesINTEL | 5945
+|OpReadPipeBlockingINTEL | 5946
+|OpWritePipeBlockingINTEL  | 5947
+|==== 
+--
+
+== Modifications to the SPIR-V Specification, Version 1.4
+
+=== Capability
+
+Modify section 3.31, Capability, adding a row to the capability table:
+--
+[options="header"]
+|====
+2+^| Capability ^| Implicitly Declares
+| 5945 | BlockingPipesINTEL | *Pipes*
+|====
+--
+
+=== Instructions
+In section 3.32.23, Pipe Instructions, add two new instructions: *OpReadPipeBlockingINTEL* and *OpWritePipeBlockingINTEL*, as follows:
+
+[cols="6", width="100%"]
+|=====
+5+^|*OpReadPipeBlockingINTEL* +
+
+Read a packet from the pipe object specified by _Pipe_ into _Pointer_.  This instruction will not return until the read has completed successfully and thus if the pipe is empty it will block until there is data in the pipe. +
+
+_Pipe_ must have a type of OpTypePipe with *ReadOnly* access qualifier. +
+
+_Pointer_ must have a type of OpTypePointer with the same data type as _Pipe_ and a *Generic* Storage Class. +
+
+_Packet Size_ must be a 32-bit integer type scalar that represents the size in bytes of each packet in the pipe. +
+
+_Packet Alignment_ must be a 32-bit integer type scalar that presents the alignment in bytes of each packet in the pipe. +
+
+_Packet Size_ and _Packet Alignment_ must satisfy the following: +
+- 1 &lt;= _Packet Alignment_ &lt;= _Packet Size_. +
+- _Packet Alignment_ must evenly divide _Packet Size_. +
+
+For concrete types, _Packet Alignment_ should equal _Packet Size_.  For aggregate types, _Packet Alignment_ should be the size of the largest primitive type in the hierarchy of types.
+| Capability: +
+*BlockingPipesINTEL*
+
+| 5 | 5946 | <id> +
+_Pipe_ | <id> + 
+_Pointer_ | <id> +
+_Packet Size_ | <id> +
+_Packet Alignment_
+|=====
+
+[cols="6", width="100%"]
+|=====
+5+^|*OpWritePipeBlockingINTEL* +
+
+Write a packet from _Pointer_ to the pipe object specified by _Pipe_. This instruction will not return until the write has completed successfully and thus if the pipe is full it will block until there is available capacity in the pipe. +
+
+_Pipe_ must have a type of OpTypePipe with *WriteOnly* access qualifier. +
+
+_Pointer_ must have a type of OpTypePointer with the same data type as _Pipe_ and a *Generic* Storage Class. +
+
+_Packet Size_ must be a 32-bit integer type scalar that represents the size in bytes of each packet in the pipe. +
+
+_Packet Alignment_ must be a 32-bit integer type scalar that presents the alignment in bytes of each packet in the pipe. +
+
+_Packet Size_ and _Packet Alignment_ must satisfy the following: +
+- 1 &lt;= _Packet Alignment_ &lt;= _Packet Size_. +
+- _Packet Alignment_ must evenly divide _Packet Size_. +
+
+For concrete types, _Packet Alignment_ should equal _Packet Size_.  For aggregate types, _Packet Alignment_ should be the size of the largest primitive type in the hierarchy of types.
+| Capability: +
+*BlockingPipesINTEL*
+
+| 5 | 5947 | <id> +
+_Pipe_ | <id> + 
+_Pointer_ | <id> +
+_Packet Size_ | <id> +
+_Packet Alignment_
+|=====
+
+== Issues
+
+None.
+
+//. Issue.
+//+
+//--
+//*RESOLVED*: Resolution.
+//--
+
+== Revision History
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2019-07-17|Joe Garvey|*Initial public release*
+|======================================== 
+
