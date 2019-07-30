@@ -1,0 +1,178 @@
+SPV_GOOGLE_user_type
+====================
+
+Name Strings
+------------
+
+SPV_GOOGLE_user_type
+
+Contact
+-------
+
+See *Issues* list in the Khronos SPIRV-Headers repository:
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Hai Nguyen, Google
+- David Neto, Google
+- Ehsan Nasiri, Google
+
+Status
+------
+- Draft
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2019-04-22
+| Initial            | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.2 Revision 4, Unified.
+
+This extension requires SPIR-V 1.0.
+
+This extension also subsumes the SPV_GOOGLE_decorate_string extension.
+
+Overview
+--------
+This extension provides one new decoration, UserTypeGOOGLE, that allows HLL
+shader compilers to optionally embed unambiguous type information.
+
+The decoration UserTypeGOOGLE is used with OpDecorateStringGOOGLE and
+OpMemberDecorateStringGOOGLE to store a string name for the type of the
+decorated object in the user's source. It can decorate only a variable, a
+type, or a member of a structure type. This has no semantic impact.
+
+The following table describes standard HLSL resource types and their
+corresponding string names:
+
+[width="40%"]
+[cols="70%,30%"]
+[grid="rows"]
+|====
+|cbuffer                 | cbuffer
+|tbuffer                 | tbuffer
+|AppendStructuredBuffer  | appendstructuredbuffer
+|Buffer                  | buffer
+|ByteAddressBuffer       | byteaddressbuffer
+|ConsumeStructuredBuffer | consumestructuredbuffer
+|InputPatch              | inputpatch
+|OutputPatch             | outputpatch
+|RWBuffer                | rwbuffer
+|RWByteAddressBuffer     | rwbyteaddressbuffer
+|RWStructuredBuffer      | rwstructuredbuffer
+|RWTexture1D             | rwtexture1d
+|RWTexture1DArray        | rwtexture1darray
+|RWTexture2D             | rwtexture2d
+|RWTexture2DArray        | rwtexture2darray
+|RWTexture3D             | rwtexture3d
+|StructuredBuffer        | structuredbuffer
+|Texture1D               | texture1d
+|Texture1DArray          | texture1darray
+|Texture2D               | texture2d
+|Texture2DArray          | texture2darray
+|Texture2DMS             | texture2dms
+|Texture2DMSArray        | texture2dmsarray
+|Texture3D               | texture3d
+|TextureCube             | texturecube
+|TextureCubeArray        | texturecubearray
+|====
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_GOOGLE_user_type"
+----
+
+New Capabilities
+----------------
+
+None.
+
+New Decorations
+---------------
+
+----
+UserTypeGOOGLE
+----
+
+New Builtins
+------------
+None.
+
+New Instructions
+----------------
+None.
+
+Token Number Assignments
+------------------------
+
+[width="40%"]
+[cols="70%,30%"]
+[grid="rows"]
+|====
+|UserTypeGoogle       | 5636
+|====
+
+Modifications to the SPIR-V Specification, Version 1.0
+------------------------------------------------------
+(Modify Section 3.20, Decoration) ::
+
+[cols="1,10,5,2,2",options="header",width = "100%"]
+|====
+2+^.^| Decoration | Enabling Capabilities 2+<.^| Extra Operands
+| 5636 | *UserTypeGOOGLE* +
+  |
+  2+| _Literal String_ +
+      User Type Name
+|====
+
+Validation Rules
+----------------
+
+An OpExtension must be added to the SPIR-V for validation layers to check
+legal use of this extension:
+
+----
+OpExtension "SPV_GOOGLE_user_type"
+----
+
+Issues
+------
+
+. Can UserTypeGOOGLE be used with variables or is it restricted to types?
+
+. You can have multiple UserTypeGOOGLE decorations on the same object or member
+of an object.  Those conflicts can come as types are collapsed by the front-end.
+This is ok.
+
+. When OpExtension "SPV_GOOGLE_user_type" is included, all features of
+SPV_GOOGLE_decorate_string can be used without explicitly declaring that
+SPV_GOOGLE_decorate_string extension.
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1 |2019-05-16 |Hai Nguyen|*Initial draft*
+|2 |2019-05-17 |Hai Nguyen|Added GOOGLE suffix and token number
+|3 |2019-05-17 |David Neto|Clarified definition of UserTypeGOOGLE
+|4 |2019-07-30 |Ehsan Nasiri|Added table of user type names
+|========================================
