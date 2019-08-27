@@ -35,8 +35,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2019-01-30
-| Revision           | 1
+| Last Modified Date | 2019-07-12
+| Revision           | 2
 |========================================
 
 Dependencies
@@ -296,7 +296,7 @@ invocation when treated as a composite. +
 |=====
 
 3.32.11 Conversion Instructions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Allow cooperative matrix types for the following conversion instructions (if
 the component types are appropriate): *OpConvertFToU*, *OpConvertFToS*,
@@ -305,7 +305,7 @@ The result type and value type must have the same scope, number of rows, and
 number of columns.
 
 3.32.12 Composite Instructions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Modify *OpCompositeConstruct* to make an exception for cooperative matrix types:
 "If the 'Result Type' is a cooperative matrix type, then there must be only one
@@ -320,7 +320,10 @@ Modify *OpCompositeConstruct* to make an exception for cooperative matrix types:
  +
 Linear-algebraic matrix multiply of 'A' by 'B' and then component-wise
 add 'C'. The order of the operations is implementation-dependent. The
-internal precision of the operations is defined by the client API. +
+internal precision of floating-point operations is defined by the client
+API. Integer operations are performed at the precision of the 'Result Type'
+and are exact unless there is overflow or underflow, in which case the
+result is undefined. +
  +
 'Result Type' must be a cooperative matrix type with M rows and N columns. +
  +
@@ -336,6 +339,10 @@ This is referred to as an 'MxNxK' matrix multiply. +
 'A', 'B', 'C', and 'Result Type' must have the same scope, and this defines
 the scope of the operation. 'A', 'B', 'C', and 'Result Type' need not
 necessarily have the same component type, this is defined by the client API. +
+ +
+If the 'Component Type' of any matrix operand is an integer type, then its
+components are treated as signed if its 'Component Type' has 'Signedness' of 1
+and are treated as unsigned otherwise. +
  +
 For a given dynamic instance of this instruction, all invocations in a given
 scope instance must be active or all must be inactive (where the scope is the
@@ -443,4 +450,5 @@ Revision History
 |========================================
 |Rev|Date|Author|Changes
 |1|2019-01-30|Jeff Bolz|Initial revision
+|2|2019-07-12|Jeff Bolz|Added details for integer operations
 |========================================
