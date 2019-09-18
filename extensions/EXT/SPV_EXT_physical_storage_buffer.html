@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="generator" content="AsciiDoc 8.6.9">
+<meta name="generator" content="AsciiDoc 8.6.10">
 <title>SPV_EXT_physical_storage_buffer</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
@@ -849,11 +849,11 @@ width:40%;
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2019-06-25</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2019-09-18</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
 </tr>
 </tbody>
 </table>
@@ -1008,6 +1008,10 @@ points to a matrix or an array of matrices or a row or element of a matrix must 
 an <strong>OpAccessChain</strong> or <strong>OpPtrAccessChain</strong> instruction whose base is a structure type (or
 recursively must be the result of a sequence of only access chains from a structure to the final
 value). Such a pointer must only be used as the <em>Pointer</em> operand to <strong>OpLoad</strong> or <strong>OpStore</strong>.</p></div>
+<div class="paragraph"><p>The result of <strong>OpConstantNull</strong> must not be a pointer into the <strong>PhysicalStorageBufferEXT</strong>
+storage class.</p></div>
+<div class="paragraph"><p>When used with SPIR-V 1.4 or higher, operands to <strong>OpPtrEqual</strong>, <strong>OpPtrNotEqual</strong>, and <strong>OpPtrDiff</strong>
+must not be pointers into the <strong>PhysicalStorageBufferEXT</strong> storage class.</p></div>
 <div class="paragraph"><p>Modify section 2.16.2. Validation Rules for Shader Capabilities:</p></div>
 <div class="paragraph"><p>Add <strong>PhysicalStorageBufferEXT</strong> to the list of <a href="#Storage_Class">storage classes</a> in which
 composite objects must be explicitly laid out.</p></div>
@@ -1267,6 +1271,12 @@ width:100%;
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Jeff Bolz</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Initial revision</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2019-09-18</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">David  Neto</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Interaction with OpConstantNull, and new SPIR-V 1.4 instructions</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1275,7 +1285,8 @@ width:100%;
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-06-25 11:28:42 CDT
+Last updated
+ 2019-09-18 11:11:07 EDT
 </div>
 </div>
 </body>

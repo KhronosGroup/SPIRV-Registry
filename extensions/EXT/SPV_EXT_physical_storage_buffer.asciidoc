@@ -38,8 +38,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2019-06-25
-| Revision           | 1
+| Last Modified Date | 2019-09-18
+| Revision           | 2
 |========================================
 
 Dependencies
@@ -204,6 +204,12 @@ points to a matrix or an array of matrices or a row or element of a matrix must 
 an *OpAccessChain* or *OpPtrAccessChain* instruction whose base is a structure type (or
 recursively must be the result of a sequence of only access chains from a structure to the final
 value). Such a pointer must only be used as the 'Pointer' operand to *OpLoad* or *OpStore*.
+
+The result of *OpConstantNull* must not be a pointer into the *PhysicalStorageBufferEXT*
+storage class.
+
+When used with SPIR-V 1.4 or higher, operands to *OpPtrEqual*, *OpPtrNotEqual*, and *OpPtrDiff*
+must not be pointers into the *PhysicalStorageBufferEXT* storage class.
 
 Modify section 2.16.2. Validation Rules for Shader Capabilities:
 
@@ -414,4 +420,5 @@ Revision History
 |========================================
 |Rev|Date|Author|Changes
 |1|2018-12-07|Jeff Bolz|Initial revision
+|2|2019-09-18|David Neto|Interaction with OpConstantNull, and new SPIR-V 1.4 instructions
 |========================================
