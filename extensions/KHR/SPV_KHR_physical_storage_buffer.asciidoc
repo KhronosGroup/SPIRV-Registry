@@ -39,8 +39,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2019-06-25
-| Revision           | 1
+| Last Modified Date | 2019-09-20
+| Revision           | 2
 |========================================
 
 Dependencies
@@ -50,6 +50,13 @@ This extension is written against the SPIR-V Specification,
 Version 1.3, Revision 5, Unified.
 
 This extension requires SPIR-V 1.3.
+
+The result of *OpConstantNull* must not be a pointer into the
+*PhysicalStorageBufferEXT* storage class.
+
+When used with SPIR-V 1.4 or higher, operands to *OpPtrEqual*, *OpPtrNotEqual*,
+and *OpPtrDiff* must not be pointers into the *PhysicalStorageBufferEXT* storage
+class.
 
 Overview
 --------
@@ -433,4 +440,5 @@ Revision History
 |========================================
 |Rev|Date|Author|Changes
 |1|2018-12-07|Jeff Bolz|Initial revision
+|2|2019-09-18|David Neto|Interaction with OpConstantNull, and new SPIR-V 1.4 instructions
 |========================================
