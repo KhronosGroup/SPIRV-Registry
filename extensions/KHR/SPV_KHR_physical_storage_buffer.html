@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="AsciiDoc 8.6.9">
+<title>SPV_KHR_physical_storage_buffer</title>
+<style type="text/css">
+/* Shared CSS for AsciiDoc xhtml11 and html5 backends */
+
+/* Default font. */
+body {
+  font-family: Georgia,serif;
+}
+
+/* Title font. */
+h1, h2, h3, h4, h5, h6,
+div.title, caption.title,
+thead, p.table.header,
+#toctitle,
+#author, #revnumber, #revdate, #revremark,
+#footer {
+  font-family: Arial,Helvetica,sans-serif;
+}
+
+body {
+  margin: 1em 5% 1em 5%;
+}
+
+a {
+  color: blue;
+  text-decoration: underline;
+}
+a:visited {
+  color: fuchsia;
+}
+
+em {
+  font-style: italic;
+  color: navy;
+}
+
+strong {
+  font-weight: bold;
+  color: #083194;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #527bbd;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+  line-height: 1.3;
+}
+
+h1, h2, h3 {
+  border-bottom: 2px solid silver;
+}
+h2 {
+  padding-top: 0.5em;
+}
+h3 {
+  float: left;
+}
+h3 + * {
+  clear: left;
+}
+h5 {
+  font-size: 1.0em;
+}
+
+div.sectionbody {
+  margin-left: 0;
+}
+
+hr {
+  border: 1px solid silver;
+}
+
+p {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+ul, ol, li > p {
+  margin-top: 0;
+}
+ul > li     { color: #aaa; }
+ul > li > * { color: black; }
+
+.monospaced, code, pre {
+  font-family: "Courier New", Courier, monospace;
+  font-size: inherit;
+  color: navy;
+  padding: 0;
+  margin: 0;
+}
+pre {
+  white-space: pre-wrap;
+}
+
+#author {
+  color: #527bbd;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+#email {
+}
+#revnumber, #revdate, #revremark {
+}
+
+#footer {
+  font-size: small;
+  border-top: 2px solid silver;
+  padding-top: 0.5em;
+  margin-top: 4.0em;
+}
+#footer-text {
+  float: left;
+  padding-bottom: 0.5em;
+}
+#footer-badges {
+  float: right;
+  padding-bottom: 0.5em;
+}
+
+#preamble {
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+}
+div.imageblock, div.exampleblock, div.verseblock,
+div.quoteblock, div.literalblock, div.listingblock, div.sidebarblock,
+div.admonitionblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+div.admonitionblock {
+  margin-top: 2.0em;
+  margin-bottom: 2.0em;
+  margin-right: 10%;
+  color: #606060;
+}
+
+div.content { /* Block element content. */
+  padding: 0;
+}
+
+/* Block element titles. */
+div.title, caption.title {
+  color: #527bbd;
+  font-weight: bold;
+  text-align: left;
+  margin-top: 1.0em;
+  margin-bottom: 0.5em;
+}
+div.title + * {
+  margin-top: 0;
+}
+
+td div.title:first-child {
+  margin-top: 0.0em;
+}
+div.content div.title:first-child {
+  margin-top: 0.0em;
+}
+div.content + div.title {
+  margin-top: 0.0em;
+}
+
+div.sidebarblock > div.content {
+  background: #ffffee;
+  border: 1px solid #dddddd;
+  border-left: 4px solid #f0f0f0;
+  padding: 0.5em;
+}
+
+div.listingblock > div.content {
+  border: 1px solid #dddddd;
+  border-left: 5px solid #f0f0f0;
+  background: #f8f8f8;
+  padding: 0.5em;
+}
+
+div.quoteblock, div.verseblock {
+  padding-left: 1.0em;
+  margin-left: 1.0em;
+  margin-right: 10%;
+  border-left: 5px solid #f0f0f0;
+  color: #888;
+}
+
+div.quoteblock > div.attribution {
+  padding-top: 0.5em;
+  text-align: right;
+}
+
+div.verseblock > pre.content {
+  font-family: inherit;
+  font-size: inherit;
+}
+div.verseblock > div.attribution {
+  padding-top: 0.75em;
+  text-align: left;
+}
+/* DEPRECATED: Pre version 8.2.7 verse style literal block. */
+div.verseblock + div.attribution {
+  text-align: left;
+}
+
+div.admonitionblock .icon {
+  vertical-align: top;
+  font-size: 1.1em;
+  font-weight: bold;
+  text-decoration: underline;
+  color: #527bbd;
+  padding-right: 0.5em;
+}
+div.admonitionblock td.content {
+  padding-left: 0.5em;
+  border-left: 3px solid #dddddd;
+}
+
+div.exampleblock > div.content {
+  border-left: 3px solid #dddddd;
+  padding-left: 0.5em;
+}
+
+div.imageblock div.content { padding-left: 0; }
+span.image img { border-style: none; vertical-align: text-bottom; }
+a.image:visited { color: white; }
+
+dl {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+dt {
+  margin-top: 0.5em;
+  margin-bottom: 0;
+  font-style: normal;
+  color: navy;
+}
+dd > *:first-child {
+  margin-top: 0.1em;
+}
+
+ul, ol {
+    list-style-position: outside;
+}
+ol.arabic {
+  list-style-type: decimal;
+}
+ol.loweralpha {
+  list-style-type: lower-alpha;
+}
+ol.upperalpha {
+  list-style-type: upper-alpha;
+}
+ol.lowerroman {
+  list-style-type: lower-roman;
+}
+ol.upperroman {
+  list-style-type: upper-roman;
+}
+
+div.compact ul, div.compact ol,
+div.compact p, div.compact p,
+div.compact div, div.compact div {
+  margin-top: 0.1em;
+  margin-bottom: 0.1em;
+}
+
+tfoot {
+  font-weight: bold;
+}
+td > div.verse {
+  white-space: pre;
+}
+
+div.hdlist {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+div.hdlist tr {
+  padding-bottom: 15px;
+}
+dt.hdlist1.strong, td.hdlist1.strong {
+  font-weight: bold;
+}
+td.hdlist1 {
+  vertical-align: top;
+  font-style: normal;
+  padding-right: 0.8em;
+  color: navy;
+}
+td.hdlist2 {
+  vertical-align: top;
+}
+div.hdlist.compact tr {
+  margin: 0;
+  padding-bottom: 0;
+}
+
+.comment {
+  background: yellow;
+}
+
+.footnote, .footnoteref {
+  font-size: 0.8em;
+}
+
+span.footnote, span.footnoteref {
+  vertical-align: super;
+}
+
+#footnotes {
+  margin: 20px 0 20px 0;
+  padding: 7px 0 0 0;
+}
+
+#footnotes div.footnote {
+  margin: 0 0 5px 0;
+}
+
+#footnotes hr {
+  border: none;
+  border-top: 1px solid silver;
+  height: 1px;
+  text-align: left;
+  margin-left: 0;
+  width: 20%;
+  min-width: 100px;
+}
+
+div.colist td {
+  padding-right: 0.5em;
+  padding-bottom: 0.3em;
+  vertical-align: top;
+}
+div.colist td img {
+  margin-top: 0.3em;
+}
+
+@media print {
+  #footer-badges { display: none; }
+}
+
+#toc {
+  margin-bottom: 2.5em;
+}
+
+#toctitle {
+  color: #527bbd;
+  font-size: 1.1em;
+  font-weight: bold;
+  margin-top: 1.0em;
+  margin-bottom: 0.1em;
+}
+
+div.toclevel0, div.toclevel1, div.toclevel2, div.toclevel3, div.toclevel4 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+div.toclevel2 {
+  margin-left: 2em;
+  font-size: 0.9em;
+}
+div.toclevel3 {
+  margin-left: 4em;
+  font-size: 0.9em;
+}
+div.toclevel4 {
+  margin-left: 6em;
+  font-size: 0.9em;
+}
+
+span.aqua { color: aqua; }
+span.black { color: black; }
+span.blue { color: blue; }
+span.fuchsia { color: fuchsia; }
+span.gray { color: gray; }
+span.green { color: green; }
+span.lime { color: lime; }
+span.maroon { color: maroon; }
+span.navy { color: navy; }
+span.olive { color: olive; }
+span.purple { color: purple; }
+span.red { color: red; }
+span.silver { color: silver; }
+span.teal { color: teal; }
+span.white { color: white; }
+span.yellow { color: yellow; }
+
+span.aqua-background { background: aqua; }
+span.black-background { background: black; }
+span.blue-background { background: blue; }
+span.fuchsia-background { background: fuchsia; }
+span.gray-background { background: gray; }
+span.green-background { background: green; }
+span.lime-background { background: lime; }
+span.maroon-background { background: maroon; }
+span.navy-background { background: navy; }
+span.olive-background { background: olive; }
+span.purple-background { background: purple; }
+span.red-background { background: red; }
+span.silver-background { background: silver; }
+span.teal-background { background: teal; }
+span.white-background { background: white; }
+span.yellow-background { background: yellow; }
+
+span.big { font-size: 2em; }
+span.small { font-size: 0.6em; }
+
+span.underline { text-decoration: underline; }
+span.overline { text-decoration: overline; }
+span.line-through { text-decoration: line-through; }
+
+div.unbreakable { page-break-inside: avoid; }
+
+
+/*
+ * xhtml11 specific
+ *
+ * */
+
+div.tableblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+div.tableblock > table {
+  border: 3px solid #527bbd;
+}
+thead, p.table.header {
+  font-weight: bold;
+  color: #527bbd;
+}
+p.table {
+  margin-top: 0;
+}
+/* Because the table frame attribute is overriden by CSS in most browsers. */
+div.tableblock > table[frame="void"] {
+  border-style: none;
+}
+div.tableblock > table[frame="hsides"] {
+  border-left-style: none;
+  border-right-style: none;
+}
+div.tableblock > table[frame="vsides"] {
+  border-top-style: none;
+  border-bottom-style: none;
+}
+
+
+/*
+ * html5 specific
+ *
+ * */
+
+table.tableblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+thead, p.tableblock.header {
+  font-weight: bold;
+  color: #527bbd;
+}
+p.tableblock {
+  margin-top: 0;
+}
+table.tableblock {
+  border-width: 3px;
+  border-spacing: 0px;
+  border-style: solid;
+  border-color: #527bbd;
+  border-collapse: collapse;
+}
+th.tableblock, td.tableblock {
+  border-width: 1px;
+  padding: 4px;
+  border-style: solid;
+  border-color: #527bbd;
+}
+
+table.tableblock.frame-topbot {
+  border-left-style: hidden;
+  border-right-style: hidden;
+}
+table.tableblock.frame-sides {
+  border-top-style: hidden;
+  border-bottom-style: hidden;
+}
+table.tableblock.frame-none {
+  border-style: hidden;
+}
+
+th.tableblock.halign-left, td.tableblock.halign-left {
+  text-align: left;
+}
+th.tableblock.halign-center, td.tableblock.halign-center {
+  text-align: center;
+}
+th.tableblock.halign-right, td.tableblock.halign-right {
+  text-align: right;
+}
+
+th.tableblock.valign-top, td.tableblock.valign-top {
+  vertical-align: top;
+}
+th.tableblock.valign-middle, td.tableblock.valign-middle {
+  vertical-align: middle;
+}
+th.tableblock.valign-bottom, td.tableblock.valign-bottom {
+  vertical-align: bottom;
+}
+
+
+/*
+ * manpage specific
+ *
+ * */
+
+body.manpage h1 {
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  border-top: 2px solid silver;
+  border-bottom: 2px solid silver;
+}
+body.manpage h2 {
+  border-style: none;
+}
+body.manpage div.sectionbody {
+  margin-left: 3em;
+}
+
+@media print {
+  body.manpage div#toc { display: none; }
+}
+
+
+@media screen {
+  body {
+    max-width: 50em; /* approximately 80 characters wide */
+    margin-left: 16em;
+  }
+
+  #toc {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 13em;
+    padding: 0.5em;
+    padding-bottom: 1.5em;
+    margin: 0;
+    overflow: auto;
+    border-right: 3px solid #f8f8f8;
+    background-color: white;
+  }
+
+  #toc .toclevel1 {
+    margin-top: 0.5em;
+  }
+
+  #toc .toclevel2 {
+    margin-top: 0.25em;
+    display: list-item;
+    color: #aaaaaa;
+  }
+
+  #toctitle {
+    margin-top: 0.5em;
+  }
+}
+</style>
+<script type="text/javascript">
+/*<![CDATA[*/
+var asciidoc = {  // Namespace.
+
+/////////////////////////////////////////////////////////////////////
+// Table Of Contents generator
+/////////////////////////////////////////////////////////////////////
+
+/* Author: Mihai Bazon, September 2002
+ * http://students.infoiasi.ro/~mishoo
+ *
+ * Table Of Content generator
+ * Version: 0.4
+ *
+ * Feel free to use this script under the terms of the GNU General Public
+ * License, as long as you do not remove or alter this notice.
+ */
+
+ /* modified by Troy D. Hanson, September 2006. License: GPL */
+ /* modified by Stuart Rackham, 2006, 2009. License: GPL */
+
+// toclevels = 1..4.
+toc: function (toclevels) {
+
+  function getText(el) {
+    var text = "";
+    for (var i = el.firstChild; i != null; i = i.nextSibling) {
+      if (i.nodeType == 3 /* Node.TEXT_NODE */) // IE doesn't speak constants.
+        text += i.data;
+      else if (i.firstChild != null)
+        text += getText(i);
+    }
+    return text;
+  }
+
+  function TocEntry(el, text, toclevel) {
+    this.element = el;
+    this.text = text;
+    this.toclevel = toclevel;
+  }
+
+  function tocEntries(el, toclevels) {
+    var result = new Array;
+    var re = new RegExp('[hH]([1-'+(toclevels+1)+'])');
+    // Function that scans the DOM tree for header elements (the DOM2
+    // nodeIterator API would be a better technique but not supported by all
+    // browsers).
+    var iterate = function (el) {
+      for (var i = el.firstChild; i != null; i = i.nextSibling) {
+        if (i.nodeType == 1 /* Node.ELEMENT_NODE */) {
+          var mo = re.exec(i.tagName);
+          if (mo && (i.getAttribute("class") || i.getAttribute("className")) != "float") {
+            result[result.length] = new TocEntry(i, getText(i), mo[1]-1);
+          }
+          iterate(i);
+        }
+      }
+    }
+    iterate(el);
+    return result;
+  }
+
+  var toc = document.getElementById("toc");
+  if (!toc) {
+    return;
+  }
+
+  // Delete existing TOC entries in case we're reloading the TOC.
+  var tocEntriesToRemove = [];
+  var i;
+  for (i = 0; i < toc.childNodes.length; i++) {
+    var entry = toc.childNodes[i];
+    if (entry.nodeName.toLowerCase() == 'div'
+     && entry.getAttribute("class")
+     && entry.getAttribute("class").match(/^toclevel/))
+      tocEntriesToRemove.push(entry);
+  }
+  for (i = 0; i < tocEntriesToRemove.length; i++) {
+    toc.removeChild(tocEntriesToRemove[i]);
+  }
+
+  // Rebuild TOC entries.
+  var entries = tocEntries(document.getElementById("content"), toclevels);
+  for (var i = 0; i < entries.length; ++i) {
+    var entry = entries[i];
+    if (entry.element.id == "")
+      entry.element.id = "_toc_" + i;
+    var a = document.createElement("a");
+    a.href = "#" + entry.element.id;
+    a.appendChild(document.createTextNode(entry.text));
+    var div = document.createElement("div");
+    div.appendChild(a);
+    div.className = "toclevel" + entry.toclevel;
+    toc.appendChild(div);
+  }
+  if (entries.length == 0)
+    toc.parentNode.removeChild(toc);
+},
+
+
+/////////////////////////////////////////////////////////////////////
+// Footnotes generator
+/////////////////////////////////////////////////////////////////////
+
+/* Based on footnote generation code from:
+ * http://www.brandspankingnew.net/archive/2005/07/format_footnote.html
+ */
+
+footnotes: function () {
+  // Delete existing footnote entries in case we're reloading the footnodes.
+  var i;
+  var noteholder = document.getElementById("footnotes");
+  if (!noteholder) {
+    return;
+  }
+  var entriesToRemove = [];
+  for (i = 0; i < noteholder.childNodes.length; i++) {
+    var entry = noteholder.childNodes[i];
+    if (entry.nodeName.toLowerCase() == 'div' && entry.getAttribute("class") == "footnote")
+      entriesToRemove.push(entry);
+  }
+  for (i = 0; i < entriesToRemove.length; i++) {
+    noteholder.removeChild(entriesToRemove[i]);
+  }
+
+  // Rebuild footnote entries.
+  var cont = document.getElementById("content");
+  var spans = cont.getElementsByTagName("span");
+  var refs = {};
+  var n = 0;
+  for (i=0; i<spans.length; i++) {
+    if (spans[i].className == "footnote") {
+      n++;
+      var note = spans[i].getAttribute("data-note");
+      if (!note) {
+        // Use [\s\S] in place of . so multi-line matches work.
+        // Because JavaScript has no s (dotall) regex flag.
+        note = spans[i].innerHTML.match(/\s*\[([\s\S]*)]\s*/)[1];
+        spans[i].innerHTML =
+          "[<a id='_footnoteref_" + n + "' href='#_footnote_" + n +
+          "' title='View footnote' class='footnote'>" + n + "</a>]";
+        spans[i].setAttribute("data-note", note);
+      }
+      noteholder.innerHTML +=
+        "<div class='footnote' id='_footnote_" + n + "'>" +
+        "<a href='#_footnoteref_" + n + "' title='Return to text'>" +
+        n + "</a>. " + note + "</div>";
+      var id =spans[i].getAttribute("id");
+      if (id != null) refs["#"+id] = n;
+    }
+  }
+  if (n == 0)
+    noteholder.parentNode.removeChild(noteholder);
+  else {
+    // Process footnoterefs.
+    for (i=0; i<spans.length; i++) {
+      if (spans[i].className == "footnoteref") {
+        var href = spans[i].getElementsByTagName("a")[0].getAttribute("href");
+        href = href.match(/#.*/)[0];  // Because IE return full URL.
+        n = refs[href];
+        spans[i].innerHTML =
+          "[<a href='#_footnote_" + n +
+          "' title='View footnote' class='footnote'>" + n + "</a>]";
+      }
+    }
+  }
+},
+
+install: function(toclevels) {
+  var timerId;
+
+  function reinstall() {
+    asciidoc.footnotes();
+    if (toclevels) {
+      asciidoc.toc(toclevels);
+    }
+  }
+
+  function reinstallAndRemoveTimer() {
+    clearInterval(timerId);
+    reinstall();
+  }
+
+  timerId = setInterval(reinstall, 500);
+  if (document.addEventListener)
+    document.addEventListener("DOMContentLoaded", reinstallAndRemoveTimer, false);
+  else
+    window.onload = reinstallAndRemoveTimer;
+}
+
+}
+asciidoc.install(1);
+/*]]>*/
+</script>
+</head>
+<body class="article">
+<div id="header">
+<h1>SPV_KHR_physical_storage_buffer</h1>
+<div id="toc">
+  <div id="toctitle">Table of Contents</div>
+  <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_name_strings">Name Strings</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>SPV_KHR_physical_storage_buffer</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_contact">Contact</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>To report problems with this extension, please open a new issue at:</p></div>
+<div class="paragraph"><p><a href="https://github.com/KhronosGroup/SPIRV-Headers">https://github.com/KhronosGroup/SPIRV-Headers</a></p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_contributors">Contributors</h2>
+<div class="sectionbody">
+<div class="ulist"><ul>
+<li>
+<p>
+Jeff Bolz, NVIDIA
+</p>
+</li>
+<li>
+<p>
+Neil Henning, AMD
+</p>
+</li>
+<li>
+<p>
+Tobias Hector, AMD
+</p>
+</li>
+<li>
+<p>
+Jason Ekstrand, Intel
+</p>
+</li>
+<li>
+<p>
+Mariusz Merecki, Intel
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_notice">Notice</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Copyright (c) 2018 The Khronos Group Inc. Copyright terms at
+<a href="http://www.khronos.org/registry/speccopyright.html">http://www.khronos.org/registry/speccopyright.html</a></p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_status">Status</h2>
+<div class="sectionbody">
+<div class="ulist"><ul>
+<li>
+<p>
+Complete
+</p>
+</li>
+<li>
+<p>
+Ratified by the Khronos Board 2019-08-23.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_version">Version</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all"
+style="
+width:40%;
+">
+<col style="width:50%;">
+<col style="width:50%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Last Modified Date</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2019-09-20</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Revision</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_dependencies">Dependencies</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>This extension is written against the SPIR-V Specification,
+Version 1.3, Revision 5, Unified.</p></div>
+<div class="paragraph"><p>This extension requires SPIR-V 1.3.</p></div>
+<div class="paragraph"><p>The result of <strong>OpConstantNull</strong> must not be a pointer into the
+<strong>PhysicalStorageBufferEXT</strong> storage class.</p></div>
+<div class="paragraph"><p>When used with SPIR-V 1.4 or higher, operands to <strong>OpPtrEqual</strong>, <strong>OpPtrNotEqual</strong>,
+and <strong>OpPtrDiff</strong> must not be pointers into the <strong>PhysicalStorageBufferEXT</strong> storage
+class.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_overview">Overview</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>This extension adds a new storage class <strong>PhysicalStorageBuffer</strong> which is
+similar to <strong>StorageBuffer</strong> except pointers to the <strong>PhysicalStorageBuffer</strong>
+storage class are treated as physical pointer types according to a new
+addressing model <strong>PhysicalStorageBuffer64</strong>. This addressing model is a
+hybrid of logical and physical addressing, with only pointers to
+<strong>PhysicalStorageBuffer</strong> storage class being physical, and using 64-bit
+addresses. It also adds a new capablity <strong>PhysicalStorageBufferAddresses</strong>
+and enables a few instructions currently supported for <strong>Addresses</strong>.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_extension_name">Extension Name</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>To use this extension within a SPIR-V module, the following
+<strong>OpExtension</strong> must be present in the module:</p></div>
+<div class="listingblock">
+<div class="content monospaced">
+<pre>OpExtension "SPV_KHR_physical_storage_buffer"</pre>
+</div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_modifications_to_the_spir_v_specification_version_1_3">Modifications to the SPIR-V Specification, Version 1.3</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_2_2_terms">2.2 Terms</h3>
+<div class="paragraph"><p>Add new terms to section 2.2.2 Types:</p></div>
+<div class="paragraph"><p><a id="PhysicalPointerType"></a><em>Physical Pointer Type:</em> A pointer type is a physical
+pointer type if the <a href="#Storage_Class">storage class</a> of the type pointed to uses physical
+addressing according to the <a href="#Addressing_Model">addressing model</a>.</p></div>
+<div class="paragraph"><p><a id="LogicalPointerType"></a><em>Logical Pointer Type:</em> A pointer type is a logical
+pointer type if it is not a physical pointer type.</p></div>
+<div class="paragraph"><p>Modify the following definitions:</p></div>
+<div class="paragraph"><p><a id="ConcreteType"></a><em>Concrete Type:</em> A numerical scalar, vector, matrix type,
+or physical pointer type, or any aggregate containing only these types.</p></div>
+<div class="paragraph"><p><a id="AbstractType"></a><em>Abstract Type:</em> An <strong>OpTypeVoid</strong> or <strong>OpTypeBool</strong>, or logical
+pointer type, or any aggregate type containing any of these.</p></div>
+<div class="paragraph"><p>Modify the definition of <em>Memory Object Declaration</em>:</p></div>
+<div class="paragraph"><p><a id="MemoryObjectDeclaration"></a><em>Memory Object Declaration:</em> An <strong>OpVariable</strong>, or
+an <strong>OpFunctionParameter</strong> of pointer type, or the contents of an <strong>OpVariable</strong>
+that holds a pointer to <strong>PhysicalStorageBuffer</strong> <a href="#Storage_Class">storage class</a>
+or holds an array of such pointers.</p></div>
+<div class="paragraph"><p>Modify the first part of the definition of <em>Variable pointer</em> from:</p></div>
+<div class="paragraph"><p><a id="VariablePointer"></a><em>Variable pointer:</em> A pointer that results from one of the
+following instructions: &#8230;</p></div>
+<div class="paragraph"><p>to:</p></div>
+<div class="paragraph"><p><a id="VariablePointer"></a><em>Variable pointer:</em> A pointer of logical pointer type that
+results from one of the following instructions: &#8230;</p></div>
+</div>
+<div class="sect2">
+<h3 id="_2_16_validation_rules">2.16 Validation Rules</h3>
+<div class="paragraph"><p>Modify section 2.16.1. Universal Validation Rules:</p></div>
+<div class="paragraph"><p>Change:</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>"If the *Logical* &lt;&lt;Addressing_Model, addressing model&gt;&gt; is selected and the
+*VariablePointers* &lt;&lt;Capability,capability&gt;&gt; is not declared:"</pre>
+</div></div>
+<div class="paragraph"><p>to:</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>"If the *VariablePointers* &lt;&lt;Capability,capability&gt;&gt; is not declared, the
+following rules apply to &lt;&lt;LogicalPointerType,logical pointer types&gt;&gt;:".</pre>
+</div></div>
+<div class="paragraph"><p>Change:</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>*OpVariable* cannot allocate an object whose type is a pointer type (that
+is, it cannot create an object in memory that is itself a pointer and
+whose result would thus be a pointer to a pointer)</pre>
+</div></div>
+<div class="paragraph"><p>to:</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>*OpVariable* cannot allocate an object whose type is a
+&lt;&lt;LogicalPointerType,logical pointer type&gt;&gt; (that is, it cannot create an
+object in memory that is itself a logical pointer and whose result would
+thus be a pointer to a logical pointer)</pre>
+</div></div>
+<div class="paragraph"><p>Change:</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>"If the *Logical *&lt;&lt;Addressing_Model, addressing model&gt;&gt; is selected and the
+*VariablePointers* or *VariablePointersStorageBuffer* &lt;&lt;Capability,capability&gt;&gt; is
+declared (in addition to what is allowed above by the *Logical* addressing model):"</pre>
+</div></div>
+<div class="paragraph"><p>to:</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>"If the *VariablePointers* or *VariablePointersStorageBuffer* &lt;&lt;Capability,capability&gt;&gt;
+is declared, the following are allowed for &lt;&lt;LogicalPointerType,logical pointer types&gt;&gt;:".</pre>
+</div></div>
+<div class="paragraph"><p>Change:</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>*OpVariable* can allocate an object whose type is a pointer type, if the
+&lt;&lt;Storage_Class, Storage Class&gt;&gt; of the *OpVariable* is one of the
+following: ...</pre>
+</div></div>
+<div class="paragraph"><p>to:</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>*OpVariable* can allocate an object whose type is a
+&lt;&lt;LogicalPointerType,logical pointer type&gt;&gt;, if the
+&lt;&lt;Storage_Class, Storage Class&gt;&gt; of the *OpVariable* is one of the
+following: ...</pre>
+</div></div>
+<div class="paragraph"><p>Change:</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>A &lt;&lt;VariablePointer,variable pointer&gt;&gt; with the Logical addressing model cannot ...</pre>
+</div></div>
+<div class="paragraph"><p>to:</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>A &lt;&lt;VariablePointer,variable pointer&gt;&gt; cannot ...</pre>
+</div></div>
+<div class="paragraph"><p>Add the following rules:</p></div>
+<div class="paragraph"><p>If the <a href="#Addressing_Model">addressing model</a> is not <strong>PhysicalStorageBuffer64</strong>, then the
+<strong>PhysicalStorageBuffer</strong> <a href="#Storage_Class">storage class</a> must not be used.</p></div>
+<div class="paragraph"><p>Add <strong>PhysicalStorageBuffer</strong> to the list of <a href="#Storage_Class">storage classes</a> that support
+atomic access.</p></div>
+<div class="paragraph"><p><strong>OpVariable</strong> must not use a <a href="#Storage_Class">storage class</a> of <strong>PhysicalStorageBuffer</strong>.</p></div>
+<div class="paragraph"><p>If an <strong>OpVariable</strong>'s pointee type is a pointer (or array of pointers) in
+<strong>PhysicalStorageBuffer</strong> <a href="#Storage_Class">storage class</a>, then the variable must be decorated
+with exactly one of <strong>AliasedPointer</strong> or <strong>RestrictPointer</strong>.</p></div>
+<div class="paragraph"><p>If an <strong>OpFunctionParameter</strong> is a pointer (or array of pointers) in
+<strong>PhysicalStorageBuffer</strong> <a href="#Storage_Class">storage class</a>, then the function parameter must be
+decorated with exactly one of <strong>Aliased</strong> or <strong>Restrict</strong>.</p></div>
+<div class="paragraph"><p>If an <strong>OpFunctionParameter</strong> is a pointer (or array of pointers) and its
+pointee type is a pointer in <strong>PhysicalStorageBuffer</strong> <a href="#Storage_Class">storage class</a>, then
+the function parameter must be decorated with exactly one of
+<strong>AliasedPointer</strong> or <strong>RestrictPointer</strong>.</p></div>
+<div class="paragraph"><p>Any pointer value whose <a href="#Storage_Class">storage class</a> is <strong>PhysicalStorageBuffer</strong> and that
+points to a matrix or an array of matrices or a row or element of a matrix must be the result of
+an <strong>OpAccessChain</strong> or <strong>OpPtrAccessChain</strong> instruction whose base is a structure type (or
+recursively must be the result of a sequence of only access chains from a structure to the final
+value). Such a pointer must only be used as the <em>Pointer</em> operand to <strong>OpLoad</strong> or <strong>OpStore</strong>.</p></div>
+<div class="paragraph"><p>Modify section 2.16.2. Validation Rules for Shader Capabilities:</p></div>
+<div class="paragraph"><p>Add <strong>PhysicalStorageBuffer</strong> to the list of <a href="#Storage_Class">storage classes</a> in which
+composite objects must be explicitly laid out.</p></div>
+<div class="paragraph"><p>Add <strong>PhysicalStorageBuffer</strong> to the list of <a href="#Storage_Class">storage classes</a> to which the
+result of a <strong>FPRoundingMode</strong>-decorated conversion instruction can be stored.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_2_18_memory_model">2.18 Memory Model</h3>
+<div class="paragraph"><p>Modify section 2.18.2. Aliasing:</p></div>
+<div class="paragraph"><p>Replace the paragraph about <strong>Simple</strong>, <strong>GLSL</strong>, and <strong>VulkanKHR</strong> memory models:</p></div>
+<div class="paragraph"><p>The <strong>Simple</strong>, <strong>GLSL</strong>, and <strong>VulkanKHR</strong> memory models can assume that aliasing
+is generally not present between the <a href="#MemoryObjectDeclaration">memory object declarations</a>.
+Specifically, the consumer is free to assume aliasing is not present between
+memory object declarations, unless the memory object declarations explicitly
+indicate they alias.</p></div>
+<div class="paragraph"><p>Aliasing is indicated by applying the <strong>Aliased</strong> <a href="#Decoration">decoration</a> to a memory object
+declaration&#8217;s &lt;id&gt;, for <strong>OpVariable</strong> and <strong>OpFunctionParameter</strong> &lt;id&gt;s.
+Applying <strong>Restrict</strong> is allowed, but has no effect.</p></div>
+<div class="paragraph"><p>For variables holding <strong>PhysicalStorageBuffer</strong> pointers, applying the
+<strong>AliasedPointer</strong> decoration on the <strong>OpVariable</strong> &lt;id&gt; indicates that the
+<strong>PhysicalStorageBuffer</strong> pointers are potentially aliased. Applying
+<strong>RestrictPointer</strong> is allowed, but has no effect. Variables holding
+<strong>PhysicalStorageBuffer</strong> pointers must be decorated as either
+<strong>AliasedPointer</strong> or <strong>RestrictPointer</strong>.</p></div>
+<div class="paragraph"><p>Only those memory object declarations decorated with <strong>Aliased</strong> or
+<strong>AliasedPointer</strong> may alias each other.</p></div>
+<div class="paragraph"><p>Modify the Aliasing table in section 2.18.2:</p></div>
+<div class="paragraph"><p>Add a new row for <strong>PhysicalStorageBuffer</strong> that is a copy of
+<strong>StorageBuffer</strong>. Add <strong>PhysicalStorageBuffer</strong> everywhere <strong>StorageBuffer</strong> is
+used in the "Second Storage Classes" column.</p></div>
+<div class="paragraph"><p>Add to the description of the Aliasing table:</p></div>
+<div class="paragraph"><p>For the <strong>PhysicalStorageBuffer</strong> <a href="#Storage_Class">storage class</a>, <strong>OpVariable</strong> is understood
+to mean the <strong>PhysicalStorageBuffer</strong> pointer value(s) stored in the
+variable. An <strong>Aliased</strong> <strong>PhysicalStorageBuffer</strong> pointer stored in a
+<strong>Function</strong> variable can potentially alias with other variables in the same
+function, or with global variables or function parameters.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_3_4_addressing_model">3.4 Addressing Model</h3>
+<div class="openblock">
+<div class="content">
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:33%;">
+<col style="width:33%;">
+<col style="width:33%;">
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top" colspan="2" > Addressing Model </th>
+<th class="tableblock halign-center valign-top" > Enabling Capabilities</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5348</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>PhysicalStorageBuffer64</strong><br>
+Indicates pointers whose <a href="#Storage_Class">storage classes</a> are <strong>PhysicalStorageBuffer</strong>
+are physical pointer types with address width equal to 64 bits, and pointers to all other
+<a href="#Storage_Class">storage classes</a> are logical.</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>PhysicalStorageBufferAddresses</strong></p></td>
+</tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_3_7_storage_class">3.7 Storage Class</h3>
+<div class="openblock">
+<div class="content">
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:33%;">
+<col style="width:33%;">
+<col style="width:33%;">
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top" colspan="2" > Storage Class </th>
+<th class="tableblock halign-center valign-top" > Enabling Capabilities</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5349</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>PhysicalStorageBuffer</strong><br>
+Shared externally, readable and writable, visible across all functions in all
+invocations in all work groups. Graphics storage buffers using physical
+addressing.</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>PhysicalStorageBufferAddresses</strong></p></td>
+</tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_3_20_decorations">3.20 Decorations</h3>
+<div class="openblock">
+<div class="content">
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:4%;">
+<col style="width:47%;">
+<col style="width:28%;">
+<col style="width:9%;">
+<col style="width:9%;">
+<thead>
+<tr>
+<th class="tableblock halign-center valign-middle" colspan="2" > Decoration </th>
+<th class="tableblock halign-center valign-top" > Enabling Capabilities </th>
+<th class="tableblock halign-left valign-middle" colspan="2" > Extra Operands</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">5355</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RestrictPointer</strong><br>
+Apply to an <strong>OpVariable</strong>, to indicate the compiler may compile as if there
+is no aliasing of the pointer stored in the variable. See the <a href="#AliasingSection">Aliasing</a>
+section for more detail.</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>PhysicalStorageBufferAddresses</strong></p></td>
+<td class="tableblock halign-left valign-top" colspan="2" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">5356</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>AliasedPointer</strong><br>
+Apply to an <strong>OpVariable</strong>, to indicate the compiler is to generate accesses to
+the pointer stored in the variable that work correctly in the presence of
+aliasing. See the Aliasing section for more detail.</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>PhysicalStorageBufferAddresses</strong></p></td>
+<td class="tableblock halign-left valign-top" colspan="2" ><p class="tableblock"></p></td>
+</tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_3_25_memory_semantics_lt_id_gt">3.25 Memory Semantics &lt;id&gt;</h3>
+<div class="paragraph"><p>Add <strong>PhysicalStorageBuffer</strong> to the list of storage classes synchronized by
+<strong>UniformMemory</strong>.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_3_26_memory_access">3.26 Memory Access</h3>
+<div class="paragraph"><p>Add to the description of <em>Aligned</em>:</p></div>
+<div class="paragraph"><p>Valid values are defined by the execution environment.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_3_31_capabilities">3.31 Capabilities</h3>
+<div class="paragraph"><p>Modify Section 3.31, "Capability", adding these rows to the Capability table:</p></div>
+<div class="openblock">
+<div class="content">
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:33%;">
+<col style="width:33%;">
+<col style="width:33%;">
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top" colspan="2" > Capability </th>
+<th class="tableblock halign-center valign-top" > Enabling Capabilities</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5347</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>PhysicalStorageBufferAddresses</strong><br></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Shader</strong></p></td>
+</tr>
+</tbody>
+</table>
+</div></div>
+<div class="paragraph"><p>Add <strong>PhysicalStorageBuffer</strong> to the list of storage classes for the
+<strong>StorageBuffer16BitAccess</strong>, <strong>UniformAndStorageBuffer16BitAccess</strong>,
+<strong>StorageBuffer8BitAccess</strong>, and <strong>UniformAndStorageBuffer8BitAccess</strong>
+capabilities.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_instructions">Instructions</h3>
+<div class="paragraph"><p>Modify the <strong>OpTypeForwardPointer</strong>, <strong>OpConvertUToPtr</strong>, <strong>OpConvertPtrToU</strong>, and
+<strong>OpPtrAccessChain</strong> instructions to add <strong>PhysicalStorageBufferAddresses</strong> to
+their capability lists.</p></div>
+<div class="paragraph"><p>Modify <strong>OpConvertUToPtr</strong> to require that the result type must be a physical
+pointer type.</p></div>
+<div class="paragraph"><p>Modify <strong>OpConvertPtrToU</strong> to require that the <em>Pointer</em> operand must have a
+physical pointer type.</p></div>
+<div class="paragraph"><p>Modify <strong>OpBitcast</strong> to allow vector conversions to/from pointers, by changing
+this existing rule:</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>"If 'Result Type' is a pointer, 'Operand' must be a pointer or integer
+scalar. If 'Operand' is a pointer, 'Result Type' must be a pointer or
+integer scalar."</pre>
+</div></div>
+<div class="paragraph"><p>to instead say:</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>"If either 'Result Type' or 'Operand' is a pointer, the other must be a
+pointer, an integer scalar, or an integer vector."</pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_universal_validation_rules">Universal Validation Rules</h3>
+<div class="ulist"><ul>
+<li>
+<p>
+When using OpBitcast to convert pointers to/from vectors of integers, only
+  vectors of 32-bit integers are supported.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_issues">Issues</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>1) How can we support comparing pointers to "null"?</p></div>
+<div class="paragraph"><p>Resolution: This can be accomplished by converting the pointer to an integer
+with <strong>OpConvertPtrToU</strong> or to a uvec2 with <strong>OpBitcast</strong>.</p></div>
+<div class="paragraph"><p>2) Should we define a null pointer value in memory?</p></div>
+<div class="paragraph"><p>Discussion: The environment spec can define a particular bit pattern for
+NULL, the core SPIR-V spec should not.</p></div>
+<div class="paragraph"><p>Resolution: SPIR-V doesn&#8217;t define it, but Vulkan defines it to 0.</p></div>
+<div class="paragraph"><p>3) Can we reuse <strong>Aligned</strong> to specify a minimum alignment on a load/store?</p></div>
+<div class="paragraph"><p>Resolution: The SPIR-V spec will be changed to say that the meaning of
+<strong>Aligned</strong> is defined by the execution environment, and Vulkan will define
+it to be the minimum alignment, at least for physical storage buffer
+pointers.</p></div>
+<div class="paragraph"><p>4) Which instructions from <strong>Addresses</strong> don&#8217;t we need?</p></div>
+<div class="paragraph"><p>Discussion: <strong>OpSizeOf</strong> seems unnecessary without polymorphism in the high
+level language. Variable pointers doesn&#8217;t enable <strong>OpInBoundsPtrAccessChain</strong>,
+do we need it? <strong>OpCopyMemorySized</strong>? <strong>MaxByteOffset(Id)</strong> decorations?</p></div>
+<div class="paragraph"><p>Resolution: Omit all of them listed above, as they are not strictly needed.</p></div>
+<div class="paragraph"><p>5) Does this extension depend on the <strong>Int64</strong> capability?</p></div>
+<div class="paragraph"><p>Resolution: This extension can be used without <strong>Int64</strong>, but <strong>OpConvertUToPtr</strong>
+and <strong>OpConvertPtrToU</strong> can&#8217;t be used in that case.  However, <strong>OpBitcast</strong> can be
+used to convert uvec2 &lt;&#8594; reference address.</p></div>
+<div class="paragraph"><p>6) How do Coherent/Volatile work?</p></div>
+<div class="paragraph"><p>Resolution: We rely on the per-instruction availability/visibility and
+volatile memory access operands and image operands, many of which were added
+by the SPV_KHR_vulkan_memory_model extension. So that extension must be used
+to get coherent/volatile access.</p></div>
+<div class="paragraph"><p>7) What changes are needed to the Aliasing section?</p></div>
+<div class="paragraph"><p>Resolution: Pointers to the PhysicalStorageBuffer storage class don&#8217;t
+quite fit the pre-existing definitions because the pointer is not created by
+OpVariable, rather it is loaded from memory or generated with
+OpConvertUToPtr. So we extend the definition of a memory object declaration
+to include a variable that holds a PhysicalStorageBuffer pointer, and add
+a way to decorate that the object in the variable is aliased/restrict rather
+than just the variable itself.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_revision_history">Revision History</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-rows"
+style="
+width:100%;
+">
+<col style="width:4%;">
+<col style="width:14%;">
+<col style="width:14%;">
+<col style="width:66%;">
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top" >Rev</th>
+<th class="tableblock halign-left valign-top" >Date</th>
+<th class="tableblock halign-left valign-top" >Author</th>
+<th class="tableblock halign-left valign-top" >Changes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2018-12-07</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Jeff Bolz</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Initial revision</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2019-09-18</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">David Neto</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Interaction with OpConstantNull, and new SPIR-V 1.4 instructions</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="footnotes"><hr></div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2019-09-20 03:20:13 MDT
+</div>
+</div>
+</body>
+</html>
