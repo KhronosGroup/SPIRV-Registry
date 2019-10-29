@@ -852,11 +852,11 @@ width:40%;
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2019-02-22</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2019-10-29</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
 </tr>
 </tbody>
 </table>
@@ -873,8 +873,11 @@ Version 1.3 Revision 1.</p></div>
 <div class="sect1">
 <h2 id="_overview">Overview</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>This extension adds new capabilities to support the <strong>GL_ARB_shader_clock</strong>
-and <strong>GL_EXT_shader_realtime_clock</strong> extensions in SPIR-V.</p></div>
+<div class="paragraph"><p>This extension adds new capabilities to support the
+<a href="https://www.khronos.org/registry/OpenGL/extensions/ARB/ARB_shader_clock.txt"><strong>GL_ARB_shader_clock</strong></a>
+and
+<a href="https://github.com/KhronosGroup/GLSL/blob/master/extensions/ext/GL_EXT_shader_realtime_clock.txt"><strong>GL_EXT_shader_realtime_clock</strong></a>
+GLSL extensions in SPIR-V.</p></div>
 </div>
 </div>
 <div class="sect1">
@@ -978,7 +981,7 @@ width:100%;
 <col style="width:27%;">
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" colspan="4" ><p class="tableblock"><a id="ReadClockKHR"></a><strong>ReadClockKHR</strong><br>
+<td class="tableblock halign-left valign-top" colspan="4" ><p class="tableblock"><a id="OpReadClockKHR"></a><strong>OpReadClockKHR</strong><br>
 <br>
 <em>Result</em> is the sample value of a clock as seen by the shader processor.
 An idealized clock is an unbounded unsigned scalar integer tick count
@@ -1087,6 +1090,12 @@ width:100%;
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Aaron Hagan</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Initial draft</strong></p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2019-10-29</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Daniel Koch</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Add Op prefix to new instruction, add links to GLSL specs</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1095,7 +1104,7 @@ width:100%;
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-06-12 05:50:48 MDT
+Last updated 2019-10-29 15:16:06 EDT
 </div>
 </div>
 </body>
