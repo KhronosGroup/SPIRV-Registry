@@ -33,8 +33,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2019-02-22
-| Revision           | 1
+| Last Modified Date | 2019-10-29
+| Revision           | 2
 |========================================
 
 Dependencies
@@ -48,8 +48,11 @@ This extension requires SPIR-V 1.0.
 Overview
 --------
 
-This extension adds new capabilities to support the *GL_ARB_shader_clock*
-and *GL_EXT_shader_realtime_clock* extensions in SPIR-V.
+This extension adds new capabilities to support the
+https://www.khronos.org/registry/OpenGL/extensions/ARB/ARB_shader_clock.txt[*GL_ARB_shader_clock*]
+and
+https://github.com/KhronosGroup/GLSL/blob/master/extensions/ext/GL_EXT_shader_realtime_clock.txt[*GL_EXT_shader_realtime_clock*]
+GLSL extensions in SPIR-V.
 
 Extension Name
 --------------
@@ -114,7 +117,7 @@ Modify Section 3.31, Capability, adding rows to the Capability table:
 --
 [cols="1,1,3*3",width="100%"]
 |=====
-4+|[[ReadClockKHR]]*ReadClockKHR* +
+4+|[[OpReadClockKHR]]*OpReadClockKHR* +
  +
 _Result_ is the sample value of a clock as seen by the shader processor.
 An idealized clock is an unbounded unsigned scalar integer tick count
@@ -182,4 +185,5 @@ Revision History
 |========================================
 |Rev|Date|Author|Changes
 |1 |2019-02-22 |Aaron Hagan|*Initial draft*
+|2 |2019-10-29 |Daniel Koch|Add Op prefix to new instruction, add links to GLSL specs
 |========================================
