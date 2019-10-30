@@ -33,8 +33,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2019-10-29
-| Revision           | 2
+| Last Modified Date | 2019-10-30
+| Revision           | 3
 |========================================
 
 Dependencies
@@ -134,11 +134,11 @@ two-components of 32-bit unsigned integer type with the first component
 containing the 32 least significant bits and the second component containing
 the 32 most significant bits.
 
-All invocations within the 'Execution' read from the same source clock.
-_Execution_ must be a valid execution scope.
+All invocations within the 'Scope' read from the same source clock.
+_Scope_ must be a valid _Scope <id>_ (Section 3.27).
 1+|Capability: +
 *ShaderClockKHR*
-| 4 | 5055 | '<id>' 'Result Type' | '<id>' 'Result' | 'Scope <id>' 'Execution'
+| 4 | 5055 | '<id>' 'Result Type' | '<id>' 'Result' | 'Scope <id>' 'Scope'
 |=====
 
 --
@@ -157,6 +157,9 @@ legal use of this extension:
 ----
 OpExtension "SPV_KHR_shader_clock"
 ----
+
+The 'Scope' operand of the *OpReadClockKHR* instruction must be a valid
+_Scope <id>_.
 
 Issues
 ------
@@ -186,4 +189,5 @@ Revision History
 |Rev|Date|Author|Changes
 |1 |2019-02-22 |Aaron Hagan|*Initial draft*
 |2 |2019-10-29 |Daniel Koch|Add Op prefix to new instruction, add links to GLSL specs
+|3 |2019-10-30 |Daniel Koch|SPIR-V/issues/511 (gitlab) - stop calling the scope "Execution Scope"
 |========================================
