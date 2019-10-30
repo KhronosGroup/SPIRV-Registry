@@ -852,11 +852,11 @@ width:40%;
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2019-10-29</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2019-10-30</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">3</p></td>
 </tr>
 </tbody>
 </table>
@@ -996,8 +996,8 @@ sampled values wrap around zero.</p>
 two-components of 32-bit unsigned integer type with the first component
 containing the 32 least significant bits and the second component containing
 the 32 most significant bits.</p>
-<p class="tableblock">All invocations within the <em>Execution</em> read from the same source clock.
-<em>Execution</em> must be a valid execution scope.</p></td>
+<p class="tableblock">All invocations within the <em>Scope</em> read from the same source clock.
+<em>Scope</em> must be a valid <em>Scope &lt;id&gt;</em> (Section 3.27).</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
 <strong>ShaderClockKHR</strong></p></td>
 </tr>
@@ -1006,7 +1006,7 @@ the 32 most significant bits.</p>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">5055</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>Scope &lt;id&gt;</em> <em>Execution</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>Scope &lt;id&gt;</em> <em>Scope</em></p></td>
 </tr>
 </tbody>
 </table>
@@ -1034,6 +1034,8 @@ legal use of this extension:</p></div>
 <div class="content monospaced">
 <pre>OpExtension "SPV_KHR_shader_clock"</pre>
 </div></div>
+<div class="paragraph"><p>The <em>Scope</em> operand of the <strong>OpReadClockKHR</strong> instruction must be a valid
+<em>Scope &lt;id&gt;</em>.</p></div>
 </div>
 </div>
 <div class="sect1">
@@ -1096,6 +1098,12 @@ width:100%;
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Daniel Koch</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Add Op prefix to new instruction, add links to GLSL specs</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2019-10-30</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Daniel Koch</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">SPIR-V/issues/511 (gitlab) - stop calling the scope "Execution Scope"</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1104,7 +1112,7 @@ width:100%;
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-10-29 15:16:06 EDT
+Last updated 2019-10-30 13:04:31 EDT
 </div>
 </div>
 </body>
