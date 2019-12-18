@@ -189,5 +189,5 @@ None.
 |C|2019-04-23|Joe Garvey|Added SinglepumpINTEL and DoublepumpINTEL decorations
 |D|2019-06-06|Joe Garvey|Changed the name of MaxconcurrencyINTEL to MaxPrivateCopiesINTEL
 |E|2019-06-18|Joe Garvey|Added the MaxReplicatesINTEL, SimpleDualPortINTEL, and MergeINTEL decorations
-|F|2019-11-08|Julian Packer|Added the BankBitsINTEL decoration
+|F|2019-12-18|Julian Packer|Added the BankBitsINTEL decoration
 |======================================== 
