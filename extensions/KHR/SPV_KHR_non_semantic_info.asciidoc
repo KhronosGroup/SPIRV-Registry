@@ -1,0 +1,147 @@
+SPV_KHR_non_semantic_info
+=========================
+
+Name Strings
+------------
+
+SPV_KHR_non_semantic_info
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Baldur Karlsson, Valve
+- Neil Henning, AMD
+
+Notice
+------
+
+Copyright (c) 2019 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+Status
+------
+
+- Complete
+- Ratified by the Khronos Board 2019-12-13.
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2019-09-09
+| Revision           | 3
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.4 Revision 2, Unified.
+
+This extension requires SPIR-V 1.0.
+
+Overview
+--------
+
+This extension adds the ability to declare extended instruction sets that have
+no semantic impact and can be safely removed from a module.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_KHR_non_semantic_info"
+----
+
+Modifications to the SPIR-V Specification, Version 1.4
+------------------------------------------------------
+
+Terms
+~~~~~
+
+Add a new term to section 2.2.1 Instructions:
+
+[[NonSemanticInstruction]]'Non-Semantic Instruction:' an instruction that has no
+semantic impact, and can be safely removed from the module.
+
+Logical Layout of a Module
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Modify section 9, adding:
+
+This section is the first section to allow use of 'Non-Semantic Instructions'
+with *OpExtInst*.
+
+Instructions
+~~~~~~~~~~~~
+
+Modify the *OpExtInstImport* instruction:
+
+(Replace the following sentence):
+
+There must be an external specification defining the semantics for this extended
+instruction set.
+
+(with):
+
+There must be an external specification defining the semantics for this extended
+instruction set, unless it has a name prefixed with 'NonSemantic.' at the
+beginning of the name, including the period separating the namespace
+'NonSemantic' from the rest of the name. In that case it is encouraged for a
+specification to exist on the SPIR-V registry, but it is not required.
+
+An extended set name which is prefixed with 'NonSemantic.' is guaranteed to
+contain only non-semantic instructions and all *OpExtInst* instructions
+referencing this set can be ignored. All instructions within such a set have
+only ID operands, no literal values. When literals are needed then the result ID
+from an *OpConstant* or *OpString* instruction is referenced as appropriate.
+Result IDs from these non-semantic instruction set instructions must only be
+be used in other non-semantic instructions.
+
+Issues
+------
+
+ . Should we define any specific Non-Semantic extended instruction set in this
+extension?
++
+--
+**RESOLVED**: No, this extension only defines the mechanism by which such
+extended instruction sets are defined to allow consumers to ignore them. The
+specific extended instruction sets will be defined elsewhere.
+--
+
+ . In which category (subsection) should it be valid to use *OpExtInst* with
+a non-semantic extended instruction set?
++
+--
+**RESOLVED:** From section 9 (All type declarations, all constant instructions,
+and all global variable declarations) onwards. Since the goal of these
+instructions is to provide additional non-semantic information it is valid to
+use outside of function declarations to allow attaching of information to global
+declarations.
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|3|2019-09-09|Baldur Karlsson|Clarified prefix contains a "."
+                              Restrict OpExtInst parameters to only IDs
+|2|2019-09-06|Baldur Karlsson|Removed specific instruction set, defined logical layout
+                              Target latest unified specification
+|1|2019-01-10|Baldur Karlsson|Initial revision
+|========================================
