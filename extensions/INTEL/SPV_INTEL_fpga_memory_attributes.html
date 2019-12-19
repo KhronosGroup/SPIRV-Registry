@@ -499,11 +499,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2019-06-18</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2019-12-18</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">E</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">F</p></td>
 </tr>
 </tbody>
 </table>
@@ -572,7 +572,8 @@ SinglepumpINTEL
 DoublepumpINTEL
 MaxReplicatesINTEL
 SimpleDualPortINTEL
-MergeINTEL</pre>
+MergeINTEL
+BankBitsINTEL</pre>
 </div>
 </div>
 </div>
@@ -631,6 +632,10 @@ MergeINTEL</pre>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">MergeINTEL</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">5834</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BankBitsINTEL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5835</p></td>
 </tr>
 </tbody>
 </table>
@@ -742,6 +747,14 @@ Apply to a variable or a structure-type member.  Request, to the extent possible
 <td class="tableblock halign-left valign-top"><p class="tableblock">Literal String<br>
 <em>Merge Type</em></p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5835</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>BankBitsINTEL</strong><br>
+Apply to a variable or a structure-type member. Request, to the extent possible, that the variable or structure member should be implemented in a banked memory system, where the bits specified determine the pointer address bits to bank on.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGAMemoryAttributesINTEL</strong></p></td>
+<td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock">Literal Number, Literal Number, &#8230;&#8203;<br>
+<em>Bank Bits</em></p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -842,6 +855,12 @@ Apply to a variable or a structure-type member.  Request, to the extent possible
 <td class="tableblock halign-left valign-top"><p class="tableblock">Joe Garvey</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Added the MaxReplicatesINTEL, SimpleDualPortINTEL, and MergeINTEL decorations</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">F</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2019-12-18</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Julian Packer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Added the BankBitsINTEL decoration</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -849,7 +868,7 @@ Apply to a variable or a structure-type member.  Request, to the extent possible
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-06-18 09:04:56 EDT
+Last updated 2019-12-18 10:20:58 EST
 </div>
 </div>
 </body>

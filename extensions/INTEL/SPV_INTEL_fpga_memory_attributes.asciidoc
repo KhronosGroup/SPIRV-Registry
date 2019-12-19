@@ -30,7 +30,7 @@ Final draft
 [width="40%",cols="25,25"]
 |========================================
 | Last Modified Date | {docdate}
-| Revision           | E
+| Revision           | F
 |========================================
 
 == Dependencies
@@ -73,6 +73,7 @@ DoublepumpINTEL
 MaxReplicatesINTEL
 SimpleDualPortINTEL
 MergeINTEL
+BankBitsINTEL
 ----
 
 == Token Number Assignments
@@ -93,6 +94,7 @@ MergeINTEL
 |MaxReplicatesINTEL       |5832
 |SimpleDualPortINTEL      |5833
 |MergeINTEL               |5834
+|BankBitsINTEL            |5835
 |==== 
 --
 
@@ -143,6 +145,10 @@ Apply to a variable or a structure-type member.  Request, to the extent possible
 | *FPGAMemoryAttributesINTEL* | Literal String +
 _Merge Key_ | Literal String +
 _Merge Type_
+| 5835 | *BankBitsINTEL* +
+Apply to a variable or a structure-type member. Request, to the extent possible, that the variable or structure member should be implemented in a banked memory system, where the bits specified determine the pointer address bits to bank on.
+| *FPGAMemoryAttributesINTEL* 2+| Literal Number, Literal Number, ... +
+_Bank Bits_
 |====
 --
 
@@ -183,4 +189,5 @@ None.
 |C|2019-04-23|Joe Garvey|Added SinglepumpINTEL and DoublepumpINTEL decorations
 |D|2019-06-06|Joe Garvey|Changed the name of MaxconcurrencyINTEL to MaxPrivateCopiesINTEL
 |E|2019-06-18|Joe Garvey|Added the MaxReplicatesINTEL, SimpleDualPortINTEL, and MergeINTEL decorations
+|F|2019-12-18|Julian Packer|Added the BankBitsINTEL decoration
 |======================================== 
