@@ -130,6 +130,7 @@ and all global variable declarations) onwards. Since the goal of these
 instructions is to provide additional non-semantic information it is valid to
 use outside of function declarations to allow attaching of information to global
 declarations.
+--
 
 Revision History
 ----------------
