@@ -38,7 +38,7 @@ Final draft
 == Dependencies
 
 This extension is written against the SPIR-V Specification,
-Version 1.3 Revision 6.
+Version 1.5 Revision 2.
 
 This extension requires SPIR-V 1.0.
 
@@ -102,7 +102,7 @@ ForcePow2DepthINTEL
 |==== 
 --
 
-== Modifications to the SPIR-V Specification, Version 1.3
+== Modifications to the SPIR-V Specification, Version 1.5
 
 === Decoration
 
@@ -111,52 +111,52 @@ Modify Section 3.20, Decoration, adding these rows to the Decoration table:
 --
 [options="header"]
 |====
-2+^| Decoration	^| Enabling Capabilities 2+^| Extra Operands
+2+^| Decoration 2+^| Extra Operands	^| Enabling Capabilities
 | 5825 | *RegisterINTEL* +
 Apply to a variable or a structure-type member. Request, to the extent possible, that the variable or structure member should be implemented in logic and carried through the datapath. 
-| *FPGAMemoryAttributesINTEL* 2+|
+2+| | *FPGAMemoryAttributesINTEL*
 | 5826 | *MemoryINTEL* +
 Apply to a variable or a structure-type member. Request, to the extent possible, that the variable or structure member should be implemented in memory of the specified type. 
-| *FPGAMemoryAttributesINTEL* 2+| Literal String +
-_Memory Type_
+2+| Literal String +
+_Memory Type_ | *FPGAMemoryAttributesINTEL*
 | 5827 | *NumbanksINTEL*  +
 Apply to a variable or a structure-type member. Request, to the extent possible, that the variable or structure member should be implemented in a memory with the specified number of banks.
-| *FPGAMemoryAttributesINTEL* 2+| Literal Number +
-_Banks_
+2+| Literal Number +
+_Banks_ | *FPGAMemoryAttributesINTEL*
 | 5828 | *BankwidthINTEL* +
 Apply to a variable or a structure-type member. Request, to the extent possible, that the variable or structure member should be implemented in a memory whose banks have the specified width in bytes.
-| *FPGAMemoryAttributesINTEL* 2+| Literal Number +
-_Bank Width_
+2+| Literal Number +
+_Bank Width_ | *FPGAMemoryAttributesINTEL*
 | 5829 | *MaxPrivateCopiesINTEL* +
 Apply to a variable or a structure-type member. Request, to the extent possible, that no more than the specified number of independent copies of the memory synthesized for the variable or structure member should be created for the purpose of enabling concurrent thread or loop iteration accesses.
-| *FPGAMemoryAttributesINTEL* 2+| Literal Number +
-_Maximum Copies_
+2+| Literal Number +
+_Maximum Copies_ | *FPGAMemoryAttributesINTEL*
 | 5830 | *SinglepumpINTEL* +
 Apply to a variable or a structure-type member. Request, to the extent possible, that the variable or structure member should be implemented in a memory that is clocked at the same rate as accesses to it.
-| *FPGAMemoryAttributesINTEL* 2+|
+2+| | *FPGAMemoryAttributesINTEL*
 | 5831 | *DoublepumpINTEL* +
 Apply to a variable or a structure-type member. Request, to the extent possible, that the variable or structure member should be implemented in a memory that is clocked at twice the rate of accesses to it.
-| *FPGAMemoryAttributesINTEL* 2+|
+2+| | *FPGAMemoryAttributesINTEL*
 | 5832 | *MaxReplicatesINTEL* +
 Apply to a variable or a structure-type member. Request, to the extent possible, that each copy of the memory synthesized for the variable or structure member should be replicated no more than the specified number of times for the purpose of enabling simultaneous accesses from different load/store sites in the program.  
-| *FPGAMemoryAttributesINTEL* 2+| Literal Number +
-_Maximum Replicates_
+2+| Literal Number +
+_Maximum Replicates_ | *FPGAMemoryAttributesINTEL*
 | 5833 | *SimpleDualPortINTEL* +
 Apply to a variable or a structure-type member. Request, to the extent possible, that the variable or structure member should be implemented in a memory that is configured such that no memory port services both stores and loads.
-| *FPGAMemoryAttributesINTEL* 2+|
+2+| | *FPGAMemoryAttributesINTEL*
 | 5834 | *MergeINTEL* +
 Apply to a variable or a structure-type member.  Request, to the extent possible, that the variable or structure member should be implemented in a memory that is merged with any memories synthesized from arrays or structure members that are decorated with this decoration and the same specified merge key.  The mechanism of this merging is specified as a subsequent literal string.
-| *FPGAMemoryAttributesINTEL* | Literal String +
+| Literal String +
 _Merge Key_ | Literal String +
-_Merge Type_
+_Merge Type_ | *FPGAMemoryAttributesINTEL*
 | 5835 | *BankBitsINTEL* +
 Apply to a variable or a structure-type member. Request, to the extent possible, that the variable or structure member should be implemented in a banked memory system, where the bits specified determine the pointer address bits to bank on.
-| *FPGAMemoryAttributesINTEL* 2+| Literal Number, Literal Number, ... +
-_Bank Bits_
+2+| Literal Number, Literal Number, ... +
+_Bank Bits_ | *FPGAMemoryAttributesINTEL*
 | 5836 | *ForcePow2DepthINTEL* +
 Apply to a variable or a structure-type member. Request that the variable or structure member should be implemented in a memory that is a power-of-2 deep. This option is enabled if the subsequent literal number specified is 1, and disabled if the subsequent literal number specified is 0.
-| *FPGAMemoryAttributesINTEL* 2+| Literal Number +
-_Force Power-Of-2 Depth_
+2+| Literal Number +
+_Force Power-Of-2 Depth_ | *FPGAMemoryAttributesINTEL*
 |====
 --
 
@@ -198,5 +198,5 @@ None.
 |D|2019-06-06|Joe Garvey|Changed the name of MaxconcurrencyINTEL to MaxPrivateCopiesINTEL
 |E|2019-06-18|Joe Garvey|Added the MaxReplicatesINTEL, SimpleDualPortINTEL, and MergeINTEL decorations
 |F|2019-12-18|Julian Packer|Added the BankBitsINTEL decoration
-|G|2020-01-03|Mohammad Fawaz|Added the ForcePow2DepthINTEL decoration
+|G|2020-02-06|Mohammad Fawaz|Added the ForcePow2DepthINTEL decoration
 |======================================== 
