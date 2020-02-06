@@ -14,12 +14,14 @@ https://github.com/KhronosGroup/SPIRV-Headers
 == Contributors
 
 - Ben Ashbaugh, Intel +
+- Mohammad Fawaz, Intel
 - Joe Garvey, Intel +
-- Michael Kinsner, Intel
+- Michael Kinsner, Intel +
+- Julian Packer, Intel +
 
 == Notice
 
-Copyright (c) 2019 Intel Corporation.  All rights reserved.
+Copyright (c) 2019-2020 Intel Corporation.  All rights reserved.
 
 == Status
 
@@ -30,7 +32,7 @@ Final draft
 [width="40%",cols="25,25"]
 |========================================
 | Last Modified Date | {docdate}
-| Revision           | F
+| Revision           | G
 |========================================
 
 == Dependencies
@@ -74,6 +76,7 @@ MaxReplicatesINTEL
 SimpleDualPortINTEL
 MergeINTEL
 BankBitsINTEL
+ForcePow2DepthINTEL
 ----
 
 == Token Number Assignments
@@ -95,6 +98,7 @@ BankBitsINTEL
 |SimpleDualPortINTEL      |5833
 |MergeINTEL               |5834
 |BankBitsINTEL            |5835
+|ForcePow2DepthINTEL      |5836
 |==== 
 --
 
@@ -149,6 +153,10 @@ _Merge Type_
 Apply to a variable or a structure-type member. Request, to the extent possible, that the variable or structure member should be implemented in a banked memory system, where the bits specified determine the pointer address bits to bank on.
 | *FPGAMemoryAttributesINTEL* 2+| Literal Number, Literal Number, ... +
 _Bank Bits_
+| 5836 | *ForcePow2DepthINTEL* +
+Apply to a variable or a structure-type member. Request that the variable or structure member should be implemented in a memory that is a power-of-2 deep. This option is enabled if the subsequent literal number specified is 1, and disabled if the subsequent literal number specified is 0.
+| *FPGAMemoryAttributesINTEL* 2+| Literal Number +
+_Force Power-Of-2 Depth_
 |====
 --
 
@@ -190,4 +198,5 @@ None.
 |D|2019-06-06|Joe Garvey|Changed the name of MaxconcurrencyINTEL to MaxPrivateCopiesINTEL
 |E|2019-06-18|Joe Garvey|Added the MaxReplicatesINTEL, SimpleDualPortINTEL, and MergeINTEL decorations
 |F|2019-12-18|Julian Packer|Added the BankBitsINTEL decoration
+|G|2020-01-03|Mohammad Fawaz|Added the ForcePow2DepthINTEL decoration
 |======================================== 
