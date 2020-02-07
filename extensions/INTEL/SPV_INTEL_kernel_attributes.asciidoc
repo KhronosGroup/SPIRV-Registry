@@ -1,0 +1,153 @@
+SPV_INTEL_kernel_attributes
+===========================
+
+== Name Strings
+
+SPV_INTEL_kernel_attributes
+
+== Contact
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+== Notice
+
+Copyright (c) 2019 Intel Corporation.  All rights reserved.
+
+== Status
+
+Final Draft
+
+== Version
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | {docdate}
+| Revision           | 1
+|========================================
+
+== Dependencies
+
+This extension is written against the SPIR-V Specification,
+Version 1.5 Revision 1.
+
+This extension requires SPIR-V 1.0.
+
+== Overview
+
+This extension adds a variety of new execution modes, both general and target-specific.  The target-specific execution modes are guarded by separate capabilities.  
+
+== Extension Name
+To use this extension within a SPIR-V module, the following *OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_INTEL_kernel_attributes"
+----
+
+== New Capabilities
+This extension introduces new capabilities:
+
+----
+KernelAttributesINTEL
+FPGAKernelAttributesINTEL
+----
+
+== New Execution Modes
+
+----
+MaxWorkgroupSizeINTEL
+MaxWorkDimINTEL
+NoGlobalOffsetINTEL
+NumSIMDWorkitemsINTEL
+----
+
+== Token Number Assignments
+
+--
+[width="40%"]
+[cols="70%,30%"]
+[grid="rows"]
+|====
+|KernelAttributesINTEL        |5892
+|MaxWorkgroupSizeINTEL        |5893
+|MaxWorkDimINTEL              |5894
+|NoGlobalOffsetINTEL          |5895
+|NumSIMDWorkitemsINTEL        |5896
+|FPGAKernelAttributesINTEL    |5897
+|==== 
+--
+
+== Modifications to the SPIR-V Specification, Version 1.5
+
+=== Execution Mode
+
+Modify Section 3.6, Execution Mode, adding these rows to the Execution Mode table:
+
+--
+[options="header"]
+|====
+2+^| Execution Mode 3+^| Extra Operands ^| Enabling Capabilities
+| 5893 | *MaxWorkgroupSizeINTEL* +
+Indicates the maximum possible work-group size in the x, y, and z dimensions.  
+If a *LocalSize* execution mode is applied to the same entry point, it is invalid for _max_i_size_ < _i_ _size_ for dimension _i_.  
+Only valid with the *Kernel* Execution Model.
+| Literal Number +
+_max_x_size_
+| Literal Number + 
+_max_y_size_ 
+| Literal Number + 
+_max_z_size_
+| *KernelAttributesINTEL*
+| 5894 | *MaxWorkDimINTEL* +
+Indicates the maximum number of work dimensions.  Legal values range from 0 to 3.  
+A maximum dimensionality of 0 indicates that the kernel can only be launched with a single work-item.  
+If a *LocalSize* execution mode is applied to the same entry point, the size of each dimension beyond _max_dimensions_ must be 1.
+Only valid with the *Kernel* Execution Model.
+3+^| Literal Number +
+_max_dimensions_
+| *KernelAttributesINTEL*
+| 5895 | *NoGlobalOffsetINTEL* +
+Indicates that the global offset is always (0, 0, 0).  Only valid with the *Kernel* Execution Model.
+3+^|
+| *KernelAttributesINTEL*
+| 5896 | *NumSIMDWorkitemsINTEL* +
+Indicates that the kernel should be vectorized with the provided vector width.  Only valid with the *Kernel* Execution Model.
+3+^| Literal Number +
+_vector_width_
+| *FPGAKernelAttributesINTEL*
+|====
+--
+
+=== Capability
+
+Modify Section 3.31, Capability, adding a row to the Capability table:
+--
+[options="header"]
+|====
+2+^| Capability ^| Implicitly Declares
+| 5892 | KernelAttributesINTEL |
+| 5897 | FPGAKernelAttributesINTEL |
+|====
+--
+
+== Issues
+
+None.
+
+//. Issue.
+//+
+//--
+//*RESOLVED*: Resolution.
+//--
+
+== Revision History
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2019-12-18|Joe Garvey|*Initial public release*
+|======================================== 
+
