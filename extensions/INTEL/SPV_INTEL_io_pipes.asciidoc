@@ -1,0 +1,133 @@
+SPV_INTEL_io_pipes
+==================
+
+== Name Strings
+
+SPV_INTEL_io_pipes
+
+== Contact
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+== Contributors
+
+- Joe Garvey, Intel +
+- Dmitry Sidorov, Intel
+
+== Notice
+
+Copyright (c) 2020 Intel Corporation.  All rights reserved.
+
+== Status
+
+Draft
+
+== Version
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | {docdate}
+| Revision           | 1
+|========================================
+
+== Dependencies
+
+This extension is written against the SPIR-V Specification,
+Version 1.5 Revision 2.
+
+This extension requires SPIR-V 1.0.
+
+== Overview
+
+This extension adds a decoration to identify pipes that correspond to hardware peripherals.  This can be a useful programming model for any target which may directly interact with I/O.  
+
+== Extension Name
+To use this extension within a SPIR-V module, the following *OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_INTEL_io_pipes"
+----
+
+== New Capabilities
+
+This extension introduces a new capability:
+
+----
+IOPipesINTEL
+----
+
+== New Decorations
+
+Decorations added under the *IOPipesINTEL* capability:
+
+----
+IOPipeStorageINTEL
+----
+
+== Token Number Assignments
+
+--
+[width="40%"]
+[cols="70%,30%"]
+[grid="rows"]
+|====
+| IOPipesINTEL | 5943
+| IOPipeStorageINTEL | 5944
+|==== 
+--
+
+== Modifications to the SPIR-V Specification, Version 1.5
+
+=== Decoration
+
+Modify Section 3.20, Decoration, adding these rows to the Decoration table:
+
+--
+[options="header"]
+|====
+2+^| Decoration	^| Extra Operands 2+^| Enabling Capabilities
+| 5944 | *IOPipeStorageINTEL* +
+Apply to a pipe-storage object created from *OpConstantPipeStorage*.  Indicates that the pipe storage object provides access to a hardware peripheral identified by the specified ID.
+| Literal Number + 
+_IO Pipe ID_ 2+| *IOPipesINTEL* 
+|====
+--
+
+=== Capability
+
+Modify Section 3.31, Capability, adding a row to the Capability table:
+
+--
+[options="header"]
+|====
+2+^| Capability ^| Implicitly Declares
+| 5943 | *IOPipesINTEL* |
+|====
+--
+
+=== Validation Rules
+
+None.
+
+== Issues
+
+None.
+
+//. Issue.
+//+
+//--
+//*RESOLVED*: Resolution.
+//--
+
+== Revision History
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2019-02-25|Joe Garvey|*Initial public release*
+|======================================== 
+
