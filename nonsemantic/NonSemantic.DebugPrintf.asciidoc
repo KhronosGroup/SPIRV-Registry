@@ -1,0 +1,95 @@
+SPIR-V NonSemantic DebugPrintf Instructions
+===========================================
+
+Version 1.00
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Jeff Bolz, NVIDIA Corporation
+
+Notice
+------
+
+Copyright (c) 2019-2020 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+Status
+------
+
+- Not Yet Approved by the SPIR-V Working Group
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2020-02-11
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.4 Revision 1.
+
+This instruction set requires SPIR-V 1.0.
+
+1. Introduction
+---------------
+
+This specifies the NonSemantic.DebugPrintf extended instruction set. It
+provides a *DebugPrintf* instruction which is intercepted by the Vulkan
+validation layers and replaced with code to output the string to the debug
+output log.
+
+Import this extended instruction set using an OpExtInstImport
+"NonSemantic.DebugPrintf" instruction.
+
+2. Binary Form
+---------------
+
+[cols="1,1,2*3",width="100%"]
+|=====
+3+|[[DebugPrintf]]*DebugPrintf* +
+ +
+Writes output to an implementation-defined stream under control of the string
+pointed to by 'Format', which can include format specifiers that control how
+subsequent arguments are converted for output. If there are insufficient
+arguments for the format specifiers, the behavior is undefined. If the format
+is exhausted while arguments remain, the excess arguments are ignored.
+Interpretation of the format specifiers is specified by the client API. +
+ +
+'Return Type' must be *OpTypeVoid*. +
+ +
+'Format' must be an *OpString*.
+1+|Capability:
+1+| 2+variable | 1 | '<id>' +
+'Format' | Optional
+'<id>', '<id>', ...
+|=====
+
+
+Issues
+------
+
+None.
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2020-02-11|Jeff Bolz|Initial revision
+|========================================
