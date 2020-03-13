@@ -14,7 +14,9 @@ https://github.com/KhronosGroup/SPIRV-Headers
 == Contributors
 
 - Joe Garvey, Intel +
-- Michael Kinsner, Intel
+- Michael Kinsner, Intel +
+- Artem Chikin, Intel +
+- Ci Tian, Intel
 
 == Notice
 
@@ -28,8 +30,8 @@ Final draft
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | {docdate}
-| Revision           | C
+| Build Date | {docdate}
+| Revision   | E
 |========================================
 
 == Dependencies
@@ -49,7 +51,7 @@ To use this extension within a SPIR-V module, the following *OpExtension* must b
 ----
 OpExtension "SPV_INTEL_fpga_loop_controls"
 ----
- 
+
 == New capabilities
 This extension introduces a new capability:
 
@@ -78,8 +80,16 @@ Strong request, to the extent possible, to implement this loop with an initiatio
 | 0x20000 | *MaxConcurrencyINTEL* +
 Strong request, to the extent possible, to allow no more than a fixed number of threads or loop iterations to execute the loop concurrently as specified by a subsequent literal-number operand to the instruction. | *FPGALoopControlsINTEL*
 | 0x40000 | *DependencyArrayINTEL* +
-Guarantees that there are no dependencies on a particular variable between a number of loop iterations.  
+Guarantees that there are no dependencies on a particular variable between a number of loop iterations.
 Can be applied to multiple variables, the number of which is specified as a subsequent literal-number operand to the instruction. Following that, for each variable, an <id> and literal number pair are provided indicating the variable and number of loop iterations. A number of loop iterations of 0 indicates that there are no loop-carried dependences on that variable. | *FPGALoopControlsINTEL*
+| 0x80000 | *PipelineEnableINTEL* +
+Strong request, to the extent possible, to either pipeline iterations of this loop or to not pipeline iterations of this loop depending on the value of the subsequent literal number operand.  A value of 0 indicates a request not to pipeline while a value of 1 indicates a request to pipeline. | *FPGALoopControlsINTEL*
+| 0x100000 | *LoopCoalesceINTEL* +
+Request to combine the loops nested within this loop into a single loop. An optional 32-bit integer literal operand specifies the number of nested loop levels to coalesce. | *FPGALoopControlsINTEL*
+| 0x200000 | *MaxInterleavingINTEL* +
+Request to limit the number of pipelined interleaved invocations of this loop that can be executed simultaneously to the number specified subsequently as a 32-bit integer literal operand. | *FPGALoopControlsINTEL*
+| 0x400000 | *SpeculatedIterationsINTEL* +
+Request to limit the number of iterations launched before the loop exit condition has been evaluated to the number specified subsequently as a 32-bit integer literal operand. | *FPGALoopControlsINTEL*
 |====
 
 === Capability
@@ -89,7 +99,7 @@ Modify Section 3.31, Capability, adding a row to the Capability table:
 [options="header"]
 |=====
 2+^| Capability ^| Implicitly Declares
-| 5888 | FPGALoopControlsINTEL | 
+| 5888 | FPGALoopControlsINTEL |
 |=====
 
 === Validation Rules
@@ -110,5 +120,6 @@ None.
 |A|2019-05-06|Joe Garvey|*Initial public release*
 |B|2019-05-07|Michael Kinsner|Update overview wording
 |C|2019-06-02|Michael Kinsner|Use loop control bits directly, as allocated in SPIRV-Headers spir-v.xml
+|D|2020-11-02|Artem Chikin|Add PipelineDisableINTEL
+|E|2020-12-02|Ci Tian|Add LoopCoalesceINTEL, MaxInterleavingINTEL and SpeculatedIterationsINTEL
 |======================================== 
-
