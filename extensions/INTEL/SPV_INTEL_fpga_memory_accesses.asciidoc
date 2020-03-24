@@ -1,0 +1,148 @@
+SPV_INTEL_fpga_memory_accesses
+==============================
+
+== Name Strings
+
+SPV_INTEL_fpga_memory_accesses
+
+== Contact
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+== Contributors
+
+- Mohammad Fawaz, Intel +
+- Joe Garvey, Intel +
+- Michael Kinsner, Intel +
+- Alexey Sotkin, Intel
+
+== Notice
+
+Copyright (c) 2020 Intel Corporation.  All rights reserved.
+
+== Status
+
+First draft
+
+== Version
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | {docdate}
+| Revision           | 1
+|========================================
+
+== Dependencies
+
+This extension is written against the SPIR-V Specification,
+Version 1.5 Revision 2.
+
+This extension requires SPIR-V 1.0.
+
+== Overview
+
+This extension adds decorations, useful for FPGA targets, that explicitly request that implementation of a memory access is configured in a certain way.
+
+== Extension Name
+To use this extension within a SPIR-V module, the following *OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_INTEL_fpga_memory_accesses"
+----
+ 
+== New capabilities
+This extension introduces a new capability:
+
+----
+FPGAMemoryAccessesINTEL
+----
+
+== New Decorations
+
+Decorations added under the *FPGAMemoryAccessesINTEL* capability:
+
+----
+BurstCoalesceINTEL
+CacheSizeINTEL
+DontStaticallyCoalesceINTEL
+PrefetchINTEL
+----
+
+== Token Number Assignments
+
+--
+[width="40%"]
+[cols="70%,30%"]
+[grid="rows"]
+|====
+|FPGAMemoryAccessesINTEL     |5898
+|BurstCoalesceINTEL          |5899
+|CacheSizeINTEL              |5900
+|DontStaticallyCoalesceINTEL |5901
+|PrefetchINTEL               |5902
+|==== 
+--
+
+== Modifications to the SPIR-V Specification, Version 1.5
+
+=== Decoration
+
+Modify Section 3.20, Decoration, adding these rows to the Decoration table:
+
+--
+[options="header"]
+|====
+2+^| Decoration 2+^| Extra Operands	^| Enabling Capabilities
+| 5899 | *BurstCoalesceINTEL* +
+Apply to a pointer. Request, to the extent possible, that a dynamic burst coalescer be implemented when the memory pointed to by the pointer is accessed using OpLoad or OpStore. 
+2+| | *FPGAMemoryAccessesINTEL*
+| 5900 | *CacheSizeINTEL* +
+Apply to a pointer. Request, to the extent possible, that a read-only cache of the specified size be implemented when the memory pointed to by the pointer is accessed using OpLoad.
+2+| Literal Number +
+_Cache Size in bytes_ | *FPGAMemoryAccessesINTEL*
+| 5901 | *DontStaticallyCoalesceINTEL*  +
+Apply to a pointer. Request, to the extent possible, that accesses to the pointer, using OpLoad or OpStore, should not be statically coalesced with other memory accesses at compile time.
+2+| | *FPGAMemoryAccessesINTEL*
+| 5902 | *PrefetchINTEL* +
+Apply to a pointer. Request, to the extent possible, that a prefetcher of the specified size be implemented when the memory pointed to by the pointer is accessed using OpLoad.
+2+| Literal Number +
+_Prefetcher Size in bytes_ | *FPGAMemoryAccessesINTEL*
+|====
+--
+
+=== Capability
+
+Modify Section 3.31, Capability, adding a row to the Capability table:
+--
+[options="header"]
+|====
+2+^| Capability ^| Implicitly Declares
+| 5898 | FPGAMemoryAccessesINTEL |
+|====
+--
+
+=== Validation Rules
+
+None.
+
+== Issues
+
+None.
+
+//. Issue.
+//+
+//--
+//*RESOLVED*: Resolution.
+//--
+
+== Revision History
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2020-02-20|Mohammad Fawaz|*Initial public release*
+|======================================== 
