@@ -36,8 +36,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2019-09-09
-| Revision           | 3
+| Last Modified Date | 2020-03-25
+| Revision           | 4
 |========================================
 
 Dependencies
@@ -132,6 +132,15 @@ use outside of function declarations to allow attaching of information to global
 declarations.
 --
 
+ . Can an *OpExtInst* with a non-semantic extended instruction set be
+intermixed with an *OpPhi*?
++
+--
+**RESOLVED:** No, non-semantic extended instructions are not exempt
+from the OpPhi rule: "Within a block, this instruction [OpPhi] must
+appear before all non-OpPhi instructions".
+--
+
 Revision History
 ----------------
 
@@ -140,6 +149,7 @@ Revision History
 [options="header"]
 |========================================
 |Rev|Date|Author|Changes
+|4|2020-03-25|Caio Marcelo de Oliveira Filho|Clarified that non-semantic instructions cannot be intermixed with OpPhi
 |3|2019-09-09|Baldur Karlsson|Clarified prefix contains a "."
                               Restrict OpExtInst parameters to only IDs
 |2|2019-09-06|Baldur Karlsson|Removed specific instruction set, defined logical layout
