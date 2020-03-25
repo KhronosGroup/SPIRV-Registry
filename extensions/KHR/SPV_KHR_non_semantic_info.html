@@ -801,11 +801,11 @@ width:40%;
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2019-09-09</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2020-03-25</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
 </tr>
 </tbody>
 </table>
@@ -904,6 +904,18 @@ use outside of function declarations to allow attaching of information to global
 declarations.</p></div>
 </div></div>
 </li>
+<li>
+<p>
+Can an <strong>OpExtInst</strong> with a non-semantic extended instruction set be
+intermixed with an <strong>OpPhi</strong>?
+</p>
+<div class="openblock">
+<div class="content">
+<div class="paragraph"><p><strong>RESOLVED:</strong> No, non-semantic extended instructions are not exempt
+from the OpPhi rule: "Within a block, this instruction [OpPhi] must
+appear before all non-OpPhi instructions".</p></div>
+</div></div>
+</li>
 </ol></div>
 </div>
 </div>
@@ -927,6 +939,12 @@ width:100%;
 </tr>
 </thead>
 <tbody>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2020-03-25</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Caio Marcelo de Oliveira Filho</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Clarified that non-semantic instructions cannot be intermixed with OpPhi</p></td>
+</tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">3</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">2019-09-09</p></td>
@@ -956,7 +974,7 @@ width:100%;
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2020-01-27 11:03:18 PST
+ 2020-03-25 07:29:36 PDT
 </div>
 </div>
 </body>
