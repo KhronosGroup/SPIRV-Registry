@@ -39,8 +39,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2020-03-05
-| Revision           | 3
+| Last Modified Date | 2020-04-14
+| Revision           | 4
 |========================================
 
 Dependencies
@@ -513,7 +513,7 @@ The 'Type' operand to the *OpTypePointer* used for 'Target' or 'Source' must not
  +
  'Result' is the returned T value. +
  +
- 'Result Type' must be a 32-bit 'integer type' scalar. +
+ 'Result Type' must be a 32-bit 'floating-point type' scalar. +
  +
  'Intersection' must be the <id> of a 'constant instruction' with a 32-bit scalar 'integer type'. +
  +
@@ -932,5 +932,6 @@ Revision History
 |1 |2019-12-05 |Tobias Hector | First draft
 |2 |2019-12-11 |Daniel Koch   | add Provisional string to capabilities.
 |3 |2020-03-06 |Ashwin Lele   | Reorder operands and rename builtins (!170)
+|4 |2020-04-14 |Jeff Bolz     | Fix return type of OpRayQueryGetIntersectionTKHR
 |========================================
 
