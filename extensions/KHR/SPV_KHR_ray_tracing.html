@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="generator" content="AsciiDoc 8.6.9">
+<meta name="generator" content="AsciiDoc 8.6.10">
 <title>SPV_KHR_ray_tracing</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
@@ -868,11 +868,11 @@ width:40%;
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2020-02-22</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2020-04-22</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">13</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">14</p></td>
 </tr>
 </tbody>
 </table>
@@ -883,7 +883,7 @@ width:40%;
 <div class="sectionbody">
 <div class="paragraph"><p>This extension is written against the SPIR-V Specification,
 Version 1.5 Revision 1.</p></div>
-<div class="paragraph"><p>This extension requires SPIR-V 1.0.</p></div>
+<div class="paragraph"><p>This extension requires SPIR-V 1.4.</p></div>
 <div class="paragraph"><p>This extension interacts with SPV_KHR_ray_query.</p></div>
 </div>
 </div>
@@ -1859,7 +1859,14 @@ capability.</p></div>
 <div class="sect1">
 <h2 id="_issues">Issues</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>None yet!</p></div>
+<div class="paragraph"><p>1) Should the global variables be listed in the entrypoint interface?</p></div>
+<div class="paragraph"><p>Discussion: This makes the consumer lives easier in the presence of multiple
+entry points.  This is already required in SPIR-V 1.4, but if using an earlier
+version of SPIR-V it is actually <strong>illegal</strong>.</p></div>
+<div class="paragraph"><p>Resolved: Require SPIR-V 1.4 to make it simpler for consumers.
+SPV_NV_ray_tracing needs to work both ways since it pre-dates SPIR-V 1.4, but
+implementations which only support SPV_KHR_ray_tracing will benefit from
+this requirement.</p></div>
 </div>
 </div>
 <div class="sect1">
@@ -1965,6 +1972,12 @@ width:100%;
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Tobias Hector</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Removed HitTKHR alias of RayTmaxKHR</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">14</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2020-04-22</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Daniel Koch</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Require SPIR-V 1.4.</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1973,7 +1986,8 @@ width:100%;
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-02-26 23:17:02 EST
+Last updated
+ 2020-04-29 18:19:09 EDT
 </div>
 </div>
 </body>
