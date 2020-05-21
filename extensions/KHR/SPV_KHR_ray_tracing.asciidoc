@@ -42,8 +42,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2020-02-22
-| Revision           | 13
+| Last Modified Date | 2020-04-22
+| Revision           | 14
 |========================================
 
 Dependencies
@@ -52,7 +52,7 @@ Dependencies
 This extension is written against the SPIR-V Specification,
 Version 1.5 Revision 1.
 
-This extension requires SPIR-V 1.0.
+This extension requires SPIR-V 1.4.
 
 This extension interacts with SPV_KHR_ray_query.
 
@@ -673,7 +673,16 @@ capability.
 Issues
 ------
 
-None yet!
+1) Should the global variables be listed in the entrypoint interface?
+
+Discussion: This makes the consumer lives easier in the presence of multiple
+entry points.  This is already required in SPIR-V 1.4, but if using an earlier
+version of SPIR-V it is actually *illegal*.
+
+Resolved: Require SPIR-V 1.4 to make it simpler for consumers.
+SPV_NV_ray_tracing needs to work both ways since it pre-dates SPIR-V 1.4, but
+implementations which only support SPV_KHR_ray_tracing will benefit from
+this requirement.
 
 Revision History
 ----------------
@@ -701,5 +710,6 @@ Revision History
                                 for RayTracingProvisionalKHR.
 |12|2020-02-20 |Eric Werness  | Miss does not have object parameters.
 |13|2020-02-22 |Tobias Hector | Removed HitTKHR alias of RayTmaxKHR
+|14|2020-04-22 |Daniel Koch   | Require SPIR-V 1.4.
 |========================================
 
