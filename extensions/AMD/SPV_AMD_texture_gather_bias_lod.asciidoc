@@ -122,7 +122,7 @@ Uses texture gather with either bias added to the implicit level-of-detail or ex
 Validation Rules
 ----------------
 
-None.
+- An instruction can have at most one of the *Lod* and *Bias* image operands.
 
 Issues
 ------
@@ -145,6 +145,8 @@ Revision History
 [options="header"]
 |========================================
 |Rev|Date|Author|Changes
+|3|May 27, 2020|Nicolai Hähnle|Explicitly state that Lod and Bias cannot be used
+simultaneously in the same instruction.
 |2|June 22, 2017|Dominik Witczak|Typo fix (OpCapabilityImageGatherBiasLodAMD => CapabilityImageGatherBiasLodAMD)
 |1|February 21, 2017|Dominik Witczak|Initial revision based on AMD_texture_gather_bias_lod
 |========================================
