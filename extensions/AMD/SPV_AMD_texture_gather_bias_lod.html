@@ -1,9 +1,10 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
     "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 8.6.9" />
+<meta name="generator" content="AsciiDoc 9.0.0rc1" />
 <title>SPIR-V Extension SPV_AMD_texture_gather_bias_lod</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
@@ -435,7 +436,7 @@ thead, p.table.header {
 p.table {
   margin-top: 0;
 }
-/* Because the table frame attribute is overriden by CSS in most browsers. */
+/* Because the table frame attribute is overridden by CSS in most browsers. */
 div.tableblock > table[frame="void"] {
   border-style: none;
 }
@@ -868,7 +869,7 @@ cellspacing="0" cellpadding="4">
 </div>
 </div>
 <div class="sect1">
-<h2 id="_modifications_to_the_spir_v_specification_version_1_1">  Modifications to the SPIR-V Specification, Version 1.1</h2>
+<h2 id="_modifications_to_the_spir_v_specification_version_1_1">Modifications to the SPIR-V Specification, Version 1.1</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Modify Section 3.14, Image Operands</p></div>
 <div class="paragraph"><p>(Replace the following language, as included in the <strong>"Image Operands"</strong> section of the table
@@ -921,7 +922,13 @@ cellspacing="0" cellpadding="4">
 <div class="sect1">
 <h2 id="_validation_rules">Validation Rules</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>None.</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+An instruction can have at most one of the <strong>Lod</strong> and <strong>Bias</strong> image operands.
+</p>
+</li>
+</ul></div>
 </div>
 </div>
 <div class="sect1">
@@ -958,6 +965,13 @@ cellspacing="0" cellpadding="4">
 </thead>
 <tbody>
 <tr>
+<td align="left" valign="top"><p class="table">3</p></td>
+<td align="left" valign="top"><p class="table">May 27, 2020</p></td>
+<td align="left" valign="top"><p class="table">Nicolai Hähnle</p></td>
+<td align="left" valign="top"><p class="table">Explicitly state that Lod and Bias cannot be used
+simultaneously in the same instruction.</p></td>
+</tr>
+<tr>
 <td align="left" valign="top"><p class="table">2</p></td>
 <td align="left" valign="top"><p class="table">June 22, 2017</p></td>
 <td align="left" valign="top"><p class="table">Dominik Witczak</p></td>
@@ -978,7 +992,8 @@ cellspacing="0" cellpadding="4">
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-06-22 09:48:13 Central European Daylight Time
+Last updated
+ 2020-05-27 17:59:04 CEST
 </div>
 </div>
 </body>
