@@ -42,8 +42,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2020-04-22
-| Revision           | 14
+| Last Modified Date | 2020-06-03
+| Revision           | 15
 |========================================
 
 Dependencies
@@ -488,16 +488,16 @@ The intersection was with back-facing geometry.
 (Modify Section 3.31, Capability, adding a row to the Capability table) ::
 +
 --
-[cols="1^.^,25,8^,15",options="header",width = "100%"]
+[cols="1^.^,25,15",options="header",width = "100%"]
 |====
-2+^.^| Capability | Depends On | Enabled by Extension
+2+^.^| Capability | Implicitly Declares
 | 5353 | *RayTracingProvisionalKHR* +
 Uses the *RayGenerationKHR*, *IntersectionKHR*, *AnyHitKHR*, *ClosestHitKHR*,
 *MissKHR*, or *CallableKHR* Execution Models
-|  | *SPV_KHR_ray_tracing*
+| *Shader*
 | 4478 | *RayTraversalPrimitiveCullingProvisionalKHR* +
 Uses *SkipAABBsKHR* or *SkipTrianglesKHR*
-| *RayTracingProvisionalKHR* | *SPV_KHR_ray_tracing*
+| *RayTracingProvisionalKHR*
 |====
 --
 
@@ -711,5 +711,6 @@ Revision History
 |12|2020-02-20 |Eric Werness  | Miss does not have object parameters.
 |13|2020-02-22 |Tobias Hector | Removed HitTKHR alias of RayTmaxKHR
 |14|2020-04-22 |Daniel Koch   | Require SPIR-V 1.4.
+|15|2020-06-03 |Daniel Koch   | Update capabilities tables to match SPIR-V 1.5.
 |========================================
 
