@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="generator" content="AsciiDoc 8.6.9">
+<meta name="generator" content="AsciiDoc 8.6.10">
 <title>SPV_KHR_ray_query</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
@@ -853,11 +853,11 @@ width:40%;
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2020-04-14</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2020-06-03</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
 </tr>
 </tbody>
 </table>
@@ -1200,14 +1200,12 @@ style="
 width:100%;
 ">
 <col style="width:2%;">
-<col style="width:51%;">
-<col style="width:16%;">
-<col style="width:30%;">
+<col style="width:60%;">
+<col style="width:36%;">
 <thead>
 <tr>
 <th class="tableblock halign-center valign-middle" colspan="2" > Capability </th>
-<th class="tableblock halign-center valign-top" > Depends On </th>
-<th class="tableblock halign-left valign-top" > Enabled by Extension</th>
+<th class="tableblock halign-left valign-top" > Implicitly Declares</th>
 </tr>
 </thead>
 <tbody>
@@ -1215,15 +1213,13 @@ width:100%;
 <td class="tableblock halign-center valign-middle" ><p class="tableblock">4471</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryProvisionalKHR</strong><br>
 Uses <a href="#ray-query">Ray Query</a></p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>SPV_KHR_ray_query</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Shader</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-middle" ><p class="tableblock">4478</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTraversalPrimitiveCullingProvisionalKHR</strong><br>
 Uses <strong>SkipAABBsKHR</strong> or <strong>SkipTrianglesKHR</strong></p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RayQueryProvisionalKHR</strong></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>SPV_KHR_ray_query</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryProvisionalKHR</strong></p></td>
 </tr>
 </tbody>
 </table>
@@ -2264,6 +2260,12 @@ width:100%;
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Jeff Bolz</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Fix return type of OpRayQueryGetIntersectionTKHR</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2020-06-03</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Daniel Koch</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Update capabilities tables to match SPIR-V 1.5.</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -2272,7 +2274,8 @@ width:100%;
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-04-14 12:57:28 CDT
+Last updated
+ 2020-06-03 16:48:36 EDT
 </div>
 </div>
 </body>
