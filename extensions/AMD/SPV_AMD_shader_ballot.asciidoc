@@ -1,4 +1,4 @@
-﻿SPIR-V Extension SPV_AMD_shader_ballot
+SPIR-V Extension SPV_AMD_shader_ballot
 ======================================
 
 Name Strings
@@ -9,8 +9,8 @@ SPV_AMD_shader_ballot
 Contact
 -------
 
-See *Issues* list in the Khronos SPIRV-Headers repository:
-https://github.com/KhronosGroup/SPIRV-Headers
+See *Issues* list in the Khronos SPIRV-Registry repository:
+https://github.com/KhronosGroup/SPIRV-Registry
 
 Contributors
 ------------

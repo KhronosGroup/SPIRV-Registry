@@ -7,8 +7,8 @@ SPV_INTEL_shader_integer_functions2
 
 == Contact
 
-See *Issues* list in the Khronos SPIRV-Headers repository:
-https://github.com/KhronosGroup/SPIRV-Headers
+See *Issues* list in the Khronos SPIRV-Registry repository:
+https://github.com/KhronosGroup/SPIRV-Registry
 
 == Contributors
 

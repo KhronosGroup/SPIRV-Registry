@@ -9,8 +9,8 @@ SPV_AMD_shader_trinary_minmax
 Contact
 -------
 
-See *Issues* list in the Khronos SPIRV-Headers repository:
-https://github.com/KhronosGroup/SPIRV-Headers
+See *Issues* list in the Khronos SPIRV-Registry repository:
+https://github.com/KhronosGroup/SPIRV-Registry
 
 Contributors
 ------------

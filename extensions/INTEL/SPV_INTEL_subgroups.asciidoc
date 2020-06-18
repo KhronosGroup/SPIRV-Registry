@@ -8,7 +8,7 @@ SPV_INTEL_subgroups
 
 To report problems with this extension, please open a new issue at:
 
-https://github.com/KhronosGroup/SPIRV-Headers
+https://github.com/KhronosGroup/SPIRV-Registry
 
 == Contributors
 
