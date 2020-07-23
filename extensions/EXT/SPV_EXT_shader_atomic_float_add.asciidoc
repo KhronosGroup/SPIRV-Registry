@@ -1,0 +1,160 @@
+SPV_EXT_shader_atomic_float_add
+===============================
+
+Name Strings
+------------
+
+SPV_EXT_shader_atomic_float_add
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Vikram Kushwaha, NVIDIA
+- Daniel Koch, NVIDIA
+- Jeff Bolz, NVIDIA
+- Alan Baker, Google
+- David Neto, Google
+- Nicolai Hahnle, AMD
+- Brian Sumner, AMD
+- Jason Ekstrand, Intel
+- Graeme Leese, Broadcom
+
+Status
+------
+
+- Draft
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2020-07-15
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification, Version 1.5 Revision 2.
+
+This extension requires SPIR-V 1.0.
+
+Overview
+--------
+
+This extension adds atomic add instruction on floating-point numbers.
+
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_EXT_shader_atomic_float_add"
+----
+
+New Capabilities
+----------------
+
+This extension introduces new capabilities:
+
+----
+AtomicFloat32AddEXT
+AtomicFloat64AddEXT
+----
+
+
+Modifications to the SPIR-V Specification, Version 1.5
+------------------------------------------------------
+
+Modify Section 3.31, "Capability", adding this row to the Capability table:
+
+--
+[cols="1^.^,15,15",options="header"]
+|====
+2+^| Capability ^| Implicitly Declares
+| 6033 | *AtomicFloat32AddEXT* +
+Uses the *OpAtomicFAddEXT* instruction with 32-bit floating point values. |
+| 6034 | *AtomicFloat64AddEXT* +
+Uses the *OpAtomicFAddEXT* instruction with 64-bit floating point values. |
+|====
+--
+
+(Modify section 3.32.18, Atomic Instructions, adding to the end of the list of instructions)
+
+[width="100%",cols="1,1,6*4"]
+|======
+7+|[[OpAtomicFAddEXT]]*OpAtomicFAddEXT* +
+ +
+Perform the following steps atomically with respect to any other atomic accesses within _Scope_ to the same location: +
+
+1) load through _Pointer_ to get an _Original Value_, +
+
+2) get a _New Value_ by float addition of _Original Value_ and _Value_, and +
+
+3) store the _New Value_ back through _Pointer_. +
+
+The instruction's result is the _Original Value_. +
+
+_Result Type_ must be a _floating-point type_. +
+
+The type of _Value_ must be the same as _Result Type_. The type of the value pointed to by _Pointer_ must be the same as _Result Type_. +
+
+_Memory_ must be a valid memory _Scope_.
+1+|Capability: +
+*AtomicFloat32AddEXT* *AtomicFloat64AddEXT*
+| 7 | 6035 | _<id> Result type_ | _Result <id>_ | _<id>_ Pointer  | _Scope <id> Memory_ | Memory Semantics <id> Semantics | <id> Value |
+|======
+
+
+New Instructions
+----------------
+
+Instructions added under *AtomicFloat32AddEXT* or *AtomicFloat64AddEXT* capability:
+
+----
+OpAtomicFAddEXT
+----
+
+Validation Rules
+----------------
+
+An OpExtension must be added to the SPIR-V for validation layers to check
+legal use of this extension:
+
+----
+OpExtension "SPV_EXT_shader_atomic_float_add"
+----
+
+ * When using *OpAtomicFAddEXT* only 32- or 64-bit floating-point values are allowed.
+ * If *OpAtomicFAddEXT* is used with 32-bit floating-point values, the *AtomicFloat32AddEXT*
+   capability must be declared.
+ * If *OpAtomicFAddEXT* is used with 64-bit floating-point values, the *AtomicFloat64AddEXT*
+   capability must be declared.
+
+Issues
+------
+
+None yet.
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1 |2020-07-15 |Vikram Kushwaha|Internal revisions
+|========================================
+

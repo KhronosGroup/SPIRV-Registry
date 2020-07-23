@@ -79,6 +79,7 @@ Khronos SPIR-V Registry](https://www.khronos.org/registry/spir-v/).
 1. [SPV_KHR_ray_query                       ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/master/extensions/KHR/SPV_KHR_ray_query.html)
 1. [SPV_INTEL_fpga_memory_accesses          ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/master/extensions/INTEL/SPV_INTEL_fpga_memory_accesses.html)
 1. [SPV_INTEL_arbitrary_precision_int       ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/master/extensions/INTEL/SPV_INTEL_arbitrary_precision_int.html)
+1. [SPV_EXT_shader_atomic_float_add         ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/master/extensions/EXT/SPV_EXT_shader_atomic_float_add.html)
 1. [SPV_KHR_terminate_invocation            ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/master/extensions/KHR/SPV_KHR_terminate_invocation.html)
 
 ## Non-Semantic Extended Instruction Set Specifications
