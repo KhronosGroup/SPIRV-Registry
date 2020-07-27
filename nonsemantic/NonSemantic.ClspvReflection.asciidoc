@@ -98,10 +98,10 @@ The operands in this instruction are suitable for return from clGetKernelArgInfo
 enum value of the kernel argument. +
  +
 'AccessQualifier' must be a 32-bit unsigned integer *OpConstant* specifying the access qualifier
-enum of the kernel argument. +
+enum value of the kernel argument. +
  +
 'TypeQualifier' must be a 32-bit unsigned integer *OpConstant* specifying the type qualifier
-enum of the kernel argument.
+enum value of the kernel argument.
 1+| 2 | '<id>' +
 'Name' |
 Optional +
@@ -122,7 +122,8 @@ Optional +
 |=====
 6+|[[ArgumentStorageBuffer]]*ArgumentStorageBuffer* +
  +
-Declares a *StorageBuffer* argument for 'Kernel'. +
+Declares a *StorageBuffer* argument for 'Kernel'. The Vulkan descriptor type should use
+*VK_DESCRIPTOR_TYPE_STORAGE_BUFFER*. +
  +
 'Kernel' must be a <<Kernel,*Kernel*>> extended instruction from the same import. +
  +
@@ -150,7 +151,8 @@ Optional +
 |=====
 6+|[[ArgumentUniform]]*ArgumentUniform* +
  +
-Declares a *Uniform* buffer argument for 'Kernel'. +
+Declares a *Uniform* buffer argument for 'Kernel'. The Vulkan descriptor type should use
+*VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER*. +
  +
 'Kernel' must be a <<Kernel,*Kernel*>> extended instruction from the same import. +
  +
@@ -178,7 +180,9 @@ Optional +
 |=====
 8+|[[ArgumentPodStorageBuffer]]*ArgumentPodStorageBuffer* +
  +
-Declares a *StorageBuffer* plain-old-data argument for 'Kernel'. +
+Declares a *StorageBuffer* plain-old-data argument for 'Kernel'. The Vulkan descriptor type should use
+*VK_DESCRIPTOR_TYPE_STORAGE_BUFFER*. This argument may share a descriptor set and binding with other
+plain-old-data arguments. +
  +
 'Kernel' must be a <<Kernel,*Kernel*>> extended instruction from the same import. +
  +
@@ -214,7 +218,9 @@ Optional +
 |=====
 8+|[[ArgumentPodUniform]]*ArgumentPodUniform* +
  +
-Declares a *Uniform* plain-old-data argument for 'Kernel'. +
+Declares a *Uniform* buffer plain-old-data argument for 'Kernel'. The Vulkan descriptor type should use
+*VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER*. This argument may share a descriptor set and binding with other
+plain-old-data arguments. +
  +
 'Kernel' must be a <<Kernel,*Kernel*>> extended instruction from the same import. +
  +
@@ -250,7 +256,9 @@ Optional +
 |=====
 6+|[[ArgumentPodPushConstant]]*ArgumentPodPushConstant* +
  +
-Declares a *PushConstant* plain-old-data argument for 'Kernel'. +
+Declares a *PushConstant* plain-old-data argument for 'Kernel'. This argument's
+offset and size should be included in the push constant range declared for this
+kernel using the *VK_SHADER_STAGE_COMPUTE_BIT* flag bit. +
  +
 'Kernel' must be a <<Kernel,*Kernel*>> extended instruction from the same import. +
  +
@@ -278,7 +286,8 @@ Optional +
 |=====
 6+|[[ArgumentSampledImage]]*ArgumentSampledImage* +
  +
-Declares a sampled image (*OpTypeImage* with 'Sampled' operand of *1*) argument for 'Kernel'. +
+Declares a sampled image (*OpTypeImage* with 'Sampled' operand of *1*) argument for 'Kernel'. The Vulkan
+descriptor type should use *VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE*. +
  +
 'Kernel' must be a <<Kernel,*Kernel*>> extended instruction from the same import. +
  +
@@ -306,7 +315,8 @@ Optional +
 |=====
 6+|[[ArgumentStorageImage]]*ArgumentStorageImage* +
  +
-Declares a storage image (*OpTypeImage* with 'Sampled' operand of *2*) argument for 'Kernel'. +
+Declares a storage image (*OpTypeImage* with 'Sampled' operand of *2*) argument for 'Kernel'. The Vulkan
+descriptor type should use *VK_DESCRIPTOR_TYPE_STORAGE_IMAGE*. +
  +
 'Kernel' must be a <<Kernel,*Kernel*>> extended instruction from the same import. +
  +
@@ -334,7 +344,7 @@ Optional +
 |=====
 6+|[[ArgumentSampler]]*ArgumentSampler* +
  +
-Declares a sampler argument for 'Kernel'. +
+Declares a sampler argument for 'Kernel'. The Vulkan descriptor type should use *VK_DESCRIPTOR_TYPE_SAMPELR*. +
  +
 'Kernel' must be a <<Kernel,*Kernel*>> extended instruction from the same import. +
  +
@@ -362,7 +372,9 @@ Optional +
 |=====
 6+|[[ArgumentWorkgroup]]*ArgumentWorkgroup* +
  +
-Declares a workgroup buffer argument for 'Kernel'. +
+Declares a workgroup buffer argument for 'Kernel'. This argument is instantiated as 'Workgroup' storage-class
+array. It should be sized using the 'SpecId' operand. The size of the array elements is indicated by the
+'ElemSize' operand. +
  +
 'Kernel' must be a <<Kernel,*Kernel*>> extended instruction from the same import. +
  +
@@ -414,7 +426,7 @@ of the z dimension. +
 |=====
 4+| [[SpecConstantGlobalOffset]]*SpecConstantGlobalOffset* +
  +
-Declares the specialization ids used to set the global offset. +
+Declares the specialization ids used to specify the global offset. +
  +
 'X' must be a 32-bit unsigned integer *OpConstant* specifying the specialization id
 of the x dimension. +
@@ -436,7 +448,7 @@ of the z dimension. +
 |=====
 2+| [[SpecConstantWorkDim]]*SpecConstantWorkDim* +
  +
-Declares the specialization id used to set the work dimensions. +
+Declares the specialization id used to specify the work dimensions. +
  +
 'Dim' must be a 32-bit unsigned integer *OpConstant* specifying the specialization id
 of the dimensions.
@@ -448,7 +460,8 @@ of the dimensions.
 |=====
 3+| [[PushConstantGlobalOffset]]*PushConstantGlobalOffset* +
  +
-Declares a *PushConstant* entry to specify the global offset of a kernel. +
+Declares a *PushConstant* entry to specify the global offset of a kernel. All kernels from
+this module should include a push constant range that encompasses the 'Offset' and 'Size' operands. +
  +
 'Offset' must be a 32-bit unsigned integer *OpConstant* specifying the offset in the block
 in bytes. +
@@ -465,7 +478,8 @@ constant in bytes.
 |=====
 3+| [[PushConstantEnqueuedLocalSize]]*PushConstantEnqueuedLocalSize* +
  +
-Declares a *PushConstant* entry to specify the enqueued local size of a kernel. +
+Declares a *PushConstant* entry to specify the enqueued local size of a kernel. All kernels from
+this module should include a push constant range that encompasses the 'Offset' and 'Size' operands. +
  +
 'Offset' must be a 32-bit unsigned integer *OpConstant* specifying the offset in the block
 in bytes. +
@@ -482,7 +496,8 @@ constant in bytes.
 |=====
 3+| [[PushConstantGlobalSize]]*PushConstantGlobalSize* +
  +
-Declares a *PushConstant* entry to specify the global size of a kernel. +
+Declares a *PushConstant* entry to specify the global size of a kernel. All kernels from this
+module should include a push constant range that encompasses the 'Offset' and 'Size' operands. +
  +
 'Offset' must be a 32-bit unsigned integer *OpConstant* specifying the offset in the block
 in bytes. +
@@ -499,7 +514,8 @@ constant in bytes.
 |=====
 3+| [[PushConstantRegionOffset]]*PushConstantRegionOffset* +
  +
-Declares a *PushConstant* entry to specify the region offset of a kernel. +
+Declares a *PushConstant* entry to specify the region offset of a kernel. All kernels from this
+module should include a push constant range that encompasses the 'Offset' and 'Size' operands. +
  +
 'Offset' must be a 32-bit unsigned integer *OpConstant* specifying the offset in the block
 in bytes. +
@@ -516,7 +532,8 @@ constant in bytes.
 |=====
 3+| [[PushConstantNumWorkgroups]]*PushConstantNumWorkgroups* +
  +
-Declares a *PushConstant* entry to specify the number of workgroups enqueued. +
+Declares a *PushConstant* entry to specify the number of workgroups enqueued. All kernels from
+this module should include a push constant range that encompasses the 'Offset' and 'Size' operands. +
  +
 'Offset' must be a 32-bit unsigned integer *OpConstant* specifying the offset in the block
 in bytes. +
@@ -533,7 +550,8 @@ constant in bytes.
 |=====
 3+| [[PushConstantRegionGroupOffset]]*PushConstantRegionGroupOffset* +
  +
-Declares a *PushConstant* entry to specify the region group offset of a kernel. +
+Declares a *PushConstant* entry to specify the region group offset of a kernel. All kernels from
+this module should include a push constant range that encompasses the 'Offset' and 'Size' operands. +
  +
 'Offset' must be a 32-bit unsigned integer *OpConstant* specifying the offset in the block
 in bytes. +
@@ -549,7 +567,9 @@ constant in bytes.
 [cols="4"]
 |=====
 4+| [[ConstantDataStorageBuffer]]*ConstantDataStorageBuffer* +
-Declares a storage buffer to hold constant data specified by 'Data'. +
+Declares a storage buffer to hold constant data specified by 'Data'. All kernels from this module
+should include a descriptor with the type *VK_DESCRIPTOR_TYPE_STORAGE_BUFFER* that is backed by
+a buffer initialized with 'Data'. +
  +
 'DescriptorSet' must be a 32-bit unsigned integer *OpConstant* specifying the descriptor set. +
  +
@@ -567,7 +587,9 @@ Declares a storage buffer to hold constant data specified by 'Data'. +
 [cols="4"]
 |=====
 4+| [[ConstantDataUniform]]*ConstantDataUniform* +
-Declares a uniform buffer to hold constant data specified by 'Data'. +
+Declares a uniform buffer to hold constant data specified by 'Data'. All kernels from this module
+should include a descriptor with the type *VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER* that is backed by
+a buffer initialized with 'Data'. +
  +
 'DescriptorSet' must be a 32-bit unsigned integer *OpConstant* specifying the descriptor set. +
  +
@@ -585,7 +607,9 @@ Declares a uniform buffer to hold constant data specified by 'Data'. +
 [cols="4"]
 |=====
 4+| [[LiteralSampler]]*LiteralSampler* +
-Declares a literal sampler used by the module. +
+Declares a literal sampler used by the module. All kernels from this module should include a
+descriptor with the type *VK_DESCRIPTOR_TYPE_SAMPLER* that has the properties encoded by 'Mask'
+(see https://github.com/google/clspv/blob/master/include/clspv/Sampler.h[Sampler.h]). +
  +
 'DescriptorSet' must be a 32-bit unsigned integer *OpConstant* specifying the descriptor set. +
  +

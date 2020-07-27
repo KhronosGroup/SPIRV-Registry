@@ -916,10 +916,10 @@ The operands in this instruction are suitable for return from clGetKernelArgInfo
 enum value of the kernel argument.<br>
 <br>
 <em>AccessQualifier</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the access qualifier
-enum of the kernel argument.<br>
+enum value of the kernel argument.<br>
 <br>
 <em>TypeQualifier</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the type qualifier
-enum of the kernel argument.</p></td>
+enum value of the kernel argument.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
@@ -954,7 +954,8 @@ width:100%;
 <tr>
 <td class="tableblock halign-left valign-top" colspan="6" ><p class="tableblock"><a id="ArgumentStorageBuffer"></a><strong>ArgumentStorageBuffer</strong><br>
 <br>
-Declares a <strong>StorageBuffer</strong> argument for <em>Kernel</em>.<br>
+Declares a <strong>StorageBuffer</strong> argument for <em>Kernel</em>. The Vulkan descriptor type should use
+<strong>VK_DESCRIPTOR_TYPE_STORAGE_BUFFER</strong>.<br>
 <br>
 <em>Kernel</em> must be a <a href="#Kernel"><strong>Kernel</strong></a> extended instruction from the same import.<br>
 <br>
@@ -996,7 +997,8 @@ width:100%;
 <tr>
 <td class="tableblock halign-left valign-top" colspan="6" ><p class="tableblock"><a id="ArgumentUniform"></a><strong>ArgumentUniform</strong><br>
 <br>
-Declares a <strong>Uniform</strong> buffer argument for <em>Kernel</em>.<br>
+Declares a <strong>Uniform</strong> buffer argument for <em>Kernel</em>. The Vulkan descriptor type should use
+<strong>VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER</strong>.<br>
 <br>
 <em>Kernel</em> must be a <a href="#Kernel"><strong>Kernel</strong></a> extended instruction from the same import.<br>
 <br>
@@ -1040,7 +1042,9 @@ width:100%;
 <tr>
 <td class="tableblock halign-left valign-top" colspan="8" ><p class="tableblock"><a id="ArgumentPodStorageBuffer"></a><strong>ArgumentPodStorageBuffer</strong><br>
 <br>
-Declares a <strong>StorageBuffer</strong> plain-old-data argument for <em>Kernel</em>.<br>
+Declares a <strong>StorageBuffer</strong> plain-old-data argument for <em>Kernel</em>. The Vulkan descriptor type should use
+<strong>VK_DESCRIPTOR_TYPE_STORAGE_BUFFER</strong>. This argument may share a descriptor set and binding with other
+plain-old-data arguments.<br>
 <br>
 <em>Kernel</em> must be a <a href="#Kernel"><strong>Kernel</strong></a> extended instruction from the same import.<br>
 <br>
@@ -1092,7 +1096,9 @@ width:100%;
 <tr>
 <td class="tableblock halign-left valign-top" colspan="8" ><p class="tableblock"><a id="ArgumentPodUniform"></a><strong>ArgumentPodUniform</strong><br>
 <br>
-Declares a <strong>Uniform</strong> plain-old-data argument for <em>Kernel</em>.<br>
+Declares a <strong>Uniform</strong> buffer plain-old-data argument for <em>Kernel</em>. The Vulkan descriptor type should use
+<strong>VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER</strong>. This argument may share a descriptor set and binding with other
+plain-old-data arguments.<br>
 <br>
 <em>Kernel</em> must be a <a href="#Kernel"><strong>Kernel</strong></a> extended instruction from the same import.<br>
 <br>
@@ -1142,7 +1148,9 @@ width:100%;
 <tr>
 <td class="tableblock halign-left valign-top" colspan="6" ><p class="tableblock"><a id="ArgumentPodPushConstant"></a><strong>ArgumentPodPushConstant</strong><br>
 <br>
-Declares a <strong>PushConstant</strong> plain-old-data argument for <em>Kernel</em>.<br>
+Declares a <strong>PushConstant</strong> plain-old-data argument for <em>Kernel</em>. This argument&#8217;s
+offset and size should be included in the push constant range declared for this
+kernel using the <strong>VK_SHADER_STAGE_COMPUTE_BIT</strong> flag bit.<br>
 <br>
 <em>Kernel</em> must be a <a href="#Kernel"><strong>Kernel</strong></a> extended instruction from the same import.<br>
 <br>
@@ -1184,7 +1192,8 @@ width:100%;
 <tr>
 <td class="tableblock halign-left valign-top" colspan="6" ><p class="tableblock"><a id="ArgumentSampledImage"></a><strong>ArgumentSampledImage</strong><br>
 <br>
-Declares a sampled image (<strong>OpTypeImage</strong> with <em>Sampled</em> operand of <strong>1</strong>) argument for <em>Kernel</em>.<br>
+Declares a sampled image (<strong>OpTypeImage</strong> with <em>Sampled</em> operand of <strong>1</strong>) argument for <em>Kernel</em>. The Vulkan
+descriptor type should use <strong>VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE</strong>.<br>
 <br>
 <em>Kernel</em> must be a <a href="#Kernel"><strong>Kernel</strong></a> extended instruction from the same import.<br>
 <br>
@@ -1226,7 +1235,8 @@ width:100%;
 <tr>
 <td class="tableblock halign-left valign-top" colspan="6" ><p class="tableblock"><a id="ArgumentStorageImage"></a><strong>ArgumentStorageImage</strong><br>
 <br>
-Declares a storage image (<strong>OpTypeImage</strong> with <em>Sampled</em> operand of <strong>2</strong>) argument for <em>Kernel</em>.<br>
+Declares a storage image (<strong>OpTypeImage</strong> with <em>Sampled</em> operand of <strong>2</strong>) argument for <em>Kernel</em>. The Vulkan
+descriptor type should use <strong>VK_DESCRIPTOR_TYPE_STORAGE_IMAGE</strong>.<br>
 <br>
 <em>Kernel</em> must be a <a href="#Kernel"><strong>Kernel</strong></a> extended instruction from the same import.<br>
 <br>
@@ -1268,7 +1278,7 @@ width:100%;
 <tr>
 <td class="tableblock halign-left valign-top" colspan="6" ><p class="tableblock"><a id="ArgumentSampler"></a><strong>ArgumentSampler</strong><br>
 <br>
-Declares a sampler argument for <em>Kernel</em>.<br>
+Declares a sampler argument for <em>Kernel</em>. The Vulkan descriptor type should use <strong>VK_DESCRIPTOR_TYPE_SAMPELR</strong>.<br>
 <br>
 <em>Kernel</em> must be a <a href="#Kernel"><strong>Kernel</strong></a> extended instruction from the same import.<br>
 <br>
@@ -1310,7 +1320,9 @@ width:100%;
 <tr>
 <td class="tableblock halign-left valign-top" colspan="6" ><p class="tableblock"><a id="ArgumentWorkgroup"></a><strong>ArgumentWorkgroup</strong><br>
 <br>
-Declares a workgroup buffer argument for <em>Kernel</em>.<br>
+Declares a workgroup buffer argument for <em>Kernel</em>. This argument is instantiated as <em>Workgroup</em> storage-class
+array. It should be sized using the <em>SpecId</em> operand. The size of the array elements is indicated by the
+<em>ElemSize</em> operand.<br>
 <br>
 <em>Kernel</em> must be a <a href="#Kernel"><strong>Kernel</strong></a> extended instruction from the same import.<br>
 <br>
@@ -1386,7 +1398,7 @@ width:100%;
 <tr>
 <td class="tableblock halign-left valign-top" colspan="4" ><p class="tableblock"><a id="SpecConstantGlobalOffset"></a><strong>SpecConstantGlobalOffset</strong><br>
 <br>
-Declares the specialization ids used to set the global offset.<br>
+Declares the specialization ids used to specify the global offset.<br>
 <br>
 <em>X</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the specialization id
 of the x dimension.<br>
@@ -1418,7 +1430,7 @@ width:100%;
 <tr>
 <td class="tableblock halign-left valign-top" colspan="2" ><p class="tableblock"><a id="SpecConstantWorkDim"></a><strong>SpecConstantWorkDim</strong><br>
 <br>
-Declares the specialization id used to set the work dimensions.<br>
+Declares the specialization id used to specify the work dimensions.<br>
 <br>
 <em>Dim</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the specialization id
 of the dimensions.</p></td>
@@ -1441,7 +1453,8 @@ width:100%;
 <tr>
 <td class="tableblock halign-left valign-top" colspan="3" ><p class="tableblock"><a id="PushConstantGlobalOffset"></a><strong>PushConstantGlobalOffset</strong><br>
 <br>
-Declares a <strong>PushConstant</strong> entry to specify the global offset of a kernel.<br>
+Declares a <strong>PushConstant</strong> entry to specify the global offset of a kernel. All kernels from
+this module should include a push constant range that encompasses the <em>Offset</em> and <em>Size</em> operands.<br>
 <br>
 <em>Offset</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the offset in the block
 in bytes.<br>
@@ -1469,7 +1482,8 @@ width:100%;
 <tr>
 <td class="tableblock halign-left valign-top" colspan="3" ><p class="tableblock"><a id="PushConstantEnqueuedLocalSize"></a><strong>PushConstantEnqueuedLocalSize</strong><br>
 <br>
-Declares a <strong>PushConstant</strong> entry to specify the enqueued local size of a kernel.<br>
+Declares a <strong>PushConstant</strong> entry to specify the enqueued local size of a kernel. All kernels from
+this module should include a push constant range that encompasses the <em>Offset</em> and <em>Size</em> operands.<br>
 <br>
 <em>Offset</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the offset in the block
 in bytes.<br>
@@ -1497,7 +1511,8 @@ width:100%;
 <tr>
 <td class="tableblock halign-left valign-top" colspan="3" ><p class="tableblock"><a id="PushConstantGlobalSize"></a><strong>PushConstantGlobalSize</strong><br>
 <br>
-Declares a <strong>PushConstant</strong> entry to specify the global size of a kernel.<br>
+Declares a <strong>PushConstant</strong> entry to specify the global size of a kernel. All kernels from this
+module should include a push constant range that encompasses the <em>Offset</em> and <em>Size</em> operands.<br>
 <br>
 <em>Offset</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the offset in the block
 in bytes.<br>
@@ -1525,7 +1540,8 @@ width:100%;
 <tr>
 <td class="tableblock halign-left valign-top" colspan="3" ><p class="tableblock"><a id="PushConstantRegionOffset"></a><strong>PushConstantRegionOffset</strong><br>
 <br>
-Declares a <strong>PushConstant</strong> entry to specify the region offset of a kernel.<br>
+Declares a <strong>PushConstant</strong> entry to specify the region offset of a kernel. All kernels from this
+module should include a push constant range that encompasses the <em>Offset</em> and <em>Size</em> operands.<br>
 <br>
 <em>Offset</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the offset in the block
 in bytes.<br>
@@ -1553,7 +1569,8 @@ width:100%;
 <tr>
 <td class="tableblock halign-left valign-top" colspan="3" ><p class="tableblock"><a id="PushConstantNumWorkgroups"></a><strong>PushConstantNumWorkgroups</strong><br>
 <br>
-Declares a <strong>PushConstant</strong> entry to specify the number of workgroups enqueued.<br>
+Declares a <strong>PushConstant</strong> entry to specify the number of workgroups enqueued. All kernels from
+this module should include a push constant range that encompasses the <em>Offset</em> and <em>Size</em> operands.<br>
 <br>
 <em>Offset</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the offset in the block
 in bytes.<br>
@@ -1581,7 +1598,8 @@ width:100%;
 <tr>
 <td class="tableblock halign-left valign-top" colspan="3" ><p class="tableblock"><a id="PushConstantRegionGroupOffset"></a><strong>PushConstantRegionGroupOffset</strong><br>
 <br>
-Declares a <strong>PushConstant</strong> entry to specify the region group offset of a kernel.<br>
+Declares a <strong>PushConstant</strong> entry to specify the region group offset of a kernel. All kernels from
+this module should include a push constant range that encompasses the <em>Offset</em> and <em>Size</em> operands.<br>
 <br>
 <em>Offset</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the offset in the block
 in bytes.<br>
@@ -1609,7 +1627,9 @@ width:100%;
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" colspan="4" ><p class="tableblock"><a id="ConstantDataStorageBuffer"></a><strong>ConstantDataStorageBuffer</strong><br>
-Declares a storage buffer to hold constant data specified by <em>Data</em>.<br>
+Declares a storage buffer to hold constant data specified by <em>Data</em>. All kernels from this module
+should include a descriptor with the type <strong>VK_DESCRIPTOR_TYPE_STORAGE_BUFFER</strong> that is backed by
+a buffer initialized with <em>Data</em>.<br>
 <br>
 <em>DescriptorSet</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the descriptor set.<br>
 <br>
@@ -1639,7 +1659,9 @@ width:100%;
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" colspan="4" ><p class="tableblock"><a id="ConstantDataUniform"></a><strong>ConstantDataUniform</strong><br>
-Declares a uniform buffer to hold constant data specified by <em>Data</em>.<br>
+Declares a uniform buffer to hold constant data specified by <em>Data</em>. All kernels from this module
+should include a descriptor with the type <strong>VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER</strong> that is backed by
+a buffer initialized with <em>Data</em>.<br>
 <br>
 <em>DescriptorSet</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the descriptor set.<br>
 <br>
@@ -1669,7 +1691,9 @@ width:100%;
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" colspan="4" ><p class="tableblock"><a id="LiteralSampler"></a><strong>LiteralSampler</strong><br>
-Declares a literal sampler used by the module.<br>
+Declares a literal sampler used by the module. All kernels from this module should include a
+descriptor with the type <strong>VK_DESCRIPTOR_TYPE_SAMPLER</strong> that has the properties encoded by <em>Mask</em>
+(see <a href="https://github.com/google/clspv/blob/master/include/clspv/Sampler.h">Sampler.h</a>).<br>
 <br>
 <em>DescriptorSet</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the descriptor set.<br>
 <br>
@@ -1768,7 +1792,7 @@ width:100%;
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2020-07-22 14:22:09 EDT
+ 2020-07-27 15:58:54 EDT
 </div>
 </div>
 </body>
