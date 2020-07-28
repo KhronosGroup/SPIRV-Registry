@@ -822,7 +822,7 @@ width:40%;
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2020-07-20</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2020-07-27</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Revision</p></td>
@@ -865,6 +865,9 @@ specified below.</p></div>
 <h2 id="_3_binary_form">3. Binary Form</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>The return type for all instructions must be <strong>OpTypeVoid</strong>.</p></div>
+<div class="paragraph"><p>None of the instructions support forward references in their operands.
+Therefore, the <strong>Kernel</strong> and <strong>ArgumentInfo</strong> instructions must come before their
+uses.</p></div>
 <table class="tableblock frame-all grid-all"
 style="
 width:100%;
@@ -959,7 +962,8 @@ Declares a <strong>StorageBuffer</strong> argument for <em>Kernel</em>. The Vulk
 <br>
 <em>Kernel</em> must be a <a href="#Kernel"><strong>Kernel</strong></a> extended instruction from the same import.<br>
 <br>
-<em>Ordinal</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the argument ordinal.<br>
+<em>Ordinal</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the argument ordinal using
+zero-based counting.<br>
 <br>
 <em>DescriptorSet</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the descriptor set.<br>
 <br>
@@ -1002,7 +1006,8 @@ Declares a <strong>Uniform</strong> buffer argument for <em>Kernel</em>. The Vul
 <br>
 <em>Kernel</em> must be a <a href="#Kernel"><strong>Kernel</strong></a> extended instruction from the same import.<br>
 <br>
-<em>Ordinal</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the argument ordinal.<br>
+<em>Ordinal</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the argument ordinal using
+zero-based counting.<br>
 <br>
 <em>DescriptorSet</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the descriptor set.<br>
 <br>
@@ -1048,7 +1053,8 @@ plain-old-data arguments.<br>
 <br>
 <em>Kernel</em> must be a <a href="#Kernel"><strong>Kernel</strong></a> extended instruction from the same import.<br>
 <br>
-<em>Ordinal</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the argument ordinal.<br>
+<em>Ordinal</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the argument ordinal using
+zero-based counting.<br>
 <br>
 <em>DescriptorSet</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the descriptor set.<br>
 <br>
@@ -1102,7 +1108,8 @@ plain-old-data arguments.<br>
 <br>
 <em>Kernel</em> must be a <a href="#Kernel"><strong>Kernel</strong></a> extended instruction from the same import.<br>
 <br>
-<em>Ordinal</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the argument ordinal.<br>
+<em>Ordinal</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the argument ordinal using
+zero-based counting.<br>
 <br>
 <em>DescriptorSet</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the descriptor set.<br>
 <br>
@@ -1154,7 +1161,8 @@ kernel using the <strong>VK_SHADER_STAGE_COMPUTE_BIT</strong> flag bit.<br>
 <br>
 <em>Kernel</em> must be a <a href="#Kernel"><strong>Kernel</strong></a> extended instruction from the same import.<br>
 <br>
-<em>Ordinal</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the argument ordinal.<br>
+<em>Ordinal</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the argument ordinal using
+zero-based counting.<br>
 <br>
 <em>Offset</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the offset in the block in bytes.<br>
 <br>
@@ -1197,7 +1205,8 @@ descriptor type should use <strong>VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE</strong>.<br
 <br>
 <em>Kernel</em> must be a <a href="#Kernel"><strong>Kernel</strong></a> extended instruction from the same import.<br>
 <br>
-<em>Ordinal</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the argument ordinal.<br>
+<em>Ordinal</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the argument ordinal using
+zero-based counting.<br>
 <br>
 <em>DescriptorSet</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the descriptor set.<br>
 <br>
@@ -1240,7 +1249,8 @@ descriptor type should use <strong>VK_DESCRIPTOR_TYPE_STORAGE_IMAGE</strong>.<br
 <br>
 <em>Kernel</em> must be a <a href="#Kernel"><strong>Kernel</strong></a> extended instruction from the same import.<br>
 <br>
-<em>Ordinal</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the argument ordinal.<br>
+<em>Ordinal</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the argument ordinal using
+zero-based counting.<br>
 <br>
 <em>DescriptorSet</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the descriptor set.<br>
 <br>
@@ -1282,7 +1292,8 @@ Declares a sampler argument for <em>Kernel</em>. The Vulkan descriptor type shou
 <br>
 <em>Kernel</em> must be a <a href="#Kernel"><strong>Kernel</strong></a> extended instruction from the same import.<br>
 <br>
-<em>Ordinal</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the argument ordinal.<br>
+<em>Ordinal</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the argument ordinal using
+zero-based counting.<br>
 <br>
 <em>DescriptorSet</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the descriptor set.<br>
 <br>
@@ -1326,7 +1337,8 @@ array. It should be sized using the <em>SpecId</em> operand. The size of the arr
 <br>
 <em>Kernel</em> must be a <a href="#Kernel"><strong>Kernel</strong></a> extended instruction from the same import.<br>
 <br>
-<em>Ordinal</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the argument ordinal.<br>
+<em>Ordinal</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the argument ordinal using
+zero-based counting.<br>
 <br>
 <em>SpecId</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the specialization
 id used to size the argument.<br>
@@ -1779,7 +1791,7 @@ width:100%;
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2020-07-20</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2020-07-27</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Alan Baker</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Initial revision</p></td>
 </tr>
@@ -1792,7 +1804,7 @@ width:100%;
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2020-07-27 15:58:54 EDT
+ 2020-07-27 21:00:51 EDT
 </div>
 </div>
 </body>

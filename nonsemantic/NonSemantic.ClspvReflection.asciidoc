@@ -31,7 +31,7 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2020-07-20
+| Last Modified Date | 2020-07-27
 | Revision           | 1
 |========================================
 
@@ -67,6 +67,10 @@ specified below.
 ---------------
 
 The return type for all instructions must be *OpTypeVoid*.
+
+None of the instructions support forward references in their operands.
+Therefore, the *Kernel* and *ArgumentInfo* instructions must come before their
+uses.
 
 [cols="3"]
 |=====
@@ -127,7 +131,8 @@ Declares a *StorageBuffer* argument for 'Kernel'. The Vulkan descriptor type sho
  +
 'Kernel' must be a <<Kernel,*Kernel*>> extended instruction from the same import. +
  +
-'Ordinal' must be a 32-bit unsigned integer *OpConstant* specifying the argument ordinal. +
+'Ordinal' must be a 32-bit unsigned integer *OpConstant* specifying the argument ordinal using
+zero-based counting. +
  +
 'DescriptorSet' must be a 32-bit unsigned integer *OpConstant* specifying the descriptor set. +
  +
@@ -156,7 +161,8 @@ Declares a *Uniform* buffer argument for 'Kernel'. The Vulkan descriptor type sh
  +
 'Kernel' must be a <<Kernel,*Kernel*>> extended instruction from the same import. +
  +
-'Ordinal' must be a 32-bit unsigned integer *OpConstant* specifying the argument ordinal. +
+'Ordinal' must be a 32-bit unsigned integer *OpConstant* specifying the argument ordinal using
+zero-based counting. +
  +
 'DescriptorSet' must be a 32-bit unsigned integer *OpConstant* specifying the descriptor set. +
  +
@@ -186,7 +192,8 @@ plain-old-data arguments. +
  +
 'Kernel' must be a <<Kernel,*Kernel*>> extended instruction from the same import. +
  +
-'Ordinal' must be a 32-bit unsigned integer *OpConstant* specifying the argument ordinal. +
+'Ordinal' must be a 32-bit unsigned integer *OpConstant* specifying the argument ordinal using
+zero-based counting. +
  +
 'DescriptorSet' must be a 32-bit unsigned integer *OpConstant* specifying the descriptor set. +
  +
@@ -224,7 +231,8 @@ plain-old-data arguments. +
  +
 'Kernel' must be a <<Kernel,*Kernel*>> extended instruction from the same import. +
  +
-'Ordinal' must be a 32-bit unsigned integer *OpConstant* specifying the argument ordinal. +
+'Ordinal' must be a 32-bit unsigned integer *OpConstant* specifying the argument ordinal using
+zero-based counting. +
  +
 'DescriptorSet' must be a 32-bit unsigned integer *OpConstant* specifying the descriptor set. +
  +
@@ -262,7 +270,8 @@ kernel using the *VK_SHADER_STAGE_COMPUTE_BIT* flag bit. +
  +
 'Kernel' must be a <<Kernel,*Kernel*>> extended instruction from the same import. +
  +
-'Ordinal' must be a 32-bit unsigned integer *OpConstant* specifying the argument ordinal. +
+'Ordinal' must be a 32-bit unsigned integer *OpConstant* specifying the argument ordinal using
+zero-based counting. +
  +
 'Offset' must be a 32-bit unsigned integer *OpConstant* specifying the offset in the block in bytes. +
  +
@@ -291,7 +300,8 @@ descriptor type should use *VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE*. +
  +
 'Kernel' must be a <<Kernel,*Kernel*>> extended instruction from the same import. +
  +
-'Ordinal' must be a 32-bit unsigned integer *OpConstant* specifying the argument ordinal. +
+'Ordinal' must be a 32-bit unsigned integer *OpConstant* specifying the argument ordinal using
+zero-based counting. +
  +
 'DescriptorSet' must be a 32-bit unsigned integer *OpConstant* specifying the descriptor set. +
  +
@@ -320,7 +330,8 @@ descriptor type should use *VK_DESCRIPTOR_TYPE_STORAGE_IMAGE*. +
  +
 'Kernel' must be a <<Kernel,*Kernel*>> extended instruction from the same import. +
  +
-'Ordinal' must be a 32-bit unsigned integer *OpConstant* specifying the argument ordinal. +
+'Ordinal' must be a 32-bit unsigned integer *OpConstant* specifying the argument ordinal using
+zero-based counting. +
  +
 'DescriptorSet' must be a 32-bit unsigned integer *OpConstant* specifying the descriptor set. +
  +
@@ -348,7 +359,8 @@ Declares a sampler argument for 'Kernel'. The Vulkan descriptor type should use 
  +
 'Kernel' must be a <<Kernel,*Kernel*>> extended instruction from the same import. +
  +
-'Ordinal' must be a 32-bit unsigned integer *OpConstant* specifying the argument ordinal. +
+'Ordinal' must be a 32-bit unsigned integer *OpConstant* specifying the argument ordinal using
+zero-based counting. +
  +
 'DescriptorSet' must be a 32-bit unsigned integer *OpConstant* specifying the descriptor set. +
  +
@@ -378,7 +390,8 @@ array. It should be sized using the 'SpecId' operand. The size of the array elem
  +
 'Kernel' must be a <<Kernel,*Kernel*>> extended instruction from the same import. +
  +
-'Ordinal' must be a 32-bit unsigned integer *OpConstant* specifying the argument ordinal. +
+'Ordinal' must be a 32-bit unsigned integer *OpConstant* specifying the argument ordinal using
+zero-based counting. +
  +
 'SpecId' must be a 32-bit unsigned integer *OpConstant* specifying the specialization
 id used to size the argument. +
@@ -661,6 +674,6 @@ Revision History
 [options="header"]
 |========================================
 |Rev|Date|Author|Changes
-|1|2020-07-20|Alan Baker|Initial revision
+|1|2020-07-27|Alan Baker|Initial revision
 |========================================
 
