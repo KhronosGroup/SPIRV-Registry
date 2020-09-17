@@ -29,8 +29,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2019-03-25
-| Revision           | 4
+| Last Modified Date | 2020-09-17
+| Revision           | 5
 |========================================
 
 Dependencies
@@ -214,6 +214,20 @@ Variables declared with this storage class are allowed in *RayGenerationNV*, *In
 but cannot have initializers. Refer to the Ray Tracing chapter of Vulkan API specification for details on shader records.
 | *RayTracingNV* | SPV_NV_ray_tracing
 |====
+--
+
+(Modify Section 3.20, Decoration) ::
++
+--
+Modify the definition of the *Location* decoration to add:
+
+*Location* also forms the linkage between:
+
+- *OpTraceNV* and the *RayPayloadKHR* and *IncomingRayPayloadKHR* Storage Classes
+- *OpExecuteCallableNV* and the *CallableDataKHR* and *IncomingCallableDataKHR* Storage Classes
+
+Add *RayPayloadKHR*, *IncomingRayPayloadKHR*, *CallableDataKHR*, and *IncomingCallableDataKHR*
+to the list of Storage Classes that *Location* is valid on.
 --
 
 (Modify Section 3.21, Builtin, adding rows to the Builtin table) ::
@@ -517,5 +531,6 @@ Revision History
                               Intersection, Any Hit and Closest Hit shaders
 |4 |2019-03-25 |Eric Werness| Incoming ray flags shouldn't be exposed in
                               Callable shaders
+|5 |2020-09-17 |Daniel Koch | Add edits for the Location decoration (SPIR #583)
 |========================================
 
