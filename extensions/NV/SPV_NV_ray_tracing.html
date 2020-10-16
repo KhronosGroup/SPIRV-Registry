@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="generator" content="AsciiDoc 8.6.9">
+<meta name="generator" content="AsciiDoc 8.6.10">
 <title>SPV_NV_ray_tracing</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
@@ -832,11 +832,11 @@ width:40%;
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2019-03-25</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2020-09-17</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
 </tr>
 </tbody>
 </table>
@@ -1103,6 +1103,30 @@ but cannot have initializers. Refer to the Ray Tracing chapter of Vulkan API spe
 </tr>
 </tbody>
 </table>
+</div></div>
+</dd>
+<dt class="hdlist1">
+(Modify Section 3.20, Decoration) 
+</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<div class="paragraph"><p>Modify the definition of the <strong>Location</strong> decoration to add:</p></div>
+<div class="paragraph"><p><strong>Location</strong> also forms the linkage between:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<strong>OpTraceNV</strong> and the <strong>RayPayloadKHR</strong> and <strong>IncomingRayPayloadKHR</strong> Storage Classes
+</p>
+</li>
+<li>
+<p>
+<strong>OpExecuteCallableNV</strong> and the <strong>CallableDataKHR</strong> and <strong>IncomingCallableDataKHR</strong> Storage Classes
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Add <strong>RayPayloadKHR</strong>, <strong>IncomingRayPayloadKHR</strong>, <strong>CallableDataKHR</strong>, and <strong>IncomingCallableDataKHR</strong>
+to the list of Storage Classes that <strong>Location</strong> is valid on.</p></div>
 </div></div>
 </dd>
 <dt class="hdlist1">
@@ -1638,6 +1662,12 @@ width:100%;
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Incoming ray flags shouldn&#8217;t be exposed in
                               Callable shaders</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2020-09-17</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Daniel Koch</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Add edits for the Location decoration (SPIR #583)</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1646,7 +1676,8 @@ width:100%;
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-04-11 09:44:02 MDT
+Last updated
+ 2020-09-17 01:22:02 EDT
 </div>
 </div>
 </body>

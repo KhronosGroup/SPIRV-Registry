@@ -1,0 +1,131 @@
+SPV_KHR_terminate_invocation
+============================
+
+Name Strings
+------------
+
+SPV_KHR_terminate_invocation
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Alan Baker, Google LLC
+- Jeff Bolz, NVIDIA
+- John Kessenich, Google LLC
+- David Neto, Google LLC
+- Kevin Petit, ARM
+
+Notice
+------
+
+Copyright (c) 2020 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+Status
+------
+
+- Complete
+- Approved by the SPIR Working Group: 2020-05-13
+- Approved by the Khrono Board of Promoters: 2020-06-26
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2020-05-01
+| Revision           | 2
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.5 Revision 2.
+
+This extension requires SPIR-V 1.0.
+
+Overview
+--------
+
+This extension adds a new instruction *OpTerminateInvocation* to provide a disambiguated
+functionality compared to *OpKill*. 
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_KHR_terminate_invocation"
+----
+
+Modifications to the SPIR-V Specification, Version 1.5
+------------------------------------------------------
+
+Terms
+~~~~~
+
+In section 2.2.5 "Control Flow", add *OpTerminateInvocation* to the
+*Termination Instruction* list.
+
+Instructions
+~~~~~~~~~~~~
+
+
+In section 3.22.17 "Control-Flow Instructions", add the new instruction:
+--
+[cols="1,1,0*3",width="100%"]
+|=====
+1+|*OpTerminateInvocation* +
+ +
+Fragment-shader terminate. +
+ +
+Ceases all further processing in any invocation that executes it: Only instructions these invocations executed before *OpTerminateInvocation* will have observable side effects. If this instruction is executed in non-uniform control flow, all subsequent control flow is non-uniform (for invocations that continue to execute). +
+ +
+This instruction must be the last instruction in a block. +
+ +
+This instruction is only valid in the *Fragment* Execution Model.
+1+|Capability: +
+*Shader*
+| 1 | 4416
+ 0+|
+|=====
+--
+
+
+Issues
+------
+
+1) Why not just continue to use *OpKill*?
+
+Discussion:
+
+Historically, *OpKill* was mapped for both GLSL and HLSL *discard* builtins; however,
+the behavior of the two operations differs. HLSL's *discard* maps more naturally to
+*OpDemoteToHelperInvocationEXT* (see SPV_EXT_demote_to_helper_invocation).
+Implementors naturally implemented *OpKill* to match their hardware, which might use
+either semantics. Introducing *OpTerminateInvocation* allows for better
+disambiguation of the desired behavior by an application and more rigorous
+testing of effects.
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2020-04-08|Alan Baker|Initial revision
+|1|2020-05-01|Alan Baker|Rename extension
+|========================================
+
