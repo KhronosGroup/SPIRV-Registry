@@ -9,11 +9,11 @@ SPV_INTEL_kernel_attributes
 
 To report problems with this extension, please open a new issue at:
 
-https://github.com/KhronosGroup/SPIRV-Registry
+https://github.com/KhronosGroup/SPIRV-Headers
 
 == Notice
 
-Copyright (c) 2019 Intel Corporation.  All rights reserved.
+Copyright (c) 2019-2020 Intel Corporation.  All rights reserved.
 
 == Status
 
@@ -24,7 +24,7 @@ Final Draft
 [width="40%",cols="25,25"]
 |========================================
 | Last Modified Date | {docdate}
-| Revision           | 1
+| Revision           | 2
 |========================================
 
 == Dependencies
@@ -60,6 +60,7 @@ MaxWorkgroupSizeINTEL
 MaxWorkDimINTEL
 NoGlobalOffsetINTEL
 NumSIMDWorkitemsINTEL
+SchedulerTargetFmaxMhzINTEL
 ----
 
 == Token Number Assignments
@@ -75,6 +76,7 @@ NumSIMDWorkitemsINTEL
 |NoGlobalOffsetINTEL          |5895
 |NumSIMDWorkitemsINTEL        |5896
 |FPGAKernelAttributesINTEL    |5897
+|SchedulerTargetFmaxMhzINTEL  |5903
 |==== 
 --
 
@@ -116,6 +118,11 @@ Indicates that the kernel should be vectorized with the provided vector width.  
 3+^| Literal Number +
 _vector_width_
 | *FPGAKernelAttributesINTEL*
+| 5903 | *SchedulerTargetFmaxMhzINTEL* +
+Indicates the target clock frequency (Fmax) for the kernel, in MHz. Only valid with the *Kernel* Execution Model.
+3+^| Literal Number +
+_target_fmax_
+| *FPGAKernelAttributesINTEL*
 |====
 --
 
@@ -149,5 +156,6 @@ None.
 |========================================
 |Rev|Date|Author|Changes
 |1|2019-12-18|Joe Garvey|*Initial public release*
+|2|2020-04-22|Jessica Davies|Added one new execution mode, SchedulerTargetFmaxMhzINTEL.
 |======================================== 
 
