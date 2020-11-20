@@ -807,7 +807,7 @@ Nicolai Haehnle, AMD
 </li>
 <li>
 <p>
-Eric Werness, Nvidia
+Eric Werness, NVIDIA
 </p>
 </li>
 <li>
@@ -817,7 +817,22 @@ Joshua Barczak, Intel
 </li>
 <li>
 <p>
-Ashwin Lele, Nvidia
+Ashwin Lele, NVIDIA
+</p>
+</li>
+<li>
+<p>
+Daniel Koch, NVIDIA
+</p>
+</li>
+<li>
+<p>
+Hans-Kristian Arntzen, Valve
+</p>
+</li>
+<li>
+<p>
+David McAllister, Qualcomm
 </p>
 </li>
 </ul></div>
@@ -829,16 +844,15 @@ Ashwin Lele, Nvidia
 <div class="ulist"><ul>
 <li>
 <p>
-Ratified (as provisional) by the Khronos Board 2020-01-24.
+Complete
+</p>
+</li>
+<li>
+<p>
+Ratified by the Khronos Board 2020-11-20
 </p>
 </li>
 </ul></div>
-<div class="sect2">
-<h3 id="_provisional">Provisional</h3>
-<div class="paragraph"><p>This extension is <strong>provisional</strong> and should not be used in production
-applications. The functionality may change in ways that break backwards
-compatibility between revisions, and before final release.</p></div>
-</div>
 </div>
 </div>
 <div class="sect1">
@@ -853,11 +867,11 @@ width:40%;
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2020-06-03</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2020-07-22</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">10</p></td>
 </tr>
 </tbody>
 </table>
@@ -895,19 +909,19 @@ Version 1.5, Revision 1.</p></div>
 <div class="paragraph"><p>This extension introduces new capabilities:</p></div>
 <div class="listingblock">
 <div class="content monospaced">
-<pre>RayQueryProvisionalKHR
-RayTraversalPrimitiveCullingProvisionalKHR</pre>
+<pre>RayQueryKHR
+RayTraversalPrimitiveCullingKHR</pre>
 </div></div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_new_instructions">New Instructions</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Instructions added under the <strong>RayQueryProvisionalKHR</strong> capability</p></div>
+<div class="paragraph"><p>Instructions added under the <strong>RayQueryKHR</strong> capability</p></div>
 <div class="listingblock">
 <div class="content monospaced">
 <pre>OpTypeAccelerationStructureKHR
-OpTypeRayQueryProvisionalKHR
+OpTypeRayQueryKHR
 OpRayQueryInitializeKHR
 OpRayQueryTerminateKHR
 OpRayQueryGenerateIntersectionKHR
@@ -930,7 +944,8 @@ OpRayQueryGetIntersectionCandidateAABBOpaqueKHR
 OpRayQueryGetIntersectionObjectRayDirectionKHR
 OpRayQueryGetIntersectionObjectRayOriginKHR
 OpRayQueryGetIntersectionObjectToWorldKHR
-OpRayQueryGetIntersectionWorldToObjectKHR</pre>
+OpRayQueryGetIntersectionWorldToObjectKHR
+OpConvertUToAccelerationStructureKHR</pre>
 </div></div>
 </div>
 </div>
@@ -944,7 +959,7 @@ OpRayQueryGetIntersectionWorldToObjectKHR</pre>
 <dd>
 <div class="openblock">
 <div class="content">
-<div class="paragraph"><p><em>Ray query type</em>: The type returned by <strong>OpTypeRayQueryProvisionalKHR</strong>.</p></div>
+<div class="paragraph"><p><em>Ray query type</em>: The type returned by <strong>OpTypeRayQueryKHR</strong>.</p></div>
 </div></div>
 </dd>
 <dt class="hdlist1">
@@ -956,14 +971,53 @@ OpRayQueryGetIntersectionWorldToObjectKHR</pre>
 <div class="ulist"><ul>
 <li>
 <p>
-<strong>OpTypeRayQueryProvisionalKHR</strong>
+<strong>OpTypeAccelerationStructureKHR</strong>
+</p>
+</li>
+<li>
+<p>
+<strong>OpTypeRayQueryKHR</strong>
 </p>
 </li>
 </ul></div>
 </div></div>
 </dd>
 <dt class="hdlist1">
-(Add a new sub-section 3.RF, Ray Flags) 
+(Modify Section 2.16.1, Universal Validation Rules) 
+</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<div class="paragraph"><p>Change the second bullet under "Any pointer operand to an <strong>OpFunctionCall</strong> must be"
+to include <strong>OpTypeAccelerationStructureKHR</strong>:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+a pointer to an element in an array that is a memory object declaration,
+   where the element type is <strong>OpTypeSampler</strong>, <strong>OpTypeImage</strong>, or
+   <strong>OpTypeAccelerationStructureKHR</strong>.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Add a new bullet under "Data rules":</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+Instructions accessing a scalar acceleration structure out of a composite
+   must only use <em>dynamically-uniform</em> indexes, unless the index is decorated with
+   <strong>NonUniformEXT</strong>. They must be in the same block in which their <em>Result &lt;id&gt;</em>
+   are consumed. Such <em>Result &lt;id&gt;</em> must not appear as operands to <strong>OpPhi</strong> or
+   <strong>OpSelect</strong> instructions, or any instructions other than the ray tracing
+   instructions specified to operate on them.
+</p>
+</li>
+</ul></div>
+</div></div>
+</dd>
+</dl></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+(Add a new sub-section 3.RF, Ray Flags, adding a new table) 
 </dt>
 <dd>
 <div class="openblock">
@@ -971,8 +1025,7 @@ OpRayQueryGetIntersectionWorldToObjectKHR</pre>
 <div class="paragraph" id="ray_flags"><p><strong>3.RF, Ray Flags</strong></p></div>
 <div class="paragraph"><p>Flags controlling the properties of an <strong>OpTraceRayKHR</strong> instruction
 or for comparing against the <strong>IncomingRayFlagsKHR</strong> builtin.
-See the Ray Tracing chapter of the Vulkan API specification for
-more details.</p></div>
+See the client API specification for more details.</p></div>
 <div class="paragraph"><p>Despite being a mask and allowing multiple bits to be combined,
 it is invalid for more than one of these four bits to be set:
 <strong>OpaqueKHR</strong>, <strong>NoOpaqueKHR</strong>, <strong>CullOpaqueKHR</strong>, <strong>CullNoOpaqueKHR</strong>.
@@ -996,77 +1049,77 @@ width:80%;
 <td class="tableblock halign-center valign-top" ><p class="tableblock">0</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>NoneKHR</strong><br>
 No flags specified.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryProvisionalKHR</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top" ><p class="tableblock">1</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>OpaqueKHR</strong> <br>
 Force all intersections with the trace to be opaque.<br>
 See the Ray Opacity Culling section in the Vulkan API specification.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryProvisionalKHR</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top" ><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>NoOpaqueKHR</strong><br>
 Force all intersections with the trace to be non-opaque.<br>
 See the Ray Opacity Culling section in the Vulkan API specification.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryProvisionalKHR</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top" ><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>TerminateOnFirstHitKHR</strong><br>
 Accept the first hit discovered.<br>
 See the Ray Closest Hit Determination section in the Vulkan API specification.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryProvisionalKHR</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top" ><p class="tableblock">8</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>SkipClosestHitShaderKHR</strong><br>
 Do not execute a closest hit shader.<br>
 See the Ray Result Determination section in the Vulkan API specification.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryProvisionalKHR</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top" ><p class="tableblock">16</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>CullBackFacingTrianglesKHR</strong><br>
 Do not intersect with the back face of triangles.<br>
 See the Ray Face Culling section in the Vulkan API specification.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryProvisionalKHR</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top" ><p class="tableblock">32</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>CullFrontFacingTrianglesKHR</strong><br>
 Do not intersect with the front face of triangles.<br>
 See the Ray Face Culling section in the Vulkan API specification.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryProvisionalKHR</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top" ><p class="tableblock">64</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>CullOpaqueKHR</strong><br>
 Do not intersect with opaque geometry.<br>
 See the Ray Opacity Culling section in the Vulkan API specification.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryProvisionalKHR</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top" ><p class="tableblock">128</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>CullNoOpaqueKHR</strong><br>
 Do not intersect with non-opaque geometry.<br>
 See the Ray Opacity Culling section in the Vulkan API specification.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryProvisionalKHR</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top" ><p class="tableblock">256</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>SkipTrianglesKHR</strong><br>
 Do not intersect with any triangle geometries.
 See the Ray Primitive Culling section in the Vulkan API specification.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTraversalPrimitiveCullingProvisionalKHR</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTraversalPrimitiveCullingKHR</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top" ><p class="tableblock">512</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>SkipAABBsKHR</strong><br>
 Do not intersect with any aabb geometries.
 See the Ray Primitive Culling section in the Vulkan API specification.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTraversalPrimitiveCullingProvisionalKHR</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTraversalPrimitiveCullingKHR</strong></p></td>
 </tr>
 </tbody>
 </table>
@@ -1097,13 +1150,13 @@ width:80%;
 <td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryCandidateIntersectionKHR</strong><br>
 Identifies the current candidate intersection being considered, valid when <em>OpRayQueryProceedKHR</em> returns true.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryProvisionalKHR</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryCommittedIntersectionKHR</strong><br>
 Identifies the last intersection committed that is being considered, valid when <em>OpRayQueryGetCommittedIntersectionTypeKHR</em> does not return <strong>RayQueryCommittedIntersectionNoneKHR</strong>.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryProvisionalKHR</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
 </tr>
 </tbody>
 </table>
@@ -1134,19 +1187,19 @@ width:80%;
 <td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryCommittedIntersectionNoneKHR</strong><br>
 No intersection is committed.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryProvisionalKHR</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryCommittedIntersectionTriangleKHR</strong><br>
 An intersection with a triangle has been committed.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryProvisionalKHR</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryCommittedIntersectionGeneratedKHR</strong><br>
-An user-generated intersection has been committed.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryProvisionalKHR</strong></p></td>
+A user-generated intersection has been committed.</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
 </tr>
 </tbody>
 </table>
@@ -1158,7 +1211,7 @@ An user-generated intersection has been committed.</p></td>
 <dd>
 <div class="openblock" id="ray_query_candidate_intersection_type">
 <div class="content">
-<div class="paragraph"><p>Identifies which intersection should be returned from a ray query</p></div>
+<div class="paragraph"><p>Describes the type of the intersection which is currently the candidate in a ray query.</p></div>
 <table class="tableblock frame-all grid-all"
 style="
 width:80%;
@@ -1177,13 +1230,13 @@ width:80%;
 <td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryCandidateIntersectionTriangleKHR</strong><br>
 A potential intersection with a triangle is being considered.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryProvisionalKHR</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryCandidateIntersectionAABBKHR</strong><br>
 A potential intersection with an axis-aligned bounding box is being considered.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryProvisionalKHR</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
 </tr>
 </tbody>
 </table>
@@ -1210,23 +1263,23 @@ width:100%;
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-middle" ><p class="tableblock">4471</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryProvisionalKHR</strong><br>
+<td class="tableblock halign-center valign-middle" ><p class="tableblock">4472</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryKHR</strong><br>
 Uses <a href="#ray-query">Ray Query</a></p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Shader</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-middle" ><p class="tableblock">4478</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTraversalPrimitiveCullingProvisionalKHR</strong><br>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTraversalPrimitiveCullingKHR</strong><br>
 Uses <strong>SkipAABBsKHR</strong> or <strong>SkipTrianglesKHR</strong></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryProvisionalKHR</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
 </tr>
 </tbody>
 </table>
 </div></div>
 </dd>
 <dt class="hdlist1">
-(Modify Section 3.32.6, Type-Declaration Instructions, adding two new tables) 
+(Modify Section 3.36.6, Type-Declaration Instructions, adding two new tables) 
 </dt>
 <dd>
 <div class="openblock">
@@ -1243,13 +1296,14 @@ width:100%;
 <td class="tableblock halign-left valign-top" colspan="2" ><p class="tableblock"><a id="OpTypeAccelerationStructureKHR"></a><strong>OpTypeAccelerationStructureKHR</strong><br>
 <br>
 Declares an acceleration structure type which is an opaque reference to
-acceleration structure handle as defined in the Ray Tracing chapter of Vulkan API
+acceleration structure handle as defined in the client API
 specification.</p>
-<p class="tableblock">Consumed by <a href="#OpRayQueryInitializeKHR"><strong>OpRayQueryInitializeKHR</strong></a></p>
+<p class="tableblock">Consumed by <a href="#OpRayQueryInitializeKHR"><strong>OpRayQueryInitializeKHR</strong></a> and
+<a href="#OpTraceRayKHR"><strong>OpTraceRayKHR</strong></a></p>
 <p class="tableblock">This type is opaque: values of this type have no defined physical size or
 bit pattern.</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
-<strong>RayQueryProvisionalKHR</strong></p></td>
+<strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
@@ -1267,13 +1321,13 @@ width:100%;
 <col style="width:33%;">
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" colspan="2" ><p class="tableblock"><a id="OpTypeRayQueryProvisionalKHR"></a><strong>OpTypeRayQueryProvisionalKHR</strong><br>
+<td class="tableblock halign-left valign-top" colspan="2" ><p class="tableblock"><a id="OpTypeRayQueryKHR"></a><strong>OpTypeRayQueryKHR</strong><br>
 <br>
 Declares a ray query type which is an opaque object representing a ray traversal.</p>
 <p class="tableblock">This type is opaque: values of this type have no defined physical size or
 bit pattern.</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
-<strong>RayQueryProvisionalKHR</strong></p></td>
+<strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
@@ -1290,7 +1344,7 @@ bit pattern.</p></td>
 <dd>
 <div class="openblock">
 <div class="content">
-<div class="paragraph"><p>If <em>Type</em> is <strong>OpTypeRayQueryProvisionalKHR</strong>, <em>Storage Class</em> must be <em>Private</em> or <em>Function</em>.</p></div>
+<div class="paragraph"><p>If <em>Type</em> is <strong>OpTypeRayQueryKHR</strong>, <em>Storage Class</em> must be <em>Private</em> or <em>Function</em>.</p></div>
 </div></div>
 </dd>
 <dt class="hdlist1">
@@ -1299,7 +1353,7 @@ bit pattern.</p></td>
 <dd>
 <div class="openblock">
 <div class="content">
-<div class="paragraph"><p>The <em>Type</em> operand to the <strong>OpTypePointer</strong> used for <em>Pointer</em> must not be <strong>OpTypeRayQueryProvisionalKHR</strong>.</p></div>
+<div class="paragraph"><p>The <em>Type</em> operand to the <strong>OpTypePointer</strong> used for <em>Pointer</em> must not be <strong>OpTypeRayQueryKHR</strong>.</p></div>
 </div></div>
 </dd>
 <dt class="hdlist1">
@@ -1308,11 +1362,53 @@ bit pattern.</p></td>
 <dd>
 <div class="openblock">
 <div class="content">
-<div class="paragraph"><p>The <em>Type</em> operand to the <strong>OpTypePointer</strong> used for <em>Target</em> or <em>Source</em> must not be <strong>OpTypeRayQueryProvisionalKHR</strong>.</p></div>
+<div class="paragraph"><p>The <em>Type</em> operand to the <strong>OpTypePointer</strong> used for <em>Target</em> or <em>Source</em> must not be <strong>OpTypeRayQueryKHR</strong>.</p></div>
 </div></div>
 </dd>
 <dt class="hdlist1">
-(Add a new sub section 3.32.RQInstructions, Ray Query Instructions) 
+(Modify Section 3.36.11, Conversion Instructions, adding a new table) 
+</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:9%;">
+<col style="width:9%;">
+<col style="width:27%;">
+<col style="width:27%;">
+<col style="width:27%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="4" ><p class="tableblock"><a id="OpConvertUToAccelerationStructureKHR"></a><strong>OpConvertUToAccelerationStructureKHR</strong><br>
+<br>
+ Converts a 64-bit integer into an <strong>OpTypeAccelerationStructureKHR</strong>.<br>
+<br>
+ <em>Acceleration Structure</em> must either be a 64-bit scalar of integer type, whose Signedness operand is 0, or a 2-component vector of 32-bit integer type, whose Signedness operand is 0.<br>
+ A vector value input behaves as-if <strong>OpBitcast</strong> converts the value to a 64-bit scalar integer first.<br>
+ <em>Acceleration Structure</em> represents the address of a valid acceleration structure.<br>
+ Refer to the client API specification for details.<br>
+<br>
+<em>Result Type</em> must be an <em>OpTypeAccelerationStructureKHR</em>.
+<br></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<strong>RayQueryKHR</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">4447</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Result Type</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Result</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Acceleration Structure</em></p></td>
+</tr>
+</tbody>
+</table>
+</div></div>
+</dd>
+<dt class="hdlist1">
+(Add a new sub section 3.36.RQInstructions, Ray Query Instructions) 
 </dt>
 <dd>
 <div class="openblock">
@@ -1339,21 +1435,23 @@ width:100%;
 <br>
  <em>Ray Query</em> is a pointer to the ray query to initialize.<br>
 <br>
- <em>Acceleration Structure</em> is the the acceleration structure to trace into.<br>
+ <em>Acceleration Structure</em> is the descriptor for the acceleration structure to trace into.<br>
 <br>
  <em>Ray Flags</em> contains one or more of the <a href="#ray_flags">Ray Flag</a> values.<br>
 <br>
- <em>Cull Mask</em> is the 8-bit mask for test against the instance mask.<br>
+ <em>Cull Mask</em> is the mask to test against the instance mask.<br>
 <br>
  <em>Ray Origin</em>, <em>Ray Tmin</em>, <em>Ray Direction</em>, and <em>Ray Tmax</em> control the basic parameters of the ray to be traced.<br>
 <br>
  <em>Ray Flags</em> and <em>Cull Mask</em> must be a 32-bit <em>integer type</em> scalar.<br>
 <br>
+ Only the 8 least-significant bits of <em>Cull Mask</em> are used by this instruction - other bits are ignored.
+<br>
  <em>Ray Origin</em> and <em>Ray Direction</em> must be a 32-bit <em>floating-point type</em> 3-component vector.<br>
 <br>
  <em>Ray Tmin</em> and <em>Ray Tmax</em> must be a 32-bit <em>floating-point type</em> scalar.</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
-<strong>RayQueryProvisionalKHR</strong></p></td>
+<strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">9</p></td>
@@ -1381,13 +1479,13 @@ width:100%;
 <td class="tableblock halign-left valign-top" colspan="2" ><p class="tableblock"><a id="OpRayQueryTerminateKHR"></a><strong>OpRayQueryTerminateKHR</strong><br>
 <br>
  Terminates further execution of a ray query; further calls to OpRayQueryProceed will return false.
- Refer to the Ray Tracing chapter of Vulkan API specification for more details.<br>
+ Refer to the client API specification for more details.<br>
 <br>
  <em>Ray Query</em> is a pointer to the ray query to terminate.<br>
 <br>
  The value returned by any prior execution of <em>OpRayQueryProceedKHR</em> with the same ray query object must have been true.</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
-<strong>RayQueryProvisionalKHR</strong></p></td>
+<strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
@@ -1420,7 +1518,7 @@ width:100%;
 <br>
  Ray Query Candidate Intersection Type must be <strong>RayQueryCandidateIntersectionAABBKHR</strong>.</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
-<strong>RayQueryProvisionalKHR</strong></p></td>
+<strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">3</p></td>
@@ -1449,7 +1547,7 @@ width:100%;
 <br>
  Ray Query Candidate Intersection Type must be <strong>RayQueryCandidateIntersectionTriangleKHR</strong>.</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
-<strong>RayQueryProvisionalKHR</strong></p></td>
+<strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
@@ -1479,7 +1577,7 @@ width:100%;
 <br>
  <em>Result Type</em> must be a Boolean type.</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
-<strong>RayQueryProvisionalKHR</strong></p></td>
+<strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
@@ -1520,7 +1618,7 @@ width:100%;
 <br>
  If <em>Intersection</em> is <strong>RayQueryCandidateIntersectionKHR</strong>, <em>OpRayQueryProceedKHR</em> must have been executed on the same ray query object, and the last value returned by <em>OpRayQueryProceedKHR</em> must have been true.</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
-<strong>RayQueryProvisionalKHR</strong></p></td>
+<strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
@@ -1553,7 +1651,7 @@ width:100%;
 <br>
  <em>Ray Query</em> is a pointer to the ray query object.</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
-<strong>RayQueryProvisionalKHR</strong></p></td>
+<strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
@@ -1585,7 +1683,7 @@ width:100%;
 <br>
  <em>Ray Query</em> is a pointer to the ray query object.</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
-<strong>RayQueryProvisionalKHR</strong></p></td>
+<strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
@@ -1622,10 +1720,10 @@ width:100%;
 <br>
  <em>Ray Query</em> is a pointer to the ray query object.<br>
 <br>
- If <em>Intersection</em> is <strong>RayQueryCandidateIntersectionKHR</strong>, <em>OpRayQueryProceedKHR</em> must have been executed on the same ray query object, and the last value returned by <em>OpRayQueryProceedKHR</em> must have been true.
+ If <em>Intersection</em> is <strong>RayQueryCandidateIntersectionKHR</strong>, <em>OpRayQueryProceedKHR</em> must have been executed on the same ray query object, the last value returned by <em>OpRayQueryProceedKHR</em> must have been true, and the current intersection candidate must have a Ray Query Candidate Intersection Type of <strong>RayQueryCandidateIntersectionTriangleKHR</strong>.
  If <em>Intersection</em> is <strong>RayQueryCommittedIntersectionKHR</strong>, there must be a current committed intersection (see <em>OpRayQueryCommittedTypeKHR</em>).</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
-<strong>RayQueryProvisionalKHR</strong></p></td>
+<strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
@@ -1666,7 +1764,7 @@ width:100%;
  If <em>Intersection</em> is <strong>RayQueryCandidateIntersectionKHR</strong>, <em>OpRayQueryProceedKHR</em> must have been executed on the same ray query object, and the last value returned by <em>OpRayQueryProceedKHR</em> must have been true.
  If <em>Intersection</em> is <strong>RayQueryCommittedIntersectionKHR</strong>, there must be a current committed intersection (see <em>OpRayQueryCommittedTypeKHR</em>).</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
-<strong>RayQueryProvisionalKHR</strong></p></td>
+<strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
@@ -1707,7 +1805,7 @@ width:100%;
  If <em>Intersection</em> is <strong>RayQueryCandidateIntersectionKHR</strong>, <em>OpRayQueryProceedKHR</em> must have been executed on the same ray query object, and the last value returned by <em>OpRayQueryProceedKHR</em> must have been true.
  If <em>Intersection</em> is <strong>RayQueryCommittedIntersectionKHR</strong>, there must be a current committed intersection (see <em>OpRayQueryCommittedTypeKHR</em>).</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
-<strong>RayQueryProvisionalKHR</strong></p></td>
+<strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
@@ -1748,7 +1846,7 @@ width:100%;
  If <em>Intersection</em> is <strong>RayQueryCandidateIntersectionKHR</strong>, <em>OpRayQueryProceedKHR</em> must have been executed on the same ray query object, and the last value returned by <em>OpRayQueryProceedKHR</em> must have been true.
  If <em>Intersection</em> is <strong>RayQueryCommittedIntersectionKHR</strong>, there must be a current committed intersection (see <em>OpRayQueryCommittedTypeKHR</em>).</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
-<strong>RayQueryProvisionalKHR</strong></p></td>
+<strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
@@ -1789,7 +1887,7 @@ width:100%;
  If <em>Intersection</em> is <strong>RayQueryCandidateIntersectionKHR</strong>, <em>OpRayQueryProceedKHR</em> must have been executed on the same ray query object, and the last value returned by <em>OpRayQueryProceedKHR</em> must have been true.
  If <em>Intersection</em> is <strong>RayQueryCommittedIntersectionKHR</strong>, there must be a current committed intersection (see <em>OpRayQueryCommittedTypeKHR</em>).</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
-<strong>RayQueryProvisionalKHR</strong></p></td>
+<strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
@@ -1830,7 +1928,7 @@ width:100%;
  If <em>Intersection</em> is <strong>RayQueryCandidateIntersectionKHR</strong>, <em>OpRayQueryProceedKHR</em> must have been executed on the same ray query object, and the last value returned by <em>OpRayQueryProceedKHR</em> must have been true.
  If <em>Intersection</em> is <strong>RayQueryCommittedIntersectionKHR</strong>, there must be a current committed intersection (see <em>OpRayQueryCommittedTypeKHR</em>).</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
-<strong>RayQueryProvisionalKHR</strong></p></td>
+<strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
@@ -1871,7 +1969,7 @@ width:100%;
  If <em>Intersection</em> is <strong>RayQueryCandidateIntersectionKHR</strong>, <em>OpRayQueryProceedKHR</em> must have been executed on the same ray query object, the last value returned by <em>OpRayQueryProceedKHR</em> must have been true, and the current intersection candidate must have a Ray Query Candidate Intersection Type of <strong>RayQueryCandidateIntersectionTriangleKHR</strong>.
  If <em>Intersection</em> is <strong>RayQueryCommittedIntersectionKHR</strong>, there must be a current committed intersection (see <em>OpRayQueryCommittedTypeKHR</em>), and it must have a Ray Query Committed Intersection Type of <strong>RayQueryCommittedIntersectionTriangleKHR</strong>.</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
-<strong>RayQueryProvisionalKHR</strong></p></td>
+<strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
@@ -1912,7 +2010,7 @@ width:100%;
  If <em>Intersection</em> is <strong>RayQueryCandidateIntersectionKHR</strong>, <em>OpRayQueryProceedKHR</em> must have been executed on the same ray query object, the last value returned by <em>OpRayQueryProceedKHR</em> must have been true, and the current intersection candidate must have a Ray Query Candidate Intersection Type of <strong>RayQueryCandidateIntersectionTriangleKHR</strong>.
  If <em>Intersection</em> is <strong>RayQueryCommittedIntersectionKHR</strong>, there must be a current committed intersection (see <em>OpRayQueryCommittedTypeKHR</em>), and it must have a Ray Query Committed Intersection Type of <strong>RayQueryCommittedIntersectionTriangleKHR</strong>.</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
-<strong>RayQueryProvisionalKHR</strong></p></td>
+<strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
@@ -1945,7 +2043,7 @@ width:100%;
 <br>
  <em>Ray Query</em> is a pointer to the ray query object.</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
-<strong>RayQueryProvisionalKHR</strong></p></td>
+<strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
@@ -1985,7 +2083,7 @@ width:100%;
  If <em>Intersection</em> is <strong>RayQueryCandidateIntersectionKHR</strong>, <em>OpRayQueryProceedKHR</em> must have been executed on the same ray query object, and the last value returned by <em>OpRayQueryProceedKHR</em> must have been true.
  If <em>Intersection</em> is <strong>RayQueryCommittedIntersectionKHR</strong>, there must be a current committed intersection (see <em>OpRayQueryCommittedTypeKHR</em>).</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
-<strong>RayQueryProvisionalKHR</strong></p></td>
+<strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
@@ -2026,7 +2124,7 @@ width:100%;
  If <em>Intersection</em> is <strong>RayQueryCandidateIntersectionKHR</strong>, <em>OpRayQueryProceedKHR</em> must have been executed on the same ray query object, and the last value returned by <em>OpRayQueryProceedKHR</em> must have been true.
  If <em>Intersection</em> is <strong>RayQueryCommittedIntersectionKHR</strong>, there must be a current committed intersection (see <em>OpRayQueryCommittedTypeKHR</em>).</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
-<strong>RayQueryProvisionalKHR</strong></p></td>
+<strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
@@ -2059,7 +2157,7 @@ width:100%;
 <br>
  <em>Ray Query</em> is a pointer to the ray query object.<br></p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
-<strong>RayQueryProvisionalKHR</strong></p></td>
+<strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
@@ -2091,7 +2189,7 @@ width:100%;
 <br>
  <em>Ray Query</em> is a pointer to the ray query object.<br></p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
-<strong>RayQueryProvisionalKHR</strong></p></td>
+<strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
@@ -2131,7 +2229,7 @@ width:100%;
  If <em>Intersection</em> is <strong>RayQueryCandidateIntersectionKHR</strong>, <em>OpRayQueryProceedKHR</em> must have been executed on the same ray query object, and the last value returned by <em>OpRayQueryProceedKHR</em> must have been true.
  If <em>Intersection</em> is <strong>RayQueryCommittedIntersectionKHR</strong>, there must be a current committed intersection (see <em>OpRayQueryCommittedTypeKHR</em>).</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
-<strong>RayQueryProvisionalKHR</strong></p></td>
+<strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
@@ -2172,7 +2270,7 @@ width:100%;
  If <em>Intersection</em> is <strong>RayQueryCandidateIntersectionKHR</strong>, <em>OpRayQueryProceedKHR</em> must have been executed on the same ray query object, and the last value returned by <em>OpRayQueryProceedKHR</em> must have been true.
  If <em>Intersection</em> is <strong>RayQueryCommittedIntersectionKHR</strong>, there must be a current committed intersection (see <em>OpRayQueryCommittedTypeKHR</em>).</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
-<strong>RayQueryProvisionalKHR</strong></p></td>
+<strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
@@ -2203,17 +2301,42 @@ legal use of this extension:</p></div>
 <div class="sect1">
 <h2 id="_interactions_with_spv_khr_ray_tracing">Interactions with SPV_KHR_ray_tracing</h2>
 <div class="sectionbody">
-<div class="paragraph"><p><strong>OpTypeAccelerationStructureKHR</strong>, <strong>RayTraversalPrimitiveCullingProvisionalKHR</strong>, and the
-<span class="monospaced">Ray Flags</span> are added by both this extension and <span class="monospaced">SPV_KHR_ray_tracing</span>; they
+<div class="paragraph"><p><strong>OpTypeAccelerationStructureKHR</strong>, <strong>RayTraversalPrimitiveCullingKHR</strong>,
+<strong>OpConvertUToAccelerationStructureKHR</strong> and the <span class="monospaced">Ray Flags</span> are added by both
+this extension and <span class="monospaced">SPV_KHR_ray_tracing</span>; they
 are intended to have identical definitions, and can be enabled by either
 extension&#8217;s capability, for use with the instructions under that same
-capability.</p></div>
+capability.
+If <span class="monospaced">SPV_KHR_ray_tracing</span> is not supported, ignore any references to
+<strong>OpTraceRayKHR</strong>.</p></div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_issues">Issues</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>None yet!</p></div>
+<div class="paragraph"><p>1) What are the differences between provisional and final?</p></div>
+<div class="paragraph"><p>Discussion:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+rename OpTypeRayQueryProvisionalKHR to OpTypeRayQueryKHR as was originally
+    intended. Seems like it fell victim to an overreaching seach and replace
+    when this was made provisional.
+</p>
+</li>
+<li>
+<p>
+change RayQueryProvisionalKHR to RayQueryKHR and assign new
+    token (4472)
+</p>
+</li>
+<li>
+<p>
+add OpConvertUToAccelerationStructureKHR (4447) instruction to convert
+    64-bit integer to OpTypeAccelerationStructureKHR to enable query by handle
+</p>
+</li>
+</ul></div>
 </div>
 </div>
 <div class="sect1">
@@ -2266,6 +2389,38 @@ width:100%;
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Daniel Koch</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Update capabilities tables to match SPIR-V 1.5.</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2020-06-05</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Hans-Kristian Arntzen</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Add conversion from 64-bit acceleration structure pointer
+                                        to OpTypeAccelerationStructureKHR</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">7</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2020-06-12</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Daniel Koch</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">rename OpTypeRayQueryProvisionalKHR &#8594; OpTypeRayQueryKHR
+                                        refactored common code to include files</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">8</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2020-07-03</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Daniel Koch</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Remove provisional notices and update capabilities</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">9</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2020-07-10</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Tobias Hector</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Clarify that subset of bits are used for cull mask</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">10</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2020-07-22</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">David McAllister</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Disallow querying candidate T value for AABB primitives (!191)</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -2275,7 +2430,7 @@ width:100%;
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2020-06-03 16:48:36 EDT
+ 2020-11-20 13:48:58 EST
 </div>
 </div>
 </body>

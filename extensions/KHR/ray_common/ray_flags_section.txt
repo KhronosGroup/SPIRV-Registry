@@ -1,0 +1,67 @@
+
+(Add a new sub-section 3.RF, Ray Flags, adding a new table) ::
++
+--
+[[ray_flags]]
+*3.RF, Ray Flags*
+
+Flags controlling the properties of an *OpTraceRayKHR* instruction
+or for comparing against the *IncomingRayFlagsKHR* builtin.
+See the client API specification for more details.
+
+Despite being a mask and allowing multiple bits to be combined,
+it is invalid for more than one of these four bits to be set:
+*OpaqueKHR*, *NoOpaqueKHR*, *CullOpaqueKHR*, *CullNoOpaqueKHR*.
+Additionally, only one of *CullBackFacingTrianglesKHR* and
+*CullFrontFacingTrianglesKHR* may be set.
+
+[cols="1^,15,5",options="header",width = "80%"]
+|====
+2+^.^| Ray Flags | Enabling Capabilities
+| 0 | *NoneKHR* +
+No flags specified.
+| *{capability}*
+| 1 | *OpaqueKHR*  +
+Force all intersections with the trace to be opaque. +
+See the Ray Opacity Culling section in the Vulkan API specification.
+| *{capability}*
+| 2 | *NoOpaqueKHR* +
+Force all intersections with the trace to be non-opaque. +
+See the Ray Opacity Culling section in the Vulkan API specification.
+| *{capability}*
+| 4 | *TerminateOnFirstHitKHR* +
+Accept the first hit discovered. +
+See the Ray Closest Hit Determination section in the Vulkan API specification.
+| *{capability}*
+| 8 | *SkipClosestHitShaderKHR* +
+Do not execute a closest hit shader. +
+See the Ray Result Determination section in the Vulkan API specification.
+| *{capability}*
+| 16 | *CullBackFacingTrianglesKHR* +
+Do not intersect with the back face of triangles. +
+See the Ray Face Culling section in the Vulkan API specification.
+| *{capability}*
+| 32 | *CullFrontFacingTrianglesKHR* +
+Do not intersect with the front face of triangles. +
+See the Ray Face Culling section in the Vulkan API specification.
+| *{capability}*
+| 64 | *CullOpaqueKHR* +
+Do not intersect with opaque geometry. +
+See the Ray Opacity Culling section in the Vulkan API specification.
+| *{capability}*
+| 128 | *CullNoOpaqueKHR* +
+Do not intersect with non-opaque geometry. +
+See the Ray Opacity Culling section in the Vulkan API specification.
+| *{capability}*
+| 256 | *SkipTrianglesKHR* +
+Do not intersect with any triangle geometries.
+See the Ray Primitive Culling section in the Vulkan API specification.
+| *RayTraversalPrimitiveCullingKHR*
+| 512 | *SkipAABBsKHR* +
+Do not intersect with any aabb geometries.
+See the Ray Primitive Culling section in the Vulkan API specification.
+| *RayTraversalPrimitiveCullingKHR*
+|====
+
+--
+

@@ -18,29 +18,26 @@ Contributors
 - Contributors to SPV_KHR_ray_tracing
 - Tobias Hector, AMD
 - Nicolai Haehnle, AMD
-- Eric Werness, Nvidia
+- Eric Werness, NVIDIA
 - Joshua Barczak, Intel
-- Ashwin Lele, Nvidia
+- Ashwin Lele, NVIDIA
+- Daniel Koch, NVIDIA
+- Hans-Kristian Arntzen, Valve
+- David McAllister, Qualcomm
 
 Status
 ------
 
-- Ratified (as provisional) by the Khronos Board 2020-01-24.
-
-Provisional
-~~~~~~~~~~~
-
-This extension is *provisional* and should not be used in production
-applications. The functionality may change in ways that break backwards
-compatibility between revisions, and before final release.
+- Complete
+- Ratified by the Khronos Board 2020-11-20
 
 Version
 -------
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2020-06-03
-| Revision           | 5
+| Last Modified Date | 2020-07-22
+| Revision           | 10
 |========================================
 
 Dependencies
@@ -75,19 +72,19 @@ New Capabilities
 This extension introduces new capabilities:
 
 ----
-RayQueryProvisionalKHR
-RayTraversalPrimitiveCullingProvisionalKHR
+RayQueryKHR
+RayTraversalPrimitiveCullingKHR
 ----
 
 
 New Instructions
 ----------------
 
-Instructions added under the *RayQueryProvisionalKHR* capability
+Instructions added under the *RayQueryKHR* capability
 
 ----
 OpTypeAccelerationStructureKHR
-OpTypeRayQueryProvisionalKHR
+OpTypeRayQueryKHR
 OpRayQueryInitializeKHR
 OpRayQueryTerminateKHR
 OpRayQueryGenerateIntersectionKHR
@@ -111,6 +108,7 @@ OpRayQueryGetIntersectionObjectRayDirectionKHR
 OpRayQueryGetIntersectionObjectRayOriginKHR
 OpRayQueryGetIntersectionObjectToWorldKHR
 OpRayQueryGetIntersectionWorldToObjectKHR
+OpConvertUToAccelerationStructureKHR
 ----
 
 Modifications to the SPIR-V Specification
@@ -119,81 +117,23 @@ Modifications to the SPIR-V Specification
 (Add the following terminology to section 2.2.2, Types) ::
 +
 --
-'Ray query type': The type returned by *OpTypeRayQueryProvisionalKHR*.
+'Ray query type': The type returned by *OpTypeRayQueryKHR*.
 --
 
 (Add to the list of opaque types in section 2.2.2, Types) ::
 +
 --
- * *OpTypeRayQueryProvisionalKHR*
+ * *OpTypeAccelerationStructureKHR*
+ * *OpTypeRayQueryKHR*
 --
 
-(Add a new sub-section 3.RF, Ray Flags) ::
-+
---
-[[ray_flags]]
-*3.RF, Ray Flags*
+(Modify Section 2.16.1, Universal Validation Rules) ::
 
-Flags controlling the properties of an *OpTraceRayKHR* instruction
-or for comparing against the *IncomingRayFlagsKHR* builtin.
-See the Ray Tracing chapter of the Vulkan API specification for
-more details.
+include::ray_common/acceleration_structure_universal_val.txt[]
 
-Despite being a mask and allowing multiple bits to be combined,
-it is invalid for more than one of these four bits to be set:
-*OpaqueKHR*, *NoOpaqueKHR*, *CullOpaqueKHR*, *CullNoOpaqueKHR*.
-Additionally, only one of *CullBackFacingTrianglesKHR* and
-*CullFrontFacingTrianglesKHR* may be set.
 
-[cols="1^,15,5",options="header",width = "80%"]
-|====
-2+^.^| Ray Flags | Enabling Capabilities
-| 0 | *NoneKHR* +
-No flags specified.
-| *RayQueryProvisionalKHR*
-| 1 | *OpaqueKHR*  +
-Force all intersections with the trace to be opaque. +
-See the Ray Opacity Culling section in the Vulkan API specification.
-| *RayQueryProvisionalKHR*
-| 2 | *NoOpaqueKHR* +
-Force all intersections with the trace to be non-opaque. +
-See the Ray Opacity Culling section in the Vulkan API specification.
-| *RayQueryProvisionalKHR*
-| 4 | *TerminateOnFirstHitKHR* +
-Accept the first hit discovered. +
-See the Ray Closest Hit Determination section in the Vulkan API specification.
-| *RayQueryProvisionalKHR*
-| 8 | *SkipClosestHitShaderKHR* +
-Do not execute a closest hit shader. +
-See the Ray Result Determination section in the Vulkan API specification.
-| *RayQueryProvisionalKHR*
-| 16 | *CullBackFacingTrianglesKHR* +
-Do not intersect with the back face of triangles. +
-See the Ray Face Culling section in the Vulkan API specification.
-| *RayQueryProvisionalKHR*
-| 32 | *CullFrontFacingTrianglesKHR* +
-Do not intersect with the front face of triangles. +
-See the Ray Face Culling section in the Vulkan API specification.
-| *RayQueryProvisionalKHR*
-| 64 | *CullOpaqueKHR* +
-Do not intersect with opaque geometry. +
-See the Ray Opacity Culling section in the Vulkan API specification.
-| *RayQueryProvisionalKHR*
-| 128 | *CullNoOpaqueKHR* +
-Do not intersect with non-opaque geometry. +
-See the Ray Opacity Culling section in the Vulkan API specification.
-| *RayQueryProvisionalKHR*
-| 256 | *SkipTrianglesKHR* +
-Do not intersect with any triangle geometries.
-See the Ray Primitive Culling section in the Vulkan API specification.
-| *RayTraversalPrimitiveCullingProvisionalKHR*
-| 512 | *SkipAABBsKHR* +
-Do not intersect with any aabb geometries.
-See the Ray Primitive Culling section in the Vulkan API specification.
-| *RayTraversalPrimitiveCullingProvisionalKHR*
-|====
-
---
+:capability: RayQueryKHR
+include::ray_common/ray_flags_section.txt[]
 
 
 [[ray_query_intersection]]
@@ -207,10 +147,10 @@ Identifies which intersection should be returned from a ray query.
 2+^.^| Ray Query Intersection | Enabling Capabilities
 | 0 | *RayQueryCandidateIntersectionKHR* +
 Identifies the current candidate intersection being considered, valid when 'OpRayQueryProceedKHR' returns true.
-| *RayQueryProvisionalKHR*
+| *RayQueryKHR*
 | 1 | *RayQueryCommittedIntersectionKHR* +
 Identifies the last intersection committed that is being considered, valid when 'OpRayQueryGetCommittedIntersectionTypeKHR' does not return *RayQueryCommittedIntersectionNoneKHR*.
-| *RayQueryProvisionalKHR*
+| *RayQueryKHR*
 |====
 
 --
@@ -226,13 +166,13 @@ Describes the type of the intersection currently committed in a ray query.
 2+^.^| Ray Query Committed Intersection Type | Enabling Capabilities
 | 0 | *RayQueryCommittedIntersectionNoneKHR* +
 No intersection is committed.
-| *RayQueryProvisionalKHR*
+| *RayQueryKHR*
 | 1 | *RayQueryCommittedIntersectionTriangleKHR* +
 An intersection with a triangle has been committed.
-| *RayQueryProvisionalKHR*
+| *RayQueryKHR*
 | 2 | *RayQueryCommittedIntersectionGeneratedKHR* +
-An user-generated intersection has been committed.
-| *RayQueryProvisionalKHR*
+A user-generated intersection has been committed.
+| *RayQueryKHR*
 |====
 
 --
@@ -241,17 +181,17 @@ An user-generated intersection has been committed.
 (Add a new sub-section 3.RQCandidate, Ray Query Candidate Intersection Type, adding a new table) ::
 +
 --
-Identifies which intersection should be returned from a ray query
+Describes the type of the intersection which is currently the candidate in a ray query.
 
 [cols="1,12,15",options="header",width = "80%"]
 |====
 2+^.^| Ray Query Candidate Intersection Type | Enabling Capabilities
 | 0 | *RayQueryCandidateIntersectionTriangleKHR* +
 A potential intersection with a triangle is being considered.
-| *RayQueryProvisionalKHR*
+| *RayQueryKHR*
 | 1 | *RayQueryCandidateIntersectionAABBKHR* +
 A potential intersection with an axis-aligned bounding box is being considered.
-| *RayQueryProvisionalKHR*
+| *RayQueryKHR*
 |====
 
 --
@@ -260,41 +200,25 @@ A potential intersection with an axis-aligned bounding box is being considered.
 +
 --
 [cols="1^.^,25,15",options="header",width = "100%"]
+:capability: RayQueryKHR
 |====
 2+^.^| Capability | Implicitly Declares
-| 4471 | *RayQueryProvisionalKHR* +
+| 4472 | *RayQueryKHR* +
 Uses <<ray-query, Ray Query>>
 | *Shader*
-| 4478 | *RayTraversalPrimitiveCullingProvisionalKHR* +
-Uses *SkipAABBsKHR* or *SkipTrianglesKHR*
-| *RayQueryProvisionalKHR*
+include::ray_common/rt_primitive_culling_capability.txt[]
 |====
 --
 
-(Modify Section 3.32.6, Type-Declaration Instructions, adding two new tables) ::
+(Modify Section 3.36.6, Type-Declaration Instructions, adding two new tables) ::
 +
 --
-[cols="5,1,1*3",width="100%"]
-|=====
-2+|[[OpTypeAccelerationStructureKHR]]*OpTypeAccelerationStructureKHR* +
- +
-Declares an acceleration structure type which is an opaque reference to
-acceleration structure handle as defined in the Ray Tracing chapter of Vulkan API
-specification.
-
-Consumed by <<OpRayQueryInitializeKHR,*OpRayQueryInitializeKHR*>>
-
-This type is opaque: values of this type have no defined physical size or
-bit pattern.
-
-1+|Capability: +
-*RayQueryProvisionalKHR*
-| 2 | 5341 | '<id>' 'Result'
-|=====
+:capability: RayQueryKHR
+include::ray_common/optypeaccelerationstructure_table.txt[]
 
 [cols="5,1,1*3",width="100%"]
 |=====
-2+|[[OpTypeRayQueryProvisionalKHR]]*OpTypeRayQueryProvisionalKHR* +
+2+|[[OpTypeRayQueryKHR]]*OpTypeRayQueryKHR* +
  +
 Declares a ray query type which is an opaque object representing a ray traversal.
 
@@ -302,7 +226,7 @@ This type is opaque: values of this type have no defined physical size or
 bit pattern.
 
 1+|Capability: +
-*RayQueryProvisionalKHR*
+*RayQueryKHR*
 | 2 | 4472 | '<id>' 'Result'
 |=====
 --
@@ -310,25 +234,31 @@ bit pattern.
 (Add the following line to the description of OpTypePointer, in Section 3.32.6, Type-Declaration Instructions) ::
 +
 --
-If 'Type' is *OpTypeRayQueryProvisionalKHR*, 'Storage Class' must be 'Private' or 'Function'.
+If 'Type' is *OpTypeRayQueryKHR*, 'Storage Class' must be 'Private' or 'Function'.
 --
 
 
 (Add the following line to the description of OpStore and OpLoad, in Section 3.32.8, Memory Instructions) ::
 +
 --
-The 'Type' operand to the *OpTypePointer* used for 'Pointer' must not be *OpTypeRayQueryProvisionalKHR*.
+The 'Type' operand to the *OpTypePointer* used for 'Pointer' must not be *OpTypeRayQueryKHR*.
 --
 
 
 (Add the following line to the description of OpCopyMemory and OpCopyMemorySized, in Section 3.32.8, Memory Instructions) ::
 +
 --
-The 'Type' operand to the *OpTypePointer* used for 'Target' or 'Source' must not be *OpTypeRayQueryProvisionalKHR*.
+The 'Type' operand to the *OpTypePointer* used for 'Target' or 'Source' must not be *OpTypeRayQueryKHR*.
 --
 
+(Modify Section 3.36.11, Conversion Instructions, adding a new table) ::
++
+--
+:capability: RayQueryKHR
+include::ray_common/opconvertutoaccelerationstructure_table.txt[]
+--
 
-(Add a new sub section 3.32.RQInstructions, Ray Query Instructions) ::
+(Add a new sub section 3.36.RQInstructions, Ray Query Instructions) ::
 +
 --
 [cols="1,1,8*3"]
@@ -339,21 +269,23 @@ The 'Type' operand to the *OpTypePointer* used for 'Target' or 'Source' must not
  +
  'Ray Query' is a pointer to the ray query to initialize. +
  +
- 'Acceleration Structure' is the the acceleration structure to trace into. +
+ 'Acceleration Structure' is the descriptor for the acceleration structure to trace into. +
  +
  'Ray Flags' contains one or more of the <<ray_flags, Ray Flag>> values. +
  +
- 'Cull Mask' is the 8-bit mask for test against the instance mask. +
+ 'Cull Mask' is the mask to test against the instance mask. +
  +
  'Ray Origin', 'Ray Tmin', 'Ray Direction', and 'Ray Tmax' control the basic parameters of the ray to be traced. +
  +
  'Ray Flags' and 'Cull Mask' must be a 32-bit 'integer type' scalar. +
  +
+ Only the 8 least-significant bits of 'Cull Mask' are used by this instruction - other bits are ignored.
+ +
  'Ray Origin' and 'Ray Direction' must be a 32-bit 'floating-point type' 3-component vector. +
  +
  'Ray Tmin' and 'Ray Tmax' must be a 32-bit 'floating-point type' scalar.
 1+|Capability: +
-*RayQueryProvisionalKHR*
+*RayQueryKHR*
 | 9 | 4473
 | '<id> Ray Query'
 | '<id> Acceleration Structure'
@@ -370,13 +302,13 @@ The 'Type' operand to the *OpTypePointer* used for 'Target' or 'Source' must not
 2+|[[OpRayQueryTerminateKHR]]*OpRayQueryTerminateKHR* +
  +
  Terminates further execution of a ray query; further calls to OpRayQueryProceed will return false.
- Refer to the Ray Tracing chapter of Vulkan API specification for more details. +
+ Refer to the client API specification for more details. +
  +
  'Ray Query' is a pointer to the ray query to terminate. +
  +
  The value returned by any prior execution of 'OpRayQueryProceedKHR' with the same ray query object must have been true.
 1+|Capability: +
-*RayQueryProvisionalKHR*
+*RayQueryKHR*
 | 2 | 4474
 | '<id> Ray Query'
 |======
@@ -397,7 +329,7 @@ The 'Type' operand to the *OpTypePointer* used for 'Target' or 'Source' must not
  +
  Ray Query Candidate Intersection Type must be *RayQueryCandidateIntersectionAABBKHR*.
 1+|Capability: +
-*RayQueryProvisionalKHR*
+*RayQueryKHR*
 | 3 | 4475
 | '<id> Ray Query'
 | '<id> Hit T'
@@ -415,7 +347,7 @@ The 'Type' operand to the *OpTypePointer* used for 'Target' or 'Source' must not
  +
  Ray Query Candidate Intersection Type must be *RayQueryCandidateIntersectionTriangleKHR*.
 1+|Capability: +
-*RayQueryProvisionalKHR*
+*RayQueryKHR*
 | 2 | 4476
 | '<id> Ray Query'
 |======
@@ -432,7 +364,7 @@ The 'Type' operand to the *OpTypePointer* used for 'Target' or 'Source' must not
  +
  'Result Type' must be a Boolean type. 
 1+|Capability: +
-*RayQueryProvisionalKHR*
+*RayQueryKHR*
 | 4 | 4477
 | '<id> Result Type'
 | 'Result <id>'
@@ -459,7 +391,7 @@ The 'Type' operand to the *OpTypePointer* used for 'Target' or 'Source' must not
  +
  If 'Intersection' is *RayQueryCandidateIntersectionKHR*, 'OpRayQueryProceedKHR' must have been executed on the same ray query object, and the last value returned by 'OpRayQueryProceedKHR' must have been true.
 1+|Capability: +
-*RayQueryProvisionalKHR*
+*RayQueryKHR*
 | 5 | 4479
 | '<id>' 'Result Type'
 | 'Result' '<id>'
@@ -479,7 +411,7 @@ The 'Type' operand to the *OpTypePointer* used for 'Target' or 'Source' must not
  +
  'Ray Query' is a pointer to the ray query object.
 1+|Capability: +
-*RayQueryProvisionalKHR*
+*RayQueryKHR*
 | 4 | 6016
 | '<id>' 'Result Type'
 | 'Result' '<id>'
@@ -498,7 +430,7 @@ The 'Type' operand to the *OpTypePointer* used for 'Target' or 'Source' must not
  +
  'Ray Query' is a pointer to the ray query object.
 1+|Capability: +
-*RayQueryProvisionalKHR*
+*RayQueryKHR*
 | 4 | 6017
 | '<id>' 'Result Type'
 | 'Result' '<id>'
@@ -521,10 +453,10 @@ The 'Type' operand to the *OpTypePointer* used for 'Target' or 'Source' must not
  +
  'Ray Query' is a pointer to the ray query object. +
  +
- If 'Intersection' is *RayQueryCandidateIntersectionKHR*, 'OpRayQueryProceedKHR' must have been executed on the same ray query object, and the last value returned by 'OpRayQueryProceedKHR' must have been true.
+ If 'Intersection' is *RayQueryCandidateIntersectionKHR*, 'OpRayQueryProceedKHR' must have been executed on the same ray query object, the last value returned by 'OpRayQueryProceedKHR' must have been true, and the current intersection candidate must have a Ray Query Candidate Intersection Type of *RayQueryCandidateIntersectionTriangleKHR*.
  If 'Intersection' is *RayQueryCommittedIntersectionKHR*, there must be a current committed intersection (see 'OpRayQueryCommittedTypeKHR').
 1+|Capability: +
-*RayQueryProvisionalKHR*
+*RayQueryKHR*
 | 5 | 6018
 | '<id>' 'Result Type'
 | 'Result' '<id>'
@@ -551,7 +483,7 @@ The 'Type' operand to the *OpTypePointer* used for 'Target' or 'Source' must not
  If 'Intersection' is *RayQueryCandidateIntersectionKHR*, 'OpRayQueryProceedKHR' must have been executed on the same ray query object, and the last value returned by 'OpRayQueryProceedKHR' must have been true.
  If 'Intersection' is *RayQueryCommittedIntersectionKHR*, there must be a current committed intersection (see 'OpRayQueryCommittedTypeKHR').
 1+|Capability: +
-*RayQueryProvisionalKHR*
+*RayQueryKHR*
 | 5 | 6019
 | '<id>' 'Result Type'
 | 'Result' '<id>'
@@ -579,7 +511,7 @@ The 'Type' operand to the *OpTypePointer* used for 'Target' or 'Source' must not
  If 'Intersection' is *RayQueryCandidateIntersectionKHR*, 'OpRayQueryProceedKHR' must have been executed on the same ray query object, and the last value returned by 'OpRayQueryProceedKHR' must have been true.
  If 'Intersection' is *RayQueryCommittedIntersectionKHR*, there must be a current committed intersection (see 'OpRayQueryCommittedTypeKHR').
 1+|Capability: +
-*RayQueryProvisionalKHR*
+*RayQueryKHR*
 | 5 | 6020
 | '<id>' 'Result Type'
 | 'Result' '<id>'
@@ -607,7 +539,7 @@ The 'Type' operand to the *OpTypePointer* used for 'Target' or 'Source' must not
  If 'Intersection' is *RayQueryCandidateIntersectionKHR*, 'OpRayQueryProceedKHR' must have been executed on the same ray query object, and the last value returned by 'OpRayQueryProceedKHR' must have been true.
  If 'Intersection' is *RayQueryCommittedIntersectionKHR*, there must be a current committed intersection (see 'OpRayQueryCommittedTypeKHR').
 1+|Capability: +
-*RayQueryProvisionalKHR*
+*RayQueryKHR*
 | 5 | 6021
 | '<id>' 'Result Type'
 | 'Result' '<id>'
@@ -635,7 +567,7 @@ The 'Type' operand to the *OpTypePointer* used for 'Target' or 'Source' must not
  If 'Intersection' is *RayQueryCandidateIntersectionKHR*, 'OpRayQueryProceedKHR' must have been executed on the same ray query object, and the last value returned by 'OpRayQueryProceedKHR' must have been true.
  If 'Intersection' is *RayQueryCommittedIntersectionKHR*, there must be a current committed intersection (see 'OpRayQueryCommittedTypeKHR').
 1+|Capability: +
-*RayQueryProvisionalKHR*
+*RayQueryKHR*
 | 5 | 6022
 | '<id>' 'Result Type'
 | 'Result' '<id>'
@@ -662,7 +594,7 @@ The 'Type' operand to the *OpTypePointer* used for 'Target' or 'Source' must not
  If 'Intersection' is *RayQueryCandidateIntersectionKHR*, 'OpRayQueryProceedKHR' must have been executed on the same ray query object, and the last value returned by 'OpRayQueryProceedKHR' must have been true.
  If 'Intersection' is *RayQueryCommittedIntersectionKHR*, there must be a current committed intersection (see 'OpRayQueryCommittedTypeKHR').
 1+|Capability: +
-*RayQueryProvisionalKHR*
+*RayQueryKHR*
 | 5 | 6023
 | '<id>' 'Result Type'
 | 'Result' '<id>'
@@ -690,7 +622,7 @@ The 'Type' operand to the *OpTypePointer* used for 'Target' or 'Source' must not
  If 'Intersection' is *RayQueryCandidateIntersectionKHR*, 'OpRayQueryProceedKHR' must have been executed on the same ray query object, the last value returned by 'OpRayQueryProceedKHR' must have been true, and the current intersection candidate must have a Ray Query Candidate Intersection Type of *RayQueryCandidateIntersectionTriangleKHR*.
  If 'Intersection' is *RayQueryCommittedIntersectionKHR*, there must be a current committed intersection (see 'OpRayQueryCommittedTypeKHR'), and it must have a Ray Query Committed Intersection Type of *RayQueryCommittedIntersectionTriangleKHR*.
 1+|Capability: +
-*RayQueryProvisionalKHR*
+*RayQueryKHR*
 | 5 | 6024
 | '<id>' 'Result Type'
 | 'Result' '<id>'
@@ -718,7 +650,7 @@ The 'Type' operand to the *OpTypePointer* used for 'Target' or 'Source' must not
  If 'Intersection' is *RayQueryCandidateIntersectionKHR*, 'OpRayQueryProceedKHR' must have been executed on the same ray query object, the last value returned by 'OpRayQueryProceedKHR' must have been true, and the current intersection candidate must have a Ray Query Candidate Intersection Type of *RayQueryCandidateIntersectionTriangleKHR*.
  If 'Intersection' is *RayQueryCommittedIntersectionKHR*, there must be a current committed intersection (see 'OpRayQueryCommittedTypeKHR'), and it must have a Ray Query Committed Intersection Type of *RayQueryCommittedIntersectionTriangleKHR*.
 1+|Capability: +
-*RayQueryProvisionalKHR*
+*RayQueryKHR*
 | 5 | 6025
 | '<id>' 'Result Type'
 | 'Result' '<id>'
@@ -739,7 +671,7 @@ The 'Type' operand to the *OpTypePointer* used for 'Target' or 'Source' must not
  +
  'Ray Query' is a pointer to the ray query object.
 1+|Capability: +
-*RayQueryProvisionalKHR*
+*RayQueryKHR*
 | 4 | 6026
 | '<id>' 'Result Type'
 | 'Result' '<id>'
@@ -766,7 +698,7 @@ The 'Type' operand to the *OpTypePointer* used for 'Target' or 'Source' must not
  If 'Intersection' is *RayQueryCandidateIntersectionKHR*, 'OpRayQueryProceedKHR' must have been executed on the same ray query object, and the last value returned by 'OpRayQueryProceedKHR' must have been true.
  If 'Intersection' is *RayQueryCommittedIntersectionKHR*, there must be a current committed intersection (see 'OpRayQueryCommittedTypeKHR').
 1+|Capability: +
-*RayQueryProvisionalKHR*
+*RayQueryKHR*
 | 5 | 6027
 | '<id>' 'Result Type'
 | 'Result' '<id>'
@@ -794,7 +726,7 @@ The 'Type' operand to the *OpTypePointer* used for 'Target' or 'Source' must not
  If 'Intersection' is *RayQueryCandidateIntersectionKHR*, 'OpRayQueryProceedKHR' must have been executed on the same ray query object, and the last value returned by 'OpRayQueryProceedKHR' must have been true.
  If 'Intersection' is *RayQueryCommittedIntersectionKHR*, there must be a current committed intersection (see 'OpRayQueryCommittedTypeKHR').
 1+|Capability: +
-*RayQueryProvisionalKHR*
+*RayQueryKHR*
 | 5 | 6028
 | '<id>' 'Result Type'
 | 'Result' '<id>'
@@ -815,7 +747,7 @@ The 'Type' operand to the *OpTypePointer* used for 'Target' or 'Source' must not
  +
  'Ray Query' is a pointer to the ray query object. +
 1+|Capability: +
-*RayQueryProvisionalKHR*
+*RayQueryKHR*
 | 4 | 6029
 | '<id>' 'Result Type'
 | 'Result' '<id>'
@@ -834,7 +766,7 @@ The 'Type' operand to the *OpTypePointer* used for 'Target' or 'Source' must not
  +
  'Ray Query' is a pointer to the ray query object. +
 1+|Capability: +
-*RayQueryProvisionalKHR*
+*RayQueryKHR*
 | 4 | 6030
 | '<id>' 'Result Type'
 | 'Result' '<id>'
@@ -860,7 +792,7 @@ The 'Type' operand to the *OpTypePointer* used for 'Target' or 'Source' must not
  If 'Intersection' is *RayQueryCandidateIntersectionKHR*, 'OpRayQueryProceedKHR' must have been executed on the same ray query object, and the last value returned by 'OpRayQueryProceedKHR' must have been true.
  If 'Intersection' is *RayQueryCommittedIntersectionKHR*, there must be a current committed intersection (see 'OpRayQueryCommittedTypeKHR').
 1+|Capability: +
-*RayQueryProvisionalKHR*
+*RayQueryKHR*
 | 5 | 6031
 | '<id>' 'Result Type'
 | 'Result' '<id>'
@@ -887,7 +819,7 @@ The 'Type' operand to the *OpTypePointer* used for 'Target' or 'Source' must not
  If 'Intersection' is *RayQueryCandidateIntersectionKHR*, 'OpRayQueryProceedKHR' must have been executed on the same ray query object, and the last value returned by 'OpRayQueryProceedKHR' must have been true.
  If 'Intersection' is *RayQueryCommittedIntersectionKHR*, there must be a current committed intersection (see 'OpRayQueryCommittedTypeKHR').
 1+|Capability: +
-*RayQueryProvisionalKHR*
+*RayQueryKHR*
 | 5 | 6032
 | '<id>' 'Result Type'
 | 'Result' '<id>'
@@ -910,16 +842,30 @@ OpExtension "SPV_KHR_ray_query"
 Interactions with SPV_KHR_ray_tracing
 -------------------------------------
 
-*OpTypeAccelerationStructureKHR*, *RayTraversalPrimitiveCullingProvisionalKHR*, and the
-`Ray Flags` are added by both this extension and `SPV_KHR_ray_tracing`; they
+*OpTypeAccelerationStructureKHR*, *RayTraversalPrimitiveCullingKHR*,
+*OpConvertUToAccelerationStructureKHR* and the `Ray Flags` are added by both
+this extension and `SPV_KHR_ray_tracing`; they
 are intended to have identical definitions, and can be enabled by either
 extension's capability, for use with the instructions under that same
 capability.
+If `SPV_KHR_ray_tracing` is not supported, ignore any references to
+*OpTraceRayKHR*.
+
 
 Issues
 ------
 
-None yet!
+1) What are the differences between provisional and final?
+
+Discussion:
+
+  * rename OpTypeRayQueryProvisionalKHR to OpTypeRayQueryKHR as was originally
+    intended. Seems like it fell victim to an overreaching seach and replace
+    when this was made provisional.
+  * change RayQueryProvisionalKHR to RayQueryKHR and assign new
+    token (4472)
+  * add OpConvertUToAccelerationStructureKHR (4447) instruction to convert
+    64-bit integer to OpTypeAccelerationStructureKHR to enable query by handle
 
 Revision History
 ----------------
@@ -929,10 +875,17 @@ Revision History
 [options="header"]
 |========================================
 |Rev|Date|Author|Changes
-|1 |2019-12-05 |Tobias Hector | First draft
-|2 |2019-12-11 |Daniel Koch   | add Provisional string to capabilities.
-|3 |2020-03-06 |Ashwin Lele   | Reorder operands and rename builtins (!170)
-|4 |2020-04-14 |Jeff Bolz     | Fix return type of OpRayQueryGetIntersectionTKHR
-|5 |2020-06-03 |Daniel Koch   | Update capabilities tables to match SPIR-V 1.5.
+|1 |2019-12-05 |Tobias Hector         | First draft
+|2 |2019-12-11 |Daniel Koch           | add Provisional string to capabilities.
+|3 |2020-03-06 |Ashwin Lele           | Reorder operands and rename builtins (!170)
+|4 |2020-04-14 |Jeff Bolz             | Fix return type of OpRayQueryGetIntersectionTKHR
+|5 |2020-06-03 |Daniel Koch           | Update capabilities tables to match SPIR-V 1.5.
+|6 |2020-06-05 |Hans-Kristian Arntzen | Add conversion from 64-bit acceleration structure pointer
+                                        to OpTypeAccelerationStructureKHR
+|7 |2020-06-12 |Daniel Koch           | rename OpTypeRayQueryProvisionalKHR -> OpTypeRayQueryKHR
+                                        refactored common code to include files
+|8 |2020-07-03 |Daniel Koch           | Remove provisional notices and update capabilities
+|9 |2020-07-10 |Tobias Hector         | Clarify that subset of bits are used for cull mask
+|10|2020-07-22 |David McAllister      | Disallow querying candidate T value for AABB primitives (!191)
 |========================================
 

@@ -1,0 +1,22 @@
+
+[cols="1,1,3*3"]
+|======
+4+|[[OpConvertUToAccelerationStructureKHR]]*OpConvertUToAccelerationStructureKHR* +
+ +
+ Converts a 64-bit integer into an *OpTypeAccelerationStructureKHR*. +
+ +
+ 'Acceleration Structure' must either be a 64-bit scalar of integer type, whose Signedness operand is 0, or a 2-component vector of 32-bit integer type, whose Signedness operand is 0. +
+ A vector value input behaves as-if *OpBitcast* converts the value to a 64-bit scalar integer first. +
+ 'Acceleration Structure' represents the address of a valid acceleration structure. +
+ Refer to the client API specification for details. +
+ +
+'Result Type' must be an 'OpTypeAccelerationStructureKHR'.
+ +
+1+|Capability: +
+*{capability}*
+| 4 | 4447
+| '<id> Result Type'
+| '<id> Result'
+| '<id>' 'Acceleration Structure'
+|======
+

@@ -1,0 +1,6 @@
+
+| 4478 | *RayTraversalPrimitiveCullingKHR* +
+Uses *SkipAABBsKHR* or *SkipTrianglesKHR*
+| *{capability}*
+
+
