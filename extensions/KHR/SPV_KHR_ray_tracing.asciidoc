@@ -24,26 +24,22 @@ Contributors
 - Alan Baker, Google
 - John Kessenich, Google
 - Joshua Barczak, Intel
+- Jason Ekstrand, Intel
+- Hans-Kristian Arntzen, Valve
 
 Status
 ------
 
-- Ratified (as provisional) by the Khronos Board 2020-01-24.
-
-Provisional
-~~~~~~~~~~~
-
-This extension is *provisional* and should not be used in production
-applications. The functionality may change in ways that break backwards
-compatibility between revisions, and before final release.
+- Complete
+- Ratified by the Khronos Board 2020-11-20
 
 Version
 -------
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2020-06-03
-| Revision           | 15
+| Last Modified Date | 2020-10-01
+| Revision           | 21
 |========================================
 
 Dependencies
@@ -60,7 +56,7 @@ Overview
 --------
 
 This extension adds new functionality to support the Vulkan
-VK_KHR_ray_tracing extension in SPIR-V.
+VK_KHR_ray_tracing_pipeline extension in SPIR-V.
 
 Extension Name
 --------------
@@ -86,7 +82,7 @@ MissKHR
 CallableKHR
 ----
 
-these depend on the *RayTracingProvisionalKHR* capability.
+these depend on the *RayTracingKHR* capability.
 
 
 New Capabilities
@@ -95,14 +91,14 @@ New Capabilities
 This extension introduces new capabilities:
 
 ----
-RayTracingProvisionalKHR
-RayTraversalPrimitiveCullingProvisionalKHR
+RayTracingKHR
+RayTraversalPrimitiveCullingKHR
 ----
 
 New Storage Classes
 -------------------
 
-Storage classes added under the *RayTracingProvisionalKHR* capability
+Storage classes added under the *RayTracingKHR* capability
 
 ----
 RayPayloadKHR
@@ -116,7 +112,7 @@ ShaderRecordBufferKHR
 New Builtins
 ------------
 
-Builtins added under the *RayTracingProvisionalKHR* capability
+Builtins added under the *RayTracingKHR* capability
 
 ----
 LaunchIdKHR
@@ -138,7 +134,7 @@ IncomingRayFlagsKHR
 New Instructions
 ----------------
 
-Instructions added under the *RayTracingProvisionalKHR* capability
+Instructions added under the *RayTracingKHR* capability
 
 ----
 OpReportIntersectionKHR
@@ -147,6 +143,7 @@ OpTerminateRayKHR
 OpTraceRayKHR
 OpTypeAccelerationStructureKHR
 OpExecuteCallableKHR
+OpConvertUToAccelerationStructureKHR
 ----
 
 Modifications to the SPIR-V Specification
@@ -166,27 +163,42 @@ shader call instructions.
 +
 add *OpTypeAccelerationStructureKHR* to list of opaque types
 
-(Modify Section 2.16.1, Universal Validation Rules) ::
+(Modify Section 2.2.5, Control Flow) ::
 +
---
-Change the second bullet under "Any pointer operand to an *OpFunctionCall* must be"
-to include *OpTypeAccelerationStructureKHR*:
+Add *OpIgnoreIntersectionKHR* and *OpTerminateRayKHR* to the list of _Termination Instructions_.
 
- * a pointer to an element in an array that is a memory object declaration,
-   where the element type is *OpTypeSampler*, *OpTypeImage*, or
-   *OpTypeAccelerationStructureKHR*.
+(Modify Section 2.16.1, Universal Validation Rules) ::
 
-Add a new bullet under "Data rules":
+Modify the list following the statement:
++
+====
+A pointer operand to an *OpFunctionCall* must point into one of the following
+storage classes:
+====
++
+to include *ShaderRecordBufferKHR*.
+include::ray_common/acceleration_structure_universal_val.txt[]
++
+Modify the item under "Memory model":
++
+====
+Memory accesses that use *NonPrivatePointer* must use pointers in the
+*Uniform*, *Workgroup*, *CrossWorkgroup*, *Generic*, *Image*, or
+*StorageBuffer* storage classes.
+====
++
+to include *ShaderRecordBufferKHR*.
 
- * Instructions extracting a scalar acceleration structure out of a composite
-   must only use _dynamically-uniform_ indexes, unless the index is decorated with
-   NonUniformEXT. They must be in the same block in which their _Result <id>_
-   are consumed. Such _Result <id>_ must not appear as operands to *OpPhi* or
-   *OpSelect* instructions, or any instructions other than the ray tracing
-   instructions specified to operate on them.
+(Modify Section 2.16.2, Universal Rules for Shader Capabilities) ::
 
---
-
+Modify the item:
++
+====
+* Composite objects in the *StorageBuffer*, *PhysicalStorageBuffer*, *Uniform*,
+and *PushConstant* Storage Classes must be explicitly laid out. ...
+====
++
+to include *ShaderRecordBufferKHR*.
 
 (Modify Section 3.3, Execution Model, adding rows to the Execution Model table) ::
 +
@@ -196,22 +208,22 @@ Add a new bullet under "Data rules":
 2+^.^| Execution Model | Enabling Capabilities
 | 5313 | *RayGenerationKHR* +
 Ray generation shading stage.
-| *RayTracingProvisionalKHR*
+| *RayTracingKHR*
 | 5314 | *IntersectionKHR*  +
 Intersection shading stage.
-| *RayTracingProvisionalKHR*
+| *RayTracingKHR*
 | 5315 | *AnyHitKHR* +
 Any hit shading stage.
-| *RayTracingProvisionalKHR*
+| *RayTracingKHR*
 | 5316 | *ClosestHitKHR* +
 Closest hit shading stage.
-| *RayTracingProvisionalKHR*
+| *RayTracingKHR*
 | 5317 | *MissKHR* +
 Miss shading stage.
-| *RayTracingProvisionalKHR*
+| *RayTracingKHR*
 | 5318 | *CallableKHR* +
 Ray callable shading stage. +
-| *RayTracingProvisionalKHR*
+| *RayTracingKHR*
 |====
 --
 
@@ -226,40 +238,40 @@ Used for storing arbitrary data associated with a ray to pass to callables.
 Visible across all functions in the current invocation. Not shared externally. Variables declared
 with this storage class can be both read and written to, but cannot have initializers.
 Only allowed in *RayGenerationKHR*, *ClosestHitKHR*, *CallableKHR*, and *MissKHR* execution models.
-| *RayTracingProvisionalKHR* | SPV_KHR_ray_tracing
+| *RayTracingKHR* | SPV_KHR_ray_tracing
 | 5329 | *IncomingCallableDataKHR* +
 Used for storing arbitrary data from parent sent to current callable stage invoked from
 *OpExecuteCallable*. Visible across all functions in current invocation. Not shared externally.
 Variables declared with the storage class are allowed only in *CallableKHR* execution models.
 Can be both read and written to in above execution models, but cannot have initializers.
-| *RayTracingProvisionalKHR* | SPV_KHR_ray_tracing
+| *RayTracingKHR* | SPV_KHR_ray_tracing
 | 5338 | *RayPayloadKHR* +
 Used for storing payload data associated with a ray. Visible across all functions in
 the current invocation. Not shared externally. Variables declared
 with this storage class can be both read and written to, but cannot have initializers.
 Only allowed in *RayGenerationKHR*, *AnyHitKHR*, *ClosestHitKHR* and *MissKHR* execution models.
-| *RayTracingProvisionalKHR* | SPV_KHR_ray_tracing
+| *RayTracingKHR* | SPV_KHR_ray_tracing
 | 5339 | *HitAttributeKHR* +
 Used for storing attributes of geometry intersected by a ray. Visible across all
 functions in the current invocation. Not shared externally. Variables declared with this
 storage class are allowed only in *IntersectionKHR*, *AnyHitKHR* and *ClosestHitKHR* execution models.
 They can be written to only in *IntersectionKHR* execution model and read from only
 in *AnyHitKHR* and *ClosestHitKHR* execution models. They cannot have initializers.
-| *RayTracingProvisionalKHR* | SPV_KHR_ray_tracing
+| *RayTracingKHR* | SPV_KHR_ray_tracing
 | 5342 | *IncomingRayPayloadKHR* +
 Used for storing parent payload data associated with a ray in current stage invoked from
 a trace call. Visible across all functions in current invocation. Not shared externally.
 Variables declared with the storage class are allowed only in *AnyHitKHR*, *ClosestHitKHR* and
 *MissKHR* execution models. Can be both read and written to in above execution models, but
 cannot have initializers.
-| *RayTracingProvisionalKHR* | SPV_KHR_ray_tracing
+| *RayTracingKHR* | SPV_KHR_ray_tracing
 | 5343 | *ShaderRecordBufferKHR* +
 Used for storing data in shader record associated with each unique shader in ray_tracing
 pipeline. Visible across all functions in current invocation. Can be initialized externally via API.
 Variables declared with this storage class are allowed in *RayGenerationKHR*, *IntersectionKHR*,
-*AnyHitKHR*, *ClosestHitKHR*, *MissKHR* and *CallableKHR* execution models and can be both read and written to
-but cannot have initializers. Refer to the Ray Tracing chapter of Vulkan API specification for details on shader records.
-| *RayTracingProvisionalKHR* | SPV_KHR_ray_tracing
+*AnyHitKHR*, *ClosestHitKHR*, *MissKHR* and *CallableKHR* execution models, are read-only,
+and cannot have initializers. Refer to the client API for details on shader records.
+| *RayTracingKHR* | SPV_KHR_ray_tracing
 |====
 --
 
@@ -273,86 +285,86 @@ but cannot have initializers. Refer to the Ray Tracing chapter of Vulkan API spe
 Index of work item being processed in current invocation of ray tracing shader stage.
 Allowed in all ray tracing execution models.
 
-Refer to the Ray Tracing chapter of Vulkan API specification for more details.
-|*RayTracingProvisionalKHR*
+Refer to the client API specification for more details.
+|*RayTracingKHR*
 | 5320 | *LaunchSizeKHR* +
 Width and height dimensions passed to vkCmdTraceRaysKHR call which resulted in invocation of
 current ray tracing shader stage. Allowed in all ray tracing execution models.
 
-Refer to the Ray Tracing chapter of Vulkan API specification for more details.
-|*RayTracingProvisionalKHR*
+Refer to the client API specification for more details.
+|*RayTracingKHR*
 | 5321 | *WorldRayOriginKHR* +
 World-space origin coordinates for the ray being traced in the *IntersectionKHR*,
 *AnyHitKHR*, *ClosestHitKHR*, or *MissKHR* execution models.
 
-Refer to the Ray Tracing chapter of Vulkan API specification for more details.
-|*RayTracingProvisionalKHR*
+Refer to the client API specification for more details.
+|*RayTracingKHR*
 | 5322 | *WorldRayDirectionKHR* +
 World-space direction for the ray being traced in the *IntersectionKHR*,
 *AnyHitKHR*, *ClosestHitKHR*, or *MissKHR* execution models.
 
-Refer to the Ray Tracing chapter of Vulkan API specification for more details.
-|*RayTracingProvisionalKHR*
+Refer to the client API specification for more details.
+|*RayTracingKHR*
 | 5323 | *ObjectRayOriginKHR* +
 Object-space origin coordinates for the ray being traced in the *IntersectionKHR*,
 *AnyHitKHR*, or *ClosestHitKHR* execution models.
 
-Refer to the Ray Tracing chapter of Vulkan API specification for more details.
-|*RayTracingProvisionalKHR*
+Refer to the client API specification for more details.
+|*RayTracingKHR*
 | 5324 | *ObjectRayDirectionKHR* +
 Object-space direction for the ray being traced in the *IntersectionKHR*,
 *AnyHitKHR*, or *ClosestHitKHR* execution models.
 
-Refer to the Ray Tracing chapter of Vulkan API specification for more details.
-|*RayTracingProvisionalKHR*
+Refer to the client API specification for more details.
+|*RayTracingKHR*
 | 5325 | *RayTminKHR* +
 The current *Tmin* parametric value for the ray being traced in the *IntersectionKHR*,
 *AnyHitKHR*, *ClosestHitKHR*, or *MissKHR* execution models.
 
-Refer to the Ray Tracing chapter of Vulkan API specification for more details.
-|*RayTracingProvisionalKHR*
+Refer to the client API specification for more details.
+|*RayTracingKHR*
 | 5326 | *RayTmaxKHR* +
 The current *Tmax* parametric value for the ray being traced in the *IntersectionKHR*,
 *AnyHitKHR*, *ClosestHitKHR*, or *MissKHR* execution models.
 
-Refer to the Ray Tracing chapter of Vulkan API specification for more details.
-|*RayTracingProvisionalKHR*
+Refer to the client API specification for more details.
+|*RayTracingKHR*
 | 5327 | *InstanceCustomIndexKHR* +
 Application specified value associated with the instance that was hit by the current ray in the *IntersectionKHR*,
 *AnyHitKHR*, *ClosestHitKHR* execution models.
 
-Refer to the Ray Tracing chapter of Vulkan API specification for more details.
-|*RayTracingProvisionalKHR*
+Refer to the client API specification for more details.
+|*RayTracingKHR*
 | 5330 | *ObjectToWorldKHR* +
 The _4x3_ object to world transformation matrix for the ray being traced in the *IntersectionKHR*,
 *AnyHitKHR*, or *ClosestHitKHR* execution models.
 
-Refer to the Ray Tracing chapter of Vulkan API specification for more details.
-|*RayTracingProvisionalKHR*
+Refer to the client API specification for more details.
+|*RayTracingKHR*
 | 5331 | *WorldToObjectKHR* +
 The _4x3_ world to object transformation matrix for the ray being traced in the *IntersectionKHR*,
 *AnyHitKHR*, or *ClosestHitKHR* execution models.
 
-Refer to the Ray Tracing chapter of Vulkan API specification for more details.
-|*RayTracingProvisionalKHR*
+Refer to the client API specification for more details.
+|*RayTracingKHR*
 | 5333 | *HitKindKHR* +
 The hit kind of the hit for the ray being traced in the *AnyHitKHR* or
 *ClosestHitKHR* execution models.
 
-Refer to the Ray Tracing chapter of Vulkan API specification for more details.
-|*RayTracingProvisionalKHR*
+Refer to the client API specification for more details.
+|*RayTracingKHR*
 | 5351 | *IncomingRayFlagsKHR* +
 The ray flags in current stage as passed in through trace call in parent. Available in *AnyHitKHR*,
 *ClosestHitKHR*, *IntersectionKHR*, and *MissKHR* stage
 
-Refer to the Ray Tracing chapter of Vulkan API specification for more details.
-|*RayTracingProvisionalKHR*
+Refer to the client API specification for more details.
+|*RayTracingKHR*
 | 5352 | *RayGeometryIndexKHR* +
 Implementation defined index corresponding to the geometry that was hit by the current ray in the *IntersectionKHR*,
 *AnyHitKHR*, or *ClosestHitKHR* execution models.
 
-Refer to the Ray Tracing chapter of Vulkan API specification for more details.
-|*RayTracingProvisionalKHR*
+Refer to the client API specification for more details.
+|*RayTracingKHR*
 
 |====
 --
@@ -368,18 +380,29 @@ Input Instance identifier. See the client API specifications
 for more detail. | |
 | Instance ID in a *Vertex* Execution Model| *Shader* |
 | Instance ID in an *IntersectionKHR*, *AnyHitKHR*, or *ClosestHitKHR* Execution Model
-| *RayTracingProvisionalKHR*
+| *RayTracingKHR*
 | *SPV_KHR_ray_tracing*
 .4+| 7 | *PrimitiveId* +
 Primitive identifier. See the client API specifications for more detail. | |
 | Primitive ID in a *Geometry* Execution Model | *Geometry* |
 | Primitive ID in a *Tessellation* Execution Model | *Tessellation* |
 | Primitive ID in an *IntersectionKHR*, *AnyHitKHR*, or *ClosestHitKHR* Execution Model
-| *RayTracingProvisionalKHR*
+| *RayTracingKHR*
 | *SPV_KHR_ray_tracing*
 |====
 
 --
+
+(Modify Section 3.25, Memory Semantics <id>) ::
+
+Modify the *UniformMemory* cell:
++
+====
+Apply the memory-ordering constraints to *StorageBuffer*, *PhysicalStorageBuffer*,
+or *Uniform* Storage Class memory.
+====
++
+to include *ShaderRecordBufferKHR*.
 
 (Modify Section 3.27, Scope <id>, adding a new row to the Scope table) ::
 +
@@ -389,78 +412,15 @@ Primitive identifier. See the client API specifications for more detail. | |
 2+^.^| Scope | Enabling Capabilities
 | 6 | *ShaderCallKHR* +
 Scope is the set of invocations that are _shader-call-related_ in a ray tracing
-Execution Model. Set the Vulkan API specification for details.
-| *RayTracingProvisionalKHR*
+Execution Model. Set the client API specification for details.
+| *RayTracingKHR*
 |====
 
 --
 
-(Add a new sub-section 3.RF, Ray Flags, adding a new table) ::
-+
---
-[[ray_flags]]
-*3.RF, Ray Flags*
+:capability: RayTracingKHR
+include::ray_common/ray_flags_section.txt[]
 
-Flags controlling the properties of an *OpTraceRayKHR* instruction
-or for comparing against the *IncomingRayFlagsKHR* builtin.
-See the Ray Tracing chapter of the Vulkan API specification for
-more details.
-
-Despite being a mask and allowing multiple bits to be combined,
-it is invalid for more than one of these four bits to be set:
-*OpaqueKHR*, *NoOpaqueKHR*, *CullOpaqueKHR*, *CullNoOpaqueKHR*.
-Additionally, only one of *CullBackFacingTrianglesKHR* and
-*CullFrontFacingTrianglesKHR* may be set.
-
-[cols="1^,30,5",options="header",width = "100%"]
-|====
-2+^.^| Ray Flags | Enabling Capabilities
-| 0 | *NoneKHR* +
-No flags specified.
-| *RayTracingProvisionalKHR*
-| 1 | *OpaqueKHR*  +
-Force all intersections with the trace to be opaque. +
-See the Ray Opacity Culling section in the Vulkan API specification.
-| *RayTracingProvisionalKHR*
-| 2 | *NoOpaqueKHR* +
-Force all intersections with the trace to be non-opaque. +
-See the Ray Opacity Culling section in the Vulkan API specification.
-| *RayTracingProvisionalKHR*
-| 4 | *TerminateOnFirstHitKHR* +
-Accept the first hit discovered. +
-See the Ray Closest Hit Determination section in the Vulkan API specification.
-| *RayTracingProvisionalKHR*
-| 8 | *SkipClosestHitShaderKHR* +
-Do not execute a closest hit shader. +
-See the Ray Result Determination section in the Vulkan API specification.
-| *RayTracingProvisionalKHR*
-| 16 | *CullBackFacingTrianglesKHR* +
-Do not intersect with the back face of triangles. +
-See the Ray Face Culling section in the Vulkan API specification.
-| *RayTracingProvisionalKHR*
-| 32 | *CullFrontFacingTrianglesKHR* +
-Do not intersect with the front face of triangles. +
-See the Ray Face Culling section in the Vulkan API specification.
-| *RayTracingProvisionalKHR*
-| 64 | *CullOpaqueKHR* +
-Do not intersect with opaque geometry. +
-See the Ray Opacity Culling section in the Vulkan API specification.
-| *RayTracingProvisionalKHR*
-| 128 | *CullNoOpaqueKHR* +
-Do not intersect with non-opaque geometry. +
-See the Ray Opacity Culling section in the Vulkan API specification.
-| *RayTracingProvisionalKHR*
-| 256 | *SkipTrianglesKHR* +
-Do not intersect with any triangle geometries.
-See the Ray Primitive Culling section in the Vulkan API specification.
-| *RayTraversalPrimitiveCullingProvisionalKHR*
-| 512 | *SkipAABBsKHR* +
-Do not intersect with any aabb geometries.
-See the Ray Primitive Culling section in the Vulkan API specification.
-| *RayTraversalPrimitiveCullingProvisionalKHR*
-|====
-
---
 
 (Add a new sub-section 3.HK, Hit Kinds, adding a new table) ::
 +
@@ -477,10 +437,10 @@ See the Ray Face Culling section in the Vulkan API specification.
 2+^.^| Hit Kind | Enabling Capabilities
 | 0xFE | *HitKindFrontFacingTriangleKHR* +
 The intersection was with front-facing geometry.
-| *RayTracingProvisionalKHR*
+| *RayTracingKHR*
 | 0xFF | *HitKindBackFacingTriangleKHR* +
 The intersection was with back-facing geometry.
-| *RayTracingProvisionalKHR*
+| *RayTracingKHR*
 |====
 
 --
@@ -489,41 +449,59 @@ The intersection was with back-facing geometry.
 +
 --
 [cols="1^.^,25,15",options="header",width = "100%"]
+:capability: RayTracingKHR
 |====
 2+^.^| Capability | Implicitly Declares
-| 5353 | *RayTracingProvisionalKHR* +
+| 4479 | *RayTracingKHR* +
 Uses the *RayGenerationKHR*, *IntersectionKHR*, *AnyHitKHR*, *ClosestHitKHR*,
 *MissKHR*, or *CallableKHR* Execution Models
 | *Shader*
-| 4478 | *RayTraversalPrimitiveCullingProvisionalKHR* +
-Uses *SkipAABBsKHR* or *SkipTrianglesKHR*
-| *RayTracingProvisionalKHR*
+include::ray_common/rt_primitive_culling_capability.txt[]
 |====
 --
-
-(Modify Section 3.32.6, Type-Declaration Instructions, adding a new table) ::
 +
 --
-[cols="5,1,1*3",width="100%"]
-|=====
-2+|[[OpTypeAccelerationStructureKHR]]*OpTypeAccelerationStructureKHR* +
- +
-Declares an acceleration structure type which is an opaque reference to
-acceleration structure handle as defined in the Ray Tracing chapter of Vulkan API
-specification.
+Modify the *StorageBuffer16BitAccess* cell
+to include *ShaderRecordBufferKHR*.
 
-Consumed by <<OpTraceRayKHR,*OpTraceRayKHR*>>
+Modify the *UniformAndStorageBuffer16BitAccess* cell
+to include *ShaderRecordBufferKHR*.
 
-This type is opaque: values of this type have no defined physical size or
-bit pattern.
+Modify the *StorageBuffer8BitAccess* cell
+to include *ShaderRecordBufferKHR*.
 
-1+|Capability: +
-*RayTracingProvisionalKHR*
-| 2 | 5341 | '<id>' 'Result'
-|=====
+Modify the *UniformAndStorageBuffer8BitAccess* cell
+to include *ShaderRecordBufferKHR*.
 --
 
-(Add a new sub section 3.32.RT, Ray Tracing Instructions, adding to end of list of instructions) ::
+(Modify Section 3.36.6, Type-Declaration Instructions, adding a new table) ::
++
+--
+:capability: RayTracingKHR
+include::ray_common/optypeaccelerationstructure_table.txt[]
+--
+
+(Modify Section 3.36.8, Memory Instructions) ::
+
+Modify the following sentence in the description of *OpPtrAccessChain*
++
+====
+For objects in the *Uniform*, *StorageBuffer*, or *PushConstant* storage
+classes, the element’s address or location is calculated using a stride,
+which will be the _Base_-type’s _Array Stride_ when the _Base_ type is
+decorated with *ArrayStride*.
+====
++
+to include *ShaderRecordBufferKHR*.
+
+(Modify Section 3.36.11, Conversion Instructions, adding a new table) ::
++
+--
+:capability: RayTracingKHR
+include::ray_common/opconvertutoaccelerationstructure_table.txt[]
+--
+
+(Add a new sub section 3.36.RT, Ray Tracing Instructions, adding to end of list of instructions) ::
 +
 --
 
@@ -537,24 +515,28 @@ bit pattern.
  +
  'Ray Flags' contains one or more of the <<ray_flags, Ray Flag>> values. +
  +
- 'Cull Mask' is the 8-bit mask for test against the instance mask. +
+ 'Cull Mask' is the mask to test against the instance mask. +
  +
  'SBT Offset' and 'SBT Stride' control indexing into the SBT for hit shaders called from this trace.
- 'SBT' stands for Shader Binding Table. Refer to the Ray Tracing chapter of Vulkan API specification for details. +
+ 'SBT' stands for Shader Binding Table. Refer to the client API specification for details. +
  +
  'Miss Index' is the index of the miss shader to be called from this trace call. +
  +
  'Ray Origin', 'Ray Tmin', 'Ray Direction', and 'Ray Tmax' control the basic parameters of the ray to be traced. +
  +
- 'Payload number' matches the declared location of the payload structure to use for this trace. +
+ 'Payload' is a pointer to the ray payload structure to use for this trace. 'Payload' must be the result of an *OpVariable* with a storage class of *RayPayloadKHR* or **IncomingRayPayloadKHR**. +
  +
  'Ray Flags', 'Cull Mask', 'SBT Offset', 'SBT Stride', and 'Miss Index' must be a 32-bit 'integer type' scalar. +
+ +
+ Only the 8 least-significant bits of 'Cull Mask' are used by this instruction - other bits are ignored.
+ +
+ Only the 4 least-significant bits of 'SBT Offset' and 'SBT Stride' are used by this instruction - other bits are ignored.
+ +
+ Only the 16 least-significant bits of 'Miss Index' are used by this instruction - other bits are ignored.
  +
  'Ray Origin' and 'Ray Direction' must be a 32-bit 'float type' 3-component vector. +
  +
  'Ray Tmin' and 'Ray Tmax' must be a 32-bit 'float type' scalar. +
- +
- 'Payload number' must be a 32-bit 'integer type' scalar and must be the <id> of a constant instruction. +
  +
  This instruction is allowed only in *RayGenerationKHR*, *ClosestHitKHR* and *MissKHR* execution models. +
  +
@@ -562,8 +544,8 @@ bit pattern.
 *ClosestHitKHR*, and *MissKHR* execution models. +
  +
 1+|Capability: +
-*RayTracingProvisionalKHR*
-| 12 | 5337
+*RayTracingKHR*
+| 12 | 4445
 | '<id> Acceleration Structure'
 | '<id> Ray Flags'
 | '<id>' 'Cull Mask'
@@ -574,7 +556,7 @@ bit pattern.
 | '<id>' 'Ray Tmin'
 | '<id>' 'Ray Direction'
 | '<id>' 'Ray Tmax'
-| '<id>' 'Payload number'
+| '<id>' 'Payload'
 |======
 
 [cols="1,1,4*3",width="100%"]
@@ -582,6 +564,13 @@ bit pattern.
 5+|[[OpReportIntersectionKHR]]*OpReportIntersectionKHR* +
  +
 Reports an intersection back to the traversal infrastructure.
+
+If the intersection occurred within the current ray interval, the intersection confirmation is
+performed (see the API specification for more details).
+If the value of 'Hit' falls outside the current ray interval, the hit is rejected.
+
+Returns *True* if the hit was accepted by the ray interval and the intersection was confirmed.
+Returns *False* otherwise.
 
 'Hit' is the floating point parametric value along ray for the intersection.
 
@@ -599,7 +588,7 @@ This instruction is a _shader call instruction_ which may invoke shaders with th
 *AnyHitKHR* execution model.
 
 1+|Capability: +
-*RayTracingProvisionalKHR*
+*RayTracingKHR*
 | 5 | 5334 | '<id>' 'Result Type' | '<id>' 'Result' |  '<id>' 'Hit' | '<id>' 'Hit Kind'
 |=====
 
@@ -607,26 +596,32 @@ This instruction is a _shader call instruction_ which may invoke shaders with th
 |=====
 1+|[[OpIgnoreIntersectionKHR]]*OpIgnoreIntersectionKHR* +
  +
-Ignores the current potential intersection.
+Ignores the current potential intersection, terminating the invocation that executes it, and
+continues the ray traversal.
+
+This instruction must be the last instruction in a block.
 
 This instruction is allowed only in *AnyHitKHR* execution model.
 
 1+|Capability: +
-*RayTracingProvisionalKHR*
-| 1 | 5335
+*RayTracingKHR*
+| 1 | 4448
 |=====
 
 [cols="1,1,0*3",width="100%"]
 |=====
 1+|[[OpTerminateRayKHR]]*OpTerminateRayKHR* +
  +
-Terminates further traversal of a ray.
+Terminates the invocation that executes it, stops the ray traversal, accepts the current hit,
+and invokes the *ClosestHitKHR* execution model (if active).
+
+This instruction must be the last instruction in a block.
 
 This instruction is allowed only in *AnyHitKHR* execution model.
 
 1+|Capability: +
-*RayTracingProvisionalKHR*
-| 1 | 5336
+*RayTracingKHR*
+| 1 | 4449
 |=====
 
 [cols="1,1,2*2",width="100%"]
@@ -637,7 +632,7 @@ Invoke a callable shader
 
 'SBT Index' is the index into the SBT table to select callable shader to execute
 
-'Callable Data Number' matches the declared location of the callable data to pass into through this call
+'Callable Data' is a pointer to the callable data to pass into the called shader. 'Callable Data' must be the result of an *OpVariable* with a storage class of *CallableDataKHR* or *IncomingCallableDataKHR*.
 
 This instruction is allowed only in *RayGenerationKHR*, *ClosestHitKHR*, *MissKHR* and *CallableKHR* execution models.
 
@@ -645,8 +640,8 @@ This instruction is a _shader call instruction_ which will invoke a shader with 
 *CallableKHR* execution model.
 
 1+|Capability: +
-*RayTracingProvisionalKHR*
-| 3 | 5344 | '<id>' 'SBT Index' | '<id>' 'Callable Data Number'
+*RayTracingKHR*
+| 3 | 4446 | '<id>' 'SBT Index' | '<id>' 'Callable Data'
 |=====
 --
 
@@ -664,11 +659,14 @@ OpExtension "SPV_KHR_ray_tracing"
 Interactions with SPV_KHR_ray_query
 -----------------------------------
 
-*OpTypeAccelerationStructureKHR*, *RayTraversalPrimitiveCullingProvisionalKHR*, and the
-`Ray Flags` are added by both this extension and `SPV_KHR_ray_query`; they
+*OpTypeAccelerationStructureKHR*, *RayTraversalPrimitiveCullingKHR*,
+*OpConvertUToAccelerationStructureKHR* and the `Ray Flags` are added by both
+this extension and `SPV_KHR_ray_query`; they
 are intended to have identical definitions, and can be enabled by either
 extension's capability, for use with the instructions under that same
 capability.
+If `SPV_KHR_ray_query` is not supported, ignore any references to
+*OpRayQueryInitializeKHR*.
 
 Issues
 ------
@@ -684,6 +682,29 @@ SPV_NV_ray_tracing needs to work both ways since it pre-dates SPIR-V 1.4, but
 implementations which only support SPV_KHR_ray_tracing will benefit from
 this requirement.
 
+2) What are the differences between provisional and final?
+
+Discussion:
+
+  * change RayTracingProvisionalKHR to RayTracingKHR and assign new
+    token (4479)
+  * change ray payloads and callable data to pointers rather than integer
+    locations (this resulted in new opcodes for OpTraceRayKHR (4445) and
+    OpExecuteCallableKHR (4446))
+  * added OpConvertUToAccelerationStructureKHR (4447) instruction to convert
+    from a 64-bit acceleration structure pointer to an
+    OpTypeAccelerationStructureKHR to enable tracing by handle
+  * Assign new opcodes for OpIgnoreIntersectionKHR (4448) and
+    OpTerminateRayKHR (4449) and specify that they are termination
+    instructions.
+
+3) Are OpReportIntersectionKHR and OpIgnoreIntersectionKHR terminators like
+   OpTerminateInvocation or just OpKill?
+
+Resolved: They are meant to unambiguously end execution similarly to
+OpTerminateInvocation. We are trying to avoid the mess caused by OpKill.
+
+
 Revision History
 ----------------
 
@@ -692,25 +713,36 @@ Revision History
 [options="header"]
 |========================================
 |Rev|Date|Author|Changes
-|1 |2019-04-30 |Daniel Koch   | Fork from SPV_NV_ray_tracing rev 4.
-|2 |2019-04-30 |Daniel Koch   | Add Ray Flags documentation.
-|3 |2019-06-20 |Tobias Hector | Add RayGeometryIndexKHR.
-|4 |2019-10-25 |Tobias Hector | Add description to ray flags.
-|5 |2019-11-20 |Daniel Koch   | OpTraceKHR -> OpTraceRayKHR.
-                                Add references to API spec for ray flags.
-                                Add Hit Kind documentation.
-|6 |2019-11-25 |Daniel Koch   | Add ShaderCallKHR scope.
-                                Document payload for OpTraceRayKHR.
-|7 |2019-11-27 |Daniel Koch   | Disallow initializers on all new storage classes.
-|8 |2019-12-03 |Tobias Hector | Add interactions with SPV_KHR_ray_query.
-|9 |2019-12-05 |Tobias Hector | Add RayTraversalPrimitiveCullingProvisionalKHR capability
-                                and the SkipAABBsKHR/SkipTrianglesKHR ray flags.
-|10|2019-12-05 |Daniel Koch   | Base on SPIR-V 1.5
-|11|2019-12-11 |Daniel Koch   | add Provisional string to capabilities, and reassign token
-                                for RayTracingProvisionalKHR.
-|12|2020-02-20 |Eric Werness  | Miss does not have object parameters.
-|13|2020-02-22 |Tobias Hector | Removed HitTKHR alias of RayTmaxKHR
-|14|2020-04-22 |Daniel Koch   | Require SPIR-V 1.4.
-|15|2020-06-03 |Daniel Koch   | Update capabilities tables to match SPIR-V 1.5.
+|1 |2019-04-30 |Daniel Koch           | Fork from SPV_NV_ray_tracing rev 4.
+|2 |2019-04-30 |Daniel Koch           | Add Ray Flags documentation.
+|3 |2019-06-20 |Tobias Hector         | Add RayGeometryIndexKHR.
+|4 |2019-10-25 |Tobias Hector         | Add description to ray flags.
+|5 |2019-11-20 |Daniel Koch           | OpTraceKHR -> OpTraceRayKHR.
+                                        Add references to API spec for ray flags.
+                                        Add Hit Kind documentation.
+|6 |2019-11-25 |Daniel Koch           | Add ShaderCallKHR scope.
+                                        Document payload for OpTraceRayKHR.
+|7 |2019-11-27 |Daniel Koch           | Disallow initializers on all new storage classes.
+|8 |2019-12-03 |Tobias Hector         | Add interactions with SPV_KHR_ray_query.
+|9 |2019-12-05 |Tobias Hector         | Add RayTraversalPrimitiveCullingKHR capability
+                                        and the SkipAABBsKHR/SkipTrianglesKHR ray flags.
+|10|2019-12-05 |Daniel Koch           | Base on SPIR-V 1.5
+|11|2019-12-11 |Daniel Koch           | add Provisional string to capabilities, and reassign token
+                                        for RayTracingProvisionalKHR.
+|12|2020-02-20 |Eric Werness          | Miss does not have object parameters.
+|13|2020-02-22 |Tobias Hector         | Removed HitTKHR alias of RayTmaxKHR
+|14|2020-04-22 |Daniel Koch           | Require SPIR-V 1.4.
+|15|2020-06-03 |Daniel Koch           | Update capabilities tables to match SPIR-V 1.5.
+|16|2020-06-04 |Jason Ekstrand        | Make ray payloads and callable data pointers rather than
+                                        integer locations
+|17|2020-06-05 |Hans-Kristian Arntzen | Add conversion from 64-bit acceleration structure pointer
+                                        to OpTypeAccelerationStructureKHR
+|18|2020-07-03 |Daniel Koch           | Remove provisional notices and update capabilities
+|19|2020-07-10 |Tobias Hector         | Clarify that subset of bits are used for trace operation
+|20|2020-09-25 |Daniel Koch           | Require explicit layouts for ShaderRecordBufferKHR and
+                                        otherwise just generally treat it as the StorageBuffer storage class.
+                                        Clarify OpReportIntersection behavior if out of range Hit (vulkan#2359).
+|21|2020-10-01 |Daniel Koch           | Update OpIgnoreIntersectionKHR and OpTerminateRayKHR behavior
+                                        (they are terminators) and assign new opcodes (vulkan#2374).
 |========================================
 

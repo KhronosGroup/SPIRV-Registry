@@ -1,0 +1,19 @@
++
+--
+
+Change the second bullet under "Any pointer operand to an *OpFunctionCall* must be"
+to include *OpTypeAccelerationStructureKHR*:
+
+ * a pointer to an element in an array that is a memory object declaration,
+   where the element type is *OpTypeSampler*, *OpTypeImage*, or
+   *OpTypeAccelerationStructureKHR*.
+
+Add a new bullet under "Data rules":
+
+ * Instructions accessing a scalar acceleration structure out of a composite
+   must only use _dynamically-uniform_ indexes, unless the index is decorated with
+   *NonUniformEXT*. They must be in the same block in which their _Result <id>_
+   are consumed. Such _Result <id>_ must not appear as operands to *OpPhi* or
+   *OpSelect* instructions, or any instructions other than the ray tracing
+   instructions specified to operate on them.
+--

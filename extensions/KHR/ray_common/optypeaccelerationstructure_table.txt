@@ -1,0 +1,21 @@
+
+[cols="5,1,1*3",width="100%"]
+|=====
+2+|[[OpTypeAccelerationStructureKHR]]*OpTypeAccelerationStructureKHR* +
+ +
+Declares an acceleration structure type which is an opaque reference to
+acceleration structure handle as defined in the client API
+specification.
+
+Consumed by <<OpRayQueryInitializeKHR,*OpRayQueryInitializeKHR*>> and
+<<OpTraceRayKHR,*OpTraceRayKHR*>>
+
+This type is opaque: values of this type have no defined physical size or
+bit pattern.
+
+1+|Capability: +
+*{capability}*
+| 2 | 5341 | '<id>' 'Result'
+|=====
+
+
