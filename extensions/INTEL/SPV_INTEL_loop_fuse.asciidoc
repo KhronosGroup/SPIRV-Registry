@@ -88,7 +88,7 @@ Modify Section 3.20, Decoration, adding the following row to the Decoration tabl
 |====
 2+^| Decoration 2+^| Extra Operands ^| Enabling Capabilities
 | 5907 | *FuseLoopsInFunctionINTEL* +
-Only valid on OpFunction. Request, to the extent possible, that loops in the function be fused if they are contained in strictly fewer than _Depth_ other loops in the function. _Depth_ is a 32-bit unsigned integer type scalar. _Independent_ is a 1-bit unsigned integer type scalar.  If _Independent_ is non-zero, it guarantees that fusing loops in the function that are contained in strictly fewer than _Depth_ other loops within the function does not change the order of any dependent memory accesses.
+Only valid on OpFunction. Request, to the extent possible, that loops in the function be fused if they are contained in strictly fewer than _Depth_ other loops in the function. _Depth_ is a 32-bit unsigned integer type scalar. _Independent_ is a 32-bit unsigned integer type scalar.  If _Independent_ is non-zero, it guarantees that fusing loops in the function that are contained in strictly fewer than _Depth_ other loops within the function does not change the order of any dependent memory accesses.
 | Literal +
 _Depth_ | Literal +
 _Independent_ | *LoopFuseINTEL*

@@ -622,7 +622,7 @@ Version 1.5 Revision 3.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">5907</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FuseLoopsInFunctionINTEL</strong><br>
-Only valid on OpFunction. Request, to the extent possible, that loops in the function be fused if they are contained in strictly fewer than <em>Depth</em> other loops in the function. <em>Depth</em> is a 32-bit unsigned integer type scalar. <em>Independent</em> is a 1-bit unsigned integer type scalar.  If <em>Independent</em> is non-zero, it guarantees that fusing loops in the function that are contained in strictly fewer than <em>Depth</em> other loops within the function does not change the order of any dependent memory accesses.</p></td>
+Only valid on OpFunction. Request, to the extent possible, that loops in the function be fused if they are contained in strictly fewer than <em>Depth</em> other loops in the function. <em>Depth</em> is a 32-bit unsigned integer type scalar. <em>Independent</em> is a 32-bit unsigned integer type scalar.  If <em>Independent</em> is non-zero, it guarantees that fusing loops in the function that are contained in strictly fewer than <em>Depth</em> other loops within the function does not change the order of any dependent memory accesses.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Literal<br>
 <em>Depth</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Literal<br>
@@ -712,7 +712,7 @@ Only valid on OpFunction. Request, to the extent possible, that loops in the fun
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-12-04 16:41:39 -0400
+Last updated 2020-12-04 17:12:51 -0400
 </div>
 </div>
 </body>
