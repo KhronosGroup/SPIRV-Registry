@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<title>SPV_INTEL_fpga_loop_controls</title>
+<title>SPV_INTEL_FP_FAST_MATH_MODE</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -438,14 +438,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>SPV_INTEL_fpga_loop_controls</h1>
+<h1>SPV_INTEL_FP_FAST_MATH_MODE</h1>
 </div>
 <div id="content">
 <div class="sect1">
 <h2 id="_name_strings">Name Strings</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>SPV_INTEL_fpga_loop_controls</p>
+<p>SPV_INTEL_fp_fast_math_mode</p>
 </div>
 </div>
 </div>
@@ -466,19 +466,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist">
 <ul>
 <li>
-<p>Artem Chikin, Intel<br></p>
-</li>
-<li>
 <p>Jessica Davies, Intel<br></p>
 </li>
 <li>
 <p>Joe Garvey, Intel<br></p>
 </li>
 <li>
-<p>Michael Kinsner, Intel<br></p>
-</li>
-<li>
-<p>Ci Tian, Intel</p>
+<p>Michael Kinsner, Intel</p>
 </li>
 </ul>
 </div>
@@ -488,7 +482,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="_notice">Notice</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Copyright (c) 2019-2020 Intel Corporation.  All rights reserved.</p>
+<p>Copyright (c) 2020 Intel Corporation. All rights reserved.</p>
 </div>
 </div>
 </div>
@@ -496,7 +490,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="_status">Status</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Final draft</p>
+<p>Draft</p>
 </div>
 </div>
 </div>
@@ -511,11 +505,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2020-11-17</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2020-04-22</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">G</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
 </tr>
 </tbody>
 </table>
@@ -526,7 +520,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sectionbody">
 <div class="paragraph">
 <p>This extension is written against the SPIR-V Specification,
-Version 1.4 Revision 1.</p>
+Version 1.5 Revision 2.</p>
 </div>
 <div class="paragraph">
 <p>This extension requires SPIR-V 1.0.</p>
@@ -537,7 +531,7 @@ Version 1.4 Revision 1.</p>
 <h2 id="_overview">Overview</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This extension introduces additional loop controls for FPGA targets.</p>
+<p>This extension adds two new bit masks to the FPFastMathMode decoration, to allow floating point operations to be annotated as allowing reassociation, and contraction.</p>
 </div>
 </div>
 </div>
@@ -549,20 +543,20 @@ Version 1.4 Revision 1.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>OpExtension "SPV_INTEL_fpga_loop_controls"</pre>
+<pre>OpExtension "SPV_INTEL_fp_fast_math_mode"</pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_new_capabilities">New capabilities</h2>
+<h2 id="_new_capabilities">New Capabilities</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>This extension introduces a new capability:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>FPGALoopControlsINTEL</pre>
+<pre>FPFastMathModeINTEL</pre>
 </div>
 </div>
 </div>
@@ -570,27 +564,25 @@ Version 1.4 Revision 1.</p>
 <div class="sect1">
 <h2 id="_token_number_assignments">Token Number Assignments</h2>
 <div class="sectionbody">
-<table class="tableblock frame-all grid-rows" style="width: 40%;">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 70%;">
-<col style="width: 30%;">
+<col style="width: 50%;">
+<col style="width: 50%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">FPGALoopControlsINTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5888</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>FPFastMathModeINTEL</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5837</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_modifications_to_the_spir_v_specification_version_1_4">Modifications to the SPIR-V Specification, Version 1.4</h2>
+<h2 id="_modifications_to_the_spir_v_specification_version_1_5">Modifications to the SPIR-V Specification, Version 1.5</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="_loop_control">Loop Control</h3>
 <div class="paragraph">
-<p>In section 3.23, Loop Control, add the following entries to the table:</p>
+<p>Modify Section 3.15, FP Fast Math Mode, adding the following rows to the fp fast math mode table.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -600,65 +592,23 @@ Version 1.4 Revision 1.</p>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-top" colspan="2"><p class="tableblock"><strong>Loop Control</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Enabling Capabilities</strong></p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">0x10000</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>InitiationIntervalINTEL</strong><br>
-Strong request, to the extent possible, to implement this loop with an initiation interval specified as a subsequent literal-number operand to the instruction.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGALoopControlsINTEL</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>AllowContractFastINTEL</strong><br>
+Allow contraction of floating-point expressions even if it may violate the language standard. Overrides the ContractionOff execution mode.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FPFastMathModeINTEL</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">0x20000</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MaxConcurrencyINTEL</strong><br>
-Strong request, to the extent possible, to allow no more than a fixed number of threads or loop iterations to execute the loop concurrently as specified by a subsequent literal-number operand to the instruction.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGALoopControlsINTEL</strong></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0x40000</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>DependencyArrayINTEL</strong><br>
-Guarantees that there are no dependencies on a particular variable between a number of loop iterations.
-Can be applied to multiple variables, the number of which is specified as a subsequent literal-number operand to the instruction. Following that, for each variable, an &lt;id&gt; and literal number pair are provided indicating the variable and number of loop iterations. A number of loop iterations of 0 indicates that there are no loop-carried dependences on that variable.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGALoopControlsINTEL</strong></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0x80000</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>PipelineEnableINTEL</strong><br>
-Strong request, to the extent possible, to either pipeline iterations of this loop or to not pipeline iterations of this loop depending on the value of the subsequent literal number operand.  A value of 0 indicates a request not to pipeline while a value of 1 indicates a request to pipeline.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGALoopControlsINTEL</strong></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0x100000</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>LoopCoalesceINTEL</strong><br>
-Request to combine the loops nested within this loop into a single loop. A subsequent 32-bit integer literal operand specifies the number of nested loop levels to coalesce. A value of 0 indicates that all loop levels should be coalesced.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGALoopControlsINTEL</strong></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0x200000</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MaxInterleavingINTEL</strong><br>
-Request to limit the number of pipelined interleaved invocations of this loop that can be executed simultaneously to the number specified subsequently as a 32-bit integer literal operand.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGALoopControlsINTEL</strong></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0x400000</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>SpeculatedIterationsINTEL</strong><br>
-Request to limit the number of iterations launched before the loop exit condition has been evaluated to the number specified subsequently as a 32-bit integer literal operand.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGALoopControlsINTEL</strong></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0x800000</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>NoFusionINTEL</strong><br>
-Strong request, to the extent possible, that this loop not be fused with any adjacent loop.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGALoopControlsINTEL</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>AllowReassocINTEL</strong><br>
+Allow algebraic transformations according to real-number associative algebra, even if it may violate the language standard.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FPFastMathModeINTEL</p></td>
 </tr>
 </tbody>
 </table>
-</div>
 <div class="sect2">
 <h3 id="_capability">Capability</h3>
 <div class="paragraph">
-<p>Modify Section 3.31, Capability, adding a row to the Capability table:</p>
+<p>Modify section 3.31, <strong>Capability</strong>, adding a row to the Capability table:</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -666,26 +616,19 @@ Strong request, to the extent possible, that this loop not be fused with any adj
 <col style="width: 33.3333%;">
 <col style="width: 33.3334%;">
 </colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-center valign-top" colspan="2">Capability</th>
-<th class="tableblock halign-center valign-top">Implicitly Declares</th>
-</tr>
-</thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5888</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">FPGALoopControlsINTEL</p></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top" colspan="2"><p class="tableblock">Capability</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Implicitly Declares</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5837</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPFastMathModeINTEL</strong><br></p>
+<p class="tableblock">Allows control over floating point optimizations including contraction and reassociation.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Kernel</strong></p></td>
 </tr>
 </tbody>
 </table>
-</div>
-<div class="sect2">
-<h3 id="_validation_rules">Validation Rules</h3>
-<div class="paragraph">
-<p>None.</p>
-</div>
 </div>
 </div>
 </div>
@@ -717,46 +660,10 @@ Strong request, to the extent possible, that this loop not be fused with any adj
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2019-05-06</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Joe Garvey</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Initial public release</strong></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">B</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2019-05-07</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Michael Kinsner</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Update overview wording</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">C</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2019-06-02</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Michael Kinsner</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Use loop control bits directly, as allocated in SPIRV-Headers spir-v.xml</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">D</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2020-02-11</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Artem Chikin</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Add PipelineDisableINTEL</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">E</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2020-02-12</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Ci Tian</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Add LoopCoalesceINTEL, MaxInterleavingINTEL and SpeculatedIterationsINTEL</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">F</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2020-10-27</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2020-04-22</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Jessica Davies</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Add NoFusionINTEL</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">G</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2020-11-17</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Joe Garvey</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Made LoopCoalesceINTEL argument mandatory</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Initial public release</strong></p></td>
 </tr>
 </tbody>
 </table>
@@ -765,7 +672,7 @@ Strong request, to the extent possible, that this loop not be fused with any adj
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-11-18 10:17:22 -0400
+Last updated 2020-11-18 10:08:47 -0400
 </div>
 </div>
 </body>
