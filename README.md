@@ -86,6 +86,7 @@ Khronos SPIR-V Registry](https://www.khronos.org/registry/spir-v/).
 1. [SPV_EXT_shader_image_int64              ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/master/extensions/EXT/SPV_EXT_shader_image_int64.html)
 1. [SPV_INTEL_fp_fast_math_mode             ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/master/extensions/INTEL/SPV_INTEL_fp_fast_math_mode.html)
 1. [SPV_INTEL_fpga_cluster_attributes       ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/master/extensions/INTEL/SPV_INTEL_fpga_cluster_attributes.html)
+1. [SPV_INTEL_loop_fuse                     ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/master/extensions/INTEL/SPV_INTEL_loop_fuse.html)
 
 ## Non-Semantic Extended Instruction Set Specifications
 
