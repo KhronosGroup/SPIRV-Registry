@@ -1,0 +1,216 @@
+SPV_EXT_shader_atomic_float_min_max
+===================================
+
+Name Strings
+------------
+
+SPV_EXT_shader_atomic_float_min_max
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Jason Ekstrand, Intel
+- Ben Ashbaugh, Intel
+
+Status
+------
+
+- Draft
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2020-10-05
+| Revision           | 2
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification, Version 1.5 Revision 2.
+
+This extension requires SPIR-V 1.0.
+
+Overview
+--------
+
+This extension adds atomic min and max instruction on floating-point numbers.
+
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_EXT_shader_atomic_float_min_max"
+----
+
+New Capabilities
+----------------
+
+This extension introduces new capabilities:
+
+----
+AtomicFloat16MinMaxEXT
+AtomicFloat32MinMaxEXT
+AtomicFloat64MinMaxEXT
+----
+
+
+Modifications to the SPIR-V Specification, Version 1.5
+------------------------------------------------------
+
+Modify Section 3.31, "Capability", adding this row to the Capability table:
+
+--
+[cols="1,15,15",options="header"]
+|====
+2+^| Capability ^| Implicitly Declares
+| 5616 | *AtomicFloat16MinMaxEXT* +
+Uses the *OpAtomicFMinEXT* or *OpAtomicFMaxEXT* instruction with 16-bit floating point values. |
+| 5612 | *AtomicFloat32MinMaxEXT* +
+Uses the *OpAtomicFMinEXT* or *OpAtomicFMaxEXT* instruction with 32-bit floating point values. |
+| 5613 | *AtomicFloat64MinMaxEXT* +
+Uses the *OpAtomicFMinEXT* or *OpAtomicFMaxEXT* instruction with 64-bit floating point values. |
+|====
+--
+
+(Modify section 3.32.18, Atomic Instructions, adding to the end of the list of instructions)
+
+[width="100%",cols="1,1,6*4"]
+|======
+7+|[[OpAtomicFMinEXT]]*OpAtomicFMinEXT* +
+ +
+Perform the following steps atomically with respect to any other atomic accesses within _Scope_ to the same location: +
+
+1) load through _Pointer_ to get an _Original Value_, +
+
+2) get a _New Value_ by which is the float minimum of _Original Value_ and _Value_, and +
+
+3) store the _New Value_ back through _Pointer_. +
+
+Given x and y are two numbers (neither is NaN) and qNaN is an IEEE quiet NaN, sNaN is an IEEE signaling NaN, and NaN is any NaN value, the minimum operation performed as part of *OpAtomicFMinEXT* has the following semantics: +
+
+ * min(x, y) = x if x < y and y otherwise, +
+
+ * min(-0, +0) = min(+0, -0) = +0 or -0, +
+
+ * min(x, qNaN) = min(qNaN, x) = x, +
+
+ * min(qNaN, qNaN) = qNaN, +
+
+ * min(x, sNaN) = min(sNaN, x) = NaN or x, and +
+
+ * min(NaN, sNaN) = min(sNaN, NaN) = NaN +
+
+For cases which generate consume and produce a NaN value, any NaN value may be generated; it may not be the same as the NaN which was consumed. +
+
+The instruction's result is the _Original Value_. +
+
+_Result Type_ must be a _floating-point type_. +
+
+The type of _Value_ must be the same as _Result Type_. The type of the value pointed to by _Pointer_ must be the same as _Result Type_. +
+
+_Memory_ must be a valid memory _Scope_.
+1+|Capability: +
+*AtomicFloat16MinMaxEXT* *AtomicFloat32MinMaxEXT* *AtomicFloat64MinMaxEXT*
+| 7 | 5614 | _<id> Result type_ | _Result <id>_ | _<id>_ Pointer  | _Scope <id> Memory_ | Memory Semantics <id> Semantics | <id> Value |
+|======
+
+[width="100%",cols="1,1,6*4"]
+|======
+7+|[[OpAtomicFMaxEXT]]*OpAtomicFMaxEXT* +
+ +
+Perform the following steps atomically with respect to any other atomic accesses within _Scope_ to the same location: +
+
+1) load through _Pointer_ to get an _Original Value_, +
+
+2) get a _New Value_ by which is the float maximum of _Original Value_ and _Value_, and +
+
+3) store the _New Value_ back through _Pointer_. +
+
+Given x and y are two numbers (neither is NaN) and qNaN is an IEEE quiet NaN, sNaN is an IEEE signaling NaN, and NaN is any NaN value, the maximum operation performed as part of *OpAtomicFMaxEXT* has the following semantics: +
+
+ * max(x, y) = x if x < y and y otherwise, +
+
+ * max(-0, +0) = max(+0, -0) = +0 or -0, +
+
+ * max(x, qNaN) = max(qNaN, x) = x, +
+
+ * max(qNaN, qNaN) = qNaN, +
+
+ * max(x, sNaN) = max(sNaN, x) = NaN or x, and +
+
+ * max(NaN, sNaN) = max(sNaN, NaN) = NaN +
+
+For cases which generate consume and produce a NaN value, any NaN value may be generated; it may not be the same as the NaN which was consumed. +
+
+
+The instruction's result is the _Original Value_. +
+
+_Result Type_ must be a _floating-point type_. +
+
+The type of _Value_ must be the same as _Result Type_. The type of the value pointed to by _Pointer_ must be the same as _Result Type_. +
+
+_Memory_ must be a valid memory _Scope_.
+1+|Capability: +
+*AtomicFloat16MinMaxEXT* *AtomicFloat32MinMaxEXT* *AtomicFloat64MinMaxEXT*
+| 7 | 5615 | _<id> Result type_ | _Result <id>_ | _<id>_ Pointer  | _Scope <id> Memory_ | Memory Semantics <id> Semantics | <id> Value |
+|======
+
+
+New Instructions
+----------------
+
+Instructions added under *AtomicFloat16MinMaxEXT*, *AtomicFloat32MinMaxEXT*, or *AtomicFloat64MinMaxEXT* capability:
+
+----
+OpAtomicFMinEXT
+OpAtomicFMaxEXT
+----
+
+Validation Rules
+----------------
+
+An OpExtension must be added to the SPIR-V for validation layers to check
+legal use of this extension:
+
+----
+OpExtension "SPV_EXT_shader_atomic_float_min_max"
+----
+
+ * When using *OpAtomicFMinEXT* or *OpAtomicFMaxEXT* only 16-, 32-, or 64-bit floating-point values are allowed.
+ * If *OpAtomicFMinEXT* or *OpAtomicFMaxEXT* is used with 16-bit floating-point values,
+   the *AtomicFloat16MinMaxEXT* capability must be declared.
+ * If *OpAtomicFMinEXT* or *OpAtomicFMaxEXT* is used with 32-bit floating-point values,
+   the *AtomicFloat32MinMaxEXT* capability must be declared.
+ * If *OpAtomicFMinEXT* or *OpAtomicFMaxEXT* is used with 64-bit floating-point values,
+   the *AtomicFloat64MinMaxEXT* capability must be declared.
+
+Issues
+------
+
+None yet.
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1 |2020-08-14 |Jason Ekstrand|Internal revisions
+|2 |2020-10-05 |Ben Ashbaugh|Added fp16 capability
+|========================================
