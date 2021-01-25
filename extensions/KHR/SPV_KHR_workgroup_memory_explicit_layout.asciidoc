@@ -1,0 +1,274 @@
+SPV_KHR_workgroup_memory_explicit_layout
+========================================
+
+Name Strings
+------------
+
+SPV_KHR_workgroup_memory_explicit_layout
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Caio Marcelo de Oliveira Filho, Intel
+- Jeff Bolz, NVIDIA
+- Graeme Leese, Broadcom
+- Jason Ekstrand, Intel
+
+Notice
+------
+
+Copyright (c) 2020 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+Status
+------
+
+- Complete
+- Approved by the SPIR Working Group: 2020-07-15
+- Ratified by Khronos on 2019-09-11
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2020-06-29
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.5, Revision 2.
+
+This extension requires SPIR-V 1.4.
+
+Overview
+--------
+
+This extension provides a way for the shader author to define the
+layout of *Workgroup* storage class memory.
+
+Workgroup variables can be declared in blocks, and then use the same
+explicit layout decorations (e.g. *Offset*, *ArrayStride*) as other
+storage classes.
+
+All the Workgroup blocks share the same underlying storage, so it is
+possible to get different views of the workgroup storage.  This allow
+more directly efficient manipulation of that storage by the shader
+author.
+
+Either all or none of the variables must be explicitly laid out.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_KHR_workgroup_memory_explicit_layout"
+----
+
+Modifications to the SPIR-V Specification, Version 1.5, Revision 2
+------------------------------------------------------------------
+
+Validation Rules
+~~~~~~~~~~~~~~~~
+
+In Section 2.16.1 ("Universal Validation Rules"), modify the list in
+the item
+
+====
+The capabilities *StorageBuffer16BitAccess*,
+*UniformAndStorageBuffer16BitAccess*, *StoragePushConstant16*, and
+*StorageInputOutput16* do not generally add 16-bit operations. Rather,
+they add only the following specific abilities:
+====
+
+to also include the *WorkgroupMemoryExplicitLayout16BitAccessKHR*
+capability.  Similarly, modify the list in the item
+
+====
+The capabilities *StorageBuffer8BitAccess*,
+*UniformAndStorageBuffer8BitAccess*, and *StoragePushConstant8*, do not
+generally add 8-bit operations. Rather, they add only the following
+specific abilities:
+====
+
+to also include the *WorkgroupMemoryExplicitLayout8BitAccessKHR*
+capability.
+
+
+In Section 2.16.2 ("Validation Rules for Shader Capabilities"), modify
+the item
+
+* Composite objects in the *StorageBuffer*, *PhysicalStorageBuffer*,
+  *Uniform*, and *PushConstant* Storage Classes must be explicitly laid
+  out. The following apply to all the aggregate and matrix types
+  describing such an object, recursively through their nested types:
+
+to be
+
+* Composite objects in the *StorageBuffer*, *PhysicalStorageBuffer*,
+  *Uniform*, and *PushConstant* Storage Classes must be explicitly laid
+  out. If *WorkgroupMemoryExplicitLayoutKHR* capability is declared,
+  composite objects in the *Workgroup* Storage Class with types decorated
+  with *Block* also must be explicitly laid out. The following
+  apply to all the aggregate and matrix types describing such an object,
+  recursively through their nested types:
+
+Append following to the same section
+
+* If *WorkgroupMemoryExplicitLayoutKHR* capability is declared,
+  for each entry point in the module
+
+  ** Either all or none of the *Workgroup* Storage Class variables in
+     the entry point interface must point to struct types decorated
+     with *Block*.
+
+  ** If more than one *Workgroup* Storage Class variable in the entry
+     point interface point to a type decorated with *Block*, all of
+     them must be decorated with *Aliased*.
+
+Memory Model
+~~~~~~~~~~~~
+
+In Section 2.18.2 ("Aliasing"), modify
+
+====
+The *Aliased* decoration can be used to express that certain memory
+object declarations may alias. Referencing the following table, a
+memory object declaration __P__ may alias another declared pointer
+__Q__ if within a single row:
+
+* __P__ is an instruction with opcode and storage class from the first
+  pair of columns, and
+* __Q__ is an instruction with opcode and storage class from the second
+  pair of columns.
+====
+
+to be
+
+====
+The *Aliased* decoration can be used to express that certain memory
+object declarations may alias. Referencing the following table, a
+memory object declaration __P__ may alias another declared pointer
+__Q__ if within a single row:
+
+* __P__ is an instruction with opcode and storage class from the first
+  pair of columns,
+* __Q__ is an instruction with opcode and storage class from the second
+  pair of columns, and
+* If present, one of the enabling capabilities in the last column is
+  declared by the module.
+====
+
+Add an extra column **Enabling Capabilities** to the table
+
+--
+|====
+| First Storage Class | First Instruction(s) | Second Instructions | Second Storage Classes | Enabling Capabilities
+|====
+--
+
+and append the row
+
+--
+|====
+| *Workgroup* | *OpVariable* | *OpVariable* | *Workgroup* | *WorkgroupMemoryExplicitLayoutKHR*
+|====
+--
+
+Modify the paragraph right after the table from
+
+====
+In addition to the above table, memory object declarations in the
+*CrossWorkgroup*, *Function*, *Input*, *Output*, *Private*,
+or *Workgroup* storage classes must also have matching pointee types
+for aliasing to be present. In all other cases the decoration is ignored.
+====
+
+to be
+
+====
+In addition to the above table, memory object declarations in the
+*CrossWorkgroup*, *Function*, *Input*, *Output* or *Private* storage
+classes must also have matching pointee types for aliasing to be
+present. The restriction also applies for *Workgroup* storage class,
+except when *WorkgroupMemoryExplicitLayoutKHR* capability is declared
+and the pointee types are structs decorated with *Block*.  In all other
+cases the decoration is ignored.
+====
+
+Capabilities
+~~~~~~~~~~~~
+
+In Section 3.31 ("Capability"), add
+
+--
+[options="header"]
+|====
+2+^| Capability ^| Implicitly Declares
+| 4428 | *WorkgroupMemoryExplicitLayoutKHR* +
+Allows *Workgroup* storage class variables to be explicitly laid out in blocks. | *Shader*
+| 4429 | *WorkgroupMemoryExplicitLayout8BitAccessKHR* +
+Uses 8-bit *OpTypeInt* instructions for creating scalar, vector, and composite types that become members of a block residing in the *Workgroup* storage class. | *WorkgroupMemoryExplicitLayoutKHR*
+| 4430 | *WorkgroupMemoryExplicitLayout16BitAccessKHR* +
+Uses 16-bit *OpTypeFloat* and *OpTypeInt* instructions for creating scalar, vector, and composite types that become members of a block residing in the *Workgroup* storage class. | *WorkgroupMemoryExplicitLayoutKHR*
+|====
+--
+
+Instructions
+~~~~~~~~~~~~
+
+In Section 3.32 ("Instructions"), modify the last sentence of the
+definition of *OpTypeBool* from
+
+====
+If they are stored (in conjunction with *OpVariable*), they can only
+be used with logical addressing operations, not physical, and only
+with non-externally visible shader Storage Classes: *Workgroup*,
+*CrossWorkgroup*, *Private*, *Function*, *Input*, and *Output*.
+====
+
+to be
+
+====
+If they are stored (in conjunction with *OpVariable*), they can only
+be used with logical addressing operations, not physical, and only
+with variables that are not required to be explicitly laid out.
+====
+
+Also in Section 3.32 ("Instructions"), modify the definition of
+*OpPtrAccessChain* to include the following
+
+====
+When *WorkgroupMemoryExplicitLayoutKHR* capability is declared, for
+objects in *Workgroup* storage class that are explicitly laid out
+the element’s address or location is also calculated using a stride.
+====
+
+Issues
+------
+
+None yet.
+
+Revision History
+----------------
+
+[cols="5,10,20,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2020-06-29|Caio Marcelo de Oliveira Filho|Initial KHR extension.
+|========================================
