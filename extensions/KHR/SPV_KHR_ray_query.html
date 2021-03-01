@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="generator" content="AsciiDoc 8.6.10">
+<meta name="generator" content="AsciiDoc 9.1.0">
 <title>SPV_KHR_ray_query</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
@@ -434,7 +434,7 @@ thead, p.table.header {
 p.table {
   margin-top: 0;
 }
-/* Because the table frame attribute is overriden by CSS in most browsers. */
+/* Because the table frame attribute is overridden by CSS in most browsers. */
 div.tableblock > table[frame="void"] {
   border-style: none;
 }
@@ -835,6 +835,11 @@ Hans-Kristian Arntzen, Valve
 David McAllister, Qualcomm
 </p>
 </li>
+<li>
+<p>
+Dae Kim, Imagination
+</p>
+</li>
 </ul></div>
 </div>
 </div>
@@ -867,11 +872,11 @@ width:40%;
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2020-07-22</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2021-02-19</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">10</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">11</p></td>
 </tr>
 </tbody>
 </table>
@@ -1954,7 +1959,7 @@ width:100%;
 <tr>
 <td class="tableblock halign-left valign-top" colspan="5" ><p class="tableblock"><a id="OpRayQueryGetIntersectionBarycentricsKHR"></a><strong>OpRayQueryGetIntersectionBarycentricsKHR</strong><br>
 <br>
- Gets the (u,v) barycentric coordinates of the current intersection considered in a ray query against the primitive it hit.<br>
+ Gets the second and third barycentric coordinates of the current intersection considered in a ray query against the primitive it hit.<br>
 <br>
  <em>Result</em> is the returned barycentric coordinates.<br>
 <br>
@@ -2421,6 +2426,13 @@ width:100%;
 <td class="tableblock halign-left valign-top" ><p class="tableblock">David McAllister</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Disallow querying candidate T value for AABB primitives (!191)</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">11</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2021-02-19</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Dae Kim</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Fix barycentric coordinates retrieved for
+                                        OpRayQueryGetIntersectionBarycentricsKHR (!203)</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -2430,7 +2442,7 @@ width:100%;
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2020-11-20 13:48:58 EST
+ 2021-02-26 20:29:04 EST
 </div>
 </div>
 </body>

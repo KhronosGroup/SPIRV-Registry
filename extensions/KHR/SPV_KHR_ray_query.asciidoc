@@ -24,6 +24,7 @@ Contributors
 - Daniel Koch, NVIDIA
 - Hans-Kristian Arntzen, Valve
 - David McAllister, Qualcomm
+- Dae Kim, Imagination
 
 Status
 ------
@@ -36,8 +37,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2020-07-22
-| Revision           | 10
+| Last Modified Date | 2021-02-19
+| Revision           | 11
 |========================================
 
 Dependencies
@@ -607,7 +608,7 @@ include::ray_common/opconvertutoaccelerationstructure_table.txt[]
 |======
 5+|[[OpRayQueryGetIntersectionBarycentricsKHR]]*OpRayQueryGetIntersectionBarycentricsKHR* +
  +
- Gets the (u,v) barycentric coordinates of the current intersection considered in a ray query against the primitive it hit. +
+ Gets the second and third barycentric coordinates of the current intersection considered in a ray query against the primitive it hit. +
  +
  'Result' is the returned barycentric coordinates. +
  +
@@ -887,5 +888,7 @@ Revision History
 |8 |2020-07-03 |Daniel Koch           | Remove provisional notices and update capabilities
 |9 |2020-07-10 |Tobias Hector         | Clarify that subset of bits are used for cull mask
 |10|2020-07-22 |David McAllister      | Disallow querying candidate T value for AABB primitives (!191)
+|11|2021-02-19 |Dae Kim               | Fix barycentric coordinates retrieved for
+                                        OpRayQueryGetIntersectionBarycentricsKHR (!203)
 |========================================
 
