@@ -1,0 +1,100 @@
+= SPV_KHR_linkonce_odr
+
+== Name Strings
+
+SPV_KHR_linkonce_odr
+
+== Contact
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Registry
+
+== Contributors
+
+- Ben Ashbaugh, Intel
+- Mariya Podchishchaeva, Intel
+- Nicolai Hähnle, AMD
+
+== Notice
+
+Copyright (c) 2020 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+== Status
+
+- Complete
+- Approved by the SPIR Working Group: 2020-06-24
+- Ratified the Khronos Group: 2020-08-14
+
+== Version
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2020-05-19
+| Revision           | 1
+|========================================
+
+== Dependencies
+
+This extension is written against the SPIR-V Specification,
+Version 1.5 Revision 2, Unified
+
+This extension requires SPIR-V 1.0.
+
+== Overview
+
+This extension adds a new _Linkage Type_ *LinkOnceODR*.
+A global variable or function with such linkage type can be merged with
+equivalent global variables or functions from other modules during the
+linking process.
+The primary use case of this linkage type is to satisfy the C++ language
+One Definition Rule.
+
+== Extension Name
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_KHR_linkonce_odr"
+----
+
+== Modifications to the SPIR-V Specification, Version 1.5
+
+=== Linkage Type
+
+In section 3.17 "Linkage Type" add the following row to the Linkage Type table:
+
+[cols="1,4,4",options="header",width="100%"]
+|====
+2+| Linkage Type| <<Capability,Enabling Capabilities>> |
+2 | *LinkOnceODR* +
+Same as the *Export* linkage type, but a function or global variable with this
+linkage type will be merged with other functions or global variables of the same
+name when linkage occurs, i.e. the linker will just pick one of them.
+Tools (such as optimizers) can assume that if the definition of a *LinkOnceODR*
+function or global variable gets replaced during linking by one from another
+module, then the replacement is equivalent, so it is correct to inline a
+*LinkOnceODR* function.
+
+| *Linkage*
+|====
+
+== Issues
+
+1. Do we need to introduce more linkage types, such as weak, weak_odr etc?
++
+--
+*RESOLVED*: We will not add additional linkage types as part of this extension.
+--
+
+== Revision History
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2020-05-19|Ben Ashbaugh|Initial KHR extension.
+|========================================
