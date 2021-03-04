@@ -1,0 +1,141 @@
+= SPV_KHR_expect_assume
+
+== Name Strings
+
+SPV_KHR_expect_assume
+
+== Contact
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Registry
+
+== Contributors
+
+- Dmitry Sidorov, Intel
+- Alexey Sachkov, Intel
+- Alexey Sotkin, Intel
+- Ben Ashbaugh, Intel
+- Stuart Brady, ARM
+
+== Notice
+
+Copyright (c) 2020 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+== Status
+
+- Complete
+- Approved by the SPIR Working Group: 2020-06-24
+- Ratified the Khronos Group: 2020-08-14
+
+== Version
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2020-06-03
+| Revision           | 1
+|========================================
+
+== Dependencies
+
+This extension is written against the SPIR-V Specification,
+Version 1.5 Revision 2.
+
+This extension requires SPIR-V 1.0.
+
+== Overview
+
+This extension adds *OpAssumeTrueKHR* and *OpExpectKHR* instructions that
+provide additional information to a compiler, similar to the _llvm.assume_ and
+_llvm.expect_ intrinsics.
+SPIR-V consumers may use this information to generate more efficient code.
+
+== Extension Name
+
+To use this extension within a SPIR-V module, the following *OpExtension* must
+be present in the module:
+
+----
+OpExtension "SPV_KHR_expect_assume"
+----
+
+== Modifications to the SPIR-V Specification, Version 1.5
+
+=== Capabilities
+
+Modify Section 3.31, "Capability", adding rows to the Capability table:
+
+--
+[cols="1,10,4",options="header"]
+|====
+2+^| Capability ^| Implicitly Declares
+
+| 5629
+| [[ExpectAssumeKHR]]*ExpectAssumeKHR* +
+Uses the *OpAssumeTrueKHR* or *OpExpectKHR* instructions.
+|
+
+|====
+--
+
+=== Instructions
+
+Modify section 3.32.1, "Miscellaneous Instructions", adding to the end of the list of instructions:
+
+[cols="3", width="100%"]
+|=====
+2+|[[OpAssumeTrueKHR]]*OpAssumeTrueKHR* +
+
+The instruction allows the optimizer to assume that _Condition_ is *true*
+whenever the control flow reaches the instruction.
+Behavior is undefined if _Condition_ is *false* instead.
+
+_Condition_ must be a scalar of _Boolean type_.
+| Capability:
+*ExpectAssumeKHR*
+
+| 2 | 5630 | _<id>_ +
+_Condition_
+|=====
+
+[cols="6", width="100%"]
+|=====
+5+|[[OpExpectKHR]]*OpExpectKHR* +
+
+This instruction behaves the same as *OpCopyObject* by making a copy of _Value_,
+except it also provides information to the optimizer that the most probable
+value of _Value_ is _ExpectedValue_.
+
+_Result Type_ must be a scalar or vector of _integer type_ or _Boolean type_.
+
+The type of _Value_ and _ExpectedValue_ must be the same as _Result Type_.
+
+| Capability:
+*ExpectAssumeKHR*
+
+| 5 | 5631 | _<id>_ +
+_Result Type_ | _Result <id>_ | _<id>_ +
+_Value_ | _<id>_ +
+_ExpectedValue_
+|=====
+
+== Issues
+
+. What should this extension be called?
++
+--
+*RESOLVED*:
+The name of the extension will be `SPV_KHR_expect_assume`.
+--
+
+
+== Revision History
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2020-06-03|Ben Ashbaugh|Initial KHR extension.
+|========================================
