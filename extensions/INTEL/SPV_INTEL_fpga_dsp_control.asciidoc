@@ -1,0 +1,146 @@
+SPV_INTEL_fpga_dsp_control
+==========================
+
+== Name Strings
+
+SPV_INTEL_fpga_dsp_control
+
+== Contact
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Registry
+
+== Contributors
+
+- Jessica Davies, Intel
+- Joe Garvey, Intel
+- Ajaykumar Kannan, Intel
+- Mike Kinsner, Intel
+- Shuo Niu, Intel
+
+== Notice
+
+Copyright (c) 2021 Intel Corporation.  All rights reserved.
+
+== Status
+
+Final draft
+
+== Version
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2021-03-12
+| Revision           | 1
+|========================================
+
+== Dependencies
+
+This extension is written against the SPIR-V Specification,
+Version 1.5 Revision 4.
+
+This extension requires SPIR-V 1.0.
+
+== Overview
+
+This extension adds a decoration to request that math operations be implemented using
+Digital Signal Processing (DSP) blocks or soft logic, on an FPGA target.
+
+== Extension Name
+
+To use this extension within a SPIR-V module, the following *OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_INTEL_fpga_dsp_control"
+----
+
+== New capabilities
+This extension introduces a new capability:
+
+----
+FPGADSPControlINTEL
+----
+
+== New Decorations
+
+This extension adds the following decoration under the *FPGADSPControlINTEL* capability:
+
+----
+MathOpDSPModeINTEL
+----
+
+== Token Number Assignments
+
+--
+[width="40%"]
+[cols="70%,30%"]
+[grid="rows"]
+|====
+|FPGADSPControlINTEL        |5908
+|MathOpDSPModeINTEL         |5909
+|====
+--
+
+== Modifications to the SPIR-V Specification, Version 1.5
+
+=== Decoration
+
+Modify Section 3.20, Decoration, adding the following rows to the Decoration table:
+
+--
+[options="header"]
+|====
+2+^| Decoration 2+^| Extra Operands ^| Enabling Capabilities
+| 5909 | *MathOpDSPModeINTEL* +
+Only valid on OpFunction.
+Request, to the extent possible, that math operations in the function be implemented according to _Mode_.
+
+_Mode_ is a 32-bit unsigned integer type scalar. _Propagate_ is a 32-bit unsigned integer type scalar.
+
+If _Mode_ is equal to 0 it indicates a request that math operations be implemented using soft logic and/or DSP blocks according to default implementation-defined heuristics.
+
+If _Mode_ is equal to 1 it indicates a request that math operations be implemented using soft logic.
+
+If _Mode_ is equal to 2 it indicates a request that math operations be implemented using DSP blocks.
+
+If _Propagate_ is equal to 0, the _Mode_ request applies to math operations in this function F only, and does not extend to math operations executed as part of function calls made by F.
+
+If _Propagate_ is equal to 1, the _Mode_ request applies to math operations in this function F, and to all math operations executed as part of functions called (transitively) by F, unless a called function G has a MathOpDSPModeINTEL decoration. The decoration on G takes precedence for G and all functions called (transitively) by G, i.e., the _Mode_ request from F does not apply to G nor functions called (transitively) by G.
+
+If _Propagate_ is equal to 2, the _Mode_ request applies to all math operations in this function F, and to all math operations executed as part of function calls made (transitively) by F, overriding any MathOpDSPModeINTEL on the called functions.
+
+| Literal +
+_Mode_ | Literal +
+_Propagate_ | *FPGADSPControlINTEL*
+|====
+--
+
+=== Capability
+
+Modify Section 3.31, Capability, adding a row to the Capability table:
+--
+[options="header"]
+|====
+2+^| Capability ^| Implicitly Declares
+| 5908 | FPGADSPControlINTEL |
+|====
+--
+
+=== Validation Rules
+
+None.
+
+== Issues
+
+None.
+
+== Revision History
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2021-03-12|Jessica Davies|*Initial public release*
+|========================================
