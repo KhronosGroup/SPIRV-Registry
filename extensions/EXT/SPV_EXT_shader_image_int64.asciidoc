@@ -36,8 +36,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2019-10-23
-| Revision           | 1
+| Last Modified Date | 2021-03-17
+| Revision           | 2
 |========================================
 
 Dependencies
@@ -94,6 +94,7 @@ Modify Section 3.31, "Capability", adding these rows to the Capability table:
 2+^| Capability ^| Enabling Capabilities
 | 5016 | *Int64ImageEXT* +
 Uses atomic, load, or store instructions on images with 64-bit integer types.
+If using atomics, *Int64Atomics* must be enabled.
 | *Int64*
 |====
 --
@@ -106,6 +107,7 @@ Revision History
 [grid="rows"]
 [options="header"]
 |====
-| Rev | Date       | Author        | Changes
-| 1   | 2019-10-23 | Tobias Hector | Initial revision
+| Rev | Date       | Author         | Changes
+| 1   | 2019-10-23 | Tobias Hector  | Initial revision
+| 2   | 2021-03-17 | Spencer Fricke | Clarify Int64Atomics interaction
 |====
