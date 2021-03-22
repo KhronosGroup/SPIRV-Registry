@@ -36,8 +36,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2020-07-15
-| Revision           | 1
+| Last Modified Date | 2021-03-17
+| Revision           | 2
 |========================================
 
 Dependencies
@@ -106,7 +106,7 @@ Perform the following steps atomically with respect to any other atomic accesses
 
 The instruction's result is the _Original Value_. +
 
-_Result Type_ must be a _floating-point type_. +
+_Result Type_ must be a _floating-point type_ scalar. +
 
 The type of _Value_ must be the same as _Result Type_. The type of the value pointed to by _Pointer_ must be the same as _Result Type_. +
 
@@ -156,5 +156,6 @@ Revision History
 |========================================
 |Rev|Date|Author|Changes
 |1 |2020-07-15 |Vikram Kushwaha|Internal revisions
+|2 |2021-03-17 |Spencer Fricke |Clarify result type is scalar
 |========================================
 
