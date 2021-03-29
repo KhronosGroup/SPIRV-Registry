@@ -94,7 +94,7 @@ Modify Section 3.31, "Capability", adding these rows to the Capability table:
 2+^| Capability ^| Enabling Capabilities
 | 5016 | *Int64ImageEXT* +
 Uses atomic, load, or store instructions on images with 64-bit integer types.
-If using atomics, *Int64Atomics* must be enabled.
+If using atomics, *Int64Atomics* must be declared.
 | *Int64*
 |====
 --
