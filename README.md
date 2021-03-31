@@ -97,3 +97,4 @@ Khronos SPIR-V Registry](https://www.khronos.org/registry/spir-v/).
 
 1. [NonSemantic.DebugPrintf]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/master/nonsemantic/NonSemantic.DebugPrintf.html)
 1. [NonSemantic.ClspvReflection]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/master/nonsemantic/NonSemantic.ClspvReflection.html)
+1. [NonSemantic.Shader.DebugInfo.100]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/master/nonsemantic/NonSemantic.Shader.DebugInfo.100.html)
