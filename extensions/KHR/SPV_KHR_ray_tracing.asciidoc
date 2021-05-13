@@ -38,8 +38,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2020-10-01
-| Revision           | 21
+| Last Modified Date | 2021-05-13
+| Revision           | 22
 |========================================
 
 Dependencies
@@ -249,7 +249,7 @@ Can be both read and written to in above execution models, but cannot have initi
 Used for storing payload data associated with a ray. Visible across all functions in
 the current invocation. Not shared externally. Variables declared
 with this storage class can be both read and written to, but cannot have initializers.
-Only allowed in *RayGenerationKHR*, *AnyHitKHR*, *ClosestHitKHR* and *MissKHR* execution models.
+Only allowed in *RayGenerationKHR*, *ClosestHitKHR* and *MissKHR* execution models.
 | *RayTracingKHR* | SPV_KHR_ray_tracing
 | 5339 | *HitAttributeKHR* +
 Used for storing attributes of geometry intersected by a ray. Visible across all
@@ -744,5 +744,6 @@ Revision History
                                         Clarify OpReportIntersection behavior if out of range Hit (vulkan#2359).
 |21|2020-10-01 |Daniel Koch           | Update OpIgnoreIntersectionKHR and OpTerminateRayKHR behavior
                                         (they are terminators) and assign new opcodes (vulkan#2374).
+|22|2021-05-13 |Eric Werness          | Fix ray payload allowed execution models to exclude any hit.
 |========================================
 

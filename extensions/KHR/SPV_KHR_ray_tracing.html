@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="generator" content="AsciiDoc 8.6.10">
+<meta name="generator" content="AsciiDoc 9.0.0rc1">
 <title>SPV_KHR_ray_tracing</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
@@ -434,7 +434,7 @@ thead, p.table.header {
 p.table {
   margin-top: 0;
 }
-/* Because the table frame attribute is overriden by CSS in most browsers. */
+/* Because the table frame attribute is overridden by CSS in most browsers. */
 div.tableblock > table[frame="void"] {
   border-style: none;
 }
@@ -877,11 +877,11 @@ width:40%;
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2020-10-01</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2021-05-13</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">21</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">22</p></td>
 </tr>
 </tbody>
 </table>
@@ -1199,7 +1199,7 @@ Can be both read and written to in above execution models, but cannot have initi
 Used for storing payload data associated with a ray. Visible across all functions in
 the current invocation. Not shared externally. Variables declared
 with this storage class can be both read and written to, but cannot have initializers.
-Only allowed in <strong>RayGenerationKHR</strong>, <strong>AnyHitKHR</strong>, <strong>ClosestHitKHR</strong> and <strong>MissKHR</strong> execution models.</p></td>
+Only allowed in <strong>RayGenerationKHR</strong>, <strong>ClosestHitKHR</strong> and <strong>MissKHR</strong> execution models.</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">SPV_KHR_ray_tracing</p></td>
 </tr>
@@ -2210,6 +2210,12 @@ width:100%;
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Update OpIgnoreIntersectionKHR and OpTerminateRayKHR behavior
                                         (they are terminators) and assign new opcodes (vulkan#2374).</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">22</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2021-05-13</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Eric Werness</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Fix ray payload allowed execution models to exclude any hit.</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -2219,7 +2225,7 @@ width:100%;
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2020-11-20 13:48:50 EST
+ 2021-05-13 09:24:14 PDT
 </div>
 </div>
 </body>
