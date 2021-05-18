@@ -92,6 +92,7 @@ Khronos SPIR-V Registry](https://www.khronos.org/registry/spir-v/).
 1. [SPV_KHR_linkonce_odr                    ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/master/extensions/KHR/SPV_KHR_linkonce_odr.html)
 1. [SPV_KHR_expect_assume                   ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/master/extensions/KHR/SPV_KHR_expect_assume.html)
 1. [SPV_INTEL_fpga_dsp_control              ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/master/extensions/INTEL/SPV_INTEL_fpga_dsp_control.html)
+1. [SPV_NV_bindless_texture                 ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/master/extensions/NV/SPV_NV_bindless_texture.html)
 
 ## Non-Semantic Extended Instruction Set Specifications
 

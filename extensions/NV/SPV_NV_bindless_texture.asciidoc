@@ -1,0 +1,369 @@
+
+SPV_NV_bindless_texture
+========================
+
+Name Strings
+------------
+
+SPV_NV_bindless_texture
+
+Contact
+-------
+
+See *Issues* list in the Khronos SPIRV-Headers repository:
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+- Jeff Bolz, NVIDIA
+- Pankaj Mistry, NVIDIA
+- Ashwin Lele, NVIDIA
+
+Status
+------
+
+- Completed
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2021-05-26
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.5 Revision 2.
+
+This extension requires SPIR-V 1.0.
+
+Overview
+--------
+
+This extension adds new capabilities to support the *GL_NV_bindless_texture*
+extensions in SPIR-V.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_NV_bindless_texture"
+----
+
+New Capabilities
+----------------
+
+This extension introduces a new capability:
+
+----
+BindlessTextureNV
+----
+
+New Instructions
+----------------
+
+Instructions added under the *BindlessTextureNV* capability:
+
+----
+OpConvertUToImageNV
+OpConvertUToSamplerNV
+OpConvertUToSampledImageNV
+OpConvertImageToUNV
+OpConvertSamplerToUNV
+OpConvertSampledImageToUNV
+OpSamplerImageAddressingModeNV
+----
+
+Token Number Assignments
+------------------------
+
+[NVwidth="40%"]
+[cols="70%,30%"]
+[grid="rows"]
+|====
+|BindlessTextureNV|5390
+|OpConvertUToImageNV|5391
+|OpConvertUToSamplerNV|5392
+|OpConvertImageToUNV|5393
+|OpConvertSamplerToUNV|5394
+|OpConvertUToSampledImageNV|5395
+|OpConvertSampledImageToUNV|5396
+|OpSamplerImageAddressingModeNV|5397
+|BindlessSamplerNV|5398
+|BindlessImageNV|5399
+|BoundSamplerNV|5400
+|BoundImageNV|5401
+|====
+
+Modifications to the SPIR-V Specification, Version 1.3
+------------------------------------------------------
+[cols="1^.^,10,8^",options="header",width = "80%"]
+|====
+2+^.^| Capability
+| Implicitly Declares
+
+| 5390
+| *BindlessTextureNV*
+|
+
+|====
+(Modify Section 2.2.2, Types) ::
++
+--
+Update *concrete* type definition to include *OpTypeSampledImage, OpTypeImage and OpTypeSampler*:
+
+_Concrete Type_: A numerical scalar, vector, or matrix type, or physical pointer type,
+or an image type, or sampler type or sampled image type, or any aggregate containing only these types.
+--
+
+(Modify Section 2.4, Logical layout of a Module) ::
++
+--
+Modify the layout and insert after OpMemoryModel the address mode of sampler/image type variables.
+Below is the new fifth entry in the SPIRV layout. Everything gets moved below by a number. Below text
+shows the 4th, 5th and 6th elements of the updated layout
+[start=4]
+4. The single required *OpMemoryModel* instruction
+5. Sampler/Image type variable addressing mode defined with *OpSamplerImageAddressingModeNV*
+6. All entry point declarations, using *OpEntryPoint*.
+
+--
+
+(Modify Section 2.16.1, Universal Validation Rules) ::
++
+--
+*Update the ninth bullet* under "Data rules" to relax the restriction on
+OpSampledImage instructions such that, it can appear as an operand of *OpPhi* and *OpSelect* instructions.
+
+*Removes the statement*: All OpSampledImage instructions must be in the same block in which their Result <id> are consumed. Result <id>
+from OpSampledImage instructions must not appear as operands to OpPhi instructions or OpSelect instructions
+
+*Rephrases the validation rule as follows*:
+
+* OpSampledImage instructions must not appear as operands to any instructions other than:
+** the image lookup and image query instructions specified to take an operand whose type is *OpTypeSampledImage*
+** OpPhi and OpSelect instructions whose operand and result type can be one of
+  *OpTypeSampledImage*, *OpTypeImage* or *OpTypeSampler*. Result and operand type must be same.
+
+*Update the tenth bullet* under "Data rules" to relax the restriction on image or sampler type data
+in a composite, to be allowed as operands to OpPhi instructions or OpSelect instructions
+
+*Rephrases the validation rule as follows*:
+
+– Instructions for extracting a scalar image or scalar sampler out of a composite must only use dynamically-uniform
+indexes. Result <id> extracted from these composite of type *OpTypeImage*, *OpTypeSampler* or *OpTypeSampledImage* can appear
+as operands to OpPhi instructions or OpSelect instructions or other image instructions. Such Result <id> must not appear as operands
+to any other instructions specified to operate on them.
+
+
+--
+
+(Add New Subsection 3.32.<TBD>, Bindless Texture cast Instructions) ::
++
+--
+
+[cols="1,1,3*3",width="100%"]
+|=====
+5+|[[OpConvertUToImageNV]]*OpConvertUToImageNV* +
+ +
+Convert an unsigned integer to image type.
+
+If *OpSamplerImageAddressingModeNV* has a literal value of 64,
+Operand should be specified either as 64-bit unsigned integer type or
+vector of 2 unsigned 32-bit integer type.
+
+If *OpSamplerImageAddressingModeNV* has a literal value of 32,
+Operand should be specified as a 32-bit unsigned integer type.
+
+'Result Type' must be of type OpTypeImage
+
+| 4 | 5391 | '<id>' 'Result Type' | '<id>' 'Result' | '<id>' 'Operand'
+|=====
+|=====
+5+|[[OpConvertUToSamplerNV]]*OpConvertUToSamplerNV* +
+ +
+Convert an unsigned integer to sampler type.
+
+If *OpSamplerImageAddressingModeNV* has a literal value of 64,
+Operand should be specified either as 64-bit unsigned integer type or
+vector of 2 unsigned 32-bit integer type.
+
+If *OpSamplerImageAddressingModeNV* has a literal value of 32,
+Operand should be specified as a 32-bit unsigned integer type.
+
+'Result Type' is of type OpTypeSampler
+
+| 4 | 5392 | '<id>' 'Result Type' | '<id>' 'Result' | '<id>' 'Operand'
+|=====
+|=====
+5+|[[OpConvertImageToUNV]]*OpConvertImageToUNV* +
+ +
+Convert an image type to unsigned integer.
+
+Operand is of type OpTypeImage.
+
+If *OpSamplerImageAddressingModeNV* has a literal value of 64,
+'Result Type' should be specified either as 64-bit unsigned integer type or vector of 2 unsigned 32-bit integer type.
+
+If *OpSamplerImageAddressingModeNV* has a literal value of 32,
+'Result Type' should be specified as 32-bit unsigned integer type.
+
+| 4 | 5393 | '<id>' 'Result Type' | '<id>' 'Result' | '<id>' 'Operand'
+|=====
+|=====
+5+|[[OpConvertSamplerToUNV]]*OpConvertSamplerToUNV* +
+ +
+Convert a sampler type to unsigned integer.
+
+'Operand' is of type OpTypeSampler
+
+If *OpSamplerImageAddressingModeNV* has a literal value of 64,
+'Result Type' should be specified either as 64-bit unsigned integer type or vector of 2 unsigned 32-bit integer type.
+
+If *OpSamplerImageAddressingModeNV* has a literal value of 32,
+'Result Type' should be specified as 32-bit unsigned integer type.
+
+| 4 | 5394 | '<id>' 'Result Type' | '<id>' 'Result' | '<id>' 'Operand'
+|=====
+
+|=====
+5+|[[OpConvertUToSampledImageNV]]*OpConvertUToSampledImageNV* +
+ +
+Convert an unsigned integer to sampled image type.
+
+If *OpSamplerImageAddressingModeNV* has a literal value of 64,
+'Operand' should be specified either as 64-bit unsigned integer type or
+vector of 2 unsigned 32-bit integer type.
+
+If *OpSamplerImageAddressingModeNV* has a literal value of 32,
+'Operand' should be specified as a 32-bit unsigned integer type.
+
+'Result Type' is of type OpTypeSampledImage
+
+| 4 | 5395 | '<id>' 'Result Type' | '<id>' 'Result' | '<id>' 'Operand'
+|=====
+|=====
+5+|[[OpConvertSampledImageToUNV]]*OpConvertSampledImageToUNV* +
+ +
+Convert a sampled image type to unsigned integer.
+
+'Operand' is of type OpTypeSampledImage
+
+If *OpSamplerImageAddressingModeNV* has a literal value of 64,
+'Result Type' should be specified either as 64-bit unsigned integer type or vector of 2 unsigned 32-bit integer type.
+
+If *OpSamplerImageAddressingModeNV* has a literal value of 32,
+'Result Type' should be specified as 32-bit unsigned integer type.
+
+| 4 | 5396 | '<id>' 'Result Type' | '<id>' 'Result' | '<id>' 'Operand'
+|=====
+
+|=====
+3+|[[OpSamplerImageAddressingModeNV]]*OpSamplerImageAddressingModeNV* +
+ +
+Sets up the addressing mode for variables of type *OpTypeSampledImage, OpTypeImage and OpTypeSampler*.
+
+_Bit Width_ takes either a value of 32 or 64, any other value is invalid.
+
+It indicates size of the opaque type variable in memory.
+
+| 2 | 5397 | '<Literal>'  'Bit Width'
+|=====
+
+--
+
+(Modify Subsection 3.32.15, OpSelect Instruction) ::
++
+As part of the extension, Update OpSelect instruction to accept *OpTypeSampledImage* as operand and result
+|=====
+7+|[[OpSelect]]*OpSelect* +
+ +
+ Select between two objects. Before version 1.4, results are only computed per component.
+
+ Before *version 1.4*, Result Type must be a pointer, scalar, or vector. Starting with *version 1.4*, Result Type can
+ additionally be a composite type other than a vector. Starting with *version 1.5*, Result Type can additionally
+ be of type _OpTypeSampledImage_, _OpTypeImage_ and _OpTypeSampler_.
+
+ The types of Object 1 and Object 2 must be the same as Result Type.
+
+ Condition must be a scalar or vector of Boolean type.
+
+ If _Condition_ is a scalar and *true*, the result is Object 1. If Condition is a scalar and *false*, the result is Object 2.
+
+ If _Condition_ is a vector, _Result Type_ must be a vector with the same number of components as __Condition_ and the
+ result is a mix of _Object 1_ and _Object 2_: When a component of _Condition_ is *true*, the corresponding component in
+ the result is taken from _Object 1_, otherwise it is taken from _Object 2_.
+| 6 | 169 | '<id>' 'Result Type' | 'Result' '<id>'  | '<id>' 'Condition'|'<id>' 'Object 1' |'<id>' 'Object 2'
+|=====
+
+--
+--
+(Add to Decorations: list in Section 3.20) ::
+----
+DecorationBindlessSamplerNV
+DecorationBindlessImageNV
+DecorationBoundSamplerNV
+DecorationBoundImageNV
+----
+[cols="5%,55%,10%,30%",width="100%"]
+|=====
+2+|*Decoration* +
+1+|*Extra Operands*
+1+|*Enabling Capabilities*
+| 5398 | *BindlessSamplerNV* +
+         Applies to a sampler type variable as a layout qualifier,
+         indicating it is bindless. Behavior is defined
+         by the runtime environment.|| Also see SPV_NV_bindless_texture
+| 5399 | *BindlessImageNV* +
+        Applies to an image type variable as a layout qualifier,
+        indicating it is bindless. Behavior is defined by
+        the runtime environment.|  | Also see SPV_NV_bindless_texture
+| 5400 | *BoundSamplerNV* +
+        Applies to a sampler type variable as a layout qualifier,
+        indicating it is bound. Behavior is defined by
+        the runtime environment.|  | Also see SPV_NV_bindless_texture
+| 5401 | *BoundImageNV* +
+       Applies to an image type variable as a layout qualifier,
+       indicating it is bound. Behavior is defined by the
+       runtime environment.|  | Also see SPV_NV_bindless_texture
+
+|=====
+
+
+Validation Rules
+----------------
+
+An OpExtension must be added to SPIR-V for validation layers to check legal use of this extension:
+
+----
+OpExtension "SPV_NV_bindless_texture"
+----
+
+Issues
+------
+
+. How does this extension interact with *GL_NV_bindless_texture* ?
++
+--
+*RESOLVED*: This extension defines the SPIRV instructions and decorations
+needed to implement *GL_NV_bindless_texture*.
+--
+
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1 |2021-05-26 |Pankaj Mistry|*Initial version*
+|========================================
