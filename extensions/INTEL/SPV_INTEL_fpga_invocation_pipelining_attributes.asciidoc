@@ -1,0 +1,140 @@
+SPV_INTEL_fpga_invocation_pipelining_attributes
+===============================================
+
+== Name Strings
+
+SPV_INTEL_fpga_invocation_pipelining_attributes
+
+== Contact
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Registry
+
+== Contributors
+
+- Jessica Davies, Intel
+- Joe Garvey, Intel
+- Mike Kinsner, Intel
+
+== Notice
+
+Copyright (c) 2021 Intel Corporation.  All rights reserved.
+
+== Status
+
+Final draft
+
+== Version
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2021-05-21
+| Revision           | 1
+|========================================
+
+== Dependencies
+
+This extension is written against the SPIR-V Specification,
+Version 1.5 Revision 3.
+
+This extension requires SPIR-V 1.0.
+
+== Overview
+
+Some FPGA devices and toolchains can support customizable levels or implementation of pipeline parallelism when mapping a SPIR-V module to hardware. Through pipeline parallelism, multiple invocations of a kernel or function can execute concurrently.
+
+This extension adds decorations to request that a kernel or function support invocations at a specified initiation interval, that multiple invocations are forbidden from executing concurrently, or that the kernel or function is limited to a maximum number of concurrent invocations.
+
+== Extension Name
+
+To use this extension within a SPIR-V module, the following *OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_INTEL_fpga_invocation_pipelining_attributes"
+----
+
+== New capabilities
+This extension introduces a new capability:
+
+----
+FPGAInvocationPipeliningAttributesINTEL
+----
+
+== New Decorations
+
+This extension adds the following decorations under the *FPGAInvocationPipeliningAttributesINTEL* capability:
+
+----
+InitiationIntervalINTEL
+MaxConcurrencyINTEL
+PipelineEnableINTEL
+----
+
+== Token Number Assignments
+
+--
+[width="40%"]
+[cols="70%,30%"]
+[grid="rows"]
+|====
+|FPGAInvocationPipeliningAttributesINTEL|5916
+|InitiationIntervalINTEL              |5917
+|MaxConcurrencyINTEL                  |5918
+|PipelineEnableINTEL                  |5919
+|====
+--
+
+== Modifications to the SPIR-V Specification, Version 1.5
+
+=== Decoration
+
+Modify Section 3.20, Decoration, adding these rows to the Decoration table:
+
+--
+[options="header"]
+|====
+2+^| Decoration 2+^| Extra Operands ^| Enabling Capabilities
+| 5917 | *InitiationIntervalINTEL* +
+Only valid on OpFunction. Strong request, to the extent possible, for this function to support an initiation interval of _Cycles_ clock cycles. _Cycles_ is a 32-bit unsigned integer type scalar. The value of _Cycles_ must be non-zero.
+2+| Literal +
+_Cycles_ | *FPGAInvocationPipeliningAttributesINTEL*
+| 5918 | *MaxConcurrencyINTEL* +
+Only valid on OpFunction. Strong request, to the extent possible, to allow no more than a fixed number _Invocations_ of invocations to execute the function concurrently. _Invocations_ is a 32-bit unsigned integer type scalar. If _Invocations_ is equal to zero, it indicates no limit on the number of concurrent invocations.
+2+| Literal +
+_Invocations_ | *FPGAInvocationPipeliningAttributesINTEL*
+| 5919 | *PipelineEnableINTEL* +
+Only valid on OpFunction. Strong request, to the extent possible, to either support pipelining or to not pipeline invocations of this function.  _Enable_ is a 32-bit unsigned integer type scalar. If _Enable_ is equal to 0, it indicates a request not to pipeline, while a non-zero value indicates a request to pipeline.
+2+| Literal +
+_Enable_ | *FPGAInvocationPipeliningAttributesINTEL*
+|====
+--
+
+=== Capability
+
+Modify Section 3.31, Capability, adding a row to the Capability table:
+--
+[options="header"]
+|====
+2+^| Capability ^| Implicitly Declares
+| 5916 | FPGAInvocationPipeliningAttributesINTEL | Kernel
+|====
+--
+
+=== Validation Rules
+
+None.
+
+== Issues
+
+None.
+
+== Revision History
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2021-05-21|Jessica Davies|*Initial public release*
+|========================================
