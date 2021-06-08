@@ -478,6 +478,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Michael Kinsner, Intel<br></p>
 </li>
 <li>
+<p>Mark Mendell, Intel<br></p>
+</li>
+<li>
 <p>Ci Tian, Intel</p>
 </li>
 </ul>
@@ -488,7 +491,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="_notice">Notice</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Copyright (c) 2019-2020 Intel Corporation.  All rights reserved.</p>
+<p>Copyright (c) 2019-2021 Intel Corporation.  All rights reserved.</p>
 </div>
 </div>
 </div>
@@ -511,11 +514,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2020-11-17</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2021-05-03</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">G</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">H</p></td>
 </tr>
 </tbody>
 </table>
@@ -652,6 +655,12 @@ Request to limit the number of iterations launched before the loop exit conditio
 Strong request, to the extent possible, that this loop not be fused with any adjacent loop.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGALoopControlsINTEL</strong></p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0x1000000</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>LoopCountINTEL</strong><br>
+Specify minimum, maximum and expected iteration counts of the loop. There are three 64-bit integer literal operands. The first operand is the minimum iteration count, the second is the maximum iteration count, and the third is the expected iteration count. A negative literal operand value specifies that the respective loop iteration bound or expectation is not defined. The behavior is undefined if the minimum iteration operand is non-negative and the loop iterates fewer times than that minimum.  The behavior is also undefined if the maximum iteration operand is non-negative and the loop iterates more times than that maximum.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGALoopControlsINTEL</strong></p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -758,6 +767,12 @@ Strong request, to the extent possible, that this loop not be fused with any adj
 <td class="tableblock halign-left valign-top"><p class="tableblock">Joe Garvey</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Made LoopCoalesceINTEL argument mandatory</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">H</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2021-05-03</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mark Mendell</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Add LoopCountINTEL</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -765,7 +780,7 @@ Strong request, to the extent possible, that this loop not be fused with any adj
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-11-18 10:17:22 -0400
+Last updated 2021-06-08 15:14:22 -0300
 </div>
 </div>
 </body>
