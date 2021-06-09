@@ -17,11 +17,12 @@ https://github.com/KhronosGroup/SPIRV-Registry
 - Jessica Davies, Intel +
 - Joe Garvey, Intel +
 - Michael Kinsner, Intel +
+- Mark Mendell, Intel +
 - Ci Tian, Intel
 
 == Notice
 
-Copyright (c) 2019-2020 Intel Corporation.  All rights reserved.
+Copyright (c) 2019-2021 Intel Corporation.  All rights reserved.
 
 == Status
 
@@ -31,8 +32,8 @@ Final draft
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2020-11-17
-| Revision           | G
+| Last Modified Date | 2021-05-03
+| Revision           | H
 |========================================
 
 == Dependencies
@@ -93,6 +94,8 @@ Request to limit the number of pipelined interleaved invocations of this loop th
 Request to limit the number of iterations launched before the loop exit condition has been evaluated to the number specified subsequently as a 32-bit integer literal operand. | *FPGALoopControlsINTEL*
 | 0x800000 | *NoFusionINTEL* +
 Strong request, to the extent possible, that this loop not be fused with any adjacent loop. | *FPGALoopControlsINTEL*
+| 0x1000000 | *LoopCountINTEL* +
+Specify minimum, maximum and expected iteration counts of the loop. There are three 64-bit integer literal operands. The first operand is the minimum iteration count, the second is the maximum iteration count, and the third is the expected iteration count. A negative literal operand value specifies that the respective loop iteration bound or expectation is not defined. The behavior is undefined if the minimum iteration operand is non-negative and the loop iterates fewer times than that minimum.  The behavior is also undefined if the maximum iteration operand is non-negative and the loop iterates more times than that maximum. | *FPGALoopControlsINTEL*
 |====
 
 === Capability
@@ -127,4 +130,5 @@ None.
 |E|2020-02-12|Ci Tian|Add LoopCoalesceINTEL, MaxInterleavingINTEL and SpeculatedIterationsINTEL
 |F|2020-10-27|Jessica Davies|Add NoFusionINTEL
 |G|2020-11-17|Joe Garvey|Made LoopCoalesceINTEL argument mandatory
+|H|2021-05-03|Mark Mendell|Add LoopCountINTEL
 |========================================
