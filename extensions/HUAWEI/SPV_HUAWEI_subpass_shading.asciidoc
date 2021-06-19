@@ -1,0 +1,108 @@
+SPV_HUAWEI_subpass_shading
+==========================
+
+Name Strings
+------------
+
+SPV_HUAWEI_subpass_shading
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Hueilong Wang, HUAWEI
+
+Status
+------
+
+- Draft
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2021-04-20
+| Revision           | 1
+|========================================
+
+This extension is written against the SPIR-V Specification,
+Version 1.5, Revision 6, Unified.
+
+This extension requires SPIR-V 1.0.
+
+Overview
+--------
+
+This extensions provides SPIR-V support for the GLSL *GL_HUAWEI_subpass_shading*
+extension which adds one new type of compute pipeline -- subpass shading -- which
+is allowed to access input attachments like a graphic pipeline in a subpass.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_HUAWEI_subpass_shading"
+----
+
+New Capabilities
+----------------
+
+This extension introduces new capabilities:
+
+----
+SubpassShadingHUAWEI
+----
+
+
+Modifications to the SPIR-V Specification, Version 1.5
+------------------------------------------------------
+
+
+(Modify Section 3.31, Capability, adding a row to the Capability table) ::
+--
+[options="header"]
+|====
+2+^| Capability ^| Implicitly Declares
+| 7000 | *SubpassShadingHUAWEI* +
+Allows the use of *InputAttachmentIndex* and *SubpassData* Dim
+in *GLCompute* Execution Model. | *InputAttachment*
+|====
+--
+
+
+(Modify InputAttachmentIndex to allow using this in a subpass shading shader, by changing the existing rule) ::
+
+----
+Only valid in the Fragment Execution Model and for variables of type OpTypeImage with a Dim operand of SubpassData.
+----
+
+to instead say
+
+----
+Only valid when the Execution Model is Fragment or GLCompute with SubpassShadingHUAWEI Capability, and for variables of type OpTypeImage with a Dim operand of SubpassData.
+----
+
+(Modify OpTypeImage to allow using SubpassData in a subpass shading shader, by changing the existing rule) ::
+
+----
+If Dim is SubpassData, Sampled must be 2, Image Format must be Unknown, and the Execution Model must be Fragment.
+----
+
+to instead say
+
+----
+If Dim is SubpassData, Sampled must be 2, Image Format must be Unknown, and the Execution Model must be Fragment or GLCompute with SubpassShadingHUAWEI Capability.
+----
+
+
+
