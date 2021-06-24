@@ -1,0 +1,415 @@
+SPV_KHR_integer_dot_product
+===========================
+
+Name Strings
+------------
+
+SPV_KHR_integer_dot_product
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Kévin Petit, Arm Ltd.
+- Ben Ashbaugh, Intel
+- Graeme Leese, Broadcom
+- Robert Quill, Imagination Technologies
+- Jeff Bolz, Nvidia
+- Raun Krisch, Samsung
+- Simon Waters, Samsung
+- John Kessenich, Google
+- David Neto, Google
+- Nicolai Hähnle, AMD
+- Ruihao Zhang, Qualcomm
+- Stuart Brady, Arm Ltd.
+- Alan Baker, Google
+
+Notice
+------
+
+Copyright (c) 2019 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+Status
+------
+
+- Approved by the SPIR-V Working Group: 2020-05-20
+- Approved by the Khronos Board of Promoters: 2020-07-17
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2021-06-09
+| Revision           | 2
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.5 Revision 2.
+
+This extension requires SPIR-V 1.0.
+
+Overview
+--------
+
+This extension introduces support for dot product operations on integer vectors
+with optional accumulation. The specific types accepted as inputs are
+constrained by capabilities of which this extension introduces three:
+
+- Generic support for all input vector types
+
+- Support 4-component vectors of 8 bit integers (several implementers
+  only want to support this case)
+
+- Support 4-component vectors of 8 bit integers packed into 32-bit integers
+  (for devices that don't have generic *Int8* support)
+
+This extension introduces two groups of three instructions each. Instructions of
+one of the groups perform simple dot product operations on input vectors with
+signed, unsigned or mixed-signedness (one signed, one unsigned) components.
+Instructions of the other group also perform a saturating addition of the
+dot product result with an accumulator they accept as an operand.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_KHR_integer_dot_product"
+----
+
+Modifications to the SPIR-V Specification, Version 1.5
+------------------------------------------------------
+
+Capabilities
+~~~~~~~~~~~~
+
+Modify Section 3.31, "Capability", adding these rows to the Capability table
+(these capabilities enable specific input types):
+
+--
+[options="header"]
+|====
+2+^| Capability ^| Implicitly declares
+| 6019 | *DotProductKHR* +
+Uses dot product instructions |
+| 6016 | *DotProductInputAllKHR* +
+Uses vector of any integer type as input to the dot product instructions |
+| 6017 | *DotProductInput4x8BitKHR* +
+Uses vectors of four components of 8-bit integer type as inputs to the dot product instructions | *Int8*
+| 6018 | *DotProductInput4x8BitPackedKHR* +
+Uses 32-bit integer scalars packing 4-component vectors of 8-bit integers as inputs to the dot product instructions |
+|====
+--
+
+Packed Vector Format
+~~~~~~~~~~~~~~~~~~~~
+
+New section under 3. Binary Form.
+
+Specify how to interpret scalar integers as vectors.
+
+--
+[options="header"]
+|====
+2+^| Packed Vector Format ^| Enabling Capabilities
+| 0x0 | *PackedVectorFormat4x8BitKHR* +
+Interpret 32-bit scalar integer operands as vectors of four 8-bit components. Vector components follow byte significance order. | |
+|====
+--
+
+Instructions
+~~~~~~~~~~~~
+
+Add the following new instructions:
+
+[cols="1,1,4*3,1",width="100%"]
+|====
+6+|*OpSDotKHR* +
+ +
+Signed integer dot product of _Vector 1_ and _Vector 2_. +
+ +
+_Result Type_ must be an integer type whose _Width_ must be greater than or equal
+to that of the components of _Vector 1_ and _Vector 2_. +
+ +
+_Vector 1_ and _Vector 2_ must have the same type. +
+ +
+_Vector 1_ and _Vector 2_ must be either 32-bit integers (enabled by
+*DotProductInput4x8BitPackedKHR*) or vectors of integer type (enabled by
+*DotProductInput4x8BitKHR* or *DotProductInputAllKHR*). +
+ +
+When _Vector 1_ and _Vector 2_ are scalar integer types, _Packed Vector Format_ must
+be specified to select how the integers are to be interpreted as vectors. +
+ +
+All components of the input vectors are sign-extended to the bit width of the
+result's type. The sign-extended input vectors are then multiplied component-wise
+and all components of the vector resulting from the component-wise multiplication
+are added together. The resulting value will equal the low-order N bits of the
+correct result R, where N is the result width and R is computed with enough
+precision to avoid overflow and underflow.
+
+1+|<<Capability,Capability>>: +
+*DotProductKHR*
+| 5+ | 4450 | <id> _Result Type_ | <<ResultId,'Result <id>' >> | <id> _Vector 1_ | <id> _Vector 2_ | Optional +
+_Packed Vector Format_
+|====
+
+[cols="1,1,4*3,1",width="100%"]
+|====
+6+|*OpUDotKHR* +
+ +
+Unsigned integer dot product of _Vector 1_ and _Vector 2_. +
+ +
+_Result Type_ must be an integer type with _Signedness_ of 0 whose _Width_
+must be greater than or equal to that of the components of
+_Vector 1_ and _Vector 2_. +
+ +
+_Vector 1_ and _Vector 2_ must have the same type. +
+ +
+_Vector 1_ and _Vector 2_ must be either 32-bit integers (enabled by
+*DotProductInput4x8BitPackedKHR*) or vectors of integer type with _Signedness_
+of 0 (enabled by *DotProductInput4x8BitKHR* or *DotProductInputAllKHR*). +
+ +
+When _Vector 1_ and _Vector 2_ are scalar integer types, _Packed Vector Format_ must
+be specified to select how the integers are to be interpreted as vectors. +
+ +
+All components of the input vectors are zero-extended to the bit width of the
+result's type. The zero-extended input vectors are then multiplied
+component-wise and all components of the vector resulting from the component-wise
+multiplication are added together. The resulting value will equal the low-order
+N bits of the correct result R, where N is the result width and R is computed
+with enough precision to avoid overflow and underflow.
+
+1+|<<Capability,Capability>>: +
+*DotProductKHR*
+| 5+ | 4451 | <id> _Result Type_ | <<ResultId,'Result <id>' >> | <id> _Vector 1_ | <id> _Vector 2_ | Optional +
+_Packed Vector Format_
+|====
+
+[cols="1,1,4*3,1",width="100%"]
+|====
+6+|*OpSUDotKHR* +
+ +
+Mixed-signedness integer dot product of _Vector 1_ and _Vector 2_. Components of _Vector 1_ are treated as signed, components of _Vector 2_ are treated as unsigned. +
+ +
+_Result Type_ must be an integer type whose _Width_ must be greater than or equal
+to that of the components of _Vector 1_ and _Vector 2_. +
+ +
+_Vector 1_ and _Vector 2_ must be either 32-bit integers (enabled by
+*DotProductInput4x8BitPackedKHR*) or vectors of integer type with the same
+number of components and same component _Width_ (enabled by *DotProductInput4x8BitKHR*
+or *DotProductInputAllKHR*). When _Vector 1_ and _Vector 2_ are vectors, the components
+of _Vector 2_ must have a _Signedness_ of 0. +
+ +
+When _Vector 1_ and _Vector 2_ are scalar integer types, _Packed Vector Format_ must
+be specified to select how the integers are to be interpreted as vectors. +
+ +
+All components of _Vector 1_ are sign-extended to the bit width of the result's type.
+All components of _Vector 2_ are zero-extended to the bit width of the result's type.
+The sign- or zero-extended input vectors are then multiplied component-wise and all
+components of the vector resulting from the component-wise multiplication are added
+together. The resulting value will equal the low-order N bits of the correct
+result R, where N is the result width and R is computed with enough precision to
+avoid overflow and underflow.
+
+1+|<<Capability,Capability>>: +
+*DotProductKHR*
+| 5+ | 4452 | <id> _Result Type_ | <<ResultId,'Result <id>' >> | <id> _Vector 1_ | <id> _Vector 2_ | Optional +
+_Packed Vector Format_
+|====
+
+[cols="1,1,5*3,1",width="100%"]
+|====
+7+|*OpSDotAccSatKHR* +
+ +
+Signed integer dot product of _Vector 1_ and _Vector 2_ and signed saturating addition of the result with _Accumulator_. +
+ +
+_Result Type_ must be an integer type whose _Width_ must be greater than or equal
+to that of the components of _Vector 1_ and _Vector 2_. +
+ +
+_Vector 1_ and _Vector 2_ must have the same type. +
+ +
+_Vector 1_ and _Vector 2_ must be either 32-bit integers (enabled by
+*DotProductInput4x8BitPackedKHR*) or vectors of integer type
+(enabled by *DotProductInput4x8BitKHR* or *DotProductInputAllKHR*). +
+ +
+The type of _Accumulator_ must be the same as _Result Type_. +
+ +
+When _Vector 1_ and _Vector 2_ are scalar integer types, _Packed Vector Format_ must
+be specified to select how the integers are to be interpreted as vectors. +
+ +
+All components of the input vectors are sign-extended to the bit width of the
+result's type. The sign-extended input vectors are then multiplied component-wise
+and all components of the vector resulting from the component-wise multiplication
+are added together. Finally, the resulting sum is added to the input accumulator.
+This final addition is saturating. +
+ +
+If any of the multiplications or additions, with the exception of the final
+accumulation, overflow or underflow, the result of the instruction is undefined.
+
+1+|<<Capability,Capability>>: +
+*DotProductKHR*
+| 6+ | 4453 | <id> _Result Type_ | <<ResultId,'Result <id>' >> | <id> _Vector 1_ | <id> _Vector 2_ | <id> _Accumulator_ | Optional +
+_Packed Vector Format_
+|====
+
+[cols="1,1,5*3,1",width="100%"]
+|====
+7+|*OpUDotAccSatKHR* +
+ +
+Unsigned integer dot product of _Vector 1_ and _Vector 2_ and unsigned saturating addition of the result with _Accumulator_. +
+ +
+_Result Type_ must be an integer type with _Signedness_ of 0 whose _Width_
+must be greater than or equal to that of the components of
+_Vector 1_ and _Vector 2_. +
+ +
+_Vector 1_ and _Vector 2_ must have the same type. +
+ +
+_Vector 1_ and _Vector 2_ must be either 32-bit integers (enabled by
+*DotProductInput4x8BitPackedKHR*) or vectors of integer type with _Signedness_
+of 0 (enabled by *DotProductInput4x8BitKHR* or *DotProductInputAllKHR*). +
+ +
+The type of _Accumulator_ must be the same as _Result Type_. +
+ +
+When _Vector 1_ and _Vector 2_ are scalar integer types, _Packed Vector Format_ must
+be specified to select how the integers are to be interpreted as vectors. +
+ +
+All components of the input vectors are zero-extended to the bit width of the
+result's type. The zero-extended input vectors are then multiplied component-wise
+and all components of the vector resulting from the component-wise multiplication
+are added together. Finally, the resulting sum is added to the input accumulator.
+This final addition is saturating. +
+ +
+If any of the multiplications or additions, with the exception of the final
+accumulation, overflow or underflow, the result of the instruction is undefined.
+
+1+|<<Capability,Capability>>: +
+*DotProductKHR*
+| 6+ | 4454 | <id> _Result Type_ | <<ResultId,'Result <id>' >> | <id> _Vector 1_ | <id> _Vector 2_ | <id> _Accumulator_ | Optional +
+_Packed Vector Format_
+|====
+
+[cols="1,1,5*3,1",width="100%"]
+|====
+7+|*OpSUDotAccSatKHR* +
+ +
+Mixed-signedness integer dot product of _Vector 1_ and _Vector 2_ and signed saturating addition of the result with _Accumulator_. Components of _Vector 1_ are treated as signed, components of _Vector 2_ are treated as unsigned. +
+ +
+_Result Type_ must be an integer type whose _Width_ must be greater than or equal
+to that of the components of _Vector 1_ and _Vector 2_. +
+ +
+_Vector 1_ and _Vector 2_ must be either 32-bit integers (enabled by
+*DotProductInput4x8BitPackedKHR*) or vectors of integer type with the same
+number of components and same component _Width_ (enabled by *DotProductInput4x8BitKHR*
+or *DotProductInputAllKHR*). When _Vector 1_ and _Vector 2_ are vectors, the components
+of _Vector 2_ must have a _Signedness_ of 0. +
+ +
+The type of _Accumulator_ must be the same as _Result Type_. +
+ +
+When _Vector 1_ and _Vector 2_ are scalar integer types, _Packed Vector Format_ must
+be specified to select how the integers are to be interpreted as vectors. +
+ +
+All components of _Vector 1_ are sign-extended to the bit width of the result's type.
+All components of _Vector 2_ are zero-extended to the bit width of the result's type.
+The sign- or zero-extended input vectors are then multiplied component-wise and
+all components of the vector resulting from the component-wise multiplication
+are added together. Finally, the resulting sum is added to the input accumulator.
+This final addition is saturating. +
+ +
+If any of the multiplications or additions, with the exception of the final
+accumulation, overflow or underflow, the result of the instruction is undefined.
+
+1+|<<Capability,Capability>>: +
+*DotProductKHR*
+| 6+ | 4455 | <id> _Result Type_ | <<ResultId,'Result <id>' >> | <id> _Vector 1_ | <id> _Vector 2_ | <id> _Accumulator_ | Optional +
+_Packed Vector Format_
+|====
+
+Interactions with type capabilities
+-----------------------------------
+
+Support for specific input types is enabled by various capabilities as
+follows.
+
+Vectors of 4 8-bit integer components packed into a 32-bit integer are enabled by *DotProductInput4x8BitPackedKHR*.
+
+Vectors of 4 8-bit integer components are enabled by *DotProductInput4x8BitKHR*.
+
+Vectors of any other type are enabled by *DotProductInputAllKHR* along with other
+capabilities:
+
+- 2-, 3- or 4-component vectors require no additional capabilities
+- 8- or 16-component vectors require *Vector16*
+- 8-bit components require *Int8*
+- 16-bit components require *Int16*
+- 32-bit components require no additional capabilities
+- 64-bit components require *Int64*
+
+Issues
+------
+
+. How should the signedness of operations be determined?
++
+--
+*RESOLVED*: In line with existing instructions, the signedness of operations is
+carried by instructions (*OpS\**, *OpU\** and *OpSU**). Using the signedness
+of operands couldn't work at all for OpenCL where signedness isn't part of the
+types. Having three separate instructions for that purpose was deemed acceptable.
+The signedness of operands is contrained to be 0 for instructions that treat their
+inputs as unsigned to help with validation (as a non-zero value is very likely
+to be incorrect).
+--
+
+. Should there be non-saturating accumulating instructions?
++
+--
+*RESOLVED*: No. It is simple enough to spot the dot product followed by an
+addition pattern and lower it to specific instructions in consumers that have
+them. There are multiple benefits to this approach:
+
+- Consumers that have these instructions are forced to optimise the pattern
+  which removes the possibility that a user might use a non-accumulating
+  instruction followed by an addition instead of an accumulating instruction.
+- Keeping the addition and dot product separate may expose additional
+  optimisation opportunities.
+- Most high-level languages already have operators for addition. This reduces
+  the number of new built-in functions to introduce.
+--
+
+. Shouldn't the width of the result type always be large enough to accomodate
+all possible values of the input vectors?
++
+--
+*RESOLVED*: No. This prevents implementing the instructions with lower precision
+arithmetic in some cases and is not consistent with other arithmetic
+instructions. Programs that need the result type to be large enough to represent
+the dot product of the input vectors for all possible values of the input vectors
+should choose a result type that satisfies the following constraint:
+
+    result_width >= input_component_width * 2 + ceil(log2(input_num_components))
+
+--
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|2|2021-06-09|Kévin Petit|Use a single capability to enable all instructions
+|1|2020-05-20|Kévin Petit|Initial revision
+|========================================

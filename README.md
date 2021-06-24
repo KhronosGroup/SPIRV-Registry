@@ -96,6 +96,7 @@ Khronos SPIR-V Registry](https://www.khronos.org/registry/spir-v/).
 1. [SPV_INTEL_fpga_invocation_pipelining_attributes]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/master/extensions/INTEL/SPV_INTEL_fpga_invocation_pipelining_attributes.html)
 1. [SPV_KHR_subgroup_uniform_control_flow]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/master/extensions/KHR/SPV_KHR_subgroup_uniform_control_flow.html)
 1. [SPV_HUAWEI_subpass_shading]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/master/extensions/HUAWEI/SPV_HUAWEI_subpass_shading.html)
+1. [SPV_KHR_integer_dot_product]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/master/extensions/KHR/SPV_KHR_integer_dot_product.html)
 
 ## Non-Semantic Extended Instruction Set Specifications
 
