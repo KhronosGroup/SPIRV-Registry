@@ -1,0 +1,138 @@
+SPV_EXT_shader_atomic_float16_add
+=================================
+
+Name Strings
+------------
+
+SPV_EXT_shader_atomic_float16_add
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Jason Ekstrand, Intel
+- Ben Ashbaugh, Intel
+
+Status
+------
+
+- Complete
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2021-01-13
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification, Version 1.5 Revision 5.
+
+This extension requires SPIR-V 1.0.
+
+This extension depends on and extends the *SPV_EXT_shader_atomic_float_add* extension.
+
+Overview
+--------
+
+This extension extends the *SPV_EXT_shader_atomic_float_add* extension to support atomically adding to 16-bit floating-point numbers in memory.
+
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_EXT_shader_atomic_float16_add"
+----
+
+Because this extension extends the *SPV_EXT_shader_atomic_float_add* extension, the following *OpExtension* must also be present in the module:
+
+----
+OpExtension "SPV_EXT_shader_atomic_float_add"
+----
+
+New Capabilities
+----------------
+
+This extension introduces the new capability:
+
+----
+AtomicFloat16AddEXT
+----
+
+
+Modifications to the SPIR-V Specification, Version 1.5
+------------------------------------------------------
+
+Modify Section 3.31, "Capability", adding this row to the Capability table:
+
+--
+[cols="1^.^,15,15",options="header"]
+|====
+2+^| Capability ^| Implicitly Declares
+| 6095 | *AtomicFloat16AddEXT* +
+Uses the *OpAtomicFAddEXT* instruction with 16-bit floating point values. |
+|====
+--
+
+Add the *AtomicFloat16AddEXT* capability to the *OpAtomicFAddEXT* instruction added by *SPV_EXT_shader_atomic_float_add*:
+
+[width="100%",cols="1,1,6*4"]
+|======
+7+|[[OpAtomicFAddEXT]]*OpAtomicFAddEXT* +
+ +
+(The description of this instruction is unchanged from *SPV_EXT_shader_atomic_float_add*.)
+
+1+|Capability: +
+*AtomicFloat32AddEXT* *AtomicFloat64AddEXT* *AtomicFloat16AddEXT*
+| 7 | 6035 | _<id> Result type_ | _Result <id>_ | _<id>_ Pointer  | _Scope <id> Memory_ | Memory Semantics <id> Semantics | <id> Value |
+|======
+
+Validation Rules
+----------------
+
+An *OpExtension* must be added to the SPIR-V for validation layers to check
+legal use of this extension:
+
+----
+OpExtension "SPV_EXT_shader_atomic_float16_add"
+----
+
+An *OpExtension* must also be added for the *SPV_EXT_shader_atomic_float_add* extension that this extension depends on:
+
+----
+OpExtension "SPV_EXT_shader_atomic_float_add"
+----
+
+ * When using *OpAtomicFAddEXT* 16-bit floating-point values are allowed.
+ * If *OpAtomicFAddEXT* is used with 16-bit floating-point values, the *AtomicFloat16AddEXT*
+   capability must be declared.
+
+Issues
+------
+
+None yet.
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1 |2021-01-13 |Ben Ashbaugh|Internal revisions
+|========================================

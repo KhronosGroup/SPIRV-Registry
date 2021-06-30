@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="generator" content="AsciiDoc 8.6.9">
-<title>SPV_EXT_shader_atomic_float_add</title>
+<meta name="generator" content="AsciiDoc 9.1.0">
+<title>SPV_EXT_shader_atomic_float16_add</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
 
@@ -434,7 +434,7 @@ thead, p.table.header {
 p.table {
   margin-top: 0;
 }
-/* Because the table frame attribute is overriden by CSS in most browsers. */
+/* Because the table frame attribute is overridden by CSS in most browsers. */
 div.tableblock > table[frame="void"] {
   border-style: none;
 }
@@ -766,7 +766,7 @@ asciidoc.install(1);
 </head>
 <body class="article">
 <div id="header">
-<h1>SPV_EXT_shader_atomic_float_add</h1>
+<h1>SPV_EXT_shader_atomic_float16_add</h1>
 <div id="toc">
   <div id="toctitle">Table of Contents</div>
   <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
@@ -776,7 +776,7 @@ asciidoc.install(1);
 <div class="sect1">
 <h2 id="_name_strings">Name Strings</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>SPV_EXT_shader_atomic_float_add</p></div>
+<div class="paragraph"><p>SPV_EXT_shader_atomic_float16_add</p></div>
 </div>
 </div>
 <div class="sect1">
@@ -792,47 +792,12 @@ asciidoc.install(1);
 <div class="ulist"><ul>
 <li>
 <p>
-Vikram Kushwaha, NVIDIA
-</p>
-</li>
-<li>
-<p>
-Daniel Koch, NVIDIA
-</p>
-</li>
-<li>
-<p>
-Jeff Bolz, NVIDIA
-</p>
-</li>
-<li>
-<p>
-Alan Baker, Google
-</p>
-</li>
-<li>
-<p>
-David Neto, Google
-</p>
-</li>
-<li>
-<p>
-Nicolai Hahnle, AMD
-</p>
-</li>
-<li>
-<p>
-Brian Sumner, AMD
-</p>
-</li>
-<li>
-<p>
 Jason Ekstrand, Intel
 </p>
 </li>
 <li>
 <p>
-Graeme Leese, Broadcom
+Ben Ashbaugh, Intel
 </p>
 </li>
 </ul></div>
@@ -862,11 +827,11 @@ width:40%;
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2021-03-17</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2021-01-13</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
 </tr>
 </tbody>
 </table>
@@ -875,14 +840,15 @@ width:40%;
 <div class="sect1">
 <h2 id="_dependencies">Dependencies</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>This extension is written against the SPIR-V Specification, Version 1.5 Revision 2.</p></div>
+<div class="paragraph"><p>This extension is written against the SPIR-V Specification, Version 1.5 Revision 5.</p></div>
 <div class="paragraph"><p>This extension requires SPIR-V 1.0.</p></div>
+<div class="paragraph"><p>This extension depends on and extends the <strong>SPV_EXT_shader_atomic_float_add</strong> extension.</p></div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_overview">Overview</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>This extension adds atomic add instruction on floating-point numbers.</p></div>
+<div class="paragraph"><p>This extension extends the <strong>SPV_EXT_shader_atomic_float_add</strong> extension to support atomically adding to 16-bit floating-point numbers in memory.</p></div>
 </div>
 </div>
 <div class="sect1">
@@ -892,6 +858,11 @@ width:40%;
 <strong>OpExtension</strong> must be present in the module:</p></div>
 <div class="listingblock">
 <div class="content monospaced">
+<pre>OpExtension "SPV_EXT_shader_atomic_float16_add"</pre>
+</div></div>
+<div class="paragraph"><p>Because this extension extends the <strong>SPV_EXT_shader_atomic_float_add</strong> extension, the following <strong>OpExtension</strong> must also be present in the module:</p></div>
+<div class="listingblock">
+<div class="content monospaced">
 <pre>OpExtension "SPV_EXT_shader_atomic_float_add"</pre>
 </div></div>
 </div>
@@ -899,11 +870,10 @@ width:40%;
 <div class="sect1">
 <h2 id="_new_capabilities">New Capabilities</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>This extension introduces new capabilities:</p></div>
+<div class="paragraph"><p>This extension introduces the new capability:</p></div>
 <div class="listingblock">
 <div class="content monospaced">
-<pre>AtomicFloat32AddEXT
-AtomicFloat64AddEXT</pre>
+<pre>AtomicFloat16AddEXT</pre>
 </div></div>
 </div>
 </div>
@@ -928,21 +898,15 @@ width:100%;
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-middle" ><p class="tableblock">6033</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>AtomicFloat32AddEXT</strong><br>
-Uses the <strong>OpAtomicFAddEXT</strong> instruction with 32-bit floating point values.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-middle" ><p class="tableblock">6034</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>AtomicFloat64AddEXT</strong><br>
-Uses the <strong>OpAtomicFAddEXT</strong> instruction with 64-bit floating point values.</p></td>
+<td class="tableblock halign-center valign-middle" ><p class="tableblock">6095</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>AtomicFloat16AddEXT</strong><br>
+Uses the <strong>OpAtomicFAddEXT</strong> instruction with 16-bit floating point values.</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
 </tr>
 </tbody>
 </table>
 </div></div>
-<div class="paragraph"><p>(Modify section 3.32.18, Atomic Instructions, adding to the end of the list of instructions)</p></div>
+<div class="paragraph"><p>Add the <strong>AtomicFloat16AddEXT</strong> capability to the <strong>OpAtomicFAddEXT</strong> instruction added by <strong>SPV_EXT_shader_atomic_float_add</strong>:</p></div>
 <table class="tableblock frame-all grid-all"
 style="
 width:100%;
@@ -959,16 +923,9 @@ width:100%;
 <tr>
 <td class="tableblock halign-left valign-top" colspan="7" ><p class="tableblock"><a id="OpAtomicFAddEXT"></a><strong>OpAtomicFAddEXT</strong><br>
 <br>
-Perform the following steps atomically with respect to any other atomic accesses within <em>Scope</em> to the same location:<br></p>
-<p class="tableblock">1) load through <em>Pointer</em> to get an <em>Original Value</em>,<br></p>
-<p class="tableblock">2) get a <em>New Value</em> by float addition of <em>Original Value</em> and <em>Value</em>, and<br></p>
-<p class="tableblock">3) store the <em>New Value</em> back through <em>Pointer</em>.<br></p>
-<p class="tableblock">The instruction&#8217;s result is the <em>Original Value</em>.<br></p>
-<p class="tableblock"><em>Result Type</em> must be a <em>floating-point type</em> scalar.<br></p>
-<p class="tableblock">The type of <em>Value</em> must be the same as <em>Result Type</em>. The type of the value pointed to by <em>Pointer</em> must be the same as <em>Result Type</em>.<br></p>
-<p class="tableblock"><em>Memory</em> must be a valid memory <em>Scope</em>.</p></td>
+(The description of this instruction is unchanged from <strong>SPV_EXT_shader_atomic_float_add</strong>.)</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
-<strong>AtomicFloat32AddEXT</strong> <strong>AtomicFloat64AddEXT</strong></p></td>
+<strong>AtomicFloat32AddEXT</strong> <strong>AtomicFloat64AddEXT</strong> <strong>AtomicFloat16AddEXT</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">7</p></td>
@@ -985,20 +942,15 @@ Perform the following steps atomically with respect to any other atomic accesses
 </div>
 </div>
 <div class="sect1">
-<h2 id="_new_instructions">New Instructions</h2>
-<div class="sectionbody">
-<div class="paragraph"><p>Instructions added under <strong>AtomicFloat32AddEXT</strong> or <strong>AtomicFloat64AddEXT</strong> capability:</p></div>
-<div class="listingblock">
-<div class="content monospaced">
-<pre>OpAtomicFAddEXT</pre>
-</div></div>
-</div>
-</div>
-<div class="sect1">
 <h2 id="_validation_rules">Validation Rules</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>An OpExtension must be added to the SPIR-V for validation layers to check
+<div class="paragraph"><p>An <strong>OpExtension</strong> must be added to the SPIR-V for validation layers to check
 legal use of this extension:</p></div>
+<div class="listingblock">
+<div class="content monospaced">
+<pre>OpExtension "SPV_EXT_shader_atomic_float16_add"</pre>
+</div></div>
+<div class="paragraph"><p>An <strong>OpExtension</strong> must also be added for the <strong>SPV_EXT_shader_atomic_float_add</strong> extension that this extension depends on:</p></div>
 <div class="listingblock">
 <div class="content monospaced">
 <pre>OpExtension "SPV_EXT_shader_atomic_float_add"</pre>
@@ -1006,18 +958,12 @@ legal use of this extension:</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
-When using <strong>OpAtomicFAddEXT</strong> only 32- or 64-bit floating-point values are allowed.
+When using <strong>OpAtomicFAddEXT</strong> 16-bit floating-point values are allowed.
 </p>
 </li>
 <li>
 <p>
-If <strong>OpAtomicFAddEXT</strong> is used with 32-bit floating-point values, the <strong>AtomicFloat32AddEXT</strong>
-   capability must be declared.
-</p>
-</li>
-<li>
-<p>
-If <strong>OpAtomicFAddEXT</strong> is used with 64-bit floating-point values, the <strong>AtomicFloat64AddEXT</strong>
+If <strong>OpAtomicFAddEXT</strong> is used with 16-bit floating-point values, the <strong>AtomicFloat16AddEXT</strong>
    capability must be declared.
 </p>
 </li>
@@ -1052,15 +998,9 @@ width:100%;
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2020-07-15</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Vikram Kushwaha</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2021-01-13</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Ben Ashbaugh</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Internal revisions</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2021-03-17</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Spencer Fricke</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Clarify result type is scalar</p></td>
 </tr>
 </tbody>
 </table>
@@ -1070,7 +1010,8 @@ width:100%;
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-03-17 12:00:00 PDT
+Last updated
+ 2021-06-16 10:53:16 CDT
 </div>
 </div>
 </body>
