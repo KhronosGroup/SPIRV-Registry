@@ -44,7 +44,7 @@ This extension requires SPIR-V 1.0.
 Overview
 --------
 
-This enables the following bit instructions to be used by SPIR-V modules without the requiring the *Shader* capability:
+This enables the following bit instructions to be used by SPIR-V modules without requiring the *Shader* capability:
 
 * *OpBitFieldInsert*
 * *OpBitFieldSExtract*
@@ -85,7 +85,7 @@ Uses the bit reverse, bitfield insert, and bitfield extract instructions. |
 |====
 --
 
-Modify Section 3.37.14, "Bit Instructions", adding the *BitInstructions* capability to following instructions:
+Modify Section 3.37.14, "Bit Instructions", adding the *BitInstructions* capability to the following instructions:
 
 [cols="1,1,6*3",width="100%"]
 |=====
