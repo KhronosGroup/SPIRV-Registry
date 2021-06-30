@@ -73,7 +73,7 @@ Modifications to the SPIR-V Specification, Version 1.5
 [options="header"]
 |====
 2+^| Capability ^| Implicitly Declares
-| 7000 | *SubpassShadingHUAWEI* +
+| 6272 | *SubpassShadingHUAWEI* +
 Allows the use of *InputAttachmentIndex* and *SubpassData* Dim
 in *GLCompute* Execution Model. | *InputAttachment*
 |====
