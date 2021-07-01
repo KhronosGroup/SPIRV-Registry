@@ -667,7 +667,9 @@ A type with multiple qualifiers are represented as a sequence of
  <<DebugLocalVariable,*DebugLocalVariable*>>. If it is an *OpConstant*, its type
  must be a 32-bit or 64-bit integer type. Otherwise its type must be
  a <<DebugTypeBasic,*DebugTypeBasic*>> whose 'Size' is 32 or 64 and whose
- 'Encoding' is *Unsigned*. +
+ 'Encoding' is *Unsigned*. If the *OpConstant* value is set to 0, this indicates
+ an array with an unknown size at compile time which is sized at runtime,
+ corresponding to the SPIR-V *OpTypeRuntimeArray* type. +
 
 | 7+ | 12 | '<id>' +
 'Result Type' | 'Result <id>' | '<id> Set'| 5
@@ -1827,5 +1829,6 @@ Revision History
                                              *DebugLine* type instructions can appear.
 |1.00 Rev 5  |2020-01-04|Baldur Karlsson    |Add *Flags* parameter to *DebugTypeBasic*.
 |1.00 Rev 6  |2020-01-22|Baldur Karlsson    |Rename extended instruction set.
+|1.00 Rev 7  |2020-07-01|Baldur Karlsson    |Clarify runtime array sizing.
 |========================================================
 
