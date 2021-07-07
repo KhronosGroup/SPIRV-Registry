@@ -1829,6 +1829,6 @@ Revision History
                                              *DebugLine* type instructions can appear.
 |1.00 Rev 5  |2020-01-04|Baldur Karlsson    |Add *Flags* parameter to *DebugTypeBasic*.
 |1.00 Rev 6  |2020-01-22|Baldur Karlsson    |Rename extended instruction set.
-|1.00 Rev 7  |2020-07-01|Baldur Karlsson    |Clarify runtime array sizing.
+|1.00 Rev 7  |2021-07-01|Baldur Karlsson    |Clarify runtime array sizing.
 |========================================================
 
