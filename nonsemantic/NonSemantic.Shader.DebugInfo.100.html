@@ -897,11 +897,11 @@ width:40%;
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2020-11-17</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2021-07-01</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">7</p></td>
 </tr>
 </tbody>
 </table>
@@ -2134,7 +2134,9 @@ width:100%;
  <a href="#DebugLocalVariable"><strong>DebugLocalVariable</strong></a>. If it is an <strong>OpConstant</strong>, its type
  must be a 32-bit or 64-bit integer type. Otherwise its type must be
  a <a href="#DebugTypeBasic"><strong>DebugTypeBasic</strong></a> whose <em>Size</em> is 32 or 64 and whose
- <em>Encoding</em> is <strong>Unsigned</strong>.<br></p></td>
+ <em>Encoding</em> is <strong>Unsigned</strong>. If the <strong>OpConstant</strong> value is set to 0, this indicates
+ an array with an unknown size at compile time which is sized at runtime,
+ corresponding to the SPIR-V <strong>OpTypeRuntimeArray</strong> type.<br></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">7+</p></td>
@@ -4041,6 +4043,12 @@ width:100%;
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Baldur Karlsson</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Rename extended instruction set.</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1.00 Rev 7</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2021-07-01</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Baldur Karlsson</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Clarify runtime array sizing.</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -4050,7 +4058,7 @@ width:100%;
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2021-03-24 16:41:38 IST
+ 2021-07-01 10:31:56 GMT
 </div>
 </div>
 </body>
