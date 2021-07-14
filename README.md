@@ -95,11 +95,11 @@ Khronos SPIR-V Registry](https://www.khronos.org/registry/spir-v/).
 1. [SPV_NV_bindless_texture                 ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/master/extensions/NV/SPV_NV_bindless_texture.html)
 1. [SPV_INTEL_fpga_invocation_pipelining_attributes]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/master/extensions/INTEL/SPV_INTEL_fpga_invocation_pipelining_attributes.html)
 1. [SPV_KHR_subgroup_uniform_control_flow]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/master/extensions/KHR/SPV_KHR_subgroup_uniform_control_flow.html)
+1. [SPV_HUAWEI_subpass_shading]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/master/extensions/HUAWEI/SPV_HUAWEI_subpass_shading.html)
 1. [SPV_KHR_integer_dot_product]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/master/extensions/KHR/SPV_KHR_integer_dot_product.html)
 1. [SPV_EXT_shader_atomic_float16_add       ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/master/extensions/EXT/SPV_EXT_shader_atomic_float16_add.html)
 1. [SPV_INTEL_runtime_aligned               ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/master/extensions/INTEL/SPV_INTEL_runtime_aligned.html)
 1. [SPV_KHR_bit_instructions                ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/master/extensions/KHR/SPV_KHR_bit_instructions.html)
-
 
 ## Non-Semantic Extended Instruction Set Specifications
 
