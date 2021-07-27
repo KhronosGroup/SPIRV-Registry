@@ -897,11 +897,11 @@ width:40%;
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2021-07-01</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2021-07-27</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">7</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">8</p></td>
 </tr>
 </tbody>
 </table>
@@ -1052,7 +1052,8 @@ source program.<br>
 <br>
 <a href="#DebugScope"><strong>DebugScope</strong></a>, <a href="#DebugNoScope"><strong>DebugNoScope</strong></a>,
 <a href="#DebugDeclare"><strong>DebugDeclare</strong></a>, <a href="#DebugValue"><strong>DebugValue</strong></a>,
-<a href="#DebugLine"><strong>DebugLine</strong></a>, and <a href="#DebugNoLine"><strong>DebugNoLine</strong></a>
+<a href="#DebugLine"><strong>DebugLine</strong></a>, <a href="#DebugNoLine"><strong>DebugNoLine</strong></a>, and
+<a href="#DebugFunctionDefinition"><strong>DebugFunctionDefinition</strong></a>
 instructions can interleave with the instructions within a function, but must appear
 within valid locations in a block as required by <strong>SPV_KHR_non_semantic_info</strong>. In
 particular this means they cannot come before any <strong>OpPhi</strong> or function-level variable
@@ -4049,6 +4050,13 @@ width:100%;
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Baldur Karlsson</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Clarify runtime array sizing.</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1.00 Rev 8</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2021-07-27</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Baldur Karlsson</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Clarify that <strong>DebugFunctionDefinition</strong> can be in<br>
+                                             basic blocks.</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -4058,7 +4066,7 @@ width:100%;
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2021-07-01 10:31:56 GMT
+ 2021-07-27 15:41:09 GMT
 </div>
 </div>
 </body>

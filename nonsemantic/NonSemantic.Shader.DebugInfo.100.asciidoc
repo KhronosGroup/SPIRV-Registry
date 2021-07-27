@@ -54,8 +54,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2021-07-01
-| Revision           | 7
+| Last Modified Date | 2021-07-27
+| Revision           | 8
 |========================================
 
 Dependencies
@@ -151,7 +151,8 @@ source program. +
  +
 <<DebugScope,*DebugScope*>>, <<DebugNoScope,*DebugNoScope*>>,
 <<DebugDeclare,*DebugDeclare*>>, <<DebugValue,*DebugValue*>>,
-<<DebugLine,*DebugLine*>>, and <<DebugNoLine,*DebugNoLine*>>
+<<DebugLine,*DebugLine*>>, <<DebugNoLine,*DebugNoLine*>>, and
+<<DebugFunctionDefinition,*DebugFunctionDefinition*>>
 instructions can interleave with the instructions within a function, but must appear
 within valid locations in a block as required by *SPV_KHR_non_semantic_info*. In
 particular this means they cannot come before any *OpPhi* or function-level variable
@@ -1830,5 +1831,7 @@ Revision History
 |1.00 Rev 5  |2020-01-04|Baldur Karlsson    |Add *Flags* parameter to *DebugTypeBasic*.
 |1.00 Rev 6  |2020-01-22|Baldur Karlsson    |Rename extended instruction set.
 |1.00 Rev 7  |2021-07-01|Baldur Karlsson    |Clarify runtime array sizing.
+|1.00 Rev 8  |2021-07-27|Baldur Karlsson    |Clarify that *DebugFunctionDefinition* can be in +
+                                             basic blocks.
 |========================================================
 
