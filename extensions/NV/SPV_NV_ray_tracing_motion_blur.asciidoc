@@ -1,0 +1,289 @@
+SPV_NV_ray_tracing_motion
+=========================
+
+Name Strings
+------------
+
+SPV_NV_ray_tracing_motion_blur
+
+Contact
+-------
+
+See *Issues* list in the Khronos SPIRV-Registry repository:
+https://github.com/KhronosGroup/SPIRV-Registry
+
+Contributors
+------------
+
+- Eric Werness, NVIDIA
+- Ashwin Lele, NVIDIA
+- Daniel Koch, NVIDIA
+
+Status
+------
+
+- Complete
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2021-06-01
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.5 Revision 5.
+
+This extension requires SPIR-V 1.4.
+
+This extension requires SPV_KHR_ray_tracing and interacts with
+SPV_NV_ray_tracing.
+
+Overview
+--------
+
+This extension adds new functionality to support the Vulkan
+VK_NV_ray_tracing_motion_blur extension in SPIR-V.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_NV_ray_tracing_motion_blur"
+----
+
+
+New Capabilities
+----------------
+
+This extension introduces new capabilities:
+
+----
+RayTracingMotionBlurNV
+----
+
+
+New Builtins
+------------
+
+Builtins added under the *RayTracingMotionBlurNV* capability
+
+----
+CurrentRayTimeNV
+----
+
+New Instructions
+----------------
+
+Instructions added under the *RayTracingMotionBlurNV* capability
+
+----
+OpTraceMotionNV
+OpTraceRayMotionNV
+----
+
+Modifications to the SPIR-V Specification, Version 1.5
+------------------------------------------------------
+
+
+(Modify Section 3.21, Builtin, adding rows to the Builtin table) ::
++
+--
+[cols="1^,10,6^,2*2",options="header",width = "100%"]
+|====
+2+^.^| Decoration | <<Capability,Enabling Capabilities>> 2+<.^| Extra Operands
+| 5334 | *CurrentRayTimeNV* +
+Provides the time parameter as passed to the parent 'OpTraceMotionNV' or
+'OpTraceRayMotionNV' call
+Allowed only in *IntersectionKHR*, *AnyHitKHR*, *ClosestHitKHR* and
+*MissKHR* ray tracing execution models.
+
+Refer to the Ray Tracing chapter of Vulkan API specification for more details.
+|*RayTracingMotionBlurNV* 2+|
+|====
+--
+
+
+(Modify Section 3.31, Capability, adding a row to the Capability table) ::
++
+--
+[cols="1^.^,25,8^,15",options="header",width = "100%"]
+|====
+2+^.^| Capability | Depends On | Enabled by Extension
+| 5341 | *RayTracingMotionBlurNV* +
+Allows the use of *OpTraceMotionNV* or *OpTraceRayMotionNV*.
+|  | *SPV_NV_ray_tracing_motion_blur*
+|====
+--
+
+
+(Add a new sub section 3.32.24, Ray Tracing Instructions, adding to end of list of instructions) ::
++
+--
+[cols="1,1,12*4"]
+|======
+13+|[[OpTraceMotionNV]]*OpTraceMotionNV* +
+ +
+ Trace a ray into the acceleration structure. +
+ +
+ 'Acceleration Structure' is the descriptor for the acceleration structure to trace into. +
+ +
+ 'Ray Flags' contains one or more of the 'Ray Flag' values as described in SPV_KHR_ray_tracing. +
+ +
+ 'Cull Mask' is the mask to test against the instance mask. +
+ +
+ 'SBT Offset' and 'SBT Stride' control indexing into the SBT for hit shaders called from this trace.
+ 'SBT' stands for Shader Binding Table. Refer to the Ray Tracing chapter of Vulkan API specification for details. +
+ +
+ 'Miss Index' is the index of the miss shader to be called from this trace call. +
+ +
+ 'Ray Origin', 'Ray Tmin', 'Ray Direction', and 'Ray Tmax' control the basic parameters of the ray to be traced. +
+ +
+ 'Payload number' matches the declared location of the payload structure to use for this trace. +
+ +
+ 'Ray Flags', 'Cull Mask', 'SBT Offset', 'SBT Stride', and 'Miss Index' must be a 32-bit 'integer type' scalar. +
+ +
+ Only the 8 least-significant bits of 'Cull Mask' are used by this instruction - other bits are ignored.
+ +
+ Only the 4 least-significant bits of 'SBT Offset' and 'SBT Stride' are used by this instruction - other bits are ignored.
+ +
+ Only the 16 least-significant bits of 'Miss Index' are used by this instruction - other bits are ignored.
+ +
+ 'Ray Origin' and 'Ray Direction' must be a 32-bit 'float type' 3-component vector. +
+ +
+ 'Ray Tmin' and 'Ray Tmax' must be a 32-bit 'float type' scalar. +
+ +
+ 'Current Time' must be a 32-bit 'float type' scalar. +
+ +
+ This instruction is allowed only in *RayGenerationKHR*, *ClosestHitKHR* and *MissKHR* execution models. +
+ +
+ This instruction is a _shader call instruction_ which may invoke shaders with the *IntersectionKHR*, *AnyHitKHR*,
+ *ClosestHitKHR*, and *MissKHR* execution models.
+ +
+1+|Capability: +
+*RayTracingMotionBlurNV*
+| 13 | 5338
+| '<id> Acceleration Structure'
+| '<id> Ray Flags'
+| '<id>' 'Cull Mask'
+| '<id>' 'SBT Offset'
+| '<id>' 'SBT Stride'
+| '<id>' 'Miss Index'
+| '<id>' 'Ray Origin'
+| '<id>' 'Ray Tmin'
+| '<id>' 'Ray Direction'
+| '<id>' 'Ray Tmax'
+| '<id>' 'Current Time'
+| '<id>' 'Payload number'
+|======
+
+[cols="1,1,12*4"]
+|======
+13+|[[OpTraceRayMotionNV]]*OpTraceRayMotionNV* +
+ +
+ Trace a ray into the acceleration structure. +
+ +
+ 'Acceleration Structure' is the descriptor for the acceleration structure to trace into. +
+ +
+ 'Ray Flags' contains one or more of the 'Ray Flag' values as described in SPV_KHR_ray_tracing. +
+ +
+ 'Cull Mask' is the mask to test against the instance mask. +
+ +
+ 'SBT Offset' and 'SBT Stride' control indexing into the SBT for hit shaders called from this trace.
+ 'SBT' stands for Shader Binding Table. Refer to the Ray Tracing chapter of Vulkan API specification for details. +
+ +
+ 'Miss Index' is the index of the miss shader to be called from this trace call. +
+ +
+ 'Ray Origin', 'Ray Tmin', 'Ray Direction', and 'Ray Tmax' control the basic parameters of the ray to be traced. +
+ +
+  'Payload' is a pointer to the ray payload structure to use for this trace. 'Payload' must be the result of an *OpVariable* with a storage class of *RayPayloadKHR* or **IncomingRayPayloadKHR**. +
+ +
+ 'Ray Flags', 'Cull Mask', 'SBT Offset', 'SBT Stride', and 'Miss Index' must be a 32-bit 'integer type' scalar. +
+ +
+ Only the 8 least-significant bits of 'Cull Mask' are used by this instruction - other bits are ignored.
+ +
+ Only the 4 least-significant bits of 'SBT Offset' and 'SBT Stride' are used by this instruction - other bits are ignored.
+ +
+ Only the 16 least-significant bits of 'Miss Index' are used by this instruction - other bits are ignored.
+ +
+ 'Ray Origin' and 'Ray Direction' must be a 32-bit 'float type' 3-component vector. +
+ +
+ 'Ray Tmin' and 'Ray Tmax' must be a 32-bit 'float type' scalar. +
+ +
+ 'Current Time' must be a 32-bit 'float type' scalar. +
+ +
+ This instruction is allowed only in *RayGenerationKHR*, *ClosestHitKHR* and *MissKHR* execution models. +
+ +
+ This instruction is a _shader call instruction_ which may invoke shaders with the *IntersectionKHR*, *AnyHitKHR*,
+ *ClosestHitKHR*, and *MissKHR* execution models.
+ +
+1+|Capability: +
+*RayTracingMotionBlurNV*
+| 13 | 5339
+| '<id> Acceleration Structure'
+| '<id> Ray Flags'
+| '<id>' 'Cull Mask'
+| '<id>' 'SBT Offset'
+| '<id>' 'SBT Stride'
+| '<id>' 'Miss Index'
+| '<id>' 'Ray Origin'
+| '<id>' 'Ray Tmin'
+| '<id>' 'Ray Direction'
+| '<id>' 'Ray Tmax'
+| '<id>' 'Current Time'
+| '<id>' 'Payload'
+|======
+--
+
+
+Validation Rules
+----------------
+
+An OpExtension must be added to the SPIR-V for validation layers to check
+legal use of this extension:
+
+----
+OpExtension "SPV_NV_ray_tracing_motion_blur"
+----
+
+Interactions with SPV_NV_ray_tracing
+-----------------------------------
+
+*OpTypeAccelerationStructureKHR*, *RayGenerationKHR*, *IntersectionKHR*,
+*AnyHitKHR*, *ClosestHitKHR* , *MissKHR*, *RayPayloadKHR* and *IncomingRayPayloadKHR*
+are aliases of *OpTypeAccelerationStructureNV*,*RayGenerationNV*, *IntersectionNV*,
+*AnyHitNV*, *ClosestHitNV* and *MissNV* respectively and can be used
+interchangeably in this extension.
+
+*OpTraceMotionNV* is supported only if SPV_NV_ray_tracing is supported.
+
+
+Issues
+------
+
+1) Why are there two separate instructions 'OpTraceMotionNV' and 'OpTraceRayMotionNV' added 
+with this extension?
+
+Resolved : 'OpTraceNV' instruction in SPV_NV_ray_tracing extension has the last argument as
+payload id when compared to 'OpTraceRayKHR' which has id of an OpVariable. We follow the same
+convention and provide two separate instructions. 'OpTraceMotionNV' has payload id as the last
+argument and 'OpTraceRayMotionNV' has id of an OpVariable.
+
+Revision History
+----------------
+
+[cols="5,15,15,30"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1 |2020-06-01 |Ashwin Lele|*Internal revisions*
+|========================================
