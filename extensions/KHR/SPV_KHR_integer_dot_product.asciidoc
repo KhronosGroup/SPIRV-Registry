@@ -126,7 +126,7 @@ Specify how to interpret scalar integers as vectors.
 |====
 2+^| Packed Vector Format ^| Enabling Capabilities
 | 0x0 | *PackedVectorFormat4x8BitKHR* +
-Interpret 32-bit scalar integer operands as vectors of four 8-bit components. Vector components follow byte significance order. | |
+Interpret 32-bit scalar integer operands as vectors of four 8-bit components. Vector components follow byte significance order with the lowest-numbered component stored in the least significant byte. | |
 |====
 --
 
