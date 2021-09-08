@@ -47,8 +47,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2021-06-09
-| Revision           | 2
+| Last Modified Date | 2021-09-08
+| Revision           | 3
 |========================================
 
 Dependencies
@@ -410,6 +410,7 @@ Revision History
 [options="header"]
 |========================================
 |Rev|Date|Author|Changes
+|3|2021-09-08|Kévin Petit|Clarify how vectors are packed into 32-bit integers
 |2|2021-06-09|Kévin Petit|Use a single capability to enable all instructions
 |1|2020-05-20|Kévin Petit|Initial revision
 |========================================
