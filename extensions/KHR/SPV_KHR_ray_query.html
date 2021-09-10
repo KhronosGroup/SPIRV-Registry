@@ -872,11 +872,11 @@ width:40%;
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2021-02-19</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2021-09-08</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">11</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">12</p></td>
 </tr>
 </tbody>
 </table>
@@ -1726,7 +1726,7 @@ width:100%;
  <em>Ray Query</em> is a pointer to the ray query object.<br>
 <br>
  If <em>Intersection</em> is <strong>RayQueryCandidateIntersectionKHR</strong>, <em>OpRayQueryProceedKHR</em> must have been executed on the same ray query object, the last value returned by <em>OpRayQueryProceedKHR</em> must have been true, and the current intersection candidate must have a Ray Query Candidate Intersection Type of <strong>RayQueryCandidateIntersectionTriangleKHR</strong>.
- If <em>Intersection</em> is <strong>RayQueryCommittedIntersectionKHR</strong>, there must be a current committed intersection (see <em>OpRayQueryCommittedTypeKHR</em>).</p></td>
+ If <em>Intersection</em> is <strong>RayQueryCommittedIntersectionKHR</strong>, there must be a current committed intersection (see <em>OpRayQueryGetIntersectionTypeKHR</em>).</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
 <strong>RayQueryKHR</strong></p></td>
 </tr>
@@ -1767,7 +1767,7 @@ width:100%;
  <em>Ray Query</em> is a pointer to the ray query object.<br>
 <br>
  If <em>Intersection</em> is <strong>RayQueryCandidateIntersectionKHR</strong>, <em>OpRayQueryProceedKHR</em> must have been executed on the same ray query object, and the last value returned by <em>OpRayQueryProceedKHR</em> must have been true.
- If <em>Intersection</em> is <strong>RayQueryCommittedIntersectionKHR</strong>, there must be a current committed intersection (see <em>OpRayQueryCommittedTypeKHR</em>).</p></td>
+ If <em>Intersection</em> is <strong>RayQueryCommittedIntersectionKHR</strong>, there must be a current committed intersection (see <em>OpRayQueryGetIntersectionTypeKHR</em>).</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
 <strong>RayQueryKHR</strong></p></td>
 </tr>
@@ -1808,7 +1808,7 @@ width:100%;
  <em>Ray Query</em> is a pointer to the ray query object.<br>
 <br>
  If <em>Intersection</em> is <strong>RayQueryCandidateIntersectionKHR</strong>, <em>OpRayQueryProceedKHR</em> must have been executed on the same ray query object, and the last value returned by <em>OpRayQueryProceedKHR</em> must have been true.
- If <em>Intersection</em> is <strong>RayQueryCommittedIntersectionKHR</strong>, there must be a current committed intersection (see <em>OpRayQueryCommittedTypeKHR</em>).</p></td>
+ If <em>Intersection</em> is <strong>RayQueryCommittedIntersectionKHR</strong>, there must be a current committed intersection (see <em>OpRayQueryGetIntersectionTypeKHR</em>).</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
 <strong>RayQueryKHR</strong></p></td>
 </tr>
@@ -1849,7 +1849,7 @@ width:100%;
  <em>Ray Query</em> is a pointer to the ray query object.<br>
 <br>
  If <em>Intersection</em> is <strong>RayQueryCandidateIntersectionKHR</strong>, <em>OpRayQueryProceedKHR</em> must have been executed on the same ray query object, and the last value returned by <em>OpRayQueryProceedKHR</em> must have been true.
- If <em>Intersection</em> is <strong>RayQueryCommittedIntersectionKHR</strong>, there must be a current committed intersection (see <em>OpRayQueryCommittedTypeKHR</em>).</p></td>
+ If <em>Intersection</em> is <strong>RayQueryCommittedIntersectionKHR</strong>, there must be a current committed intersection (see <em>OpRayQueryGetIntersectionTypeKHR</em>).</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
 <strong>RayQueryKHR</strong></p></td>
 </tr>
@@ -1890,7 +1890,7 @@ width:100%;
  <em>Ray Query</em> is a pointer to the ray query object.<br>
 <br>
  If <em>Intersection</em> is <strong>RayQueryCandidateIntersectionKHR</strong>, <em>OpRayQueryProceedKHR</em> must have been executed on the same ray query object, and the last value returned by <em>OpRayQueryProceedKHR</em> must have been true.
- If <em>Intersection</em> is <strong>RayQueryCommittedIntersectionKHR</strong>, there must be a current committed intersection (see <em>OpRayQueryCommittedTypeKHR</em>).</p></td>
+ If <em>Intersection</em> is <strong>RayQueryCommittedIntersectionKHR</strong>, there must be a current committed intersection (see <em>OpRayQueryGetIntersectionTypeKHR</em>).</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
 <strong>RayQueryKHR</strong></p></td>
 </tr>
@@ -1931,7 +1931,7 @@ width:100%;
  <em>Ray Query</em> is a pointer to the ray query object.<br>
 <br>
  If <em>Intersection</em> is <strong>RayQueryCandidateIntersectionKHR</strong>, <em>OpRayQueryProceedKHR</em> must have been executed on the same ray query object, and the last value returned by <em>OpRayQueryProceedKHR</em> must have been true.
- If <em>Intersection</em> is <strong>RayQueryCommittedIntersectionKHR</strong>, there must be a current committed intersection (see <em>OpRayQueryCommittedTypeKHR</em>).</p></td>
+ If <em>Intersection</em> is <strong>RayQueryCommittedIntersectionKHR</strong>, there must be a current committed intersection (see <em>OpRayQueryGetIntersectionTypeKHR</em>).</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
 <strong>RayQueryKHR</strong></p></td>
 </tr>
@@ -1972,7 +1972,7 @@ width:100%;
  <em>Ray Query</em> is a pointer to the ray query object.<br>
 <br>
  If <em>Intersection</em> is <strong>RayQueryCandidateIntersectionKHR</strong>, <em>OpRayQueryProceedKHR</em> must have been executed on the same ray query object, the last value returned by <em>OpRayQueryProceedKHR</em> must have been true, and the current intersection candidate must have a Ray Query Candidate Intersection Type of <strong>RayQueryCandidateIntersectionTriangleKHR</strong>.
- If <em>Intersection</em> is <strong>RayQueryCommittedIntersectionKHR</strong>, there must be a current committed intersection (see <em>OpRayQueryCommittedTypeKHR</em>), and it must have a Ray Query Committed Intersection Type of <strong>RayQueryCommittedIntersectionTriangleKHR</strong>.</p></td>
+ If <em>Intersection</em> is <strong>RayQueryCommittedIntersectionKHR</strong>, there must be a current committed intersection (see <em>OpRayQueryGetIntersectionTypeKHR</em>), and it must have a Ray Query Committed Intersection Type of <strong>RayQueryCommittedIntersectionTriangleKHR</strong>.</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
 <strong>RayQueryKHR</strong></p></td>
 </tr>
@@ -2013,7 +2013,7 @@ width:100%;
  <em>Ray Query</em> is a pointer to the ray query object.<br>
 <br>
  If <em>Intersection</em> is <strong>RayQueryCandidateIntersectionKHR</strong>, <em>OpRayQueryProceedKHR</em> must have been executed on the same ray query object, the last value returned by <em>OpRayQueryProceedKHR</em> must have been true, and the current intersection candidate must have a Ray Query Candidate Intersection Type of <strong>RayQueryCandidateIntersectionTriangleKHR</strong>.
- If <em>Intersection</em> is <strong>RayQueryCommittedIntersectionKHR</strong>, there must be a current committed intersection (see <em>OpRayQueryCommittedTypeKHR</em>), and it must have a Ray Query Committed Intersection Type of <strong>RayQueryCommittedIntersectionTriangleKHR</strong>.</p></td>
+ If <em>Intersection</em> is <strong>RayQueryCommittedIntersectionKHR</strong>, there must be a current committed intersection (see <em>OpRayQueryGetIntersectionTypeKHR</em>), and it must have a Ray Query Committed Intersection Type of <strong>RayQueryCommittedIntersectionTriangleKHR</strong>.</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
 <strong>RayQueryKHR</strong></p></td>
 </tr>
@@ -2086,7 +2086,7 @@ width:100%;
  <em>Ray Query</em> is a pointer to the ray query object.<br>
 <br>
  If <em>Intersection</em> is <strong>RayQueryCandidateIntersectionKHR</strong>, <em>OpRayQueryProceedKHR</em> must have been executed on the same ray query object, and the last value returned by <em>OpRayQueryProceedKHR</em> must have been true.
- If <em>Intersection</em> is <strong>RayQueryCommittedIntersectionKHR</strong>, there must be a current committed intersection (see <em>OpRayQueryCommittedTypeKHR</em>).</p></td>
+ If <em>Intersection</em> is <strong>RayQueryCommittedIntersectionKHR</strong>, there must be a current committed intersection (see <em>OpRayQueryGetIntersectionTypeKHR</em>).</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
 <strong>RayQueryKHR</strong></p></td>
 </tr>
@@ -2127,7 +2127,7 @@ width:100%;
  <em>Ray Query</em> is a pointer to the ray query object.<br>
 <br>
  If <em>Intersection</em> is <strong>RayQueryCandidateIntersectionKHR</strong>, <em>OpRayQueryProceedKHR</em> must have been executed on the same ray query object, and the last value returned by <em>OpRayQueryProceedKHR</em> must have been true.
- If <em>Intersection</em> is <strong>RayQueryCommittedIntersectionKHR</strong>, there must be a current committed intersection (see <em>OpRayQueryCommittedTypeKHR</em>).</p></td>
+ If <em>Intersection</em> is <strong>RayQueryCommittedIntersectionKHR</strong>, there must be a current committed intersection (see <em>OpRayQueryGetIntersectionTypeKHR</em>).</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
 <strong>RayQueryKHR</strong></p></td>
 </tr>
@@ -2232,7 +2232,7 @@ width:100%;
  <em>Ray Query</em> is a pointer to the ray query object.<br>
 <br>
  If <em>Intersection</em> is <strong>RayQueryCandidateIntersectionKHR</strong>, <em>OpRayQueryProceedKHR</em> must have been executed on the same ray query object, and the last value returned by <em>OpRayQueryProceedKHR</em> must have been true.
- If <em>Intersection</em> is <strong>RayQueryCommittedIntersectionKHR</strong>, there must be a current committed intersection (see <em>OpRayQueryCommittedTypeKHR</em>).</p></td>
+ If <em>Intersection</em> is <strong>RayQueryCommittedIntersectionKHR</strong>, there must be a current committed intersection (see <em>OpRayQueryGetIntersectionTypeKHR</em>).</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
 <strong>RayQueryKHR</strong></p></td>
 </tr>
@@ -2273,7 +2273,7 @@ width:100%;
  <em>Ray Query</em> is a pointer to the ray query object.<br>
 <br>
  If <em>Intersection</em> is <strong>RayQueryCandidateIntersectionKHR</strong>, <em>OpRayQueryProceedKHR</em> must have been executed on the same ray query object, and the last value returned by <em>OpRayQueryProceedKHR</em> must have been true.
- If <em>Intersection</em> is <strong>RayQueryCommittedIntersectionKHR</strong>, there must be a current committed intersection (see <em>OpRayQueryCommittedTypeKHR</em>).</p></td>
+ If <em>Intersection</em> is <strong>RayQueryCommittedIntersectionKHR</strong>, there must be a current committed intersection (see <em>OpRayQueryGetIntersectionTypeKHR</em>).</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
 <strong>RayQueryKHR</strong></p></td>
 </tr>
@@ -2433,6 +2433,12 @@ width:100%;
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Fix barycentric coordinates retrieved for
                                         OpRayQueryGetIntersectionBarycentricsKHR (!203)</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">12</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2021-09-08</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Daniel Koch</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">replace references to nonexistent OpRayQueryCommittedTypeKHR (GH#128)</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -2442,7 +2448,7 @@ width:100%;
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2021-02-26 20:29:04 EST
+ 2021-09-08 17:45:12 EDT
 </div>
 </div>
 </body>
