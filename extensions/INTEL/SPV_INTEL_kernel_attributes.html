@@ -461,10 +461,34 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect1">
+<h2 id="_contributors">Contributors</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Jessica Davies, Intel</p>
+</li>
+<li>
+<p>Joseph Garvey, Intel</p>
+</li>
+<li>
+<p>Ajaykumar Kannan, Intel</p>
+</li>
+<li>
+<p>Michael Kinsner, Intel</p>
+</li>
+<li>
+<p>Ryan Murray, Intel</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="_notice">Notice</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Copyright (c) 2019-2020 Intel Corporation.  All rights reserved.</p>
+<p>Copyright (c) 2019-2021 Intel Corporation.  All rights reserved.</p>
 </div>
 </div>
 </div>
@@ -487,11 +511,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2020-11-02</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2021-09-14</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
 </tr>
 </tbody>
 </table>
@@ -502,7 +526,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sectionbody">
 <div class="paragraph">
 <p>This extension is written against the SPIR-V Specification,
-Version 1.5 Revision 1.</p>
+Version 1.5 Revision 5.</p>
 </div>
 <div class="paragraph">
 <p>This extension requires SPIR-V 1.0.</p>
@@ -513,7 +537,7 @@ Version 1.5 Revision 1.</p>
 <h2 id="_overview">Overview</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This extension adds a variety of new execution modes, both general and target-specific.  The target-specific execution modes are guarded by separate capabilities.</p>
+<p>This extension adds a variety of new execution modes, both general and target-specific. The target-specific execution modes are guarded by separate capabilities.</p>
 </div>
 </div>
 </div>
@@ -553,7 +577,8 @@ FPGAKernelAttributesINTEL</pre>
 MaxWorkDimINTEL
 NoGlobalOffsetINTEL
 NumSIMDWorkitemsINTEL
-SchedulerTargetFmaxMhzINTEL</pre>
+SchedulerTargetFmaxMhzINTEL
+StreamingInterfaceINTEL</pre>
 </div>
 </div>
 </div>
@@ -596,6 +621,10 @@ SchedulerTargetFmaxMhzINTEL</pre>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">SchedulerTargetFmaxMhzINTEL</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">5903</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">StreamingInterfaceINTEL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6154</p></td>
 </tr>
 </tbody>
 </table>
@@ -678,6 +707,16 @@ Indicates the target clock frequency (Fmax) for the kernel, in MHz. Only valid w
 <em>target_fmax</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGAKernelAttributesINTEL</strong></p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6154</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>StreamingInterfaceINTEL</strong><br>
+Indicates that the kernel has a streaming interface, in which invocation of and return from the kernel is synchronized by a flow control handshaking protocol.
+<em>StallFreeReturn</em> is a 32-bit unsigned integer type scalar.
+If <em>StallFreeReturn</em> is equal to zero, it indicates that the return interface of the kernel can input a stall control flow signal from downstream logic, while a non-zero value indicates that it will not accept a stall control flow signal from downstream logic.</p></td>
+<td class="tableblock halign-center valign-top" colspan="3"><p class="tableblock">Literal<br>
+<em>StallFreeReturn</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGAKernelAttributesINTEL</strong></p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -686,7 +725,7 @@ Indicates the target clock frequency (Fmax) for the kernel, in MHz. Only valid w
 <div class="sect2">
 <h3 id="_capability">Capability</h3>
 <div class="paragraph">
-<p>Modify Section 3.31, Capability, adding a row to the Capability table:</p>
+<p>Modify Section 3.31, Capability, adding the following rows to the Capability table:</p>
 </div>
 <div class="openblock">
 <div class="content">
@@ -759,6 +798,12 @@ Indicates the target clock frequency (Fmax) for the kernel, in MHz. Only valid w
 <td class="tableblock halign-left valign-top"><p class="tableblock">Jessica Davies</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Added one new execution mode, SchedulerTargetFmaxMhzINTEL.</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2021-09-14</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ajaykumar Kannan</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Added one new execution mode, StreamingInterfaceINTEL.</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -766,7 +811,7 @@ Indicates the target clock frequency (Fmax) for the kernel, in MHz. Only valid w
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-11-02 16:11:14 -0400
+Last updated 2021-09-21 12:25:23 -0300
 </div>
 </div>
 </body>
