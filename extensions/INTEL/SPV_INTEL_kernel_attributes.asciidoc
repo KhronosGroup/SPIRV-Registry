@@ -11,9 +11,17 @@ To report problems with this extension, please open a new issue at:
 
 https://github.com/KhronosGroup/SPIRV-Registry
 
+== Contributors
+
+- Jessica Davies, Intel
+- Joseph Garvey, Intel
+- Ajaykumar Kannan, Intel
+- Michael Kinsner, Intel
+- Ryan Murray, Intel
+
 == Notice
 
-Copyright (c) 2019-2020 Intel Corporation.  All rights reserved.
+Copyright (c) 2019-2021 Intel Corporation.  All rights reserved.
 
 == Status
 
@@ -23,20 +31,20 @@ Final Draft
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | {docdate}
-| Revision           | 2
+| Last Modified Date | 2021-09-14
+| Revision           | 3
 |========================================
 
 == Dependencies
 
 This extension is written against the SPIR-V Specification,
-Version 1.5 Revision 1.
+Version 1.5 Revision 5.
 
 This extension requires SPIR-V 1.0.
 
 == Overview
 
-This extension adds a variety of new execution modes, both general and target-specific.  The target-specific execution modes are guarded by separate capabilities.  
+This extension adds a variety of new execution modes, both general and target-specific. The target-specific execution modes are guarded by separate capabilities.
 
 == Extension Name
 To use this extension within a SPIR-V module, the following *OpExtension* must be present in the module:
@@ -61,6 +69,7 @@ MaxWorkDimINTEL
 NoGlobalOffsetINTEL
 NumSIMDWorkitemsINTEL
 SchedulerTargetFmaxMhzINTEL
+StreamingInterfaceINTEL
 ----
 
 == Token Number Assignments
@@ -77,6 +86,7 @@ SchedulerTargetFmaxMhzINTEL
 |NumSIMDWorkitemsINTEL        |5896
 |FPGAKernelAttributesINTEL    |5897
 |SchedulerTargetFmaxMhzINTEL  |5903
+|StreamingInterfaceINTEL      |6154
 |==== 
 --
 
@@ -90,6 +100,7 @@ Modify Section 3.6, Execution Mode, adding these rows to the Execution Mode tabl
 [options="header"]
 |====
 2+^| Execution Mode 3+^| Extra Operands ^| Enabling Capabilities
+
 | 5893 | *MaxWorkgroupSizeINTEL* +
 Indicates the maximum possible work-group size in the x, y, and z dimensions.  
 If a *LocalSize* execution mode is applied to the same entry point, it is invalid for _max_i_size_ < _i_ _size_ for dimension _i_.  
@@ -101,6 +112,7 @@ _max_y_size_
 | Literal Number + 
 _max_z_size_
 | *KernelAttributesINTEL*
+
 | 5894 | *MaxWorkDimINTEL* +
 Indicates the maximum number of work dimensions.  Legal values range from 0 to 3.  
 A maximum dimensionality of 0 indicates that the kernel can only be launched with a single work-item.  
@@ -109,26 +121,38 @@ Only valid with the *Kernel* Execution Model.
 3+^| Literal Number +
 _max_dimensions_
 | *KernelAttributesINTEL*
+
 | 5895 | *NoGlobalOffsetINTEL* +
 Indicates that the global offset is always (0, 0, 0).  Only valid with the *Kernel* Execution Model.
 3+^|
 | *KernelAttributesINTEL*
+
 | 5896 | *NumSIMDWorkitemsINTEL* +
 Indicates that the kernel should be vectorized with the provided vector width.  Only valid with the *Kernel* Execution Model.
 3+^| Literal Number +
 _vector_width_
 | *FPGAKernelAttributesINTEL*
+
 | 5903 | *SchedulerTargetFmaxMhzINTEL* +
 Indicates the target clock frequency (Fmax) for the kernel, in MHz. Only valid with the *Kernel* Execution Model.
 3+^| Literal Number +
 _target_fmax_
 | *FPGAKernelAttributesINTEL*
+
+| 6154 | *StreamingInterfaceINTEL* +
+Indicates that the kernel has a streaming interface, in which invocation of and return from the kernel is synchronized by a flow control handshaking protocol.
+_StallFreeReturn_ is a 32-bit unsigned integer type scalar.
+If _StallFreeReturn_ is equal to zero, it indicates that the return interface of the kernel can input a stall control flow signal from downstream logic, while a non-zero value indicates that it will not accept a stall control flow signal from downstream logic.
+3+^| Literal +
+_StallFreeReturn_
+| *FPGAKernelAttributesINTEL*
+
 |====
 --
 
 === Capability
 
-Modify Section 3.31, Capability, adding a row to the Capability table:
+Modify Section 3.31, Capability, adding the following rows to the Capability table:
 --
 [options="header"]
 |====
@@ -142,12 +166,6 @@ Modify Section 3.31, Capability, adding a row to the Capability table:
 
 None.
 
-//. Issue.
-//+
-//--
-//*RESOLVED*: Resolution.
-//--
-
 == Revision History
 
 [cols="5,15,15,70"]
@@ -157,5 +175,6 @@ None.
 |Rev|Date|Author|Changes
 |1|2019-12-18|Joe Garvey|*Initial public release*
 |2|2020-04-22|Jessica Davies|Added one new execution mode, SchedulerTargetFmaxMhzINTEL.
+|3|2021-09-14|Ajaykumar Kannan|Added one new execution mode, StreamingInterfaceINTEL.
 |======================================== 
 
