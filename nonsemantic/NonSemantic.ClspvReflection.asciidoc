@@ -666,6 +666,8 @@ Declares the required workgroup size of 'Kernel'. +
 |=====
 2+| [[SpecConstantSubgroupMaxSize]]*SpecConstantSubgroupMaxSize* +
  +
+ + Missing before *version 2*
+ +
 Declares the specialization id used to set the maximum size of a subgroup,
 i.e. the value returned by +get_max_sub_group_size()+. +
  +
