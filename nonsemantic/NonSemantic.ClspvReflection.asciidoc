@@ -1,7 +1,7 @@
 SPIR-V Non-Semantic Clspv Reflection Instructions
 =================================================
 
-Version 1
+Version 2
 
 Contact
 -------
@@ -14,6 +14,7 @@ Contributors
 ------------
 
 - Alan Baker, Google
+- Kévin Petit, Arm Ltd.
 
 Notice
 ------
@@ -31,8 +32,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2020-07-27
-| Revision           | 1
+| Last Modified Date | 2021-10-25
+| Revision           | 2
 |========================================
 
 Dependencies
@@ -661,6 +662,21 @@ Declares the required workgroup size of 'Kernel'. +
 'Z'
 |=====
 
+[cols="2"]
+|=====
+2+| [[SpecConstantSubgroupMaxSize]]*SpecConstantSubgroupMaxSize* +
+ +
+ + Missing before *version 2*
+ +
+Declares the specialization id used to set the maximum size of a subgroup,
+i.e. the value returned by +get_max_sub_group_size()+. +
+ +
+'Size' must be a 32-bit unsigned integer *OpConstant* specifying the
+specialization id for the value. +
+1+| 25 | '<id>' +
+'Size'
+|=====
+
 Issues
 ------
 
@@ -674,6 +690,7 @@ Revision History
 [options="header"]
 |========================================
 |Rev|Date|Author|Changes
+|2|2021-10-25|Kévin Petit|Add SpecConstantSubgroupMaxSize
 |1|2020-07-27|Alan Baker|Initial revision
 |========================================
 
