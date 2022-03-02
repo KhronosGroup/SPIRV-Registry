@@ -1,0 +1,155 @@
+<html><head><link rel="stylesheet" id="asciidoctor-browser-font-awesome-style" href="chrome-extension://iaalpfgpbocpdfblpnhhgllgbdbchmia/css/font-awesome.min.css"><link rel="stylesheet" id="asciidoctor-browser-style" href="chrome-extension://iaalpfgpbocpdfblpnhhgllgbdbchmia/css/themes/asciidoctor.css"><link rel="stylesheet" id="asciidoctor-browser-github-highlight-style" href="chrome-extension://iaalpfgpbocpdfblpnhhgllgbdbchmia/css/highlight/github.css"><link rel="stylesheet" id="asciidoctor-browser-chartist-style" href="chrome-extension://iaalpfgpbocpdfblpnhhgllgbdbchmia/css/chartist.min.css"><style type="text/css" id="asciidoctor-browser-chartist-default-style">.ct-chart .ct-series.ct-series-a .ct-line {stroke:#8EB33B} .ct-chart .ct-series.ct-series-b .ct-line {stroke:#72B3CC} .ct-chart .ct-series.ct-series-a .ct-point {stroke:#8EB33B} .ct-chart .ct-series.ct-series-b .ct-point {stroke:#72B3CC}</style><title>SPV_KHR_uniform_group_instructions</title><meta name="viewport" content="width=device-width, initial-scale=1.0"></head><body class="article"><div id="content"><h1>SPV_KHR_uniform_group_instructions</h1>
+    <div class="sect1">
+      <h2 id="_name_strings">Name Strings</h2>
+      <div class="sectionbody">
+        <div class="paragraph">
+          <p>SPV_KHR_uniform_group_instructions</p>
+        </div>
+      </div>
+    </div>
+    <div class="sect1">
+      <h2 id="_contact">Contact</h2>
+      <div class="sectionbody">
+        <div class="paragraph">
+          <p>To report problems with this extension, please open a new issue at:</p>
+        </div>
+        <div class="paragraph">
+          <p><a href="https://github.com/KhronosGroup/SPIRV-Registry" class="bare">https://github.com/KhronosGroup/SPIRV-Registry</a></p>
+        </div>
+      </div>
+    </div>
+    <div class="sect1">
+      <h2 id="_contributors">Contributors</h2>
+      <div class="sectionbody">
+        <div class="ulist">
+          <ul>
+            <li>
+              <p>Dmitry Sidorov, Intel<br></p>
+            </li>
+            <li>
+              <p>Alexey Sotkin, Intel<br></p>
+            </li>
+            <li>
+              <p>John Pennycook, Intel<br></p>
+            </li>
+            <li>
+              <p>Ben Ashbaugh, Intel<br></p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="sect1">
+      <h2 id="_notice">Notice</h2>
+      <div class="sectionbody">
+        <div class="paragraph">
+          <p>Copyright (c) 2021 The Khronos Group Inc. Copyright terms at
+          <a href="http://www.khronos.org/registry/speccopyright.html" class="bare">http://www.khronos.org/registry/speccopyright.html</a></p>
+        </div>
+      </div>
+    </div>
+    <div class="sect1">
+      <h2 id="_status">Status</h2>
+      <div class="sectionbody">
+        <div class="ulist">
+          <ul>
+            <li>
+              <p>Working Draft</p>
+            </li>
+            <li>
+              <p>Not Yet Approved by the SPIR-V Working Group: (To become approved, with an approval date here, e.g. 2018-01-30)</p>
+            </li>
+            <li>
+              <p>Not Yet Approved by the Khronos Board of Promoters: (To become approved, with an approval date, e.g. 2018-01-30)</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="sect1">
+      <h2 id="_version">Version</h2>
+      <div class="sectionbody">
+        <table class="tableblock frame-all grid-all" style="width: 40%;">
+          <colgroup>
+            <col style="width: 50%;">
+            <col style="width: 50%;">
+          </colgroup>
+          <tbody>
+            <tr>
+              <td class="tableblock halign-left valign-top"><p class="tableblock">Last Modified Date</p></td>
+              <td class="tableblock halign-left valign-top"><p class="tableblock">2021-12-08</p></td>
+            </tr>
+            <tr>
+              <td class="tableblock halign-left valign-top"><p class="tableblock">Revision</p></td>
+              <td class="tableblock halign-left valign-top"><p class="tableblock">B</p></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="sect1">
+      <h2 id="_dependencies">Dependencies</h2>
+      <div class="sectionbody">
+        <div class="paragraph">
+          <p>This extension is written against the SPIR-V Specification,
+          Version 1.5, Revision 5, Unified.</p>
+        </div>
+        <div class="paragraph">
+          <p>This extension requires SPIR-V 1.0.</p>
+        </div>
+      </div>
+    </div>
+    <div class="sect1">
+      <h2 id="_overview">Overview</h2>
+      <div class="sectionbody">
+        <div class="paragraph">
+          <p>This extension adds new instructions to SPIR-V to support additional group operations within uniform control flow.
+          Some SPIR-V consumers may only be able to support these operations within uniform control flow for some <em>Execution</em> <em>Scopes</em>, and some SPIR-V consumers may be able to generate more efficient code when control flow is known to be uniform.</p>
+        </div>
+      </div>
+    </div>
+    <div class="sect1">
+      <h2 id="_extension_name">Extension Name</h2>
+      <div class="sectionbody">
+        <div class="paragraph">
+          <p>To use this extension within a SPIR-V module, the following
+          <strong>OpExtension</strong> must be present in the module:</p>
+        </div>
+        <div class="listingblock">
+          <div class="content">
+            <pre>OpExtension "SPV_KHR_uniform_group_instructions"</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sect1">
+      <h2 id="_modifications_to_the_spir_v_specification_version_1_5">Modifications to the SPIR-V Specification, Version 1.5</h2>
+      <div class="sectionbody">
+        <div class="sect2">
+          <h3 id="_capabilities">Capabilities</h3>
+          <div class="paragraph">
+            <p>Modify Section 3.31, Capability, adding rows to the Capability table:</p>
+          </div>
+          <div class="openblock">
+            <div class="content">
+              <table class="tableblock frame-all grid-all stretch">
+                <colgroup>
+                  <col style="width: 33.3333%;">
+                  <col style="width: 33.3333%;">
+                  <col style="width: 33.3334%;">
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th class="tableblock halign-center valign-top" colspan="2">Capability</th>
+                    <th class="tableblock halign-center valign-top">Implicitly Declares</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="tableblock halign-left val-left valign-top"><p class="tableblock">6</p></td>
+                    <td class="thmeticKHR</strong></p></td>
+                  </tr>
+                  <tr>
+                    <td class="tableblock ham> for 'Operation' is 0.<br>
+                      <br>
+                      The type of 'X' must be the s
