@@ -897,11 +897,11 @@ width:40%;
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2021-07-27</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2022-02-28</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">8</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">9</p></td>
 </tr>
 </tbody>
 </table>
@@ -1939,7 +1939,10 @@ width:100%;
 <br>
  <em>Result Type</em> must be <strong>OpTypeVoid</strong>.<br>
 <br>
- <em>Entry Point</em> is the <em>&lt;id&gt;</em> of the <strong>OpEntryPoint</strong> being described.<br>
+ <em>Entry Point</em> is the <em>&lt;id&gt;</em> of the <a href="#DebugFunction"><strong>DebugFunction</strong></a> corresponding
+  to the <strong>OpFunction</strong> referenced in the <strong>OpEntryPoint</strong>. This function must also have
+  a <a href="#DebugFunctionDefinition"><strong>DebugFunctionDefinition</strong></a> in the first basic block
+  of that <strong>OpFunction</strong>.<br>
 <br>
  <em>Compilation Unit</em> is the <em>&lt;id&gt;</em> of the <a href="#DebugCompilationUnit"><strong>DebugCompilationUnit</strong></a>
   that produced the entry point.<br>
@@ -4057,6 +4060,13 @@ width:100%;
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Clarify that <strong>DebugFunctionDefinition</strong> can be in<br>
                                              basic blocks.</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1.00 Rev 9</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2022-02-28</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Baldur Karlsson</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Clarify that <strong>DebugEntryPoint</strong> refers to a
+                                             <strong>DebugFunction</strong>, not an <strong>OpEntryPoint</strong>.</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -4066,7 +4076,7 @@ width:100%;
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2021-07-27 15:41:09 GMT
+ 2022-02-28 12:41:22 IST
 </div>
 </div>
 </body>

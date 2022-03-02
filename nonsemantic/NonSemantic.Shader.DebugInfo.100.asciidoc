@@ -54,8 +54,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2021-07-27
-| Revision           | 8
+| Last Modified Date | 2022-02-28
+| Revision           | 9
 |========================================
 
 Dependencies
@@ -547,7 +547,10 @@ Compilation Unit
  +
  {result_type} +
  +
- 'Entry Point' is the '<id>' of the *OpEntryPoint* being described. +
+ 'Entry Point' is the '<id>' of the <<DebugFunction,*DebugFunction*>> corresponding
+  to the *OpFunction* referenced in the *OpEntryPoint*. This function must also have
+  a <<DebugFunctionDefinition,*DebugFunctionDefinition*>> in the first basic block
+  of that *OpFunction*. +
  +
  'Compilation Unit' is the '<id>' of the <<DebugCompilationUnit,*DebugCompilationUnit*>>
   that produced the entry point. +
@@ -1833,5 +1836,7 @@ Revision History
 |1.00 Rev 7  |2021-07-01|Baldur Karlsson    |Clarify runtime array sizing.
 |1.00 Rev 8  |2021-07-27|Baldur Karlsson    |Clarify that *DebugFunctionDefinition* can be in +
                                              basic blocks.
+|1.00 Rev 9  |2022-02-28|Baldur Karlsson    |Clarify that *DebugEntryPoint* refers to a
+                                             *DebugFunction*, not an *OpEntryPoint*.
 |========================================================
 
