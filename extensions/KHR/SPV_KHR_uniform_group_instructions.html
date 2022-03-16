@@ -1,0 +1,591 @@
+<html><head><link rel="stylesheet" id="asciidoctor-browser-font-awesome-style" href="chrome-extension://iaalpfgpbocpdfblpnhhgllgbdbchmia/css/font-awesome.min.css"><link rel="stylesheet" id="asciidoctor-browser-style" href="chrome-extension://iaalpfgpbocpdfblpnhhgllgbdbchmia/css/themes/asciidoctor.css"><link rel="stylesheet" id="asciidoctor-browser-github-highlight-style" href="chrome-extension://iaalpfgpbocpdfblpnhhgllgbdbchmia/css/highlight/github.css"><link rel="stylesheet" id="asciidoctor-browser-chartist-style" href="chrome-extension://iaalpfgpbocpdfblpnhhgllgbdbchmia/css/chartist.min.css"><style type="text/css" id="asciidoctor-browser-chartist-default-style">.ct-chart .ct-series.ct-series-a .ct-line {stroke:#8EB33B} .ct-chart .ct-series.ct-series-b .ct-line {stroke:#72B3CC} .ct-chart .ct-series.ct-series-a .ct-point {stroke:#8EB33B} .ct-chart .ct-series.ct-series-b .ct-point {stroke:#72B3CC}</style><title>SPV_KHR_uniform_group_instructions</title><meta name="viewport" content="width=device-width, initial-scale=1.0"></head><body class="article"><div id="content"><h1>SPV_KHR_uniform_group_instructions</h1>
+<div class="sect1">
+<h2 id="_name_strings">Name Strings</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>SPV_KHR_uniform_group_instructions</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_contact">Contact</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To report problems with this extension, please open a new issue at:</p>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/KhronosGroup/SPIRV-Registry" class="bare">https://github.com/KhronosGroup/SPIRV-Registry</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_contributors">Contributors</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Dmitry Sidorov, Intel<br></p>
+</li>
+<li>
+<p>Alexey Sotkin, Intel<br></p>
+</li>
+<li>
+<p>John Pennycook, Intel<br></p>
+</li>
+<li>
+<p>Ben Ashbaugh, Intel<br></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_notice">Notice</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Copyright (c) 2021 The Khronos Group Inc. Copyright terms at
+<a href="http://www.khronos.org/registry/speccopyright.html" class="bare">http://www.khronos.org/registry/speccopyright.html</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_status">Status</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Working Draft</p>
+</li>
+<li>
+<p>Not Yet Approved by the SPIR-V Working Group: (To become approved, with an approval date here, e.g. 2018-01-30)</p>
+</li>
+<li>
+<p>Not Yet Approved by the Khronos Board of Promoters: (To become approved, with an approval date, e.g. 2018-01-30)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_version">Version</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all" style="width: 40%;">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Last Modified Date</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2021-12-08</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Revision</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">B</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_dependencies">Dependencies</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This extension is written against the SPIR-V Specification,
+Version 1.5, Revision 5, Unified.</p>
+</div>
+<div class="paragraph">
+<p>This extension requires SPIR-V 1.0.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_overview">Overview</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This extension adds new instructions to SPIR-V to support additional group operations within uniform control flow.
+Some SPIR-V consumers may only be able to support these operations within uniform control flow for some <em>Execution</em> <em>Scopes</em>, and some SPIR-V consumers may be able to generate more efficient code when control flow is known to be uniform.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_extension_name">Extension Name</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To use this extension within a SPIR-V module, the following
+<strong>OpExtension</strong> must be present in the module:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>OpExtension "SPV_KHR_uniform_group_instructions"</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_modifications_to_the_spir_v_specification_version_1_5">Modifications to the SPIR-V Specification, Version 1.5</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_capabilities">Capabilities</h3>
+<div class="paragraph">
+<p>Modify Section 3.31, Capability, adding rows to the Capability table:</p>
+</div>
+<div class="openblock">
+<div class="content">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top" colspan="2">Capability</th>
+<th class="tableblock halign-center valign-top">Implicitly Declares</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6400</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>GroupUniformArithmeticKHR</strong><br>
+Uses additional group uniform arithmetic instructions.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Groups</strong></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_instructions">Instructions</h3>
+<div class="paragraph">
+<p>Add new instructions to Section 3.37.21, Group and Subgroup Instructions:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 5.8823%;">
+<col style="width: 5.8823%;">
+<col style="width: 17.647%;">
+<col style="width: 17.647%;">
+<col style="width: 17.647%;">
+<col style="width: 17.647%;">
+<col style="width: 17.6474%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="6"><p class="tableblock"><a id="OpGroupIMulKHR"></a><strong>OpGroupIMulKHR</strong><br>
+<br>
+An integer multiplication <a href="#group operation">group operation</a> specified for all values of 'X'
+specified by <a href="#invocations">invocations</a> in the group.<br>
+<br>
+Behavior is undefined if not all <a href="#invocations">invocations</a> of this module within 'Execution'
+reach this point of execution.<br>
+<br>
+Behavior is undefined unless all invocations within 'Execution' execute the
+same dynamic instance of this instruction.<br>
+<br>
+'Result Type' must be a scalar or vector of <a href="#integer type">integer type</a>.<br>
+<br>
+'Execution' is a <a href="#Scope">Scope</a>. It must be either <strong>Workgroup</strong> or <strong>Subgroup</strong>.<br>
+<br>
+The identity <em>I</em> for 'Operation' is 1.<br>
+<br>
+The type of 'X' must be the same as 'Result Type'.<br></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
+<strong>GroupUniformArithmeticKHR</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6401</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'&lt;id&gt;'<br>
+'Result Type'</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'Result &lt;id&gt;'</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'Scope &lt;id&gt;'<br>
+'Execution'</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'&lt;Group Operation&gt;'<br>
+'Operation'</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'&lt;id&gt;'<br>
+'X'</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 5.8823%;">
+<col style="width: 5.8823%;">
+<col style="width: 17.647%;">
+<col style="width: 17.647%;">
+<col style="width: 17.647%;">
+<col style="width: 17.647%;">
+<col style="width: 17.6474%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="6"><p class="tableblock"><a id="OpGroupFMulKHR"></a><strong>OpGroupFMulKHR</strong><br>
+<br>
+A floating-point multiplication <a href="#group operation">group operation</a> specified for all values of 'X'
+specified by <a href="#invocations">invocations</a> in the group.<br>
+<br>
+Behavior is undefined if not all <a href="#invocations">invocations</a> of this module within 'Execution'
+reach this point of execution.<br>
+<br>
+Behavior is undefined unless all invocations within 'Execution' execute the
+same dynamic instance of this instruction.<br>
+<br>
+'Result Type' must be a scalar or vector of <a href="#floating-point type">floating-point type</a>.<br>
+<br>
+'Execution' is a <a href="#Scope">Scope</a>. It must be either <strong>Workgroup</strong> or <strong>Subgroup</strong>.<br>
+<br>
+The identity <em>I</em> for 'Operation' is 1.<br>
+<br>
+The type of 'X' must be the same as 'Result Type'.<br></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
+<strong>GroupUniformArithmeticKHR</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6402</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'&lt;id&gt;'<br>
+'Result Type'</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'Result &lt;id&gt;'</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'Scope &lt;id&gt;'<br>
+'Execution'</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'&lt;Group Operation&gt;'<br>
+'Operation'</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'&lt;id&gt;'<br>
+'X'</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 5.8823%;">
+<col style="width: 5.8823%;">
+<col style="width: 17.647%;">
+<col style="width: 17.647%;">
+<col style="width: 17.647%;">
+<col style="width: 17.647%;">
+<col style="width: 17.6474%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="6"><p class="tableblock"><a id="OpGroupBitwiseAndKHR"></a><strong>OpGroupBitwiseAndKHR</strong><br>
+<br>
+A bitwise 'And' <a href="#group operation">group operation</a> specified for all values of 'X'
+specified by <a href="#invocations">invocations</a> in the group.<br>
+<br>
+Behavior is undefined if not all <a href="#invocations">invocations</a> of this module within 'Execution'
+reach this point of execution.<br>
+<br>
+Behavior is undefined unless all invocations within 'Execution' execute the
+same dynamic instance of this instruction.<br>
+<br>
+'Result Type' must be a scalar or vector of <a href="#integer type">integer type</a>.<br>
+<br>
+'Execution' is a <a href="#Scope">Scope</a>. It must be either <strong>Workgroup</strong> or <strong>Subgroup</strong>.<br>
+<br>
+The identity <em>I</em> for 'Operation' is ~0.<br>
+<br>
+The type of 'X' must be the same as 'Result Type'.<br></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
+<strong>GroupUniformArithmeticKHR</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6403</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'&lt;id&gt;'<br>
+'Result Type'</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'Result &lt;id&gt;'</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'Scope &lt;id&gt;'<br>
+'Execution'</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'&lt;Group Operation&gt;'<br>
+'Operation'</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'&lt;id&gt;'<br>
+'X'</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 5.8823%;">
+<col style="width: 5.8823%;">
+<col style="width: 17.647%;">
+<col style="width: 17.647%;">
+<col style="width: 17.647%;">
+<col style="width: 17.647%;">
+<col style="width: 17.6474%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="6"><p class="tableblock"><a id="OpGroupBitwiseOrKHR"></a><strong>OpGroupBitwiseOrKHR</strong><br>
+<br>
+A bitwise 'Or' <a href="#group operation">group operation</a> specified for all values of 'X'
+specified by <a href="#invocations">invocations</a> in the group.<br>
+<br>
+Behavior is undefined if not all <a href="#invocations">invocations</a> of this module within 'Execution'
+reach this point of execution.<br>
+<br>
+Behavior is undefined unless all invocations within 'Execution' execute the
+same dynamic instance of this instruction.<br>
+<br>
+'Result Type' must be a scalar or vector of <a href="#integer type">integer type</a>.<br>
+<br>
+'Execution' is a <a href="#Scope">Scope</a>. It must be either <strong>Workgroup</strong> or <strong>Subgroup</strong>.<br>
+<br>
+The identity <em>I</em> for 'Operation' is 0.<br>
+<br>
+The type of 'X' must be the same as 'Result Type'.<br></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
+<strong>GroupUniformArithmeticKHR</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6404</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'&lt;id&gt;'<br>
+'Result Type'</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'Result &lt;id&gt;'</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'Scope &lt;id&gt;'<br>
+'Execution'</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'&lt;Group Operation&gt;'<br>
+'Operation'</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'&lt;id&gt;'<br>
+'X'</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 5.8823%;">
+<col style="width: 5.8823%;">
+<col style="width: 17.647%;">
+<col style="width: 17.647%;">
+<col style="width: 17.647%;">
+<col style="width: 17.647%;">
+<col style="width: 17.6474%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="6"><p class="tableblock"><a id="OpGroupBitwiseXorKHR"></a><strong>OpGroupBitwiseXorKHR</strong><br>
+<br>
+A bitwise 'Xor' <a href="#group operation">group operation</a> specified for all values of 'X'
+specified by <a href="#invocations">invocations</a> in the group.<br>
+<br>
+Behavior is undefined if not all <a href="#invocations">invocations</a> of this module within 'Execution'
+reach this point of execution.<br>
+<br>
+Behavior is undefined unless all invocations within 'Execution' execute the
+same dynamic instance of this instruction.<br>
+<br>
+'Result Type' must be a scalar or vector of <a href="#integer type">integer type</a>.<br>
+<br>
+'Execution' is a <a href="#Scope">Scope</a>. It must be either <strong>Workgroup</strong> or <strong>Subgroup</strong>.<br>
+<br>
+The identity <em>I</em> for 'Operation' is 0.<br>
+<br>
+The type of 'X' must be the same as 'Result Type'.<br></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
+<strong>GroupUniformArithmeticKHR</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6405</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'&lt;id&gt;'<br>
+'Result Type'</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'Result &lt;id&gt;'</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'Scope &lt;id&gt;'<br>
+'Execution'</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'&lt;Group Operation&gt;'<br>
+'Operation'</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'&lt;id&gt;'<br>
+'X'</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 5.8823%;">
+<col style="width: 5.8823%;">
+<col style="width: 17.647%;">
+<col style="width: 17.647%;">
+<col style="width: 17.647%;">
+<col style="width: 17.647%;">
+<col style="width: 17.6474%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="6"><p class="tableblock"><a id="OpGroupBitwiseLogicalAndKHR"></a><strong>OpGroupLogicalAndKHR</strong><br>
+<br>
+A logical 'And' <a href="#group operation">group operation</a> specified for all values of 'X'
+specified by <a href="#invocations">invocations</a> in the group.<br>
+<br>
+Behavior is undefined if not all <a href="#invocations">invocations</a> of this module within 'Execution'
+reach this point of execution.<br>
+<br>
+Behavior is undefined unless all invocations within 'Execution' execute the
+same dynamic instance of this instruction.<br>
+<br>
+'Result Type' must be a scalar or vector of <a href="#Boolean type">Boolean type</a>.<br>
+<br>
+'Execution' is a <a href="#Scope">Scope</a>. It must be either <strong>Workgroup</strong> or <strong>Subgroup</strong>.<br>
+<br>
+The identity <em>I</em> for 'Operation' is ~0.<br>
+<br>
+The type of 'X' must be the same as 'Result Type'.<br></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
+<strong>GroupUniformArithmeticKHR</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6406</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'&lt;id&gt;'<br>
+'Result Type'</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'Result &lt;id&gt;'</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'Scope &lt;id&gt;'<br>
+'Execution'</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'&lt;Group Operation&gt;'<br>
+'Operation'</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'&lt;id&gt;'<br>
+'X'</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 5.8823%;">
+<col style="width: 5.8823%;">
+<col style="width: 17.647%;">
+<col style="width: 17.647%;">
+<col style="width: 17.647%;">
+<col style="width: 17.647%;">
+<col style="width: 17.6474%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="6"><p class="tableblock"><a id="OpGroupLogicalOrKHR"></a><strong>OpGroupLogicalOrKHR</strong><br>
+<br>
+A logical 'Or' <a href="#group operation">group operation</a> specified for all values of 'X'
+specified by <a href="#invocations">invocations</a> in the group.<br>
+<br>
+Behavior is undefined if not all <a href="#invocations">invocations</a> of this module within 'Execution'
+reach this point of execution.<br>
+<br>
+Behavior is undefined unless all invocations within 'Execution' execute the
+same dynamic instance of this instruction.<br>
+<br>
+'Result Type' must be a scalar or vector of <a href="#Boolean type">Boolean type</a>.<br>
+<br>
+'Execution' is a <a href="#Scope">Scope</a>. It must be either <strong>Workgroup</strong> or <strong>Subgroup</strong>.<br>
+<br>
+The identity <em>I</em> for 'Operation' is 0.<br>
+<br>
+The type of 'X' must be the same as 'Result Type'.<br></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
+<strong>GroupUniformArithmeticKHR</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6407</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'&lt;id&gt;'<br>
+'Result Type'</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'Result &lt;id&gt;'</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'Scope &lt;id&gt;'<br>
+'Execution'</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'&lt;Group Operation&gt;'<br>
+'Operation'</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'&lt;id&gt;'<br>
+'X'</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 5.8823%;">
+<col style="width: 5.8823%;">
+<col style="width: 17.647%;">
+<col style="width: 17.647%;">
+<col style="width: 17.647%;">
+<col style="width: 17.647%;">
+<col style="width: 17.6474%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="6"><p class="tableblock"><a id="OpGroupLogicalXorKHR"></a><strong>OpGroupLogicalXorKHR</strong><br>
+<br>
+A logical 'Xor' <a href="#group operation">group operation</a> specified for all values of 'X'
+specified by <a href="#invocations">invocations</a> in the group.<br>
+<br>
+Behavior is undefined if not all <a href="#invocations">invocations</a> of this module within 'Execution'
+reach this point of execution.<br>
+<br>
+Behavior is undefined unless all invocations within 'Execution' execute the
+same dynamic instance of this instruction.<br>
+<br>
+'Result Type' must be a scalar or vector of <a href="#Boolean type">Boolean type</a>.<br>
+<br>
+'Execution' is a <a href="#Scope">Scope</a>. It must be either <strong>Workgroup</strong> or <strong>Subgroup</strong>.<br>
+<br>
+The identity <em>I</em> for 'Operation' is 0.<br>
+<br>
+The type of 'X' must be the same as 'Result Type'.<br></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
+<strong>GroupUniformArithmeticKHR</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6408</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'&lt;id&gt;'<br>
+'Result Type'</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'Result &lt;id&gt;'</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'Scope &lt;id&gt;'<br>
+'Execution'</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'&lt;Group Operation&gt;'<br>
+'Operation'</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'&lt;id&gt;'<br>
+'X'</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_issues">Issues</h3>
+<div class="paragraph">
+<p>None</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_revision_history">Revision History</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-rows stretch">
+<colgroup>
+<col style="width: 4.7619%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Rev</th>
+<th class="tableblock halign-left valign-top">Date</th>
+<th class="tableblock halign-left valign-top">Author</th>
+<th class="tableblock halign-left valign-top">Changes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2021-09-16</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Dmitry Sidorov</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Initial revision</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">B</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2021-11-08</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ben Ashbaugh</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Converted to a KHR extension.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div></div></body></html>

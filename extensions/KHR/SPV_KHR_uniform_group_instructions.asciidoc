@@ -1,0 +1,402 @@
+:extension_name: SPV_KHR_uniform_group_instructions
+:capability_name: GroupUniformArithmeticKHR
+:capability_token: 6400
+:OpGroupIMulKHR_token: 6401
+:OpGroupFMulKHR_token: 6402
+:OpGroupBitwiseAndKHR_token: 6403
+:OpGroupBitwiseOrKHR_token: 6404
+:OpGroupBitwiseXorKHR_token: 6405
+:OpGroupLogicalAndKHR_token: 6406
+:OpGroupLogicalOrKHR_token: 6407
+:OpGroupLogicalXorKHR_token: 6408
+
+= {extension_name}
+
+== Name Strings
+
+{extension_name}
+
+== Contact
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Registry
+
+== Contributors
+
+- Dmitry Sidorov, Intel +
+- Alexey Sotkin, Intel +
+- John Pennycook, Intel +
+- Ben Ashbaugh, Intel +
+
+== Notice
+
+Copyright (c) 2022 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+== Status
+
+- Complete
+- Approved by the SPIR-V Working Group: 2021-12-08
+- Approved by the Khronos Board of Promoters: 2022-01-21
+
+== Version
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | {docdate}
+| Revision           | 1
+|========================================
+
+== Dependencies
+
+This extension is written against the SPIR-V Specification,
+Version 1.5, Revision 5, Unified.
+
+This extension requires SPIR-V 1.0.
+
+== Overview
+
+This extension adds new instructions to SPIR-V to support additional group operations within uniform control flow.
+Some SPIR-V consumers may only be able to support these operations within uniform control flow for some _Execution_ _Scopes_, and some SPIR-V consumers may be able to generate more efficient code when control flow is known to be uniform.
+
+== Extension Name
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+[subs="attributes"]
+----
+OpExtension "{extension_name}"
+----
+
+== Modifications to the SPIR-V Specification, Version 1.5
+
+=== Capabilities
+
+Modify Section 3.31, Capability, adding rows to the Capability table:
+
+--
+[options="header"]
+|====
+2+^| Capability ^| Implicitly Declares 
+| {capability_token} | *{capability_name}* +
+Uses additional group uniform arithmetic instructions.
+| *Groups*
+|====
+--
+
+=== Instructions
+
+Add new instructions to Section 3.37.21, Group and Subgroup Instructions:
+
+[cols="1,1,5*3",width="100%"]
+|=====
+6+|[[OpGroupIMulKHR]]*OpGroupIMulKHR* +
+ +
+An integer multiplication <<group operation,group operation>> specified for all values of 'X'
+specified by <<invocations,invocations>> in the group. +
+ +
+Behavior is undefined if not all <<invocations,invocations>> of this module within 'Execution'
+reach this point of execution. +
+ +
+Behavior is undefined unless all invocations within 'Execution' execute the
+same dynamic instance of this instruction. +
+ +
+'Result Type' must be a scalar or vector of <<integer type,integer type>>. +
+ +
+'Execution' is a <<Scope,Scope>>. It must be either *Workgroup* or *Subgroup*. +
+ +
+The identity _I_ for 'Operation' is 1. +
+ +
+The type of 'X' must be the same as 'Result Type'. +
+
+
+1+|Capability: +
+*{capability_name}*
+1+| 6 | {OpGroupIMulKHR_token}
+| '<id>' +
+'Result Type'
+| 'Result <id>'
+| 'Scope <id>' +
+'Execution'
+| '<Group Operation>' +
+'Operation'
+| '<id>' +
+'X'
+|=====
+
+
+[cols="1,1,5*3",width="100%"]
+|=====
+6+|[[OpGroupFMulKHR]]*OpGroupFMulKHR* +
+ +
+A floating-point multiplication <<group operation,group operation>> specified for all values of 'X'
+specified by <<invocations,invocations>> in the group. +
+ +
+Behavior is undefined if not all <<invocations,invocations>> of this module within 'Execution'
+reach this point of execution. +
+ +
+Behavior is undefined unless all invocations within 'Execution' execute the
+same dynamic instance of this instruction. +
+ +
+'Result Type' must be a scalar or vector of <<floating-point type,floating-point type>>. +
+ +
+'Execution' is a <<Scope,Scope>>. It must be either *Workgroup* or *Subgroup*. +
+ +
+The identity _I_ for 'Operation' is 1. +
+ +
+The type of 'X' must be the same as 'Result Type'. +
+
+
+1+|Capability: +
+*{capability_name}*
+1+| 6 | {OpGroupFMulKHR_token}
+| '<id>' +
+'Result Type'
+| 'Result <id>'
+| 'Scope <id>' +
+'Execution'
+| '<Group Operation>' +
+'Operation'
+| '<id>' +
+'X'
+|=====
+
+
+[cols="1,1,5*3",width="100%"]
+|=====
+6+|[[OpGroupBitwiseAndKHR]]*OpGroupBitwiseAndKHR* +
+ +
+A bitwise 'And' <<group operation,group operation>> specified for all values of 'X'
+specified by <<invocations,invocations>> in the group. +
+ +
+Behavior is undefined if not all <<invocations,invocations>> of this module within 'Execution'
+reach this point of execution. +
+ +
+Behavior is undefined unless all invocations within 'Execution' execute the
+same dynamic instance of this instruction. +
+ +
+'Result Type' must be a scalar or vector of <<integer type,integer type>>. +
+ +
+'Execution' is a <<Scope, Scope>>. It must be either *Workgroup* or *Subgroup*. +
+ +
+The identity _I_ for 'Operation' is ~0. +
+ +
+The type of 'X' must be the same as 'Result Type'. +
+
+
+1+|Capability: +
+*{capability_name}*
+1+| 6 | {OpGroupBitwiseAndKHR_token}
+| '<id>' +
+'Result Type'
+| 'Result <id>'
+| 'Scope <id>' +
+'Execution'
+| '<Group Operation>' +
+'Operation'
+| '<id>' +
+'X'
+|=====
+
+
+[cols="1,1,5*3",width="100%"]
+|=====
+6+|[[OpGroupBitwiseOrKHR]]*OpGroupBitwiseOrKHR* +
+ +
+A bitwise 'Or' <<group operation,group operation>> specified for all values of 'X'
+specified by <<invocations,invocations>> in the group. +
+ +
+Behavior is undefined if not all <<invocations,invocations>> of this module within 'Execution'
+reach this point of execution. +
+ +
+Behavior is undefined unless all invocations within 'Execution' execute the
+same dynamic instance of this instruction. +
+ +
+'Result Type' must be a scalar or vector of <<integer type,integer type>>. +
+ +
+'Execution' is a <<Scope,Scope>>. It must be either *Workgroup* or *Subgroup*. +
+ +
+The identity _I_ for 'Operation' is 0. +
+ +
+The type of 'X' must be the same as 'Result Type'. +
+
+
+1+|Capability: +
+*{capability_name}*
+1+| 6 | {OpGroupBitwiseOrKHR_token}
+| '<id>' +
+'Result Type'
+| 'Result <id>'
+| 'Scope <id>' +
+'Execution'
+| '<Group Operation>' +
+'Operation'
+| '<id>' +
+'X'
+|=====
+
+
+[cols="1,1,5*3",width="100%"]
+|=====
+6+|[[OpGroupBitwiseXorKHR]]*OpGroupBitwiseXorKHR* +
+ +
+A bitwise 'Xor' <<group operation,group operation>> specified for all values of 'X'
+specified by <<invocations,invocations>> in the group. +
+ +
+Behavior is undefined if not all <<invocations,invocations>> of this module within 'Execution'
+reach this point of execution. +
+ +
+Behavior is undefined unless all invocations within 'Execution' execute the
+same dynamic instance of this instruction. +
+ +
+'Result Type' must be a scalar or vector of <<integer type,integer type>>. +
+ +
+'Execution' is a <<Scope,Scope>>. It must be either *Workgroup* or *Subgroup*. +
+ +
+The identity _I_ for 'Operation' is 0. +
+ +
+The type of 'X' must be the same as 'Result Type'. +
+
+
+1+|Capability: +
+*{capability_name}*
+1+| 6 | {OpGroupBitwiseXorKHR_token}
+| '<id>' +
+'Result Type'
+| 'Result <id>'
+| 'Scope <id>' +
+'Execution'
+| '<Group Operation>' +
+'Operation'
+| '<id>' +
+'X'
+|=====
+
+[cols="1,1,5*3",width="100%"]
+|=====
+6+|[[OpGroupBitwiseLogicalAndKHR]]*OpGroupLogicalAndKHR* +
+ +
+A logical 'And' <<group operation,group operation>> specified for all values of 'X'
+specified by <<invocations,invocations>> in the group. +
+ +
+Behavior is undefined if not all <<invocations,invocations>> of this module within 'Execution'
+reach this point of execution. +
+ +
+Behavior is undefined unless all invocations within 'Execution' execute the
+same dynamic instance of this instruction. +
+ +
+'Result Type' must be a scalar or vector of <<Boolean type,Boolean type>>. +
+ +
+'Execution' is a <<Scope, Scope>>. It must be either *Workgroup* or *Subgroup*. +
+ +
+The identity _I_ for 'Operation' is ~0. +
+ +
+The type of 'X' must be the same as 'Result Type'. +
+
+
+1+|Capability: +
+*{capability_name}*
+1+| 6 | {OpGroupLogicalAndKHR_token}
+| '<id>' +
+'Result Type'
+| 'Result <id>'
+| 'Scope <id>' +
+'Execution'
+| '<Group Operation>' +
+'Operation'
+| '<id>' +
+'X'
+|=====
+
+
+[cols="1,1,5*3",width="100%"]
+|=====
+6+|[[OpGroupLogicalOrKHR]]*OpGroupLogicalOrKHR* +
+ +
+A logical 'Or' <<group operation,group operation>> specified for all values of 'X'
+specified by <<invocations,invocations>> in the group. +
+ +
+Behavior is undefined if not all <<invocations,invocations>> of this module within 'Execution'
+reach this point of execution. +
+ +
+Behavior is undefined unless all invocations within 'Execution' execute the
+same dynamic instance of this instruction. +
+ +
+'Result Type' must be a scalar or vector of <<Boolean type,Boolean type>>. +
+ +
+'Execution' is a <<Scope,Scope>>. It must be either *Workgroup* or *Subgroup*. +
+ +
+The identity _I_ for 'Operation' is 0. +
+ +
+The type of 'X' must be the same as 'Result Type'. +
+
+
+1+|Capability: +
+*{capability_name}*
+1+| 6 | {OpGroupLogicalOrKHR_token}
+| '<id>' +
+'Result Type'
+| 'Result <id>'
+| 'Scope <id>' +
+'Execution'
+| '<Group Operation>' +
+'Operation'
+| '<id>' +
+'X'
+|=====
+
+
+[cols="1,1,5*3",width="100%"]
+|=====
+6+|[[OpGroupLogicalXorKHR]]*OpGroupLogicalXorKHR* +
+ +
+A logical 'Xor' <<group operation,group operation>> specified for all values of 'X'
+specified by <<invocations,invocations>> in the group. +
+ +
+Behavior is undefined if not all <<invocations,invocations>> of this module within 'Execution'
+reach this point of execution. +
+ +
+Behavior is undefined unless all invocations within 'Execution' execute the
+same dynamic instance of this instruction. +
+ +
+'Result Type' must be a scalar or vector of <<Boolean type,Boolean type>>. +
+ +
+'Execution' is a <<Scope,Scope>>. It must be either *Workgroup* or *Subgroup*. +
+ +
+The identity _I_ for 'Operation' is 0. +
+ +
+The type of 'X' must be the same as 'Result Type'. +
+
+
+1+|Capability: +
+*{capability_name}*
+1+| 6 | {OpGroupLogicalXorKHR_token}
+| '<id>' +
+'Result Type'
+| 'Result <id>'
+| 'Scope <id>' +
+'Execution'
+| '<Group Operation>' +
+'Operation'
+| '<id>' +
+'X'
+|=====
+
+
+=== Issues
+
+None
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2021-11-08|Ben Ashbaugh|Converted to a KHR extension.
+|========================================
+
