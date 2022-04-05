@@ -1,0 +1,96 @@
+:extension_name: SPV_POCL_device_side_abort
+
+= {extension_name}
+
+== Name Strings
+
+{extension_name}
+
+== Contact
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Registry
+
+== Contributors
+
+Pekka Jääskeläinen, Parmance +
+Henry Linjamäki, Parmance +
+Brice Videau, Argonne National Laboratory
+
+== Notice
+
+Copyright (c) 2021-2022 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+== Status
+
+Early Draft
+
+== Version
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | {docdate}
+| Revision           | 1
+|========================================
+
+== Dependencies
+
+This extension is written against the SPIR-V Specification,
+Version 1.5, Revision 3, Unified
+
+This extension is written against the OpenCL Extended Instruction Set
+Specification, Version 1.00, Revision 7
+
+This extension requires SPIR-V 1.0.
+
+== Overview
+
+This extension adds a new instruction pocl_abort_platform to support
+the cl_pocl_device_side_abort OpenCL C extension.
+
+== Extension Name
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+[subs="attributes"]
+----
+OpExtension "{extension_name}"
+----
+
+== Modifications to the OpenCL Extended Instruction Set Specification, Version 1.00, Revision 4
+
+Modify Section 2.8, "Misc instructions", adding the following new instruction
+description:
+ +
+
+*OpAbortPlatformPOCL* +
+ +
+Implements the semantics of the builtin pocl_abort_platform() of semantics are
+defined by the cl_pocl_device_side_abort OpenCL C extension. It stops the kernel
+execution immediately and causes an abnormal unrecoverable termination of the
+host process in a straightforward and immediate manner.
+ +
+ +
+Calling the device side abort also causes the printf buffer to be flushed on
+the host program's standard output before aborting the host process.
+ +
+ +
+'Result Type' must be 'void'. +
+
+=== Issues
+
+None
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2022-04-08|Pekka Jääskeläinen|Initial RFC version.
+|========================================
