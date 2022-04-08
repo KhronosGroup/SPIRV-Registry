@@ -106,6 +106,7 @@ Khronos SPIR-V Registry](https://www.khronos.org/registry/spir-v/).
 1. [SPV_INTEL_split_barrier                 ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/INTEL/SPV_INTEL_split_barrier.html)
 1. [SPV_KHR_ray_cull_mask                   ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/KHR/SPV_KHR_ray_cull_mask.html)
 1. [SPV_KHR_fragment_shader_barycentric     ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/KHR/SPV_KHR_fragment_shader_barycentric.html)
+1. [SPV_POCL_relaxed_printf_string_address_space      ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/POCL/SPV_POCL_relaxed_printf_string_address_space.html)
 
 ## Non-Semantic Extended Instruction Set Specifications
 
