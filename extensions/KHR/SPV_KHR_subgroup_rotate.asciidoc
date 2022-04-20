@@ -1,0 +1,158 @@
+SPV_KHR_subgroup_rotate
+=======================
+
+Name Strings
+------------
+
+SPV_KHR_subgroup_rotate
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Kevin Petit, Arm Ltd. +
+- Ruihao Zhang, Qualcomm +
+- Jason Ekstrand, Collabora +
+- Graeme Leese, Broadcom +
+- Alan Baker, Google +
+- Caio Oliveira, Intel +
+- Jeff Bolz, NVIDIA +
+
+
+Notice
+------
+
+Copyright (c) 2022 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+Status
+------
+
+- Approved by the SPIR-V Working Group: 2022-03-02
+- Approved by the Khronos Board of Promoters: 2022-04-15
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2022-03-02
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification Version 1.5 Revision 5.
+
+This extension requires SPIR-V 1.3.
+
+Overview
+--------
+
+This extension adds a new instruction that enables rotating values across invocations
+within a subgroup. Taking the example of a subgroup of size 16, a rotation by an
+amount of 2 would, when executed by the invocation identified by id 0, return the value
+from the invocation identified by the id 2. The same rotation instruction, when
+executed by the invocation identified by id 14, would return the value from the
+invocation identified by id 0.
+
+A rotation by an amount of N rotates values "down" N invocations within the subgroup.
+
+A rotation by an amount of (SubgroupSize - N) rotates values "up" N invocations
+within the subgroup.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_KHR_subgroup_rotate"
+----
+
+Modifications to the SPIR-V Specification, Version 1.5
+------------------------------------------------------
+
+Capabilities
+~~~~~~~~~~~~
+
+Modify Section 3.31, "Capability", adding these rows to the Capability table:
+
+--
+[options="header"]
+|====
+2+^| Capability ^| Implicitly declares
+| 6026 | *GroupNonUniformRotateKHR* +
+Use *OpGroupNonUniformRotateKHR* instruction | *GroupNonUniform*
+|====
+--
+
+Instructions
+~~~~~~~~~~~~
+
+Add the new instruction:
+
+[cols="1,1,6*3",width="100%"]
+|=====
+6+|[[OpGroupNonUniformRotateKHR]]*OpGroupNonUniformRotateKHR* +
+ +
+Return the 'Value' of the <<Invocation,invocation>> whose id within the group is
+calculated as follows: +
+ +
+LocalId = *SubgroupLocalInvocationId* if 'Execution' is *Subgroup* or *LocalInvocationId* if 'Execution' is *Workgroup* +
+RotationGroupSize = 'ClusterSize' when 'ClusterSize' is present, otherwise +
+RotationGroupSize = *SubgroupMaxSize* if the *Kernel* capability is declared and *SubgroupSize* if not. +
+Invocation ID = ( (LocalId + 'Delta') & (RotationGroupSize - 1) ) + (LocalId & ~(RotationGroupSize - 1)) +
+ +
+'Result Type'  must be a scalar or vector of <<Floating,'floating-point type'>>,
+<<Integer,'integer type'>>, or <<Boolean,'Boolean type'>>.  +
+ +
+'Execution' is a <<Scope_-id-, 'Scope'>>. It must be either *Workgroup* or *Subgroup*. +
+ +
+ The type of 'Value' must be the same as 'Result Type'.  +
+ +
+'Delta'  must be a scalar of <<Integer,'integer type'>>, whose 'Signedness' operand is 0.  +
+'Delta' must be _dynamically uniform_ within 'Execution'. +
+ +
+'Delta' is treated as unsigned and the resulting value is undefined if the selected lane is inactive. +
+ +
+'ClusterSize' is the size of cluster to use. 'ClusterSize' must be a scalar
+of integer type, whose 'Signedness' operand is 0. 'ClusterSize' must
+come from a constant instruction. Behavior is undefined unless
+'ClusterSize' is at least 1 and a power of 2. If 'ClusterSize' is greater
+than the declared *SubGroupSize*, executing this instruction results
+in undefined behavior.
+2+|<<Capability,Capability>>: +
+*GroupNonUniformRotateKHR*
+ +
+| 6 + variable | 4431
+ | '<id>' +
+'Result Type' | <<ResultId,'Result <id>' >> | <<Scope_-id-,'Scope <id>'>> +
+'Execution' | '<id>' +
+'Value' | '<id>' +
+'Delta' | Optional '<id>' 'ClusterSize'
+|=====
+
+Issues
+------
+
+None.
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2022-03-02|Kevin Petit|Initial revision
+|========================================
