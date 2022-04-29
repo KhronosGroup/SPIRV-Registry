@@ -1,0 +1,139 @@
+SPV_KHR_ray_cull_mask
+=====================
+
+Name Strings
+------------
+
+SPV_KHR_ray_cull_mask
+
+Contact
+-------
+
+See *Issues* list in the Khronos SPIRV-Headers repository:
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Marius Bjorge, ARM
+- Alan Baker, Google
+- Daniel Koch, NVIDIA
+- Members of the Vulkan Ray Tracing TSG
+
+Status
+------
+
+- Complete
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2022-02-21
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the Unified SPIR-V Specification,
+Version 1.5, Revision 1.
+
+This extension requires SPIR-V 1.4.
+
+This extension requires SPV_KHR_ray_tracing.
+
+Overview
+--------
+
+This extension adds functionality to get the ray cull mask for the current intersection.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_KHR_ray_cull_mask"
+----
+
+
+New Capabilities
+----------------
+
+This extension introduces new capabilities:
+
+----
+RayCullMaskKHR
+----
+
+
+New Builtins
+------------
+
+Builtins added under the *RayCullMaskKHR* capability
+
+----
+CullMaskKHR
+----
+
+Modifications to the SPIR-V Specification
+-----------------------------------------
+
+(Modify Section 3.21, Builtin, adding rows to the Builtin table) ::
++
+--
+[cols="1^,10,6^",options="header",width = "100%"]
+|======
+2+^.^| Decoration | <<Capability,Enabling Capabilities>>
+| 6021 | *CullMaskKHR* +
+Cull mask for the ray being traced in the *IntersectionKHR*,
+*AnyHitKHR*, *ClosestHitKHR*, or *MissKHR* execution models.
+
+Refer to the Vulkan API specification for more details.
+|*RayCullMaskKHR*
+
+|======
+--
+
+(Modify Section 3.31, Capability, adding a row to the Capability table) ::
++
+--
+[cols="1^.^,25,8^,15",options="header",width = "100%"]
+|====
+2+^.^| Capability | Depends On | Enabled by Extension
+| 6020 | *RayCullMaskKHR* +
+Allows the use of *CullMaskKHR* builtin.
+|  | *SPV_KHR_ray_cull_mask*
+|====
+--
+
+
+Validation Rules
+----------------
+
+An OpExtension must be added to the SPIR-V for validation layers to check
+legal use of this extension:
+
+----
+OpExtension "SPV_KHR_ray_cull_mask"
+----
+
+Issues
+------
+
+None.
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1 |2022-02-21 |Marius Bjorge | Internal revisions
+|========================================
+
