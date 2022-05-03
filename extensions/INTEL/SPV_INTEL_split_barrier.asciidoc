@@ -1,17 +1,9 @@
-:extension_name: SPV_INTEL_split_barrier
-:capability_name: SplitBarrierINTEL
-:capability_token: 6141
-:arrive_token: 6142
-:wait_token: 6143
-:arrive_name: OpControlBarrierArriveINTEL
-:wait_name: OpControlBarrierWaitINTEL
-
-{extension_name}
-================
+SPV_INTEL_split_barrier
+=======================
 
 == Name Strings
 
-{extension_name}
+SPV_INTEL_split_barrier
 
 == Contact
 
@@ -29,7 +21,7 @@ Copyright (c) 2022 Intel Corporation.  All rights reserved.
 
 == Status
 
-- Working Draft
+- Shipping
 
 == Version
 
@@ -61,7 +53,7 @@ be present in the module:
 
 [subs="attributes"]
 ----
-OpExtension "{extension_name}"
+OpExtension "SPV_INTEL_split_barrier"
 ----
 
 == New Capabilities
@@ -70,7 +62,7 @@ This extension introduces the new capability:
 
 [subs="attributes"]
 ----
-{capability_name}
+SplitBarrierINTEL
 ----
 
 == Modifications to the SPIR-V Specification, Version 1.6
@@ -81,7 +73,7 @@ Modify Section 3.31, Capability, adding rows to the Capability table:
 [options="header"]
 |====
 2+^| Capability ^| Implicitly Declares 
-| {capability_token} | *{capability_name}*
+| 6141 | *SplitBarrierINTEL*
 |
 |====
 --
@@ -95,14 +87,14 @@ Add to Section 3.42.20, Barrier Instructions:
 Indicates that an invocation has arrived at a split control barrier.
 This may allow other invocations waiting on the split control barrier to continue executing. +
  +
-When _Execution_ is *Workgroup* or larger, behavior is undefined unless all invocations within _Execution_ execute the same dynamic instance of this instruction. When _Execution_ is *Subgroup* or *Invocation*, the behavior of this instruction in non-uniform control flow is defined by the client API. +
-// TODO: undefined to arrive twice?
+When _Execution_ is *Workgroup* or larger, behavior is undefined unless all invocations within _Execution_ execute the same dynamic instance of this instruction.
+When _Execution_ is *Subgroup* or *Invocation*, the behavior of this instruction in non-uniform control flow is defined by the client API. +
  +
 If _Semantics_ is not *None*, this instruction also serves as the start of a memory barrier similar to an *OpMemoryBarrier* instruction with the same _Memory_ and _Semantics_ operands.
 This allows atomically specifying both a control barrier and a memory barrier (that is, without needing two instructions). If _Semantics_ is *None*, _Memory_ is ignored. +
 1+|Capability: +
-*{capability_name}*
-1+| 4 | {arrive_token}
+*SplitBarrierINTEL*
+1+| 4 | 6142
 | 'Scope <id>' +
 'Execution'
 | 'Scope <id>' +
@@ -117,16 +109,16 @@ This allows atomically specifying both a control barrier and a memory barrier (t
  +
 Waits for other invocations of this module to arrive at a split control barrier. +
  +
-When _Execution_ is *Workgroup* or larger, behavior is undefined unless all invocations within _Execution_ execute the same dynamic instance of this instruction. When _Execution_ is *Subgroup* or *Invocation*, the behavior of this instruction in non-uniform control flow is defined by the client API. +
-// TODO: undefined to wait twice?
+When _Execution_ is *Workgroup* or larger, behavior is undefined unless all invocations within _Execution_ execute the same dynamic instance of this instruction.
+When _Execution_ is *Subgroup* or *Invocation*, the behavior of this instruction in non-uniform control flow is defined by the client API. +
  +
 If _Semantics_ is not *None*, this instruction also serves as the end of a memory barrier similar to an *OpMemoryBarrier* instruction with the same _Memory_ and _Semantics_ operands.
 This ensures that memory accesses issued before arriving at the split barrier are observed before memory accesses issued after this instruction.
 This control is ensured only for memory accesses issued by this invocation and observed by another invocation executing within _Memory_ scope.
 This allows atomically specifying both a control barrier and a memory barrier (that is, without needing two instructions). If _Semantics_ is *None*, _Memory_ is ignored. +
 1+|Capability: +
-*{capability_name}*
-1+| 4 | {wait_token}
+*SplitBarrierINTEL*
+1+| 4 | 6143
 | 'Scope <id>' +
 'Execution'
 | 'Scope <id>' +
