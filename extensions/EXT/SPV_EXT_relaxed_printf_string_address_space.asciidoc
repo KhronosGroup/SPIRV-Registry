@@ -1,4 +1,4 @@
-:extension_name: SPV_POCL_relaxed_printf_string_address_space
+:extension_name: SPV_EXT_relaxed_printf_string_address_space
 
 = {extension_name}
 
@@ -25,14 +25,14 @@ http://www.khronos.org/registry/speccopyright.html
 
 == Status
 
-Early Draft
+Draft
 
 == Version
 
 [width="40%",cols="25,25"]
 |========================================
 | Last Modified Date | {docdate}
-| Revision           | 1
+| Revision           | 2
 |========================================
 
 == Dependencies
@@ -48,7 +48,7 @@ This extension requires SPIR-V 1.0.
 == Overview
 
 This extension relaxes the address space requirement of the printf builtin
-to support the cl_pocl_relaxed_printf_string_address_space OpenCL C extension.
+to support the cl_ext_relaxed_printf_string_address_space OpenCL C extension.
 
 == Extension Name
 
@@ -78,5 +78,6 @@ Revision History
 [options="header"]
 |========================================
 |Rev|Date|Author|Changes
+|2|2022-05-14|Pekka Jääskeläinen, Brice Videau| *Changed to an 'ext' extension for multi-vendor adoption promotion.*
 |1|2022-04-08|Pekka Jääskeläinen|Initial RFC version.
 |========================================

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<title>SPV_POCL_relaxed_printf_string_address_space</title>
+<title>SPV_EXT_relaxed_printf_string_address_space</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -438,14 +438,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>SPV_POCL_relaxed_printf_string_address_space</h1>
+<h1>SPV_EXT_relaxed_printf_string_address_space</h1>
 </div>
 <div id="content">
 <div class="sect1">
 <h2 id="_name_strings">Name Strings</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>SPV_POCL_relaxed_printf_string_address_space</p>
+<p>SPV_EXT_relaxed_printf_string_address_space</p>
 </div>
 </div>
 </div>
@@ -483,7 +483,7 @@ Brice Videau, Argonne National Laboratory</p>
 <h2 id="_status">Status</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Early Draft</p>
+<p>Draft</p>
 </div>
 </div>
 </div>
@@ -498,11 +498,11 @@ Brice Videau, Argonne National Laboratory</p>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2022-04-08</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2022-05-14</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
 </tr>
 </tbody>
 </table>
@@ -529,7 +529,7 @@ Specification, Version 1.00, Revision 7</p>
 <div class="sectionbody">
 <div class="paragraph">
 <p>This extension relaxes the address space requirement of the printf builtin
-to support the cl_pocl_relaxed_printf_string_address_space OpenCL C extension.</p>
+to support the cl_ext_relaxed_printf_string_address_space OpenCL C extension.</p>
 </div>
 </div>
 </div>
@@ -542,7 +542,7 @@ to support the cl_pocl_relaxed_printf_string_address_space OpenCL C extension.</
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>OpExtension "SPV_POCL_relaxed_printf_string_address_space"</pre>
+<pre>OpExtension "SPV_EXT_relaxed_printf_string_address_space"</pre>
 </div>
 </div>
 </div>
@@ -583,6 +583,12 @@ sentence "format must be a pointer(constant) to i8." to
 </thead>
 <tbody>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2022-05-14</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pekka Jääskeläinen, Brice Videau</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Changed to an 'ext' extension for multi-vendor adoption promotion.</strong></p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2022-04-08</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Pekka Jääskeläinen</p></td>
@@ -595,7 +601,7 @@ sentence "format must be a pointer(constant) to i8." to
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-04-08 15:13:14 +0300
+Last updated 2022-05-14 08:10:01 +0300
 </div>
 </div>
 </body>
