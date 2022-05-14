@@ -1,4 +1,4 @@
-:extension_name: SPV_POCL_device_side_abort
+:extension_name: SPV_EXT_device_side_abort
 
 = {extension_name}
 
@@ -25,14 +25,14 @@ http://www.khronos.org/registry/speccopyright.html
 
 == Status
 
-Early Draft
+Draft
 
 == Version
 
 [width="40%",cols="25,25"]
 |========================================
 | Last Modified Date | {docdate}
-| Revision           | 1
+| Revision           | 2
 |========================================
 
 == Dependencies
@@ -47,8 +47,8 @@ This extension requires SPIR-V 1.0.
 
 == Overview
 
-This extension adds a new instruction pocl_abort_platform to support
-the cl_pocl_device_side_abort OpenCL C extension.
+This extension adds a new instruction abort_platform to support
+the cl_ext_device_side_abort OpenCL C extension.
 
 == Extension Name
 
@@ -66,10 +66,10 @@ Modify Section 2.8, "Misc instructions", adding the following new instruction
 description:
  +
 
-*OpAbortPlatformPOCL* +
+*OpAbortPlatformEXT* +
  +
-Implements the semantics of the builtin pocl_abort_platform() of semantics are
-defined by the cl_pocl_device_side_abort OpenCL C extension. It stops the kernel
+Implements the semantics of the builtin abort_platform() of semantics are
+defined by the cl_ext_device_side_abort OpenCL C extension: It stops the kernel
 execution immediately and causes an abnormal unrecoverable termination of the
 host process in a straightforward and immediate manner.
  +
@@ -92,5 +92,6 @@ Revision History
 [options="header"]
 |========================================
 |Rev|Date|Author|Changes
+|2|2022-05-14|Pekka Jääskeläinen, Brice Videau|Changed to an 'ext' extension to promote multi-vendor adoption.
 |1|2022-04-08|Pekka Jääskeläinen|Initial RFC version.
 |========================================

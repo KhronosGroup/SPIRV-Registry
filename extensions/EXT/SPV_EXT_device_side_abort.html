@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<title>SPV_POCL_device_side_abort</title>
+<title>SPV_EXT_device_side_abort</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -438,14 +438,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>SPV_POCL_device_side_abort</h1>
+<h1>SPV_EXT_device_side_abort</h1>
 </div>
 <div id="content">
 <div class="sect1">
 <h2 id="_name_strings">Name Strings</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>SPV_POCL_device_side_abort</p>
+<p>SPV_EXT_device_side_abort</p>
 </div>
 </div>
 </div>
@@ -483,7 +483,7 @@ Brice Videau, Argonne National Laboratory</p>
 <h2 id="_status">Status</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Early Draft</p>
+<p>Draft</p>
 </div>
 </div>
 </div>
@@ -498,11 +498,11 @@ Brice Videau, Argonne National Laboratory</p>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2022-04-08</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2022-05-14</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
 </tr>
 </tbody>
 </table>
@@ -528,8 +528,8 @@ Specification, Version 1.00, Revision 7</p>
 <h2 id="_overview">Overview</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This extension adds a new instruction pocl_abort_platform to support
-the cl_pocl_device_side_abort OpenCL C extension.</p>
+<p>This extension adds a new instruction abort_platform to support
+the cl_ext_device_side_abort OpenCL C extension.</p>
 </div>
 </div>
 </div>
@@ -542,7 +542,7 @@ the cl_pocl_device_side_abort OpenCL C extension.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>OpExtension "SPV_POCL_device_side_abort"</pre>
+<pre>OpExtension "SPV_EXT_device_side_abort"</pre>
 </div>
 </div>
 </div>
@@ -556,10 +556,10 @@ description:
 <br></p>
 </div>
 <div class="paragraph">
-<p><strong>OpAbortPlatformPOCL</strong><br>
+<p><strong>OpAbortPlatformEXT</strong><br>
 <br>
-Implements the semantics of the builtin pocl_abort_platform() of semantics are
-defined by the cl_pocl_device_side_abort OpenCL C extension. It stops the kernel
+Implements the semantics of the builtin abort_platform() of semantics are
+defined by the cl_ext_device_side_abort OpenCL C extension: It stops the kernel
 execution immediately and causes an abnormal unrecoverable termination of the
 host process in a straightforward and immediate manner.
 <br>
@@ -598,6 +598,12 @@ the host program&#8217;s standard output before aborting the host process.
 </thead>
 <tbody>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2022-05-14</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pekka Jääskeläinen, Brice Videau</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Changed to an 'ext' extension to promote multi-vendor adoption.</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2022-04-08</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Pekka Jääskeläinen</p></td>
@@ -610,7 +616,7 @@ the host program&#8217;s standard output before aborting the host process.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-04-08 13:51:16 +0300
+Last updated 2022-05-14 08:25:09 +0300
 </div>
 </div>
 </body>
