@@ -1,0 +1,140 @@
+= SPV_AMD_shader_early_and_late_fragment_tests
+
+== Name Strings
+
+SPV_AMD_shader_early_and_late_fragment_tests
+
+== Contact
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Registry
+
+== Contributors
+
+- Tobias Hector, AMD
+
+== Notice
+
+Copyright (c) 2021 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+== Status
+
+- Draft
+
+== Version
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2021-11-05
+| Revision           | 1
+|========================================
+
+== Dependencies
+
+This extension is written against the SPIR-V Specification,
+Version 1.5 Revision 5.
+
+This extension requires SPIR-V 1.0.
+
+== Overview
+
+This extension adds the *EarlyAndLateFragmentTestsAMD* *Execution*
+*Mode*, which enables both early and late fragment tests in some circumstances.
+
+Additionally, it adds execution modes describing how the shader stencil
+value is written, allowing stencil writes to be used with this new mode.
+
+
+== Extension Name
+
+To use this extension within a SPIR-V module, the following *OpExtension* must
+be present in the module:
+
+----
+OpExtension "SPV_AMD_fragment_discard_storage_writes"
+----
+
+== Modifications to the SPIR-V Specification, Version 1.5
+
+=== Capabilities
+
+Modify Section 3.6, "Execution Mode", adding the following row to the table:
+
+--
+[cols="1,6,2,1",options="header"]
+|====
+2+^| Execution mode ^| Extra Operands ^| Enabling Capabilities
+| 5017 | *EarlyAndLateFragmentTestsAMD* +
+Fragment tests can be performed both before and after fragment shader execution, with latter tests taking values written to _FragDepth_ and _FragStencilRefEXT_ into account. Early tests are not guaranteed, late tests are.+
+ +
+If neither of *ExecutionModeDepthReplacing* or *ExecutionModeStencilRefReplacingEXT* are specified, functions identically to *EarlyFragmentTests*. +
+If this and *ExecutionModeStencilRefReplacingEXT* are both specified, one of *StencilRefGreaterAMD*, *StencilRefLessAMD*, or *StencilRefUnchangedAMD* must also be specified. +
+If this and *ExecutionModeDepthReplacing* are both specified, one of *DepthGreater*, *DepthLess*, or *DepthUnchanged* must also be specified. +
+ +
+Only valid with the Fragment https://www.khronos.org/registry/spir-v/specs/unified1/SPIRV.html#Execution_Model[Execution Model]. +
+See client API for detail on fragment operations.
+|
+| *Shader*
+| 5079 | *StencilRefUnchangedFrontAMD* +
+Indicates that early per-fragment tests may assume that any _FragStencilRefEXT_ built in-decorated value written by the shader is equal to the stencil reference value set for the front face in the client API after masking.
+Late per-fragment tests will use the written value as normal. +
+ +
+Only valid with the Fragment https://www.khronos.org/registry/spir-v/specs/unified1/SPIRV.html#Execution_Model[Execution Model]. +
+At most one of *StencilRefGreaterAMD*, *StencilRefLessAMD*, and *StencilRefUnchangedAMD* can be specified.
+|
+| *StencilExportEXT*
+| 5080 | *StencilRefGreaterFrontAMD* +
+Indicates that early per-fragment tests may assume that any _FragStencilRefEXT_ built in-decorated value written by the shader is greater than or equal to the stencil reference value set for the front face in the client API after masking.
+Late per-fragment tests will use the written value as normal. +
+ +
+Only valid with the Fragment https://www.khronos.org/registry/spir-v/specs/unified1/SPIRV.html#Execution_Model[Execution Model]. +
+At most one of *StencilRefGreaterAMD*, *StencilRefLessAMD*, and *StencilRefUnchangedAMD* can be specified.
+|
+| *StencilExportEXT*
+| 5081 | *StencilRefLessFrontAMD* +
+Indicates that early per-fragment tests may assume that any _FragStencilRefEXT_ built in-decorated value written by the shader is less than or equal to the stencil reference value  set for the front face in the client API after masking.
+Late per-fragment tests will use the written value as normal. +
+ +
+Only valid with the Fragment https://www.khronos.org/registry/spir-v/specs/unified1/SPIRV.html#Execution_Model[Execution Model]. +
+At most one of *StencilRefGreaterAMD*, *StencilRefLessAMD*, and *StencilRefUnchangedAMD* can be specified.
+|
+| *StencilExportEXT*
+| 5082 | *StencilRefUnchangedBackAMD* +
+Indicates that early per-fragment tests may assume that any _FragStencilRefEXT_ built in-decorated value written by the shader is equal to the stencil reference value set for the back face in the client API after masking.
+Late per-fragment tests will use the written value as normal. +
+ +
+Only valid with the Fragment https://www.khronos.org/registry/spir-v/specs/unified1/SPIRV.html#Execution_Model[Execution Model]. +
+At most one of *StencilRefGreaterAMD*, *StencilRefLessAMD*, and *StencilRefUnchangedAMD* can be specified.
+|
+| *StencilExportEXT*
+| 5083 | *StencilRefGreaterBackAMD* +
+Indicates that early per-fragment tests may assume that any _FragStencilRefEXT_ built in-decorated value written by the shader is greater than or equal to the stencil reference value set for the back face in the client API after masking.
+Late per-fragment tests will use the written value as normal. +
+ +
+Only valid with the Fragment https://www.khronos.org/registry/spir-v/specs/unified1/SPIRV.html#Execution_Model[Execution Model]. +
+At most one of *StencilRefGreaterAMD*, *StencilRefLessAMD*, and *StencilRefUnchangedAMD* can be specified.
+|
+| *StencilExportEXT*
+| 5084 | *StencilRefLessBackAMD* +
+Indicates that early per-fragment tests may assume that any _FragStencilRefEXT_ built in-decorated value written by the shader is less than or equal to the stencil reference value set for the back face in the client API after masking.
+Late per-fragment tests will use the written value as normal. +
+ +
+Only valid with the Fragment https://www.khronos.org/registry/spir-v/specs/unified1/SPIRV.html#Execution_Model[Execution Model]. +
+At most one of *StencilRefGreaterAMD*, *StencilRefLessAMD*, and *StencilRefUnchangedAMD* can be specified.
+|
+| *StencilExportEXT*
+|====
+--
+
+
+== Revision History
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2021-11-05|Tobias Hector|Initial extension.
+|========================================
