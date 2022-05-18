@@ -53,7 +53,7 @@ To use this extension within a SPIR-V module, the following *OpExtension* must
 be present in the module:
 
 ----
-OpExtension "SPV_AMD_fragment_discard_storage_writes"
+OpExtension "SPV_AMD_shader_early_and_late_fragment_tests"
 ----
 
 == Modifications to the SPIR-V Specification, Version 1.5
