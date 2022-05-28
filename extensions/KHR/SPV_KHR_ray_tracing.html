@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="generator" content="AsciiDoc 9.0.0rc1">
+<meta name="generator" content="AsciiDoc 9.1.0">
 <title>SPV_KHR_ray_tracing</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
@@ -877,11 +877,11 @@ width:40%;
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2021-05-13</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2022-05-27</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">22</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">23</p></td>
 </tr>
 </tbody>
 </table>
@@ -1500,10 +1500,27 @@ Execution Model. Set the client API specification for details.</p></td>
 or for comparing against the <strong>IncomingRayFlagsKHR</strong> builtin.
 See the client API specification for more details.</p></div>
 <div class="paragraph"><p>Despite being a mask and allowing multiple bits to be combined,
-it is invalid for more than one of these four bits to be set:
-<strong>OpaqueKHR</strong>, <strong>NoOpaqueKHR</strong>, <strong>CullOpaqueKHR</strong>, <strong>CullNoOpaqueKHR</strong>.
-Additionally, only one of <strong>CullBackFacingTrianglesKHR</strong> and
-<strong>CullFrontFacingTrianglesKHR</strong> may be set.</p></div>
+the following combinations are invalid:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+if more than one of these four bits are set:
+    <strong>OpaqueKHR</strong>, <strong>NoOpaqueKHR</strong>, <strong>CullOpaqueKHR</strong>, <strong>CullNoOpaqueKHR</strong>.
+</p>
+</li>
+<li>
+<p>
+if more than one of these three bits are set: <strong>SkipTrianglesKHR</strong>,
+    <strong>CullBackFacingTrianglesKHR</strong>, <strong>CullFrontFacingTrianglesKHR</strong>.
+</p>
+</li>
+<li>
+<p>
+if more than one of these two bits are set: <strong>SkipTrianglesKHR</strong>,
+    <strong>SkipAABBsKHR</strong>.
+</p>
+</li>
+</ul></div>
 <table class="tableblock frame-all grid-all"
 style="
 width:80%;
@@ -2216,6 +2233,12 @@ width:100%;
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Eric Werness</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Fix ray payload allowed execution models to exclude any hit.</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">23</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2022-05-27</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Daniel Koch</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">disallow more combinations of ray flags (vk-gl-cts#3647)</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -2225,7 +2248,7 @@ width:100%;
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2021-05-13 09:24:14 PDT
+ 2022-05-27 22:32:23 EDT
 </div>
 </div>
 </body>

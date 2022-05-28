@@ -38,8 +38,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2021-05-13
-| Revision           | 22
+| Last Modified Date | 2022-05-27
+| Revision           | 23
 |========================================
 
 Dependencies
@@ -419,6 +419,7 @@ Execution Model. Set the client API specification for details.
 --
 
 :capability: RayTracingKHR
+:instruction: OpTraceRayKHR
 include::ray_common/ray_flags_section.txt[]
 
 
@@ -745,5 +746,6 @@ Revision History
 |21|2020-10-01 |Daniel Koch           | Update OpIgnoreIntersectionKHR and OpTerminateRayKHR behavior
                                         (they are terminators) and assign new opcodes (vulkan#2374).
 |22|2021-05-13 |Eric Werness          | Fix ray payload allowed execution models to exclude any hit.
+|23|2022-05-27 |Daniel Koch           | disallow more combinations of ray flags (vk-gl-cts#3647)
 |========================================
 
