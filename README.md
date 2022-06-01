@@ -103,6 +103,7 @@ Khronos SPIR-V Registry](https://www.khronos.org/registry/spir-v/).
 1. [SPV_NV_ray_tracing_motion_blur          ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/NV/SPV_NV_ray_tracing_motion_blur.html)
 1. [SPV_KHR_uniform_group_instructions      ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/KHR/SPV_KHR_uniform_group_instructions.html)
 1. [SPV_KHR_subgroup_rotate                 ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/KHR/SPV_KHR_subgroup_rotate.html)
+1. [SPV_INTEL_split_barrier                 ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/INTEL/SPV_INTEL_split_barrier.html)
 1. [SPV_KHR_ray_cull_mask                   ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/KHR/SPV_KHR_ray_cull_mask.html)
 1. [SPV_KHR_fragment_shader_barycentric     ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/KHR/SPV_KHR_fragment_shader_barycentric.html)
 
