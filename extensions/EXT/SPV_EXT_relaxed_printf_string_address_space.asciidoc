@@ -16,7 +16,8 @@ https://github.com/KhronosGroup/SPIRV-Registry
 
 Pekka Jääskeläinen, Parmance +
 Henry Linjamäki, Parmance +
-Brice Videau, Argonne National Laboratory
+Brice Videau, Argonne National Laboratory +
+Anastasia Stulova, Arm
 
 == Notice
 
@@ -32,7 +33,7 @@ Draft
 [width="40%",cols="25,25"]
 |========================================
 | Last Modified Date | {docdate}
-| Revision           | 2
+| Revision           | 3
 |========================================
 
 == Dependencies
@@ -64,7 +65,7 @@ OpExtension "{extension_name}"
 
 Modify Section 2.8, "Misc instructions", the printf description, the
 sentence "format must be a pointer(constant) to i8." to
-"format must be a pointer(constant, global, local, private) to i8."
+"format must be a pointer(constant, global, local, private, generic) to i8."
 
 === Issues
 
@@ -78,6 +79,7 @@ Revision History
 [options="header"]
 |========================================
 |Rev|Date|Author|Changes
+|2|2022-06-13|Pekka Jääskeläinen, Anastasia Stulova| *The format pointer can also point to the generic address space.*
 |2|2022-05-14|Pekka Jääskeläinen, Brice Videau| *Changed to an 'ext' extension for multi-vendor adoption promotion.*
 |1|2022-04-08|Pekka Jääskeläinen|Initial RFC version.
 |========================================

@@ -466,7 +466,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="paragraph">
 <p>Pekka Jääskeläinen, Parmance<br>
 Henry Linjamäki, Parmance<br>
-Brice Videau, Argonne National Laboratory</p>
+Brice Videau, Argonne National Laboratory<br>
+Anastasia Stulova, Arm</p>
 </div>
 </div>
 </div>
@@ -498,11 +499,11 @@ Brice Videau, Argonne National Laboratory</p>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2022-05-14</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2022-06-13</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
 </tr>
 </tbody>
 </table>
@@ -553,7 +554,7 @@ to support the cl_ext_relaxed_printf_string_address_space OpenCL C extension.</p
 <div class="paragraph">
 <p>Modify Section 2.8, "Misc instructions", the printf description, the
 sentence "format must be a pointer(constant) to i8." to
-"format must be a pointer(constant, global, local, private) to i8."</p>
+"format must be a pointer(constant, global, local, private, generic) to i8."</p>
 </div>
 <div class="sect2">
 <h3 id="_issues">Issues</h3>
@@ -584,6 +585,12 @@ sentence "format must be a pointer(constant) to i8." to
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2022-06-13</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pekka Jääskeläinen, Anastasia Stulova</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>The format pointer can also point to the generic address space.</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2022-05-14</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Pekka Jääskeläinen, Brice Videau</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Changed to an 'ext' extension for multi-vendor adoption promotion.</strong></p></td>
@@ -601,7 +608,7 @@ sentence "format must be a pointer(constant) to i8." to
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-05-14 08:10:01 +0300
+Last updated 2022-06-13 14:51:22 +0300
 </div>
 </div>
 </body>
