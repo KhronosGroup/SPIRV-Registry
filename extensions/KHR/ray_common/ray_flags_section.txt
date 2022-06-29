@@ -5,15 +5,19 @@
 [[ray_flags]]
 *3.RF, Ray Flags*
 
-Flags controlling the properties of an *OpTraceRayKHR* instruction
+Flags controlling the properties of an *{instruction}* instruction
 or for comparing against the *IncomingRayFlagsKHR* builtin.
 See the client API specification for more details.
 
 Despite being a mask and allowing multiple bits to be combined,
-it is invalid for more than one of these four bits to be set:
-*OpaqueKHR*, *NoOpaqueKHR*, *CullOpaqueKHR*, *CullNoOpaqueKHR*.
-Additionally, only one of *CullBackFacingTrianglesKHR* and
-*CullFrontFacingTrianglesKHR* may be set.
+the following combinations are invalid:
+
+  * if more than one of these four bits are set:
+    *OpaqueKHR*, *NoOpaqueKHR*, *CullOpaqueKHR*, *CullNoOpaqueKHR*.
+  * if more than one of these three bits are set: *SkipTrianglesKHR*,
+    *CullBackFacingTrianglesKHR*, *CullFrontFacingTrianglesKHR*.
+  * if more than one of these two bits are set: *SkipTrianglesKHR*,
+    *SkipAABBsKHR*.
 
 [cols="1^,15,5",options="header",width = "80%"]
 |====
