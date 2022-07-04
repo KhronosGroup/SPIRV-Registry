@@ -1440,7 +1440,7 @@ Declares the required workgroup size of <em>Kernel</em>.<br>
 <tr>
 <td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock"><a id="SpecConstantSubgroupMaxSize"></a><strong>SpecConstantSubgroupMaxSize</strong><br>
 <br>
- + Missing before <strong>version 2</strong>
+ Missing before <strong>version 2</strong>.<br>
 <br>
 Declares the specialization id used to set the maximum size of a subgroup,
 i.e. the value returned by <code>get_max_sub_group_size()</code>.<br>
@@ -1467,6 +1467,8 @@ specialization id for the value.<br></p></td>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" colspan="6"><p class="tableblock"><a id="ArgumentPointerPushConstant"></a><strong>ArgumentPointerPushConstant</strong><br>
+<br>
+ Missing before <strong>version 3</strong>.<br>
 <br>
 Declares a pointer argument for <em>Kernel</em> passed via <strong>PushConstant</strong>. This argument&#8217;s
 offset and size should be included in the push constant range declared for this
@@ -1513,6 +1515,8 @@ zero-based counting.<br>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" colspan="8"><p class="tableblock"><a id="ArgumentPointerUniform"></a><strong>ArgumentPointerUniform</strong><br>
+<br>
+ Missing before <strong>version 3</strong>.<br>
 <br>
 Declares a pointer argument for <em>Kernel</em> passed in a <strong>Uniform</strong> buffer.
 The Vulkan descriptor type should use <strong>VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER</strong>. This
@@ -1563,6 +1567,9 @@ zero-based counting.<br>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" colspan="4"><p class="tableblock"><a id="ProgramScopeVariablesStorageBuffer"></a><strong>ProgramScopeVariablesStorageBuffer</strong><br>
+<br>
+ Missing before <strong>version 3</strong>.<br>
+<br>
 Declares a storage buffer to hold program scope variables. All kernels from this module
 should include a descriptor with the type <strong>VK_DESCRIPTOR_TYPE_STORAGE_BUFFER</strong> that is backed by
 a buffer initialized with <em>Data</em> and shared between all instances of kernels created from
@@ -1595,6 +1602,9 @@ this module.<br>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" colspan="4"><p class="tableblock"><a id="ProgramScopeVariablePointerRelocation"></a><strong>ProgramScopeVariablePointerRelocation</strong><br>
+<br>
+ Missing before <strong>version 3</strong>.<br>
+<br>
 Declares a relocation for a pointer into the program scope variables storage buffer
 initialized with the address of another program scope variable.<br>
 <br>
@@ -1630,9 +1640,12 @@ stored in the program scope variable storage buffer.</p></td>
 <tr>
 <td class="tableblock halign-left valign-top" colspan="5"><p class="tableblock"><a id="ImageArgumentInfoChannelOrderPushConstant"></a><strong>ImageArgumentInfoChannelOrderPushConstant</strong><br>
 <br>
-Declares a <strong>PushConstant</strong> location to pass the channel order of the image that
-is argument <em>Ordinal</em> to <em>Kernel</em>. The offset and size should be included in
-the push constant range declared for this kernel using the
+ Missing before <strong>version 3</strong>.<br>
+<br>
+Declares a <strong>PushConstant</strong> location to pass the
+<a href="https://www.khronos.org/registry/OpenCL/specs/3.0-unified/html/OpenCL_C.html#built-in-image-query-functions">channel order</a>
+of the image that is argument <em>Ordinal</em> to <em>Kernel</em>. The offset and size should
+be included in the push constant range declared for this kernel using the
 <strong>VK_SHADER_STAGE_COMPUTE_BIT</strong> flag bit.<br>
 <br>
 <em>Kernel</em> must be a <a href="#Kernel"><strong>Kernel</strong></a> extended instruction from the same import.<br>
@@ -1669,9 +1682,12 @@ argument ordinal using zero-based counting.<br>
 <tr>
 <td class="tableblock halign-left valign-top" colspan="5"><p class="tableblock"><a id="ImageArgumentInfoChannelDataTypePushConstant"></a><strong>ImageArgumentInfoChannelDataTypePushConstant</strong><br>
 <br>
-Declares a <strong>PushConstant</strong> location to pass the channel data type of the image that
-is argument <em>Ordinal</em> to <em>Kernel</em>. The offset and size should be included in
-the push constant range declared for this kernel using the
+ Missing before <strong>version 3</strong>.<br>
+<br>
+Declares a <strong>PushConstant</strong> location to pass the
+<a href="https://www.khronos.org/registry/OpenCL/specs/3.0-unified/html/OpenCL_C.html#built-in-image-query-functions">channel data type</a>
+of the image that is argument <em>Ordinal</em> to <em>Kernel</em>. The offset and size should
+be included in the push constant range declared for this kernel using the
 <strong>VK_SHADER_STAGE_COMPUTE_BIT</strong> flag bit.<br>
 <br>
 <em>Kernel</em> must be a <a href="#Kernel"><strong>Kernel</strong></a> extended instruction from the same import.<br>
@@ -1710,10 +1726,13 @@ argument ordinal using zero-based counting.<br>
 <tr>
 <td class="tableblock halign-left valign-top" colspan="7"><p class="tableblock"><a id="ImageArgumentInfoChannelOrderUniform"></a><strong>ImageArgumentInfoChannelOrderUniform</strong><br>
 <br>
-Declares a location in a <strong>Uniform</strong> buffer to pass the channel order of the image
-that is argument <em>Ordinal</em> to <em>Kernel</em>. The Vulkan descriptor type should use
-<strong>VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER</strong>. This argument may share a descriptor set
-and binding with other users.<br>
+ Missing before <strong>version 3</strong>.<br>
+<br>
+Declares a location in a <strong>Uniform</strong> buffer to pass the
+<a href="https://www.khronos.org/registry/OpenCL/specs/3.0-unified/html/OpenCL_C.html#built-in-image-query-functions">channel order</a>
+of the image that is argument <em>Ordinal</em> to <em>Kernel</em>. The Vulkan descriptor type
+should use <strong>VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER</strong>. This argument may share a
+descriptor set and binding with other users.<br>
 <br>
 <em>Kernel</em> must be a <a href="#Kernel"><strong>Kernel</strong></a> extended instruction from the same import.<br>
 <br>
@@ -1759,10 +1778,13 @@ zero-based counting.<br>
 <tr>
 <td class="tableblock halign-left valign-top" colspan="7"><p class="tableblock"><a id="ImageArgumentInfoChannelDataTypeUniform"></a><strong>ImageArgumentInfoChannelDataTypeUniform</strong><br>
 <br>
-Declares a location in a <strong>Uniform</strong> buffer to pass the channel data type of the image
-that is argument <em>Ordinal</em> to <em>Kernel</em>. The Vulkan descriptor type should use
-<strong>VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER</strong>. This argument may share a descriptor set
-and binding with other users.<br>
+ Missing before <strong>version 3</strong>.<br>
+<br>
+Declares a location in a <strong>Uniform</strong> buffer to pass the
+<a href="https://www.khronos.org/registry/OpenCL/specs/3.0-unified/html/OpenCL_C.html#built-in-image-query-functions">channel data type</a>
+of the image that is argument <em>Ordinal</em> to <em>Kernel</em>. The Vulkan descriptor type
+should use <strong>VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER</strong>. This argument may share a
+descriptor set and binding with other users.<br>
 <br>
 <em>Kernel</em> must be a <a href="#Kernel"><strong>Kernel</strong></a> extended instruction from the same import.<br>
 <br>
@@ -1848,7 +1870,7 @@ zero-based counting.<br>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-06-26 19:15:39 +0100
+Last updated 2022-07-04 17:34:40 +0100
 </div>
 </div>
 </body>
