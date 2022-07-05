@@ -1,7 +1,7 @@
 SPIR-V Non-Semantic Clspv Reflection Instructions
 =================================================
 
-Version 2
+Version 3
 
 Contact
 -------
@@ -19,7 +19,7 @@ Contributors
 Notice
 ------
 
-Copyright (c) 2020 The Khronos Group Inc. Copyright terms at
+Copyright (c) 2020-2022 The Khronos Group Inc. Copyright terms at
 http://www.khronos.org/registry/speccopyright.html
 
 Status
@@ -32,8 +32,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2021-10-25
-| Revision           | 2
+| Last Modified Date | 2022-06-26
+| Revision           | 3
 |========================================
 
 Dependencies
@@ -666,7 +666,7 @@ Declares the required workgroup size of 'Kernel'. +
 |=====
 2+| [[SpecConstantSubgroupMaxSize]]*SpecConstantSubgroupMaxSize* +
  +
- + Missing before *version 2*
+ Missing before *version 2*. +
  +
 Declares the specialization id used to set the maximum size of a subgroup,
 i.e. the value returned by +get_max_sub_group_size()+. +
@@ -675,6 +675,265 @@ i.e. the value returned by +get_max_sub_group_size()+. +
 specialization id for the value. +
 1+| 25 | '<id>' +
 'Size'
+|=====
+
+[cols="6"]
+|=====
+6+|[[ArgumentPointerPushConstant]]*ArgumentPointerPushConstant* +
+ +
+ Missing before *version 3*. +
+ +
+Declares a pointer argument for 'Kernel' passed via *PushConstant*. This argument's
+offset and size should be included in the push constant range declared for this
+kernel using the *VK_SHADER_STAGE_COMPUTE_BIT* flag bit. +
+ +
+'Kernel' must be a <<Kernel,*Kernel*>> extended instruction from the same import. +
+ +
+'Ordinal' must be a 32-bit unsigned integer *OpConstant* specifying the argument ordinal using
+zero-based counting. +
+ +
+'Offset' must be a 32-bit unsigned integer *OpConstant* specifying the offset in the block in bytes. +
+ +
+'Size' must be a 32-bit unsigned integer *OpConstant* specifying the size of the pointer in bytes. +
+ +
+'ArgInfo' must be an <<ArgumentInfo,*ArgumentInfo*>> extended instruction from the same import.
+1+| 26 | '<id>' +
+'Kernel' |
+'<id>' +
+'Ordinal' |
+'<id>' +
+'Offset' |
+'<id>' +
+'Size' |
+Optional +
+'<id>' +
+'ArgInfo' |
+|=====
+
+[cols="8"]
+|=====
+8+|[[ArgumentPointerUniform]]*ArgumentPointerUniform* +
+ +
+ Missing before *version 3*. +
+ +
+Declares a pointer argument for 'Kernel' passed in a *Uniform* buffer.
+The Vulkan descriptor type should use *VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER*. This
+argument may share a descriptor set and binding with other users. +
+ +
+'Kernel' must be a <<Kernel,*Kernel*>> extended instruction from the same import. +
+ +
+'Ordinal' must be a 32-bit unsigned integer *OpConstant* specifying the argument ordinal using
+zero-based counting. +
+ +
+'DescriptorSet' must be a 32-bit unsigned integer *OpConstant* specifying the descriptor set. +
+ +
+'Binding' must be a 32-bit unsigned integer *OpConstant* specifying the binding. +
+ +
+'Offset' must be a 32-bit unsigned integer *OpConstant* specifying the offset in the block in bytes. +
+ +
+'Size' must be a 32-bit unsigned integer *OpConstant* specifying the size of the pointer in bytes. +
+ +
+'ArgInfo' must be an <<ArgumentInfo,*ArgumentInfo*>> extended instruction from the same import.
+1+| 27 | '<id>' +
+'Kernel' |
+'<id>' +
+'Ordinal' |
+'<id>' +
+'DescriptorSet' |
+'<id>' +
+'Binding' |
+'<id>' +
+'Offset' |
+'<id>' +
+'Size' |
+Optional +
+'<id>' +
+'ArgInfo' |
+|=====
+
+[cols="4"]
+|=====
+4+| [[ProgramScopeVariablesStorageBuffer]]*ProgramScopeVariablesStorageBuffer* +
+ +
+ Missing before *version 3*. +
+ +
+Declares a storage buffer to hold program scope variables. All kernels from this module
+should include a descriptor with the type *VK_DESCRIPTOR_TYPE_STORAGE_BUFFER* that is backed by
+a buffer initialized with 'Data' and shared between all instances of kernels created from
+this module. +
+ +
+'DescriptorSet' must be a 32-bit unsigned integer *OpConstant* specifying the descriptor set. +
+ +
+'Binding' must be a 32-bit unsigned integer *OpConstant* specifying the binding. +
+ +
+'Data' must be an *OpString* that encodes the hexbytes of the data used to initialize the buffer.
+1+| 28 | '<id>' +
+'DescriptorSet' |
+'<id>' +
+'Binding' |
+'<id>' +
+'Data'
+|=====
+
+[cols="4"]
+|=====
+4+| [[ProgramScopeVariablePointerRelocation]]*ProgramScopeVariablePointerRelocation* +
+ +
+ Missing before *version 3*. +
+ +
+Declares a relocation for a pointer into the program scope variables storage buffer
+initialized with the address of another program scope variable. +
+ +
+'ObjectOffset' must be a 32-bit unsigned integer *OpConstant* specifying the offset into the program
+scope variable storage buffer at which the object pointed to resides. +
+ +
+'PointerOffset' must be a 32-bit unsigned integer *OpConstant* specifying the offset into the program
+scope variable storage buffer at which the pointer resides. +
+ +
+'PointerSize' must be a 32-bit unsigned integer *OpConstant* specifying the size of the pointer
+stored in the program scope variable storage buffer.
+1+| 29 | '<id>' +
+'ObjectOffset' |
+'<id>' +
+'PointerOffset' |
+'<id>' +
+'PointerSize'
+|=====
+
+[cols="5"]
+|=====
+5+|[[ImageArgumentInfoChannelOrderPushConstant]]*ImageArgumentInfoChannelOrderPushConstant* +
+ +
+ Missing before *version 3*. +
+ +
+Declares a *PushConstant* location to pass the
+https://www.khronos.org/registry/OpenCL/specs/3.0-unified/html/OpenCL_C.html#built-in-image-query-functions[channel order]
+of the image that is argument 'Ordinal' to 'Kernel'. The offset and size should
+be included in the push constant range declared for this kernel using the
+*VK_SHADER_STAGE_COMPUTE_BIT* flag bit. +
+ +
+'Kernel' must be a <<Kernel,*Kernel*>> extended instruction from the same import. +
+ +
+'Ordinal' must be a 32-bit unsigned integer *OpConstant* specifying the image
+argument ordinal using zero-based counting. +
+ +
+'Offset' must be a 32-bit unsigned integer *OpConstant* specifying the offset in the block in bytes. +
+ +
+'Size' must be a 32-bit unsigned integer *OpConstant* specifying the size of the channel order in bytes. +
+1+| 30 | '<id>' +
+'Kernel' |
+'<id>' +
+'Ordinal' |
+'<id>' +
+'Offset' |
+'<id>' +
+'Size' |
+|=====
+
+[cols="5"]
+|=====
+5+|[[ImageArgumentInfoChannelDataTypePushConstant]]*ImageArgumentInfoChannelDataTypePushConstant* +
+ +
+ Missing before *version 3*. +
+ +
+Declares a *PushConstant* location to pass the
+https://www.khronos.org/registry/OpenCL/specs/3.0-unified/html/OpenCL_C.html#built-in-image-query-functions[channel data type]
+of the image that is argument 'Ordinal' to 'Kernel'. The offset and size should
+be included in the push constant range declared for this kernel using the
+*VK_SHADER_STAGE_COMPUTE_BIT* flag bit. +
+ +
+'Kernel' must be a <<Kernel,*Kernel*>> extended instruction from the same import. +
+ +
+'Ordinal' must be a 32-bit unsigned integer *OpConstant* specifying the image
+argument ordinal using zero-based counting. +
+ +
+'Offset' must be a 32-bit unsigned integer *OpConstant* specifying the offset in the block in bytes. +
+ +
+'Size' must be a 32-bit unsigned integer *OpConstant* specifying the size of the channel data type in bytes. +
+1+| 31 | '<id>' +
+'Kernel' |
+'<id>' +
+'Ordinal' |
+'<id>' +
+'Offset' |
+'<id>' +
+'Size' |
+|=====
+
+[cols="7"]
+|=====
+7+|[[ImageArgumentInfoChannelOrderUniform]]*ImageArgumentInfoChannelOrderUniform* +
+ +
+ Missing before *version 3*. +
+ +
+Declares a location in a *Uniform* buffer to pass the
+https://www.khronos.org/registry/OpenCL/specs/3.0-unified/html/OpenCL_C.html#built-in-image-query-functions[channel order]
+of the image that is argument 'Ordinal' to 'Kernel'. The Vulkan descriptor type
+should use *VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER*. This argument may share a
+descriptor set and binding with other users. +
+ +
+'Kernel' must be a <<Kernel,*Kernel*>> extended instruction from the same import. +
+ +
+'Ordinal' must be a 32-bit unsigned integer *OpConstant* specifying the image argument ordinal using
+zero-based counting. +
+ +
+'DescriptorSet' must be a 32-bit unsigned integer *OpConstant* specifying the descriptor set. +
+ +
+'Binding' must be a 32-bit unsigned integer *OpConstant* specifying the binding. +
+ +
+'Offset' must be a 32-bit unsigned integer *OpConstant* specifying the offset in the block in bytes. +
+ +
+'Size' must be a 32-bit unsigned integer *OpConstant* specifying the size of the channel order in bytes. +
+1+| 32 | '<id>' +
+'Kernel' |
+'<id>' +
+'Ordinal' |
+'<id>' +
+'DescriptorSet' |
+'<id>' +
+'Binding' |
+'<id>' +
+'Offset' |
+'<id>' +
+'Size' |
+|=====
+
+[cols="7"]
+|=====
+7+|[[ImageArgumentInfoChannelDataTypeUniform]]*ImageArgumentInfoChannelDataTypeUniform* +
+ +
+ Missing before *version 3*. +
+ +
+Declares a location in a *Uniform* buffer to pass the
+https://www.khronos.org/registry/OpenCL/specs/3.0-unified/html/OpenCL_C.html#built-in-image-query-functions[channel data type]
+of the image that is argument 'Ordinal' to 'Kernel'. The Vulkan descriptor type
+should use *VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER*. This argument may share a
+descriptor set and binding with other users. +
+ +
+'Kernel' must be a <<Kernel,*Kernel*>> extended instruction from the same import. +
+ +
+'Ordinal' must be a 32-bit unsigned integer *OpConstant* specifying the image argument ordinal using
+zero-based counting. +
+ +
+'DescriptorSet' must be a 32-bit unsigned integer *OpConstant* specifying the descriptor set. +
+ +
+'Binding' must be a 32-bit unsigned integer *OpConstant* specifying the binding. +
+ +
+'Offset' must be a 32-bit unsigned integer *OpConstant* specifying the offset in the block in bytes. +
+ +
+'Size' must be a 32-bit unsigned integer *OpConstant* specifying the size of the channel data type in bytes. +
+1+| 33 | '<id>' +
+'Kernel' |
+'<id>' +
+'Ordinal' |
+'<id>' +
+'DescriptorSet' |
+'<id>' +
+'Binding' |
+'<id>' +
+'Offset' |
+'<id>' +
+'Size' |
 |=====
 
 Issues
@@ -690,6 +949,7 @@ Revision History
 [options="header"]
 |========================================
 |Rev|Date|Author|Changes
+|3|2022-06-26|Kévin Petit|Add support for pointer arguments, program scope variables and image channel order and data type queries.
 |2|2021-10-25|Kévin Petit|Add SpecConstantSubgroupMaxSize
 |1|2020-07-27|Alan Baker|Initial revision
 |========================================
