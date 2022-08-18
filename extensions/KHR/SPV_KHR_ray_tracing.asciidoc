@@ -38,8 +38,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2022-05-27
-| Revision           | 23
+| Last Modified Date | 2022-08-17
+| Revision           | 24
 |========================================
 
 Dependencies
@@ -635,6 +635,8 @@ Invoke a callable shader
 
 'Callable Data' is a pointer to the callable data to pass into the called shader. 'Callable Data' must be the result of an *OpVariable* with a storage class of *CallableDataKHR* or *IncomingCallableDataKHR*.
 
+'SBT Index' must be a 32-bit 'unsigned integer type' scalar.
+
 This instruction is allowed only in *RayGenerationKHR*, *ClosestHitKHR*, *MissKHR* and *CallableKHR* execution models.
 
 This instruction is a _shader call instruction_ which will invoke a shader with the
@@ -747,5 +749,6 @@ Revision History
                                         (they are terminators) and assign new opcodes (vulkan#2374).
 |22|2021-05-13 |Eric Werness          | Fix ray payload allowed execution models to exclude any hit.
 |23|2022-05-27 |Daniel Koch           | disallow more combinations of ray flags (vk-gl-cts#3647)
+|24|2022-08-17 |Daniel Koch           | OpExecuteCallableKHR `SBT Index` must be 32-bit unsigned integer (#156)
 |========================================
 

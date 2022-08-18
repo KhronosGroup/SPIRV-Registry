@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="generator" content="AsciiDoc 9.1.0">
+<meta name="generator" content="AsciiDoc 10.2.0">
 <title>SPV_KHR_ray_tracing</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
@@ -877,11 +877,11 @@ width:40%;
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2022-05-27</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2022-08-17</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">23</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">24</p></td>
 </tr>
 </tbody>
 </table>
@@ -1980,6 +1980,7 @@ width:100%;
 Invoke a callable shader</p>
 <p class="tableblock"><em>SBT Index</em> is the index into the SBT table to select callable shader to execute</p>
 <p class="tableblock"><em>Callable Data</em> is a pointer to the callable data to pass into the called shader. <em>Callable Data</em> must be the result of an <strong>OpVariable</strong> with a storage class of <strong>CallableDataKHR</strong> or <strong>IncomingCallableDataKHR</strong>.</p>
+<p class="tableblock"><em>SBT Index</em> must be a 32-bit <em>unsigned integer type</em> scalar.</p>
 <p class="tableblock">This instruction is allowed only in <strong>RayGenerationKHR</strong>, <strong>ClosestHitKHR</strong>, <strong>MissKHR</strong> and <strong>CallableKHR</strong> execution models.</p>
 <p class="tableblock">This instruction is a <em>shader call instruction</em> which will invoke a shader with the
 <strong>CallableKHR</strong> execution model.</p></td>
@@ -2239,6 +2240,12 @@ width:100%;
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Daniel Koch</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">disallow more combinations of ray flags (vk-gl-cts#3647)</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">24</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2022-08-17</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Daniel Koch</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">OpExecuteCallableKHR <span class="monospaced">SBT Index</span> must be 32-bit unsigned integer (#156)</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -2248,7 +2255,7 @@ width:100%;
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2022-05-27 22:32:23 EDT
+ 2022-08-17 23:59:32 EDT
 </div>
 </div>
 </body>
