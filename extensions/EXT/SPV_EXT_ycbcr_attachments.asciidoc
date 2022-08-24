@@ -1,0 +1,126 @@
+SPV_EXT_ycbcr_attachments
+=========================
+
+Name Strings
+------------
+
+SPV_EXT_ycbcr_attachments
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Registry
+
+Contributors
+------------
+
+- Chris Forbes, Google LLC
+
+Notice
+------
+
+Copyright (c) 2022 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+Status
+------
+
+- Complete.
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2022-08-03
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.6 Revision 1.
+
+This extension requires SPIR-V 1.0.
+
+Overview
+--------
+
+This extension adds a new *YCbCrAttachmentEXT* decoration which is intended
+to be equivalent to the GLSL layout(yuv) qualifier and to be used by layered
+implementations to implement it.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_EXT_ycbcr_attachments"
+----
+
+New Capabilities
+----------------
+
+This extension introduces the following new capability:
+ 
+----
+YCbCrAttachmentsEXT
+----
+
+New Decorations
+---------------
+
+Decoration added under the *YCbCrAttachmentsEXT* capability:
+
+----
+YCbCrAttachmentEXT
+----
+
+
+Modifications to the SPIR-V Specification, Version 1.6
+------------------------------------------------------
+
+(Modify Section 3.20, Decoration, adding a row to the Decoration table) ::
++
+--
+[cols="1^,10,6^,2*2",options="header",width = "100%"]
+|====
+2+^.^| Decoration | <<Capability,Enabling Capabilities>> 2+<.^| Extra Operands
+| 5632 | *YCbCrAttachmentEXT* +
+Apply to an OpVariable in the Output storage class. Specifies that the corresponding color attachment will be YCbCr.
+Only valid with the *Fragment* Execution Model. See the API specification for more information. 
+|*YCbCrAttachmentsEXT* 2+|
+|====
+--
+
+(Modify Section 3.31, Capability, adding new rows to the Capability table) ::
++
+--
+[cols="1^.^,15,15",options="header"]
+|====
+2+^| Capability ^| Implicitly Declares
+| 5633 | *YCbCrAttachmentsEXT* +
+Uses the *YCbCrAttachmentEXT* decoration on a variable. |
+|====
+--
+
+Issues
+------
+
+None.
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|==========================================
+|Rev|Date|Author|Changes
+|1|2022-08-03|Chris Forbes|Initial revision
+|==========================================
