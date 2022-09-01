@@ -1,0 +1,585 @@
+SPV_EXT_mesh_shader
+===================
+
+Name Strings
+------------
+
+SPV_EXT_mesh_shader
+
+Contact
+-------
+
+See *Issues* list in the Khronos SPIRV-Registry repository:
+https://github.com/KhronosGroup/SPIRV-Registry
+
+Contributors
+------------
+
+- Daniel Koch, NVIDIA
+- Christoph Kubisch, NVIDIA
+- Jeff Bolz, NVIDIA
+- John Kessenich, Google
+- Sahil Parmar, NVIDIA
+- Patrick Mours, NVIDIA
+- Slawomir Grajewski, Intel
+- Timur Kristóf, Valve
+- Pankaj Mistry, NVIDIA
+
+Status
+------
+
+- Complete
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2022-08-31
+| Revision           | 5
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.5 Revision 5.
+
+This extension requires SPIR-V 1.4.
+
+This extension interacts with SPV_EXT_viewport_array2.
+
+This extension interacts with SPV_EXT_shader_viewport_index_layer.
+
+This extension interacts with SPV_KHR_fragment_shading_rate.
+
+This extension interacts with SPV_KHR_multiview.
+
+This extension interacts with SPIR-V 1.2 (LocalSizeId).
+
+This extension interacts with SPIR-V 1.3 and
+SPV_KHR_shader_draw_parameters (DrawIndex).
+
+Overview
+--------
+
+This extension adds new functionality to support the Vulkan
+VK_EXT_mesh_shader extension in SPIR-V. It adds two new programmable shader
+types, task and mesh shaders, which are used instead of the standard
+programmable vertex processing pipeline. Both new shader types have execution
+environments similar to that of compute shaders.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_EXT_mesh_shader"
+----
+
+New Execution Models
+--------------------
+
+This extension introduces new execution models:
+
+----
+TaskEXT
+MeshEXT
+----
+
+New Capabilities
+----------------
+
+This extension introduces a new capability:
+
+----
+MeshShadingEXT
+----
+
+New Execution Modes
+--------------------
+
+Execution Modes added under the *MeshShadingEXT* capability:
+
+----
+OutputLinesEXT
+OutputTrianglesEXT
+OutputPrimitivesEXT
+----
+
+New Storage Classes
+-------------------
+
+Storage Classes added under the *MeshShadingEXT* capability:
+
+----
+TaskPayloadWorkgroupEXT
+----
+
+New Decorations
+---------------
+
+Decorations added under the *MeshShadingEXT* capability:
+
+----
+PerPrimitiveEXT
+----
+
+New BuiltIns
+------------
+
+BuiltIns added under the *MeshShadingEXT* capability:
+
+----
+PrimitivePointIndicesEXT
+PrimitiveLineIndicesEXT
+PrimitiveTriangleIndicesEXT
+CullPrimitiveEXT
+----
+
+
+New Instructions
+----------------
+
+Instructions added under the *MeshShadingEXT* capability:
+
+----
+OpEmitMeshTasksEXT
+OpSetMeshOutputsEXT
+----
+
+Modifications to the SPIR-V Specification
+-----------------------------------------
+(Modify Section 2.16.1, Universal Validation Rules) ::
+* *OpSetMeshOutputsEXT* must be called before any variable from *Output* storage class
+  is written to.  Behavior is undefined if any invocation executes this instruction
+  more than once or under non-uniform control flow. The arguments for the instruction
+  is taken from first invocation in each workgroup.
+* *OpEmitMeshTasksEXT* must be the last instruction in a block. Only instructions
+  executed before *OpEmitMeshTasksEXT* have observable side effects. Behavior is undefined
+  if any invocation terminates without executing this instruction, or if any invocation
+  executes this instruction in non-uniform control flow. The arguments for the instruction
+  is taken from first invocation in each workgroup.
+
+
+(Modify Section 2.16.2, Validation Rules for Shader Capabilities) ::
++
+--
+(Add new items under "Entry point and execution model") ::
+
+* Each *OpEntryPoint* with the *MeshEXT* Execution Model must have an
+  *OpExecutionMode* with exactly one of *OutputPoints*, *OutputLinesEXT*, or
+  *OutputTrianglesEXT* Execution Modes.
+* Each *OpEntryPoint* with the *MeshEXT* Execution Model must specify both the
+  *OutputPrimitivesEXT* and *OutputVertices* Execution Modes.
+* Each *OpEntryPoint* with the *MeshEXT* Execution Model can have at most one
+  global OpVariable of storage class *TaskPayloadWorkgroupEXT*.
+* OpSetMeshOutputsEXT is only valid in MeshEXT execution model.
+* OpEmitMeshTasksEXT is only valid in TaskEXT Execution model.
+
+
+(Add new items under "Decorations") ::
+
+* The *PerPrimitiveEXT* decoration must be applied only to variables in the
+  *Output* Storage Class in the *MeshEXT* Execution Model or variables in the
+  *Input* Storage Class in the *Fragment* Execution Model.
+--
+
+(Modify Section 3.3, Execution Model, adding rows to the Execution Model table) ::
++
+--
+[cols="1^.^,10,8^",options="header",width = "80%"]
+|====
+2+^.^| Execution Model | Enabling Capabilities
+| 5364 | *TaskEXT* +
+Task shading stage.
+| *MeshShadingEXT*
+| 5365 | *MeshEXT* +
+Mesh shading stage.
+| *MeshShadingEXT*
+|====
+--
+
+(Modify Section 3.6, Execution Mode, adding rows to the Execution Mode table) ::
++
+--
+[cols="1^.^,20,10^,8<.<",options="header",width = "100%"]
+|====
+2+^.^| Execution Mode  | Enabling Capabilities | Extra Operands
+| 5269 | *OutputLinesEXT* +
+Stage output primitive is _lines_.
+Only valid with the *MeshEXT* Execution Model.
+| *MeshShadingEXT* |
+| 5298 | *OutputTrianglesEXT* +
+Stage output primitive is _triangles_.
+Only valid with the *MeshEXT* Execution Model.
+| *MeshShadingEXT* |
+| 5270 | *OutputPrimitivesEXT* +
+For the mesh stage, the maximum number of primitives the shader will ever emit
+for the invocation group.
+Only valid with the *MeshEXT* Execution Model.
+| *MeshShadingEXT* | <<Literal_Number,'Literal Number'>> +
+'Primitive count'
+|====
+--
+
+(Modify the definition of following Execution Modes, allowing them to be used in *TaskEXT* or *MeshEXT* Execution Models) ::
++
+--
+[cols="1^,10,6^,3*2",options="header",width = "100%"]
+|====
+2+^.^| Execution Mode | Enabling Capabilities 3+<.^| Extra Operands
+| 17 | *LocalSize* +
+Indicates the workgroup size in the 'x', 'y', and 'z' dimensions.
+Only valid with the *GLCompute*, *TaskEXT*, *MeshEXT* or *Kernel* Execution
+Models.
+| | <<Literal_Number,'Literal Number'>> +
+'x size' | <<Literal_Number,'Literal Number'>> +
+'y size' | <<Literal_Number,'Literal Number'>> +
+'z size'
+.4+| 26 | *OutputVertices* +
+Only valid with the *Geometry*, *TessellationControl*,
+*TessellationEvaluation*, or *MeshEXT* Execution Models. | 3+|
+<<Literal_Number,'Literal Number'>> +
+'Vertex count'
+| For a geometry stage, the maximum number of vertices the shader will
+ever emit in a single <<Invocation,invocation>>.
+| *Geometry* 3+|
+| For a tessellation-control stage, the number of vertices in the output
+patch produced by the tessellation control shader, which also specifies
+the number of times the tessellation control shader is invoked.
+| *Tessellation* 3+|
+| For a mesh stage, the maximum number of vertices the shader will ever emit
+for the invocation group.
+| *MeshShadingEXT* 3+|
+| 27 | *OutputPoints* +
+Stage output primitive is 'points'.
+Only valid with the *Geometry* and *MeshEXT* Execution Models.
+| *Geometry*, *MeshShadingEXT* 3+|
+| 38 | *LocalSizeId* +
+Same as *LocalSize*, but using <id> operands instead of literals.
+Only valid with the *GLCompute*, *TaskEXT*, *MeshEXT* or *Kernel* Execution
+Models.
+| <<Unified, Missing before>> *version 1.2*. | '<id>' +
+'x size' | '<id>' +
+'y size' | '<id>' +
+'z size'
+|====
+--
+
+(Modify Section 3.7, Storage Class, adding a new row to the Storage Class table) ::
++
+--
+[cols="1^.^,20,10^",options="header",width = "100%"]
+|====
+2+^.^| Storage Class | Enabling Capabilities
+| 5402 | *TaskPayloadWorkgroupEXT* +
+Used for storing payload data associated with a task shader invocation group.
+Shared across all invocations within a workgroup. Visible across all functions.
+Only valid with the *TaskEXT* and *MeshEXT* Execution Models.
+Variables declared with this storage class must not have initializers, can be
+both read and written to in *TaskEXT* Execution Model, but are read-only in
+*MeshEXT* Execution Model.
+| *MeshShadingEXT*
+|====
+--
+
+(Modify Section 3.20, Decoration, adding a new row to the Decoration table) ::
++
+--
+[cols="1^,10,6^,2*2",options="header",width = "100%"]
+|====
+2+^.^| Decoration | Enabling Capabilities 2+<.^| Extra Operands
+| 5271 | *PerPrimitiveEXT* +
+Must only be used on a memory object declaration or a member of a structure
+type. Indicates that the variable has separate instances for each primitive
+in the output.
+
+Only valid for variables of *Input* Storage Class in *Fragment* Execution Model and
+*Output* Storage Class in *MeshEXT* Execution Model.
+| *MeshShadingEXT* 2+|
+|====
+--
+
+(Modify Section 3.21, BuiltIn, adding rows to the BuiltIn table) ::
++
+--
+[cols="1^.^,20,10^",options="header",width = "100%"]
+|====
+2+^.^| BuiltIn | Enabling Capabilities
+| 5299 | *CullPrimitiveEXT* +
+Primitive cull state in the *MeshEXT* Execution Model.
+See the Vulkan API specification for more detail.
+| *MeshShadingEXT*
+| 5294 | *PrimitivePointIndicesEXT* +
+Output array of vertex index values in the *MeshEXT* Execution Model.
+See the Vulkan API specification for more detail.
+| *MeshShadingEXT*
+| 5295 | *PrimitiveLineIndicesEXT* +
+Output array of vertex index values in the *MeshEXT* Execution Model.
+See the Vulkan API specification for more detail.
+| *MeshShadingEXT*
+| 5296 | *PrimitiveTriangleIndicesEXT* +
+Output array of vertex index values in the *MeshEXT* Execution Model.
+See the Vulkan API specification for more detail.
+| *MeshShadingEXT*
+|====
+--
+
+(Modify the definition of following BuiltIns, allowing them to be used in *TaskEXT* or *MeshEXT* Execution Models) ::
++
+--
+[cols="1^.^,20,10^",options="header",width = "100%"]
+|====
+2+^.^| BuiltIn | Enabling Capabilities
+.1+| 0 | *Position* +
+Output vertex position from a <<VertexProcessor,vertex processing>> or
+*MeshEXT* Execution Model.
+See the client API specification for more detail.
+| *Shader*
+.1+| 1 | *PointSize* +
+Output point size from a <<VertexProcessor,vertex processing>> or
+*MeshEXT* Execution Model.
+See the client API specification for more detail.
+| *Shader*
+.1+| 3 | *ClipDistance* +
+Array of clip distances output from a <<VertexProcessor,vertex processing>> or
+*MeshEXT* Execution Model.
+See the client API specification for more detail.
+| *ClipDistance*
+.1+| 4 | *CullDistance* +
+Array of cull distances output from a <<VertexProcessor,vertex processing>> or
+*MeshEXT* Execution Model.
+See the client API specifications for more detail.
+| *CullDistance*
+.4+| 7 | *PrimitiveId* +
+See the client API specifications for more detail. |
+| Primitive ID in a *Geometry* Execution Model
+| *Geometry*
+| Primitive ID in a *Tessellation* Execution Model
+| *Tessellation*
+| Primitive ID output in a *MeshEXT* Execution Model
+| *MeshShadingEXT*
+.4+| 9 | *Layer* +
+Layer selection for multi-layer framebuffer.
+See the client API specification for more detail. |
+| Layer output by a *Geometry* Execution Model, input to a *Fragment*
+Execution Model.
+| *Geometry*
+| Layer output by a *Vertex* or *Tessellation* Execution Model.
+| *ShaderViewportIndexLayerEXT*
+| Layer output by a *MeshEXT* Execution Model.
+| *ShaderViewportIndexLayerEXT*, *MeshShadingEXT*
+.4+| 10 | *ViewportIndex* +
+Viewport selection for viewport transformation when using multiple viewports.
+See the client API specification for more detail. |
+| Viewport index output by a *Geometry* Execution Model, input to a *Fragment*
+Execution Model.
+| *MultiViewport*
+| Viewport index output by a *Vertex* or *Tessellation* Execution Model.
+| *ShaderViewportIndexLayerEXT*
+| Viewport index output by a *MeshEXT* Execution Model
+| *ShaderViewportIndexLayerEXT*, *MeshShadingEXT*
+.1+| 24 | *NumWorkgroups* +
+Number of workgroups in *GLCompute*, *TaskEXT*, *MeshEXT* or *Kernel*
+Execution Models.
+See the client API specifications for more detail. |
+.1+| 25 | *WorkgroupSize* +
+Workgroup size in *GLCompute*, *TaskEXT*, *MeshEXT* or *Kernel*
+Execution Models.
+See the client API specifications for more detail. |
+.1+| 26 | *WorkgroupId* +
+Workgroup ID in *GLCompute*, *TaskEXT*, *MeshEXT* or *Kernel*
+Execution Models.
+See the client API API specifications for more detail. |
+.1+| 27 | *LocalInvocationId* +
+Local invocation ID in *GLCompute*, *TaskEXT*, *MeshEXT* or *Kernel*
+Execution Models.
+See the client API API specifications for more detail. |
+.1+| 28 | *GlobalInvocationId* +
+Global invocation ID in *GLCompute*, *TaskEXT*, *MeshEXT* or *Kernel*
+Execution Models.
+See the client API API specifications for more detail. |
+.1+| 29 | *LocalInvocationIndex* +
+Local invocation index in *GLCompute*, *TaskEXT* or *MeshEXT* Execution Models.
+See Vulkan or OpenGL API specifications for more detail.  +
+ +
+Workgroup Linear ID in a *Kernel* Execution Model.
+See OpenCL API specification for more detail. |
+.1+| 38 | *NumSubgroups* +
+Number of subgroups in *GLCompute*, *TaskEXT*, *MeshEXT* or *Kernel*
+Execution Models. +
+See the client API specification for more detail.
+| *Kernel*, *GroupNonUniform*
+.1+| 40 | *SubgroupID* +
+Subgroup ID in *GLCompute*, *TaskEXT*, *MeshEXT* or *Kernel*
+Execution Models. +
+See the client API specification for more detail.
+| *Kernel*, *GroupNonUniform*
+.1+| 4426 | *DrawIndex* +
+Contains the index of the draw currently being processed.
+Only valid in <<VertexProcessor,vertex processing>>, *MeshEXT* or *Fragment*
+Execution Models.
+See the Vulkan 1.1 or OpenGL 4.6 specifications for more details.
+| *DrawParameters* +
+ +
+<<Unified, Missing before>> *version 1.3*.
+.1+| 4432 | *PrimitiveShadingRateKHR* +
+Output primitive <<fragment_shading_rate,fragment shading rate>>.
+Only valid in the *Vertex*, *Geometry* or *MeshEXT* Execution Models.
+See the client API specification for more detail.
+| *FragmentShadingRateKHR*
+.1+| 4440 | *ViewIndex* +
+Input view index of the view currently being rendered to.
+Only valid in the <<VertexProcessor,vertex processing>>, *MeshEXT* or
+*Fragment* Execution Models.
+See the client API specification for more detail.
+| *ViewIndex*
+|====
+--
+
+(Modify the definition of following Memory Semantics, changing *WorkgroupMemory* to include the new *TaskPayloadWorkgroupEXT* Storage Class) ::
++
+--
+[cols="1^.^,20,10^",options="header",width = "100%"]
+|====
+2+^.^| Memory Semantics | Enabling Capabilities
+.1+| 0x100 | *WorkgroupMemory* +
+Apply the memory-ordering constraints to *Workgroup* or
+*TaskPayloadWorkgroupEXT* Storage Class memory.
+|
+|====
+--
+
+(Modify Section 3.31, Capability, adding a new row to the Capability table) ::
++
+--
+[cols="1^.^,25,15",options="header",width = "80%"]
+:capability: MeshShadingEXT
+|====
+2+^.^| Capability | Implicitly Declares
+| 5283 | *MeshShadingEXT* +
+Uses the *TaskEXT* or *MeshEXT* Execution Models.
+| *Shader*
+|====
+--
+
+(Modify Section 3.37.1, Miscellaneous Instructions, adding rows to the Miscellaneous Instructions table) ::
++
+--
+[cols="1,1,2,2,2*2",width="100%"]
+|=====
+5+|[[OpEmitMeshTasksEXT]]*OpEmitMeshTasksEXT* +
+ +
+Defines the grid size of subsequent mesh shader workgroups to generate
+upon completion of the task shader workgroup. +
+ +
+'Group Count X Y Z' must each be a 32-bit unsigned integer value.
+They configure the number of local workgroups in each respective dimensions
+for the launch of child mesh tasks. See Vulkan API specification for more detail. +
+ +
+'Payload' is an optional pointer to the payload structure to pass to the generated mesh shader invocations.
+'Payload' must be the result of an *OpVariable* with a storage class of *TaskPayloadWorkgroupEXT*. +
+ +
+The arguments are taken from the first invocation in each workgroup.
+Behaviour is undefined if any invocation terminates without executing this instruction,
+or if any invocation executes this instruction in non-uniform control flow.
+
+
+This instruction also serves as an *OpControlBarrier* instruction, and also
+performs and adheres to the description and semantics of an *OpControlBarrier*
+instruction with the 'Execution' and 'Memory' operands set to *Workgroup* and
+the 'Semantics' operand set to a combination of *WorkgroupMemory* and
+*AcquireRelease*.
+
+
+Ceases all further processing: Only instructions executed before
+*OpEmitMeshTasksEXT* have observable side effects. +
+ +
+This instruction must be the last instruction in a block. +
+ +
+This instruction is only valid in the *TaskEXT* Execution Model.
+|<<Capability,Capability>>: +
+*MeshShadingEXT*
+| 4 + variable | 5294 | '<id>' +
+'Group Count X' | '<id>' +
+'Group Count Y' | '<id>' +
+'Group Count Z' | Optional +
+'<id>' +
+'Payload'
+|=====
+[cols="1,1,2*3",width="100%"]
+|=====
+3+|[[OpSetMeshOutputsEXT]]*OpSetMeshOutputsEXT* +
+ +
+Sets the actual output size of the primitives and vertices that the mesh shader
+workgroup will emit upon completion. +
+ +
+'Vertex Count' must be a 32-bit unsigned integer value.
+It defines the array size of per-vertex outputs. +
+ +
+'Primitive Count' must a 32-bit unsigned integer value.
+It defines the array size of per-primitive outputs. +
+ +
+The arguments are taken from the first invocation in each workgroup.
+Behavior is undefined if any invocation executes this instruction more than once or under
+non-uniform control flow.
+Behavior is undefined if there is any control flow path to an output write that is not preceded
+by this instruction. +
+ +
+This instruction is only valid in the *MeshEXT* Execution Model.
+|<<Capability,Capability>>: +
+*MeshShadingEXT*
+| 3 | 5295 | '<id>' +
+'Vertex Count' | '<id>' +
+'Primitive Count'
+|=====
+--
+
+Validation Rules
+----------------
+
+An OpExtension must be added to the SPIR-V for validation layers to check
+legal use of this extension:
+
+----
+OpExtension "SPV_EXT_mesh_shader"
+----
+
+Issues
+------
+1) Can there be more then one OpVariable with storage class TaskPayloadWorkgroupEXT?
+
+*Answer*: OpEmitMeshTasksEXT has a optional operand "payload". There can be at most
+one <id> of type OpVariable with storage class TaskPayloadWorkgroupEXT associated with
+an OpEntryPoint. This OpVariable should be a global OpVariable.
+
+Hence for a SPIRV with single OpEntryPoint there can at most be one such OpVariable.
+For multiple entry points, refer to answer about issue#2.
+
+2) For SPIRV with multiple entry points how are payloads represented?
+
+*Answer* : In a multiple entry point SPIR-V each OpEntryPoint should be associated with at most
+one global OpVariable of storage class TaskPayloadWorkgroupEXT. Thus more than one
+such OpVariable can be present in the SPIR-V. But only one OpVariable of type TaskPayloadWorkgroupEXT
+is allowed as part of interface of a OpEntryPoint.
+To support this requirement in OpEntryPoint, SPIR-V version has to 1.4 or above.
+
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1  |2021-03-25 |Christoph Kubisch|Initial revision
+|2  |2021-08-30 |Patrick Mours|Add modifications to NumWorkGroups, NumSubgroups and SubgroupID
+|3  |2021-11-26 |Patrick Mours|Add TaskPayloadWorkgroupEXT storage class and payload argument to OpEmitMeshTasksEXT
+|4  |2022-04-11 |Pankaj Mistry|Require SPIR-V 1.4 and add validation rules for TaskPayloadWorkgroupEXT
+|5  |2022-08-31 |Pankaj Mistry|Added validation rules for OpSetMeshOutputsEXT and OpEmitMeshTasksEXT
+
+|========================================
