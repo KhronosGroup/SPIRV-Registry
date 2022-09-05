@@ -1,0 +1,114 @@
+SPV_ARM_core_builtins
+=====================
+
+Name Strings
+------------
+
+SPV_ARM_core_builtins
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Kévin Petit, Arm Ltd.
+- Christopher Gautier, Arm Ltd.
+
+Notice
+------
+
+Copyright (c) 2021 Arm Ltd.
+
+Status
+------
+
+Draft.
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2021-11-29
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.5 Revision 5.
+
+This extension requires SPIR-V 1.0.
+
+Overview
+--------
+
+This extension adds new builtin decorations that can be used to decorate
+integer variables giving programs a means to query information about the
+cores and warps it is running on.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_ARM_core_builtins"
+----
+
+Modifications to the SPIR-V Specification, Version 1.5
+------------------------------------------------------
+
+Builtin
+~~~~~~~
+
+Modify section 3.21, "Builtin", adding these rows to the Builtin table:
+
+--
+[options="header"]
+|====
+2+^| Builtin ^| Enabling capability
+| 4160 | *CoreIDARM* +
+An ID between 0 and *CoreMaxIDARM* for the core the current invocation is running on. | *CoreBuiltinsARM*
+| 4161 | *CoreCountARM* +
+The number of cores on the device.  | *CoreBuiltinsARM*
+| 4162 | *CoreMaxIDARM* +
+The max ID that can be reported for a core. This may be different from *CoreCountARM* - 1.  | *CoreBuiltinsARM*
+| 4163 | *WarpIDARM* +
+An ID between 0 and *WarpMaxIDARM* (per core) for the warp the current invocation is running on. | *CoreBuiltinsARM*
+| 4164 | *WarpMaxIDARM* +
+The max ID that can be reported for a warp.  | *CoreBuiltinsARM*
+|====
+--
+
+Capabilities
+~~~~~~~~~~~~
+
+Modify Section 3.31, "Capability", adding these rows to the Capability table:
+
+--
+[options="header"]
+|====
+2+^| Capability ^| Depends On
+| 4165 | *CoreBuiltinsARM* +
+Uses the *CoreIDARM*, *CoreCountARM*, *CoreMaxIDARM*, *WarpIDARM*, *WarpMaxIDARM* builtin decorations. |
+|====
+--
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|=========================================
+|Rev|Date|Author|Changes
+|1|2021-11-29|Kévin Petit|Initial revision
+|=========================================
