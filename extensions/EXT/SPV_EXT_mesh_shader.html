@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="generator" content="AsciiDoc 10.2.0">
+<meta name="generator" content="AsciiDoc 10.1.2">
 <title>SPV_EXT_mesh_shader</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
@@ -862,11 +862,11 @@ width:40%;
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2022-08-31</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2022-09-06</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">6</p></td>
 </tr>
 </tbody>
 </table>
@@ -990,6 +990,14 @@ OpSetMeshOutputsEXT</pre>
 <div class="sectionbody">
 <div class="dlist"><dl>
 <dt class="hdlist1">
+(Modify Section 2.2.5, Control Flow)
+</dt>
+<dd>
+<p>
+Add <strong>OpEmitMeshTasksEXT</strong> to the list of Termination Instructions.
+</p>
+</dd>
+<dt class="hdlist1">
 (Modify Section 2.16.1, Universal Validation Rules) 
 </dt>
 <dd>
@@ -1010,6 +1018,19 @@ OpSetMeshOutputsEXT</pre>
   executes this instruction in non-uniform control flow. The arguments for the instruction
   is taken from first invocation in each workgroup.
 </p>
+</li>
+<li>
+<p>
+Update <strong>Atomic access rule</strong>
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+Add Storage Class <strong>TaskPayloadWorkgroupEXT</strong> to the list of storage classes where
+pointers taken by atomic operation instructions can point to.
+</p>
+</li>
+</ul></div>
 </li>
 </ul></div>
 </dd>
@@ -1833,6 +1854,12 @@ width:100%;
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Pankaj Mistry</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Added validation rules for OpSetMeshOutputsEXT and OpEmitMeshTasksEXT</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2022-09-06</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Pankaj Mistry</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Added OpEmitMeshTasksEXT as a termination instruction and added atomic access validation rule for TaskPayloadWorkgroupEXT</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1842,7 +1869,7 @@ width:100%;
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2022-08-31 22:23:32 EDT
+ 2022-09-06 11:55:45 PDT
 </div>
 </div>
 </body>

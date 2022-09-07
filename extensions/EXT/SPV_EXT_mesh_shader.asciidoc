@@ -35,8 +35,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2022-08-31
-| Revision           | 5
+| Last Modified Date | 2022-09-06
+| Revision           | 6
 |========================================
 
 Dependencies
@@ -152,6 +152,9 @@ OpSetMeshOutputsEXT
 
 Modifications to the SPIR-V Specification
 -----------------------------------------
+(Modify Section 2.2.5, Control Flow)::
+Add *OpEmitMeshTasksEXT* to the list of Termination Instructions.
+
 (Modify Section 2.16.1, Universal Validation Rules) ::
 * *OpSetMeshOutputsEXT* must be called before any variable from *Output* storage class
   is written to.  Behavior is undefined if any invocation executes this instruction
@@ -162,7 +165,9 @@ Modifications to the SPIR-V Specification
   if any invocation terminates without executing this instruction, or if any invocation
   executes this instruction in non-uniform control flow. The arguments for the instruction
   is taken from first invocation in each workgroup.
-
+* Update *Atomic access rule*
+** Add Storage Class *TaskPayloadWorkgroupEXT* to the list of storage classes where
+pointers taken by atomic operation instructions can point to.
 
 (Modify Section 2.16.2, Validation Rules for Shader Capabilities) ::
 +
@@ -581,5 +586,5 @@ Revision History
 |3  |2021-11-26 |Patrick Mours|Add TaskPayloadWorkgroupEXT storage class and payload argument to OpEmitMeshTasksEXT
 |4  |2022-04-11 |Pankaj Mistry|Require SPIR-V 1.4 and add validation rules for TaskPayloadWorkgroupEXT
 |5  |2022-08-31 |Pankaj Mistry|Added validation rules for OpSetMeshOutputsEXT and OpEmitMeshTasksEXT
-
+|6  |2022-09-06 |Pankaj Mistry|Added OpEmitMeshTasksEXT as a termination instruction and added atomic access validation rule for TaskPayloadWorkgroupEXT
 |========================================
