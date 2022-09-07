@@ -444,7 +444,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>Version 3</p>
+<p>Version 4</p>
 </div>
 </div>
 </div>
@@ -469,6 +469,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li>
 <p>Kévin Petit, Arm Ltd.</p>
+</li>
+<li>
+<p>Callum Fare, Codeplay</p>
 </li>
 </ul>
 </div>
@@ -502,11 +505,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2022-06-26</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2022-09-06</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
 </tr>
 </tbody>
 </table>
@@ -1816,6 +1819,79 @@ zero-based counting.<br>
 </tr>
 </tbody>
 </table>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="4"><p class="tableblock"><a id="PrintfInfo"></a><strong>PrintfInfo</strong><br>
+<br>
+ Missing before <strong>version 4</strong>.<br>
+<br>
+Declares a string associated with a <strong>printf</strong> builtin call, a unique ID for the string, and an optional number of argument sizes.<br>
+<br>
+The string may represent the format string of a <strong>printf</strong> builtin call. In this case <em>ArgumentSizes</em> must contain the storage size, in bytes, of each argument that will be written to the buffer by the <strong>printf</strong> builtin, in the order that they appear. The <strong>printf</strong> buffer is a buffer of unsigned 32-bit integers, so arguments must be padded to reach a minimum storage size of 4 bytes if necessary.<br>
+<br>
+The string will otherwise represent a string literal argument to another <strong>printf</strong> call that is not the format string. A valid <strong>printf</strong> implementation should write the value of this <em>PrintfID</em> to the printf buffer for a string literal argument instead of the actual string data. <em>ArgumentSizes</em> has no meaning for this usage.<br>
+<br>
+ A valid <strong>printf</strong> implementation should write the <em>PrintfID</em> associated with the call to the next free location in the <strong>printf</strong> buffer, followed by the value of each argument that appears after the format string.<br>
+<br>
+<em>PrintfID</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> with a value unique to each occurence of the <strong>PrintfInfo</strong> instruction.<br>
+<br>
+<em>FormatString</em> must be an <strong>OpString</strong>.<br>
+<br>
+<em>ArgumentSizes</em> must be zero or more  32-bit unsigned integer <strong>OpConstants</strong>  representing the storage size of the corresponding <strong>printf</strong> arguments. The Nth value corresponds to the Nth <strong>printf</strong> argument <em>after</em> the format string (i.e. the N+1th argument to <strong>printf</strong>).<br></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">34</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>PrintfID</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>FormatString</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional<br>
+<em>&lt;id&gt;</em>, &#8230;&#8203; <br>
+<em>ArgumentSizes</em></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="4"><p class="tableblock"><a id="PrintfBufferInfo"></a><strong>PrintfBufferInfo</strong><br>
+<br>
+ Missing before <strong>version 4</strong>.<br>
+<br>
+Declares a storage buffer to hold the output of the <strong>printf</strong> builtin. All kernels from this module should include a descriptor with the type VK_DESCRIPTOR_TYPE_STORAGE_BUFFER that is backed by a zero-initialized buffer with a size of at least <em>Size</em>.<br>
+<br>
+The buffer contains a series of 32-bit unsigned integers. The first integer of the buffer represents the offset from the second integer to the next available free memory. This may be incremented atomically to allocate regions of the buffer in a thread-safe way. This can be used to determine the amount of data written after a kernel has executed. Subsequent data written by the <strong>printf</strong> builtin will be as described by <a href="#PrintfInfo"><strong>PrintfInfo</strong></a>.<br>
+<br>
+<em>DescriptorSet</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the descriptor set.<br>
+<br>
+<em>Binding</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the binding.<br>
+<br>
+<em>Size</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the buffer size in bytes.<br></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">35</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>DescriptorSet</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>Binding</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <br>
+<em>Size</em></p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="sect1">
@@ -1846,6 +1922,12 @@ zero-based counting.<br>
 </thead>
 <tbody>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2022-09-06</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Callum Fare</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Add support for printf</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2022-06-26</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Kévin Petit</p></td>
@@ -1870,7 +1952,7 @@ zero-based counting.<br>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-07-04 17:34:40 +0100
+Last updated 2022-09-08 17:06:31 +0100
 </div>
 </div>
 </body>
