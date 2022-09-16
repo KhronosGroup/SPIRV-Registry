@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="generator" content="AsciiDoc 10.1.2">
+<meta name="generator" content="AsciiDoc 10.2.0">
 <title>SPV_EXT_mesh_shader</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
@@ -862,11 +862,11 @@ width:40%;
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2022-09-06</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2022-09-16</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">7</p></td>
 </tr>
 </tbody>
 </table>
@@ -1061,8 +1061,8 @@ Each <strong>OpEntryPoint</strong> with the <strong>MeshEXT</strong> Execution M
 </li>
 <li>
 <p>
-Each <strong>OpEntryPoint</strong> with the <strong>MeshEXT</strong> Execution Model can have at most one
-  global OpVariable of storage class <strong>TaskPayloadWorkgroupEXT</strong>.
+Each <strong>OpEntryPoint</strong> with the <strong>MeshEXT</strong> or <strong>TaskEXT</strong> Execution Models can have
+  at most one global OpVariable of storage class <strong>TaskPayloadWorkgroupEXT</strong>.
 </p>
 </li>
 <li>
@@ -1860,6 +1860,12 @@ width:100%;
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Pankaj Mistry</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Added OpEmitMeshTasksEXT as a termination instruction and added atomic access validation rule for TaskPayloadWorkgroupEXT</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">7</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2022-09-16</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Ricardo Garcia</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Forbid more than one TaskPayloadWorkgroupEXT variable in each TaskEXT entry point</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1869,7 +1875,7 @@ width:100%;
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2022-09-06 11:55:45 PDT
+ 2022-09-16 16:44:54 CEST
 </div>
 </div>
 </body>
