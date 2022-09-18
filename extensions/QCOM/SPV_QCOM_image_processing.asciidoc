@@ -1,0 +1,285 @@
+SPV_QCOM_image_processing
+==========================
+
+Name Strings
+------------
+
+SPV_QCOM_image_processing
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Balaji Calidas, Qualcomm
+- Jeff Leger, Qualcomm
+- Ruihao Zhang, Qualcomm
+- Wooyoung Kim, Qualcomm
+
+Notice
+------
+
+Copyright (c) 2020 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+Status
+------
+
+- Approved by the SPIR-V Working Group: 2022-09-07
+- Not Yet Approved by the Khronos Board of Promoters: (To become approved, with an approval date, e.g. 2018-01-30)
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2022-09-16
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.6 Revision 2.
+
+This extension requires SPIR-V 1.4.
+
+Overview
+--------
+
+This extension introduces a new set of operations for image processing, along with
+new capabilities and two new decorations.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_QCOM_image_processing"
+----
+
+New Capabilities
+----------------
+
+This extension introduces new capabilities:
+
+----
+TextureWeightedSampleQCOM
+TextureBoxFilterQCOM
+TextureBlockMatchQCOM
+----
+
+New Decorations
+---------------
+
+The extension adds two new decorations for texture types.
+
+----
+WeightTextureQCOM
+BlockMatchTextureQCOM
+----
+
+New Instructions
+----------------
+
+Instruction added under the *TextureWeightedSampleQCOM* capability:
+
+----
+OpImageSampleWeightedQCOM
+----
+
+Instruction added under the *TextureBoxFilterQCOM* capability:
+
+----
+OpImageBoxFilterQCOM
+----
+
+Instructions added under the *TextureBlockMatchQCOM* capability:
+
+----
+OpImageBlockMatchSSDQCOM
+OpImageBlockMatchSADQCOM
+----
+
+Modifications to the SPIR-V Specification, Version 1.6
+------------------------------------------------------
+Capabilities
+~~~~~~~~~~~~
+
+Modify Section 3.31, "Capability", adding these rows to the Capability table:
+
+--
+[options="header"]
+|====
+2+^| Capability ^| Implicitly declares
+| 4484 | *TextureWeightedSampleQCOM* +
+Add weighted sample operation. |
+| 4485 | *TextureBoxFilterQCOM* +
+Add box filter operation. |
+| 4486 | *TextureBlockMatchQCOM* +
+Add block matching operations (sum of absolute/square differences). |
+|====
+--
+
+Decorations
+~~~~~~~~~~~
+
+Modify Section 3.20, "Decoration", adding the following rows to the Decoration table:
+
+--
+[options="header"]
+|====
+2+^| Decoration 2+^| Extra Operands	^| Enabling Capabilities
+| 4487 | *WeightTextureQCOM* +
+Apply to a texture used as 'Weight Image' in OpImageSampleWeightedQCOM.  Behavior is defined by the runtime environment.
+2+| | *TextureWeightedSampleQCOM*
+| 4488 | *BlockMatchTextureQCOM* +
+Apply to textures used as 'Target Sampled Image' and 'Reference Sampled Image' in OpImageBlockMatchSSDQCOM/OpImageBlockMatchSADQCOM. +
+Behavior is defined by the runtime environment.
+2+| | *TextureBlockMatchQCOM*
+|====
+--
+
+Instructions
+~~~~~~~~~~~~
+
+Modify Section 3.42.10, "Image Instructions", adding before OpImageSampleFootprintNV:
+
+[cols="1,1,5*3",width="100%"]
+|====
+5+|*OpImageSampleWeightedQCOM* +
+ +
+Weighted sample operation
+
+_Result Type_ is the type of the result of weighted sample operation
+
+_Texture Sampled Image_ must be an object whose type is OpTypeSampledImage. The MS operand of the 
+underlying OpTypeImage must be 0.
+
+_Coordinate_ must be a vector of floating-point type, whose vector size is 2.
+
+_Weight Image_ must be an object whose type is OpTypeSampledImage. If the object is an interface object,
+it must be decorated with WeightTextureQCOM. Otherwise, a texture object which is used to construct the object
+must be decorated with WeightTextureQCOM.  The MS operand of the 
+underlying OpTypeImage must be 0.
+
+2+|<<Capability,Capability>>: +
+*TextureSampleWeightedQCOM*
+| 6 | 4480 | <id> _Result Type_ | <<ResultId,'<id> Result' >> | <id> _Texture Sampled Image_ | <id> _Coordinate_ | <id> _Weight Image_
+|====
+
+[cols="1,1,5*3",width="100%"]
+|====
+5+|*OpImageBoxFilterQCOM* +
+ +
+Image box filter operation.
+
+_Result Type_ is the type of the result of image box filter operation
+
+_Texture Sampled Image_ must be an object whose type is OpTypeSampledImage. The MS operand of the 
+underlying OpTypeImage must be 0.
+
+_Coordinate_ must be a vector of floating-point type, whose vector size is 2.
+ +
+_Box Size_ must be a vector of floating-point type, whose vector size is 2 and signedness is 0.
+
+2+|<<Capability,Capability>>: +
+*TextureBoxFilterQCOM*
+| 6 | 4481 | <id> _Result Type_ | <<ResultId,'<id> Result' >> | <id> _Texture Sampled Image_ | <id> _Coordinate_ | <id> _Box Size_
+|====
+
+[cols="1,1,7*3",width="100%"]
+|====
+7+|*OpImageBlockMatchSSDQCOM* +
+ +
+Image block match operation with sum of square differences.
+
+_Result Type_ is the type of the result of image block match sum of square differences
+
+_Target Sampled Image_ must be an object whose type is OpTypeSampledImage.
+If the object is an interface object, it must be decorated with BlockMatchTextureQCOM. 
+Otherwise, a texture object which is used to construct the object must be decorated with BlockMatchTextureQCOM. 
+The MS operand of the underlying OpTypeImage must be 0.
+
+_Target Coordinate_ must be a vector of integer type, whose vector size is 2 and signedness is 0.
+
+_Reference Sampled Image_ must be an object whose type is OpTypeSampledImage.
+If the object is an interface object, it must be decorated with BlockMatchTextureQCOM.
+Otherwise, a texture object which is used to construct the object must be decorated with BlockMatchTextureQCOM.
+The MS operand of the underlying OpTypeImage must be 0.
+
+_Reference Coordinate_ must be a vector of integer type, whose vector size is 2 and signedness is 0.
+
+_Block Size_ must be a vector of integer type, whose vector size is 2 and signedness is 0.
+
+2+|<<Capability,Capability>>: +
+*TextureBlockMatchQCOM*
+| 8 | 4482 | <id> _Result Type_ | <<ResultId,'<id> Result' >> | <id> _Target Sampled Image_ | <id> _Target Coordinate_ | <id> _Reference Sampled Image_ | <id> _Reference Coordinate_ | <id> _Block Size_ |
+|====
+
+[cols="1,1,7*3",width="100%"]
+|====
+7+|*OpImageBlockMatchSADQCOM* +
+ +
+Image block match operation with sum of absolute differences.
+
+_Result Type_ is the type of the result of image block match sum of absolute differences
+
+_Target Sampled Image_ must be an object whose type is OpTypeSampledImage.
+If the object is an interface object, it must be decorated with BlockMatchTextureQCOM.
+Otherwise, a texture object which is used to construct the object must be decorated with BlockMatchTextureQCOM.
+The MS operand of the underlying OpTypeImage must be 0.
+
+_Target Coordinate_ must be a vector of integer type, whose vector size is 2 and signedness is 0.
+
+_Reference Sampled Image_ must be an object whose type is OpTypeSampledImage.
+If the object is an interface object, it must be decorated with BlockMatchTextureQCOM.
+Otherwise, a texture object which is used to construct the object must be decorated with BlockMatchTextureQCOM.
+The MS operand of the underlying OpTypeImage must be 0.
+
+_Reference Coordinate_ must be a vector of integer type, whose vector size is 2 and signedness is 0.
+
+_Block Size_ must be a vector of integer type, whose vector size is 2 and signedness is 0.
+
+2+|<<Capability,Capability>>: +
+*TextureBlockMatchQCOM*
+| 8 | 4483 | <id> _Result Type_ | <<ResultId,'<id> Result' >> | <id> _Target Sampled Image_ | <id> _Target Coordinate_ | <id> _Reference Sampled Image_ | <id> _Reference Coordinate_ | <id> _Block Size_ |
+|====
+
+Validation Rules
+----------------
+
+An OpExtension must be added to the SPIR-V for validation layers to check
+legal use of this extension:
+
+An object decorated with either WeightTextureQCOM or BlockMatchTextureQCOM
+must be used only with the corresponding built-in functions. Such an
+object must not be used with any other functions.
+
+----
+OpExtension "SPV_QCOM_image_processing"
+----
+
+Issues
+------
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|===========================================================
+|Rev|Date|Author|Changes
+|0|2021-12-07|Ruihao Zhang|Initial version
+|1|2022-09-16|Wooyoung Kim|Replaced "should" with "must".  +
+Changed the SPV version requirement from 1.0 to 1.4
+|===========================================================
