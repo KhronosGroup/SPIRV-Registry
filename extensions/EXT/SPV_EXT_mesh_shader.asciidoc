@@ -35,8 +35,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2022-09-06
-| Revision           | 6
+| Last Modified Date | 2022-09-16
+| Revision           | 7
 |========================================
 
 Dependencies
@@ -179,8 +179,8 @@ pointers taken by atomic operation instructions can point to.
   *OutputTrianglesEXT* Execution Modes.
 * Each *OpEntryPoint* with the *MeshEXT* Execution Model must specify both the
   *OutputPrimitivesEXT* and *OutputVertices* Execution Modes.
-* Each *OpEntryPoint* with the *MeshEXT* Execution Model can have at most one
-  global OpVariable of storage class *TaskPayloadWorkgroupEXT*.
+* Each *OpEntryPoint* with the *MeshEXT* or *TaskEXT* Execution Models can have
+  at most one global OpVariable of storage class *TaskPayloadWorkgroupEXT*.
 * OpSetMeshOutputsEXT is only valid in MeshEXT execution model.
 * OpEmitMeshTasksEXT is only valid in TaskEXT Execution model.
 
@@ -587,4 +587,5 @@ Revision History
 |4  |2022-04-11 |Pankaj Mistry|Require SPIR-V 1.4 and add validation rules for TaskPayloadWorkgroupEXT
 |5  |2022-08-31 |Pankaj Mistry|Added validation rules for OpSetMeshOutputsEXT and OpEmitMeshTasksEXT
 |6  |2022-09-06 |Pankaj Mistry|Added OpEmitMeshTasksEXT as a termination instruction and added atomic access validation rule for TaskPayloadWorkgroupEXT
+|7  |2022-09-16 |Ricardo Garcia|Forbid more than one TaskPayloadWorkgroupEXT variable in each TaskEXT entry point
 |========================================
