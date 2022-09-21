@@ -27,7 +27,7 @@ Copyright (c) 2021 Arm Ltd.
 Status
 ------
 
-Draft.
+Complete.
 
 Version
 -------
