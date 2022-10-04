@@ -1,7 +1,7 @@
 SPIR-V Non-Semantic Clspv Reflection Instructions
 =================================================
 
-Version 3
+Version 4
 
 Contact
 -------
@@ -32,8 +32,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2022-06-26
-| Revision           | 3
+| Last Modified Date | 2022-10-04
+| Revision           | 4
 |========================================
 
 Dependencies
@@ -936,6 +936,68 @@ zero-based counting. +
 'Size' |
 |=====
 
+[cols="6"]
+|=====
+6+|[[ArgumentStorageTexelBuffer]]*ArgumentStorageTexelBuffer* +
+ +
+Declares a storage texel buffer (*OpTypeImage* with 'Dim' operand of *Buffer*)
+argument for 'Kernel'. The Vulkan descriptor type should use
+*VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER*. +
+ +
+'Kernel' must be a <<Kernel,*Kernel*>> extended instruction from the same import. +
+ +
+'Ordinal' must be a 32-bit unsigned integer *OpConstant* specifying the argument ordinal using
+zero-based counting. +
+ +
+'DescriptorSet' must be a 32-bit unsigned integer *OpConstant* specifying the descriptor set. +
+ +
+'Binding' must be a 32-bit unsigned integer *OpConstant* specifying the binding. +
+ +
+'ArgInfo' must be an <<ArgumentInfo,*ArgumentInfo*>> extended instruction from the same import.
+1+| 34 | '<id>' +
+'Kernel' |
+'<id>' +
+'Ordinal' |
+'<id>' +
+'DescriptorSet' |
+'<id>' +
+'Binding' |
+Optional +
+'<id>' +
+'ArgInfo' |
+|=====
+
+[cols="6"]
+|=====
+6+|[[ArgumentUniformTexelBuffer]]*ArgumentUniformTexelBuffer* +
+ +
+Declares a uniform texel buffer (*OpTypeImage* with 'Dim' operand of *Buffer*)
+argument for 'Kernel'. The Vulkan descriptor type should use
+*VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER*. +
+ +
+'Kernel' must be a <<Kernel,*Kernel*>> extended instruction from the same import. +
+ +
+'Ordinal' must be a 32-bit unsigned integer *OpConstant* specifying the argument ordinal using
+zero-based counting. +
+ +
+'DescriptorSet' must be a 32-bit unsigned integer *OpConstant* specifying the descriptor set. +
+ +
+'Binding' must be a 32-bit unsigned integer *OpConstant* specifying the binding. +
+ +
+'ArgInfo' must be an <<ArgumentInfo,*ArgumentInfo*>> extended instruction from the same import.
+1+| 35 | '<id>' +
+'Kernel' |
+'<id>' +
+'Ordinal' |
+'<id>' +
+'DescriptorSet' |
+'<id>' +
+'Binding' |
+Optional +
+'<id>' +
+'ArgInfo' |
+|=====
+
 Issues
 ------
 
@@ -949,6 +1011,7 @@ Revision History
 [options="header"]
 |========================================
 |Rev|Date|Author|Changes
+|4|2022-10-04|Kévin Petit|Add support for texel buffer arguments.
 |3|2022-06-26|Kévin Petit|Add support for pointer arguments, program scope variables and image channel order and data type queries.
 |2|2021-10-25|Kévin Petit|Add SpecConstantSubgroupMaxSize
 |1|2020-07-27|Alan Baker|Initial revision

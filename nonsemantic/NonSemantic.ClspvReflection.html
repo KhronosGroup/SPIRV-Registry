@@ -444,7 +444,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>Version 3</p>
+<p>Version 4</p>
 </div>
 </div>
 </div>
@@ -502,11 +502,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2022-06-26</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2022-10-04</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
 </tr>
 </tbody>
 </table>
@@ -1816,6 +1816,94 @@ zero-based counting.<br>
 </tr>
 </tbody>
 </table>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.667%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="6"><p class="tableblock"><a id="ArgumentStorageTexelBuffer"></a><strong>ArgumentStorageTexelBuffer</strong><br>
+<br>
+Declares a storage texel buffer (<strong>OpTypeImage</strong> with <em>Dim</em> operand of <strong>Buffer</strong>)
+argument for <em>Kernel</em>. The Vulkan descriptor type should use
+<strong>VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER</strong>.<br>
+<br>
+<em>Kernel</em> must be a <a href="#Kernel"><strong>Kernel</strong></a> extended instruction from the same import.<br>
+<br>
+<em>Ordinal</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the argument ordinal using
+zero-based counting.<br>
+<br>
+<em>DescriptorSet</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the descriptor set.<br>
+<br>
+<em>Binding</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the binding.<br>
+<br>
+<em>ArgInfo</em> must be an <a href="#ArgumentInfo"><strong>ArgumentInfo</strong></a> extended instruction from the same import.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">34</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>Kernel</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>Ordinal</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>DescriptorSet</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>Binding</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional<br>
+<em>&lt;id&gt;</em><br>
+<em>ArgInfo</em></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.667%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="6"><p class="tableblock"><a id="ArgumentUniformTexelBuffer"></a><strong>ArgumentUniformTexelBuffer</strong><br>
+<br>
+Declares a uniform texel buffer (<strong>OpTypeImage</strong> with <em>Dim</em> operand of <strong>Buffer</strong>)
+argument for <em>Kernel</em>. The Vulkan descriptor type should use
+<strong>VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER</strong>.<br>
+<br>
+<em>Kernel</em> must be a <a href="#Kernel"><strong>Kernel</strong></a> extended instruction from the same import.<br>
+<br>
+<em>Ordinal</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the argument ordinal using
+zero-based counting.<br>
+<br>
+<em>DescriptorSet</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the descriptor set.<br>
+<br>
+<em>Binding</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the binding.<br>
+<br>
+<em>ArgInfo</em> must be an <a href="#ArgumentInfo"><strong>ArgumentInfo</strong></a> extended instruction from the same import.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">35</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>Kernel</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>Ordinal</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>DescriptorSet</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>Binding</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional<br>
+<em>&lt;id&gt;</em><br>
+<em>ArgInfo</em></p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="sect1">
@@ -1846,6 +1934,12 @@ zero-based counting.<br>
 </thead>
 <tbody>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2022-10-04</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Kévin Petit</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Add support for texel buffer arguments.</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2022-06-26</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Kévin Petit</p></td>
@@ -1870,7 +1964,7 @@ zero-based counting.<br>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-07-04 17:34:40 +0100
+Last updated 2022-10-04 20:34:47 +0100
 </div>
 </div>
 </body>
