@@ -1,0 +1,120 @@
+SPV_EXT_opacity_micromap
+========================
+
+Name Strings
+------------
+
+SPV_EXT_opacity_micromap
+
+Contact
+-------
+
+See *Issues* list in the Khronos SPIRV-Headers repository:
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Eric Werness, NVIDIA
+- Joshua Barczak, Intel
+
+Status
+------
+
+- Complete
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2022-07-28
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.5 Revision 1.
+
+This extension requires SPIR-V 1.4.
+
+This extension requires SPV_KHR_ray_query or SPV_KHR_ray_tracing. 
+
+Overview
+--------
+
+This extension adds new functionality to support the Vulkan
+VK_EXT_opacity_micromap extension in SPIR-V.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_EXT_opacity_micromap"
+----
+
+Modifications to the SPIR-V Specification
+-----------------------------------------
+
+(Modify sub-section 3.RF, Ray Flags, adding to the existing table) ::
++
+--
+[[ray_flags]]
+*3.RF, Ray Flags*
+
+[cols="1^,30,5",options="header",width = "100%"]
+|====
+2+^.^| Ray Flags | Enabling Capabilities
+| 1024 | *ForceOpacityMicromap2StateEXT* +
+Force opacity micromaps intersected by this ray to be evaluated in the 2 state mode.
+See the Ray Opacity Micromap in the Vulkan API specification.
+| *RayTracingOpacityMicromapEXT*
+|====
+
+--
+
+(Modify Section 3.31, Capability, adding a row to the Capability table) ::
++
+--
+[cols="1^.^,25,15",options="header",width = "100%"]
+|====
+2+^.^| Capability | Implicitly Declares
+| 5381 | *RayTracingOpacityMicromapEXT* +
+Uses the *ForceOpacityMicromap2StateEXT* enumerant.
+| *Shader*
+|====
+--
+
+
+
+Validation Rules
+----------------
+
+An OpExtension must be added to the SPIR-V for validation layers to check
+legal use of this extension:
+
+----
+OpExtension "SPV_EXT_opacity_micromap"
+----
+
+Issues
+------
+
+None yet.
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1 |2019-07-28 |Eric Werness  | Initial revision
+|========================================
+
