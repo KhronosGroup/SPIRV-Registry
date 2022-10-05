@@ -1,0 +1,93 @@
+SPIR-V NonSemantic DebugBreak Instructions
+===========================================
+
+Version 1.00
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Qingyuan Zheng, NVIDIA Corporation
+- Ashwin Lele, NVIDIA Corporation
+- Jeff Bolz, NVIDIA Corporation
+
+Notice
+------
+
+Copyright (c) 2019-2022 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+Status
+------
+
+- Not Yet Approved by the SPIR-V Working Group
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2022-08-18
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.6 Revision 2.
+
+This instruction set requires SPIR-V 1.0 and SPV_KHR_non_semantic_info.
+
+1. Introduction
+---------------
+
+This specifies the NonSemantic.DebugBreak extended instruction set. It
+provides a *DebugBreak* instruction which is a hint for any attached 
+shader debugger to hit a breakpoint.
+
+
+Import this extended instruction set using an OpExtInstImport
+"NonSemantic.DebugBreak" instruction.
+
+2. Binary Form
+---------------
+
+[cols="1,1,2*3",width="100%"]
+|=====
+3+|[[DebugBreak]]*DebugBreak* +
+ +
+Hint the attached shader debugger to trigger a breakpoint and
+pause the execution. If no debugger is available, this instruction
+should be ignored. +
+ +
+'Return Type' must be *OpTypeVoid*.
+1+|Capability:
+
+1+| 1 
+1+| 1
+2+|
+|=====
+
+
+Issues
+------
+
+None.
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2022-08-18|Qingyuan Zheng|Initial revision
+|========================================
