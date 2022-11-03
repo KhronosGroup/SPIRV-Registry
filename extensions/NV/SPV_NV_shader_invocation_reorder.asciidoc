@@ -229,7 +229,7 @@ The 'Type' operand to the *OpTypePointer* used for 'Target' or 'Source' must not
 |======
 3+|[[OpReorderThreadWithHintNV]]*OpReorderThreadWithHintNV* +
  +
- Reorder threads based on user provided hint. Similar hint values indicate similarity of  subsequent work done after this call. Behavior is implementation-defined +
+ Reorder threads based on user provided hint. Similar 'Hint' values indicate similarity of  subsequent work done after this call. Behavior is implementation-defined. +
  +
  'Hint' must be a 32-bit 'integer-type' scalar. +
  +
@@ -247,7 +247,7 @@ The 'Type' operand to the *OpTypePointer* used for 'Target' or 'Source' must not
 |======
 4+|[[OpReorderThreadWithHintNV]]*OpReorderThreadWithHitObjectNV* +
  +
- Reorder threads based on hit object supplemented by 'Hint' and 'Bits' if they are optionally provided values. Behavior is implementation-defined +
+ Reorder threads based on hit object supplemented by 'Hint' and 'Bits' if they are optionally provided values. Behavior is implementation-defined. +
  +
  'Hit Object' must be a pointer to hit object used to reorder threads. +
  +
@@ -271,9 +271,10 @@ The 'Type' operand to the *OpTypePointer* used for 'Target' or 'Source' must not
 
 (Add a new sub section 3.36.Hit Object Instructions) ::
 +
-Semantics of arguments of OpHitObjectTraceRayNV & OpHitObjectTraceRayMotionNV are same 
-as <<OpTraceRayKHR,*OpTraceRayKHR*>> and <<OpTraceRayMotioNV,*OpTraceRayMotionNV*>> as
-defined in SPV_KHR_ray_tracing and SPV_NV_ray_tracing_motion_blur extension respectively.
+The semantics of the arguments of *OpHitObjectTraceRayNV* and *OpHitObjectTraceRayMotionNV*
+are same as those with the same names of <<OpTraceRayKHR,*OpTraceRayKHR*>> and
+<<OpTraceRayMotioNV,*OpTraceRayMotionNV*>> as defined in the `SPV_KHR_ray_tracing` and
+`SPV_NV_ray_tracing_motion_blur` extensions respectively.
 --
 
 [cols="14*1"]
