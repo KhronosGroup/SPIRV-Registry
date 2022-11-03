@@ -853,9 +853,10 @@ width:40%;
 <div class="paragraph"><p>This extension is written against the Unified SPIR-V Specification,
 Version 1.6, Revision 1.</p></div>
 <div class="paragraph"><p>This extension requires SPIR-V 1.4.</p></div>
-<div class="paragraph"><p>This extension requires with SPV_KHR_ray_tracing.</p></div>
+<div class="paragraph"><p>This extension requires SPV_KHR_ray_tracing.</p></div>
+<div class="paragraph"><p>This extension requires SPV_EXT_physical_storage_buffer, SPV_KHR_physical_storage_buffer
+or SPIR-V 1.5.</p></div>
 <div class="paragraph"><p>This extension interacts with SPV_NV_ray_tracing_motion_blur.</p></div>
-<div class="paragraph"><p>This extension interacts with SPV_EXT_physical_storage_buffer.</p></div>
 </div>
 </div>
 <div class="sect1">
@@ -1174,7 +1175,7 @@ width:100%;
 <strong>ShaderInvocationReorderNV</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2 + variable</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">5279</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Hit Object</em></p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Optional <em>&lt;id&gt; Hint</em></p></td>
@@ -1190,8 +1191,8 @@ width:100%;
 <dd>
 <div class="paragraph"><p>The semantics of the arguments of <strong>OpHitObjectTraceRayNV</strong> and <strong>OpHitObjectTraceRayMotionNV</strong>
 are same as those with the same names of <a href="#OpTraceRayKHR"><strong>OpTraceRayKHR</strong></a> and
-<a href="#OpTraceRayMotioNV"><strong>OpTraceRayMotionNV</strong></a> as defined in the <span class="monospaced">SPV_KHR_ray_tracing</span> and
-<span class="monospaced">SPV_NV_ray_tracing_motion_blur</span> extensions respectively.</p></div>
+<a href="#OpTraceRayMotioNV"><strong>OpTraceRayMotionNV</strong></a> as defined in the <em>SPV_KHR_ray_tracing</em> and
+<em>SPV_NV_ray_tracing_motion_blur</em> extensions, respectively.</p></div>
 </dd>
 </dl></div>
 <div class="openblock">
@@ -1335,7 +1336,7 @@ width:100%;
  This instruction is a <em>shader call instruction</em> which may invoke shaders with the <strong>IntersectionKHR</strong> and <strong>AnyHitKHR</strong> execution models.<br>
 <br></p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
-<strong>ShaderInvocationReorderNV</strong></p></td>
+<strong>ShaderInvocationReorderNV</strong>, <strong>RayTracingMotionBlurNV</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">14</p></td>
@@ -1510,7 +1511,7 @@ width:100%;
  This instruction is allowed only in <strong>RayGenerationKHR</strong>, <strong>ClosestHitKHR</strong> and <strong>MissKHR</strong> execution models with <strong>SPV_NV_ray_tracing_motion_blur</strong> extension.<br>
 <br></p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
-<strong>ShaderInvocationReorderNV</strong></p></td>
+<strong>ShaderInvocationReorderNV</strong>, <strong>RayTracingMotionBlurNV</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">15</p></td>
@@ -1683,7 +1684,7 @@ width:100%;
  This instruction is allowed only in <strong>RayGenerationKHR</strong>, <strong>ClosestHitKHR</strong> and <strong>MissKHR</strong> execution models with <strong>SPV_NV_ray_tracing_motion_blur</strong> extension.<br>
 <br></p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
-<strong>ShaderInvocationReorderNV</strong></p></td>
+<strong>ShaderInvocationReorderNV</strong>, <strong>RayTracingMotionBlurNV</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">14</p></td>
@@ -1787,7 +1788,7 @@ width:100%;
  This instruction is allowed only in <strong>RayGenerationKHR</strong>, <strong>ClosestHitKHR</strong> and <strong>MissKHR</strong> execution models with <strong>SPV_NV_ray_tracing_motion_blur</strong> extension.<br>
 <br></p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
-<strong>ShaderInvocationReorderNV</strong></p></td>
+<strong>ShaderInvocationReorderNV</strong>, <strong>RayTracingMotionBlurNV</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">8</p></td>
@@ -2465,7 +2466,7 @@ width:100%;
 <strong>ShaderInvocationReorderNV</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">5276</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result</em></p></td>
@@ -2499,7 +2500,7 @@ width:100%;
 <strong>ShaderInvocationReorderNV</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">5277</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result</em></p></td>
@@ -2591,9 +2592,12 @@ legal use of this extension:</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_interactions_with_spv_khr_ray_tracing">Interactions with SPV_KHR_ray_tracing</h2>
+<h2 id="_interactions_with_spv_nv_ray_tracing_motion_blur">Interactions with SPV_NV_ray_tracing_motion_blur</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>This extension requires SPV_KHR_ray_tracing</p></div>
+<div class="paragraph"><p>If the <em>SPV_NV_ray_tracing_motion_blur</em> extension is not supported, the
+<strong>OpHitObjectTraceRayMotionNV</strong>, <strong>OpHitObjectRecordHitMotionNV</strong>,
+<strong>OpHitObjectRecordHitWithIndexMotionNV</strong>, and <strong>OpHitObjectRecordMissMotionNV</strong>
+instructions are not supported.</p></div>
 </div>
 </div>
 <div class="sect1">
@@ -2637,7 +2641,7 @@ width:100%;
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2022-11-03 14:27:52 EDT
+ 2022-11-03 15:22:36 EDT
 </div>
 </div>
 </body>

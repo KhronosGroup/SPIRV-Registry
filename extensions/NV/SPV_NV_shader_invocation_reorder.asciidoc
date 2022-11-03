@@ -42,11 +42,12 @@ Version 1.6, Revision 1.
 
 This extension requires SPIR-V 1.4.
 
-This extension requires with SPV_KHR_ray_tracing.
+This extension requires SPV_KHR_ray_tracing.
+
+This extension requires SPV_EXT_physical_storage_buffer, SPV_KHR_physical_storage_buffer
+or SPIR-V 1.5.
 
 This extension interacts with SPV_NV_ray_tracing_motion_blur.
-
-This extension interacts with SPV_EXT_physical_storage_buffer.
 
 Overview
 --------
@@ -262,7 +263,7 @@ The 'Type' operand to the *OpTypePointer* used for 'Target' or 'Source' must not
  +
 1+|Capability: +
 *ShaderInvocationReorderNV*
-| 3 | 5279
+| 2 + variable | 5279
 | '<id> Hit Object'
 | Optional '<id> Hint'
 | Optional '<id> Bits'
@@ -273,8 +274,8 @@ The 'Type' operand to the *OpTypePointer* used for 'Target' or 'Source' must not
 +
 The semantics of the arguments of *OpHitObjectTraceRayNV* and *OpHitObjectTraceRayMotionNV*
 are same as those with the same names of <<OpTraceRayKHR,*OpTraceRayKHR*>> and
-<<OpTraceRayMotioNV,*OpTraceRayMotionNV*>> as defined in the `SPV_KHR_ray_tracing` and
-`SPV_NV_ray_tracing_motion_blur` extensions respectively.
+<<OpTraceRayMotioNV,*OpTraceRayMotionNV*>> as defined in the 'SPV_KHR_ray_tracing' and
+'SPV_NV_ray_tracing_motion_blur' extensions, respectively.
 --
 
 [cols="14*1"]
@@ -375,7 +376,7 @@ are same as those with the same names of <<OpTraceRayKHR,*OpTraceRayKHR*>> and
  This instruction is a _shader call instruction_ which may invoke shaders with the *IntersectionKHR* and *AnyHitKHR* execution models. +
  +
 1+|Capability: +
-*ShaderInvocationReorderNV*
+*ShaderInvocationReorderNV*, *RayTracingMotionBlurNV*
 | 14 | 5256
 | '<id>' 'Hit Object'
 | '<id>' 'Acceleration Structure'
@@ -503,7 +504,7 @@ are same as those with the same names of <<OpTraceRayKHR,*OpTraceRayKHR*>> and
  This instruction is allowed only in *RayGenerationKHR*, *ClosestHitKHR* and *MissKHR* execution models with *SPV_NV_ray_tracing_motion_blur* extension. +
  +
 1+|Capability: +
-*ShaderInvocationReorderNV*
+*ShaderInvocationReorderNV*, *RayTracingMotionBlurNV*
 | 15 | 5249
 | '<id>' 'Hit Object'
 | '<id>' 'Acceleration Structure'
@@ -631,7 +632,7 @@ are same as those with the same names of <<OpTraceRayKHR,*OpTraceRayKHR*>> and
  This instruction is allowed only in *RayGenerationKHR*, *ClosestHitKHR* and *MissKHR* execution models with *SPV_NV_ray_tracing_motion_blur* extension. +
  +
 1+|Capability: +
-*ShaderInvocationReorderNV*
+*ShaderInvocationReorderNV*, *RayTracingMotionBlurNV*
 | 14 | 5250
 | '<id>' 'Hit Object'
 | '<id>' 'Acceleration Structure'
@@ -703,7 +704,7 @@ are same as those with the same names of <<OpTraceRayKHR,*OpTraceRayKHR*>> and
  This instruction is allowed only in *RayGenerationKHR*, *ClosestHitKHR* and *MissKHR* execution models with *SPV_NV_ray_tracing_motion_blur* extension. +
  +
 1+|Capability: +
-*ShaderInvocationReorderNV*
+*ShaderInvocationReorderNV*, *RayTracingMotionBlurNV*
 | 8 | 5251
 | '<id>' 'Hit Object'
 | '<id>' 'Miss Index'
@@ -1127,7 +1128,7 @@ are same as those with the same names of <<OpTraceRayKHR,*OpTraceRayKHR*>> and
  This instruction is allowed only in *RayGenerationKHR*, *ClosestHitKHR* and *MissKHR* execution models. +
 1+|Capability: +
 *ShaderInvocationReorderNV*
-| 3 | 5276
+| 4 | 5276
 | '<id>' 'Result Type'
 | '<id>' 'Result'
 | '<id>' 'Hit Object'
@@ -1149,7 +1150,7 @@ are same as those with the same names of <<OpTraceRayKHR,*OpTraceRayKHR*>> and
  This instruction is allowed only in *RayGenerationKHR*, *ClosestHitKHR* and *MissKHR* execution models. +
 1+|Capability: +
 *ShaderInvocationReorderNV*
-| 3 | 5277
+| 4 | 5277
 | '<id>' 'Result Type'
 | '<id>' 'Result'
 | '<id>' 'Hit Object'
@@ -1209,10 +1210,13 @@ legal use of this extension:
 OpExtension "SPV_NV_shader_invocation_reorder"
 ----
 
-Interactions with SPV_KHR_ray_tracing
--------------------------------------
+Interactions with SPV_NV_ray_tracing_motion_blur
+------------------------------------------------
 
-This extension requires SPV_KHR_ray_tracing
+If the 'SPV_NV_ray_tracing_motion_blur' extension is not supported, the
+*OpHitObjectTraceRayMotionNV*, *OpHitObjectRecordHitMotionNV*,
+*OpHitObjectRecordHitWithIndexMotionNV*, and *OpHitObjectRecordMissMotionNV*
+instructions are not supported.
 
 
 Issues
