@@ -23,7 +23,7 @@ Contributors
 Status
 ------
 
-- In Progress
+- Complete
 
 Version
 -------
@@ -140,17 +140,13 @@ Modifications to the SPIR-V Specification
 
 (Modify Section 2.2.1, Instructions ) ::
 +
-_Shader Call Instruction_: An instruction which may cause execution to
-continue elsewhere by creating one or more invocations that execute
-other shaders. The <<OpTraceRayWithHitObjectNV,*OpTraceRayWithHitObjectNV*>>,
-<<OpHitObjectExecuteShaderNV,*OpHitObjectExecuteShaderNV*>> instructions are
-shader call instructions. +
+Add <<OpTraceRayWithHitObjectNV,*OpTraceRayWithHitObjectNV*>>,
+<<OpHitObjectExecuteShaderNV,*OpHitObjectExecuteShaderNV*>> to the list
+of shader call instructions. +
 +
-_Invocation Repack Instruction_: An instruction which is a shader call where the
-implementation may repack shader invocations, before and/or after execution
- of the called shader. The <<OpReorderThreadWithHintNV,*OpReorderThreadWithHintNV*>>,
- and <<OpReorderThreadWithHitObjectNV,*OpReorderThreadWithHitObjectNV*>> are invocation
- repack_instructions.
+Add <<OpReorderThreadWithHintNV,*OpReorderThreadWithHintNV*>>,
+and <<OpReorderThreadWithHitObjectNV,*OpReorderThreadWithHitObjectNV*>> to the list of
+invocation repack instructions.
 
 (Add the following terminology to section 2.2.2, Types) ::
 +
@@ -164,10 +160,6 @@ implementation may repack shader invocations, before and/or after execution
  * *OpTypeHitObjectNV*
 --
 
-(Modify Section 2.16.1, Universal Validation Rules) ::
-
---
-
 (Modify Section 3.2, Decorations, adding a row to the Decoration table) ::
 +
 --
@@ -179,6 +171,21 @@ implementation may repack shader invocations, before and/or after execution
 |====
 --
 
+(Modify Section 3.7, Storage Class, adding rows to the Storage Class table) ::
++
+--
+[cols="1^,15,2*2",options="header",width = "100%"]
+|====
+2+^.^| Storage Class | <<Capability,Enabling Capabilities>> | Enabled by Extension
+| 5385 | *HitObjectAttributeNV* +
+Used for storing attributes of geometry intersected by a ray to be passed on to
+hit object instructions. Visible across all functions in the current invocation. 
+Not shared externally. Variables declared with this storage class can be both read and written to, but cannot have initializers.
+Only allowed in *RayGenerationKHR*, *ClosestHitKHR*, and *MissKHR* execution models.
+| *ShaderInvocationReorderNV* | SPV_NV_shader_invocation_reorder
+|====
+--
+
 (Modify Section 3.31, Capability, adding a row to the Capability table) ::
 +
 --
@@ -187,30 +194,10 @@ implementation may repack shader invocations, before and/or after execution
 |====
 2+^.^| Capability | Implicitly Declares
 | 5383 | *ShaderInvocationReorderNV* +
-| *Shader*
+| *RayTracingKHR*
 |====
 --
 
-(Modify Section 3.36.6, Type-Declaration Instructions, adding two new tables) ::
-+
---
-:capability: ShaderInvocationReorderNV
-
-[cols="5,1,1*3",width="100%"]
-|=====
-2+|[[OpTypeHitObjectNV]]*OpTypeHitObjectNV* +
- +
-Declares a hit object type which is an opaque object representing state during
-ray tracing traversal.
-
-This type is opaque: values of this type have no defined physical size or
-bit pattern.
-
-1+|Capability: +
-*ShaderInvocationReorderNV*
-| 2 | 5281 | '<id>' 'Result'
-|=====
---
 
 
 
@@ -234,20 +221,6 @@ The 'Type' operand to the *OpTypePointer* used for 'Pointer' must not be *OpType
 The 'Type' operand to the *OpTypePointer* used for 'Target' or 'Source' must not be *OpTypeHitObjectNV*.
 --
 
-(Modify Section 3.7, Storage Class, adding rows to the Storage Class table) ::
-+
---
-[cols="1^,15,2*2",options="header",width = "100%"]
-|====
-2+^.^| Storage Class | <<Capability,Enabling Capabilities>> | Enabled by Extension
-| 5385 | *HitObjectAttributeNV* +
-Used for storing attributes of geometry intersected by a ray to be passed on to
-hit object instructions. Visible across all functions in the current invocation. 
-Not shared externally. Variables declared with this storage class can be both read and written to, but cannot have initializers.
-Only allowed in *RayGenerationKHR*, *ClosestHitKHR*, and *MissKHR* execution models.
-| *ShaderInvocationReorderNV* | SPV_NV_shader_invocation_reorder
-|====
---
 
 (Add a new sub section 3.36.Reorder Instructions) ::
 +
@@ -256,7 +229,7 @@ Only allowed in *RayGenerationKHR*, *ClosestHitKHR*, and *MissKHR* execution mod
 |======
 3+|[[OpReorderThreadWithHintNV]]*OpReorderThreadWithHintNV* +
  +
- Reorder threads based on user provided hint. Similar hint values indicate similarity of     subsequent work done after this call. Behavior is implementation defined +
+ Reorder threads based on user provided hint. Similar hint values indicate similarity of  subsequent work done after this call. Behavior is implementation-defined +
  +
  'Hint' must be a 32-bit 'integer-type' scalar. +
  +
@@ -274,7 +247,7 @@ Only allowed in *RayGenerationKHR*, *ClosestHitKHR*, and *MissKHR* execution mod
 |======
 4+|[[OpReorderThreadWithHintNV]]*OpReorderThreadWithHitObjectNV* +
  +
- Reorder threads based on hit object supplemented by hint and bits if they are optionally    provided values. Behavior is implementation defined +
+ Reorder threads based on hit object supplemented by 'Hint' and 'Bits' if they are optionally provided values. Behavior is implementation-defined +
  +
  'Hit Object' must be a pointer to hit object used to reorder threads. +
  +
@@ -1204,7 +1177,27 @@ defined in SPV_KHR_ray_tracing and SPV_NV_ray_tracing_motion_blur extension resp
 |======
 --
 
+(Modify Section 3.36.6, Type-Declaration Instructions, adding a new table) ::
++
 --
+:capability: ShaderInvocationReorderNV
+
+[cols="5,1,1*3",width="100%"]
+|=====
+2+|[[OpTypeHitObjectNV]]*OpTypeHitObjectNV* +
+ +
+Declares a hit object type which is an opaque object representing state during
+ray tracing traversal.
+
+This type is opaque: values of this type have no defined physical size or
+bit pattern.
+
+1+|Capability: +
+*ShaderInvocationReorderNV*
+| 2 | 5281 | '<id>' 'Result'
+|=====
+--
+
 Validation Rules
 ----------------
 
@@ -1234,7 +1227,7 @@ Revision History
 [options="header"]
 |========================================
 |Rev|Date|Author|Changes
-|1 |2022-08-01 |Ashwin Lele         | Internal revisions
+|1 |2022-09-01 |Ashwin Lele         | Internal revisions
 |========================================
 
 
