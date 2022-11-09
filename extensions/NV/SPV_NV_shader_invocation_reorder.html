@@ -1,0 +1,2648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="AsciiDoc 10.2.0">
+<title>SPV_NV_shader_invocation_reorder</title>
+<style type="text/css">
+/* Shared CSS for AsciiDoc xhtml11 and html5 backends */
+
+/* Default font. */
+body {
+  font-family: Georgia,serif;
+}
+
+/* Title font. */
+h1, h2, h3, h4, h5, h6,
+div.title, caption.title,
+thead, p.table.header,
+#toctitle,
+#author, #revnumber, #revdate, #revremark,
+#footer {
+  font-family: Arial,Helvetica,sans-serif;
+}
+
+body {
+  margin: 1em 5% 1em 5%;
+}
+
+a {
+  color: blue;
+  text-decoration: underline;
+}
+a:visited {
+  color: fuchsia;
+}
+
+em {
+  font-style: italic;
+  color: navy;
+}
+
+strong {
+  font-weight: bold;
+  color: #083194;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #527bbd;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+  line-height: 1.3;
+}
+
+h1, h2, h3 {
+  border-bottom: 2px solid silver;
+}
+h2 {
+  padding-top: 0.5em;
+}
+h3 {
+  float: left;
+}
+h3 + * {
+  clear: left;
+}
+h5 {
+  font-size: 1.0em;
+}
+
+div.sectionbody {
+  margin-left: 0;
+}
+
+hr {
+  border: 1px solid silver;
+}
+
+p {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+ul, ol, li > p {
+  margin-top: 0;
+}
+ul > li     { color: #aaa; }
+ul > li > * { color: black; }
+
+.monospaced, code, pre {
+  font-family: "Courier New", Courier, monospace;
+  font-size: inherit;
+  color: navy;
+  padding: 0;
+  margin: 0;
+}
+pre {
+  white-space: pre-wrap;
+}
+
+#author {
+  color: #527bbd;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+#email {
+}
+#revnumber, #revdate, #revremark {
+}
+
+#footer {
+  font-size: small;
+  border-top: 2px solid silver;
+  padding-top: 0.5em;
+  margin-top: 4.0em;
+}
+#footer-text {
+  float: left;
+  padding-bottom: 0.5em;
+}
+#footer-badges {
+  float: right;
+  padding-bottom: 0.5em;
+}
+
+#preamble {
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+}
+div.imageblock, div.exampleblock, div.verseblock,
+div.quoteblock, div.literalblock, div.listingblock, div.sidebarblock,
+div.admonitionblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+div.admonitionblock {
+  margin-top: 2.0em;
+  margin-bottom: 2.0em;
+  margin-right: 10%;
+  color: #606060;
+}
+
+div.content { /* Block element content. */
+  padding: 0;
+}
+
+/* Block element titles. */
+div.title, caption.title {
+  color: #527bbd;
+  font-weight: bold;
+  text-align: left;
+  margin-top: 1.0em;
+  margin-bottom: 0.5em;
+}
+div.title + * {
+  margin-top: 0;
+}
+
+td div.title:first-child {
+  margin-top: 0.0em;
+}
+div.content div.title:first-child {
+  margin-top: 0.0em;
+}
+div.content + div.title {
+  margin-top: 0.0em;
+}
+
+div.sidebarblock > div.content {
+  background: #ffffee;
+  border: 1px solid #dddddd;
+  border-left: 4px solid #f0f0f0;
+  padding: 0.5em;
+}
+
+div.listingblock > div.content {
+  border: 1px solid #dddddd;
+  border-left: 5px solid #f0f0f0;
+  background: #f8f8f8;
+  padding: 0.5em;
+}
+
+div.quoteblock, div.verseblock {
+  padding-left: 1.0em;
+  margin-left: 1.0em;
+  margin-right: 10%;
+  border-left: 5px solid #f0f0f0;
+  color: #888;
+}
+
+div.quoteblock > div.attribution {
+  padding-top: 0.5em;
+  text-align: right;
+}
+
+div.verseblock > pre.content {
+  font-family: inherit;
+  font-size: inherit;
+}
+div.verseblock > div.attribution {
+  padding-top: 0.75em;
+  text-align: left;
+}
+/* DEPRECATED: Pre version 8.2.7 verse style literal block. */
+div.verseblock + div.attribution {
+  text-align: left;
+}
+
+div.admonitionblock .icon {
+  vertical-align: top;
+  font-size: 1.1em;
+  font-weight: bold;
+  text-decoration: underline;
+  color: #527bbd;
+  padding-right: 0.5em;
+}
+div.admonitionblock td.content {
+  padding-left: 0.5em;
+  border-left: 3px solid #dddddd;
+}
+
+div.exampleblock > div.content {
+  border-left: 3px solid #dddddd;
+  padding-left: 0.5em;
+}
+
+div.imageblock div.content { padding-left: 0; }
+span.image img { border-style: none; vertical-align: text-bottom; }
+a.image:visited { color: white; }
+
+dl {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+dt {
+  margin-top: 0.5em;
+  margin-bottom: 0;
+  font-style: normal;
+  color: navy;
+}
+dd > *:first-child {
+  margin-top: 0.1em;
+}
+
+ul, ol {
+    list-style-position: outside;
+}
+ol.arabic {
+  list-style-type: decimal;
+}
+ol.loweralpha {
+  list-style-type: lower-alpha;
+}
+ol.upperalpha {
+  list-style-type: upper-alpha;
+}
+ol.lowerroman {
+  list-style-type: lower-roman;
+}
+ol.upperroman {
+  list-style-type: upper-roman;
+}
+
+div.compact ul, div.compact ol,
+div.compact p, div.compact p,
+div.compact div, div.compact div {
+  margin-top: 0.1em;
+  margin-bottom: 0.1em;
+}
+
+tfoot {
+  font-weight: bold;
+}
+td > div.verse {
+  white-space: pre;
+}
+
+div.hdlist {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+div.hdlist tr {
+  padding-bottom: 15px;
+}
+dt.hdlist1.strong, td.hdlist1.strong {
+  font-weight: bold;
+}
+td.hdlist1 {
+  vertical-align: top;
+  font-style: normal;
+  padding-right: 0.8em;
+  color: navy;
+}
+td.hdlist2 {
+  vertical-align: top;
+}
+div.hdlist.compact tr {
+  margin: 0;
+  padding-bottom: 0;
+}
+
+.comment {
+  background: yellow;
+}
+
+.footnote, .footnoteref {
+  font-size: 0.8em;
+}
+
+span.footnote, span.footnoteref {
+  vertical-align: super;
+}
+
+#footnotes {
+  margin: 20px 0 20px 0;
+  padding: 7px 0 0 0;
+}
+
+#footnotes div.footnote {
+  margin: 0 0 5px 0;
+}
+
+#footnotes hr {
+  border: none;
+  border-top: 1px solid silver;
+  height: 1px;
+  text-align: left;
+  margin-left: 0;
+  width: 20%;
+  min-width: 100px;
+}
+
+div.colist td {
+  padding-right: 0.5em;
+  padding-bottom: 0.3em;
+  vertical-align: top;
+}
+div.colist td img {
+  margin-top: 0.3em;
+}
+
+@media print {
+  #footer-badges { display: none; }
+}
+
+#toc {
+  margin-bottom: 2.5em;
+}
+
+#toctitle {
+  color: #527bbd;
+  font-size: 1.1em;
+  font-weight: bold;
+  margin-top: 1.0em;
+  margin-bottom: 0.1em;
+}
+
+div.toclevel0, div.toclevel1, div.toclevel2, div.toclevel3, div.toclevel4 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+div.toclevel2 {
+  margin-left: 2em;
+  font-size: 0.9em;
+}
+div.toclevel3 {
+  margin-left: 4em;
+  font-size: 0.9em;
+}
+div.toclevel4 {
+  margin-left: 6em;
+  font-size: 0.9em;
+}
+
+span.aqua { color: aqua; }
+span.black { color: black; }
+span.blue { color: blue; }
+span.fuchsia { color: fuchsia; }
+span.gray { color: gray; }
+span.green { color: green; }
+span.lime { color: lime; }
+span.maroon { color: maroon; }
+span.navy { color: navy; }
+span.olive { color: olive; }
+span.purple { color: purple; }
+span.red { color: red; }
+span.silver { color: silver; }
+span.teal { color: teal; }
+span.white { color: white; }
+span.yellow { color: yellow; }
+
+span.aqua-background { background: aqua; }
+span.black-background { background: black; }
+span.blue-background { background: blue; }
+span.fuchsia-background { background: fuchsia; }
+span.gray-background { background: gray; }
+span.green-background { background: green; }
+span.lime-background { background: lime; }
+span.maroon-background { background: maroon; }
+span.navy-background { background: navy; }
+span.olive-background { background: olive; }
+span.purple-background { background: purple; }
+span.red-background { background: red; }
+span.silver-background { background: silver; }
+span.teal-background { background: teal; }
+span.white-background { background: white; }
+span.yellow-background { background: yellow; }
+
+span.big { font-size: 2em; }
+span.small { font-size: 0.6em; }
+
+span.underline { text-decoration: underline; }
+span.overline { text-decoration: overline; }
+span.line-through { text-decoration: line-through; }
+
+div.unbreakable { page-break-inside: avoid; }
+
+
+/*
+ * xhtml11 specific
+ *
+ * */
+
+div.tableblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+div.tableblock > table {
+  border: 3px solid #527bbd;
+}
+thead, p.table.header {
+  font-weight: bold;
+  color: #527bbd;
+}
+p.table {
+  margin-top: 0;
+}
+/* Because the table frame attribute is overridden by CSS in most browsers. */
+div.tableblock > table[frame="void"] {
+  border-style: none;
+}
+div.tableblock > table[frame="hsides"] {
+  border-left-style: none;
+  border-right-style: none;
+}
+div.tableblock > table[frame="vsides"] {
+  border-top-style: none;
+  border-bottom-style: none;
+}
+
+
+/*
+ * html5 specific
+ *
+ * */
+
+table.tableblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+thead, p.tableblock.header {
+  font-weight: bold;
+  color: #527bbd;
+}
+p.tableblock {
+  margin-top: 0;
+}
+table.tableblock {
+  border-width: 3px;
+  border-spacing: 0px;
+  border-style: solid;
+  border-color: #527bbd;
+  border-collapse: collapse;
+}
+th.tableblock, td.tableblock {
+  border-width: 1px;
+  padding: 4px;
+  border-style: solid;
+  border-color: #527bbd;
+}
+
+table.tableblock.frame-topbot {
+  border-left-style: hidden;
+  border-right-style: hidden;
+}
+table.tableblock.frame-sides {
+  border-top-style: hidden;
+  border-bottom-style: hidden;
+}
+table.tableblock.frame-none {
+  border-style: hidden;
+}
+
+th.tableblock.halign-left, td.tableblock.halign-left {
+  text-align: left;
+}
+th.tableblock.halign-center, td.tableblock.halign-center {
+  text-align: center;
+}
+th.tableblock.halign-right, td.tableblock.halign-right {
+  text-align: right;
+}
+
+th.tableblock.valign-top, td.tableblock.valign-top {
+  vertical-align: top;
+}
+th.tableblock.valign-middle, td.tableblock.valign-middle {
+  vertical-align: middle;
+}
+th.tableblock.valign-bottom, td.tableblock.valign-bottom {
+  vertical-align: bottom;
+}
+
+
+/*
+ * manpage specific
+ *
+ * */
+
+body.manpage h1 {
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  border-top: 2px solid silver;
+  border-bottom: 2px solid silver;
+}
+body.manpage h2 {
+  border-style: none;
+}
+body.manpage div.sectionbody {
+  margin-left: 3em;
+}
+
+@media print {
+  body.manpage div#toc { display: none; }
+}
+
+
+@media screen {
+  body {
+    max-width: 50em; /* approximately 80 characters wide */
+    margin-left: 16em;
+  }
+
+  #toc {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 13em;
+    padding: 0.5em;
+    padding-bottom: 1.5em;
+    margin: 0;
+    overflow: auto;
+    border-right: 3px solid #f8f8f8;
+    background-color: white;
+  }
+
+  #toc .toclevel1 {
+    margin-top: 0.5em;
+  }
+
+  #toc .toclevel2 {
+    margin-top: 0.25em;
+    display: list-item;
+    color: #aaaaaa;
+  }
+
+  #toctitle {
+    margin-top: 0.5em;
+  }
+}
+</style>
+<script type="text/javascript">
+/*<![CDATA[*/
+var asciidoc = {  // Namespace.
+
+/////////////////////////////////////////////////////////////////////
+// Table Of Contents generator
+/////////////////////////////////////////////////////////////////////
+
+/* Author: Mihai Bazon, September 2002
+ * http://students.infoiasi.ro/~mishoo
+ *
+ * Table Of Content generator
+ * Version: 0.4
+ *
+ * Feel free to use this script under the terms of the GNU General Public
+ * License, as long as you do not remove or alter this notice.
+ */
+
+ /* modified by Troy D. Hanson, September 2006. License: GPL */
+ /* modified by Stuart Rackham, 2006, 2009. License: GPL */
+
+// toclevels = 1..4.
+toc: function (toclevels) {
+
+  function getText(el) {
+    var text = "";
+    for (var i = el.firstChild; i != null; i = i.nextSibling) {
+      if (i.nodeType == 3 /* Node.TEXT_NODE */) // IE doesn't speak constants.
+        text += i.data;
+      else if (i.firstChild != null)
+        text += getText(i);
+    }
+    return text;
+  }
+
+  function TocEntry(el, text, toclevel) {
+    this.element = el;
+    this.text = text;
+    this.toclevel = toclevel;
+  }
+
+  function tocEntries(el, toclevels) {
+    var result = new Array;
+    var re = new RegExp('[hH]([1-'+(toclevels+1)+'])');
+    // Function that scans the DOM tree for header elements (the DOM2
+    // nodeIterator API would be a better technique but not supported by all
+    // browsers).
+    var iterate = function (el) {
+      for (var i = el.firstChild; i != null; i = i.nextSibling) {
+        if (i.nodeType == 1 /* Node.ELEMENT_NODE */) {
+          var mo = re.exec(i.tagName);
+          if (mo && (i.getAttribute("class") || i.getAttribute("className")) != "float") {
+            result[result.length] = new TocEntry(i, getText(i), mo[1]-1);
+          }
+          iterate(i);
+        }
+      }
+    }
+    iterate(el);
+    return result;
+  }
+
+  var toc = document.getElementById("toc");
+  if (!toc) {
+    return;
+  }
+
+  // Delete existing TOC entries in case we're reloading the TOC.
+  var tocEntriesToRemove = [];
+  var i;
+  for (i = 0; i < toc.childNodes.length; i++) {
+    var entry = toc.childNodes[i];
+    if (entry.nodeName.toLowerCase() == 'div'
+     && entry.getAttribute("class")
+     && entry.getAttribute("class").match(/^toclevel/))
+      tocEntriesToRemove.push(entry);
+  }
+  for (i = 0; i < tocEntriesToRemove.length; i++) {
+    toc.removeChild(tocEntriesToRemove[i]);
+  }
+
+  // Rebuild TOC entries.
+  var entries = tocEntries(document.getElementById("content"), toclevels);
+  for (var i = 0; i < entries.length; ++i) {
+    var entry = entries[i];
+    if (entry.element.id == "")
+      entry.element.id = "_toc_" + i;
+    var a = document.createElement("a");
+    a.href = "#" + entry.element.id;
+    a.appendChild(document.createTextNode(entry.text));
+    var div = document.createElement("div");
+    div.appendChild(a);
+    div.className = "toclevel" + entry.toclevel;
+    toc.appendChild(div);
+  }
+  if (entries.length == 0)
+    toc.parentNode.removeChild(toc);
+},
+
+
+/////////////////////////////////////////////////////////////////////
+// Footnotes generator
+/////////////////////////////////////////////////////////////////////
+
+/* Based on footnote generation code from:
+ * http://www.brandspankingnew.net/archive/2005/07/format_footnote.html
+ */
+
+footnotes: function () {
+  // Delete existing footnote entries in case we're reloading the footnodes.
+  var i;
+  var noteholder = document.getElementById("footnotes");
+  if (!noteholder) {
+    return;
+  }
+  var entriesToRemove = [];
+  for (i = 0; i < noteholder.childNodes.length; i++) {
+    var entry = noteholder.childNodes[i];
+    if (entry.nodeName.toLowerCase() == 'div' && entry.getAttribute("class") == "footnote")
+      entriesToRemove.push(entry);
+  }
+  for (i = 0; i < entriesToRemove.length; i++) {
+    noteholder.removeChild(entriesToRemove[i]);
+  }
+
+  // Rebuild footnote entries.
+  var cont = document.getElementById("content");
+  var spans = cont.getElementsByTagName("span");
+  var refs = {};
+  var n = 0;
+  for (i=0; i<spans.length; i++) {
+    if (spans[i].className == "footnote") {
+      n++;
+      var note = spans[i].getAttribute("data-note");
+      if (!note) {
+        // Use [\s\S] in place of . so multi-line matches work.
+        // Because JavaScript has no s (dotall) regex flag.
+        note = spans[i].innerHTML.match(/\s*\[([\s\S]*)]\s*/)[1];
+        spans[i].innerHTML =
+          "[<a id='_footnoteref_" + n + "' href='#_footnote_" + n +
+          "' title='View footnote' class='footnote'>" + n + "</a>]";
+        spans[i].setAttribute("data-note", note);
+      }
+      noteholder.innerHTML +=
+        "<div class='footnote' id='_footnote_" + n + "'>" +
+        "<a href='#_footnoteref_" + n + "' title='Return to text'>" +
+        n + "</a>. " + note + "</div>";
+      var id =spans[i].getAttribute("id");
+      if (id != null) refs["#"+id] = n;
+    }
+  }
+  if (n == 0)
+    noteholder.parentNode.removeChild(noteholder);
+  else {
+    // Process footnoterefs.
+    for (i=0; i<spans.length; i++) {
+      if (spans[i].className == "footnoteref") {
+        var href = spans[i].getElementsByTagName("a")[0].getAttribute("href");
+        href = href.match(/#.*/)[0];  // Because IE return full URL.
+        n = refs[href];
+        spans[i].innerHTML =
+          "[<a href='#_footnote_" + n +
+          "' title='View footnote' class='footnote'>" + n + "</a>]";
+      }
+    }
+  }
+},
+
+install: function(toclevels) {
+  var timerId;
+
+  function reinstall() {
+    asciidoc.footnotes();
+    if (toclevels) {
+      asciidoc.toc(toclevels);
+    }
+  }
+
+  function reinstallAndRemoveTimer() {
+    clearInterval(timerId);
+    reinstall();
+  }
+
+  timerId = setInterval(reinstall, 500);
+  if (document.addEventListener)
+    document.addEventListener("DOMContentLoaded", reinstallAndRemoveTimer, false);
+  else
+    window.onload = reinstallAndRemoveTimer;
+}
+
+}
+asciidoc.install(1);
+/*]]>*/
+</script>
+</head>
+<body class="article">
+<div id="header">
+<h1>SPV_NV_shader_invocation_reorder</h1>
+<div id="toc">
+  <div id="toctitle">Table of Contents</div>
+  <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_name_strings">Name Strings</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>SPV_NV_shader_invocation_reorder</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_contact">Contact</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>See <strong>Issues</strong> list in the Khronos SPIRV-Registry repository:
+<a href="https://github.com/KhronosGroup/SPIRV-Registry">https://github.com/KhronosGroup/SPIRV-Registry</a></p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_contributors">Contributors</h2>
+<div class="sectionbody">
+<div class="ulist"><ul>
+<li>
+<p>
+Ashwin Lele, NVIDIA
+</p>
+</li>
+<li>
+<p>
+Eric Werness, NVIDIA
+</p>
+</li>
+<li>
+<p>
+Daniel Koch, NVIDIA
+</p>
+</li>
+<li>
+<p>
+Pankaj Mistry, NVIDIA
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_status">Status</h2>
+<div class="sectionbody">
+<div class="ulist"><ul>
+<li>
+<p>
+Complete
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_version">Version</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all"
+style="
+width:40%;
+">
+<col style="width:50%;">
+<col style="width:50%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Last Modified Date</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2022-09-01</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Revision</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_dependencies">Dependencies</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>This extension is written against the Unified SPIR-V Specification,
+Version 1.6, Revision 1.</p></div>
+<div class="paragraph"><p>This extension requires SPIR-V 1.4.</p></div>
+<div class="paragraph"><p>This extension requires SPV_KHR_ray_tracing.</p></div>
+<div class="paragraph"><p>This extension requires SPV_EXT_physical_storage_buffer, SPV_KHR_physical_storage_buffer
+or SPIR-V 1.5.</p></div>
+<div class="paragraph"><p>This extension interacts with SPV_NV_ray_tracing_motion_blur.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_overview">Overview</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>This extension adds hit objects and reordering builtins to provide finer
+grain control over traversal during ray tracing.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_extension_name">Extension Name</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>To use this extension within a SPIR-V module, the following
+<strong>OpExtension</strong> must be present in the module:</p></div>
+<div class="listingblock">
+<div class="content monospaced">
+<pre>OpExtension "SPV_NV_shader_invocation_reorder"</pre>
+</div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_new_capabilities">New Capabilities</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>This extension introduces new capabilities:</p></div>
+<div class="listingblock">
+<div class="content monospaced">
+<pre>ShaderInvocationReorderNV</pre>
+</div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_new_storage_classes">New Storage Classes</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Storage classes added under the <strong>ShaderInvocationReorderNV</strong> capability</p></div>
+<div class="listingblock">
+<div class="content monospaced">
+<pre>HitObjectAttributeNV</pre>
+</div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_new_decorations">New Decorations</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>This extension introduces new decorations:</p></div>
+<div class="listingblock">
+<div class="content monospaced">
+<pre>HitObjectShaderRecordBufferNV</pre>
+</div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_new_instructions">New Instructions</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Instructions added under the <strong>ShaderInvocationReorderNV</strong> capability</p></div>
+<div class="listingblock">
+<div class="content monospaced">
+<pre>OpTypeHitObjectNV
+OpReorderThreadWithHintNV
+OpReorderThreadWithHitObjectNV
+OpHitObjectIsMissNV
+OpHitObjectIsHitNV
+OpHitObjectIsEmptyNV
+OpHitObjectGetRayTMinNV
+OpHitObjectGetRayTMaxNV
+OpHitObjectGetObjectRayOriginNV
+OpHitObjectGetObjectRayDirectionNV
+OpHitObjectGetWorldRayOriginNV
+OpHitObjectGetWorldRayDirectionNV
+OpHitObjectGetObjectToWorldNV
+OpHitObjectGetWorldToObjectNV
+OpHitObjectGetInstanceCustomIndexNV
+OpHitObjectGetInstanceIdNV
+OpHitObjectGetGeometryIndexNV
+OpHitObjectGetPrimitiveIndexNV
+OpHitObjectGetHitKindNV
+OpHitObjectGetAttributesNV
+OpHitObjectGetCurrentTimeNV
+OpHitObjectGetShaderBindingTableRecordIndexNV
+OpHitObjectGetShaderRecordBufferHandleNV
+OpHitObjectExecuteShaderNV
+OpHitObjectRecordMissNV
+OpHitObjectRecordMissMotionNV
+OpHitObjectRecordHitWithIndexNV
+OpHitObjectRecordHitWithIndexMotionNV
+OpHitObjectRecordHitNV
+OpHitObjectRecordHitMotionNV
+OpHitObjectRecordEmptyNV
+OpHitObjectTraceRayNV
+OpHitObjectTraceRayMotionNV</pre>
+</div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_modifications_to_the_spir_v_specification">Modifications to the SPIR-V Specification</h2>
+<div class="sectionbody">
+<div class="dlist"><dl>
+<dt class="hdlist1">
+(Modify Section 2.2.1, Instructions ) 
+</dt>
+<dd>
+<div class="paragraph"><p>Add <a href="#OpTraceRayWithHitObjectNV"><strong>OpTraceRayWithHitObjectNV</strong></a>,
+<a href="#OpHitObjectExecuteShaderNV"><strong>OpHitObjectExecuteShaderNV</strong></a> to the list
+of shader call instructions.<br></p></div>
+<div class="paragraph"><p>Add <a href="#OpReorderThreadWithHintNV"><strong>OpReorderThreadWithHintNV</strong></a>,
+and <a href="#OpReorderThreadWithHitObjectNV"><strong>OpReorderThreadWithHitObjectNV</strong></a> to the list of
+invocation repack instructions.</p></div>
+</dd>
+<dt class="hdlist1">
+(Add the following terminology to section 2.2.2, Types) 
+</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<div class="paragraph"><p><em>Hit object type</em>: The type returned by <strong>OpTypeHitObjectNV</strong>.</p></div>
+</div></div>
+</dd>
+<dt class="hdlist1">
+(Add to the list of opaque types in section 2.2.2, Types) 
+</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<div class="ulist"><ul>
+<li>
+<p>
+<strong>OpTypeHitObjectNV</strong>
+</p>
+</li>
+</ul></div>
+</div></div>
+</dd>
+<dt class="hdlist1">
+(Modify Section 3.2, Decorations, adding a row to the Decoration table) 
+</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:2%;">
+<col style="width:60%;">
+<col style="width:36%;">
+<thead>
+<tr>
+<th class="tableblock halign-center valign-middle" colspan="2" > Decoration </th>
+<th class="tableblock halign-left valign-top" > Requires </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-middle" ><p class="tableblock"><strong>ShaderInvocationReorderNV</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5386</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>HitObjectShaderRecordBufferNV</strong><br></p></td>
+</tr>
+</tbody>
+</table>
+</div></div>
+</dd>
+<dt class="hdlist1">
+(Modify Section 3.7, Storage Class, adding rows to the Storage Class table) 
+</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:5%;">
+<col style="width:75%;">
+<col style="width:10%;">
+<col style="width:10%;">
+<thead>
+<tr>
+<th class="tableblock halign-center valign-middle" colspan="2" > Storage Class </th>
+<th class="tableblock halign-left valign-top" > <a href="#Capability">Enabling Capabilities</a> </th>
+<th class="tableblock halign-left valign-top" > Enabled by Extension</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">5385</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>HitObjectAttributeNV</strong><br>
+Used for storing attributes of geometry intersected by a ray to be passed on to
+hit object instructions. Visible across all functions in the current invocation.
+Not shared externally. Variables declared with this storage class can be both read and written to, but cannot have initializers.
+Only allowed in <strong>RayGenerationKHR</strong>, <strong>ClosestHitKHR</strong>, and <strong>MissKHR</strong> execution models.</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>ShaderInvocationReorderNV</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">SPV_NV_shader_invocation_reorder</p></td>
+</tr>
+</tbody>
+</table>
+</div></div>
+</dd>
+<dt class="hdlist1">
+(Modify Section 3.31, Capability, adding a row to the Capability table) 
+</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:2%;">
+<col style="width:60%;">
+<col style="width:36%;">
+<thead>
+<tr>
+<th class="tableblock halign-center valign-middle" colspan="2" > Capability </th>
+<th class="tableblock halign-left valign-top" > Implicitly Declares</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-middle" ><p class="tableblock">5383</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>ShaderInvocationReorderNV</strong><br></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
+</tr>
+</tbody>
+</table>
+</div></div>
+</dd>
+<dt class="hdlist1">
+(Add the following line to the description of OpTypePointer, in Section 3.32.6, Type-Declaration Instructions) 
+</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<div class="paragraph"><p>If <em>Type</em> is <strong>OpTypeHitObjectNV</strong>, <em>Storage Class</em> must be <em>Private</em> or <em>Function</em>.</p></div>
+</div></div>
+</dd>
+<dt class="hdlist1">
+(Add the following line to the description of OpStore and OpLoad, in Section 3.32.8, Memory Instructions) 
+</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<div class="paragraph"><p>The <em>Type</em> operand to the <strong>OpTypePointer</strong> used for <em>Pointer</em> must not be <strong>OpTypeHitObjectNV</strong>.</p></div>
+</div></div>
+</dd>
+<dt class="hdlist1">
+(Add the following line to the description of OpCopyMemory and OpCopyMemorySized, in Section 3.32.8, Memory Instructions) 
+</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<div class="paragraph"><p>The <em>Type</em> operand to the <strong>OpTypePointer</strong> used for <em>Target</em> or <em>Source</em> must not be <strong>OpTypeHitObjectNV</strong>.</p></div>
+</div></div>
+</dd>
+<dt class="hdlist1">
+(Add a new sub section 3.36.Reorder Instructions) 
+</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:25%;">
+<col style="width:25%;">
+<col style="width:25%;">
+<col style="width:25%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="3" ><p class="tableblock"><a id="OpReorderThreadWithHintNV"></a><strong>OpReorderThreadWithHintNV</strong><br>
+<br>
+ Reorder threads based on user provided hint. Similar <em>Hint</em> values indicate similarity of  subsequent work done after this call. Behavior is implementation-defined.<br>
+<br>
+ <em>Hint</em> must be a 32-bit <em>integer-type</em> scalar.<br>
+<br>
+ <em>Bits</em> must be a 32-bit <em>integer-type</em> scalar.<br>
+<br>
+ This instruction is allowed only in <strong>RayGenerationKHR</strong> execution models.<br></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<strong>ShaderInvocationReorderNV</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5280</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Hint</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Bits</em></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="4" ><p class="tableblock"><a id="OpReorderThreadWithHintNV"></a><strong>OpReorderThreadWithHitObjectNV</strong><br>
+<br>
+ Reorder threads based on hit object supplemented by <em>Hint</em> and <em>Bits</em> if they are optionally provided values. Behavior is implementation-defined.<br>
+<br>
+ <em>Hit Object</em> must be a pointer to hit object used to reorder threads.<br>
+<br>
+ <em>Hint</em> must be a 32-bit <em>integer-type</em> scalar.<br>
+<br>
+ <em>Bits</em> must be a 32-bit <em>integer-type</em> scalar.<br>
+<br>
+ <em>Hint</em> and <em>Bits</em> are optional together i.e Either both <em>Hint</em> and <em>Bits</em>
+ should be provided or neither.<br>
+<br>
+ This instruction is allowed only in <strong>RayGenerationKHR</strong> execution models.<br>
+<br></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<strong>ShaderInvocationReorderNV</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2 + variable</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5279</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Hit Object</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Optional <em>&lt;id&gt; Hint</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Optional <em>&lt;id&gt; Bits</em></p></td>
+</tr>
+</tbody>
+</table>
+</div></div>
+</dd>
+<dt class="hdlist1">
+(Add a new sub section 3.36.Hit Object Instructions) 
+</dt>
+<dd>
+<div class="paragraph"><p>The semantics of the arguments of <strong>OpHitObjectTraceRayNV</strong> and <strong>OpHitObjectTraceRayMotionNV</strong>
+are same as those with the same names of <a href="#OpTraceRayKHR"><strong>OpTraceRayKHR</strong></a> and
+<a href="#OpTraceRayMotioNV"><strong>OpTraceRayMotionNV</strong></a> as defined in the <em>SPV_KHR_ray_tracing</em> and
+<em>SPV_NV_ray_tracing_motion_blur</em> extensions, respectively.</p></div>
+</dd>
+</dl></div>
+<div class="openblock">
+<div class="content">
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:7%;">
+<col style="width:7%;">
+<col style="width:7%;">
+<col style="width:7%;">
+<col style="width:7%;">
+<col style="width:7%;">
+<col style="width:7%;">
+<col style="width:7%;">
+<col style="width:7%;">
+<col style="width:7%;">
+<col style="width:7%;">
+<col style="width:7%;">
+<col style="width:7%;">
+<col style="width:7%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="13" ><p class="tableblock"><a id="OpHitObjectTraceRayNV"></a><strong>OpHitObjectTraceRayNV</strong><br>
+<br>
+ Traces a ray and triggers execution on any-hit or intersection shaders and populates resulting hit or miss information in the hit object.<br>
+<br>
+ <em>Hit Object</em> is a pointer to the hit object.<br>
+<br>
+ <em>Acceleration Structure</em> is the descriptor for the acceleration structure to trace into.<br>
+<br>
+ <em>Ray Flags</em> contains one or more of the ray flag values. Refer to the client API specification for details.
+<br>
+ <em>Cull Mask</em> is the mask to test against the instance mask.<br>
+<br>
+ <em>SBT Offset</em> and <em>SBT Stride</em> control indexing into the SBT for hit shaders called from this trace.
+ <em>SBT</em> stands for Shader Binding Table. Refer to the client API specification for details.<br>
+<br>
+ <em>Miss Index</em> is the index of the miss shader to be called from this trace call.<br>
+<br>
+ <em>Ray Origin</em>, <em>Ray Tmin</em>, <em>Ray Direction</em>, and <em>Ray Tmax</em> control the basic parameters of the ray to be traced.<br>
+<br>
+ <em>Payload</em> is a pointer to the ray payload structure to use for this trace. <em>Payload</em> must be the result of an <strong>OpVariable</strong> with a storage class of <strong>RayPayloadKHR</strong> or <strong>IncomingRayPayloadKHR</strong>.<br>
+<br>
+ <em>Ray Flags</em>, <em>Cull Mask</em>, <em>SBT Offset</em>, <em>SBT Stride</em>, and <em>Miss Index</em> must be a 32-bit <em>integer type</em> scalar.<br>
+<br>
+ Only the 8 least-significant bits of <em>Cull Mask</em> are used by this instruction - other bits are ignored.
+<br>
+ Only the 4 least-significant bits of <em>SBT Offset</em> and <em>SBT Stride</em> are used by this instruction - other bits are ignored.
+<br>
+ Only the 16 least-significant bits of <em>Miss Index</em> are used by this instruction - other bits are ignored.
+<br>
+ <em>Ray Origin</em> and <em>Ray Direction</em> must be a 32-bit <em>float type</em> 3-component vector.<br>
+<br>
+ <em>Ray Tmin</em> and <em>Ray Tmax</em> must be a 32-bit <em>float type</em> scalar.<br>
+<br>
+ This instruction is allowed only in <strong>RayGenerationKHR</strong>, <strong>ClosestHitKHR</strong> and <strong>MissKHR</strong> execution models.<br>
+<br>
+ This instruction is a <em>shader call instruction</em> which may invoke shaders with the <strong>IntersectionKHR</strong> and <strong>AnyHitKHR</strong> execution models.<br>
+<br></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<strong>ShaderInvocationReorderNV</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">13</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5260</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Hit Object</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Acceleration Structure</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray Flags</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Cull Mask</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>SBT Offset</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>SBT Stride</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Miss Index</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray Origin</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray Tmin</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray Direction</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray Tmax</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Payload</em></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="14" ><p class="tableblock"><a id="OpHitObjectTraceRayMotionNV"></a><strong>OpHitObjectTraceRayMotionNV</strong><br>
+<br>
+ Traces a ray and triggers execution of any-hit or intersection shaders and populates resulting hit or miss information in the hit object.<br>
+<br>
+ <em>Hit Object</em> is a pointer to the hit object.<br>
+<br>
+ <em>Acceleration Structure</em> is the descriptor for the acceleration structure to trace into.<br>
+<br>
+ <em>Ray Flags</em> contains one or more of the ray flag values. Refer to the client API specification for details.
+<br>
+ <em>Cull Mask</em> is the mask to test against the instance mask.<br>
+<br>
+ <em>SBT Offset</em> and <em>SBT Stride</em> control indexing into the SBT for hit shaders called from this trace.
+ <em>SBT</em> stands for Shader Binding Table. Refer to the client API specification for details.<br>
+<br>
+ <em>Miss Index</em> is the index of the miss shader to be called from this trace call.<br>
+<br>
+ <em>Ray Origin</em>, <em>Ray Tmin</em>, <em>Ray Direction</em>, and <em>Ray Tmax</em> control the basic parameters of the ray to be traced.<br>
+<br>
+ <em>Payload</em> is a pointer to the ray payload structure to use for this trace. <em>Payload</em> must be the result of an <strong>OpVariable</strong> with a storage class of <strong>RayPayloadKHR</strong> or <strong>IncomingRayPayloadKHR</strong>.<br>
+<br>
+ <em>Ray Flags</em>, <em>Cull Mask</em>, <em>SBT Offset</em>, <em>SBT Stride</em>, and <em>Miss Index</em> must be a 32-bit <em>integer type</em> scalar.<br>
+<br>
+ Only the 8 least-significant bits of <em>Cull Mask</em> are used by this instruction - other bits are ignored.
+<br>
+ Only the 4 least-significant bits of <em>SBT Offset</em> and <em>SBT Stride</em> are used by this instruction - other bits are ignored.
+<br>
+ Only the 16 least-significant bits of <em>Miss Index</em> are used by this instruction - other bits are ignored.
+<br>
+ <em>Ray Origin</em> and <em>Ray Direction</em> must be a 32-bit <em>float type</em> 3-component vector.<br>
+<br>
+ <em>Ray Tmin</em> and <em>Ray Tmax</em> must be a 32-bit <em>float type</em> scalar.<br>
+<br>
+ <em>Current Time</em> must be a 32-bit float type scalar.<br>
+<br>
+ This instruction is allowed only in <strong>RayGenerationKHR</strong>, <strong>ClosestHitKHR</strong> and <strong>MissKHR</strong> execution models with <strong>SPV_NV_ray_tracing_motion_blur</strong> extension.<br>
+<br>
+ This instruction is a <em>shader call instruction</em> which may invoke shaders with the <strong>IntersectionKHR</strong> and <strong>AnyHitKHR</strong> execution models.<br>
+<br></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<strong>ShaderInvocationReorderNV</strong>, <strong>RayTracingMotionBlurNV</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">14</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5256</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Hit Object</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Acceleration Structure</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray Flags</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Cull Mask</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>SBT Offset</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>SBT Stride</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Miss Index</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray Origin</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray Tmin</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray Direction</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray Tmax</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Current Time</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Payload</em></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="14" ><p class="tableblock"><a id="OpHitObjectRecordHitNV"></a><strong>OpHitObjectRecordHitNV</strong><br>
+<br>
+ Populates the hit object to represent a hit without tracing a ray.<br>
+<br>
+ <em>Hit Object</em> is a pointer to the hit object.<br>
+<br>
+ <em>Acceleration Structure</em> is the descriptor for the acceleration structure to trace into.<br>
+<br>
+ <em>Instance Id</em> refers to the index of the instance within <em>Acceleration Structure</em> which
+ to be encoded in the hit object.<br>
+<br>
+ <em>Instance Id</em> must be a 32 bit <em>integer type</em> scalar.
+<br>
+ <em>Primitive Id</em> refers to the index of the primitive within <em>Acceleration Strucutre</em> which
+ is to be encoded in the hit object.<br>
+<br>
+ <em>Primitive Id</em> must be a 32 bit <em>integer type</em> scalar.
+<br>
+ <em>Geometry Index</em> refers to the index of the geometry within <em>Acceleration Structure</em> which
+ is to be encoded in the hit object.<br>
+<br>
+ <em>Geometry Index</em> must be a 32 bit <em>integer type</em> scalar.
+<br>
+ <em>Hit Kind</em> is the integer hit kind reported back to other shaders and accessible by the  hit kind builtin.<br>
+<br>
+ <em>Hit Kind</em> must be a 32 bit <em>unsigned integer type</em> scalar.
+<br>
+ <em>SBT Record Offset</em> and <em>SBT Record Stride</em> control indexing into the SBT to determine the closest-hit shader to be encoded in the hit object.
+ <em>SBT</em> stands for Shader Binding Table. Refer to the client API specification for details.<br>
+ <em>SBT</em> stands for Shader Binding Table. Refer to the client API specification for details.   <br>
+<br>
+ <em>SBT Record Offset</em> and <em>SBT Record Stride</em> must be a 32 bit <em>integer type</em> scalar.
+<br>
+ <em>Ray Origin</em>, <em>Ray Tmin</em>, <em>Ray Direction</em>, and <em>Ray Tmax</em> control the basic parameters of the ray.<br>
+<br>
+ <em>Ray Origin</em> and <em>Ray Direction</em> must be a 32-bit <em>float type</em> 3-component vector.<br>
+<br>
+ <em>Ray Tmin</em> and <em>Ray Tmax</em> must be a 32-bit <em>float type</em> scalar.<br>
+<br>
+ <em>Hit Object Attributes</em> contains the attributes of the hit which are to be encoded in <em>Hit Object</em>. This must be an OpVariable in <strong>HitObjectAttributeNV</strong> storage class.<br>
+<br>
+ This instruction is allowed only in <strong>RayGenerationKHR</strong>, <strong>ClosestHitKHR</strong> and <strong>MissKHR</strong> execution models.<br>
+<br></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<strong>ShaderInvocationReorderNV</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">14</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5261</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Hit Object</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Acceleration Structure</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Instance Id</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Primitive Id</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Geometry Index</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Hit Kind</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>SBT Record Offset</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>SBT Record Stride</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray Origin</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray TMin</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray Direction</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray TMax</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Hit Object Attributes</em></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="15" ><p class="tableblock"><a id="OpHitObjectRecordHitMotionNV"></a><strong>OpHitObjectRecordHitMotionNV</strong><br>
+<br>
+ Populates the hit object to represent a hit without tracing a ray.<br>
+<br>
+ <em>Hit Object</em> is a pointer to the hit object.<br>
+<br>
+ <em>Acceleration Structure</em> is the descriptor for the acceleration structure to trace into.<br>
+<br>
+ <em>Instance Id</em> refers to the index of the instance within <em>Acceleration Structure</em> which
+ to be encoded in the hit object.<br>
+<br>
+ <em>Instance Id</em> must be a 32 bit <em>integer type</em> scalar.
+<br>
+ <em>Primitive Id</em> refers to the index of the primitive within <em>Acceleration Strucutre</em> which
+ is to be encoded in the hit object.<br>
+<br>
+ <em>Primitive Id</em> must be a 32 bit <em>integer type</em> scalar.
+<br>
+ <em>Geometry Index</em> refers to the index of the geometry within <em>Acceleration Structure</em> which
+ is to be encoded in the hit object.<br>
+<br>
+ <em>Geometry Index</em> must be a 32 bit <em>integer type</em> scalar.
+<br>
+ <em>Hit Kind</em> is the integer hit kind reported back to other shaders and accessible by the  hit kind builtin.<br>
+<br>
+ <em>Hit Kind</em> must be a 32 bit <em>unsigned integer type</em> scalar.
+<br>
+ <em>SBT Record Offset</em> and <em>SBT Record Stride</em> control indexing into the SBT to determine the closest-hit shader to be encoded in the hit object.
+ <em>SBT</em> stands for Shader Binding Table. Refer to the client API specification for details.<br>
+ <em>SBT</em> stands for Shader Binding Table. Refer to the client API specification for details.   <br>
+<br>
+ <em>SBT Record Offset</em> and <em>SBT Record Stride</em> must be a 32 bit <em>integer type</em> scalar.
+<br>
+ <em>Ray Origin</em>, <em>Ray Tmin</em>, <em>Ray Direction</em>, and <em>Ray Tmax</em> control the basic parameters of the ray.<br>
+<br>
+ <em>Ray Origin</em> and <em>Ray Direction</em> must be a 32-bit <em>float type</em> 3-component vector.<br>
+<br>
+ <em>Ray Tmin</em> and <em>Ray Tmax</em> must be a 32-bit <em>float type</em> scalar.<br>
+<br>
+ <em>Current Time</em> must be a 32-bit float type scalar.<br>
+<br>
+ <em>Hit Object Attributes</em> contains the attributes of the hit which are to be encoded in <em>Hit Object</em>. This must be an OpVariable in <strong>HitObjectAttributeNV</strong> storage class.<br>
+<br>
+ This instruction is allowed only in <strong>RayGenerationKHR</strong>, <strong>ClosestHitKHR</strong> and <strong>MissKHR</strong> execution models with <strong>SPV_NV_ray_tracing_motion_blur</strong> extension.<br>
+<br></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<strong>ShaderInvocationReorderNV</strong>, <strong>RayTracingMotionBlurNV</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">15</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5249</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Hit Object</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Acceleration Structure</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Instance Id</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Primitive Id</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Geometry Index</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Hit Kind</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>SBT Record Offset</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>SBT Record Stride</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray Origin</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray TMin</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray Direction</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray TMax</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Current Time</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Hit Object Attributes</em></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:7%;">
+<col style="width:7%;">
+<col style="width:7%;">
+<col style="width:7%;">
+<col style="width:7%;">
+<col style="width:7%;">
+<col style="width:7%;">
+<col style="width:7%;">
+<col style="width:7%;">
+<col style="width:7%;">
+<col style="width:7%;">
+<col style="width:7%;">
+<col style="width:7%;">
+<col style="width:7%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="13" ><p class="tableblock"><a id="OpHitObjectRecordHitWithIndexNV"></a><strong>OpHitObjectRecordHitWithIndexNV</strong><br>
+<br>
+ Encodes the hit object to represent a hit without tracing a ray.<br>
+<br>
+ <em>Hit Object</em> is a pointer to the hit object.<br>
+<br>
+ <em>Acceleration Structure</em> is the descriptor for the acceleration structure to trace into.<br>
+ <em>Instance Id</em> refers to the index of the instance within <em>Acceleration Structure</em> which
+ to be encoded in the hit object.<br>
+<br>
+ <em>Instance Id</em> must be a 32 bit <em>integer type</em> scalar.
+<br>
+ <em>Primitive Id</em> refers to the index of the primitive within <em>Acceleration Strucutre</em> which
+ is to be encoded in the hit object.<br>
+<br>
+ <em>Primitive Id</em> must be a 32 bit <em>integer type</em> scalar.
+<br>
+ <em>Geometry Index</em> refers to the index of the geometry within <em>Acceleration Structure</em> which
+ is to be encoded in the hit object.<br>
+<br>
+ <em>Geometry Index</em> must be a 32 bit <em>integer type</em> scalar.
+<br>
+ <em>Hit Kind</em> is the integer hit kind reported back to other shaders and accessible by the  hit kind builtin.<br>
+<br>
+ <em>Hit Kind</em> must be a 32 bit <em>unsigned integer type</em> scalar.
+<br>
+ <em>SBT Index</em> is record index for the closest-hit shader in the SBT to encode into the
+ hit object.
+<br>
+ <em>SBT</em> stands for Shader Binding Table. Refer to the client API specification for details.   <br>
+<br>
+ <em>SBT Index</em> must be a 32 bit <em>unsigned integer type</em> scalar.
+<br>
+ <em>Ray Origin</em>, <em>Ray Tmin</em>, <em>Ray Direction</em>, and <em>Ray Tmax</em> control the basic parameters of the ray.<br>
+<br>
+ <em>Ray Origin</em> and <em>Ray Direction</em> must be a 32-bit <em>float type</em> 3-component vector.<br>
+<br>
+ <em>Ray Tmin</em> and <em>Ray Tmax</em> must be a 32-bit <em>float type</em> scalar.<br>
+<br>
+ <em>Hit Object Attributes</em> contains the attributes of the hit which are to be encoded in <em>Hit Object</em>. This must be an OpVariable in <strong>HitObjectAttributeNV</strong> storage class.<br>
+<br>
+ This instruction is allowed only in <strong>RayGenerationKHR</strong>, <strong>ClosestHitKHR</strong> and <strong>MissKHR</strong> execution models.<br>
+<br></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<strong>ShaderInvocationReorderNV</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">13</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5262</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Hit Object</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Acceleration Structure</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Instance Id</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Primitive Id</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Geometry Index</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Hit Kind</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>SBT Index</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray Origin</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray TMin</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray Direction</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray TMax</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Hit Object Attributes</em></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="14" ><p class="tableblock"><a id="OpHitObjectRecordHitWithIndexMotionNV"></a><strong>OpHitObjectRecordHitWithIndexMotionNV</strong><br>
+<br>
+ Encodes the hit object to represent a hit without tracing a ray.<br>
+<br>
+ <em>Hit Object</em> is a pointer to the hit object.<br>
+<br>
+ <em>Acceleration Structure</em> is the descriptor for the acceleration structure to trace into.<br>
+ <em>Instance Id</em> refers to the index of the instance within <em>Acceleration Structure</em> which
+ to be encoded in the hit object.<br>
+<br>
+ <em>Instance Id</em> must be a 32 bit <em>integer type</em> scalar.
+<br>
+ <em>Primitive Id</em> refers to the index of the primitive within <em>Acceleration Strucutre</em> which
+ is to be encoded in the hit object.<br>
+<br>
+ <em>Primitive Id</em> must be a 32 bit <em>integer type</em> scalar.
+<br>
+ <em>Geometry Index</em> refers to the index of the geometry within <em>Acceleration Structure</em> which
+ is to be encoded in the hit object.<br>
+<br>
+ <em>Geometry Index</em> must be a 32 bit <em>integer type</em> scalar.
+<br>
+ <em>Hit Kind</em> is the integer hit kind reported back to other shaders and accessible by the  hit kind builtin.<br>
+<br>
+ <em>Hit Kind</em> must be a 32 bit <em>unsigned integer type</em> scalar.
+<br>
+ <em>SBT Index</em> is record index for the closest-hit shader in the SBT to encode into the
+ hit object.
+<br>
+ <em>SBT</em> stands for Shader Binding Table. Refer to the client API specification for details.   <br>
+<br>
+ <em>SBT Index</em> must be a 32 bit <em>unsigned integer type</em> scalar.
+<br>
+ <em>Ray Origin</em>, <em>Ray Tmin</em>, <em>Ray Direction</em>, and <em>Ray Tmax</em> control the basic parameters of the ray.<br>
+<br>
+ <em>Ray Origin</em> and <em>Ray Direction</em> must be a 32-bit <em>float type</em> 3-component vector.<br>
+<br>
+ <em>Ray Tmin</em> and <em>Ray Tmax</em> must be a 32-bit <em>float type</em> scalar.<br>
+<br>
+ <em>Current Time</em> must be a 32-bit float type scalar.<br>
+<br>
+ <em>Hit Object Attributes</em> contains the attributes of the hit which are to be encoded in <em>Hit Object</em>. This must be an OpVariable in <strong>HitObjectAttributeNV</strong> storage class.<br>
+<br>
+ This instruction is allowed only in <strong>RayGenerationKHR</strong>, <strong>ClosestHitKHR</strong> and <strong>MissKHR</strong> execution models with <strong>SPV_NV_ray_tracing_motion_blur</strong> extension.<br>
+<br></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<strong>ShaderInvocationReorderNV</strong>, <strong>RayTracingMotionBlurNV</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">14</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5250</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Hit Object</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Acceleration Structure</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Instance Id</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Primitive Id</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Geometry Index</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Hit Kind</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>SBT Index</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray Origin</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray TMin</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray Direction</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray TMax</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Current Time</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Hit Object Attributes</em></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:12%;">
+<col style="width:12%;">
+<col style="width:12%;">
+<col style="width:12%;">
+<col style="width:12%;">
+<col style="width:12%;">
+<col style="width:12%;">
+<col style="width:12%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="7" ><p class="tableblock"><a id="OpHitObjectRecordMissNV"></a><strong>OpHitObjectRecordMissNV</strong><br>
+<br>
+ Encodes the hit object to represent a miss without tracing a ray.<br>
+<br>
+ <em>Hit Object</em> is a pointer to the hit object.<br>
+<br>
+ <em>Miss Index</em> is the index of the miss shader to be encode in the hit object.<br>
+<br>
+ <em>Miss Index</em> must be a 32-bit <em>unsigned integer type</em> scalar.
+<br>
+ <em>Ray Origin</em>, <em>Ray Tmin</em>, <em>Ray Direction</em>, and <em>Ray Tmax</em> control the basic parameters of the ray.<br>
+<br>
+ <em>Ray Origin</em> and <em>Ray Direction</em> must be a 32-bit <em>float type</em> 3-component vector.<br>
+<br>
+ <em>Ray Tmin</em> and <em>Ray Tmax</em> must be a 32-bit <em>float type</em> scalar.<br>
+<br>
+ This instruction is allowed only in <strong>RayGenerationKHR</strong>, <strong>ClosestHitKHR</strong> and <strong>MissKHR</strong> execution models.<br>
+<br></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<strong>ShaderInvocationReorderNV</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">7</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5263</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Hit Object</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Miss Index</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray Origin</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray TMin</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray Direction</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray TMax</em></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:11%;">
+<col style="width:11%;">
+<col style="width:11%;">
+<col style="width:11%;">
+<col style="width:11%;">
+<col style="width:11%;">
+<col style="width:11%;">
+<col style="width:11%;">
+<col style="width:11%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="8" ><p class="tableblock"><a id="OpHitObjectRecordMissMotionNV"></a><strong>OpHitObjectRecordMissMotionNV</strong><br>
+<br>
+ Encodes the hit object to represent a miss without tracing a ray.<br>
+<br>
+ <em>Hit Object</em> is a pointer to the hit object.<br>
+<br>
+ <em>Miss Index</em> is the index of the miss shader to be encode in the hit object.<br>
+<br>
+ <em>Miss Index</em> must be a 32-bit <em>unsigned integer type</em> scalar.
+<br>
+ <em>Ray Origin</em>, <em>Ray Tmin</em>, <em>Ray Direction</em>, and <em>Ray Tmax</em> control the basic parameters of the ray.<br>
+<br>
+ <em>Ray Origin</em> and <em>Ray Direction</em> must be a 32-bit <em>float type</em> 3-component vector.<br>
+<br>
+ <em>Ray Tmin</em> and <em>Ray Tmax</em> must be a 32-bit <em>float type</em> scalar.<br>
+<br>
+ <em>Current Time</em> must be a 32-bit float type scalar.<br>
+<br>
+ This instruction is allowed only in <strong>RayGenerationKHR</strong>, <strong>ClosestHitKHR</strong> and <strong>MissKHR</strong> execution models with <strong>SPV_NV_ray_tracing_motion_blur</strong> extension.<br>
+<br></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<strong>ShaderInvocationReorderNV</strong>, <strong>RayTracingMotionBlurNV</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">8</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5251</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Hit Object</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Miss Index</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray Origin</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray TMin</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray Direction</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray TMax</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Current Time</em></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:33%;">
+<col style="width:33%;">
+<col style="width:33%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="2" ><p class="tableblock"><a id="OpHitObjectRecordEmptyNV"></a><strong>OpHitObjectRecordEmptyNV</strong><br>
+<br>
+ Encodes the hit object to represent an empty hit object which is neither a hit nor a miss.<br>
+<br>
+ <em>Hit Object</em> is a pointer to the hit object.<br>
+<br>
+ This instruction is allowed only in <strong>RayGenerationKHR</strong>, <strong>ClosestHitKHR</strong> and <strong>MissKHR</strong> execution models.<br></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<strong>ShaderInvocationReorderNV</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5259</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Hit Object</em></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:25%;">
+<col style="width:25%;">
+<col style="width:25%;">
+<col style="width:25%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="3" ><p class="tableblock"><a id="OpHitObjectExecuteShaderNV"></a><strong>OpHitObjectExecuteShaderNV</strong><br>
+<br>
+ Executes the closest-hit or miss shader as encoded in the hit object.<br>
+<br>
+ <em>Hit Object</em> is a pointer to the hit object.<br>
+<br>
+ <em>Payload</em> is a pointer to the ray payload structure to use for this trace. <em>Payload</em> must be the result of an <strong>OpVariable</strong> with a storage class of <strong>RayPayloadKHR</strong> or <strong>IncomingRayPayloadKHR</strong>.<br>
+<br>
+ This instruction is allowed only in <strong>RayGenerationKHR</strong>, <strong>ClosestHitKHR</strong> and <strong>MissKHR</strong> execution models.<br>
+<br>
+ This instruction is a <em>shader call instruction</em> which may invoke shaders with the
+<strong>ClosestHitKHR</strong>, and <strong>MissKHR</strong> execution models.<br></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<strong>ShaderInvocationReorderNV</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5264</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Hit Object</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Payload</em></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="4" ><p class="tableblock"><a id="OpHitObjectGetCurrentTimeNV"></a><strong>OpHitObjectGetCurrentTimeNV</strong><br>
+<br>
+ Returns the current time value encoded in the hit object.<br>
+<br>
+ <em>Result</em> is the current time value as encoded in the hit object.<br>
+<br>
+ <em>Result Type</em> must be a 32-bit <em>floating-point type</em> scalar.<br>
+<br>
+ <em>Hit Object</em> is a pointer to the hit object.<br>
+<br>
+ This instruction is allowed only in <strong>RayGenerationKHR</strong>, <strong>ClosestHitKHR</strong> and <strong>MissKHR</strong> execution models.<br></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<strong>ShaderInvocationReorderNV</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5265</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Hit Object</em></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:25%;">
+<col style="width:25%;">
+<col style="width:25%;">
+<col style="width:25%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="3" ><p class="tableblock"><a id="OpHitObjectGetAttributesNV"></a><strong>OpHitObjectGetAttributesNV</strong><br>
+<br>
+ Returns the attributes as encoded in the hit object.<br>
+<br>
+ <em>Hit Object</em> is a pointer to the hit object.<br>
+<br>
+ <em>Hit Object Attributes</em> contains the attributes of the hit which are to be encoded in <em>Hit Object</em>. This must be an OpVariable in <strong>HitObjectAttributeNV</strong> storage class.<br>
+<br>
+ This instruction is allowed only in <strong>RayGenerationKHR</strong>, <strong>ClosestHitKHR</strong> and <strong>MissKHR</strong> execution models.<br></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<strong>ShaderInvocationReorderNV</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5266</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Hit Object</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Hit Object Attributes</em></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="4" ><p class="tableblock"><a id="OpHitObjectGetHitKindNV"></a><strong>OpHitObjectGetHitKindNV</strong><br>
+<br>
+ Returns a unsigned integer value if the hit as encoded in the hit object with front
+ face or back face of a primitive.<br>
+<br>
+ <em>Result</em> is 0xFE if hit encoded in the hit object is with front facing primitive else
+ is 0xFF if it is back facing primitive.<br>
+<br>
+ <em>Result Type</em> must be a <em>32bit integer type</em> scalar.<br>
+<br>
+ <em>Hit Object</em> is a pointer to the hit object.<br>
+<br>
+ This instruction is allowed only in <strong>RayGenerationKHR</strong>, <strong>ClosestHitKHR</strong> and <strong>MissKHR</strong> execution models.<br></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<strong>ShaderInvocationReorderNV</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5267</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Hit Object</em></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="4" ><p class="tableblock"><a id="OpHitObjectGetPrimitiveIndexNV"></a><strong>OpHitObjectGetPrimitiveIndexNV</strong><br>
+<br>
+ Returns the primitive index as encoded in the hit object.<br>
+<br>
+ <em>Result</em> is the primitive index as encoded in the hit object.<br>
+<br>
+ <em>Result Type</em> must be a 32-bit <em>integer type</em> scalar.<br>
+<br>
+ <em>Hit Object</em> is a pointer to the hit object.<br>
+<br>
+ This instruction is allowed only in <strong>RayGenerationKHR</strong>, <strong>ClosestHitKHR</strong> and <strong>MissKHR</strong> execution models.<br></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<strong>ShaderInvocationReorderNV</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5268</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Hit Object</em></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="4" ><p class="tableblock"><a id="OpHitObjectGetGeometryIndexNV"></a><strong>OpHitObjectGetGeometryIndexNV</strong><br>
+<br>
+ Returns the geometry index as encoded in the hit object.<br>
+<br>
+ <em>Result</em> is the geometry index as encoded in the hit object.<br>
+<br>
+ <em>Result Type</em> must be a 32-bit <em>integer type</em> scalar.<br>
+<br>
+ <em>Hit Object</em> is a pointer to the hit object.<br>
+<br>
+ This instruction is allowed only in <strong>RayGenerationKHR</strong>, <strong>ClosestHitKHR</strong> and <strong>MissKHR</strong> execution models.<br></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<strong>ShaderInvocationReorderNV</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5269</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Hit Object</em></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="4" ><p class="tableblock"><a id="OpHitObjectGetInstanceIdNV"></a><strong>OpHitObjectGetInstanceIdNV</strong><br>
+<br>
+ Returns the instance id as encoded in the hit object.<br>
+<br>
+ <em>Result</em> is the instance id as encoded in the hit object.<br>
+<br>
+ <em>Result Type</em> must be a 32-bit <em>integer type</em> scalar.<br>
+<br>
+ <em>Hit Object</em> is a pointer to the hit object.<br>
+<br>
+ This instruction is allowed only in <strong>RayGenerationKHR</strong>, <strong>ClosestHitKHR</strong> and <strong>MissKHR</strong> execution models.<br></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<strong>ShaderInvocationReorderNV</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5270</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Hit Object</em></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="4" ><p class="tableblock"><a id="OpHitObjectGetInstanceCustomIndexNV"></a><strong>OpHitObjectGetInstanceCustomIndexNV</strong><br>
+<br>
+ Returns the application specified custom index value as encoded in the hit object.<br>
+<br>
+ <em>Result</em> is the application specified custom index value as encoded in the hit object.<br>
+<br>
+ <em>Result Type</em> must be a 32-bit <em>integer type</em> scalar.<br>
+<br>
+ <em>Hit Object</em> is a pointer to the hit object.<br>
+<br>
+ This instruction is allowed only in <strong>RayGenerationKHR</strong>, <strong>ClosestHitKHR</strong> and <strong>MissKHR</strong> execution models.<br></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<strong>ShaderInvocationReorderNV</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5271</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Hit Object</em></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="4" ><p class="tableblock"><a id="OpHitObjectGetObjectRayOriginNV"></a><strong>OpHitObjectGetObjectRayOriginNV</strong><br>
+<br>
+ Returns the object-space ray origin as encoded in the hit object.<br>
+<br>
+ <em>Result</em> is the ray object-space ray origin as encoded in the hit object.<br>
+<br>
+ <em>Result Type</em> must be a 32-bit <em>floating-point type</em> 3-component vector.<br>
+<br>
+ <em>Hit Object</em> is a pointer to the hit object.<br>
+<br>
+ This instruction is allowed only in <strong>RayGenerationKHR</strong>, <strong>ClosestHitKHR</strong> and <strong>MissKHR</strong> execution models.<br></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<strong>ShaderInvocationReorderNV</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5255</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Hit Object</em></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="4" ><p class="tableblock"><a id="OpHitObjectGetObjectRayDirectionNV"></a><strong>OpHitObjectGetObjectRayDirectionNV</strong><br>
+<br>
+ Returns the object-space ray direction as encoded in the hit object.<br>
+<br>
+ <em>Result</em> is the ray object-space ray direction as encoded in the hit object.<br>
+<br>
+ <em>Result Type</em> must be a 32-bit <em>floating-point type</em> 3-component vector.<br>
+<br>
+ <em>Hit Object</em> is a pointer to the hit object.<br>
+<br>
+ This instruction is allowed only in <strong>RayGenerationKHR</strong>, <strong>ClosestHitKHR</strong> and <strong>MissKHR</strong> execution models.<br></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<strong>ShaderInvocationReorderNV</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5254</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Hit Object</em></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="4" ><p class="tableblock"><a id="OpHitObjectGetWorldRayDirectionNV"></a><strong>OpHitObjectGetWorldRayDirectionNV</strong><br>
+<br>
+ Returns the world-space ray direction as encoded in the hit object.<br>
+<br>
+ <em>Result</em> is the ray world-space ray direction as encoded in the hit object.<br>
+<br>
+ <em>Result Type</em> must be a 32-bit <em>floating-point type</em> 3-component vector.<br>
+<br>
+ <em>Hit Object</em> is a pointer to the hit object.<br>
+<br>
+ This instruction is allowed only in <strong>RayGenerationKHR</strong>, <strong>ClosestHitKHR</strong> and <strong>MissKHR</strong> execution models.<br></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<strong>ShaderInvocationReorderNV</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5272</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Hit Object</em></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="4" ><p class="tableblock"><a id="OpHitObjectGetWorldRayOriginNV"></a><strong>OpHitObjectGetWorldRayOriginNV</strong><br>
+<br>
+ Returns the world-space ray origin as encoded in the hit object.<br>
+<br>
+ <em>Result</em> is the ray world-space ray origin as encoded in the hit object.<br>
+<br>
+ <em>Result Type</em> must be a 32-bit <em>floating-point type</em> 3-component vector.<br>
+<br>
+ <em>Hit Object</em> is a pointer to the hit object.<br>
+<br>
+ This instruction is allowed only in <strong>RayGenerationKHR</strong>, <strong>ClosestHitKHR</strong> and <strong>MissKHR</strong> execution models.<br></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<strong>ShaderInvocationReorderNV</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5273</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Hit Object</em></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="4" ><p class="tableblock"><a id="OpHitObjectGetObjectToWorldNV"></a><strong>OpHitObjectGetObjectToWorldNV</strong><br>
+<br>
+ Returns a matrix that transforms values from object-space to world-space as encoded in the hit object.<br>
+<br>
+ <em>Result</em> is the matrix.<br>
+<br>
+ <em>Result Type</em>  must be a matrix with a <em>Column Count</em> of 4, and a <em>Column Type</em> that is a vector type with a <em>Component Type</em> that is a 32-bit <em>floating-point type</em> and a <em>Component Count</em> of 3.<br>
+<br>
+ <em>Hit Object</em> is a pointer to the hit object.<br>
+<br>
+ This instruction is allowed only in <strong>RayGenerationKHR</strong>, <strong>ClosestHitKHR</strong> and <strong>MissKHR</strong> execution models.<br></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<strong>ShaderInvocationReorderNV</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5253</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Hit Object</em></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="4" ><p class="tableblock"><a id="OpHitObjectGetWorldToObjectNV"></a><strong>OpHitObjectGetWorldToObjectNV</strong><br>
+<br>
+ Returns a matrix that transforms values from world-space to object-space as encoded in the hit object.<br>
+<br>
+ <em>Result</em> is the matrix.<br>
+<br>
+ <em>Result Type</em>  must be a matrix with a <em>Column Count</em> of 4, and a <em>Column Type</em> that is a vector type with a <em>Component Type</em> that is a 32-bit <em>floating-point type</em> and a <em>Component Count</em> of 3.<br>
+<br>
+ <em>Hit Object</em> is a pointer to the hit object.<br>
+<br>
+ This instruction is allowed only in <strong>RayGenerationKHR</strong>, <strong>ClosestHitKHR</strong> and <strong>MissKHR</strong> execution models.<br></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<strong>ShaderInvocationReorderNV</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5253</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Hit Object</em></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="4" ><p class="tableblock"><a id="OpHitObjectGetRayTMaxNV"></a><strong>OpHitObjectGetRayTMaxNV</strong><br>
+<br>
+ Returns the <em>Ray Tmax</em> value encoded in the hit object.<br>
+ Semantics are similar to RayTMaxKHR builtin as defined in SPV_KHR_ray_tracing.
+<br>
+ <em>Result</em> is the Ray Tmax value as encoded in the hit object.<br>
+<br>
+ <em>Result Type</em> must be a 32-bit <em>floating-point type</em> scalar.<br>
+<br>
+ <em>Hit Object</em> is a pointer to the hit object.<br>
+<br>
+ This instruction is allowed only in <strong>RayGenerationKHR</strong>, <strong>ClosestHitKHR</strong> and <strong>MissKHR</strong> execution models.<br></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<strong>ShaderInvocationReorderNV</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5274</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Hit Object</em></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="4" ><p class="tableblock"><a id="OpHitObjectGetRayTMinNV"></a><strong>OpHitObjectGetRayTMinNV</strong><br>
+<br>
+ Returns the <em>Ray Tmin</em> value encoded in the hit object.<br>
+ Semantics are similar to RayTMinKHR builtin as defined in SPV_KHR_ray_tracing.
+<br>
+ <em>Result</em> is the Ray Tmin value as encoded in the hit object.<br>
+<br>
+ <em>Result Type</em> must be a 32-bit <em>floating-point type</em> scalar.<br>
+<br>
+ <em>Hit Object</em> is a pointer to the hit object.<br>
+<br>
+ This instruction is allowed only in <strong>RayGenerationKHR</strong>, <strong>ClosestHitKHR</strong> and <strong>MissKHR</strong> execution models.<br></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<strong>ShaderInvocationReorderNV</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5275</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Hit Object</em></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="4" ><p class="tableblock"><a id="OpHitObjectGetShaderBindingTableRecordIndexNV"></a><strong>OpHitObjectGetShaderBindingTableRecordIndexNV</strong><br>
+<br>
+ Returns the index for the record in shader binding table as encoded in hit object.<br>
+<br>
+ <em>Result</em> is the current time value as encoded in the hit object.<br>
+<br>
+ <em>Result Type</em> must be a 32-bit <em>integer type</em> scalar.<br>
+<br>
+ <em>Hit Object</em> is a pointer to the hit object.<br>
+<br>
+ This instruction is allowed only in <strong>RayGenerationKHR</strong>, <strong>ClosestHitKHR</strong> and <strong>MissKHR</strong> execution models.<br></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<strong>ShaderInvocationReorderNV</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5258</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Hit Object</em></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="4" ><p class="tableblock"><a id="OpHitObjectGetShaderRecordBufferHandleNV"></a><strong>OpHitObjectGetShaderRecordBufferHandleNV</strong><br>
+<br>
+ Returns the address of shader record buffer for the hit or miss record encoded in hit object.<br>
+<br>
+ <em>Result</em> is the address of data in shader record as encoded in the hit object.<br>
+<br>
+ <em>Result Type</em> must be a 32-bit <em>integer type</em> 2-component vector.<br>
+<br>
+ <em>Hit Object</em> is a pointer to the hit object.<br>
+<br>
+ This instruction is allowed only in <strong>RayGenerationKHR</strong>, <strong>ClosestHitKHR</strong> and <strong>MissKHR</strong> execution models.<br></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<strong>ShaderInvocationReorderNV</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5257</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Hit Object</em></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="4" ><p class="tableblock"><a id="OpHitObjectIsEmptyNV"></a><strong>OpHitObjectIsEmptyNV</strong><br>
+<br>
+ Returns a boolean indicating whether the hit object is an empty hit object.<br>
+<br>
+ <em>Result</em> is true if hit object encodes a NOP, false otherwise.<br>
+<br>
+ <em>Result Type</em> must be a <em>boolean type</em> scalar.<br>
+<br>
+ <em>Hit Object</em> must be a pointer to hit object.<br>
+<br>
+ This instruction is allowed only in <strong>RayGenerationKHR</strong>, <strong>ClosestHitKHR</strong> and <strong>MissKHR</strong> execution models.<br></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<strong>ShaderInvocationReorderNV</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5276</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Hit Object</em></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="4" ><p class="tableblock"><a id="OpHitObjectIsHitNV"></a><strong>OpHitObjectIsHitNV</strong><br>
+<br>
+ Returns a boolean indicating whether the hit object has encoded a hit.<br>
+<br>
+ <em>Result</em> is true if hit object encodes a hit, false otherwise.<br>
+<br>
+ <em>Result Type</em> must be a <em>boolean type</em> scalar.<br>
+<br>
+ <em>Hit Object</em> must be a pointer to hit object.<br>
+<br>
+ This instruction is allowed only in <strong>RayGenerationKHR</strong>, <strong>ClosestHitKHR</strong> and <strong>MissKHR</strong> execution models.<br></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<strong>ShaderInvocationReorderNV</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5277</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Hit Object</em></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="4" ><p class="tableblock"><a id="OpHitObjectIsMissNV"></a><strong>OpHitObjectIsMissNV</strong><br>
+<br>
+ Returns a boolean indicating whether the hit object has encoded a miss.<br>
+<br>
+ <em>Result</em> is true if hit object encodes a miss, false otherwise.<br>
+<br>
+ <em>Result Type</em> must be a <em>boolean type</em> scalar.<br>
+<br>
+ <em>Hit Object</em> must be a pointer to hit object.<br>
+<br>
+ This instruction is allowed only in <strong>RayGenerationKHR</strong>, <strong>ClosestHitKHR</strong> and <strong>MissKHR</strong> execution models.<br></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<strong>ShaderInvocationReorderNV</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5278</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Hit Object</em></p></td>
+</tr>
+</tbody>
+</table>
+</div></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+(Modify Section 3.36.6, Type-Declaration Instructions, adding a new table) 
+</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:55%;">
+<col style="width:11%;">
+<col style="width:33%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="2" ><p class="tableblock"><a id="OpTypeHitObjectNV"></a><strong>OpTypeHitObjectNV</strong><br>
+<br>
+Declares a hit object type which is an opaque object representing state during
+ray tracing traversal.</p>
+<p class="tableblock">This type is opaque: values of this type have no defined physical size or
+bit pattern.</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<strong>ShaderInvocationReorderNV</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5281</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result</em></p></td>
+</tr>
+</tbody>
+</table>
+</div></div>
+</dd>
+</dl></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_validation_rules">Validation Rules</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>An OpExtension must be added to the SPIR-V for validation layers to check
+legal use of this extension:</p></div>
+<div class="listingblock">
+<div class="content monospaced">
+<pre>OpExtension "SPV_NV_shader_invocation_reorder"</pre>
+</div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_interactions_with_spv_nv_ray_tracing_motion_blur">Interactions with SPV_NV_ray_tracing_motion_blur</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>If the <em>SPV_NV_ray_tracing_motion_blur</em> extension is not supported, the
+<strong>OpHitObjectTraceRayMotionNV</strong>, <strong>OpHitObjectRecordHitMotionNV</strong>,
+<strong>OpHitObjectRecordHitWithIndexMotionNV</strong>, and <strong>OpHitObjectRecordMissMotionNV</strong>
+instructions are not supported.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_issues">Issues</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>None</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_revision_history">Revision History</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-rows"
+style="
+width:100%;
+">
+<col style="width:4%;">
+<col style="width:14%;">
+<col style="width:14%;">
+<col style="width:66%;">
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top" >Rev</th>
+<th class="tableblock halign-left valign-top" >Date</th>
+<th class="tableblock halign-left valign-top" >Author</th>
+<th class="tableblock halign-left valign-top" >Changes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2022-09-01</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Ashwin Lele</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Internal revisions</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="footnotes"><hr></div>
+<div id="footer">
+<div id="footer-text">
+Last updated
+ 2022-11-03 15:22:36 EDT
+</div>
+</div>
+</body>
+</html>
