@@ -517,11 +517,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2022-08-18</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2022-10-13</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">I</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">J</p></td>
 </tr>
 </tbody>
 </table>
@@ -667,7 +667,8 @@ Specify minimum, maximum and expected iteration counts of the loop. There are th
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">0x2000000</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MaxReinvocationDelayINTEL</strong><br>
-Strong request, to the extent possible, to implement this loop with a maximum reinvocation delay specified as a subsequent positive literal operand to the instruction. Indicates a maximum limit on the number of cycles between the exiting iteration of a loop invocation to the first iteration of the next loop invocation.</p></td>
+Request to implement this loop with a maximum limit on the delay between launching the last iteration of a loop invocation and launching the first iteration of the next loop invocation. A subsequent positive 32-bit integer literal operand specifies the budget for the maximum reinvocation delay allowed. A value of 1 indicates that the first iteration of the next invocation should start immediately following the start of the last iteration of the previous loop invocation.
+</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGALoopControlsINTEL</strong></p></td>
 </tr>
 </tbody>
@@ -788,6 +789,12 @@ Strong request, to the extent possible, to implement this loop with a maximum re
 <td class="tableblock halign-left valign-top"><p class="tableblock">Bowen Xue</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Add MaxReinvocationDelayINTEL</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">J</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2022-10-13</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bowen Xue</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Update wording of MaxReinvocationDelayINTEL</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -795,7 +802,7 @@ Strong request, to the extent possible, to implement this loop with a maximum re
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-08-18 15:14:22 -0300
+Last updated 2022-10-13 15:14:22 -0300
 </div>
 </div>
 </body>

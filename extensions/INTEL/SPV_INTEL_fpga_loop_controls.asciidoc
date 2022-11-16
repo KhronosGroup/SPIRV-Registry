@@ -33,8 +33,8 @@ Final draft
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2022-08-18
-| Revision           | I
+| Last Modified Date | 2022-10-13
+| Revision           | J
 |========================================
 
 == Dependencies
@@ -98,7 +98,7 @@ Strong request, to the extent possible, that this loop not be fused with any adj
 | 0x1000000 | *LoopCountINTEL* +
 Specify minimum, maximum and expected iteration counts of the loop. There are three 64-bit integer literal operands. The first operand is the minimum iteration count, the second is the maximum iteration count, and the third is the expected iteration count. A negative literal operand value specifies that the respective loop iteration bound or expectation is not defined. The behavior is undefined if the minimum iteration operand is non-negative and the loop iterates fewer times than that minimum.  The behavior is also undefined if the maximum iteration operand is non-negative and the loop iterates more times than that maximum. | *FPGALoopControlsINTEL*
 | 0x2000000 | *MaxReinvocationDelayINTEL* +
-Strong request, to the extent possible, to implement this loop with a maximum reinvocation delay specified as a subsequent positive literal operand to the instruction. Indicates a maximum limit on the number of cycles between the exiting iteration of a loop invocation to the first iteration of the next loop invocation. | *FPGALoopControlsINTEL*
+Request to implement this loop with a maximum limit on the delay between launching the last iteration of a loop invocation and launching the first iteration of the next loop invocation. A subsequent positive 32-bit integer literal operand specifies the budget for the maximum reinvocation delay allowed. A value of 1 indicates that the first iteration of the next invocation should start immediately following the start of the last iteration of the previous loop invocation. | *FPGALoopControlsINTEL*
 |====
 
 === Capability
@@ -135,4 +135,5 @@ None.
 |G|2020-11-17|Joe Garvey|Made LoopCoalesceINTEL argument mandatory
 |H|2021-05-03|Mark Mendell|Add LoopCountINTEL
 |I|2022-08-18|Bowen Xue|Add MaxReinvocationDelayINTEL
+|J|2022-10-13|Bowen Xue|Update wording of MaxReinvocationDelayINTEL
 |========================================
