@@ -112,6 +112,7 @@ Khronos SPIR-V Registry](https://www.khronos.org/registry/spir-v/).
 1. [SPV_ARM_core_builtins                   ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/ARM/SPV_ARM_core_builtins.html)
 1. [SPV_EXT_opacity_micromap                ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/EXT/SPV_EXT_opacity_micromap.html)
 1. [SPV_NV_shader_invocation_reorder        ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/NV/SPV_NV_shader_invocation_reorder.html)
+1. [SPV_INTEL_fpga_latency_control        ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/INTEL/SPV_INTEL_fpga_latency_control.html)
 
 ## Non-Semantic Extended Instruction Set Specifications
 
