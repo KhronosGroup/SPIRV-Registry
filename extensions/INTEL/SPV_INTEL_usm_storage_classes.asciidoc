@@ -130,7 +130,7 @@ _Result Type_ must be an OpTypePointer.  _Result Type_'s Storage Class must be *
 
 _Pointer_ must point to the *CrossWorkgroup* Storage Class.
 
-_Pointer_ must have the same type as _Result Type_ aside from the Storage Class.  2+^| Capability: +
+_Pointer_ must have the same type as _Result Type_ aside from the Storage Class.  1+| Capability: +
 *USMStorageClassesINTEL*
 | 4 | 5938 | <id> +
 Result Type | Result <id> | <id> +
