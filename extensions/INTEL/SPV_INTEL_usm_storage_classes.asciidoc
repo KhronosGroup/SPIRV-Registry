@@ -120,8 +120,9 @@ Result Type | Result <id> | <id> +
 Pointer
 |===
 
+[cols="1,1,3*3",width="100%"]
 |===
-3+^| *OpCrossWorkgroupCastToPtrINTEL*
+4+| *OpCrossWorkgroupCastToPtrINTEL*
 
 Convert a pointer's Storage Class from *CrossWorkgroup* to a more specific class.
 
