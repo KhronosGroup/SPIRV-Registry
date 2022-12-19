@@ -103,8 +103,9 @@ Modify Section 3.31, Capability, adding a row to the Capability table:
 
 Modify Section 3.36.11, Conversion Instructions, adding two new instructions as follows:
 
+[cols="1,1,3*3",width="100%"]
 |===
-3+^| *OpPtrCastToCrossWorkgroupINTEL*
+4+| *OpPtrCastToCrossWorkgroupINTEL*
 
 Converts a pointer's Storage Class from a more specific class to *CrossWorkgroup*.
 
