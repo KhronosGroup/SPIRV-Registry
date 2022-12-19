@@ -113,7 +113,7 @@ _Result Type_ must be an OpTypePointer.  Its Storage Class must be *CrossWorkgro
 
 _Pointer_ must point to the *DeviceOnlyINTEL* or *HostOnlyINTEL* Storage Class.  
 
-_Pointer_ must have the same type as _Result Type_ aside from the Storage Class. 2+^| Capability: +
+_Pointer_ must have the same type as _Result Type_ aside from the Storage Class. 1+| Capability: +
 *USMStorageClassesINTEL*
 | 4 | 5934 | <id> +
 Result Type | Result <id> | <id> +
