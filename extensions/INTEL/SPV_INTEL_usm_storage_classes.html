@@ -8,6 +8,9 @@
 <title>SPV_INTEL_usm_storage_classes</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
+/*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
+/* Uncomment the following line when using as a custom stylesheet */
+/* @import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700"; */
 html{font-family:sans-serif;-webkit-text-size-adjust:100%}
 a{background:none}
 a:focus{outline:thin dotted}
@@ -672,12 +675,12 @@ A subset of the <strong>CrossWorkgroup</strong> storage class.  Memory that is r
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-top" colspan="3"><p class="tableblock"><strong>OpPtrCastToCrossWorkgroupINTEL</strong></p>
+<td class="tableblock halign-left valign-top" colspan="4"><p class="tableblock"><strong>OpPtrCastToCrossWorkgroupINTEL</strong></p>
 <p class="tableblock">Converts a pointer&#8217;s Storage Class from a more specific class to <strong>CrossWorkgroup</strong>.</p>
 <p class="tableblock"><em>Result Type</em> must be an OpTypePointer.  Its Storage Class must be <strong>CrossWorkgroup</strong>.</p>
 <p class="tableblock"><em>Pointer</em> must point to the <strong>DeviceOnlyINTEL</strong> or <strong>HostOnlyINTEL</strong> Storage Class.</p>
 <p class="tableblock"><em>Pointer</em> must have the same type as <em>Result Type</em> aside from the Storage Class.</p></td>
-<td class="tableblock halign-center valign-top" colspan="2"><p class="tableblock">Capability:<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
 <strong>USMStorageClassesINTEL</strong></p></td>
 </tr>
 <tr>
@@ -701,12 +704,12 @@ Pointer</p></td>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-top" colspan="3"><p class="tableblock"><strong>OpCrossWorkgroupCastToPtrINTEL</strong></p>
+<td class="tableblock halign-left valign-top" colspan="4"><p class="tableblock"><strong>OpCrossWorkgroupCastToPtrINTEL</strong></p>
 <p class="tableblock">Convert a pointer&#8217;s Storage Class from <strong>CrossWorkgroup</strong> to a more specific class.</p>
 <p class="tableblock"><em>Result Type</em> must be an OpTypePointer.  <em>Result Type</em>'s Storage Class must be <strong>DeviceOnlyINTEL</strong> or <strong>HostOnlyINTEL</strong>.</p>
 <p class="tableblock"><em>Pointer</em> must point to the <strong>CrossWorkgroup</strong> Storage Class.</p>
 <p class="tableblock"><em>Pointer</em> must have the same type as <em>Result Type</em> aside from the Storage Class.</p></td>
-<td class="tableblock halign-center valign-top" colspan="2"><p class="tableblock">Capability:<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
 <strong>USMStorageClassesINTEL</strong></p></td>
 </tr>
 <tr>
@@ -769,7 +772,7 @@ Pointer</p></td>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-12-14 09:19:58 -0800
+Last updated 2023-01-04 12:01:18 -0800
 </div>
 </div>
 </body>
