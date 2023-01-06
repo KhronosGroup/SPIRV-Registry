@@ -25,6 +25,8 @@ Contributors
 - Hans-Kristian Arntzen, Valve
 - David McAllister, Qualcomm
 - Dae Kim, Imagination
+- Alan Baker, Google
+- Aleksandra Krstic, Qualcomm
 
 Status
 ------
@@ -37,8 +39,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2022-05-27
-| Revision           | 13
+| Last Modified Date | 2023-01-13
+| Revision           | 14
 |========================================
 
 Dependencies
@@ -308,7 +310,7 @@ include::ray_common/opconvertutoaccelerationstructure_table.txt[]
  +
  'Ray Query' is a pointer to the ray query to terminate. +
  +
- The value returned by any prior execution of 'OpRayQueryProceedKHR' with the same ray query object must have been true.
+ Behavior is undefined if the value returned by any prior execution of *OpRayQueryProceedKHR* with the same ray query object was not true.
 1+|Capability: +
 *RayQueryKHR*
 | 2 | 4474
@@ -327,9 +329,10 @@ include::ray_common/opconvertutoaccelerationstructure_table.txt[]
  +
  'Hit T' must be a 32-bit 'floating-point type' scalar. +
  +
- 'OpRayQueryProceedKHR' must have been executed on the same ray query object, and the last value returned by 'OpRayQueryProceedKHR' must have been true.
+ Behavior is undefined if *OpRayQueryProceedKHR* was not executed on the same ray query object,
+ or if the last value returned by such an execution of *OpRayQueryProceedKHR* was not true.
  +
- Ray Query Candidate Intersection Type must be *RayQueryCandidateIntersectionAABBKHR*.
+ Behavior is undefined if the Ray Query Candidate Intersection Type is not *RayQueryCandidateIntersectionAABBKHR*.
 1+|Capability: +
 *RayQueryKHR*
 | 3 | 4475
@@ -345,7 +348,8 @@ include::ray_common/opconvertutoaccelerationstructure_table.txt[]
  +
  'Ray Query' is a pointer to the ray query to confirm the hit to. +
  +
- 'OpRayQueryProceedKHR' must have been executed on the same ray query object, and the last value returned by 'OpRayQueryProceedKHR' must have been true.
+ Behavior is undefined if *OpRayQueryProceedKHR* was not executed on the same ray query object,
+ or if the last value returned by such an execution of *OpRayQueryProceedKHR* was not true.
  +
  Ray Query Candidate Intersection Type must be *RayQueryCandidateIntersectionTriangleKHR*.
 1+|Capability: +
@@ -362,7 +366,7 @@ include::ray_common/opconvertutoaccelerationstructure_table.txt[]
  +
  'Ray Query' is a pointer to the ray query to continue traversal on. +
  +
- A previous call to 'OpRayQueryProceedKHR' with the same ray query object must not have already returned false.
+ Behavior is undefined if a previous call to 'OpRayQueryProceedKHR' with the same ray query object returned false.
  +
  'Result Type' must be a Boolean type. 
 1+|Capability: +
@@ -391,7 +395,8 @@ include::ray_common/opconvertutoaccelerationstructure_table.txt[]
  +
  'Ray Query' is a pointer to the ray query object. +
  +
- If 'Intersection' is *RayQueryCandidateIntersectionKHR*, 'OpRayQueryProceedKHR' must have been executed on the same ray query object, and the last value returned by 'OpRayQueryProceedKHR' must have been true.
+ If 'Intersection' is *RayQueryCandidateIntersectionKHR*, behavior is undefined if *OpRayQueryProceedKHR*
+ was not executed on the same ray query object, or if the last value returned by such an execution of *OpRayQueryProceedKHR* was not true.
 1+|Capability: +
 *RayQueryKHR*
 | 5 | 4479
@@ -455,8 +460,11 @@ include::ray_common/opconvertutoaccelerationstructure_table.txt[]
  +
  'Ray Query' is a pointer to the ray query object. +
  +
- If 'Intersection' is *RayQueryCandidateIntersectionKHR*, 'OpRayQueryProceedKHR' must have been executed on the same ray query object, the last value returned by 'OpRayQueryProceedKHR' must have been true, and the current intersection candidate must have a Ray Query Candidate Intersection Type of *RayQueryCandidateIntersectionTriangleKHR*.
- If 'Intersection' is *RayQueryCommittedIntersectionKHR*, there must be a current committed intersection (see 'OpRayQueryGetIntersectionTypeKHR').
+ If 'Intersection' is *RayQueryCandidateIntersectionKHR*, behavior is undefined if *OpRayQueryProceedKHR* was not executed on
+ the same ray query object, if the last value returned by such an execution of *OpRayQueryProceedKHR* was not true, or the
+ current intersection candidate does not have a Ray Query Candidate Intersection Type of *RayQueryCandidateIntersectionTriangleKHR*.
+ If 'Intersection' is *RayQueryCommittedIntersectionKHR*, behavior is undefined if there is no current committed intersection
+ (see *OpRayQueryGetIntersectionTypeKHR*).
 1+|Capability: +
 *RayQueryKHR*
 | 5 | 6018
@@ -482,8 +490,10 @@ include::ray_common/opconvertutoaccelerationstructure_table.txt[]
  +
  'Ray Query' is a pointer to the ray query object. +
  +
- If 'Intersection' is *RayQueryCandidateIntersectionKHR*, 'OpRayQueryProceedKHR' must have been executed on the same ray query object, and the last value returned by 'OpRayQueryProceedKHR' must have been true.
- If 'Intersection' is *RayQueryCommittedIntersectionKHR*, there must be a current committed intersection (see 'OpRayQueryGetIntersectionTypeKHR').
+ If 'Intersection' is *RayQueryCandidateIntersectionKHR*, behavior is undefined if *OpRayQueryProceedKHR*
+ was not executed on the same ray query object, or if the last value returned by such an execution of *OpRayQueryProceedKHR* was not true.
+ If 'Intersection' is *RayQueryCommittedIntersectionKHR*, behavior is undefined if there is no current committed
+ intersection (see *OpRayQueryGetIntersectionTypeKHR*).
 1+|Capability: +
 *RayQueryKHR*
 | 5 | 6019
@@ -510,8 +520,10 @@ include::ray_common/opconvertutoaccelerationstructure_table.txt[]
  +
  'Ray Query' is a pointer to the ray query object. +
  +
- If 'Intersection' is *RayQueryCandidateIntersectionKHR*, 'OpRayQueryProceedKHR' must have been executed on the same ray query object, and the last value returned by 'OpRayQueryProceedKHR' must have been true.
- If 'Intersection' is *RayQueryCommittedIntersectionKHR*, there must be a current committed intersection (see 'OpRayQueryGetIntersectionTypeKHR').
+ If 'Intersection' is *RayQueryCandidateIntersectionKHR*, behavior is undefined if *OpRayQueryProceedKHR*
+ was not executed on the same ray query object, or if the last value returned by such an execution of *OpRayQueryProceedKHR* was not true.
+ If 'Intersection' is *RayQueryCommittedIntersectionKHR*, behavior is undefined if there is no current committed
+ intersection (see *OpRayQueryGetIntersectionTypeKHR*).
 1+|Capability: +
 *RayQueryKHR*
 | 5 | 6020
@@ -538,8 +550,10 @@ include::ray_common/opconvertutoaccelerationstructure_table.txt[]
  +
  'Ray Query' is a pointer to the ray query object. +
  +
- If 'Intersection' is *RayQueryCandidateIntersectionKHR*, 'OpRayQueryProceedKHR' must have been executed on the same ray query object, and the last value returned by 'OpRayQueryProceedKHR' must have been true.
- If 'Intersection' is *RayQueryCommittedIntersectionKHR*, there must be a current committed intersection (see 'OpRayQueryGetIntersectionTypeKHR').
+ If 'Intersection' is *RayQueryCandidateIntersectionKHR*, behavior is undefined if *OpRayQueryProceedKHR*
+ was not executed on the same ray query object, or if the last value returned by such an execution of *OpRayQueryProceedKHR* was not true.
+ If 'Intersection' is *RayQueryCommittedIntersectionKHR*, behavior is undefined if there is no current committed
+ intersection (see *OpRayQueryGetIntersectionTypeKHR*).
 1+|Capability: +
 *RayQueryKHR*
 | 5 | 6021
@@ -566,8 +580,10 @@ include::ray_common/opconvertutoaccelerationstructure_table.txt[]
  +
  'Ray Query' is a pointer to the ray query object. +
  +
- If 'Intersection' is *RayQueryCandidateIntersectionKHR*, 'OpRayQueryProceedKHR' must have been executed on the same ray query object, and the last value returned by 'OpRayQueryProceedKHR' must have been true.
- If 'Intersection' is *RayQueryCommittedIntersectionKHR*, there must be a current committed intersection (see 'OpRayQueryGetIntersectionTypeKHR').
+ If 'Intersection' is *RayQueryCandidateIntersectionKHR*, behavior is undefined if *OpRayQueryProceedKHR*
+ was not executed on the same ray query object, or if the last value returned by such an execution of *OpRayQueryProceedKHR* was not true.
+ If 'Intersection' is *RayQueryCommittedIntersectionKHR*, behavior is undefined if there is no current committed
+ intersection (see *OpRayQueryGetIntersectionTypeKHR*).
 1+|Capability: +
 *RayQueryKHR*
 | 5 | 6022
@@ -593,8 +609,10 @@ include::ray_common/opconvertutoaccelerationstructure_table.txt[]
  +
  'Ray Query' is a pointer to the ray query object. +
  +
- If 'Intersection' is *RayQueryCandidateIntersectionKHR*, 'OpRayQueryProceedKHR' must have been executed on the same ray query object, and the last value returned by 'OpRayQueryProceedKHR' must have been true.
- If 'Intersection' is *RayQueryCommittedIntersectionKHR*, there must be a current committed intersection (see 'OpRayQueryGetIntersectionTypeKHR').
+ If 'Intersection' is *RayQueryCandidateIntersectionKHR*, behavior is undefined if *OpRayQueryProceedKHR*
+ was not executed on the same ray query object, or if the last value returned by such an execution of *OpRayQueryProceedKHR* was not true.
+ If 'Intersection' is *RayQueryCommittedIntersectionKHR*, behavior is undefined if there is no current committed
+ intersection (see *OpRayQueryGetIntersectionTypeKHR*).
 1+|Capability: +
 *RayQueryKHR*
 | 5 | 6023
@@ -621,8 +639,11 @@ include::ray_common/opconvertutoaccelerationstructure_table.txt[]
  +
  'Ray Query' is a pointer to the ray query object. +
  +
- If 'Intersection' is *RayQueryCandidateIntersectionKHR*, 'OpRayQueryProceedKHR' must have been executed on the same ray query object, the last value returned by 'OpRayQueryProceedKHR' must have been true, and the current intersection candidate must have a Ray Query Candidate Intersection Type of *RayQueryCandidateIntersectionTriangleKHR*.
- If 'Intersection' is *RayQueryCommittedIntersectionKHR*, there must be a current committed intersection (see 'OpRayQueryGetIntersectionTypeKHR'), and it must have a Ray Query Committed Intersection Type of *RayQueryCommittedIntersectionTriangleKHR*.
+ If 'Intersection' is *RayQueryCandidateIntersectionKHR*, behavior is undefined if *OpRayQueryProceedKHR* was not executed on
+ the same ray query object, if the last value returned by such an execution of *OpRayQueryProceedKHR* was not true, or the
+ current intersection candidate does not have a Ray Query Candidate Intersection Type of *RayQueryCandidateIntersectionTriangleKHR*.
+ If 'Intersection' is *RayQueryCommittedIntersectionKHR*, behavior is undefined if there is no current committed intersection
+ (see *OpRayQueryGetIntersectionTypeKHR*), or if the Ray Query Committed Intersection Type is not *RayQueryCommittedIntersectionTriangleKHR*.
 1+|Capability: +
 *RayQueryKHR*
 | 5 | 6024
@@ -649,8 +670,11 @@ include::ray_common/opconvertutoaccelerationstructure_table.txt[]
  +
  'Ray Query' is a pointer to the ray query object. +
  +
- If 'Intersection' is *RayQueryCandidateIntersectionKHR*, 'OpRayQueryProceedKHR' must have been executed on the same ray query object, the last value returned by 'OpRayQueryProceedKHR' must have been true, and the current intersection candidate must have a Ray Query Candidate Intersection Type of *RayQueryCandidateIntersectionTriangleKHR*.
- If 'Intersection' is *RayQueryCommittedIntersectionKHR*, there must be a current committed intersection (see 'OpRayQueryGetIntersectionTypeKHR'), and it must have a Ray Query Committed Intersection Type of *RayQueryCommittedIntersectionTriangleKHR*.
+ If 'Intersection' is *RayQueryCandidateIntersectionKHR*, behavior is undefined if *OpRayQueryProceedKHR* was not executed on
+ the same ray query object, if the last value returned by such an execution of *OpRayQueryProceedKHR* was not true, or the
+ current intersection candidate does not have a Ray Query Candidate Intersection Type of *RayQueryCandidateIntersectionTriangleKHR*.
+ If 'Intersection' is *RayQueryCommittedIntersectionKHR*, behavior is undefined if there is no current committed intersection
+ (see *OpRayQueryGetIntersectionTypeKHR*), or if the Ray Query Committed Intersection Type is not *RayQueryCommittedIntersectionTriangleKHR*.
 1+|Capability: +
 *RayQueryKHR*
 | 5 | 6025
@@ -697,8 +721,10 @@ include::ray_common/opconvertutoaccelerationstructure_table.txt[]
  +
  'Ray Query' is a pointer to the ray query object. +
  +
- If 'Intersection' is *RayQueryCandidateIntersectionKHR*, 'OpRayQueryProceedKHR' must have been executed on the same ray query object, and the last value returned by 'OpRayQueryProceedKHR' must have been true.
- If 'Intersection' is *RayQueryCommittedIntersectionKHR*, there must be a current committed intersection (see 'OpRayQueryGetIntersectionTypeKHR').
+ If 'Intersection' is *RayQueryCandidateIntersectionKHR*, behavior is undefined if *OpRayQueryProceedKHR*
+ was not executed on the same ray query object, or if the last value returned by such an execution of *OpRayQueryProceedKHR* was not true.
+ If 'Intersection' is *RayQueryCommittedIntersectionKHR*, behavior is undefined if there is no current committed
+ intersection (see *OpRayQueryGetIntersectionTypeKHR*).
 1+|Capability: +
 *RayQueryKHR*
 | 5 | 6027
@@ -725,8 +751,10 @@ include::ray_common/opconvertutoaccelerationstructure_table.txt[]
  +
  'Ray Query' is a pointer to the ray query object. +
  +
- If 'Intersection' is *RayQueryCandidateIntersectionKHR*, 'OpRayQueryProceedKHR' must have been executed on the same ray query object, and the last value returned by 'OpRayQueryProceedKHR' must have been true.
- If 'Intersection' is *RayQueryCommittedIntersectionKHR*, there must be a current committed intersection (see 'OpRayQueryGetIntersectionTypeKHR').
+ If 'Intersection' is *RayQueryCandidateIntersectionKHR*, behavior is undefined if *OpRayQueryProceedKHR*
+ was not executed on the same ray query object, or if the last value returned by such an execution of *OpRayQueryProceedKHR* was not true.
+ If 'Intersection' is *RayQueryCommittedIntersectionKHR*, behavior is undefined if there is no current committed
+ intersection (see *OpRayQueryGetIntersectionTypeKHR*).
 1+|Capability: +
 *RayQueryKHR*
 | 5 | 6028
@@ -791,8 +819,10 @@ include::ray_common/opconvertutoaccelerationstructure_table.txt[]
  +
  'Ray Query' is a pointer to the ray query object. +
  +
- If 'Intersection' is *RayQueryCandidateIntersectionKHR*, 'OpRayQueryProceedKHR' must have been executed on the same ray query object, and the last value returned by 'OpRayQueryProceedKHR' must have been true.
- If 'Intersection' is *RayQueryCommittedIntersectionKHR*, there must be a current committed intersection (see 'OpRayQueryGetIntersectionTypeKHR').
+ If 'Intersection' is *RayQueryCandidateIntersectionKHR*, behavior is undefined if *OpRayQueryProceedKHR*
+ was not executed on the same ray query object, or if the last value returned by such an execution of *OpRayQueryProceedKHR* was not true.
+ If 'Intersection' is *RayQueryCommittedIntersectionKHR*, behavior is undefined if there is no current committed
+ intersection (see *OpRayQueryGetIntersectionTypeKHR*).
 1+|Capability: +
 *RayQueryKHR*
 | 5 | 6031
@@ -818,8 +848,10 @@ include::ray_common/opconvertutoaccelerationstructure_table.txt[]
  +
  'Ray Query' is a pointer to the ray query object. +
  +
- If 'Intersection' is *RayQueryCandidateIntersectionKHR*, 'OpRayQueryProceedKHR' must have been executed on the same ray query object, and the last value returned by 'OpRayQueryProceedKHR' must have been true.
- If 'Intersection' is *RayQueryCommittedIntersectionKHR*, there must be a current committed intersection (see 'OpRayQueryGetIntersectionTypeKHR').
+ If 'Intersection' is *RayQueryCandidateIntersectionKHR*, behavior is undefined if *OpRayQueryProceedKHR*
+ was not executed on the same ray query object, or if the last value returned by such an execution of *OpRayQueryProceedKHR* was not true.
+ If 'Intersection' is *RayQueryCommittedIntersectionKHR*, behavior is undefined if there is no current committed
+ intersection (see *OpRayQueryGetIntersectionTypeKHR*).
 1+|Capability: +
 *RayQueryKHR*
 | 5 | 6032
@@ -893,5 +925,6 @@ Revision History
                                         OpRayQueryGetIntersectionBarycentricsKHR (!203)
 |12|2021-09-08 |Daniel Koch           | replace references to nonexistent OpRayQueryCommittedTypeKHR (GH#128)
 |13|2022-05-27 |Daniel Koch           | disallow more combinations of ray flags (vk-gl-cts#3647)
+|14|2023-01-13 |Daniel Koch           | Follow SPIR-V conventions for undefined behavior.
 |========================================
 
