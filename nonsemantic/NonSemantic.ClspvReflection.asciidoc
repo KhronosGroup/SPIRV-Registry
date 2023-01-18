@@ -34,7 +34,7 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2022-12-22
+| Last Modified Date | 2023-01-12
 | Revision           | 5
 |========================================
 
@@ -608,6 +608,7 @@ constant in bytes.
 [cols="4"]
 |=====
 4+| [[ConstantDataStorageBuffer]]*ConstantDataStorageBuffer* +
+ +
 Declares a storage buffer to hold constant data specified by 'Data'. All kernels from this module
 should include a descriptor with the type *VK_DESCRIPTOR_TYPE_STORAGE_BUFFER* that is backed by
 a buffer initialized with 'Data'. +
@@ -628,6 +629,7 @@ a buffer initialized with 'Data'. +
 [cols="4"]
 |=====
 4+| [[ConstantDataUniform]]*ConstantDataUniform* +
+ +
 Declares a uniform buffer to hold constant data specified by 'Data'. All kernels from this module
 should include a descriptor with the type *VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER* that is backed by
 a buffer initialized with 'Data'. +
@@ -648,6 +650,7 @@ a buffer initialized with 'Data'. +
 [cols="4"]
 |=====
 4+| [[LiteralSampler]]*LiteralSampler* +
+ +
 Declares a literal sampler used by the module. All kernels from this module should include a
 descriptor with the type *VK_DESCRIPTOR_TYPE_SAMPLER* that has the properties encoded by 'Mask'
 (see https://github.com/google/clspv/blob/master/include/clspv/Sampler.h[Sampler.h]). +
@@ -967,6 +970,8 @@ zero-based counting. +
 |=====
 6+|[[ArgumentStorageTexelBuffer]]*ArgumentStorageTexelBuffer* +
  +
+Missing before *version 4*. +
+ +
 Declares a storage texel buffer (*OpTypeImage* with 'Dim' operand of *Buffer*)
 argument for 'Kernel'. The Vulkan descriptor type should use
 *VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER*. +
@@ -997,6 +1002,8 @@ Optional +
 [cols="6"]
 |=====
 6+|[[ArgumentUniformTexelBuffer]]*ArgumentUniformTexelBuffer* +
+ +
+Missing before *version 4*. +
  +
 Declares a uniform texel buffer (*OpTypeImage* with 'Dim' operand of *Buffer*)
 argument for 'Kernel'. The Vulkan descriptor type should use
@@ -1052,7 +1059,7 @@ push constant in bytes. +
 
 [cols="4"]
 |=====
-4+|[[ProgramScopeVariablesPointerPushConstant]]*ProgramScopeVariablesPointerPushConstant* +
+4+|[[ProgramScopeVariablePointerPushConstant]]*ProgramScopeVariablePointerPushConstant* +
  +
   Missing before *version 5*. +
  +
