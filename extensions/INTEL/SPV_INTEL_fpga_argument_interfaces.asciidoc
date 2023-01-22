@@ -145,7 +145,7 @@ A setting of 1 means build a waitrequest signal and a setting of 0 means don't.
 _Waitrequest_ | *FPGAArgumentInterfacesINTEL*
 // --- ROW BREAK ---
 | 6183 | *StableKernelArgumentINTEL* +
-Must be applied only to an *OpFunctionParameter* of a function that is an *entry point*. Indicates that this input will not change during the execution of piplined kernel invocations. Input can change once all active invocations have finished.
+Must be applied only to an *OpFunctionParameter* of a function that is an *entry point*. Indicates that this input will not change during the execution of pipelined kernel invocations. Input can change once all active invocations have finished.
 2+| | *FPGAArgumentInterfacesINTEL*
 |====
 --
@@ -164,8 +164,6 @@ Modify Section 3.31, Capability, adding a row to the Capability table:
 --
 
 === Validation Rules
-
-It is invalid to specify multiple copies of the same decoration on the same *OpFunctionParameter*. For example, you can't specify two *MMHostInterfaceAddressWidthINTEL* decorations on the same *OpFunctionParameter* with conflicting values.
 
 It is invalid to specify both *ConduitKernelArgumentINTEL* and *RegisterMapKernelArgumentINTEL* decorations on the same *OpFunctionParameter*.
 
