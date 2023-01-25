@@ -138,10 +138,6 @@ Modify Section 3.31, Capability, adding a row to the Capability table:
 |====
 --
 
-=== Validation Rules
-
-* *Note* that it is invalid for two labeled instructions to be decorated with *LatencyControlLabelINTEL* using the same _Latency Label_.
-
 == Issues
 
 None.
