@@ -62,7 +62,7 @@
       <h2 id="_version">Version</h2>
       <div class="sectionbody">
         <div class="paragraph">
-          <p>Built On: 2022-12-15<br> Revision: 1</p>
+          <p>Built On: 2023-01-25<br> Revision: 1</p>
         </div>
       </div>
     </div>
@@ -392,7 +392,7 @@
                       <p class="tableblock"><strong>StableKernelArgumentINTEL</strong><br> Must be applied
                         only to an <strong>OpFunctionParameter</strong> of a function
                         that is an <strong>entry point</strong>. Indicates that this
-                        input will not change during the execution of piplined kernel
+                        input will not change during the execution of pipelined kernel
                         invocations. Input can change once all active invocations
                         have finished.</p>
                     </td>
@@ -442,12 +442,6 @@
         </div>
         <div class="sect2">
           <h3 id="_validation_rules">Validation Rules</h3>
-          <div class="paragraph">
-            <p>It is invalid to specify multiple copies of the same decoration on the
-              same <strong>OpFunctionParameter</strong>. For example, you can&#8217;t
-              specify two <strong>MMHostInterfaceAddressWidthINTEL</strong> decorations
-              on the same <strong>OpFunctionParameter</strong> with conflicting values.</p>
-          </div>
           <div class="paragraph">
             <p>It is invalid to specify both <strong>ConduitKernelArgumentINTEL</strong>              and <strong>RegisterMapKernelArgumentINTEL</strong> decorations on
               the same <strong>OpFunctionParameter</strong>.</p>
