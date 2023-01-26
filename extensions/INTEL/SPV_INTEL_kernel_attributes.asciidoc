@@ -60,7 +60,7 @@ This extension introduces new capabilities:
 ----
 KernelAttributesINTEL
 FPGAKernelAttributesINTEL
-FPGAKernelAttributesINTELv2
+FPGAKernelAttributesv2INTEL
 ----
 
 == New Execution Modes
@@ -88,7 +88,7 @@ RegisterMapInterfaceINTEL
 |NoGlobalOffsetINTEL          |5895
 |NumSIMDWorkitemsINTEL        |5896
 |FPGAKernelAttributesINTEL    |5897
-|FPGAKernelAttributesINTELv2  |6161
+|FPGAKernelAttributesv2INTEL  |6161
 |SchedulerTargetFmaxMhzINTEL  |5903
 |StreamingInterfaceINTEL      |6154
 |RegisterMapInterfaceINTEL    |6160
@@ -158,7 +158,7 @@ _AcceptDownstreamStall_ is a boolean type scalar.
 If _AcceptDownstreamStall_ is `true`, it indicates that the kernel interface will contain a stall register that can be used to back-pressure the kernel, while if it is `false`, it indicates that it will not.
 3+^| Literal +
 _AcceptDownstreamStall_
-| *FPGAKernelAttributesINTELv2*
+| *FPGAKernelAttributesv2INTEL*
 
 |====
 --
@@ -172,7 +172,7 @@ Modify Section 3.31, Capability, adding the following rows to the Capability tab
 2+^| Capability ^| Implicitly Declares
 | 5892 | KernelAttributesINTEL |
 | 5897 | FPGAKernelAttributesINTEL |
-| 6161 | FPGAKernelAttributesINTELv2 | FPGAKernelAttributesINTEL
+| 6161 | FPGAKernelAttributesv2INTEL | FPGAKernelAttributesINTEL
 |====
 --
 
