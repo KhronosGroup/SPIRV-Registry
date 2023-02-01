@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="generator" content="Asciidoctor 1.5.4">
+  <title>SPV_INTEL_fpga_argument_interfaces</title>
+  <link rel="stylesheet" href="https://asciidoclive.com/assets/asciidoctor.js/css/asciidoctor.css">
+</head>
+
+<body class="book">
+  <div id="header">
+    <h1>SPV_INTEL_fpga_argument_interfaces</h1>
+  </div>
+  <div id="content">
+    <div class="sect1">
+      <h2 id="_name_strings">Name Strings</h2>
+      <div class="sectionbody">
+        <div class="paragraph">
+          <p>SPV_INTEL_fpga_argument_interfaces</p>
+        </div>
+      </div>
+    </div>
+    <div class="sect1">
+      <h2 id="_contact">Contact</h2>
+      <div class="sectionbody">
+        <div class="paragraph">
+          <p>To report problems with this extension, please open a new issue at:</p>
+        </div>
+        <div class="paragraph">
+          <p><a href="https://github.com/KhronosGroup/SPIRV-Headers" class="bare">https://github.com/KhronosGroup/SPIRV-Headers</a></p>
+        </div>
+      </div>
+    </div>
+    <div class="sect1">
+      <h2 id="_contributors">Contributors</h2>
+      <div class="sectionbody">
+        <div class="paragraph">
+          <p>Abhishek Tiwari, Intel<br> Joe Garvey, Intel</p>
+        </div>
+      </div>
+    </div>
+    <div class="sect1">
+      <h2 id="_notice">Notice</h2>
+      <div class="sectionbody">
+        <div class="paragraph">
+          <p>Copyright (c) 2022 Intel Corporation. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+    <div class="sect1">
+      <h2 id="_status">Status</h2>
+      <div class="sectionbody">
+        <div class="paragraph">
+          <p>Final draft</p>
+        </div>
+      </div>
+    </div>
+    <div class="sect1">
+      <h2 id="_version">Version</h2>
+      <div class="sectionbody">
+        <div class="paragraph">
+          <p>Built On: 2023-01-25<br> Revision: 1</p>
+        </div>
+      </div>
+    </div>
+    <div class="sect1">
+      <h2 id="_dependencies">Dependencies</h2>
+      <div class="sectionbody">
+        <div class="paragraph">
+          <p>This extension is written against the SPIR-V Specification, Version 1.6
+            Revision 2.</p>
+        </div>
+        <div class="paragraph">
+          <p>This extension requires SPIR-V 1.0.</p>
+        </div>
+      </div>
+    </div>
+    <div class="sect1">
+      <h2 id="_overview">Overview</h2>
+      <div class="sectionbody">
+        <div class="paragraph">
+          <p>This extension adds kernel argument decorations that influence the interfaces
+            built for for Field Programmable Gate Array (FPGA) kernel arguments.</p>
+        </div>
+      </div>
+    </div>
+    <div class="sect1">
+      <h2 id="_extension_name">Extension Name</h2>
+      <div class="sectionbody">
+        <div class="paragraph">
+          <p>To use this extension within a SPIR-V module, the following <strong>OpExtension</strong>            must be present in the module:</p>
+        </div>
+        <div class="listingblock">
+          <div class="content">
+            <pre>OpExtension "SPV_INTEL_fpga_argument_interfaces"</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sect1">
+      <h2 id="_new_capabilities">New Capabilities</h2>
+      <div class="sectionbody">
+        <div class="paragraph">
+          <p>This extension introduces the following new capability:</p>
+        </div>
+        <div class="listingblock">
+          <div class="content">
+            <pre>FPGAArgumentInterfacesINTEL</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sect1">
+      <h2 id="_token_number_assignments">Token Number Assignments</h2>
+      <div class="sectionbody">
+        <div class="openblock">
+          <div class="content">
+            <table class="tableblock frame-all grid-rows" style="width: 40%;">
+              <colgroup>
+                <col style="width: 70%;">
+                <col style="width: 30%;">
+              </colgroup>
+              <tbody>
+                <tr>
+                  <td class="tableblock halign-left valign-top">
+                    <p class="tableblock">FPGAArgumentInterfacesINTEL</p>
+                  </td>
+                  <td class="tableblock halign-left valign-top">
+                    <p class="tableblock">6174</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="tableblock halign-left valign-top">
+                    <p class="tableblock">ConduitKernelArgumentINTEL</p>
+                  </td>
+                  <td class="tableblock halign-left valign-top">
+                    <p class="tableblock">6175</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="tableblock halign-left valign-top">
+                    <p class="tableblock">RegisterMapKernelArgumentINTEL</p>
+                  </td>
+                  <td class="tableblock halign-left valign-top">
+                    <p class="tableblock">6176</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="tableblock halign-left valign-top">
+                    <p class="tableblock">MMHostInterfaceAddressWidthINTEL</p>
+                  </td>
+                  <td class="tableblock halign-left valign-top">
+                    <p class="tableblock">6177</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="tableblock halign-left valign-top">
+                    <p class="tableblock">MMHostInterfaceDataWidthINTEL</p>
+                  </td>
+                  <td class="tableblock halign-left valign-top">
+                    <p class="tableblock">6178</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="tableblock halign-left valign-top">
+                    <p class="tableblock">MMHostInterfaceLatencyINTEL</p>
+                  </td>
+                  <td class="tableblock halign-left valign-top">
+                    <p class="tableblock">6179</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="tableblock halign-left valign-top">
+                    <p class="tableblock">MMHostInterfaceReadWriteModeINTEL</p>
+                  </td>
+                  <td class="tableblock halign-left valign-top">
+                    <p class="tableblock">6180</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="tableblock halign-left valign-top">
+                    <p class="tableblock">MMHostInterfaceMaxBurstINTEL</p>
+                  </td>
+                  <td class="tableblock halign-left valign-top">
+                    <p class="tableblock">6181</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="tableblock halign-left valign-top">
+                    <p class="tableblock">MMHostInterfaceWaitRequestINTEL</p>
+                  </td>
+                  <td class="tableblock halign-left valign-top">
+                    <p class="tableblock">6182</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="tableblock halign-left valign-top">
+                    <p class="tableblock">StableKernelArgumentINTEL</p>
+                  </td>
+                  <td class="tableblock halign-left valign-top">
+                    <p class="tableblock">6183</p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sect1">
+      <h2 id="_modifications_to_the_spir_v_specification_version_1_6">Modifications to the SPIR-V Specification, Version 1.6</h2>
+      <div class="sectionbody">
+        <div class="sect2">
+          <h3 id="_decoration">Decoration</h3>
+          <div class="paragraph">
+            <p>Modify Section 3.20, Decoration, adding these rows to the Decoration
+              table:</p>
+          </div>
+          <div class="openblock">
+            <div class="content">
+              <table class="tableblock frame-all grid-all spread">
+                <colgroup>
+                  <col style="width: 20%;">
+                  <col style="width: 20%;">
+                  <col style="width: 20%;">
+                  <col style="width: 20%;">
+                  <col style="width: 20%;">
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th class="tableblock halign-center valign-top" colspan="2">Decoration</th>
+                    <th class="tableblock halign-center valign-top" colspan="2">Extra Operands</th>
+                    <th class="tableblock halign-center valign-top">Enabling Capabilities</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="tableblock halign-left valign-top">
+                      <p class="tableblock">6175</p>
+                    </td>
+                    <td class="tableblock halign-left valign-top">
+                      <p class="tableblock"><strong>ConduitKernelArgumentINTEL</strong><br> Must be applied
+                        only to an <strong>OpFunctionParameter</strong> of a function
+                        that is an <strong>entry point</strong>. Indicates that dedicated
+                        input wires should be created for this argument.</p>
+                    </td>
+                    <td class="tableblock halign-left valign-top" colspan="2"></td>
+                    <td class="tableblock halign-left valign-top">
+                      <p class="tableblock"><strong>FPGAArgumentInterfacesINTEL</strong></p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="tableblock halign-left valign-top">
+                      <p class="tableblock">6176</p>
+                    </td>
+                    <td class="tableblock halign-left valign-top">
+                      <p class="tableblock"><strong>RegisterMapKernelArgumentINTEL</strong><br> Must be
+                        applied only to an <strong>OpFunctionParameter</strong> of
+                        a function that is an <strong>entry point</strong>. Indicates
+                        that this argument is stored in registers in the kernel that
+                        are accessed through a common interface shared between this
+                        argument, other RegisterMapKernelArgumentINTEL arguments,
+                        and possibly kernel control signals.</p>
+                    </td>
+                    <td class="tableblock halign-left valign-top" colspan="2"></td>
+                    <td class="tableblock halign-left valign-top">
+                      <p class="tableblock"><strong>FPGAArgumentInterfacesINTEL</strong></p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="tableblock halign-left valign-top">
+                      <p class="tableblock">6177</p>
+                    </td>
+                    <td class="tableblock halign-left valign-top">
+                      <p class="tableblock"><strong>MMHostInterfaceAddressWidthINTEL</strong><br> Must
+                        be applied only to a pointer <strong>OpFunctionParameter</strong>                        of a function that is an <strong>entry point</strong>. Indicates
+                        the size, in bits, of the address bus for the Memory Mapped
+                        Interface created for this pointer argument.</p>
+                    </td>
+                    <td class="tableblock halign-left valign-top" colspan="2">
+                      <p class="tableblock">Literal Number (32-bit signed integer)<br>
+                        <em>AddressWidth</em></p>
+                    </td>
+                    <td class="tableblock halign-left valign-top">
+                      <p class="tableblock"><strong>FPGAArgumentInterfacesINTEL</strong></p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="tableblock halign-left valign-top">
+                      <p class="tableblock">6178</p>
+                    </td>
+                    <td class="tableblock halign-left valign-top">
+                      <p class="tableblock"><strong>MMHostInterfaceDataWidthINTEL</strong><br> Must be
+                        applied only to a pointer <strong>OpFunctionParameter</strong>                        of a function that is an <strong>entry point</strong>. Indicates
+                        the size, in bits, of the data bus for the Memory Mapped
+                        Interface created for this pointer argument.</p>
+                    </td>
+                    <td class="tableblock halign-left valign-top" colspan="2">
+                      <p class="tableblock">Literal Number (32-bit signed integer)<br>
+                        <em>DataWidth</em></p>
+                    </td>
+                    <td class="tableblock halign-left valign-top">
+                      <p class="tableblock"><strong>FPGAArgumentInterfacesINTEL</strong></p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="tableblock halign-left valign-top">
+                      <p class="tableblock">6179</p>
+                    </td>
+                    <td class="tableblock halign-left valign-top">
+                      <p class="tableblock"><strong>MMHostInterfaceLatencyINTEL</strong><br> Must be applied
+                        only to a pointer <strong>OpFunctionParameter</strong> of
+                        a function that is an <strong>entry point</strong>. Indicates
+                        the latency in cycles of the Memory Mapped Interface created
+                        for this pointer argument. If this decoration is present
+                        it guarantees that the latency is fixed.</p>
+                    </td>
+                    <td class="tableblock halign-left valign-top" colspan="2">
+                      <p class="tableblock">Literal Number (32-bit signed integer)<br>
+                        <em>Latency</em></p>
+                    </td>
+                    <td class="tableblock halign-left valign-top">
+                      <p class="tableblock"><strong>FPGAArgumentInterfacesINTEL</strong></p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="tableblock halign-left valign-top">
+                      <p class="tableblock">6180</p>
+                    </td>
+                    <td class="tableblock halign-left valign-top">
+                      <p class="tableblock"><strong>MMHostInterfaceReadWriteModeINTEL</strong><br> Must
+                        be applied only to a pointer <strong>OpFunctionParameter</strong>                        of a function that is an <strong>entry point</strong>. Indicates
+                        the read-write mode of the Memory Mapped Interface created
+                        for this pointer argument.</p>
+                    </td>
+                    <td class="tableblock halign-left valign-top" colspan="2">
+                      <p class="tableblock"><strong>Access Qualifier</strong><br>
+                        <em>ReadWriteMode</em></p>
+                    </td>
+                    <td class="tableblock halign-left valign-top">
+                      <p class="tableblock"><strong>FPGAArgumentInterfacesINTEL</strong></p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="tableblock halign-left valign-top">
+                      <p class="tableblock">6181</p>
+                    </td>
+                    <td class="tableblock halign-left valign-top">
+                      <p class="tableblock"><strong>MMHostInterfaceMaxBurstINTEL</strong><br> Must be applied
+                        only to a pointer <strong>OpFunctionParameter</strong> of
+                        a function that is an <strong>entry point</strong>. Indicates
+                        the maximum burst count of the Memory Mapped Interface created
+                        for this pointer argument.</p>
+                    </td>
+                    <td class="tableblock halign-left valign-top" colspan="2">
+                      <p class="tableblock">Literal Number (32-bit signed integer)<br>
+                        <em>MaxBurstCount</em></p>
+                    </td>
+                    <td class="tableblock halign-left valign-top">
+                      <p class="tableblock"><strong>FPGAArgumentInterfacesINTEL</strong></p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="tableblock halign-left valign-top">
+                      <p class="tableblock">6182</p>
+                    </td>
+                    <td class="tableblock halign-left valign-top">
+                      <p class="tableblock"><strong>MMHostInterfaceWaitRequestINTEL</strong><br> Must be
+                        applied only to a pointer <strong>OpFunctionParameter</strong>                        of a function that is an <strong>entry point</strong>. Indicates
+                        whether the Memory Mapped Interface created for this pointer
+                        argument should accept a waitrequest signal.
+                      </p>
+                      <p class="tableblock">A setting of 1 means build a waitrequest signal and a setting
+                        of 0 means don&#8217;t.</p>
+                    </td>
+                    <td class="tableblock halign-left valign-top" colspan="2">
+                      <p class="tableblock">Literal Number (32-bit signed integer)<br>
+                        <em>Waitrequest</em></p>
+                    </td>
+                    <td class="tableblock halign-left valign-top">
+                      <p class="tableblock"><strong>FPGAArgumentInterfacesINTEL</strong></p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="tableblock halign-left valign-top">
+                      <p class="tableblock">6183</p>
+                    </td>
+                    <td class="tableblock halign-left valign-top">
+                      <p class="tableblock"><strong>StableKernelArgumentINTEL</strong><br> Must be applied
+                        only to an <strong>OpFunctionParameter</strong> of a function
+                        that is an <strong>entry point</strong>. Indicates that this
+                        input will not change during the execution of pipelined kernel
+                        invocations. Input can change once all active invocations
+                        have finished.</p>
+                    </td>
+                    <td class="tableblock halign-left valign-top" colspan="2"></td>
+                    <td class="tableblock halign-left valign-top">
+                      <p class="tableblock"><strong>FPGAArgumentInterfacesINTEL</strong></p>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="sect2">
+          <h3 id="_capability">Capability</h3>
+          <div class="paragraph">
+            <p>Modify Section 3.31, Capability, adding a row to the Capability table:</p>
+          </div>
+          <div class="openblock">
+            <div class="content">
+              <table class="tableblock frame-all grid-all spread">
+                <colgroup>
+                  <col style="width: 33.3333%;">
+                  <col style="width: 33.3333%;">
+                  <col style="width: 33.3334%;">
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th class="tableblock halign-center valign-top" colspan="2">Capability</th>
+                    <th class="tableblock halign-center valign-top">Implicitly Declares</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="tableblock halign-left valign-top">
+                      <p class="tableblock">6174</p>
+                    </td>
+                    <td class="tableblock halign-left valign-top">
+                      <p class="tableblock">FPGAArgumentInterfacesINTEL</p>
+                    </td>
+                    <td class="tableblock halign-left valign-top"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="sect2">
+          <h3 id="_validation_rules">Validation Rules</h3>
+          <div class="paragraph">
+            <p>It is invalid to specify both <strong>ConduitKernelArgumentINTEL</strong>              and <strong>RegisterMapKernelArgumentINTEL</strong> decorations on
+              the same <strong>OpFunctionParameter</strong>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sect1">
+      <h2 id="_issues">Issues</h2>
+      <div class="sectionbody">
+        <div class="paragraph">
+          <p>None.</p>
+        </div>
+      </div>
+    </div>
+    <div class="sect1">
+      <h2 id="_revision_history">Revision History</h2>
+      <div class="sectionbody">
+        <table class="tableblock frame-all grid-rows spread">
+          <colgroup>
+            <col style="width: 4.7619%;">
+            <col style="width: 14.2857%;">
+            <col style="width: 14.2857%;">
+            <col style="width: 66.6667%;">
+          </colgroup>
+          <thead>
+            <tr>
+              <th class="tableblock halign-left valign-top">Rev</th>
+              <th class="tableblock halign-left valign-top">Date</th>
+              <th class="tableblock halign-left valign-top">Author</th>
+              <th class="tableblock halign-left valign-top">Changes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="tableblock halign-left valign-top">
+                <p class="tableblock">1</p>
+              </td>
+              <td class="tableblock halign-left valign-top">
+                <p class="tableblock">2022-12-04</p>
+              </td>
+              <td class="tableblock halign-left valign-top">
+                <p class="tableblock">Abhishek Tiwari, Brox Chen</p>
+              </td>
+              <td class="tableblock halign-left valign-top">
+                <p class="tableblock"><strong>Initial public release</strong></p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
