@@ -13,7 +13,8 @@ https://github.com/KhronosGroup/SPIRV-Headers
 
 == Contributors
 
-- Joe Garvey, Intel +
+* Joe Garvey, Intel
+* Daniel Zhang, Intel
 
 == Notice
 
@@ -40,7 +41,7 @@ This extension requires SPIR-V 1.0.
 
 == Overview
 
-This extension adds a decoration for a function parameter or a pointer argument of memory access instructions that is useful for FPGA targets.  This decoration indicates that a particular global memory pointer can only access a particular physical memory location.  Knowing this information at compile time can allow FPGA compilers to generate load store units of lower area for accesses done through such a pointer.  
+This extension adds a pointer decoration that is useful for FPGA targets.  This decoration indicates that a particular global memory pointer can only access a particular physical memory location.  Knowing this information at compile time can allow FPGA compilers to generate load store units of lower area for accesses done through such a pointer.  
 
 == Extension Name
 To use this extension within a SPIR-V module, the following *OpExtension* must be present in the module:
