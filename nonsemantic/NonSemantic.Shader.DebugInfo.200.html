@@ -1,0 +1,2822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="AsciiDoc 9.1.0">
+<title>SPIR-V NonSemantic Shader DebugInfo Instructions</title>
+<style type="text/css">
+/* Shared CSS for AsciiDoc xhtml11 and html5 backends */
+
+/* Default font. */
+body {
+  font-family: Georgia,serif;
+}
+
+/* Title font. */
+h1, h2, h3, h4, h5, h6,
+div.title, caption.title,
+thead, p.table.header,
+#toctitle,
+#author, #revnumber, #revdate, #revremark,
+#footer {
+  font-family: Arial,Helvetica,sans-serif;
+}
+
+body {
+  margin: 1em 5% 1em 5%;
+}
+
+a {
+  color: blue;
+  text-decoration: underline;
+}
+a:visited {
+  color: fuchsia;
+}
+
+em {
+  font-style: italic;
+  color: navy;
+}
+
+strong {
+  font-weight: bold;
+  color: #083194;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #527bbd;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+  line-height: 1.3;
+}
+
+h1, h2, h3 {
+  border-bottom: 2px solid silver;
+}
+h2 {
+  padding-top: 0.5em;
+}
+h3 {
+  float: left;
+}
+h3 + * {
+  clear: left;
+}
+h5 {
+  font-size: 1.0em;
+}
+
+div.sectionbody {
+  margin-left: 0;
+}
+
+hr {
+  border: 1px solid silver;
+}
+
+p {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+ul, ol, li > p {
+  margin-top: 0;
+}
+ul > li     { color: #aaa; }
+ul > li > * { color: black; }
+
+.monospaced, code, pre {
+  font-family: "Courier New", Courier, monospace;
+  font-size: inherit;
+  color: navy;
+  padding: 0;
+  margin: 0;
+}
+pre {
+  white-space: pre-wrap;
+}
+
+#author {
+  color: #527bbd;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+#email {
+}
+#revnumber, #revdate, #revremark {
+}
+
+#footer {
+  font-size: small;
+  border-top: 2px solid silver;
+  padding-top: 0.5em;
+  margin-top: 4.0em;
+}
+#footer-text {
+  float: left;
+  padding-bottom: 0.5em;
+}
+#footer-badges {
+  float: right;
+  padding-bottom: 0.5em;
+}
+
+#preamble {
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+}
+div.imageblock, div.exampleblock, div.verseblock,
+div.quoteblock, div.literalblock, div.listingblock, div.sidebarblock,
+div.admonitionblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+div.admonitionblock {
+  margin-top: 2.0em;
+  margin-bottom: 2.0em;
+  margin-right: 10%;
+  color: #606060;
+}
+
+div.content { /* Block element content. */
+  padding: 0;
+}
+
+/* Block element titles. */
+div.title, caption.title {
+  color: #527bbd;
+  font-weight: bold;
+  text-align: left;
+  margin-top: 1.0em;
+  margin-bottom: 0.5em;
+}
+div.title + * {
+  margin-top: 0;
+}
+
+td div.title:first-child {
+  margin-top: 0.0em;
+}
+div.content div.title:first-child {
+  margin-top: 0.0em;
+}
+div.content + div.title {
+  margin-top: 0.0em;
+}
+
+div.sidebarblock > div.content {
+  background: #ffffee;
+  border: 1px solid #dddddd;
+  border-left: 4px solid #f0f0f0;
+  padding: 0.5em;
+}
+
+div.listingblock > div.content {
+  border: 1px solid #dddddd;
+  border-left: 5px solid #f0f0f0;
+  background: #f8f8f8;
+  padding: 0.5em;
+}
+
+div.quoteblock, div.verseblock {
+  padding-left: 1.0em;
+  margin-left: 1.0em;
+  margin-right: 10%;
+  border-left: 5px solid #f0f0f0;
+  color: #888;
+}
+
+div.quoteblock > div.attribution {
+  padding-top: 0.5em;
+  text-align: right;
+}
+
+div.verseblock > pre.content {
+  font-family: inherit;
+  font-size: inherit;
+}
+div.verseblock > div.attribution {
+  padding-top: 0.75em;
+  text-align: left;
+}
+/* DEPRECATED: Pre version 8.2.7 verse style literal block. */
+div.verseblock + div.attribution {
+  text-align: left;
+}
+
+div.admonitionblock .icon {
+  vertical-align: top;
+  font-size: 1.1em;
+  font-weight: bold;
+  text-decoration: underline;
+  color: #527bbd;
+  padding-right: 0.5em;
+}
+div.admonitionblock td.content {
+  padding-left: 0.5em;
+  border-left: 3px solid #dddddd;
+}
+
+div.exampleblock > div.content {
+  border-left: 3px solid #dddddd;
+  padding-left: 0.5em;
+}
+
+div.imageblock div.content { padding-left: 0; }
+span.image img { border-style: none; vertical-align: text-bottom; }
+a.image:visited { color: white; }
+
+dl {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+dt {
+  margin-top: 0.5em;
+  margin-bottom: 0;
+  font-style: normal;
+  color: navy;
+}
+dd > *:first-child {
+  margin-top: 0.1em;
+}
+
+ul, ol {
+    list-style-position: outside;
+}
+ol.arabic {
+  list-style-type: decimal;
+}
+ol.loweralpha {
+  list-style-type: lower-alpha;
+}
+ol.upperalpha {
+  list-style-type: upper-alpha;
+}
+ol.lowerroman {
+  list-style-type: lower-roman;
+}
+ol.upperroman {
+  list-style-type: upper-roman;
+}
+
+div.compact ul, div.compact ol,
+div.compact p, div.compact p,
+div.compact div, div.compact div {
+  margin-top: 0.1em;
+  margin-bottom: 0.1em;
+}
+
+tfoot {
+  font-weight: bold;
+}
+td > div.verse {
+  white-space: pre;
+}
+
+div.hdlist {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+div.hdlist tr {
+  padding-bottom: 15px;
+}
+dt.hdlist1.strong, td.hdlist1.strong {
+  font-weight: bold;
+}
+td.hdlist1 {
+  vertical-align: top;
+  font-style: normal;
+  padding-right: 0.8em;
+  color: navy;
+}
+td.hdlist2 {
+  vertical-align: top;
+}
+div.hdlist.compact tr {
+  margin: 0;
+  padding-bottom: 0;
+}
+
+.comment {
+  background: yellow;
+}
+
+.footnote, .footnoteref {
+  font-size: 0.8em;
+}
+
+span.footnote, span.footnoteref {
+  vertical-align: super;
+}
+
+#footnotes {
+  margin: 20px 0 20px 0;
+  padding: 7px 0 0 0;
+}
+
+#footnotes div.footnote {
+  margin: 0 0 5px 0;
+}
+
+#footnotes hr {
+  border: none;
+  border-top: 1px solid silver;
+  height: 1px;
+  text-align: left;
+  margin-left: 0;
+  width: 20%;
+  min-width: 100px;
+}
+
+div.colist td {
+  padding-right: 0.5em;
+  padding-bottom: 0.3em;
+  vertical-align: top;
+}
+div.colist td img {
+  margin-top: 0.3em;
+}
+
+@media print {
+  #footer-badges { display: none; }
+}
+
+#toc {
+  margin-bottom: 2.5em;
+}
+
+#toctitle {
+  color: #527bbd;
+  font-size: 1.1em;
+  font-weight: bold;
+  margin-top: 1.0em;
+  margin-bottom: 0.1em;
+}
+
+div.toclevel0, div.toclevel1, div.toclevel2, div.toclevel3, div.toclevel4 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+div.toclevel2 {
+  margin-left: 2em;
+  font-size: 0.9em;
+}
+div.toclevel3 {
+  margin-left: 4em;
+  font-size: 0.9em;
+}
+div.toclevel4 {
+  margin-left: 6em;
+  font-size: 0.9em;
+}
+
+span.aqua { color: aqua; }
+span.black { color: black; }
+span.blue { color: blue; }
+span.fuchsia { color: fuchsia; }
+span.gray { color: gray; }
+span.green { color: green; }
+span.lime { color: lime; }
+span.maroon { color: maroon; }
+span.navy { color: navy; }
+span.olive { color: olive; }
+span.purple { color: purple; }
+span.red { color: red; }
+span.silver { color: silver; }
+span.teal { color: teal; }
+span.white { color: white; }
+span.yellow { color: yellow; }
+
+span.aqua-background { background: aqua; }
+span.black-background { background: black; }
+span.blue-background { background: blue; }
+span.fuchsia-background { background: fuchsia; }
+span.gray-background { background: gray; }
+span.green-background { background: green; }
+span.lime-background { background: lime; }
+span.maroon-background { background: maroon; }
+span.navy-background { background: navy; }
+span.olive-background { background: olive; }
+span.purple-background { background: purple; }
+span.red-background { background: red; }
+span.silver-background { background: silver; }
+span.teal-background { background: teal; }
+span.white-background { background: white; }
+span.yellow-background { background: yellow; }
+
+span.big { font-size: 2em; }
+span.small { font-size: 0.6em; }
+
+span.underline { text-decoration: underline; }
+span.overline { text-decoration: overline; }
+span.line-through { text-decoration: line-through; }
+
+div.unbreakable { page-break-inside: avoid; }
+
+
+/*
+ * xhtml11 specific
+ *
+ * */
+
+div.tableblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+div.tableblock > table {
+  border: 3px solid #527bbd;
+}
+thead, p.table.header {
+  font-weight: bold;
+  color: #527bbd;
+}
+p.table {
+  margin-top: 0;
+}
+/* Because the table frame attribute is overridden by CSS in most browsers. */
+div.tableblock > table[frame="void"] {
+  border-style: none;
+}
+div.tableblock > table[frame="hsides"] {
+  border-left-style: none;
+  border-right-style: none;
+}
+div.tableblock > table[frame="vsides"] {
+  border-top-style: none;
+  border-bottom-style: none;
+}
+
+
+/*
+ * html5 specific
+ *
+ * */
+
+table.tableblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+thead, p.tableblock.header {
+  font-weight: bold;
+  color: #527bbd;
+}
+p.tableblock {
+  margin-top: 0;
+}
+table.tableblock {
+  border-width: 3px;
+  border-spacing: 0px;
+  border-style: solid;
+  border-color: #527bbd;
+  border-collapse: collapse;
+}
+th.tableblock, td.tableblock {
+  border-width: 1px;
+  padding: 4px;
+  border-style: solid;
+  border-color: #527bbd;
+}
+
+table.tableblock.frame-topbot {
+  border-left-style: hidden;
+  border-right-style: hidden;
+}
+table.tableblock.frame-sides {
+  border-top-style: hidden;
+  border-bottom-style: hidden;
+}
+table.tableblock.frame-none {
+  border-style: hidden;
+}
+
+th.tableblock.halign-left, td.tableblock.halign-left {
+  text-align: left;
+}
+th.tableblock.halign-center, td.tableblock.halign-center {
+  text-align: center;
+}
+th.tableblock.halign-right, td.tableblock.halign-right {
+  text-align: right;
+}
+
+th.tableblock.valign-top, td.tableblock.valign-top {
+  vertical-align: top;
+}
+th.tableblock.valign-middle, td.tableblock.valign-middle {
+  vertical-align: middle;
+}
+th.tableblock.valign-bottom, td.tableblock.valign-bottom {
+  vertical-align: bottom;
+}
+
+
+/*
+ * manpage specific
+ *
+ * */
+
+body.manpage h1 {
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  border-top: 2px solid silver;
+  border-bottom: 2px solid silver;
+}
+body.manpage h2 {
+  border-style: none;
+}
+body.manpage div.sectionbody {
+  margin-left: 3em;
+}
+
+@media print {
+  body.manpage div#toc { display: none; }
+}
+
+
+@media screen {
+  body {
+    max-width: 50em; /* approximately 80 characters wide */
+    margin-left: 16em;
+  }
+
+  #toc {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 13em;
+    padding: 0.5em;
+    padding-bottom: 1.5em;
+    margin: 0;
+    overflow: auto;
+    border-right: 3px solid #f8f8f8;
+    background-color: white;
+  }
+
+  #toc .toclevel1 {
+    margin-top: 0.5em;
+  }
+
+  #toc .toclevel2 {
+    margin-top: 0.25em;
+    display: list-item;
+    color: #aaaaaa;
+  }
+
+  #toctitle {
+    margin-top: 0.5em;
+  }
+}
+</style>
+<script type="text/javascript">
+/*<![CDATA[*/
+var asciidoc = {  // Namespace.
+
+/////////////////////////////////////////////////////////////////////
+// Table Of Contents generator
+/////////////////////////////////////////////////////////////////////
+
+/* Author: Mihai Bazon, September 2002
+ * http://students.infoiasi.ro/~mishoo
+ *
+ * Table Of Content generator
+ * Version: 0.4
+ *
+ * Feel free to use this script under the terms of the GNU General Public
+ * License, as long as you do not remove or alter this notice.
+ */
+
+ /* modified by Troy D. Hanson, September 2006. License: GPL */
+ /* modified by Stuart Rackham, 2006, 2009. License: GPL */
+
+// toclevels = 1..4.
+toc: function (toclevels) {
+
+  function getText(el) {
+    var text = "";
+    for (var i = el.firstChild; i != null; i = i.nextSibling) {
+      if (i.nodeType == 3 /* Node.TEXT_NODE */) // IE doesn't speak constants.
+        text += i.data;
+      else if (i.firstChild != null)
+        text += getText(i);
+    }
+    return text;
+  }
+
+  function TocEntry(el, text, toclevel) {
+    this.element = el;
+    this.text = text;
+    this.toclevel = toclevel;
+  }
+
+  function tocEntries(el, toclevels) {
+    var result = new Array;
+    var re = new RegExp('[hH]([1-'+(toclevels+1)+'])');
+    // Function that scans the DOM tree for header elements (the DOM2
+    // nodeIterator API would be a better technique but not supported by all
+    // browsers).
+    var iterate = function (el) {
+      for (var i = el.firstChild; i != null; i = i.nextSibling) {
+        if (i.nodeType == 1 /* Node.ELEMENT_NODE */) {
+          var mo = re.exec(i.tagName);
+          if (mo && (i.getAttribute("class") || i.getAttribute("className")) != "float") {
+            result[result.length] = new TocEntry(i, getText(i), mo[1]-1);
+          }
+          iterate(i);
+        }
+      }
+    }
+    iterate(el);
+    return result;
+  }
+
+  var toc = document.getElementById("toc");
+  if (!toc) {
+    return;
+  }
+
+  // Delete existing TOC entries in case we're reloading the TOC.
+  var tocEntriesToRemove = [];
+  var i;
+  for (i = 0; i < toc.childNodes.length; i++) {
+    var entry = toc.childNodes[i];
+    if (entry.nodeName.toLowerCase() == 'div'
+     && entry.getAttribute("class")
+     && entry.getAttribute("class").match(/^toclevel/))
+      tocEntriesToRemove.push(entry);
+  }
+  for (i = 0; i < tocEntriesToRemove.length; i++) {
+    toc.removeChild(tocEntriesToRemove[i]);
+  }
+
+  // Rebuild TOC entries.
+  var entries = tocEntries(document.getElementById("content"), toclevels);
+  for (var i = 0; i < entries.length; ++i) {
+    var entry = entries[i];
+    if (entry.element.id == "")
+      entry.element.id = "_toc_" + i;
+    var a = document.createElement("a");
+    a.href = "#" + entry.element.id;
+    a.appendChild(document.createTextNode(entry.text));
+    var div = document.createElement("div");
+    div.appendChild(a);
+    div.className = "toclevel" + entry.toclevel;
+    toc.appendChild(div);
+  }
+  if (entries.length == 0)
+    toc.parentNode.removeChild(toc);
+},
+
+
+/////////////////////////////////////////////////////////////////////
+// Footnotes generator
+/////////////////////////////////////////////////////////////////////
+
+/* Based on footnote generation code from:
+ * http://www.brandspankingnew.net/archive/2005/07/format_footnote.html
+ */
+
+footnotes: function () {
+  // Delete existing footnote entries in case we're reloading the footnodes.
+  var i;
+  var noteholder = document.getElementById("footnotes");
+  if (!noteholder) {
+    return;
+  }
+  var entriesToRemove = [];
+  for (i = 0; i < noteholder.childNodes.length; i++) {
+    var entry = noteholder.childNodes[i];
+    if (entry.nodeName.toLowerCase() == 'div' && entry.getAttribute("class") == "footnote")
+      entriesToRemove.push(entry);
+  }
+  for (i = 0; i < entriesToRemove.length; i++) {
+    noteholder.removeChild(entriesToRemove[i]);
+  }
+
+  // Rebuild footnote entries.
+  var cont = document.getElementById("content");
+  var spans = cont.getElementsByTagName("span");
+  var refs = {};
+  var n = 0;
+  for (i=0; i<spans.length; i++) {
+    if (spans[i].className == "footnote") {
+      n++;
+      var note = spans[i].getAttribute("data-note");
+      if (!note) {
+        // Use [\s\S] in place of . so multi-line matches work.
+        // Because JavaScript has no s (dotall) regex flag.
+        note = spans[i].innerHTML.match(/\s*\[([\s\S]*)]\s*/)[1];
+        spans[i].innerHTML =
+          "[<a id='_footnoteref_" + n + "' href='#_footnote_" + n +
+          "' title='View footnote' class='footnote'>" + n + "</a>]";
+        spans[i].setAttribute("data-note", note);
+      }
+      noteholder.innerHTML +=
+        "<div class='footnote' id='_footnote_" + n + "'>" +
+        "<a href='#_footnoteref_" + n + "' title='Return to text'>" +
+        n + "</a>. " + note + "</div>";
+      var id =spans[i].getAttribute("id");
+      if (id != null) refs["#"+id] = n;
+    }
+  }
+  if (n == 0)
+    noteholder.parentNode.removeChild(noteholder);
+  else {
+    // Process footnoterefs.
+    for (i=0; i<spans.length; i++) {
+      if (spans[i].className == "footnoteref") {
+        var href = spans[i].getElementsByTagName("a")[0].getAttribute("href");
+        href = href.match(/#.*/)[0];  // Because IE return full URL.
+        n = refs[href];
+        spans[i].innerHTML =
+          "[<a href='#_footnote_" + n +
+          "' title='View footnote' class='footnote'>" + n + "</a>]";
+      }
+    }
+  }
+},
+
+install: function(toclevels) {
+  var timerId;
+
+  function reinstall() {
+    asciidoc.footnotes();
+    if (toclevels) {
+      asciidoc.toc(toclevels);
+    }
+  }
+
+  function reinstallAndRemoveTimer() {
+    clearInterval(timerId);
+    reinstall();
+  }
+
+  timerId = setInterval(reinstall, 500);
+  if (document.addEventListener)
+    document.addEventListener("DOMContentLoaded", reinstallAndRemoveTimer, false);
+  else
+    window.onload = reinstallAndRemoveTimer;
+}
+
+}
+asciidoc.install(1);
+/*]]>*/
+</script>
+</head>
+<body class="article">
+<div id="header">
+<h1>SPIR-V NonSemantic Shader DebugInfo Instructions</h1>
+<div id="toc">
+  <div id="toctitle">Table of Contents</div>
+  <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_contact">Contact</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>To report problems with this extension, please open a new issue at:</p></div>
+<div class="paragraph"><p><a href="https://github.com/KhronosGroup/SPIRV-Headers">https://github.com/KhronosGroup/SPIRV-Headers</a></p></div>
+<div class="sect2">
+<h3 id="_contributors_and_acknowledgments">Contributors and Acknowledgments</h3>
+<div class="ulist"><ul>
+<li>
+<p>
+Alexey Sotkin, Intel
+</p>
+</li>
+<li>
+<p>
+Dmitry Sidorov, Intel
+</p>
+</li>
+<li>
+<p>
+Mariya Podchishchaeva, Intel
+</p>
+</li>
+<li>
+<p>
+Nikita Kornev, Intel
+</p>
+</li>
+<li>
+<p>
+Stanley Gambarin, Intel
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Author of <strong>NonSemantic.Shader.DebugInfo.100</strong> specification.</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+Baldur Karlsson, Valve
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Contributors to original <strong>OpenCL.DebugInfo.100</strong> specification.</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+Yaxun Liu, AMD
+</p>
+</li>
+<li>
+<p>
+Brian Sumner, AMD
+</p>
+</li>
+<li>
+<p>
+Ben Ashbaugh, Intel
+</p>
+</li>
+<li>
+<p>
+Alexey Bader, Intel
+</p>
+</li>
+<li>
+<p>
+Raun Krisch, Intel
+</p>
+</li>
+<li>
+<p>
+Pratik Ashar, Intel
+</p>
+</li>
+<li>
+<p>
+John Kessenich, Google
+</p>
+</li>
+<li>
+<p>
+David Neto, Google
+</p>
+</li>
+<li>
+<p>
+Neil Henning, Codeplay
+</p>
+</li>
+<li>
+<p>
+Kerch Holt, Nvidia
+</p>
+</li>
+<li>
+<p>
+Jaebaek Seo, Google
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_notice">Notice</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Copyright (c) 2023 The Khronos Group Inc. Copyright terms at
+<a href="http://www.khronos.org/registry/speccopyright.html">http://www.khronos.org/registry/speccopyright.html</a></p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_status">Status</h2>
+<div class="sectionbody">
+<div class="ulist"><ul>
+<li>
+<p>
+Working draft
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_version">Version</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all"
+style="
+width:40%;
+">
+<col style="width:50%;">
+<col style="width:50%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Last Modified Date</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2023-02-23</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Revision</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_dependencies">Dependencies</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>This extension is written against the SPIR-V Specification,
+Version 1.6 Revision 2.</p></div>
+<div class="paragraph"><p>This extension is written against the NonSemantic.Shader.DebugInfo.100,
+Revision 9.</p></div>
+<div class="paragraph"><p>This instruction set requires SPIR-V 1.0.</p></div>
+<div class="paragraph"><p>This instruction set requires <strong>NonSemantic.Shader.DebugInfo.100</strong> extended instruction
+set.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_introduction">Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>This is the specification of the <strong>NonSemantic.Shader.DebugInfo.200</strong> extended instruction
+set. It inherits terms, semantics and instructions from <a href="https://github.com/KhronosGroup/SPIRV-Registry/blob/main/nonsemantic/NonSemantic.Shader.DebugInfo.100.asciidoc">NonSemantic.Shader.DebugInfo.100</a>
+and adds new instructions and debug operations.</p></div>
+<div class="paragraph"><p>This extended instruction set is imported into a SPIR-V module in the following
+manner:</p></div>
+<div class="paragraph"><p><a id="OpExtInstImport"></a><span class="monospaced">&lt;extinst-id&gt; OpExtInstImport "NonSemantic.Shader.DebugInfo.200"</span></p></div>
+<div class="paragraph"><p>It also implicitly imports <strong>NonSemantic.Shader.DebugInfo.100</strong> extended instruction
+set:</p></div>
+<div class="paragraph"><p><a id="OpExtInstImport"></a><span class="monospaced">&lt;extinst-id&gt; OpExtInstImport "NonSemantic.Shader.DebugInfo.100"</span></p></div>
+<div class="paragraph"><p>The instructions below are capable of conveying debug information about the
+source program.</p></div>
+<div class="paragraph"><p>The design guidelines for these instructions are:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+Similarity with OpenCL.DebugInfo.100 and NonSemantic.Shader.DebugInfo.100,
+  to re-use their tooling and benefit from their design work. To aid in future
+  compatibility, new extended instructions in this extension begin at number 100.
+</p>
+</li>
+<li>
+<p>
+Compatibility with rules regarding non-semantic instruction sets
+</p>
+</li>
+<li>
+<p>
+Expansion to handle cases needed for Vulkan SPIR-V modules
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>This is a non-normative list of changes to the NonSemantic.Shader.DebugInfo.100 specification:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+New instructions: <a href="#DebugModule"><strong>DebugModule</strong></a>, <a href="#DebugTypeSubrange"><strong>DebugTypeSubrange</strong></a>,
+  <a href="#DebugTypeArrayDynamic"><strong>DebugTypeArrayDynamic</strong></a> and <a href="#DebugTypeString"><strong>DebugTypeString</strong></a>.
+</p>
+</li>
+<li>
+<p>
+New Debug Operations.
+</p>
+</li>
+<li>
+<p>
+<a href="#DebugTypeArray"><strong>DebugTypeArray</strong></a> no longer has an <span class="monospaced">Component Count &lt;id&gt;</span>
+  operand. It was replaced by a new operand <span class="monospaced">&lt;id&gt;, &lt;id&gt;, ... Subranges</span> to fully
+  represent all characteristics of the elements of
+  <a href="#DebugTypeArray"><strong>DebugTypeArray</strong></a>.
+</p>
+</li>
+<li>
+<p>
+Added an optional <em>Target function</em> operand to <a href="#DebugFunction"><strong>DebugFunction</strong></a>.
+</p>
+</li>
+<li>
+<p>
+Added a <em><a href="#SrcLang">source language</a></em> table to be used by
+  <a href="#DebugCompilationUnit"><strong>DebugCompilationUnit</strong></a> instruction.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_enumerations">Enumerations</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_instruction_enumeration_a_id_instenum_a">Instruction Enumeration <a id="InstEnum"></a></h3>
+<table class="tableblock frame-all grid-all"
+style="
+width:50%;
+">
+<col style="width:12%;">
+<col style="width:87%;">
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top" > Instruction<br>
+  number </th>
+<th class="tableblock halign-left valign-middle" > Instruction name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">200</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><a href="#DebugModule"><strong>DebugModule</strong></a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">201</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><a href="#DebugTypeSubrange"><strong>DebugTypeSubrange</strong></a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">202</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><a href="#DebugTypeArrayDynamic"><strong>DebugTypeArrayDynamic</strong></a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">203</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><a href="#DebugTypeString"><strong>DebugTypeString</strong></a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_source_language_a_id_srclang_a">Source Language <a id="SrcLang"></a></h3>
+<table class="tableblock frame-all grid-all"
+style="
+width:50%;
+">
+<col style="width:33%;">
+<col style="width:66%;">
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top" > Value </th>
+<th class="tableblock halign-left valign-middle" > Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Unknown</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>ESSL</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>GLSL</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>OpenCL_C</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>OpenCL_CPP</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>HLSL</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>CPP_for_OpenCL</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">7</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>SYCL</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">101</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Python</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">102</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Julia</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">103</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Rust</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">104</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>D</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">105</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Fortran 95</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">106</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Fortran 2003</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">107</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Fortran 2008</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">108</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>C</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">109</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>C99</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">110</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>C11</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">111</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>C++</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">112</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>C++03</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">113</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>C++11</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">114</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>C++14</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">115</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>C++17</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">116</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>C++20</strong></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_debug_operations_a_id_operation_a">Debug Operations <a id="Operation"></a></h3>
+<div class="paragraph"><p>These operations are used to form a DWARF expression.
+Such expressions provide information about the current location
+(described by <a href="#DebugDeclare"><strong>DebugDeclare</strong></a>) or value
+(described by <a href="#DebugValue"><strong>DebugValue</strong></a>) of a variable.
+Operations in an expression are to be applied on a stack.
+Initially, the stack contains one element: the address or value of the source variable.<br>
+Used by <a href="#DebugOperation"><strong>DebugOperation</strong></a><br></p></div>
+<div class="paragraph"><p>The table below replaced one added in <strong>OpenCL.DebugInfo.100</strong> and <strong>NonSemantic.Shader.DebugInfo.100</strong>
+specifications:</p></div>
+<table class="tableblock frame-all grid-all"
+style="
+width:50%;
+">
+<col style="width:9%;">
+<col style="width:27%;">
+<col style="width:9%;">
+<col style="width:54%;">
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top" colspan="2" > Operation encodings </th>
+<th class="tableblock halign-left valign-top" > No. of Operands </th>
+<th class="tableblock halign-left valign-top" > Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Deref</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Pops the top stack entry, treats it as an address, pushes the value retrieved from that address.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Plus</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Pops the top two entries from the stack, adds them together and pushes the result.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Minus</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Pops the top two entries from the stack, subtracts the former top entry from the former second to top entry and pushes the result.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>PlusUconst</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Pops the top stack entry, adds the <em>addend</em> operand to it, and pushes the result.
+                                             The operand must be a single 32-bit integer <strong>OpConstant</strong>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>BitPiece</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Describes an object or value that may be contained in part of a register or stored in more than one location.
+                                             The first operand is <em>offset</em> in bit from the location defined by the preceding operation.
+                                             The second operand is <em>size</em> of the piece in bits.
+                                             The operands must each be a single 32-bit integer <strong>OpConstant</strong>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Swap</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Swaps the top two stack values.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Xderef</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Pops the top two entries from the stack.
+                                             Treats the former top entry as an address and the former second to top entry as an address space.
+                                             The value retrieved from the address in the given address space is pushed.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">7</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>StackValue</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Describes an object that doesn&#8217;t exist in memory but it&#8217;s value is known and is at the top of the DWARF expression stack.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">8</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Constu</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Pushes a constant <em>value</em> onto the stack. The <em>value</em> operand must be a single 32-bit unsigned integer <strong>OpConstant</strong>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">9</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Fragment</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Has the same semantics as <strong>BitPiece</strong>, but the <em>offset</em> operand defines location within the source variable.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">10</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Convert</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Pops the top stack entry and converts to <strong>DebugTypeBasic</strong>
+                        specified by offset from debug information entry
+                        in the current compilation unit provided by a single
+                        32-bit integer <strong>OpConstant</strong> parameter.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">11</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Addr</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Pushes a machine address passed in the operand to the stack.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">12</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Const1u</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Const&lt;n&gt;u</strong> Pushes a constant <em>value</em> onto the stack. The <em>value</em> operand must be a single &lt;n&gt;-bit unsigned integer <strong>OpConstant</strong>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">13</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Const2u</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">14</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Const4u</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">15</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Const8u</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">16</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Const1s</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Const&lt;n&gt;s</strong> Pushes a constant <em>value</em> onto the stack. The <em>value</em> operand must be a single &lt;n&gt;-bit signed integer <strong>OpConstant</strong>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">17</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Const2s</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">18</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Const4s</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">19</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Const8s</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">20</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Consts</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Pushes a constant <em>value</em> onto the stack. The <em>value</em> operand must be a single 32-bit signed integer <strong>OpConstant</strong>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">21</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Dup</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Duplicates the value from the top of the stack including it&#8217;s <strong>OpType</strong>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">22</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Drop</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Pops the value from the top of the stack including it&#8217;s <strong>OpType</strong>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">23</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Over</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Equivalent to <strong>Pick</strong> operation with the index value of 1.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">24</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Pick</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">The single operand of the operation provides a 1-byte integer <strong>OpConstant</strong> index. Copies the value of the stack entry at the provided index and pushes in to the stack.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">25</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Rot</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Rotates the first three stack entries. The entry at the top of the stack becomes the third stack entry, the second entry becomes the top of the stack, and the third entry becomes the second entry.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">26</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Abs</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Pops the top entry from stack, interprets it as a signed value and pushes its absolute value. If the absolute value cannot be represented, the result is undefined.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">27</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>And</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Pops the top two entries from stack, performs a bitwise and operation on the two, and pushes the result.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">28</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Div</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Pops the top two entries from stack, divides the value of the second entry by the value of the first entry, and pushes the result.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">29</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Mod</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Pops the top two entries from stack, modulo the value of the second entry by the value of the first entry, and pushes the result.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">30</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Mul</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Pops the top two entries from stack, multiplies them together, and pushes the result.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">31</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Neg</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Pops the top entry from stack, interprets it as a signed value and pushes its negation. If the negation cannot be represented, the result is undefined.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">32</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Not</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Pops the top entry from stack and pushes its bitwise complement.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">33</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Or</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Pops the top two entries from stack, performs a bitwise or operation on the two, and pushes the result.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">34</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Shl</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Pops the top two entries from stack, shifts left (filling with zero bits) the value of the second entry by the value of the first entry, and pushes the result.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">35</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Shr</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Pops the top two entries from stack, shifts right logically (filling with zero bits) the value of the second entry by the value of the first entry, and pushes the result.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">36</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Shra</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Pops the top two entries from stack, shifts right arithmetically (divide the magnitude by 2, keep the same sign for the result) the value of the second entry by the value of the first entry, and pushes the result.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">37</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Xor</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Pops the top two entries from stack, performs a bitwise exclusive-or operation on the two, and pushes the result.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">38</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Bra</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Pops the top entry from stack. If the value popped is not <strong>OpConstant</strong> holding 0, then skip forward or backward from the current operation by a number of bytes provided by its 2-bytes integer <strong>OpConstant</strong> operand.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">39</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Eq</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Pops two entries from stack with the same <strong>OpType</strong>, push 32-bit integer <strong>OpConstant</strong> with a value of 1 onto the stack if the value of the second entry is equal to the value of the first entry.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">40</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Ge</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Pops two entries from stack with the same <strong>OpType</strong>, push 32-bit integer <strong>OpConstant</strong> with a value of 1 onto the stack if the value of the second entry is greater than or equal to the value of the first entry.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">41</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Gt</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Pops two entries from stack with the same <strong>OpType</strong>, push 32-bit integer <strong>OpConstant</strong> with a value of 1 onto the stack if the value of the second entry is greater than the value of the first entry.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">42</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Le</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Pops two entries from stack with the same <strong>OpType</strong>, push 32-bit integer <strong>OpConstant</strong> with a value of 1 onto the stack if the value of the second entry is less than or equal to the value of the first entry.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">43</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Lt</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Pops two entries from stack with the same <strong>OpType</strong>, push 32-bit integer <strong>OpConstant</strong> with a value of 1 onto the stack if the value of the second entry is less than the value of the first entry.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">44</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Ne</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Pops two entries from stack with the same <strong>OpType</strong>, push 32-bit integer <strong>OpConstant</strong> with a value of 1 onto the stack if the value of the second entry is not equal to the value of the first entry.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">45</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Skip</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Skip forward or backward from the current operation by a number of bytes provided by its 2-bytes integer <strong>OpConstant</strong> operand.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">46</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Lit0</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Lit&lt;n&gt;</strong> encodes unsigned literal values from 0 through 31 inclusive</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">47</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Lit1</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">48</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Lit2</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">49</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Lit3</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">50</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Lit4</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">51</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Lit5</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">52</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Lit6</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">53</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Lit7</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">54</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Lit8</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">55</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Lit9</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">56</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Lit10</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">57</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Lit11</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">58</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Lit12</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">59</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Lit13</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">60</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Lit14</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">61</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Lit15</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">62</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Lit16</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">63</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Lit17</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">64</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Lit18</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">65</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Lit19</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">66</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Lit20</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">67</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Lit21</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">68</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Lit22</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">69</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Lit23</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">70</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Lit24</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">71</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Lit25</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">72</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Lit26</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">73</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Lit27</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">74</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Lit28</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">75</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Lit29</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">76</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Lit30</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">77</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Lit31</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">78</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Reg0</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>reg&lt;n&gt;</strong> encodes names of up to 32 registers</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">79</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Reg1</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">80</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Reg2</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">81</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Reg3</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">82</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Reg4</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">83</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Reg5</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">84</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Reg6</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">85</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Reg7</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">86</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Reg8</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">87</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Reg9</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">88</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Reg10</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">89</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Reg11</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">90</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Reg12</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">91</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Reg13</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">92</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Reg14</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">93</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Reg15</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">94</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Reg16</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">95</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Reg17</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">96</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Reg18</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">97</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Reg19</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">98</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Reg20</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">99</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Reg21</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">100</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Reg22</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">101</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Reg23</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">102</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Reg24</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">103</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Reg25</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">104</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Reg26</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">105</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Reg27</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">106</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Reg28</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">107</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Reg29</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">108</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Reg30</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">109</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Reg31</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">110</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Breg0</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>breg&lt;n&gt;</strong> a single 32-bit signed integer <strong>OpConstant</strong>
+                       operand encodes an signed offset from the contents of the <strong>&lt;n&gt;</strong> register</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">111</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Breg1</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">112</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Breg2</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">113</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Breg3</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">114</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Breg4</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">115</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Breg5</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">116</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Breg6</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">117</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Breg7</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">118</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Breg8</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">119</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Breg9</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">120</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Breg10</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">121</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Breg11</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">122</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Breg12</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">123</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Breg13</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">124</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Breg14</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">125</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Breg15</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">126</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Breg16</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">127</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Breg17</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">128</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Breg18</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">129</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Breg19</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">130</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Breg20</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">131</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Breg21</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">132</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Breg22</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">133</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Breg23</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">134</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Breg24</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">135</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Breg25</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">136</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Breg26</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">137</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Breg27</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">138</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Breg28</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">139</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Breg29</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">140</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Breg30</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">141</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Breg31</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">142</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Regx</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">A single 32-bit unsigned integer <strong>OpConstant</strong> operand encodes
+                      the name of a register</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">143</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Fbreg</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">A single 32-bit signed integer <strong>OpConstant</strong> operand encodes
+                       an offset from the address</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">144</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Bregx</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Provides a sum of its 32-bit integer <strong>OpConstant</strong> operands,
+                       where 1st operand is a register number and 2nd is signed offset</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">145</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Piece</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Describes an object or value that may be contained in part
+                       of a register or stored in more than one location.
+                       A single 32-bit integer <strong>OpConstant</strong> operand specifies
+                       the size of the piece in bytes.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">146</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>DerefSize</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Pops the top stack entry, treats it as an address.
+                           A single 8-bit integer <strong>OpConstant</strong> operand specifies
+                           a size of data to retrieved. The data retrieved is
+                           zero extended to the size of an address on the target machine.
+                           Pushes the value retrieved from that address.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">147</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>XDerefSize</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Pops the top two entries from the stack.
+                           Treats the former top entry as an address and the former
+                           second to top entry as an address space.
+                           A single 8-bit integer <strong>OpConstant</strong> operand specifies
+                           a size of data to retrieved. The data retrieved is
+                           zero extended to the size of an address on the target machine.
+                           Pushes the value retrieved from that address in the given address space is pushed.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">148</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Nop</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Place holder operation with no effects</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">149</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>PushObjectAddress</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Pushes address of an object currently processed.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">150</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Call2</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Perform a call during <strong>DebugOperation</strong> evaluation.
+                       A single 16-bit integer <strong>OpConstant</strong> operand specifies
+                       offset, respectively, of a debugging information entry in the
+                       current compilation unit.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">151</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Call4</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Perform a call during <strong>DebugOperation</strong> evaluation.
+                       A single 32-bit integer <strong>OpConstant</strong> operand specifies
+                       offset, respectively, of a debugging information entry in the
+                       current compilation unit.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">152</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>CallRef</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Perform a call during <strong>DebugOperation</strong> evaluation.
+                         A single operand must be either 32-bit or 64-bit integer
+                         <strong>OpConstant</strong> and specifies offset, respectively, of a
+                         debugging information entry in the current compilation unit.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">153</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>FormTlsAddress</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Pops the top stack entry, it must be of an integer type,
+                                translates it to an address in the thread-local storage,
+                                pushes the address back to the stack.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">154</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>CallFrameCfa</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Pushes the value of the Call Frame Information.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">155</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>ImplicitValue</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Creates an immediate value. The first 32-bit integer <strong>OpConstant</strong>
+                               parameter is length that specifies a lenght of sequence
+                               of bytes following this parameter and contains
+                               this value.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">156</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>ImplicitPointer</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Specifies the dereferenced value. It can be used
+                                 when the pointer was optimized out by the compiler
+                                 but yet the value it was pointed to was retained.
+                                 The first operand must be either 32-bit or 64-bit integer
+                                 <strong>OpConstant</strong> that is a reference to debug information
+                                 entry containing the value and the second
+                                 operand is a 32-bit integer <strong>OpConstant</strong> offset
+                                 from the start to this value.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">157</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Addrx</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Placeholder. Has a single 32-bit integer <strong>OpConstant</strong> operand.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">158</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Constx</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Placeholder. Has a single 32-bit integer <strong>OpConstant</strong> operand.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">159</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>EntryValue</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Pushes a result value of <strong>DebugExpression</strong> (the second
+                            parameter of the operation) that describes location
+                            held upon entering the current <strong>DebugFunction</strong>. Length
+                            of the <strong>DebugExpression</strong> is specified by the first
+                            32-bit integer <strong>OpConstant</strong> operand. The operation
+                            assumes, that the stack is empty. If <strong>DebugExpression</strong>
+                            held a register location operation, then <strong>EntryValue</strong>
+                            pushes the value that register had to the stack.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">160</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>ConstType</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Creates a constant of a type provided as the first
+                           parameter which should point to <strong>DebugTypeBasic</strong>.
+                           The second operand must be 8-bit integer <strong>OpConstant</strong>,
+                           which specifies the size of this constant. The third
+                           parameter is a sequence of bytes of the given size
+                           that is interpreted as a value of the referenced type.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">161</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>DerefType</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Pops the top stack entry, treats it as an address.
+                          The first 8-bit integer <strong>OpConstant</strong> operand specifies
+                          a size of data to retrieved. The data retrieved is
+                          zero extended to the size of an address on the target machine.
+                          The second is 32-bit integer <strong>OpConstant</strong> that represents the
+                          offset of a debugging information entry in the current
+                          compilation unit, which should point to <strong>DebugTypeBasic</strong>.
+                          Pushes the value retrieved from that address
+                          including type identifier.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">162</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RegvalType</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Pushes a value of a register specified by the first
+                            32-bit integer <strong>OpConstant</strong> parameter. The second
+                            parameter must be 32-bit integer <strong>OpConstant</strong>, it
+                            specifies and offset from debug information entry
+                            in the current compilation unit, it must be
+                            <strong>DebugTypeBasic</strong>. The operation interprets the pushed
+                            value as a value of <strong>DebugTypeBasic</strong>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">163</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>XDerefType</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Pops the top two entries from the stack.
+                           Treats the former top entry as an address and the former
+                          The first 8-bit integer <strong>OpConstant</strong> operand specifies
+                          a size of data to retrieved. The data retrieved is
+                          zero extended to the size of an address on the target machine.
+                          The second is 32-bit integer <strong>OpConstant</strong> that represents the
+                          offset of a debugging information entry in the current
+                          compilation unit, which should point to <strong>DebugTypeBasic</strong>.
+                          Pushes the value retrieved from that address in the given address space is pushed.
+                          including type identifier.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">164</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Reinterpret</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Pops the top stack entry and reinterprets its bits as
+                             a value of <strong>DebugTypeBasic</strong> specified by offset from
+                             debug information entry in the current compilation unit
+                             provided by a single 32-bit integer <strong>OpConstant</strong> parameter.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">165</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Arg</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">A single 32-bit integer <strong>OpConstant</strong> parameter specifies
+                     an argument used in debug operation.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">166</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>StackValue</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Terminates the debug expression. Specifies, that the
+                            object value is at the top of the stack.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">167</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>ImplicitPointerTag</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Specifies the dereferenced value. It can be
+                                    used when the pointer was optimized out by
+                                    the compiler but yet the value it was pointed
+                                    to was retained.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">168</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>TagOffset</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Specifies that a memory tag should be optionally applied to the
+                          pointer. The tag is derived from the single 32-bit integer
+                          <strong>OpConstant</strong> operand offset and is implementation defined.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_instructions">Instructions</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_compilation_unit">Compilation Unit</h3>
+<div class="paragraph"><p>Change the definition of <a href="#DebugCompilationUnit"><strong>DebugCompilationUnit</strong></a> adding
+a reference to the new <em><a href="#source language">source language</a></em> table:</p></div>
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:4%;">
+<col style="width:4%;">
+<col style="width:8%;">
+<col style="width:8%;">
+<col style="width:8%;">
+<col style="width:4%;">
+<col style="width:12%;">
+<col style="width:12%;">
+<col style="width:12%;">
+<col style="width:12%;">
+<col style="width:12%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="11" ><p class="tableblock"><a id="DebugCompilationUnit"></a><strong>DebugCompilationUnit</strong><br>
+<br>
+ Describe a source compilation unit. A compilation unit is the single source input to a
+ SPIR-V front-end after any preprocessing has occurred. Multiple compilation units can
+ be linked together to produce a SPIR-V module, and the same source file can be used for
+ multiple compilation units if different compilation settings are used each time.<br>
+<br>
+ The <em>Result &lt;id&gt;</em> of this instruction represents a <a href="#LexicalScope">lexical scope</a>.<br>
+<br>
+ <em>Result Type</em> must be <strong>OpTypeVoid</strong>.<br>
+<br>
+ <em>Version</em> is version of the SPIRV debug information format, stored in a 32-bit integer
+ <strong>OpConstant</strong>.<br>
+<br>
+ <em>DWARF Version</em> is version of the DWARF standard this specification is compatible
+ with, stored in a 32-bit integer <strong>OpConstant</strong>.<br>
+<br>
+ <em>Source</em> is a <strong>DebugSource</strong> instruction representing the text of the initial input
+ file before pre-processing.<br>
+<br>
+ <em><a href="#SrcLang">Language</a></em> is a 32-bit integer <strong>OpConstant</strong>. The value from
+ <em><a href="#SrcLang">source language</a></em> table is the source programming language of this
+ particular compilation unit.<br>
+<br>
+ <em>Producer</em> is id of <strong>OpString</strong> instruction holding the name and possibly version of compiler
+ used to consumer the program in a high-level language and produce the SPIR-V module.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">10</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">12</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>Result &lt;id&gt;</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Set</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Version</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>DWARF version</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Source</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em><a href="#SrcLang">Language</a></em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Producer</em></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_type_instructions">Type instructions</h3>
+<div class="paragraph"><p>Change the definition of <a href="#DebugTypeArray"><strong>DebugTypeArray</strong></a> to:</p></div>
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:13%;">
+<col style="width:13%;">
+<col style="width:13%;">
+<col style="width:6%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="8" ><p class="tableblock"><a id="DebugTypeArray"></a><strong>DebugTypeArray</strong><br>
+<br>
+ Describe an array data type.<br>
+<br>
+<em>Result Type</em> must be <strong>OpTypeVoid</strong>.<br>
+<br>
+<em>Base Type</em> is a debugging instruction that describes the element type of the
+ array.<br>
+<br>
+<em>Subranges</em> is the elements in the corresponding dimension of the array. The
+ number and order of <em>Subranges</em> operands must match with the number and order of
+ array dimensions as they appear in the source program. <em>Subranges</em> must be a
+ <em>Result &lt;id&gt;</em> of <a href="#DebugTypeSubranges"><strong>DebugTypeSubrange</strong></a>.<br></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">7+</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">12</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>Result &lt;id&gt;</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Set</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Base Type</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;, &lt;id&gt;, &#8230;<br>
+Subranges</em></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:4%;">
+<col style="width:4%;">
+<col style="width:9%;">
+<col style="width:9%;">
+<col style="width:9%;">
+<col style="width:4%;">
+<col style="width:14%;">
+<col style="width:14%;">
+<col style="width:14%;">
+<col style="width:14%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="10" ><p class="tableblock"><a id="DebugTypeSubrange"></a><strong>DebugTypeSubrange</strong><br>
+<br>
+ Describe an array subrange.<br>
+<br>
+<em>Result Type</em> must be <strong>OpTypeVoid</strong>.<br>
+<br>
+<em>Lower Bound</em> is the lower boundary of the array. <em>Lower Bound</em> must be a
+ <em>Result &lt;id&gt;</em> of an <strong>OpConstant</strong>,
+ <a href="#DebugGlobalVariable"><strong>DebugGlobalVariable</strong></a>,
+ <a href="#DebugLocalVariable"><strong>DebugLocalVariable</strong></a> or
+ <a href="#DebugExpression"><strong>DebugExpression</strong></a>. If it is an <strong>OpConstant</strong>, its type must
+ be a 32-bit or 64-bit integer type.<br>
+<br>
+<em>Upper Bound</em> is the upper boundary of the array. <em>Upper Bound</em> must be a
+ <em>Result &lt;id&gt;</em> of an <strong>OpConstant</strong>,
+ <a href="#DebugGlobalVariable"><strong>DebugGlobalVariable</strong></a>,
+ <a href="#DebugLocalVariable"><strong>DebugLocalVariable</strong></a> or
+ <a href="#DebugExpression"><strong>DebugExpression</strong></a>. If it is an <strong>OpConstant</strong>, its type must
+ be a 32-bit or 64-bit integer type. If the <strong>OpConstant</strong> value is 0, this
+ indicates an array with an unknown size at compile time which is sized at
+ runtime, corresponding to the SPIR-V <strong>OpTypeRuntimeArray</strong> type. May be of a
+ different type unlike <em>Lower Bound</em>.<br>
+<br>
+<em>Count</em> is the number of elements of the array. <em>Count</em> must be a <em>Result &lt;id&gt;</em>
+ of an <strong>OpConstant</strong>, <a href="#DebugGlobalVariable"><strong>DebugGlobalVariable</strong></a>, or
+ <a href="#DebugLocalVariable"><strong>DebugLocalVariable</strong></a>. If it is an <strong>OpConstant</strong>, its type
+ must be a 32-bit or 64-bit integer type. Otherwise its type must be
+ a <a href="#DebugTypeBasic"><strong>DebugTypeBasic</strong></a> whose <em>Size</em> is 32 or 64 and whose
+ <em>Encoding</em> is <strong>Unsigned</strong>. If the <strong>OpConstant</strong> value is 0, this indicates
+ an array with an unknown size at compile time which is sized at runtime,
+ corresponding to the SPIR-V <strong>OpTypeRuntimeArray</strong> type.<br>
+<br>
+ <em>Stride</em> specifies the separation between successive elements along the
+ dimension in bytes. <em>Stride</em> must be a <em>Result &lt;id&gt;</em> of an <strong>OpConstant</strong>,
+ <a href="#DebugGlobalVariable"><strong>DebugGlobalVariable</strong></a>, or
+ <a href="#DebugLocalVariable"><strong>DebugLocalVariable</strong></a>. If it is an <strong>OpConstant</strong>, its type
+ must be a 32-bit or 64-bit integer type. Otherwise its type must be
+ a <a href="#DebugTypeBasic"><strong>DebugTypeBasic</strong></a> whose <em>Size</em> is 32 or 64 and whose
+ <em>Encoding</em> is <strong>Unsigned</strong>.<br></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">8+</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">12</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>Result &lt;id&gt;</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Set</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">110</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Lower Bound</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Upper Bound</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Count</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Optional<br>
+  <em>&lt;id&gt; Stride</em></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:3%;">
+<col style="width:3%;">
+<col style="width:7%;">
+<col style="width:7%;">
+<col style="width:7%;">
+<col style="width:3%;">
+<col style="width:11%;">
+<col style="width:11%;">
+<col style="width:11%;">
+<col style="width:11%;">
+<col style="width:11%;">
+<col style="width:11%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="12" ><p class="tableblock"><a id="DebugTypeArrayDynamic"></a><strong>DebugTypeArrayDynamic</strong><br>
+<br>
+ Describe a dynamic array, mostly for Fortran 90.<br>
+<br>
+<em>Result Type</em> must be <strong>OpTypeVoid</strong>.<br>
+<br>
+<em>Base Type</em> is a debugging instruction that describes the element type of the
+ array.<br>
+<br>
+<em>Data Location</em> is either a <em>Result &lt;id&gt;</em> of <a href="#DebugExpression"><strong>DebugExpression</strong></a>
+ instruction that&#8217;s used as a descriptor to calculate the address of the actual
+ data or a <em>Result &lt;id&gt;</em> or <a href="#DebugInfoNone"><strong>DebugInfoNone</strong></a> instruction.
+ If the latter is applied, then the address of the data is the same as the
+ address of the object.<br>
+<br>
+<em>Associated</em> is an <strong>OpConstant</strong> with 32-bit or 64-bit integer type. A non-zero
+ value indicates that the dynamic array is dynamically associated with other
+ objects.<br>
+<br>
+<em>Allocated</em> is an <strong>OpConstant</strong> with 32-bit or 64-bit integer type. A non-zero
+ value indicates that the dynamic array is allocatable and deallocatable.<br>
+<br>
+<em>Rank</em> is an <strong>OpConstant</strong> with 32-bit or 64-bit integer type and its value
+ specifies the rank of the dynamic array.<br>
+<br>
+<em>Subranges</em> is the elements in the corresponding dimension of the array. The
+ number and order of <em>Subranges</em> operands must match with the number and order of
+ array dimensions as they appear in the source program. <em>Subranges</em> must be a
+ <em>Result &lt;id&gt;</em> of <a href="#DebugTypeSubranges"><strong>DebugTypeSubrange</strong></a>.<br></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">10+</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">12</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>Result &lt;id&gt;</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Set</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">111</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Base Type</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Data Location</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Associated</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Allocated</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Rank</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;, &lt;id&gt;, &#8230;</em><br>
+  <em>Subranges</em></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:4%;">
+<col style="width:4%;">
+<col style="width:8%;">
+<col style="width:8%;">
+<col style="width:8%;">
+<col style="width:4%;">
+<col style="width:12%;">
+<col style="width:12%;">
+<col style="width:12%;">
+<col style="width:12%;">
+<col style="width:12%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="11" ><p class="tableblock"><a id="DebugTypeString"></a><strong>DebugTypeString</strong><br>
+<br>
+ Describe a string, mostly for Fortran 90.<br>
+<br>
+<em>Result Type</em> must be <strong>OpTypeVoid</strong>.<br>
+<br>
+<em>Base Type</em> is a debugging instruction that describes how each character is
+ encoded and is to be interpreted.<br>
+<br>
+<em>Data Location</em> is either a <em>Result &lt;id&gt;</em> of <a href="#DebugExpression"><strong>DebugExpression</strong></a>
+ instruction that&#8217;s used as a descriptor to calculate the address of the actual
+ data or a <em>Result &lt;id&gt;</em> or <a href="#DebugInfoNone"><strong>DebugInfoNone</strong></a> instruction.
+ If the latter is applied, then the address of the data is the same as the
+ address of the object.<br>
+<br>
+<em>Size</em> is an <strong>OpConstant</strong> with 32-bit or 64-bit integer type and its value is
+ the number of bits needed to hold a value of the string type.<br>
+<br>
+<em>LengthAddr</em> is either a <em>Result &lt;id&gt;</em> of <a href="#DebugExpression"><strong>DebugExpression</strong></a>
+ instruction that&#8217;s used as a descriptor to calculate the address where length
+ of the string is placed or a <em>Result &lt;id&gt;</em> or <a href="#DebugInfoNone"><strong>DebugInfoNone</strong></a>
+ instruction. If the latter is applied, then the size of the string is assumed
+ to be the amount of storage that is allocated for the string, which is
+ specified by <em>Size</em> parameter.<br>
+<br>
+<em>LengthSize</em> is an <strong>OpConstant</strong> with 32-bit or 64-bit integer type. If
+ optional parameter present, it specifies the size of the data to be retrieved
+ from the location referenced by the <em>LengthAddr</em> parameter. If it isn&#8217;t
+ present, then default size of an address on the machine is used.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">10+</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">13</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>Result &lt;id&gt;</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Set</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">112</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Base Type</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Data Location</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Size</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; LengthAddr</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Optional <em>&lt;id&gt; LengthSize</em></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_functions">Functions</h3>
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:2%;">
+<col style="width:2%;">
+<col style="width:4%;">
+<col style="width:4%;">
+<col style="width:4%;">
+<col style="width:2%;">
+<col style="width:7%;">
+<col style="width:7%;">
+<col style="width:7%;">
+<col style="width:7%;">
+<col style="width:7%;">
+<col style="width:7%;">
+<col style="width:7%;">
+<col style="width:7%;">
+<col style="width:7%;">
+<col style="width:7%;">
+<col style="width:7%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="17" ><p class="tableblock"><a id="DebugFunction"></a><strong>DebugFunction</strong><br>
+<br>
+Describe a function or method definition. The <em>Result &lt;id&gt;</em> of this instruction
+ represents a <a href="#LexicalScope">lexical scope</a>.<br>
+<br>
+<em>Result Type</em> must be <strong>OpTypeVoid</strong>.<br>
+<br>
+<em>Name</em> is an <strong>OpString</strong>, holding the name of the function as it appears in the
+ source program.<br>
+<br>
+<em>Type</em> is an <a href="#DebugTypeFunction"><strong>DebugTypeFunction</strong></a> instruction that
+ represents the type of the function.<br>
+<br>
+<em>Source</em> is a <strong>DebugSource</strong> instruction representing the text of the source program containing the function definition.<br>
+<br>
+<em>Line</em> is the <em>&lt;id&gt;</em> of a 32-bit integer <strong>OpConstant</strong> denoting the source line number at
+ which the function declaration appears in the <em>Source</em>.<br>
+<br>
+<em>Column</em> is the <em>&lt;id&gt;</em> of a 32-bit integer <strong>OpConstant</strong> denoting the column number at
+ which the first character of the function declaration appears.<br>
+<br>
+<em>Scope</em> is the <em>&lt;id&gt;</em> of a debug instruction that represents the
+ <a href="#LexicalScope">lexical scope</a> that contains the function definition.<br>
+<br>
+<em>Linkage Name</em> is an <strong>OpString</strong>, holding the linkage name of the function.<br>
+<br>
+ <em>Flags</em> is the <em>&lt;id&gt;</em> of a 32-bit integer <strong>OpConstant</strong> formed by the bitwise-OR of values from the <a href="#DebugFlags"><strong>Debug Info Flags</strong></a> table.<br>
+ <br>
+<em>Scope Line</em> is the <em>&lt;id&gt;</em> of a 32-bit integer <strong>OpConstant</strong> denoting the line number in
+ the source program at which the function lexical scope begins.<br>
+<br>
+<em>Declaration</em> is <a href="#DebugFunctionDeclaration"><strong>DebugFunctionDeclaration</strong></a>
+ that represents non-defining declaration of the function.<br>
+<br>
+<em>Target function</em> is an <strong>OpString</strong>. It&#8217;s used when compiler has to generate
+ trampoline function to call a function defined in a different compilation unit.
+ It holds the name of that function as it appears in the source program.
+ When <em>Target function</em> present and is not an <em>&lt;id&gt;</em> of
+ <a href="#DebugInfoNone"><strong>DebugInfoNone</strong></a> - <em>Declaration</em> must be an <em>&lt;id&gt;</em> of
+ <a href="#DebugInfoNone"><strong>DebugInfoNone</strong></a>.<br></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">15+</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">13</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>Result &lt;id&gt;</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Set</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">20</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Name</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Type</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Source</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Line</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Column</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Scope</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Linkage Name</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <a href="#DebugFlags"><em>Flags</em></a><br></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Scope Line</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Optional <em>&lt;id&gt; Declaration</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Optional <em>&lt;id&gt; Target function</em></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_imported_entities">Imported Entities</h3>
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:3%;">
+<col style="width:3%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:6%;">
+<col style="width:3%;">
+<col style="width:9%;">
+<col style="width:9%;">
+<col style="width:9%;">
+<col style="width:9%;">
+<col style="width:9%;">
+<col style="width:9%;">
+<col style="width:9%;">
+<col style="width:9%;">
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top" colspan="14" ><p class="tableblock"><a id="DebugModule"></a><strong>DebugModule</strong><br></p>
+<p class="tableblock">Represents a module in the programming language, for example a Fortran module.<br></p>
+<p class="tableblock"><em>Result Type</em> must be <strong>OpTypeVoid</strong>.<br></p>
+<p class="tableblock"><em>Name</em> is <em>&lt;id&gt;</em> of an <strong>OpString</strong>, holding the name of the imported module.<br></p>
+<p class="tableblock"><em>Source</em> is <em>&lt;id&gt;</em> of a <strong>DebugSource</strong> instruction representing text of the source
+program of the module.<br></p>
+<p class="tableblock"><em>Line</em> is <em>&lt;id&gt;</em> of a 32-bit integer <strong>OpConstant</strong> denoting the line number in
+the source at which the declaration or use of the module appears in the <em>Source</em>.<br></p>
+<p class="tableblock"><em>Parent</em> is <em>&lt;id&gt;</em> of a debug instruction which represents the parent lexical scope.<br></p>
+<p class="tableblock"><em>ConfigurationMacros</em> is <em>&lt;id&gt;</em> of an <strong>OpString</strong>, holding space-separated shell-quoted
+list of <span class="monospaced">-D</span> macro definitions as they would appear on a command line specified
+to a preprocessor on early stages of <em>Source</em> translation to the SPIR-V module.<br></p>
+<p class="tableblock"><em>IncludePath</em> is <em>&lt;id&gt;</em> of an <strong>OpString</strong>, holding the path to the module map file.<br></p>
+<p class="tableblock"><em>APINotesFile</em> is <em>&lt;id&gt;</em> of an <strong>OpString</strong>, holding the path to an API notes file
+for this module.<br></p>
+<p class="tableblock"><em>IsDecl</em> is <em>&lt;id&gt;</em> of a 32-bit integer <strong>OpConstant</strong> which indicates if the module is
+a declaration and it must have one of the following values:<br>
+0 indicates that this module is not a declaration<br>
+1 indicates that this module is a declaration<br></p>
+<p class="tableblock">Result of this instruction can be used as <em>Entity</em> operand of
+<strong>DebugImportedEntity</strong> instruction.<br></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">13</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">12</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>Result &lt;id&gt;</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Set</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">109</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Name</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Source</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Line</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Parent</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>ConfigurationMacros</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>IncludePath</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>APINotesFile</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>IsDeclaration</em></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_validation_rules">Validation Rules</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>None.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_issues">Issues</h2>
+<div class="sectionbody">
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+Should we update 3.2. Source Language instead of adding a new table?
+</p>
+<div class="paragraph"><p>Discussion:
+While it&#8217;s a good suggestion it would require a core SPIR-V spec update with the
+appropriate SPIR-V version update. While here we can add a table that is being
+used just by extended instruction set.</p></div>
+</li>
+</ol></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_revision_history">Revision History</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-rows"
+style="
+width:100%;
+">
+<col style="width:14%;">
+<col style="width:12%;">
+<col style="width:10%;">
+<col style="width:64%;">
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top" >Rev         </th>
+<th class="tableblock halign-left valign-top" >Date      </th>
+<th class="tableblock halign-left valign-top" >Author                             </th>
+<th class="tableblock halign-left valign-top" >Changes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1.00 Rev 1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2023-02-23</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Alexey Sotkin / Dmitry Sidorov</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Initial revision</strong></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="footnotes"><hr></div>
+<div id="footer">
+<div id="footer-text">
+Last updated
+ 2023-02-24 04:16:16 PST
+</div>
+</div>
+</body>
+</html>
