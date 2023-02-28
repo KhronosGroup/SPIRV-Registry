@@ -154,10 +154,10 @@ _StallFreeReturn_
 
 | 6160 | *RegisterMapInterfaceINTEL* +
 Indicates that the kernel has a single register based interface that is shared across all kernel control signals and kernel arguments.
-_wait_for_done_write_ is a boolean type scalar.
-If _wait_for_done_write_ is `true`, it indicates that the kernel interface will contain a stall register that can be used to back-pressure the kernel, while if it is `false`, it indicates that it will not.
+_WaitForDoneWrite_ is a boolean type scalar.
+If _WaitForDoneWrite_ is `true`, it indicates that the kernel interface will contain a stall register that can be used to back-pressure the kernel, while if it is `false`, it indicates that it will not.
 3+^| Literal +
-_wait_for_done_write_
+_WaitForDoneWrite_
 | *FPGAKernelAttributesv2INTEL*
 
 |====
