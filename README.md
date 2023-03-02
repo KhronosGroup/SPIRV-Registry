@@ -115,6 +115,7 @@ Khronos SPIR-V Registry](https://www.khronos.org/registry/spir-v/).
 1. [SPV_INTEL_usm_storage_classes           ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/INTEL/SPV_INTEL_usm_storage_classes.html)
 1. [SPV_INTEL_fpga_latency_control          ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/INTEL/SPV_INTEL_fpga_latency_control.html)
 1. [SPV_INTEL_fpga_argument_interfaces      ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/INTEL/SPV_INTEL_fpga_argument_interfaces.html)
+1. [SPV_INTEL_fpga_buffer_location          ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/INTEL/SPV_INTEL_fpga_buffer_location.html)
 1. [SPV_HUAWEI_cluster_culling_shader       ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/HUAWEI/SPV_HUAWEI_cluster_culling_shader.html)
 
 ## Non-Semantic Extended Instruction Set Specifications
