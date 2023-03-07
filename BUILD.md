@@ -8,7 +8,7 @@ Khronos recommends using [Asciidoc](https://asciidoc-py.github.io/index.html) to
 Asciidoc is a text-based document format that is easy to store and manage in a version control system, like this GitHub repo.
 For information about the Asciidoc format, please refer to the online documentation.
 
-For most SPIR-V specifications it is usually easiest to copy and modify an existing SPIR-V extension specification, to ensure there are no missing sections and to have a consistent look-and-feel.
+For most SPIR-V specifications it is easiest to copy and modify an existing SPIR-V extension specification, to ensure there are no missing sections and to have a consistent look-and-feel.
 
 ## Converting from Asciidoc to HTML
 
