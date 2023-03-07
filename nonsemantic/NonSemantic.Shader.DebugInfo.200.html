@@ -2464,7 +2464,7 @@ width:100%;
 <em>Result Type</em></p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><em>Result &lt;id&gt;</em></p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Set</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">110</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">201</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Lower Bound</em></p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Upper Bound</em></p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Count</em></p></td>
@@ -2500,21 +2500,30 @@ width:100%;
 <em>Base Type</em> is a debugging instruction that describes the element type of the
  array.<br>
 <br>
-<em>Data Location</em> is either a <em>Result &lt;id&gt;</em> of <a href="#DebugExpression"><strong>DebugExpression</strong></a>
- instruction that&#8217;s used as a descriptor to calculate the address of the actual
- data or a <em>Result &lt;id&gt;</em> or <a href="#DebugInfoNone"><strong>DebugInfoNone</strong></a> instruction.
+<em>Data Location</em> is either a <em>Result &lt;id&gt;</em> of <a href="#DebugExpression"><strong>DebugExpression</strong></a>,
+ <a href="#DebugGlobalVariable"><strong>DebugGlobalVariable</strong></a> or
+ <a href="#DebugLocalVariable"><strong>DebugLocalVariable</strong></a> instruction that&#8217;s used as a descriptor
+ to calculate the address of the actual data or a <em>Result &lt;id&gt;</em> or
+ <a href="#DebugInfoNone"><strong>DebugInfoNone</strong></a> instruction.
  If the latter is applied, then the address of the data is the same as the
  address of the object.<br>
 <br>
-<em>Associated</em> is an <strong>OpConstant</strong> with 32-bit or 64-bit integer type. A non-zero
- value indicates that the dynamic array is dynamically associated with other
+<em>Associated</em> is an <strong>OpConstant</strong> with 32-bit or 64-bit integer type, or a
+ <em>Result &lt;id&gt;</em> of <a href="#DebugExpression"><strong>DebugExpression</strong></a>, <a href="#DebugGlobalVariable"><strong>DebugGlobalVariable</strong></a>
+ or <a href="#DebugLocalVariable"><strong>DebugLocalVariable</strong></a>.
+ A non-zero value indicates that the dynamic array is dynamically associated with other
  objects.<br>
 <br>
-<em>Allocated</em> is an <strong>OpConstant</strong> with 32-bit or 64-bit integer type. A non-zero
- value indicates that the dynamic array is allocatable and deallocatable.<br>
+<em>Allocated</em> is an <strong>OpConstant</strong> with 32-bit or 64-bit integer type, or a
+ <em>Result &lt;id&gt;</em> of <a href="#DebugExpression"><strong>DebugExpression</strong></a>, <a href="#DebugGlobalVariable"><strong>DebugGlobalVariable</strong></a>
+ or <a href="#DebugLocalVariable"><strong>DebugLocalVariable</strong></a>.
+ A non-zero value indicates that the dynamic array is dynamically associated with other
+ objects.<br>
 <br>
-<em>Rank</em> is an <strong>OpConstant</strong> with 32-bit or 64-bit integer type and its value
- specifies the rank of the dynamic array.<br>
+<em>Rank</em> is an <strong>OpConstant</strong> with 32-bit or 64-bit integer type, or a
+ <em>Result &lt;id&gt;</em> of <a href="#DebugExpression"><strong>DebugExpression</strong></a>, <a href="#DebugGlobalVariable"><strong>DebugGlobalVariable</strong></a>
+ or <a href="#DebugLocalVariable"><strong>DebugLocalVariable</strong></a>.
+ The value specifies the rank of the dynamic array.<br>
 <br>
 <em>Subranges</em> is the elements in the corresponding dimension of the array. The
  number and order of <em>Subranges</em> operands must match with the number and order of
@@ -2528,7 +2537,7 @@ width:100%;
 <em>Result Type</em></p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><em>Result &lt;id&gt;</em></p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Set</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">111</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">202</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Base Type</em></p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Data Location</em></p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Associated</em></p></td>
@@ -2543,38 +2552,47 @@ width:100%;
 style="
 width:100%;
 ">
-<col style="width:4%;">
-<col style="width:4%;">
-<col style="width:8%;">
-<col style="width:8%;">
-<col style="width:8%;">
-<col style="width:4%;">
-<col style="width:12%;">
-<col style="width:12%;">
-<col style="width:12%;">
-<col style="width:12%;">
-<col style="width:12%;">
+<col style="width:3%;">
+<col style="width:3%;">
+<col style="width:7%;">
+<col style="width:7%;">
+<col style="width:7%;">
+<col style="width:3%;">
+<col style="width:11%;">
+<col style="width:11%;">
+<col style="width:11%;">
+<col style="width:11%;">
+<col style="width:11%;">
+<col style="width:11%;">
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" colspan="11" ><p class="tableblock"><a id="DebugTypeString"></a><strong>DebugTypeString</strong><br>
+<td class="tableblock halign-left valign-top" colspan="12" ><p class="tableblock"><a id="DebugTypeString"></a><strong>DebugTypeString</strong><br>
 <br>
  Describe a string, mostly for Fortran 90.<br>
 <br>
 <em>Result Type</em> must be <strong>OpTypeVoid</strong>.<br>
 <br>
-<em>Base Type</em> is a debugging instruction that describes how each character is
- encoded and is to be interpreted.<br>
+<em>Name</em> is an <strong>OpString</strong> representing the name of the string type as it appears
+ in the source program. May be empty.
 <br>
-<em>Data Location</em> is either a <em>Result &lt;id&gt;</em> of <a href="#DebugExpression"><strong>DebugExpression</strong></a>
- instruction that&#8217;s used as a descriptor to calculate the address of the actual
- data or a <em>Result &lt;id&gt;</em> or <a href="#DebugInfoNone"><strong>DebugInfoNone</strong></a> instruction.
+<em>Base Type</em> is a debugging instruction that describes how each character is
+ encoded and is to be interpreted. Must be either <em>Result &lt;id&gt;</em> of
+ <a href="#DebugTypeBasic"><strong>DebugTypeBasic</strong></a> or <a href="#DebugInfoNone"><strong>DebugInfoNone</strong></a> instruction.
+ If the latter is applied, then the character is encoded using the system default.<br>
+<br>
+<em>Data Location</em> is either a <em>Result &lt;id&gt;</em> of <a href="#DebugExpression"><strong>DebugExpression</strong></a>,
+ <a href="#DebugGlobalVariable"><strong>DebugGlobalVariable</strong></a> or
+ <a href="#DebugLocalVariable"><strong>DebugLocalVariable</strong></a> instruction that&#8217;s used as a descriptor
+ to calculate the address of the actual data or a <em>Result &lt;id&gt;</em> or
+ <a href="#DebugInfoNone"><strong>DebugInfoNone</strong></a> instruction.
  If the latter is applied, then the address of the data is the same as the
  address of the object.<br>
 <br>
 <em>Size</em> is an <strong>OpConstant</strong> with 32-bit or 64-bit integer type and its value is
  the number of bits needed to hold a value of the string type.<br>
 <br>
-<em>LengthAddr</em> is either a <em>Result &lt;id&gt;</em> of <a href="#DebugExpression"><strong>DebugExpression</strong></a>
+<em>LengthAddr</em> is either a <em>Result &lt;id&gt;</em> of <a href="#DebugExpression"><strong>DebugExpression</strong></a>,
+ <a href="#DebugGlobalVariable"><strong>DebugGlobalVariable</strong></a> or <a href="#DebugLocalVariable"><strong>DebugLocalVariable</strong></a>
  instruction that&#8217;s used as a descriptor to calculate the address where length
  of the string is placed or a <em>Result &lt;id&gt;</em> or <a href="#DebugInfoNone"><strong>DebugInfoNone</strong></a>
  instruction. If the latter is applied, then the size of the string is assumed
@@ -2593,7 +2611,8 @@ width:100%;
 <em>Result Type</em></p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><em>Result &lt;id&gt;</em></p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Set</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">112</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">203</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Name</em></p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Base Type</em></p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Data Location</em></p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Size</em></p></td>
@@ -2743,7 +2762,7 @@ a declaration and it must have one of the following values:<br>
 <em>Result Type</em></p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><em>Result &lt;id&gt;</em></p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Set</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">109</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">200</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Name</em></p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Source</em></p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Line</em></p></td>
@@ -2815,7 +2834,7 @@ width:100%;
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2023-02-24 04:16:16 PST
+ 2023-03-07 04:37:03 PST
 </div>
 </div>
 </body>

@@ -566,7 +566,7 @@ Subranges'
  'Encoding' is *Unsigned*. +
 
 | 8+ | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 110
+'Result Type' | 'Result <id>' | '<id> Set'| 201
 | '<id> Lower Bound'
 | '<id> Upper Bound'
 | '<id> Count'
@@ -585,21 +585,30 @@ Subranges'
 'Base Type' is a debugging instruction that describes the element type of the
  array. +
  +
-'Data Location' is either a 'Result <id>' of <<DebugExpression,*DebugExpression*>>
- instruction that's used as a descriptor to calculate the address of the actual
- data or a 'Result <id>' or <<DebugInfoNone,*DebugInfoNone*>> instruction.
+'Data Location' is either a 'Result <id>' of <<DebugExpression,*DebugExpression*>>,
+ <<DebugGlobalVariable,*DebugGlobalVariable*>> or
+ <<DebugLocalVariable,*DebugLocalVariable*>> instruction that's used as a descriptor
+ to calculate the address of the actual data or a 'Result <id>' or
+ <<DebugInfoNone,*DebugInfoNone*>> instruction.
  If the latter is applied, then the address of the data is the same as the
  address of the object. +
  +
-'Associated' is an *OpConstant* with 32-bit or 64-bit integer type. A non-zero
- value indicates that the dynamic array is dynamically associated with other
+'Associated' is an *OpConstant* with 32-bit or 64-bit integer type, or a
+ 'Result <id>' of <<DebugExpression,*DebugExpression*>>, <<DebugGlobalVariable,*DebugGlobalVariable*>>
+ or <<DebugLocalVariable,*DebugLocalVariable*>>.
+ A non-zero value indicates that the dynamic array is dynamically associated with other
  objects. +
  +
-'Allocated' is an *OpConstant* with 32-bit or 64-bit integer type. A non-zero
- value indicates that the dynamic array is allocatable and deallocatable. +
+'Allocated' is an *OpConstant* with 32-bit or 64-bit integer type, or a
+ 'Result <id>' of <<DebugExpression,*DebugExpression*>>, <<DebugGlobalVariable,*DebugGlobalVariable*>>
+ or <<DebugLocalVariable,*DebugLocalVariable*>>.
+ A non-zero value indicates that the dynamic array is dynamically associated with other
+ objects. +
  +
-'Rank' is an *OpConstant* with 32-bit or 64-bit integer type and its value
- specifies the rank of the dynamic array. +
+'Rank' is an *OpConstant* with 32-bit or 64-bit integer type, or a
+ 'Result <id>' of <<DebugExpression,*DebugExpression*>>, <<DebugGlobalVariable,*DebugGlobalVariable*>>
+ or <<DebugLocalVariable,*DebugLocalVariable*>>.
+ The value specifies the rank of the dynamic array. +
  +
 'Subranges' is the elements in the corresponding dimension of the array. The
  number and order of 'Subranges' operands must match with the number and order of
@@ -607,7 +616,7 @@ Subranges'
  'Result <id>' of <<DebugTypeSubranges, *DebugTypeSubrange*>>. +
 
 | 10+ | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 111
+'Result Type' | 'Result <id>' | '<id> Set'| 202
 | '<id> Base Type'
 | '<id> Data Location'
 | '<id> Associated'
@@ -617,27 +626,35 @@ Subranges'
   'Subranges'
 |======
 
-[cols="2*1,3*2,1,5*3"]
+[cols="2*1,3*2,1,6*3"]
 |======
-11+|[[DebugTypeString]]*DebugTypeString* +
+12+|[[DebugTypeString]]*DebugTypeString* +
  +
  Describe a string, mostly for Fortran 90. +
  +
 {result_type} +
  +
-'Base Type' is a debugging instruction that describes how each character is
- encoded and is to be interpreted. +
+'Name' is an *OpString* representing the name of the string type as it appears
+ in the source program. May be empty.
  +
-'Data Location' is either a 'Result <id>' of <<DebugExpression,*DebugExpression*>>
- instruction that's used as a descriptor to calculate the address of the actual
- data or a 'Result <id>' or <<DebugInfoNone,*DebugInfoNone*>> instruction.
+'Base Type' is a debugging instruction that describes how each character is
+ encoded and is to be interpreted. Must be either 'Result <id>' of
+ <<DebugTypeBasic,*DebugTypeBasic*>> or <<DebugInfoNone,*DebugInfoNone*>> instruction.
+ If the latter is applied, then the character is encoded using the system default. +
+ +
+'Data Location' is either a 'Result <id>' of <<DebugExpression,*DebugExpression*>>,
+ <<DebugGlobalVariable,*DebugGlobalVariable*>> or
+ <<DebugLocalVariable,*DebugLocalVariable*>> instruction that's used as a descriptor
+ to calculate the address of the actual data or a 'Result <id>' or
+ <<DebugInfoNone,*DebugInfoNone*>> instruction.
  If the latter is applied, then the address of the data is the same as the
  address of the object. +
  +
 'Size' is an *OpConstant* with 32-bit or 64-bit integer type and its value is
  the number of bits needed to hold a value of the string type. +
  +
-'LengthAddr' is either a 'Result <id>' of <<DebugExpression,*DebugExpression*>>
+'LengthAddr' is either a 'Result <id>' of <<DebugExpression,*DebugExpression*>>,
+ <<DebugGlobalVariable,*DebugGlobalVariable*>> or <<DebugLocalVariable,*DebugLocalVariable*>>
  instruction that's used as a descriptor to calculate the address where length
  of the string is placed or a 'Result <id>' or <<DebugInfoNone,*DebugInfoNone*>>
  instruction. If the latter is applied, then the size of the string is assumed
@@ -650,7 +667,8 @@ Subranges'
  present, then default size of an address on the machine is used.
 
 | 10+ | 13 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 112
+'Result Type' | 'Result <id>' | '<id> Set'| 203
+| '<id> Name'
 | '<id> Base Type'
 | '<id> Data Location'
 | '<id> Size'
@@ -760,7 +778,7 @@ Result of this instruction can be used as 'Entity' operand of
 *DebugImportedEntity* instruction. +
 
 | 13 | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 109
+'Result Type' | 'Result <id>' | '<id> Set'| 200
 | '<id>' 'Name'
 | '<id>' 'Source'
 | '<id>' 'Line'
