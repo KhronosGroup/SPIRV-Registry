@@ -635,7 +635,7 @@ Subranges'
 {result_type} +
  +
 'Name' is an *OpString* representing the name of the string type as it appears
- in the source program. May be empty.
+ in the source program. May be empty. +
  +
 'Base Type' is a debugging instruction that describes how each character is
  encoded and is to be interpreted. Must be either 'Result <id>' of
