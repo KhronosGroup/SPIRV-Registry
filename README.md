@@ -124,3 +124,7 @@ Khronos SPIR-V Registry](https://www.khronos.org/registry/spir-v/).
 1. [NonSemantic.ClspvReflection]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/nonsemantic/NonSemantic.ClspvReflection.html)
 1. [NonSemantic.Shader.DebugInfo.100]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/nonsemantic/NonSemantic.Shader.DebugInfo.100.html)
 1. [NonSemantic.DebugBreak]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/nonsemantic/NonSemantic.DebugBreak.html)
+
+## Building HTML Specifications
+
+Please see [BUILD.md](BUILD.md) for instructions to create an HTML specification for this repo.
