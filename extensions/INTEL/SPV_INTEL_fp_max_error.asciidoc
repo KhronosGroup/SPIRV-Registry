@@ -1,0 +1,135 @@
+SPV_INTEL_fp_max_error
+======================
+
+== Name Strings
+
+SPV_INTEL_fp_max_error
+
+== Contact
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Registry
+
+== Contributors
+
+* Shuo Niu, Intel
+* Daniel Zhang, Intel
+
+== Notice
+
+Copyright (c) 2023 Intel Corporation.  All rights reserved.
+
+== Status
+
+Final draft
+
+== Version
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | {docdate}
+| Revision           | 1
+|========================================
+
+== Dependencies
+
+This extension is written against the SPIR-V Specification,
+Version 1.6 Revision 2.
+
+This extension requires SPIR-V 1.0.
+
+== Overview
+
+This extension adds a decoration that may be attached to any instruction of floating-point type. It can be used to express the maximum acceptable relative error in the result of that instruction, in ULPs.
+
+Note that this takes precedence over accuracy requirements from the environment specification. Please refer to the client environment specification for the list of instruction that the decoration can be attached to. The client environment specification will also provide a list of valid values for the maximum acceptable relative error.
+
+== Extension Name
+
+To use this extension within a SPIR-V module, the following *OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_INTEL_fp_max_error"
+----
+
+== New capabilities
+This extension introduces a new capability:
+
+----
+FPMaxErrorINTEL
+----
+
+== New Decorations
+
+This extension adds the following decoration under the *FPMaxErrorINTEL* capability:
+
+----
+FPMaxErrorDecorationINTEL
+----
+
+== Token Number Assignments
+
+--
+[width="40%"]
+[cols="70%,30%"]
+[grid="rows"]
+|====
+|FPMaxErrorINTEL                        |6169
+|FPMaxErrorDecorationINTEL              |6170
+|====
+--
+
+== Modifications to the SPIR-V Specification, Version 1.6
+
+=== Decoration
+
+Modify Section 3.20, Decoration, adding the following row to the Decoration table:
+
+--
+[options="header"]
+|====
+2+^| Decoration ^| Extra Operands ^| Enabling Capabilities
+| 6170 | *FPMaxErrorDecorationINTEL* +
+Apply to a floating-point instruction to express the maximum acceptable relative error in the result of that instruction, in ULPs. ULP is defined as follows:
+
+If x is a real number that lies between two finite consecutive floating-point numbers a and b, without being equal to one of them, then ulp(x) = \|b - a\|, otherwise ulp(x) is the distance between the two non-equal finite floating-point numbers nearest to x. Moreover, ulp(NaN) is NaN.
+To give attribution, this description referenced Jean-Michel Muller's definition of ulp(x) with slight clarification for behaviour at zero. For details, please refer to https://hal.inria.fr/inria-00070503/document.
+
+_Max Error_ is a positive 32-bit float type number representing the maximum acceptable relative error.
+
+Note that this decoration can increase or decrease allowable error. It overrides the accuracy from the environment specification and allows both the expressions of additional error and/or less error when it differs from the environment specification.
+
+| Literal +
+_Max Error_ | *FPMaxErrorINTEL*
+|====
+--
+
+=== Capability
+
+Modify Section 3.31, Capability, adding a row to the Capability table:
+--
+[options="header"]
+|====
+2+^| Capability ^| Implicitly Declares
+| 6169 | FPMaxErrorINTEL |
+|====
+--
+
+=== Validation Rules
+
+None.
+
+== Issues
+
+None.
+
+== Revision History
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|{docdate}|Shuo Niu|*Initial public release*
+|========================================
