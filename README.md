@@ -115,6 +115,9 @@ Khronos SPIR-V Registry](https://www.khronos.org/registry/spir-v/).
 1. [SPV_INTEL_usm_storage_classes           ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/INTEL/SPV_INTEL_usm_storage_classes.html)
 1. [SPV_INTEL_fpga_latency_control          ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/INTEL/SPV_INTEL_fpga_latency_control.html)
 1. [SPV_INTEL_fpga_argument_interfaces      ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/INTEL/SPV_INTEL_fpga_argument_interfaces.html)
+1. [SPV_INTEL_fpga_buffer_location          ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/INTEL/SPV_INTEL_fpga_buffer_location.html)
+1. [SPV_HUAWEI_cluster_culling_shader       ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/HUAWEI/SPV_HUAWEI_cluster_culling_shader.html)
+1. [SPV_INTEL_bfloat16_conversion           ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/INTEL/SPV_INTEL_bfloat16_conversion.html)
 
 
 ## Non-Semantic Extended Instruction Set Specifications
@@ -124,3 +127,7 @@ Khronos SPIR-V Registry](https://www.khronos.org/registry/spir-v/).
 1. [NonSemantic.Shader.DebugInfo.100]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/nonsemantic/NonSemantic.Shader.DebugInfo.100.html)
 1. [NonSemantic.DebugBreak]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/nonsemantic/NonSemantic.DebugBreak.html)
 1. [NonSemantic.Shader.DebugInfo.200]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/nonsemantic/NonSemantic.Shader.DebugInfo.200.html)
+
+## Building HTML Specifications
+
+Please see [BUILD.md](BUILD.md) for instructions to create an HTML specification for this repo.

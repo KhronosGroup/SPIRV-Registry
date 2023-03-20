@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 2.0.17">
-<title>SPV_INTEL_kernel_attributes</title>
+<meta name="generator" content="Asciidoctor 2.0.18">
+<title>SPV_HUAWEI_cluster_culling_shader</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -84,10 +84,10 @@ code{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;
 ul,ol,dl{line-height:1.6;margin-bottom:1.25em;list-style-position:outside;font-family:inherit}
 ul,ol{margin-left:1.5em}
 ul li ul,ul li ol{margin-left:1.25em;margin-bottom:0}
-ul.square li ul,ul.circle li ul,ul.disc li ul{list-style:inherit}
-ul.square{list-style-type:square}
 ul.circle{list-style-type:circle}
 ul.disc{list-style-type:disc}
+ul.square{list-style-type:square}
+ul.circle ul:not([class]),ul.disc ul:not([class]),ul.square ul:not([class]){list-style:inherit}
 ol li ul,ol li ol{margin-left:1.25em;margin-bottom:0}
 dl dt{margin-bottom:.3125em;font-weight:bold}
 dl dd{margin-bottom:1.25em}
@@ -435,78 +435,57 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 #footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
 </head>
-<body class="article data-line-1">
+<body class="article">
 <div id="header">
-<h1>SPV_INTEL_kernel_attributes</h1>
+<h1>SPV_HUAWEI_cluster_culling_shader</h1>
 </div>
 <div id="content">
-<div class="sect1 data-line-4">
-<h2 id="_name_strings">Name Strings</h2>
+<div class="sect1">
+<h2 id="name-strings"><a class="anchor" href="#name-strings"></a>Name Strings</h2>
 <div class="sectionbody">
-<div class="paragraph data-line-6">
-<p>SPV_INTEL_kernel_attributes</p>
+<div class="paragraph">
+<p>SPV_HUAWEI_cluster_culling_shader</p>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-8">
-<h2 id="_contact">Contact</h2>
+<div class="sect1">
+<h2 id="contact"><a class="anchor" href="#contact"></a>Contact</h2>
 <div class="sectionbody">
-<div class="paragraph data-line-10">
-<p>To report problems with this extension, please open a new issue at:</p>
-</div>
-<div class="paragraph data-line-12">
-<p><a href="https://github.com/KhronosGroup/SPIRV-Registry" class="undefined" data-href="https://github.com/KhronosGroup/SPIRV-Registry">https://github.com/KhronosGroup/SPIRV-Registry</a></p>
+<div class="paragraph">
+<p>To report problems with this extension, please open a new issue at:
+<a href="https://github.com/KhronosGroup/SPIRV-Registry" class="bare">https://github.com/KhronosGroup/SPIRV-Registry</a></p>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-14">
-<h2 id="_contributors">Contributors</h2>
+<div class="sect1">
+<h2 id="contributors"><a class="anchor" href="#contributors"></a>Contributors</h2>
 <div class="sectionbody">
-<div class="ulist data-line-16">
+<div class="ulist">
 <ul>
-<li class="data-line-16">
-<p>Jessica Davies, Intel</p>
+<li>
+<p>Cheng Wei, HUAWEI</p>
 </li>
-<li class="data-line-17">
-<p>Joseph Garvey, Intel</p>
-</li>
-<li class="data-line-18">
-<p>Ajaykumar Kannan, Intel</p>
-</li>
-<li class="data-line-19">
-<p>Michael Kinsner, Intel</p>
-</li>
-<li class="data-line-20">
-<p>Ryan Murray, Intel</p>
-</li>
-<li class="data-line-21">
-<p>Abhishek Tiwari, Intel</p>
+<li>
+<p>Yuchang Wang, HUAWEI</p>
 </li>
 </ul>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-23">
-<h2 id="_notice">Notice</h2>
+<div class="sect1">
+<h2 id="status"><a class="anchor" href="#status"></a>Status</h2>
 <div class="sectionbody">
-<div class="paragraph data-line-25">
-<p>Copyright (c) 2019-2022 Intel Corporation.  All rights reserved.</p>
+<div class="paragraph">
+<p>Draft</p>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-27">
-<h2 id="_status">Status</h2>
+<div class="sect1">
+<h2 id="version"><a class="anchor" href="#version"></a>Version</h2>
 <div class="sectionbody">
-<div class="paragraph data-line-29">
-<p>Final Draft</p>
-</div>
-</div>
-</div>
-<div class="sect1 data-line-31">
-<h2 id="_version">Version</h2>
-<div class="sectionbody">
-<table class="tableblock frame-all grid-all data-line-34" style="width: 40%;">
+<table class="tableblock frame-all grid-all" style="width: 40%;">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -514,335 +493,182 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2022-12-05</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2022-11-16</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
 </tr>
 </tbody>
 </table>
+<div class="paragraph">
+<p>Dependencies
+This extension is written against the SPIR-V Specification, Version 1.6</p>
 </div>
 </div>
-<div class="sect1 data-line-39">
-<h2 id="_dependencies">Dependencies</h2>
+</div>
+<div class="sect1">
+<h2 id="overview"><a class="anchor" href="#overview"></a>Overview</h2>
 <div class="sectionbody">
-<div class="paragraph data-line-41">
-<p>This extension is written against the SPIR-V Specification,
-Version 1.6 Revision 2.</p>
-</div>
-<div class="paragraph data-line-44">
-<p>This extension requires SPIR-V 1.0.</p>
+<div class="paragraph">
+<p>This extensions provides SPIR-V support for the <strong>GLSL GL_HUAWEI_cluster_culling_shader</strong> extension which adds a new programmable shader types - cluster culling shaders - that has an execution environment similar to that of compute shaders. The developer can use this new shader to perform coarse-level geometry culling on GPU and direct emit visible cluster to the subsequent rendering pipeline.</p>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-46">
-<h2 id="_overview">Overview</h2>
+<div class="sect1">
+<h2 id="extension-name"><a class="anchor" href="#extension-name"></a>Extension Name</h2>
 <div class="sectionbody">
-<div class="paragraph data-line-48">
-<p>This extension adds a variety of new execution modes, both general and target-specific. The target-specific execution modes are guarded by separate capabilities.</p>
+<div class="paragraph">
+<p>To use this extension within a SPIR-V module, the following <strong>OpExtension</strong> must be present in the module</p>
 </div>
-</div>
-</div>
-<div class="sect1 data-line-50">
-<h2 id="_extension_name">Extension Name</h2>
-<div class="sectionbody">
-<div class="paragraph data-line-51">
-<p>To use this extension within a SPIR-V module, the following <strong>OpExtension</strong> must be present in the module:</p>
-</div>
-<div class="listingblock data-line-53">
+<div class="listingblock">
 <div class="content">
-<pre>OpExtension "SPV_INTEL_kernel_attributes"</pre>
+<pre>OpExtension "SPV_HUAWEI_cluster_culling_shader"</pre>
 </div>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-57">
-<h2 id="_new_capabilities">New Capabilities</h2>
+<div class="sect1">
+<h2 id="new-capabilities"><a class="anchor" href="#new-capabilities"></a>New Capabilities</h2>
 <div class="sectionbody">
-<div class="paragraph data-line-58">
+<div class="paragraph">
 <p>This extension introduces new capabilities:</p>
 </div>
-<div class="listingblock data-line-60">
+<div class="listingblock">
 <div class="content">
-<pre>KernelAttributesINTEL
-FPGAKernelAttributesINTEL
-FPGAKernelAttributesv2INTEL</pre>
+<pre>ClusterCullingShadingHUAWEI</pre>
 </div>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-66">
-<h2 id="_new_execution_modes">New Execution Modes</h2>
+<div class="sect1">
+<h2 id="modifications-to-the-spir-v-specification-version-1-6"><a class="anchor" href="#modifications-to-the-spir-v-specification-version-1-6"></a>Modifications to the SPIR-V Specification, Version 1.6</h2>
 <div class="sectionbody">
-<div class="listingblock data-line-68">
-<div class="content">
-<pre>MaxWorkgroupSizeINTEL
-MaxWorkDimINTEL
-NoGlobalOffsetINTEL
-NumSIMDWorkitemsINTEL
-SchedulerTargetFmaxMhzINTEL
-StreamingInterfaceINTEL
-RegisterMapInterfaceINTEL</pre>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">(Modify section 3.3, Execution model, adding a row to the table)</dt>
+</dl>
 </div>
-</div>
-</div>
-</div>
-<div class="sect1 data-line-78">
-<h2 id="_token_number_assignments">Token Number Assignments</h2>
-<div class="sectionbody">
-<div class="openblock data-line-80">
-<div class="content">
-<table class="tableblock frame-all grid-rows data-line-84" style="width: 40%;">
-<colgroup>
-<col style="width: 70%;">
-<col style="width: 30%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">KernelAttributesINTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5892</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">MaxWorkgroupSizeINTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5893</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">MaxWorkDimINTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5894</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">NoGlobalOffsetINTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5895</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">NumSIMDWorkitemsINTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5896</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">FPGAKernelAttributesINTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5897</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">FPGAKernelAttributesv2INTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">6161</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">SchedulerTargetFmaxMhzINTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5903</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">StreamingInterfaceINTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">6154</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">RegisterMapInterfaceINTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">6160</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1 data-line-98">
-<h2 id="_modifications_to_the_spir_v_specification_version_1_6">Modifications to the SPIR-V Specification, Version 1.6</h2>
-<div class="sectionbody">
-<div class="sect2 data-line-100">
-<h3 id="_execution_mode">Execution Mode</h3>
-<div class="paragraph data-line-102">
-<p>Modify Section 3.6, Execution Mode, adding these rows to the Execution Mode table:</p>
-</div>
-<div class="openblock data-line-104">
-<div class="content">
-<table class="tableblock frame-all grid-all stretch data-line-106">
-<colgroup>
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.667%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-center valign-top" colspan="2">Execution Mode</th>
-<th class="tableblock halign-center valign-top" colspan="3">Extra Operands</th>
-<th class="tableblock halign-center valign-top">Enabling Capabilities</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5893</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MaxWorkgroupSizeINTEL</strong><br>
-Indicates the maximum possible work-group size in the x, y, and z dimensions.
-If a <strong>LocalSize</strong> execution mode is applied to the same entry point, it is invalid for <em>max_i_size</em> &lt; <em>i</em> <em>size</em> for dimension <em>i</em>.
-Only valid with the <strong>Kernel</strong> Execution Model.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Literal Number<br>
-<em>max_x_size</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Literal Number<br>
-<em>max_y_size</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Literal Number<br>
-<em>max_z_size</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>KernelAttributesINTEL</strong></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5894</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MaxWorkDimINTEL</strong><br>
-Indicates the maximum number of work dimensions.  Legal values range from 0 to 3.
-A maximum dimensionality of 0 indicates that the kernel can only be launched with a single work-item.
-If a <strong>LocalSize</strong> execution mode is applied to the same entry point, the size of each dimension beyond <em>max_dimensions</em> must be 1.
-Only valid with the <strong>Kernel</strong> Execution Model.</p></td>
-<td class="tableblock halign-center valign-top" colspan="3"><p class="tableblock">Literal Number<br>
-<em>max_dimensions</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>KernelAttributesINTEL</strong></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5895</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>NoGlobalOffsetINTEL</strong><br>
-Indicates that the global offset is always (0, 0, 0).  Only valid with the <strong>Kernel</strong> Execution Model.</p></td>
-<td class="tableblock halign-center valign-top" colspan="3"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>KernelAttributesINTEL</strong></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5896</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>NumSIMDWorkitemsINTEL</strong><br>
-Indicates that the kernel should be vectorized with the provided vector width.  Only valid with the <strong>Kernel</strong> Execution Model.</p></td>
-<td class="tableblock halign-center valign-top" colspan="3"><p class="tableblock">Literal Number<br>
-<em>vector_width</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGAKernelAttributesINTEL</strong></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5903</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>SchedulerTargetFmaxMhzINTEL</strong><br>
-Indicates the target clock frequency (Fmax) for the kernel, in MHz. Only valid with the <strong>Kernel</strong> Execution Model.</p></td>
-<td class="tableblock halign-center valign-top" colspan="3"><p class="tableblock">Literal Number<br>
-<em>target_fmax</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGAKernelAttributesINTEL</strong></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">6154</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>StreamingInterfaceINTEL</strong><br>
-Indicates that the kernel has a streaming interface, in which invocation of and return from the kernel is synchronized by a flow control handshaking protocol.
-<em>StallFreeReturn</em> is a 32-bit unsigned integer type scalar.
-If <em>StallFreeReturn</em> is equal to zero, it indicates that the return interface of the kernel can input a stall control flow signal from downstream logic, while a non-zero value indicates that it will not accept a stall control flow signal from downstream logic.</p></td>
-<td class="tableblock halign-center valign-top" colspan="3"><p class="tableblock">Literal<br>
-<em>StallFreeReturn</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGAKernelAttributesINTEL</strong></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">6160</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RegisterMapInterfaceINTEL</strong><br>
-Indicates that the kernel has a single register based interface that is shared across all kernel control signals and kernel arguments.
-<em>WaitForDoneWrite</em> is a boolean type scalar.
-If <em>WaitForDoneWrite</em> is <code>true</code>, it indicates that the kernel interface will contain a stall register that can be used to back-pressure the kernel, while if it is <code>false</code>, it indicates that it will not.</p></td>
-<td class="tableblock halign-center valign-top" colspan="3"><p class="tableblock">Literal<br>
-<em>WaitForDoneWrite</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGAKernelAttributesv2INTEL</strong></p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div class="sect2 data-line-166">
-<h3 id="_capability">Capability</h3>
-<div class="paragraph data-line-168">
-<p>Modify Section 3.31, Capability, adding the following rows to the Capability table:</p>
-</div>
-<div class="openblock data-line-169">
-<div class="content">
-<table class="tableblock frame-all grid-all stretch data-line-171">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
 <col style="width: 33.3334%;">
 </colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-center valign-top" colspan="2">Capability</th>
-<th class="tableblock halign-center valign-top">Implicitly Declares</th>
-</tr>
-</thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5892</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">KernelAttributesINTEL</p></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-middle" colspan="2"><p class="tableblock">Execution Model</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Enabling Capabilities</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5897</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">FPGAKernelAttributesINTEL</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">6161</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">FPGAKernelAttributesv2INTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">FPGAKernelAttributesINTEL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6272</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>ClusterCullingHUAWEI</strong><br>
+Cluster Culling shading stage.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>ClusterCullingShadingHUAWEI</strong></p></td>
 </tr>
 </tbody>
 </table>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">(Modify section 3.31, Capability, adding a row to the Capability table)</dt>
+</dl>
 </div>
-</div>
-</div>
-<div class="sect2 data-line-179">
-<h3 id="_validation_rules">Validation Rules</h3>
-<div class="paragraph data-line-181">
-<p>It is illegal to specify both <strong>StreamingInterfaceINTEL</strong> and <strong>RegisterMapInterfaceINTEL</strong> modes on the same entry point.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1 data-line-183">
-<h2 id="_issues">Issues</h2>
-<div class="sectionbody">
-<div class="paragraph data-line-185">
-<p>None.</p>
-</div>
-</div>
-</div>
-<div class="sect1 data-line-187">
-<h2 id="_revision_history">Revision History</h2>
-<div class="sectionbody">
-<table class="tableblock frame-all grid-rows stretch data-line-192">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 4.7619%;">
-<col style="width: 14.2857%;">
-<col style="width: 14.2857%;">
-<col style="width: 66.6667%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
 </colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Rev</th>
-<th class="tableblock halign-left valign-top">Date</th>
-<th class="tableblock halign-left valign-top">Author</th>
-<th class="tableblock halign-left valign-top">Changes</th>
-</tr>
-</thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2019-12-18</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Joe Garvey</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Initial public release</strong></p></td>
+<td class="tableblock halign-center valign-middle" colspan="2"><p class="tableblock">Capabilities</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Implicitly Declares</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2020-04-22</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Jessica Davies</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Added one new execution mode, SchedulerTargetFmaxMhzINTEL.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6273</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>ClusterCullingShadingHUAWEI</strong><br></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">shader also see extension <strong>SPV_HUAWEI_cluster_culling_shader</strong></p></td>
+</tr>
+</tbody>
+</table>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">(Modify section 3.21, Built-in, adding 7 new rows to the Built-in table)</dt>
+</dl>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-middle" colspan="2"><p class="tableblock">Builtin</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Enabling Capabilities</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2021-09-14</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Ajaykumar Kannan</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Added one new execution mode, StreamingInterfaceINTEL.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6274</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>IndexCountHUAWEI</strong> This variable specifies the number of vertices to draw in a cluster.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>SPV_HUAWEI_cluster_culling_shader</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2022-12-05</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Abhishek Tiwari</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Added one new execution mode, RegisterMapInterfaceINTEL, under a new compatibility.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6275</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>VertexCountHUAWEI</strong> This variable specifies the number of vertices to draw in a cluster.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>SPV_HUAWEI_cluster_culling_shader</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6276</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>InstanceCountHUAWEI</strong> This variable specified the number of instance to draw in a cluster. This variable should be one.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>SPV_HUAWEI_cluster_culling_shader</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6277</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FirstIndexHUAWEI</strong> This variable specifies the base index of a cluster within the index buffer.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>SPV_HUAWEI_cluster_culling_shader</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6278</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FirstVertexHUAWEI</strong> This variable specifies the base index of a cluster within the index buffer.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>SPV_HUAWEI_cluster_culling_shader</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6279</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>VertexOffsetHUAWEI</strong> This variable specifies the value added to the vertex index of a cluster before indexing into the vertex buffer.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>SPV_HUAWEI_cluster_culling_shader</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6280</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FirstInstanceHUAWEI</strong> This variable specifies the instance ID of the first instance to draw.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>SPV_HUAWEI_cluster_culling_shader</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6281</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>ClusterIdHUAWEI</strong> This variable specifies the index of cluster being rendered by this drawing command.
+ This id passed to vertex shader for cluster-related information fetching.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>SPV_HUAWEI_cluster_culling_shader</strong></p></td>
+</tr>
+</tbody>
+</table>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">(Modify section 3.42.25, Reserved Instructions, adding a row to the table)</dt>
+</dl>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">OpDispatchClusterHUAWEI</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capabilities:
+ClusterCulingShadingHUAWEI</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6282</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6273</p></td>
 </tr>
 </tbody>
 </table>
@@ -851,8 +677,15 @@ If <em>WaitForDoneWrite</em> is <code>true</code>, it indicates that the kernel 
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-12-08 08:30:43 -0800
+Last updated 2023-02-23 15:27:07 +0800
 </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code[data-lang]')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
 </body>
 </html>

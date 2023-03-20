@@ -1,0 +1,171 @@
+:extension_name: SPV_INTEL_bfloat16_conversion
+:capability_name: BFloat16ConversionINTEL
+:capability_token: 6115
+:FToBF16_token: 6116
+:BF16ToF_token: 6117
+:FToBF16_name: OpConvertFToBF16INTEL
+:BF16ToF_name: OpConvertBF16ToFINTEL
+
+{extension_name}
+================
+
+== Name Strings
+
+{extension_name}
+
+== Contact
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Registry
+
+== Contributors
+
+// spell-checker: disable
+- Ben Ashbaugh, Intel +
+- Greg Lueck, Intel +
+- Alexey Sotkin, Intel +
+- Arvind Sudarsanam, Intel +
+// spell-checker: enable
+
+== Notice
+
+Copyright (c) 2023 Intel Corporation.  All rights reserved.
+
+== Status
+
+* Shipping
+
+== Version
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | {docdate}
+| Revision           | 1
+|========================================
+
+== Dependencies
+
+This extension is written against the SPIR-V Specification, Version 1.6 Revision
+2.
+
+This extension requires SPIR-V 1.0.
+
+== Overview
+
+This extension adds instructions to convert between single-precision 32-bit
+floating-point values and 16-bit `bfloat16` values.
+The `bfloat16` floating-point format is a truncated variant of the IEEE 754
+single-precision 32-bit floating-point format with one sign bit, eight exponent
+bits, and seven mantissa bits.
+This gives the 16-bit `bfloat16` format similar dynamic range as the 32-bit
+`float` format, albeit with lower precision than the 16-bit `half` format.
+
+Please note that this extension does not introduce a `bfloat16` type to SPIR-V
+and instead the new instructions convert to or from a 16-bit integer type whose
+bit pattern represents a `bfloat16` value.
+
+== Extension Name
+
+To use this extension within a SPIR-V module, the appropriate *OpExtension* must
+be present in the module:
+
+[subs="attributes"]
+----
+OpExtension "{extension_name}"
+----
+
+== Modifications to the SPIR-V Specification, Version 1.6
+
+=== Capabilities
+
+Modify Section 3.31, Capability, adding rows to the Capability table:
+
+--
+[options="header"]
+|====
+2+^| Capability ^| Implicitly Declares 
+| {capability_token} | *{capability_name}*
+|
+|====
+--
+
+=== Instructions
+
+Add to Section 3.42.11, Conversion Instructions:
+
+[cols="1,1,3*3",width="100%"]
+|=====
+4+|[[OpConvertFToBF16]]*{FToBF16_name}* +
+ +
+Convert value numerically from 32-bit floating point to `bfloat16`, which is
+represented as a 16-bit unsigned integer. +
+ +
+'Result Type' must be a scalar or vector of integer type.
+The component width must be 16 bits.
+The bit pattern in the 'Result' represents a `bfloat16` value. +
+ +
+'Float Value' must be a scalar or vector of floating-point type.
+It must have the same number of components as 'Result Type'.
+The component width must be 32 bits. +
+ +
+Results are computed per component. +
+
+1+|Capability: +
+*{capability_name}*
+1+| 4 | {FToBF16_token}
+| '<id>' +
+'Result Type'
+| 'Result <id>'
+| '<id>' +
+'Float Value'
+| '<id>' +
+|=====
+
+[cols="1,1,3*3",width="100%"]
+|=====
+4+|[[OpConvertBF16ToF]]*{BF16ToF_name}* +
+ +
+Interpret a 16-bit integer value as `bfloat16` and convert the value numerically
+to 32-bit floating point. +
+ +
+'Result Type' must be a scalar or vector of floating-point type.
+The component width must be 32 bits. +
+ +
+'BFloat16 Value' must be a scalar or vector of integer type, which is
+interpreted as a `bfloat16`.
+The type must have the same number of components as 'Result Type'.
+The component width must be 16 bits. +
+ +
+Results are computed per component. +
+
+1+|Capability: +
+*{capability_name}*
+1+| 4 | {BF16ToF_token}
+| '<id>' +
+'Result Type'
+| 'Result <id>'
+| '<id>' +
+'BFloat16 Value'
+| '<id>' +
+|=====
+
+
+== Issues
+
+None.
+// . first issue
+// +
+// --
+// *RESOLVED*:
+// --
+
+== Revision History
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2023-03-06|Ben Ashbaugh|Initial revision for publication
+|========================================

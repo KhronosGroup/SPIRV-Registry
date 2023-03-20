@@ -18,10 +18,11 @@ https://github.com/KhronosGroup/SPIRV-Registry
 - Ajaykumar Kannan, Intel
 - Michael Kinsner, Intel
 - Ryan Murray, Intel
+- Abhishek Tiwari, Intel
 
 == Notice
 
-Copyright (c) 2019-2021 Intel Corporation.  All rights reserved.
+Copyright (c) 2019-2022 Intel Corporation.  All rights reserved.
 
 == Status
 
@@ -31,14 +32,14 @@ Final Draft
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2021-09-14
-| Revision           | 3
+| Last Modified Date | 2022-12-05
+| Revision           | 4
 |========================================
 
 == Dependencies
 
 This extension is written against the SPIR-V Specification,
-Version 1.5 Revision 5.
+Version 1.6 Revision 2.
 
 This extension requires SPIR-V 1.0.
 
@@ -59,6 +60,7 @@ This extension introduces new capabilities:
 ----
 KernelAttributesINTEL
 FPGAKernelAttributesINTEL
+FPGAKernelAttributesv2INTEL
 ----
 
 == New Execution Modes
@@ -70,6 +72,7 @@ NoGlobalOffsetINTEL
 NumSIMDWorkitemsINTEL
 SchedulerTargetFmaxMhzINTEL
 StreamingInterfaceINTEL
+RegisterMapInterfaceINTEL
 ----
 
 == Token Number Assignments
@@ -85,12 +88,14 @@ StreamingInterfaceINTEL
 |NoGlobalOffsetINTEL          |5895
 |NumSIMDWorkitemsINTEL        |5896
 |FPGAKernelAttributesINTEL    |5897
+|FPGAKernelAttributesv2INTEL  |6161
 |SchedulerTargetFmaxMhzINTEL  |5903
 |StreamingInterfaceINTEL      |6154
-|==== 
+|RegisterMapInterfaceINTEL    |6160
+|====
 --
 
-== Modifications to the SPIR-V Specification, Version 1.5
+== Modifications to the SPIR-V Specification, Version 1.6
 
 === Execution Mode
 
@@ -147,6 +152,14 @@ If _StallFreeReturn_ is equal to zero, it indicates that the return interface of
 _StallFreeReturn_
 | *FPGAKernelAttributesINTEL*
 
+| 6160 | *RegisterMapInterfaceINTEL* +
+Indicates that the kernel has a single register based interface that is shared across all kernel control signals and kernel arguments.
+_WaitForDoneWrite_ is a boolean type scalar.
+If _WaitForDoneWrite_ is `true`, it indicates that the kernel interface will contain a stall register that can be used to back-pressure the kernel, while if it is `false`, it indicates that it will not.
+3+^| Literal +
+_WaitForDoneWrite_
+| *FPGAKernelAttributesv2INTEL*
+
 |====
 --
 
@@ -159,8 +172,13 @@ Modify Section 3.31, Capability, adding the following rows to the Capability tab
 2+^| Capability ^| Implicitly Declares
 | 5892 | KernelAttributesINTEL |
 | 5897 | FPGAKernelAttributesINTEL |
+| 6161 | FPGAKernelAttributesv2INTEL | FPGAKernelAttributesINTEL
 |====
 --
+
+=== Validation Rules
+
+It is illegal to specify both *StreamingInterfaceINTEL* and *RegisterMapInterfaceINTEL* modes on the same entry point.
 
 == Issues
 
@@ -176,5 +194,6 @@ None.
 |1|2019-12-18|Joe Garvey|*Initial public release*
 |2|2020-04-22|Jessica Davies|Added one new execution mode, SchedulerTargetFmaxMhzINTEL.
 |3|2021-09-14|Ajaykumar Kannan|Added one new execution mode, StreamingInterfaceINTEL.
-|======================================== 
+|4|2022-12-05|Abhishek Tiwari|Added one new execution mode, RegisterMapInterfaceINTEL, under a new compatibility.
+|========================================
 

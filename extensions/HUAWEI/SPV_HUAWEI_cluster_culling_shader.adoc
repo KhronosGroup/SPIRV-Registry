@@ -1,0 +1,105 @@
+= SPV_HUAWEI_cluster_culling_shader
+
+
+
+== Name Strings
+
+SPV_HUAWEI_cluster_culling_shader
+
+== Contact
+To report problems with this extension, please open a new issue at:
+https://github.com/KhronosGroup/SPIRV-Registry
+
+== Contributors
+- Cheng Wei, HUAWEI
+- Yuchang Wang, HUAWEI
+
+== Status
+Draft
+
+== Version
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2022-11-16
+| Revision           | 1
+|========================================
+
+Dependencies
+This extension is written against the SPIR-V Specification, Version 1.6
+
+== Overview
+This extensions provides SPIR-V support for the *GLSL GL_HUAWEI_cluster_culling_shader* extension which adds a new programmable shader types - cluster culling shaders - that has an execution environment similar to that of compute shaders. The developer can use this new shader to perform coarse-level geometry culling on GPU and direct emit visible cluster to the subsequent rendering pipeline.
+
+== Extension Name
+To use this extension within a SPIR-V module, the following *OpExtension* must be present in the module
+----
+OpExtension "SPV_HUAWEI_cluster_culling_shader"
+----
+
+== New Capabilities
+
+This extension introduces new capabilities:
+----
+ClusterCullingShadingHUAWEI
+----
+
+== Modifications to the SPIR-V Specification, Version 1.6
+ (Modify section 3.3, Execution model, adding a row to the table)::
+ 
+|====
+2+^.^| Execution Model| Enabling Capabilities
+| 6272 | *ClusterCullingHUAWEI* +
+Cluster Culling shading stage. | *ClusterCullingShadingHUAWEI*
+
+|====
+
+
+(Modify section 3.31, Capability, adding a row to the Capability table)::
+
+|====
+2+^.^| Capabilities| Implicitly Declares
+| 6273 | *ClusterCullingShadingHUAWEI* +
+|shader also see extension *SPV_HUAWEI_cluster_culling_shader*
+
+|====
+
+
+(Modify section 3.21, Built-in, adding 7 new rows to the Built-in table)::
+
+|====
+2+^.^| Builtin |Enabling Capabilities
+| 6274 | *IndexCountHUAWEI* This variable specifies the number of vertices to draw in a cluster. |*SPV_HUAWEI_cluster_culling_shader*
+
+| 6275 | *VertexCountHUAWEI* This variable specifies the number of vertices to draw in a cluster. |*SPV_HUAWEI_cluster_culling_shader*
+
+| 6276 | *InstanceCountHUAWEI* This variable specified the number of instance to draw in a cluster. This variable should be one.
+|*SPV_HUAWEI_cluster_culling_shader*
+
+| 6277 | *FirstIndexHUAWEI* This variable specifies the base index of a cluster within the index buffer.
+|*SPV_HUAWEI_cluster_culling_shader*
+
+| 6278 | *FirstVertexHUAWEI* This variable specifies the base index of a cluster within the index buffer.
+|*SPV_HUAWEI_cluster_culling_shader*
+
+| 6279 | *VertexOffsetHUAWEI* This variable specifies the value added to the vertex index of a cluster before indexing into the vertex buffer.
+|*SPV_HUAWEI_cluster_culling_shader*
+
+| 6280 | *FirstInstanceHUAWEI* This variable specifies the instance ID of the first instance to draw.
+|*SPV_HUAWEI_cluster_culling_shader*
+
+| 6281 | *ClusterIdHUAWEI* This variable specifies the index of cluster being rendered by this drawing command. 	 
+ This id passed to vertex shader for cluster-related information fetching.
+|*SPV_HUAWEI_cluster_culling_shader*
+
+|====
+
+
+(Modify section 3.42.25, Reserved Instructions, adding a row to the table)::
+|====
+1+^.^| OpDispatchClusterHUAWEI | Capabilities:
+ClusterCulingShadingHUAWEI
+| 6282 | 6273 |
+|====
+
+
+

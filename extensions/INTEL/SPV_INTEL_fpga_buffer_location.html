@@ -5,12 +5,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.17">
-<title>SPV_INTEL_kernel_attributes</title>
+<title>SPV_INTEL_fpga_buffer_location</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
-/*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
-/* Uncomment the following line when using as a custom stylesheet */
-/* @import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700"; */
 html{font-family:sans-serif;-webkit-text-size-adjust:100%}
 a{background:none}
 a:focus{outline:thin dotted}
@@ -438,14 +435,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article data-line-1">
 <div id="header">
-<h1>SPV_INTEL_kernel_attributes</h1>
+<h1>SPV_INTEL_fpga_buffer_location</h1>
 </div>
 <div id="content">
 <div class="sect1 data-line-4">
 <h2 id="_name_strings">Name Strings</h2>
 <div class="sectionbody">
 <div class="paragraph data-line-6">
-<p>SPV_INTEL_kernel_attributes</p>
+<p>SPV_INTEL_fpga_buffer_location</p>
 </div>
 </div>
 </div>
@@ -456,7 +453,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>To report problems with this extension, please open a new issue at:</p>
 </div>
 <div class="paragraph data-line-12">
-<p><a href="https://github.com/KhronosGroup/SPIRV-Registry" class="undefined" data-href="https://github.com/KhronosGroup/SPIRV-Registry">https://github.com/KhronosGroup/SPIRV-Registry</a></p>
+<p><a href="https://github.com/KhronosGroup/SPIRV-Headers" class="undefined" data-href="https://github.com/KhronosGroup/SPIRV-Headers">https://github.com/KhronosGroup/SPIRV-Headers</a></p>
 </div>
 </div>
 </div>
@@ -466,47 +463,35 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist data-line-16">
 <ul>
 <li class="data-line-16">
-<p>Jessica Davies, Intel</p>
+<p>Joe Garvey, Intel<br></p>
 </li>
-<li class="data-line-17">
-<p>Joseph Garvey, Intel</p>
-</li>
-<li class="data-line-18">
-<p>Ajaykumar Kannan, Intel</p>
-</li>
-<li class="data-line-19">
-<p>Michael Kinsner, Intel</p>
-</li>
-<li class="data-line-20">
-<p>Ryan Murray, Intel</p>
-</li>
-<li class="data-line-21">
-<p>Abhishek Tiwari, Intel</p>
+<li class="data-line-16">
+<p>Daniel Zhang, Intel<br></p>
 </li>
 </ul>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-23">
+<div class="sect1 data-line-18">
 <h2 id="_notice">Notice</h2>
 <div class="sectionbody">
-<div class="paragraph data-line-25">
-<p>Copyright (c) 2019-2022 Intel Corporation.  All rights reserved.</p>
+<div class="paragraph data-line-20">
+<p>Copyright (c) 2023 Intel Corporation.  All rights reserved.</p>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-27">
+<div class="sect1 data-line-22">
 <h2 id="_status">Status</h2>
 <div class="sectionbody">
-<div class="paragraph data-line-29">
+<div class="paragraph data-line-24">
 <p>Final Draft</p>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-31">
+<div class="sect1 data-line-26">
 <h2 id="_version">Version</h2>
 <div class="sectionbody">
-<table class="tableblock frame-all grid-all data-line-34" style="width: 40%;">
+<table class="tableblock frame-all grid-all data-line-29" style="width: 40%;">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -514,130 +499,80 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2022-12-05</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2023-02-01</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<div class="sect1 data-line-39">
+<div class="sect1 data-line-34">
 <h2 id="_dependencies">Dependencies</h2>
 <div class="sectionbody">
-<div class="paragraph data-line-41">
+<div class="paragraph data-line-36">
 <p>This extension is written against the SPIR-V Specification,
 Version 1.6 Revision 2.</p>
 </div>
-<div class="paragraph data-line-44">
+<div class="paragraph data-line-39">
 <p>This extension requires SPIR-V 1.0.</p>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-46">
+<div class="sect1 data-line-41">
 <h2 id="_overview">Overview</h2>
 <div class="sectionbody">
-<div class="paragraph data-line-48">
-<p>This extension adds a variety of new execution modes, both general and target-specific. The target-specific execution modes are guarded by separate capabilities.</p>
+<div class="paragraph data-line-43">
+<p>This extension adds a pointer decoration that is useful for FPGA targets.  This decoration indicates that a particular global memory pointer can only access a particular physical memory location.  Knowing this information at compile time can allow FPGA compilers to generate load store units of lower area for accesses done through such a pointer.</p>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-50">
+<div class="sect1 data-line-45">
 <h2 id="_extension_name">Extension Name</h2>
 <div class="sectionbody">
-<div class="paragraph data-line-51">
+<div class="paragraph data-line-46">
 <p>To use this extension within a SPIR-V module, the following <strong>OpExtension</strong> must be present in the module:</p>
 </div>
-<div class="listingblock data-line-53">
+<div class="listingblock data-line-48">
 <div class="content">
-<pre>OpExtension "SPV_INTEL_kernel_attributes"</pre>
+<pre>OpExtension "SPV_INTEL_fpga_buffer_location"</pre>
 </div>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-57">
+<div class="sect1 data-line-52">
 <h2 id="_new_capabilities">New Capabilities</h2>
 <div class="sectionbody">
-<div class="paragraph data-line-58">
-<p>This extension introduces new capabilities:</p>
+<div class="paragraph data-line-53">
+<p>This extension introduces a new capability:</p>
 </div>
-<div class="listingblock data-line-60">
+<div class="listingblock data-line-55">
 <div class="content">
-<pre>KernelAttributesINTEL
-FPGAKernelAttributesINTEL
-FPGAKernelAttributesv2INTEL</pre>
+<pre>FPGABufferLocationINTEL</pre>
 </div>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-66">
-<h2 id="_new_execution_modes">New Execution Modes</h2>
-<div class="sectionbody">
-<div class="listingblock data-line-68">
-<div class="content">
-<pre>MaxWorkgroupSizeINTEL
-MaxWorkDimINTEL
-NoGlobalOffsetINTEL
-NumSIMDWorkitemsINTEL
-SchedulerTargetFmaxMhzINTEL
-StreamingInterfaceINTEL
-RegisterMapInterfaceINTEL</pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1 data-line-78">
+<div class="sect1 data-line-59">
 <h2 id="_token_number_assignments">Token Number Assignments</h2>
 <div class="sectionbody">
-<div class="openblock data-line-80">
+<div class="openblock data-line-61">
 <div class="content">
-<table class="tableblock frame-all grid-rows data-line-84" style="width: 40%;">
+<table class="tableblock frame-all grid-rows data-line-65" style="width: 40%;">
 <colgroup>
 <col style="width: 70%;">
 <col style="width: 30%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">KernelAttributesINTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5892</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FPGABufferLocationINTEL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5920</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">MaxWorkgroupSizeINTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5893</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">MaxWorkDimINTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5894</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">NoGlobalOffsetINTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5895</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">NumSIMDWorkitemsINTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5896</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">FPGAKernelAttributesINTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5897</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">FPGAKernelAttributesv2INTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">6161</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">SchedulerTargetFmaxMhzINTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5903</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">StreamingInterfaceINTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">6154</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">RegisterMapInterfaceINTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">6160</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BufferLocationINTEL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5921</p></td>
 </tr>
 </tbody>
 </table>
@@ -645,114 +580,52 @@ RegisterMapInterfaceINTEL</pre>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-98">
+<div class="sect1 data-line-71">
 <h2 id="_modifications_to_the_spir_v_specification_version_1_6">Modifications to the SPIR-V Specification, Version 1.6</h2>
 <div class="sectionbody">
-<div class="sect2 data-line-100">
-<h3 id="_execution_mode">Execution Mode</h3>
-<div class="paragraph data-line-102">
-<p>Modify Section 3.6, Execution Mode, adding these rows to the Execution Mode table:</p>
+<div class="sect2 data-line-73">
+<h3 id="_decoration">Decoration</h3>
+<div class="paragraph data-line-75">
+<p>Modify Section 3.20, Decoration, adding these rows to the Decoration table:</p>
 </div>
-<div class="openblock data-line-104">
+<div class="openblock data-line-77">
 <div class="content">
-<table class="tableblock frame-all grid-all stretch data-line-106">
+<table class="tableblock frame-all grid-all stretch data-line-79">
 <colgroup>
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.667%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-center valign-top" colspan="2">Execution Mode</th>
-<th class="tableblock halign-center valign-top" colspan="3">Extra Operands</th>
-<th class="tableblock halign-center valign-top">Enabling Capabilities</th>
+<th class="tableblock halign-center valign-top" colspan="2">Decoration</th>
+<th class="tableblock halign-left valign-top">Extra Operands</th>
+<th class="tableblock halign-left valign-top">Enabling Capabilities</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5893</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MaxWorkgroupSizeINTEL</strong><br>
-Indicates the maximum possible work-group size in the x, y, and z dimensions.
-If a <strong>LocalSize</strong> execution mode is applied to the same entry point, it is invalid for <em>max_i_size</em> &lt; <em>i</em> <em>size</em> for dimension <em>i</em>.
-Only valid with the <strong>Kernel</strong> Execution Model.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Literal Number<br>
-<em>max_x_size</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Literal Number<br>
-<em>max_y_size</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Literal Number<br>
-<em>max_z_size</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>KernelAttributesINTEL</strong></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5894</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MaxWorkDimINTEL</strong><br>
-Indicates the maximum number of work dimensions.  Legal values range from 0 to 3.
-A maximum dimensionality of 0 indicates that the kernel can only be launched with a single work-item.
-If a <strong>LocalSize</strong> execution mode is applied to the same entry point, the size of each dimension beyond <em>max_dimensions</em> must be 1.
-Only valid with the <strong>Kernel</strong> Execution Model.</p></td>
-<td class="tableblock halign-center valign-top" colspan="3"><p class="tableblock">Literal Number<br>
-<em>max_dimensions</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>KernelAttributesINTEL</strong></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5895</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>NoGlobalOffsetINTEL</strong><br>
-Indicates that the global offset is always (0, 0, 0).  Only valid with the <strong>Kernel</strong> Execution Model.</p></td>
-<td class="tableblock halign-center valign-top" colspan="3"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>KernelAttributesINTEL</strong></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5896</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>NumSIMDWorkitemsINTEL</strong><br>
-Indicates that the kernel should be vectorized with the provided vector width.  Only valid with the <strong>Kernel</strong> Execution Model.</p></td>
-<td class="tableblock halign-center valign-top" colspan="3"><p class="tableblock">Literal Number<br>
-<em>vector_width</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGAKernelAttributesINTEL</strong></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5903</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>SchedulerTargetFmaxMhzINTEL</strong><br>
-Indicates the target clock frequency (Fmax) for the kernel, in MHz. Only valid with the <strong>Kernel</strong> Execution Model.</p></td>
-<td class="tableblock halign-center valign-top" colspan="3"><p class="tableblock">Literal Number<br>
-<em>target_fmax</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGAKernelAttributesINTEL</strong></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">6154</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>StreamingInterfaceINTEL</strong><br>
-Indicates that the kernel has a streaming interface, in which invocation of and return from the kernel is synchronized by a flow control handshaking protocol.
-<em>StallFreeReturn</em> is a 32-bit unsigned integer type scalar.
-If <em>StallFreeReturn</em> is equal to zero, it indicates that the return interface of the kernel can input a stall control flow signal from downstream logic, while a non-zero value indicates that it will not accept a stall control flow signal from downstream logic.</p></td>
-<td class="tableblock halign-center valign-top" colspan="3"><p class="tableblock">Literal<br>
-<em>StallFreeReturn</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGAKernelAttributesINTEL</strong></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">6160</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RegisterMapInterfaceINTEL</strong><br>
-Indicates that the kernel has a single register based interface that is shared across all kernel control signals and kernel arguments.
-<em>WaitForDoneWrite</em> is a boolean type scalar.
-If <em>WaitForDoneWrite</em> is <code>true</code>, it indicates that the kernel interface will contain a stall register that can be used to back-pressure the kernel, while if it is <code>false</code>, it indicates that it will not.</p></td>
-<td class="tableblock halign-center valign-top" colspan="3"><p class="tableblock">Literal<br>
-<em>WaitForDoneWrite</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGAKernelAttributesv2INTEL</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5921</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>BufferLocationINTEL</strong><br>
+Apply only to a pointer. Indicates that the pointer must only point into the physical memory identified by the subsequent literal number operand. The exact semantics of the literal number are implementation defined.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Literal<br>
+<em>Buffer Location ID</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGABufferLocationINTEL</strong></p></td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 </div>
-<div class="sect2 data-line-166">
+<div class="sect2 data-line-87">
 <h3 id="_capability">Capability</h3>
-<div class="paragraph data-line-168">
-<p>Modify Section 3.31, Capability, adding the following rows to the Capability table:</p>
+<div class="paragraph data-line-89">
+<p>Modify Section 3.31, Capability, adding a row to the Capability table:</p>
 </div>
-<div class="openblock data-line-169">
+<div class="openblock data-line-90">
 <div class="content">
-<table class="tableblock frame-all grid-all stretch data-line-171">
+<table class="tableblock frame-all grid-all stretch data-line-92">
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -766,45 +639,35 @@ If <em>WaitForDoneWrite</em> is <code>true</code>, it indicates that the kernel 
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5892</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">KernelAttributesINTEL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5920</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FPGABufferLocationINTEL</p></td>
 <td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5897</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">FPGAKernelAttributesINTEL</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">6161</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">FPGAKernelAttributesv2INTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">FPGAKernelAttributesINTEL</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 </div>
-<div class="sect2 data-line-179">
+<div class="sect2 data-line-98">
 <h3 id="_validation_rules">Validation Rules</h3>
-<div class="paragraph data-line-181">
-<p>It is illegal to specify both <strong>StreamingInterfaceINTEL</strong> and <strong>RegisterMapInterfaceINTEL</strong> modes on the same entry point.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1 data-line-183">
-<h2 id="_issues">Issues</h2>
-<div class="sectionbody">
-<div class="paragraph data-line-185">
+<div class="paragraph data-line-100">
 <p>None.</p>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-187">
+</div>
+<div class="sect1 data-line-102">
+<h2 id="_issues">Issues</h2>
+<div class="sectionbody">
+<div class="paragraph data-line-104">
+<p>None.</p>
+</div>
+</div>
+</div>
+<div class="sect1 data-line-112">
 <h2 id="_revision_history">Revision History</h2>
 <div class="sectionbody">
-<table class="tableblock frame-all grid-rows stretch data-line-192">
+<table class="tableblock frame-all grid-rows stretch data-line-117">
 <colgroup>
 <col style="width: 4.7619%;">
 <col style="width: 14.2857%;">
@@ -822,27 +685,9 @@ If <em>WaitForDoneWrite</em> is <code>true</code>, it indicates that the kernel 
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2019-12-18</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2023-02-01</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Joe Garvey</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Initial public release</strong></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2020-04-22</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Jessica Davies</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Added one new execution mode, SchedulerTargetFmaxMhzINTEL.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2021-09-14</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Ajaykumar Kannan</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Added one new execution mode, StreamingInterfaceINTEL.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2022-12-05</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Abhishek Tiwari</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Added one new execution mode, RegisterMapInterfaceINTEL, under a new compatibility.</p></td>
 </tr>
 </tbody>
 </table>
@@ -851,7 +696,7 @@ If <em>WaitForDoneWrite</em> is <code>true</code>, it indicates that the kernel 
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-12-08 08:30:43 -0800
+Last updated 2023-02-01 13:37:05 -0800
 </div>
 </div>
 </body>
