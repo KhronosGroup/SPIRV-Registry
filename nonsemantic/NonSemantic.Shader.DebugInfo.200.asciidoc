@@ -26,20 +26,6 @@ Author of *NonSemantic.Shader.DebugInfo.100* specification.
 
  - Baldur Karlsson, Valve
 
-Contributors to original *OpenCL.DebugInfo.100* specification.
-
- - Yaxun Liu, AMD
- - Brian Sumner, AMD
- - Ben Ashbaugh, Intel
- - Alexey Bader, Intel
- - Raun Krisch, Intel
- - Pratik Ashar, Intel
- - John Kessenich, Google
- - David Neto, Google
- - Neil Henning, Codeplay
- - Kerch Holt, Nvidia
- - Jaebaek Seo, Google
-
 Notice
 ------
 Copyright (c) 2023 The Khronos Group Inc. Copyright terms at
@@ -55,7 +41,7 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2023-02-23
+| Last Modified Date | 2023-03-20
 | Revision           | 1
 |========================================
 
@@ -146,22 +132,24 @@ Source Language [[SrcLang]]
 | 5   | *HLSL*
 | 6   | *CPP_for_OpenCL*
 | 7   | *SYCL*
-| 101 | *Python*
-| 102 | *Julia*
-| 103 | *Rust*
-| 104 | *D*
-| 105 | *Fortran 95*
-| 106 | *Fortran 2003*
-| 107 | *Fortran 2008*
-| 108 | *C*
-| 109 | *C99*
-| 110 | *C11*
-| 111 | *C++*
-| 112 | *C++03*
-| 113 | *C++11*
-| 114 | *C++14*
-| 115 | *C++17*
-| 116 | *C++20*
+| 200 | *Python*
+| 201 | *Julia*
+| 202 | *Rust*
+| 203 | *D*
+| 204 | *Fortran 77*
+| 205 | *Fortran 90*
+| 206 | *Fortran 95*
+| 207 | *Fortran 2003*
+| 208 | *Fortran 2008*
+| 209 | *C*
+| 210 | *C99*
+| 211 | *C11*
+| 212 | *C++*
+| 213 | *C++03*
+| 214 | *C++11*
+| 215 | *C++14*
+| 216 | *C++17*
+| 217 | *C++20*
 |======
 
 
@@ -811,5 +799,5 @@ Revision History
 [options="header"]
 |==============================================================================
 |Rev         |Date      |Author                             |Changes
-|1.00 Rev 1  |2023-02-23|Alexey Sotkin / Dmitry Sidorov     |*Initial revision*
+|1.00 Rev 1  |2023-03-20|Alexey Sotkin / Dmitry Sidorov     |*Initial revision*
 |===============================================================================
