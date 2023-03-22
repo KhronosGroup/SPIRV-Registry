@@ -118,6 +118,7 @@ Khronos SPIR-V Registry](https://www.khronos.org/registry/spir-v/).
 1. [SPV_INTEL_fpga_buffer_location          ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/INTEL/SPV_INTEL_fpga_buffer_location.html)
 1. [SPV_HUAWEI_cluster_culling_shader       ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/HUAWEI/SPV_HUAWEI_cluster_culling_shader.html)
 1. [SPV_INTEL_bfloat16_conversion           ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/INTEL/SPV_INTEL_bfloat16_conversion.html)
+1. [SPV_QCOM_image_processing               ]( https://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/QCOM/SPV_QCOM_image_processing.html)
 
 
 ## Non-Semantic Extended Instruction Set Specifications
