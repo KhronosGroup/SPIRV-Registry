@@ -115,7 +115,7 @@ This is a non-normative list of changes to the OpenCL.DebugInfo.100 specificatio
   <<DebugTypeMatrix,*DebugTypeMatrix*>>.
 * New flag *FlagUnknownPhysicalLayout* to indicate that implementations may have a different
   physical layout for composite types than specified.
-* <<DebugBasicType,*DebugBasicType*>> now takes a *Flags* operand to allow specifying
+* <<DebugTypeBasic,*DebugTypeBasic*>> now takes a *Flags* operand to allow specifying
   *FlagUnknownPhysicalLayout*.
 
 Terms
