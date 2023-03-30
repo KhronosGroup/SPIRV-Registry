@@ -1,0 +1,463 @@
+SPV_EXT_shader_tile_image
+=========================
+
+Name Strings
+------------
+
+SPV_EXT_shader_tile_image
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Sandeep Kakarlapudi, Arm
+- Jan-Harald Fredriksen, Arm
+- Alan Baker, Google
+
+Notice
+------
+
+Copyright (c) 2021-2023 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+Status
+------
+
+- Complete
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2023-03-23
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the Unified SPIR-V Specification,
+Version 1.5 Revision 5.
+
+This extension requires SPIR-V 1.0.
+
+Overview
+--------
+
+This extension adds functionality to enable fragment shaders to read color,
+depth or stencil data from the framebuffer.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following *OpExtension* must
+be present in the module:
+
+----
+OpExtension "SPV_EXT_shader_tile_image"
+----
+
+New Capabilities
+----------------
+
+This extension introduces new capabilities:
+
+----
+TileImageColorReadAccessEXT
+TileImageDepthReadAccessEXT
+TileImageStencilReadAccessEXT
+----
+
+New Instructions
+----------------
+
+Instructions added under the *TileImageColorReadAccessEXT* capability:
+
+----
+OpColorAttachmentReadEXT
+----
+
+Instructions added under the *TileImageDepthReadAccessEXT* capability:
+
+----
+OpDepthAttachmentReadEXT
+----
+
+Instructions added under the *TileImageStencilReadAccessEXT* capability:
+
+----
+OpStencilAttachmentReadEXT
+----
+
+New Execution Modes
+-------------------
+
+Execution modes added under the *TileImageColorReadAccessEXT* capability:
+
+----
+NonCoherentColorAttachmentReadEXT
+----
+
+Execution modes added under the *TileImageDepthReadAccessEXT* capability:
+
+----
+NonCoherentDepthAttachmentReadEXT
+----
+
+Execution modes added under the *TileImageStencilReadAccessEXT* capability:
+
+----
+NonCoherentStencilAttachmentReadEXT
+----
+
+Modifications to the SPIR-V Specification, Version 1.5
+------------------------------------------------------
+
+Validation Rules
+~~~~~~~~~~~~~~~~
+
+In section 2.16.1 Universal Validation Rules, add *TileImageEXT* to the list of
+storage classes following this sentence:
+
+===
+Any pointer operand to an OpFunctionCall must point into one of the following
+storage classes:
+===
+
+In 2.16.2. Validation Rules for Shader Capabilities, add the following
+under Decorations:
+
+ * It is invalid to apply the *Coherent* decoration to variables in the
+   *TileImageEXT* storage class if the *NonCoherentColorAttachmentReadEXT*
+   execution mode is declared.
+
+Execution Modes
+~~~~~~~~~~~~~~~
+
+In section 3.6 "Execution Mode", add the following rows to the Execution Mode
+table:
+
+|====
+2+^| Execution Mode | Extra Operands | Enabling Capabilities
+| 4169 | *NonCoherentColorAttachmentReadEXT* +
+Disables rasterization order access guarantees for color attachment reads. Only
+valid in the *Fragment* execution model.
+ | | *TileImageColorReadAccessEXT*
+
+| 4170 | *NonCoherentDepthAttachmentReadEXT* +
+Disables rasterization order access guarantees for depth attachment reads. Only
+valid in the *Fragment* execution model.
+| | *TileImageDepthReadAccessEXT*
+
+| 4171 | *NonCoherentStencilAttachmentReadEXT* +
+Disables rasterization order access guarantees for stencil attachment reads. Only
+valid in the *Fragment* execution model.
+| | *TileImageStencilReadAccessEXT*
+|====
+
+
+Storage Classes
+~~~~~~~~~~~~~~~
+
+In section 3.7 "Storage Class", add the following rows to the Storage Class
+table:
+
+[options="header"]
+|====
+2+^| Storage Class | Enabling Capabilities
+| 4172 | *TileImageEXT* +
+Visible across all functions in all fragment invocations at a pixel location
+within a render pass. For holding framebuffer color attachment memory. Only
+valid with image type variables with *Dim* TileImageDataEXT. See the Client
+API specification for more details on
+tile images.
+| *TileImageColorReadAccessEXT*
+|====
+
+
+Dims
+~~~~
+
+In section 3.8 "Dim", add the following row to the Dim table:
+
+[options="header"]
+|====
+2+^| Dim | Enabling Capabilities
+| 4173 | *TileImageDataEXT* | *TileImageColorReadAccessEXT*
+|====
+
+Decorations
+~~~~~~~~~~~
+
+In section 3.20 "Decoration", modify the description for "Location" replace the
+last sentence:
+
+====
+Only valid for the *Input*, *Output*, and *UniformConstant* Storage Classes.
+====
+
+with:
+
+====
+Only valid for the *Input*, *Output*, *UniformConstant*, *TileImageEXT* Storage Classes.
+====
+
+Capabilities
+~~~~~~~~~~~~
+
+Modify Section 3.31, "Capability", adding these rows to the Capability table:
+
+--
+[options="header"]
+|====
+2+^| Capability ^| Implicitly Declares
+| 4166 | *TileImageColorReadAccessEXT* +
+Uses *TileImageDataEXT* Dim and *TileImageEXT* storage
+class to create tile image variables. Uses
+*OpColorAttachmentReadEXT* to read tile image variables.
+|
+
+| 4167 | *TileImageDepthReadAccessEXT* +
+Uses *OpDepthAttachmentReadEXT* |
+
+| 4168 | *TileImageStencilReadAccessEXT* +
+Uses *OpStencilAttachmentReadEXT* |
+|====
+--
+
+Instructions
+~~~~~~~~~~~~
+
+In section 3.37.6 ("Type-Declaration Instructions"), modify the definition of
+*OpTypeImage* to include:
+
+====
+If 'Dim' is *TileImageDataEXT*, 'Sampled Type' must not be *OpTypeVoid*,
+'Sampled' must be 2, 'Image Format' must be *Unknown*, 'Depth' must be 0,
+'Arrayed' must be 0 and the Execution Model must be *Fragment*.
+====
+
+Modify the definition of *OpTypeSampledImage* to read:
+
+====
+Image Type must be an OpTypeImage with a sampled parameter of 0 or 1. It is the
+type of the image in the combined sampler and image type. Starting with version
+1.6, it must not have a Dim of Buffer.
+====
+
+In section 3.42.8 ("Memory Instructions"), modify the definition of *OpImageTexelPointer* to read:
+
+====
+The 'Dim' operand of Type must not be *SubpassData* or *TileImageDataEXT*.
+====
+
+In section 3.42.10 ("Image Instructions"), modify the definition of the instructions as shown:
+
+*OpImageRead*
+
+====
+'Image' must be an object whose type is *OpTypeImage* with a 'Sampled' operand of 0 or 2, and 'Dim' operand is not *TileImageDataEXT*.
+====
+
+
+*OpImageWrite*
+
+====
+'Image' must be an object whose type is *OpTypeImage* with a 'Sampled' operand of 0 or 2, and 'Dim' operand is not *TileImageDataEXT*.
+====
+
+*OpImageQueryFormat*
+
+====
+'Image' must be an object whose type is *OpTypeImage* with a 'Dim' operand which is not *TileImageDataEXT*.
+====
+
+*OpImageQueryOrder*
+
+====
+'Image' must be an object whose type is *OpTypeImage* with a 'Dim' operand which is not *TileImageDataEXT*.
+====
+
+*OpImageSparseRead*
+
+====
+The 'Image Dim' operand must not be *SubpassData* or *TileImageDataEXT*.
+====
+
+Add the new instructions:
+
+[cols="6*1"]
+|====
+5+|[[OpColorAttachmentReadEXT]]
+*OpColorAttachmentReadEXT* +
+ +
+ Read the current value of a tile image variable at the current fragment
+ location. The read access is guaranteed to be in rasterization order as defined
+ by the client API specification unless the *NonCoherentColorAttachmentReadEXT*
+ execution mode is set. +
+ +
+ 'Result' is the returned value. +
+ +
+ 'Result Type' must be a scalar or vector of 'floating-point type' or 'integer
+ type'. It must be a scalar or vector with component type the same as 'Sampled
+ Type' of the *OpTypeImage*. +
+ +
+ 'Attachment' must be an object whose type is *OpTypeImage* with a 'Dim' of
+ *TileImageDataEXT* +
+ +
+ 'Sample' is the sample number of the sample to read at the current fragment
+ location.  It must be an 'integer type' scalar. If 'Sample' is not specified,
+ it is as if 'Sample' has the value 0. The sample numbering is identical to that
+ used for SampleId. +
+ +
+ This instruction is only valid in the *Fragment* Execution Model. +
+ +
+|Capability: +
+*TileImageColorReadAccessEXT*
+| 4 + variable | 4160
+| '<id> Result Type'
+| 'Result <id>'
+| '<id> Attachment'
+| Optional '<id> Sample'
+|====
+
+[cols="5*1"]
+|====
+4+|[[OpDepthAttachmentReadEXT]]
+*OpDepthAttachmentReadEXT* +
+ +
+ Read the current depth value at the fragment location. The read access is
+ guaranteed to be in rasterization order as defined by the client API
+ specification unless the *NonCoherentDepthAttachmentReadEXT* execution mode
+ is set. +
+ +
+ 'Result' is the returned depth value. +
+ +
+ 'Result Type' must be a 32-bit 'floating-point type' scalar. +
+ +
+ 'Sample' is the sample number of the sample to read at the current fragment
+ location.  It must be an 'integer type' scalar. If 'Sample' is not specified,
+ it is as if 'Sample' has the value 0. The sample numbering is identical to that
+ used for SampleId. +
+ +
+ This instruction is only valid in the *Fragment* Execution Model. +
+ +
+|Capability: +
+*TileImageDepthReadAccessEXT*
+| 3 + variable | 4161
+| '<id> Result Type'
+| 'Result <id>'
+| Optional '<id> Sample'
+|====
+
+[cols="5*1"]
+|====
+4+|[[OpStencilAttachmentReadEXT]]
+*OpStencilAttachmentReadEXT* +
+ +
+ Read the current stencil value at the current fragment location. The read
+ access is guaranteed to be in rasterization order as defined by the client API
+ specification unless the *NonCoherentStencilAttachmentReadEXT* execution
+ mode is set. +
+ +
+ 'Result' is the returned stencil value. +
+ +
+ 'Result Type' must be a 32-bit 'integer type' scalar. +
+ +
+ 'Sample' is the sample number of the sample to read at the current fragment
+ location.  It must be an 'integer type' scalar. If 'Sample' is not specified,
+ it is as if 'Sample' has the value 0. The sample numbering is identical to that
+ used for SampleId. +
+ +
+ This instruction is only valid in the *Fragment* Execution Model. +
+ +
+|Capability: +
+*TileImageStencilReadAccessEXT*
+| 3 + variable | 4162
+| '<id> Result Type'
+| 'Result <id>'
+| Optional '<id> Sample'
+|====
+
+Issues
+------
+
+Issues 1 to 4 have been copied from VK_EXT_shader_tile_image for easy reference.
+
+. Should we reuse OpTypeImage, or introduce a new type for declaring tile images?
++
+--
+*RESOLVED*: OpTypeImage is reused with a special Dim for tile images, following
+what was done for subpass attachments.
+
+An alternative would have been to make tile images their own type, and
+introduce an OpTypeTileImage type.
+That would require less special-casing of OpTypeImage, but comes with higher
+initial burden in tooling.
+--
+
+. Should Color, Depth, and Stencil reads use the same SPIR-V opcode?
++
+--
+*RESOLVED*: No. The extension introduces separate opcodes.
+
+Tile based GPUs which guarantee framebuffer residency in tile memory can offer
+efficient raster order access to color, depth, stencil data with relatively low
+overhead. Some GPU implementations would have a significant performance penalty
+in raster order access if the implementation cannot determine from the SPIR-V
+shader whether a specific access is color, depth, or stencil.
+--
+
+. Should Depth and Stencil read opcodes consume an image operand specifying the
+  attachment, or should it be implicit?
++
+--
+*RESOLVED*: No operand is necessary as there is depth and stencil uniquely
+identify the attachments unlike with color.
+
+The other options considered were:
+
+ A. Allow depth and stencil tile images to be declared as variables.
+    Tile images are defined to map to the color attachment specified via the
+    `Location` decoration - some equivalent needs to be defined for depth and
+    stencil. Pixel Local Storage like functionality of supporting format
+    reinterpretation is only supported for color attachments, and hence
+    must be disallowed for depth and stencil. There is very little benefit to
+    declaring the depth and stencil variables given these restrictions.
+ B. Depth and stencil tile images are exposed as built-in variables.
+
+Given the design choice made for issue 8, the other options do not add
+any value.
+--
+
+. Should this extension re-use the image Dim SubpassData or introduce a new Dim?
++
+--
+*RESOLVED*: The extension introduces a new Dim.
+
+This extension is intended to serve as foundation for further functionality,
+for example Pixel Local Storage like format reinterpretation, or to define
+the tile size and allow tile shaders to access any pixel within the tile.
+
+In SPIR-V, input attachments use images with Dim of SubpassData.
+We use a new Dim so we can easily distinguish whether an image is an input
+attachment or a tile image.
+--
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2023-03-23|Sandeep Kakarlapudi|Initial revision
+|========================================
