@@ -121,6 +121,7 @@ Khronos SPIR-V Registry](https://www.khronos.org/registry/spir-v/).
 1. [SPV_QCOM_image_processing               ]( https://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/QCOM/SPV_QCOM_image_processing.html)
 1. [SPV_INTEL_fp_max_error                  ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/INTEL/SPV_INTEL_fp_max_error.html)
 1. [SPV_INTEL_arbitrary_precision_fixed_point]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/INTEL/SPV_INTEL_arbitrary_precision_fixed_point.html)
+1. [SPV_EXT_shader_tile_image               ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/EXT/SPV_EXT_shader_tile_image.html)
 
 ## Non-Semantic Extended Instruction Set Specifications
 
