@@ -23,7 +23,7 @@ Copyright (c) 2023 Intel Corporation
 
 == Status
 
-Final draft
+Supported
 
 == Version
 
