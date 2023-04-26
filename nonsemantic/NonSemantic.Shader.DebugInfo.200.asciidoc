@@ -100,8 +100,14 @@ This is a non-normative list of changes to the NonSemantic.Shader.DebugInfo.100 
 
 * Added an optional 'Target function' operand to <<DebugFunction,*DebugFunction*>>.
 
+* Added an optional 'Inline namespace' operand to <<DebugLexicalBlock, *DebugLexicalBlock*>>
+
 * Added a '<<SrcLang, source language>>' table to be used by
   <<DebugCompilationUnit,*DebugCompilationUnit*>> instruction.
+
+* Added new flag *FlagBitField* to indicate that member of a structure is bitfield.
+
+* Added new Encoding code *Complex* for Fortran complex type.
 
 
 Enumerations
@@ -154,6 +160,53 @@ Source Language [[SrcLang]]
 | 219 | *C++20*
 |======
 
+Debug Info Flags [[DebugFlags]]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[cols="^4,8",options="header", width="50%"]
+|======
+| Value .^| Flag Name
+| 1 << 0  | *FlagIsProtected*
+| 1 << 1  | *FlagIsPrivate*
+| 1<<0 \| 1<<1 | *FlagIsPublic*
+| 1 << 2  | *FlagIsLocal*
+| 1 << 3  | *FlagIsDefinition*
+| 1 << 4  | *FlagFwdDecl*
+| 1 << 5  | *FlagArtificial*
+| 1 << 6  | *FlagExplicit*
+| 1 << 7  | *FlagPrototyped*
+| 1 << 8  | *FlagObjectPointer*
+| 1 << 9  | *FlagStaticMember*
+| 1 << 10 | *FlagIndirectVariable*
+| 1 << 11 | *FlagLValueReference*
+| 1 << 12 | *FlagRValueReference*
+| 1 << 13 | *FlagIsOptimized*
+| 1 << 14 | *FlagIsEnumClass*
+| 1 << 15 | *FlagTypePassByValue*
+| 1 << 16 | *FlagTypePassByReference*
+| 1 << 17 | *FlagUnknownPhysicalLayout*
+| 1 << 18 | *FlagBitField*
+|======
+
+Base Type Attribute Encodings [[BaseTypeAttributeEncoding]]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Used by <<DebugTypeBasic,*DebugTypeBasic*>> +
+
+[cols="^1,10",options="header",width = "50%"]
+|======
+2+^| Encoding code name
+| 0 | *Unspecified*
+| 1 | *Address*
+| 2 | *Boolean*
+| 3 | *Float*
+| 4 | *Signed*
+| 5 | *SignedChar*
+| 6 | *Unsigned*
+| 7 | *UnsignedChar*
+| 8 | *Complex*
+|======
+
 
 Debug Operations [[Operation]]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -194,12 +247,12 @@ specifications:
                         32-bit integer *OpConstant* parameter.
 | 11 | *Addr*             | 1               | Pushes a machine address passed in the operand to the stack.
 | 12 | *Const1u* |  1 | *Const<n>u* Pushes a constant 'value' onto the stack. The 'value' operand must be a single <n>-bit unsigned integer *OpConstant*.
-| 13 | *Const2u* |  1 |
-| 14 | *Const4u* |  1 |
-| 15 | *Const8u* |  1 |
-| 16 | *Const1s* |  1 | *Const<n>s* Pushes a constant 'value' onto the stack. The 'value' operand must be a single <n>-bit signed integer *OpConstant*.
-| 17 | *Const2s* |  1 |
-| 18 | *Const4s* |  1 |
+| 13 | *Const1s* |  1 | *Const<n>s* Pushes a constant 'value' onto the stack. The 'value' operand must be a single <n>-bit signed integer *OpConstant*.
+| 14 | *Const2u* |  1 |
+| 15 | *Const2s* |  1 |
+| 16 | *Const4u* |  1 |
+| 17 | *Const4s* |  1 |
+| 18 | *Const8u* |  1 |
 | 19 | *Const8s* |  1 |
 | 20 | *Consts* |  1 | Pushes a constant 'value' onto the stack. The 'value' operand must be a single 32-bit signed integer *OpConstant*.
 | 21 | *Dup* |  0 | Duplicates the value from the top of the stack including it's *OpType*.
@@ -392,7 +445,14 @@ specifications:
                            which specifies the size of this constant. The third
                            parameter is a sequence of bytes of the given size
                            that is interpreted as a value of the referenced type.
-| 161 | *DerefType* |  2 | Pops the top stack entry, treats it as an address.
+| 161 | *RegvalType* |  2 | Pushes a value of a register specified by the first
+                            32-bit integer *OpConstant* parameter. The second
+                            parameter must be 32-bit integer *OpConstant*, it
+                            specifies and offset from debug information entry
+                            in the current compilation unit, it must be
+                            *DebugTypeBasic*. The operation interprets the pushed
+                            value as a value of *DebugTypeBasic*.
+| 162 | *DerefType* |  2 | Pops the top stack entry, treats it as an address.
                           The first 8-bit integer *OpConstant* operand specifies
                           a size of data to retrieved. The data retrieved is
                           zero extended to the size of an address on the target machine.
@@ -401,13 +461,6 @@ specifications:
                           compilation unit, which should point to *DebugTypeBasic*.
                           Pushes the value retrieved from that address
                           including type identifier.
-| 162 | *RegvalType* |  2 | Pushes a value of a register specified by the first
-                            32-bit integer *OpConstant* parameter. The second
-                            parameter must be 32-bit integer *OpConstant*, it
-                            specifies and offset from debug information entry
-                            in the current compilation unit, it must be
-                            *DebugTypeBasic*. The operation interprets the pushed
-                            value as a value of *DebugTypeBasic*.
 | 163 | *XDerefType* |  2 | Pops the top two entries from the stack.
                            Treats the former top entry as an address and the former
                           The first 8-bit integer *OpConstant* operand specifies
@@ -424,13 +477,11 @@ specifications:
                              provided by a single 32-bit integer *OpConstant* parameter.
 | 165 | *Arg* |  1 | A single 32-bit integer *OpConstant* parameter specifies
                      an argument used in debug operation.
-| 166 | *StackValue* |  0 | Terminates the debug expression. Specifies, that the
-                            object value is at the top of the stack.
-| 167 | *ImplicitPointerTag* |  0 | Specifies the dereferenced value. It can be
+| 166 | *ImplicitPointerTag* |  0 | Specifies the dereferenced value. It can be
                                     used when the pointer was optimized out by
                                     the compiler but yet the value it was pointed
                                     to was retained.
-| 168 | *TagOffset* | 1 | Specifies that a memory tag should be optionally applied to the
+| 167 | *TagOffset* | 1 | Specifies that a memory tag should be optionally applied to the
                           pointer. The tag is derived from the single 32-bit integer
                           *OpConstant* operand offset and is implementation defined.
 |======
@@ -726,6 +777,51 @@ Describe a function or method definition. The 'Result <id>' of this instruction
 | '<id> Scope Line'
 | Optional '<id> Declaration'
 | Optional '<id> Target function'
+|======
+
+Location Information
+~~~~~~~~~~~~~~~~~~~~
+
+[cols="2*1,3*2,1,6*3"]
+|======
+12+|[[DebugLexicalBlock]]*DebugLexicalBlock* +
+ +
+Describe a lexical block in the source program. The 'Result <id>' of this
+ instruction represents a <<LexicalScope,lexical scope>>. +
+ +
+{result_type} +
+ +
+{source} containing the lexical block. +
+ +
+'Line' is the '<id>' of a 32-bit integer *OpConstant* denoting the source line number at
+ which the lexical block begins in the 'Source'. +
+ +
+'Column' is the '<id>' of a 32-bit integer *OpConstant* denoting the column number at
+ which the lexical block begins. +
+ +
+'Scope' is the '<id>' of a debug instruction that represents the
+ <<LexicalScope,lexical scope>> containing the lexical block. Entities
+ in the global lexical scope should have 'Scope' referring to a
+ <<DebugCompilationUnit,*DebugCompilationUnit*>>. +
+ +
+ The presence of the 'Name' operand indicates that this instruction represents a
+ C\++ namespace. This operand refers to an *OpString* holding the name of the
+ namespace. For anonymous C++ namespaces, the name must be an empty string. +
+ +
+ If 'Name' operand present, then the instruction can also have optional
+ 'Inline namespace' parameter. It specifies whether C++ namespace is inline or not.
+ It must be either result id of <<OpConstantTrue,*OpConstantTrue*>> or
+ <<OpConstantFalse,*OpConstantFalse*>>. +
+ +
+
+| 10+ | 13 | '<id>' +
+'Result Type' | 'Result <id>' | '<id> Set'| 21
+| '<id>' 'Source'
+| '<id> Line'
+| '<id> Column'
+| '<id>' 'Scope'
+| Optional '<id>' 'Name'
+| Optional '<id>' 'Inline namespace'
 |======
 
 

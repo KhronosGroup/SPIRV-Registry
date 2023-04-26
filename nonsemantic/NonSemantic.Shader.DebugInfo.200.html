@@ -933,8 +933,23 @@ Added an optional <em>Target function</em> operand to <a href="#DebugFunction"><
 </li>
 <li>
 <p>
+Added an optional <em>Inline namespace</em> operand to <a href="#DebugLexicalBlock"><strong>DebugLexicalBlock</strong></a>
+</p>
+</li>
+<li>
+<p>
 Added a <em><a href="#SrcLang">source language</a></em> table to be used by
   <a href="#DebugCompilationUnit"><strong>DebugCompilationUnit</strong></a> instruction.
+</p>
+</li>
+<li>
+<p>
+Added new flag <strong>FlagBitField</strong> to indicate that member of a structure is bitfield.
+</p>
+</li>
+<li>
+<p>
+Added new Encoding code <strong>Complex</strong> for Fortran complex type.
 </p>
 </li>
 </ul></div>
@@ -1109,6 +1124,158 @@ width:50%;
 </table>
 </div>
 <div class="sect2">
+<h3 id="_debug_info_flags_a_id_debugflags_a">Debug Info Flags <a id="DebugFlags"></a></h3>
+<table class="tableblock frame-all grid-all"
+style="
+width:50%;
+">
+<col style="width:33%;">
+<col style="width:66%;">
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top" > Value </th>
+<th class="tableblock halign-left valign-middle" > Flag Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">1 &lt;&lt; 0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>FlagIsProtected</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">1 &lt;&lt; 1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>FlagIsPrivate</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">1&lt;&lt;0 | 1&lt;&lt;1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>FlagIsPublic</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">1 &lt;&lt; 2</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>FlagIsLocal</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">1 &lt;&lt; 3</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>FlagIsDefinition</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">1 &lt;&lt; 4</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>FlagFwdDecl</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">1 &lt;&lt; 5</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>FlagArtificial</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">1 &lt;&lt; 6</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>FlagExplicit</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">1 &lt;&lt; 7</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>FlagPrototyped</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">1 &lt;&lt; 8</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>FlagObjectPointer</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">1 &lt;&lt; 9</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>FlagStaticMember</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">1 &lt;&lt; 10</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>FlagIndirectVariable</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">1 &lt;&lt; 11</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>FlagLValueReference</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">1 &lt;&lt; 12</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>FlagRValueReference</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">1 &lt;&lt; 13</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>FlagIsOptimized</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">1 &lt;&lt; 14</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>FlagIsEnumClass</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">1 &lt;&lt; 15</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>FlagTypePassByValue</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">1 &lt;&lt; 16</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>FlagTypePassByReference</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">1 &lt;&lt; 17</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>FlagUnknownPhysicalLayout</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">1 &lt;&lt; 18</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>FlagBitField</strong></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_base_type_attribute_encodings_a_id_basetypeattributeencoding_a">Base Type Attribute Encodings <a id="BaseTypeAttributeEncoding"></a></h3>
+<div class="paragraph"><p>Used by <a href="#DebugTypeBasic"><strong>DebugTypeBasic</strong></a><br></p></div>
+<table class="tableblock frame-all grid-all"
+style="
+width:50%;
+">
+<col style="width:9%;">
+<col style="width:90%;">
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top" colspan="2" > Encoding code name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Unspecified</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Address</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Boolean</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Float</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Signed</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>SignedChar</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Unsigned</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">7</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>UnsignedChar</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">8</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Complex</strong></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
 <h3 id="_debug_operations_a_id_operation_a">Debug Operations <a id="Operation"></a></h3>
 <div class="paragraph"><p>These operations are used to form a DWARF expression.
 Such expressions provide information about the current location
@@ -1224,37 +1391,37 @@ width:50%;
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top" ><p class="tableblock">13</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Const2u</strong></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">14</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Const4u</strong></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">15</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Const8u</strong></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">16</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Const1s</strong></p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Const&lt;n&gt;s</strong> Pushes a constant <em>value</em> onto the stack. The <em>value</em> operand must be a single &lt;n&gt;-bit signed integer <strong>OpConstant</strong>.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">17</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">14</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Const2u</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">15</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Const2s</strong></p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">18</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">16</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Const4u</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">17</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Const4s</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">18</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Const8u</strong></p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
 </tr>
@@ -2162,6 +2329,18 @@ width:50%;
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top" ><p class="tableblock">161</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RegvalType</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Pushes a value of a register specified by the first
+                            32-bit integer <strong>OpConstant</strong> parameter. The second
+                            parameter must be 32-bit integer <strong>OpConstant</strong>, it
+                            specifies and offset from debug information entry
+                            in the current compilation unit, it must be
+                            <strong>DebugTypeBasic</strong>. The operation interprets the pushed
+                            value as a value of <strong>DebugTypeBasic</strong>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">162</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>DerefType</strong></p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Pops the top stack entry, treats it as an address.
@@ -2173,18 +2352,6 @@ width:50%;
                           compilation unit, which should point to <strong>DebugTypeBasic</strong>.
                           Pushes the value retrieved from that address
                           including type identifier.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">162</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RegvalType</strong></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Pushes a value of a register specified by the first
-                            32-bit integer <strong>OpConstant</strong> parameter. The second
-                            parameter must be 32-bit integer <strong>OpConstant</strong>, it
-                            specifies and offset from debug information entry
-                            in the current compilation unit, it must be
-                            <strong>DebugTypeBasic</strong>. The operation interprets the pushed
-                            value as a value of <strong>DebugTypeBasic</strong>.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top" ><p class="tableblock">163</p></td>
@@ -2219,13 +2386,6 @@ width:50%;
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top" ><p class="tableblock">166</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>StackValue</strong></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Terminates the debug expression. Specifies, that the
-                            object value is at the top of the stack.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">167</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>ImplicitPointerTag</strong></p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Specifies the dereferenced value. It can be
@@ -2234,7 +2394,7 @@ width:50%;
                                     to was retained.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">168</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">167</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>TagOffset</strong></p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Specifies that a memory tag should be optionally applied to the
@@ -2670,6 +2830,74 @@ Describe a function or method definition. The <em>Result &lt;id&gt;</em> of this
 </table>
 </div>
 <div class="sect2">
+<h3 id="_location_information">Location Information</h3>
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:3%;">
+<col style="width:3%;">
+<col style="width:7%;">
+<col style="width:7%;">
+<col style="width:7%;">
+<col style="width:3%;">
+<col style="width:11%;">
+<col style="width:11%;">
+<col style="width:11%;">
+<col style="width:11%;">
+<col style="width:11%;">
+<col style="width:11%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="12" ><p class="tableblock"><a id="DebugLexicalBlock"></a><strong>DebugLexicalBlock</strong><br>
+<br>
+Describe a lexical block in the source program. The <em>Result &lt;id&gt;</em> of this
+ instruction represents a <a href="#LexicalScope">lexical scope</a>.<br>
+<br>
+<em>Result Type</em> must be <strong>OpTypeVoid</strong>.<br>
+<br>
+<em>Source</em> is a <strong>DebugSource</strong> instruction representing the text of the source program containing the lexical block.<br>
+<br>
+<em>Line</em> is the <em>&lt;id&gt;</em> of a 32-bit integer <strong>OpConstant</strong> denoting the source line number at
+ which the lexical block begins in the <em>Source</em>.<br>
+<br>
+<em>Column</em> is the <em>&lt;id&gt;</em> of a 32-bit integer <strong>OpConstant</strong> denoting the column number at
+ which the lexical block begins.<br>
+<br>
+<em>Scope</em> is the <em>&lt;id&gt;</em> of a debug instruction that represents the
+ <a href="#LexicalScope">lexical scope</a> containing the lexical block. Entities
+ in the global lexical scope should have <em>Scope</em> referring to a
+ <a href="#DebugCompilationUnit"><strong>DebugCompilationUnit</strong></a>.<br>
+<br>
+ The presence of the <em>Name</em> operand indicates that this instruction represents a
+ C++ namespace. This operand refers to an <strong>OpString</strong> holding the name of the
+ namespace. For anonymous C<span class="monospaced"> namespaces, the name must be an empty string.<br>
+<br>
+ If <em>Name</em> operand present, then the instruction can also have optional
+ <em>Inline namespace</em> parameter. It specifies whether C</span> namespace is inline or not.
+ It must be either result id of <a href="#OpConstantTrue"><strong>OpConstantTrue</strong></a> or
+ <a href="#OpConstantFalse"><strong>OpConstantFalse</strong></a>.<br>
+<br></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">10+</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">13</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>Result &lt;id&gt;</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Set</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">21</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Source</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Line</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Column</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Scope</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Optional <em>&lt;id&gt;</em> <em>Name</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Optional <em>&lt;id&gt;</em> <em>Inline namespace</em></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
 <h3 id="_imported_entities">Imported Entities</h3>
 <table class="tableblock frame-all grid-all"
 style="
@@ -2792,7 +3020,7 @@ width:100%;
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2023-03-20 05:17:24 PDT
+ 2023-04-25 05:57:22 PDT
 </div>
 </div>
 </body>
