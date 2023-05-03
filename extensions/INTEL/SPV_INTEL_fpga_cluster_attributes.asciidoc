@@ -17,7 +17,7 @@ https://github.com/KhronosGroup/SPIRV-Registry
 
 == Notice
 
-Copyright (c) 2020 Intel Corporation.  All rights reserved.
+Copyright (c) 2020, 2023 Intel Corporation.  All rights reserved.
 
 == Status
 
@@ -27,20 +27,20 @@ Final draft
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2020-10-13
-| Revision           | A
+| Last Modified Date | 2023-04-11
+| Revision           | 2 
 |========================================
 
 == Dependencies
 
 This extension is written against the SPIR-V Specification,
-Version 1.5 Revision 3.
+Version 1.6 Revision 2.
 
 This extension requires SPIR-V 1.0.
 
 == Overview
 
-This extension adds a decoration to request that statically-scheduled clusters use a stall-enable signal, on an FPGA target.
+This extension adds decorations to request that statically-scheduled clusters use a stall-enable signal, or an exit FIFO, on an FPGA target.
 
 == Extension Name
 
@@ -51,10 +51,11 @@ OpExtension "SPV_INTEL_fpga_cluster_attributes"
 ----
 
 == New capabilities
-This extension introduces a new capability:
+This extension introduces two new capabilities:
 
 ----
 FPGAClusterAttributesINTEL
+FPGAClusterAttributesV2INTEL
 ----
 
 == New Decorations
@@ -65,6 +66,13 @@ This extension adds the following decoration under the *FPGAClusterAttributesINT
 StallEnableINTEL
 ----
 
+This extension adds the following decoration under the *FPGAClusterAttributesV2INTEL* capability:
+
+----
+StallFreeINTEL
+----
+
+
 == Token Number Assignments
 
 --
@@ -72,12 +80,14 @@ StallEnableINTEL
 [cols="70%,30%"]
 [grid="rows"]
 |====
-|FPGAClusterAttributesINTEL|5904
-|StallEnableINTEL          |5905
+|FPGAClusterAttributesINTEL         |5904
+|StallEnableINTEL                   |5905
+|FPGAClusterAttributesV2INTEL       |6150
+|StallFreeINTEL                     |6151
 |====
 --
 
-== Modifications to the SPIR-V Specification, Version 1.5
+== Modifications to the SPIR-V Specification, Version 1.6
 
 === Decoration
 
@@ -90,23 +100,28 @@ Modify Section 3.20, Decoration, adding these rows to the Decoration table:
 | 5905 | *StallEnableINTEL* +
 Only valid on OpFunction. Request, to the extent possible, that statically-scheduled clusters should handle stalls using a stall-enable signal to freeze computation within the cluster.
 2+| | *FPGAClusterAttributesINTEL*
+| 6151 | *StallFreeINTEL* +
+Only valid on OpFunction. Request, to the extent possible, that statically-scheduled clusters should handle stalls by using an exit FIFO to hold any output data until the cluster is no longer stalled.
+2+| | *FPGAClusterAttributesV2INTEL*
+
 |====
 --
 
 === Capability
 
-Modify Section 3.31, Capability, adding a row to the Capability table:
+Modify Section 3.31, Capability, adding the following rows to the Capability table:
 --
 [options="header"]
 |====
 2+^| Capability ^| Implicitly Declares
 | 5904 | FPGAClusterAttributesINTEL |
+| 6150 | FPGAClusterAttributesV2INTEL | FPGAClusterAttributesINTEL
 |====
 --
 
 === Validation Rules
 
-None.
+At most one of the *StallEnableINTEL* and *StallFreeINTEL* decorations can appear on an *OpFunction*.
 
 == Issues
 
@@ -120,4 +135,5 @@ None.
 |========================================
 |Rev|Date|Author|Changes
 |1|2020-10-13|Jessica Davies|*Initial public release*
+|2|2023-04-11|Jessica Davies|Add stall-free cluster decoration
 |========================================
