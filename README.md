@@ -124,6 +124,8 @@ Khronos SPIR-V Registry](https://www.khronos.org/registry/spir-v/).
 1. [SPV_EXT_shader_tile_image               ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/EXT/SPV_EXT_shader_tile_image.html)
 1. [SPV_KHR_ray_tracing_position_fetch      ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/KHR/SPV_KHR_ray_tracing_position_fetch.html)
 1. [SPV_INTEL_arbitrary_precision_floating_point]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/INTEL/SPV_INTEL_arbitrary_precision_floating_point.html)
+1. [SPV_INTEL_global_variable_fpga_decorations]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/INTEL/SPV_INTEL_global_variable_fpga_decorations.html)
+1. [SPV_INTEL_global_variable_host_access]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/INTEL/SPV_INTEL_global_variable_host_access.html)
 
 ## Non-Semantic Extended Instruction Set Specifications
 
