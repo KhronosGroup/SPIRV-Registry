@@ -1,0 +1,602 @@
+SPV_KHR_cooperative_matrix
+==========================
+
+Name Strings
+------------
+
+SPV_KHR_cooperative_matrix
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Jeff Bolz, NVIDIA
+- Daniel Koch, NVIDIA
+- Markus Tavenrath, NVIDIA
+- Kevin Petit, Arm Ltd.
+- Lei Zhang, Google
+- Ben Ashbaugh, Intel
+- Ruihao Zhang, Qualcomm
+- David Neto, Google
+- Tobias Hector, AMD
+- John Kessenich, Google
+- Nicolai Hahnle, AMD
+- Mariusz Merecki, Intel
+- Pedro Olsen Ferreira, Arm Ltd.
+- Ni Hui, Tencent
+- Dmitry Sidorov, Intel
+- Dong Wang, AMD
+- Ruimin Zhao, AMD
+- Alan Baker, Google
+- Lin Qun, AMD
+- Wooyoung Kim, Qualcomm
+- Krystian Andrzejewski, Intel
+
+Notice
+------
+
+Copyright (c) 2020-2023 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+Status
+------
+
+- Approved by the SPIR-V Working Group: 2023-05-03
+- Not Yet Approved by the Khronos Board of Promoters: (To become approved, with an approval date, e.g. 2018-01-30)
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2023-05-03
+| Revision           | 3
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.6, Revision 2, Unified.
+
+This extension requires SPIR-V 1.6.
+
+This extension interacts with SPV_EXT_physical_storage_buffer.
+
+Overview
+--------
+
+This extension adds a new set of types known as "cooperative matrix" types,
+where the storage for and computations performed on the matrix are spread
+across a set of invocations such as a subgroup. These types give the
+implementation freedom in how to optimize matrix multiplies.
+
+This extension introduces the types and instructions, but does not specify
+rules about what sizes/combinations are valid. This is left to the
+client API specs, and it is expected that different implementations may
+support different sizes. To help accommodate this, the dimensions of the
+cooperative types can be specialized via specialization constants. Since
+the scope parameter is also something that could potentially be specialized,
+this extension allows all scope ids to be specialization constants.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_KHR_cooperative_matrix"
+----
+
+Modifications to the SPIR-V Specification, Version 1.6
+------------------------------------------------------
+
+2.2 Terms
+~~~~~~~~~
+
+Add new terms to section 2.2.2 Types:
+
+[[CooperativeMatrix]]'Cooperative Matrix:' A two-dimensional ordered
+collection of scalars, whose storage is spread across multiple shader
+invocations.
+
+Add 'Cooperative Matrix' to the definition of 'Abstract Type'.
+
+Add 'Cooperative Matrix' to the definition of 'Composite'. A cooperative matrix
+is a composite with an implementation-dependent number of components
+(which can be queried with *OpCooperativeMatrixLengthKHR*). It can be used as a
+composite for all operations that act on composite types. The mapping
+of components to invocations and indexes is implementation-dependent.
+
+2.16 Validation Rules
+~~~~~~~~~~~~~~~~~~~~~
+
+==== Modify section 2.16.1. Universal Validation Rules:
+
+* Add *OpCooperativeMatrixLoadKHR* and *OpCooperativeMatrixStoreKHR* to the list
+of instructions under "It is invalid for a pointer to be an operand to any
+instruction other than:", when the *Logical* addressing model is selected and
+neither the *VariablePointers* nor *VariablePointersStorageBuffer* capability
+are declared.
+
+* Cooperative matrix types (or types containing them) can only be allocated
+in *Function* or *Private* storage classes.
+
+* The *Matrix{A,B,C,Result}SignedComponents* _Cooperative Matrix Operand_ can only be
+used when the type of the corresponding matrix is an integer type.
+
+==== Modify section 2.16.2. Validation Rules for Shader Capabilities:
+
+Replace:
+
+* All <id> used for Scope <id> and Memory Semantics <id> must be of an *OpConstant*.
+
+with:
+
+* All <id> used for Scope <id> must be the result of a constant instruction.
+* All <id> used for Memory Semantics <id> must be of an *OpConstant*.
+
+Add:
+
+* If the *CooperativeMatrixKHR* capability is declared then the *VulkanMemoryModel*
+  capability must be declared as well.
+
+3.26 Memory Operands
+~~~~~~~~~~~~~~~~~~~~
+
+Modify Section 3.26, "Memory Operands":
+
+In the description of *MakePointerAvailable*, change "Not valid with *OpLoad*"
+to "Not valid with *OpLoad* or *OpCooperativeMatrixLoadKHR*".
+
+In the description of *MakePointerVisible*, change "Not valid with *OpStore*"
+to "Not valid with *OpStore* or *OpCooperativeMatrixStoreKHR*".
+
+3.31 Capabilities
+~~~~~~~~~~~~~~~~~
+
+Modify Section 3.31, "Capability", adding these rows to the Capability table:
+
+--
+[options="header"]
+|====
+2+^| Capability ^| Enabling Capabilities
+| 6022 | *CooperativeMatrixKHR* +
+Enables cooperative matrix types and instructions operating on them.
+|
+|====
+--
+
+3.X Cooperative Matrix Operands
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New section in 3 "Binary Form".
+
+--
+[options="header"]
+|====
+2+^| Cooperative Matrix Operands | Enabling Capabilities
+| 0x0 | *None* |
+| 0x1 | *MatrixASignedComponents* +
+The components of matrix A are treated as signed. |
+| 0x2 | *MatrixBSignedComponents* +
+The components of matrix B are treated as signed. |
+| 0x4 | *MatrixCSignedComponents* +
+The components of matrix C are treated as signed. |
+| 0x8 | *MatrixResultSignedComponents* +
+The components of matrix Result are treated as signed. |
+| 0x10 | *SaturatingAccumulation* +
+The accumulation of 'A' x 'B' and 'C' performed by *OpCooperativeMatrixMulAddKHR* is saturating. |
+|====
+--
+
+3.X Cooperative Matrix Layout
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New section in 3 "Binary Form".
+
+--
+[options="header"]
+|====
+2+^| Cooperative Matrix Layout | Enabling Capabilities
+| 0x0 | *RowMajorKHR* +
+Elements in rows of the matrix are laid out in contiguous memory locations. Rows
+are laid out with a fixed stride communicated via the 'Stride' operand to
+*OpCooperativeMatrixLoadKHR* or *OpCooperativeMatrixStoreKHR* which must be
+provided. Elements (row,$$*$$) of the result of load or store operations are taken
+in order from contiguous locations starting at 'Pointer'[row*'Stride'] where
+'Pointer' is the 'Pointer' operand to *OpCooperativeMatrixLoadKHR* or
+*OpCooperativeMatrixStoreKHR*. 'Stride' must be greater than 0 when passed to
+*OpCooperativeMatrixStoreKHR* and must be greater than or equal to 0 when passed
+to *OpCooperativeMatrixLoadKHR*.
+|
+
+| 0x1 | *ColumnMajorKHR* +
+Elements in columns of the matrix are laid out in contiguous memory locations. Columns
+are laid out with a fixed stride communicated via the 'Stride' operand to
+*OpCooperativeMatrixLoadKHR* or *OpCooperativeMatrixStoreKHR* which must be
+provided. Elements ($$*$$,col) of the result of load or store operations are taken
+in order from contiguous locations starting at 'Pointer'[col*'Stride'] where
+'Pointer' is the 'Pointer' operand to *OpCooperativeMatrixLoadKHR* or
+*OpCooperativeMatrixStoreKHR*. 'Stride' must be greater than 0 when passed to
+*OpCooperativeMatrixStoreKHR* and must be greater than or equal to 0 when passed
+to *OpCooperativeMatrixLoadKHR*.
+|
+|===
+--
+
+3.X Cooperative Matrix Use
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New section in 3 "Binary Form".
+
+--
+[options="header"]
+|====
+2+^| Cooperative Matrix Use | Enabling Capabilities
+| 0 | *MatrixAKHR*           |
+| 1 | *MatrixBKHR*           |
+| 2 | *MatrixAccumulatorKHR* |
+|===
+--
+
+3.42.6 Type-Declaration Instructions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[cols="1,1,6*3",width="100%"]
+|=====
+7+|[[OpTypeCooperativeMatrixKHR]]*OpTypeCooperativeMatrixKHR* +
+ +
+Declare a new cooperative matrix type with 'Rows' rows and 'Columns' columns,
+where all invocations in 'Scope' cooperate to compute and store the matrix. +
+ +
+'Component Type' must be a scalar 'numerical type'. +
+ +
+'Scope' must be a 'constant instruction' with scalar 32-bit 'integer type'. +
+ +
+'Rows' must be a 'constant instruction' with scalar 32-bit 'integer type'. +
+ +
+'Columns' must be a 'constant instruction' with scalar 32-bit 'integer type'. +
+ +
+'Use' must be a 'constant instruction' scalar 32-bit 'integer type' whose
+value corresponds to a 'Cooperative Matrix Use'. +
+ +
+1+|Capability: +
+*CooperativeMatrixKHR*
+1+| 7 | 4456 | 'Result <id>' | '<id>' +
+'Component Type' | Scope '<id>' +
+'Scope' | '<id>' +
+'Rows' | '<id>' +
+'Columns' | '<id>' +
+'Use'
+|=====
+
+3.42.7 Constant-Creation Instructions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Modify *OpConstantComposite* to make an exception for cooperative matrix types:
+"If the 'Result Type' is a cooperative matrix type, then there must be only one
+'Constituent' and it is used to initialize all members."
+
+3.42.8 Memory Instructions
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[cols="1,1,6*3",width="100%"]
+|=====
+7+|[[OpCooperativeMatrixLoadKHR]]*OpCooperativeMatrixLoadKHR* +
+ +
+Load a cooperative matrix through a pointer. +
+ +
+'Result Type' is the type of the loaded object. It must be a cooperative matrix
+type. +
+ +
+'Pointer' is a pointer. Its type must be an *OpTypePointer* whose 'Type' operand
+is a scalar or vector type. If the *Shader* capability was declared, 'Pointer'
+must point into an array and any *ArrayStride* decoration on 'Pointer' is ignored. +
+ +
+'MemoryLayout' specifies how matrix elements are laid out in memory. It must come
+from a 32-bit integer 'constant instruction' whose value corresponds to a
+'Cooperative Matrix Layout'. See the _Cooperative Matrix Layout_ table for
+a description of the layouts and detailed layout-specific rules. +
+ +
+'Stride' further qualifies how matrix elements are laid out in memory. It must be a
+scalar 'integer type' and its exact semantics depend on 'MemoryLayout'. +
+ +
+'Memory Operand' must be a +Memory Operand+ literal. If not present, it is the
+same as specifying *None*. +
+ +
+For a given dynamic instance of this instruction, all operands of this
+instruction must be the same for all invocations in a given scope instance
+(where the scope is the scope the cooperative matrix type was created with).
+All invocations in a given scope instance must be active or all must be
+inactive.
+1+|Capability: +
+*CooperativeMatrixKHR*
+1+| 5+variable | 4457 | '<id>' +
+'Result Type' |'Result <id>' | '<id>' +
+'Pointer' | '<id>' +
+'MemoryLayout' | Optional '<id>' +
+'Stride' | Optional +
+'Memory Operand' |
+|=====
+
+[cols="1,1,5*3",width="100%"]
+|=====
+6+|[[OpCooperativeMatrixStoreKHR]]*OpCooperativeMatrixStoreKHR* +
+ +
+Store a cooperative matrix through a pointer. +
+ +
+'Pointer' is a pointer. Its type must be an *OpTypePointer* whose 'Type' operand
+is a scalar or vector type. If the *Shader* capability was declared, 'Pointer'
+must point into an array and any *ArrayStride* decoration on 'Pointer' is ignored. +
+ +
+'Object' is the object to store. Its type must be an
+*OpTypeCooperativeMatrixKHR*. +
+ +
+'MemoryLayout' specifies how matrix elements are laid out in memory. It must come
+from a 32-bit integer 'constant instruction' whose value corresponds to a
+'Cooperative Matrix Layout'. See the _Cooperative Matrix Layout_ table for
+a description of the layouts and detailed layout-specific rules. +
+ +
+'Stride' further qualifies how matrix elements are laid out in memory. It must be a
+scalar 'integer type' and its exact semantics depend on 'MemoryLayout'. +
+ +
+'Memory Operand' must be a +Memory Operand+ literal. If not present, it is the
+same as specifying *None*. +
+ +
+For a given dynamic instance of this instruction, all operands of this
+instruction must be the same for all invocations in a given scope instance
+(where the scope is the scope the cooperative matrix type was created with).
+All invocations in a given scope instance must be active or all must be
+inactive.
+1+|Capability: +
+*CooperativeMatrixKHR*
+1+| 4+variable | 4458 | '<id>' +
+'Pointer' | '<id>' +
+'Object' | '<id>' +
+'MemoryLayout' | Optional '<id>' +
+'Stride' | Optional +
+'Memory Operand' |
+|=====
+
+[cols="1,1,3*3",width="100%"]
+|=====
+4+|[[OpCooperativeMatrixLengthKHR]]*OpCooperativeMatrixLengthKHR* +
+ +
+Number of components of a cooperative matrix type accessible to the current
+invocation when treated as a composite. +
+ +
+'Result Type' must be an *OpTypeInt* with 32-bit 'Width' and 0 'Signedness'. +
+ +
+'Type' is a cooperative matrix type. +
+1+|Capability: +
+*CooperativeMatrixKHR*
+1+| 4 | 4460 | '<id>' +
+'Result Type' |'Result <id>' | '<id>' +
+'Type'
+|=====
+
+3.42.11 Conversion Instructions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Allow cooperative matrix types for the following conversion instructions (if
+the component types are appropriate): *OpConvertFToU*, *OpConvertFToS*,
+*OpConvertSToF*, *OpConvertUToF*, *OpUConvert*, *OpSConvert*, *OpFConvert*.
+Allow the use of *OpBitcast* on cooperative matrix types whose 'Component Type'
+are integer types with the same 'Width'.
+The result type and value type must have the same 'Scope', number of 'Rows',
+number of 'Columns', and 'Use'.
+
+3.42.12 Composite Instructions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Modify *OpCompositeConstruct* to make an exception for cooperative matrix types:
+"If the 'Result Type' is a cooperative matrix type, then there must be only one
+'Constituent' and it is used to initialize all members."
+
+3.42.13 Arithmetic Instructions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[cols="1,1,6*3",width="100%"]
+|=====
+7+|[[OpCooperativeMatrixMulAddKHR]]*OpCooperativeMatrixMulAddKHR* +
+ +
+Linear-algebraic matrix multiply of 'A' by 'B' and then component-wise
+add 'C'. The order of the operations is implementation-dependent. The
+internal precision of floating-point operations is defined by the client
+API. Integer operations used in the multiplication of 'A' by 'B' are
+performed at the precision of the 'Result Type' and the resulting value
+will equal the low-order N bits of the correct result R, where N is the
+result width and R is computed with enough precision to avoid overflow
+and underflow if the *SaturatingAccumulation* _Cooperative Matrix Operand_
+is not present. If the *SaturatingAccumulation* _Cooperative Matrix Operand_
+is present and overflow or underflow occurs as part of calculating that
+intermediate result, the result of the instruction is undefined. Integer
+additions of the elements of that intermediate
+result with those of 'C' are performed at the precision of 'Result Type',
+are exact, and are saturating if the *SaturatingAccumulation*
+_Cooperative Matrix Operand_ is present, with the signedness of the saturation
+being that of the components of 'Result Type'. If the *SaturatingAccumulation*
+_Cooperative Matrix Operand_ is not present then the resulting value will equal
+the low-order N bits of the correct result R, where N is the result width and
+R is computed with enough precision to avoid overflow and underflow. +
+ +
+'Result Type' must be a cooperative matrix type with M rows and N columns
+whose 'Use' must be 'MatrixAccumulatorKHR'. +
+ +
+'A' is a cooperative matrix with M rows and K columns whose 'Use' must be 'MatrixAKHR'. +
+ +
+'B' is a cooperative matrix with K rows and N columns whose 'Use' must be 'MatrixBKHR'. +
+ +
+'C' is a cooperative matrix with M rows and N columns whose 'Use' must be 'MatrixAccumulatorKHR'. +
+ +
+The values of M, N, and K must be consistent across the result and operands.
+This is referred to as an 'MxNxK' matrix multiply. +
+ +
+'A', 'B', 'C', and 'Result Type' must have the same scope, and this defines
+the scope of the operation. 'A', 'B', 'C', and 'Result Type' need not
+necessarily have the same component type, this is defined by the client API. +
+ +
+If the 'Component Type' of any matrix operand is an integer type, then its
+components are treated as signed if the *Matrix{A,B,C,Result}SignedComponents*
+_Cooperative Matrix Operand_ is present and are treated as unsigned otherwise. +
+ +
+'Cooperative Matrix Operands' is an optional _Cooperative Matrix Operand_ literal. If
+not present, it is the same as specifying the _Cooperative Matrix Operand_ *None*. +
+ +
+For a given dynamic instance of this instruction, all invocations in a given
+scope instance must be active or all must be inactive (where the scope is the
+scope of the operation). +
+1+|Capability: +
+*CooperativeMatrixKHR*
+1+| 6+variable | 4459 | '<id>' +
+'Result Type' |'Result <id>' | '<id>' +
+'A' | '<id>' +
+'B' | '<id>' +
+'C'' | Optional +
+'Cooperative Matrix Operands'
+|=====
+
+Allow cooperative matrix types for the following arithmetic instructions:
+
+* *OpSNegate* and *OpFNegate*
+* *OpIAdd*, *OpFAdd*, *OpISub*, *OpFSub*, *OpFMul*, *OpIMul*,
+  *OpFDiv*, *OpSDiv*, and *OpUDiv*.
+
+if their 'Component Type' is appropriate:
+
+* *OpF* instructions can be used with cooperative matrix types whose
+  'Component Type' is a floating-point type.
+* *OpI*, *OpS*, and *OpU* instructions can be used with cooperative
+  matrix types whose 'Component Type' is an integer type.
+
+Unary arithmetic instructions operate on the individual elements of the cooperative
+matrices.
+
+Binary arithmetic instructions operate on the individual elements of a pair
+of cooperative matrices whose type must match.
+
+Allow cooperative matrix types for *OpMatrixTimesScalar*.
+
+Issues
+------
+
+. Should cooperative operations imply a fixed scope (e.g. Subgroup) or be more
+flexible?
++
+--
+Discussion: Some hardware (e.g. NVidia Volta) use a smaller scope than the typical
+Subgroup size, and it is plausible that other implementations could also want a
+different scope.
+
+*RESOLVED*: Allow a specialization constant scope.
+--
+
+. Should we have capabilities for each MxNxK matrix multiply "size" that is
+supported?
++
+--
+Discussion: It's nice for validation if the shader instructions can be
+validated solely based on the OpCapability instructions. But that already
+breaks down for spec-constant-defined cooperative matrix types.
+
+*RESOLVED*: Just one capability for the overall feature.
+--
+
+. Should strides be in bytes or elements?
++
+--
+Discussion: Using elements helps avoid the unsupportable (or more difficult
+to support) cases.
+
+*RESOLVED*: Stride is in elements of the pointee type (which can be different
+than the matrix component type).
+--
+
+. Should we allow matrices to be stored in an opaque layout in shared
+memory?
++
+--
+Discussion: Some implementation need opaque layouts for optimal performance.
+
+*RESOLVED*: Load/store instructions accept a layout operand that vendors can
+use to select custom layouts.
+--
+
+. Should the 'MemoryLayout' operand be a literal constant, or a constant
+instruction?
++
+--
+Discussion: Constant instructions are more general, and easier for code
+generation.
+
+*RESOLVED*: Constant instruction.
+--
+
+. Should we allow OpTranspose on cooperative matrix types?
++
+--
+Discussion: Most implementations are expected to support a restricted set of
+sizes where the transpose of a matrix will sometimes not be a valid type; it's
+unclear if this is useful.
+
+*RESOLVED*: Not supported in this extension.
+--
+
+. What should the Pointer operand to a cooperative Load/Store be?
++
+--
+Discussion: The spec currently chooses to have the Pointer parameter point at
+the first element of the matrix in memory, and this pointer is assumed to be
+in the middle of an array. Another option would be to have the Pointer
+parameter be a pointer to the whole array, and have an additional "Element"
+parameter to the instructions, which indicates where the matrix starts in the
+array.
+
+The alternative option's main benefit is that you don't end up with a pointer
+parameter being used to access something it does not point to. However, it
+effectively splits out the last element of the access chain into the
+load/store instruction, which is kind of weird. And in the first option, the
+pointer to the array is still there implicitly in the access chain.
+
+*RESOLVED*: Pointer points to the first element of the array.
+--
+
+. Should we allow the Pointer type and matrix component type to mismatch?
++
+--
+*RESOLVED*: Yes, this makes it easier to efficiently load matrix data into
+shared memory, which can be declared to use a larger type (e.g. uvec4). The
+'Stride' parameter is interpreted in units of the pointed-to type, not in
+units of the matrix's component type.
+--
+
+. Should we make it possible to use *OpMatrixTimesScalar* with OpenCL?
++
+--
+*RESOLVED*: No, this instruction is not generally supported in OpenCL
+environments and the same can be achieved either via an elementwise
+multiplication with a cooperative matrix object created from the scalar
+using *OpConstantComposite* or by iterating over the elements of the
+cooperative matrix to multiply each element by the scalar.
+--
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|3|2023-05-03|Kevin Petit|Initial revision of SPV_KHR_cooperative_matrix
+|2|2019-07-12|Jeff Bolz|Added details for integer operations
+|1|2019-01-30|Jeff Bolz|Initial revision of SPV_NV_cooperative_matrix
+|========================================
