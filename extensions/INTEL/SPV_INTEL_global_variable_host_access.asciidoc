@@ -159,7 +159,7 @@ If a global *OpVariable* is not decorated with *HostAccessINTEL*, the default be
 _Access_
 | Literal String +
 _Name_
-| *GlobalVariableDecorationsINTEL*
+| *GlobalVariableHostAccessINTEL*
 
 |====
 --
@@ -195,4 +195,5 @@ None.
 |Rev|Date|Author|Changes
 |1|2022-11-1|Gregory Lueck|Initial revision
 |2|2023-04-25|Artem Radzikhovskyy|Address default behavior 
+|3|2023-06-30|Artem Radzikhovskyy|Typo in capability
 |========================================
