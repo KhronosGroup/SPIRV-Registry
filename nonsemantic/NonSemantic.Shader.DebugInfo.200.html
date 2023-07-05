@@ -806,6 +806,11 @@ Nikita Kornev, Intel
 Stanley Gambarin, Intel
 </p>
 </li>
+<li>
+<p>
+Viktoria Maksimova, Intel
+</p>
+</li>
 </ul></div>
 <div class="paragraph"><p>Author of <strong>NonSemantic.Shader.DebugInfo.100</strong> specification.</p></div>
 <div class="ulist"><ul>
@@ -933,7 +938,7 @@ Added an optional <em>Target function</em> operand to <a href="#DebugFunction"><
 </li>
 <li>
 <p>
-Added an optional <em>Inline namespace</em> operand to <a href="#DebugLexicalBlock"><strong>DebugLexicalBlock</strong></a>
+Added an optional <em>Inline namespace</em> operand to <a href="#DebugLexicalBlock"><strong>DebugLexicalBlock</strong></a>.
 </p>
 </li>
 <li>
@@ -950,6 +955,16 @@ Added new flag <strong>FlagBitField</strong> to indicate that member of a struct
 <li>
 <p>
 Added new Encoding code <strong>Complex</strong> for Fortran complex type.
+</p>
+</li>
+<li>
+<p>
+Added two optional operands to <a href="#DebugSource"><strong>DebugSource</strong></a> - <em>Checksum Kind</em> and <em>Checksum Value</em>.
+</p>
+</li>
+<li>
+<p>
+Added <em>Column</em> operand to <a href="#DebugInlinedAt"><strong>DebugInlinedAt</strong></a>.
 </p>
 </li>
 </ul></div>
@@ -1271,6 +1286,36 @@ width:50%;
 <tr>
 <td class="tableblock halign-center valign-top" ><p class="tableblock">8</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Complex</strong></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_checksum_kind_a_id_checksumkind_a">Checksum Kind <a id="ChecksumKind"></a></h3>
+<div class="paragraph"><p>Used by <a href="#DebugSource"><strong>DebugSource</strong></a><br></p></div>
+<table class="tableblock frame-all grid-all"
+style="
+width:50%;
+">
+<col style="width:9%;">
+<col style="width:90%;">
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top" colspan="2" > Encoding code name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>MD5</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>SHA1</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>SHA256</strong></p></td>
 </tr>
 </tbody>
 </table>
@@ -2473,6 +2518,65 @@ width:100%;
 </tr>
 </tbody>
 </table>
+<div class="paragraph"><p>Change the definition of <a href="#DebugSource"><strong>DebugSource</strong></a> adding
+a two new optional operands that preserve file&#8217;s checksum information:</p></div>
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:4%;">
+<col style="width:4%;">
+<col style="width:9%;">
+<col style="width:9%;">
+<col style="width:9%;">
+<col style="width:4%;">
+<col style="width:14%;">
+<col style="width:14%;">
+<col style="width:14%;">
+<col style="width:14%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="10" ><p class="tableblock"><a id="DebugSource"></a><strong>DebugSource</strong><br>
+<br>
+ Describe the source program. It can be either the primary source file or a
+ file added via a <span class="monospaced">#include</span> directive.<br>
+<br>
+ <em>Result Type</em> must be <strong>OpTypeVoid</strong>.<br>
+<br>
+ <em>File</em> is an <strong>OpString</strong> holding the name of the source file including its full
+ path.<br>
+<br>
+ <em>Checksum Kind</em> is an 32-bit integer <strong>OpConstant</strong> describing the type of hash algorithm.
+ It must has a value from <a href="#Checksum Kind"><strong>Checksum Kind</strong></a> table.<br>
+<br>
+ <em>Checksum Value</em> is an <strong>OpString</strong> holding the checksum value of the source program file.<br>
+<br>
+ <em>Text</em> is an <strong>OpString</strong> that contains text of the source program the SPIR-V
+  module is derived from.<br>
+<br>
+ If <em>Checksum Kind</em> aka <strong>OpConstant</strong> exists, then the next <strong>OpString</strong> parameter
+ must be interpreted as <em>Checksum Value</em>. <em>Text</em> parameter is always the last
+ parameter of the instruction.<br>
+<br></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">6+</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">12</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>Result &lt;id&gt;</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Set</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">35</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>File</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Optional<br>
+  <em>&lt;id&gt;</em> <em>Checksum Kind</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Optional<br>
+  <em>&lt;id&gt;</em> <em>Checksum Value</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Optional<br>
+  <em>&lt;id&gt;</em> <em>Text</em></p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_type_instructions">Type instructions</h3>
@@ -2500,10 +2604,10 @@ width:100%;
 <em>Base Type</em> is a debugging instruction that describes the element type of the
  array.<br>
 <br>
-<em>Subranges</em> is the elements in the corresponding dimension of the array. The
- number and order of <em>Subranges</em> operands must match with the number and order of
- array dimensions as they appear in the source program. <em>Subranges</em> must be a
- <em>Result &lt;id&gt;</em> of <a href="#DebugTypeSubranges"><strong>DebugTypeSubrange</strong></a>.<br></p></td>
+<em>Subranges</em> are the elements in the corresponding dimension of the array. The
+ number and the order of <em>Subranges</em> operands must match with the number and
+ the order of array dimensions as they appear in the source program.
+ <em>Subranges</em> must be a <em>Result &lt;id&gt;</em> of <a href="#DebugTypeSubranges"><strong>DebugTypeSubrange</strong></a>.<br></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">7+</p></td>
@@ -2896,6 +3000,67 @@ Describe a lexical block in the source program. The <em>Result &lt;id&gt;</em> o
 </tr>
 </tbody>
 </table>
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:4%;">
+<col style="width:4%;">
+<col style="width:9%;">
+<col style="width:9%;">
+<col style="width:9%;">
+<col style="width:4%;">
+<col style="width:14%;">
+<col style="width:14%;">
+<col style="width:14%;">
+<col style="width:14%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="10" ><p class="tableblock"><a id="DebugInlinedAt"></a><strong>DebugInlinedAt</strong><br>
+<br>
+Declare to where instructions grouped together by a <a href="#DebugScope"><strong>DebugScope</strong></a>
+ instruction are inlined. When a function is inlined, a
+ <a href="#DebugScope"><strong>DebugScope</strong></a> for the function or a part of the function can have
+ an <em>Inlined</em> operand i.e., <a href="#DebugInlinedAt"><strong>DebugInlinedAt</strong></a>, which means the
+ set of instructions grouped by the <a href="#DebugScope"><strong>DebugScope</strong></a> was inlined to
+ the <em>Line</em> operand of the <a href="#DebugInlinedAt"><strong>DebugInlinedAt</strong></a> of the <em>Scope</em>
+ operand of the <a href="#DebugInlinedAt"><strong>DebugInlinedAt</strong></a>.<br>
+<br>
+<em>Result Type</em> must be <strong>OpTypeVoid</strong>.<br>
+<br>
+<em>Line</em> is the <em>&lt;id&gt;</em> of a 32-bit integer <strong>OpConstant</strong> denoting the source line number
+ where the range of instructions were inlined.<br>
+<br>
+<em>Column</em> is the <em>&lt;id&gt;</em> of a 32-bit integer <strong>OpConstant</strong> denoting the column number of
+ the first character where the range of instructions were inlined.<br>
+<br>
+<em>Scope</em> is a <a href="#LexicalScope">lexical scope</a> that contains <em>Line</em>.<br>
+<br>
+<em>Inlined</em> is a debug instruction representing the next level of inlining in case
+ of recursive inlining.<br></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">8+</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">12</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>Result &lt;id&gt;</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Set</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">25</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Line</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Column</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Scope</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Optional <em>&lt;id&gt; Inlined</em></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_local_variables">Local Variables</h3>
+<div class="paragraph"><p>Modify the description of <a href="#DebugOperation"><strong>DebugOperation</strong></a> instruction,
+adding the following sentence to the end:
+If Operation is <strong>Arg</strong>, the <strong>DebugOperation</strong> has only one optional operand, which is
+of a non-debug instruction whose value is used as an argument of a debug expression.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_imported_entities">Imported Entities</h3>
@@ -3020,7 +3185,7 @@ width:100%;
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2023-04-25 05:57:22 PDT
+ 2023-07-05 07:14:02 PDT
 </div>
 </div>
 </body>

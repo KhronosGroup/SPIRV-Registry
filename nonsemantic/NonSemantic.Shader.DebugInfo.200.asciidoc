@@ -21,6 +21,7 @@ Contributors and Acknowledgments
  - Mariya Podchishchaeva, Intel
  - Nikita Kornev, Intel
  - Stanley Gambarin, Intel
+ - Viktoria Maksimova, Intel
 
 Author of *NonSemantic.Shader.DebugInfo.100* specification.
 
@@ -100,7 +101,7 @@ This is a non-normative list of changes to the NonSemantic.Shader.DebugInfo.100 
 
 * Added an optional 'Target function' operand to <<DebugFunction,*DebugFunction*>>.
 
-* Added an optional 'Inline namespace' operand to <<DebugLexicalBlock, *DebugLexicalBlock*>>
+* Added an optional 'Inline namespace' operand to <<DebugLexicalBlock, *DebugLexicalBlock*>>.
 
 * Added a '<<SrcLang, source language>>' table to be used by
   <<DebugCompilationUnit,*DebugCompilationUnit*>> instruction.
@@ -108,6 +109,10 @@ This is a non-normative list of changes to the NonSemantic.Shader.DebugInfo.100 
 * Added new flag *FlagBitField* to indicate that member of a structure is bitfield.
 
 * Added new Encoding code *Complex* for Fortran complex type.
+
+* Added two optional operands to <<DebugSource,*DebugSource*>> - 'Checksum Kind' and 'Checksum Value'.
+
+* Added 'Column' operand to <<DebugInlinedAt, *DebugInlinedAt*>>.
 
 
 Enumerations
@@ -205,6 +210,19 @@ Used by <<DebugTypeBasic,*DebugTypeBasic*>> +
 | 6 | *Unsigned*
 | 7 | *UnsignedChar*
 | 8 | *Complex*
+|======
+
+Checksum Kind [[ChecksumKind]]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Used by <<DebugSource,*DebugSource*>> +
+
+[cols="^1,10",options="header",width = "50%"]
+|======
+2+^| Encoding code name
+| 0 | *MD5*
+| 1 | *SHA1*
+| 2 | *SHA256*
 |======
 
 
@@ -534,6 +552,45 @@ a reference to the new '<<source language, source language>>' table:
 | '<id>' 'Producer'
 |======
 
+Change the definition of <<DebugSource,*DebugSource*>> adding
+a two new optional operands that preserve file's checksum information:
+
+[cols="2*1,3*2,1,4*3"]
+|======
+10+|[[DebugSource]]*DebugSource* +
+ +
+ Describe the source program. It can be either the primary source file or a
+ file added via a `#include` directive. +
+ +
+ {result_type} +
+ +
+ 'File' is an *OpString* holding the name of the source file including its full
+ path. +
+ +
+ 'Checksum Kind' is an 32-bit integer *OpConstant* describing the type of hash algorithm.
+ It must has a value from <<Checksum Kind,*Checksum Kind*>> table. +
+ +
+ 'Checksum Value' is an *OpString* holding the checksum value of the source program file. +
+ +
+ 'Text' is an *OpString* that contains text of the source program the SPIR-V
+  module is derived from. +
+ +
+ If 'Checksum Kind' aka *OpConstant* exists, then the next *OpString* parameter
+ must be interpreted as 'Checksum Value'. 'Text' parameter is always the last
+ parameter of the instruction. +
+ +
+
+| 6+ | 12 | '<id>' +
+'Result Type' | 'Result <id>' | '<id> Set'| 35
+| '<id>' 'File'
+| Optional +
+  '<id>' 'Checksum Kind'
+| Optional +
+  '<id>' 'Checksum Value'
+| Optional +
+  '<id>' 'Text'
+|======
+
 
 Type instructions
 ~~~~~~~~~~~~~~~~~
@@ -551,10 +608,11 @@ Change the definition of <<DebugTypeArray,*DebugTypeArray*>> to:
 'Base Type' is a debugging instruction that describes the element type of the
  array. +
  +
-'Subranges' is the elements in the corresponding dimension of the array. The
- number and order of 'Subranges' operands must match with the number and order of
- array dimensions as they appear in the source program. 'Subranges' must be a
- 'Result <id>' of <<DebugTypeSubranges, *DebugTypeSubrange*>>. +
+'Subranges' are the elements in the corresponding dimension of the array. The
+ number and the order of 'Subranges' operands must match with the number and
+ the order of array dimensions as they appear in the source program.
+ 'Subranges' must be a 'Result <id>' of <<DebugTypeSubranges,
+ *DebugTypeSubrange*>>. +
 
 | 7+ | 12 | '<id>' +
 'Result Type' | 'Result <id>' | '<id> Set'| 5
@@ -824,6 +882,46 @@ Describe a lexical block in the source program. The 'Result <id>' of this
 | Optional '<id>' 'Inline namespace'
 |======
 
+[cols="2*1,3*2,1,4*3"]
+|======
+10+|[[DebugInlinedAt]]*DebugInlinedAt* +
+ +
+Declare to where instructions grouped together by a <<DebugScope,*DebugScope*>>
+ instruction are inlined. When a function is inlined, a
+ <<DebugScope,*DebugScope*>> for the function or a part of the function can have
+ an 'Inlined' operand i.e., <<DebugInlinedAt,*DebugInlinedAt*>>, which means the
+ set of instructions grouped by the <<DebugScope,*DebugScope*>> was inlined to
+ the 'Line' operand of the <<DebugInlinedAt,*DebugInlinedAt*>> of the 'Scope'
+ operand of the <<DebugInlinedAt,*DebugInlinedAt*>>. +
+ +
+{result_type} +
+ +
+'Line' is the '<id>' of a 32-bit integer *OpConstant* denoting the source line number
+ where the range of instructions were inlined. +
+ +
+'Column' is the '<id>' of a 32-bit integer *OpConstant* denoting the column number of
+ the first character where the range of instructions were inlined. +
+ +
+'Scope' is a <<LexicalScope,lexical scope>> that contains 'Line'. +
+ +
+'Inlined' is a debug instruction representing the next level of inlining in case
+ of recursive inlining. +
+
+| 8+ | 12 | '<id>' +
+'Result Type' | 'Result <id>' | '<id> Set'| 25
+| '<id> Line'
+| '<id> Column'
+| '<id> Scope'
+| Optional '<id> Inlined'
+|======
+
+Local Variables
+~~~~~~~~~~~~~~~
+
+Modify the description of <<DebugOperation,*DebugOperation*>> instruction,
+adding the following sentence to the end:
+If Operation is *Arg*, the *DebugOperation* has only one optional operand, which is
+of a non-debug instruction whose value is used as an argument of a debug expression.
 
 Imported Entities
 ~~~~~~~~~~~~~~~~~
