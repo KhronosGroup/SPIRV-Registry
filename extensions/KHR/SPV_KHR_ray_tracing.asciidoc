@@ -24,7 +24,7 @@ Contributors
 - Alan Baker, Google
 - John Kessenich, Google
 - Joshua Barczak, Intel
-- Jason Ekstrand, Intel
+- Faith Ekstrand, Intel
 - Hans-Kristian Arntzen, Valve
 
 Status
@@ -736,7 +736,7 @@ Revision History
 |13|2020-02-22 |Tobias Hector         | Removed HitTKHR alias of RayTmaxKHR
 |14|2020-04-22 |Daniel Koch           | Require SPIR-V 1.4.
 |15|2020-06-03 |Daniel Koch           | Update capabilities tables to match SPIR-V 1.5.
-|16|2020-06-04 |Jason Ekstrand        | Make ray payloads and callable data pointers rather than
+|16|2020-06-04 |Faith Ekstrand        | Make ray payloads and callable data pointers rather than
                                         integer locations
 |17|2020-06-05 |Hans-Kristian Arntzen | Add conversion from 64-bit acceleration structure pointer
                                         to OpTypeAccelerationStructureKHR

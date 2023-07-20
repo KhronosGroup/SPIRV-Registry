@@ -19,7 +19,7 @@ Contributors
 - Jeff Bolz, NVIDIA
 - Neil Henning, AMD
 - Tobias Hector, AMD
-- Jason Ekstrand, Intel
+- Faith Ekstrand, Intel
 - Mariusz Merecki, Intel
 
 Notice

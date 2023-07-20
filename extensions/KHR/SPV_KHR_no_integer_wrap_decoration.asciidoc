@@ -19,7 +19,7 @@ Contributors
 - Pawel Jurek, Intel
 - Mariusz Merecki, Intel
 - Ben Ashbaugh, Intel
-- Jason Ekstrand, Intel
+- Faith Ekstrand, Intel
 - Neil Henning, AMD
 - John Kessenich, Google
 - Graeme Leese, Broadcom

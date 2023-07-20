@@ -23,7 +23,7 @@ Contributors
 - Graeme Leese, Broadcom
 - Weifeng Zhang, Qualcomm
 - Stephen Clarke, Imagination Technologies
-- Jason Ekstrand, Intel
+- Faith Ekstrand, Intel
 
 Notice
 ------
