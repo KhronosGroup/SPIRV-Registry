@@ -18,7 +18,7 @@ Contributors
 
 - Kevin Petit, Arm Ltd. +
 - Ruihao Zhang, Qualcomm +
-- Jason Ekstrand, Collabora +
+- Faith Ekstrand, Collabora +
 - Graeme Leese, Broadcom +
 - Alan Baker, Google +
 - Caio Oliveira, Intel +

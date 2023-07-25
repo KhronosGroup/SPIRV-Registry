@@ -16,7 +16,7 @@ https://github.com/KhronosGroup/SPIRV-Headers
 Contributors
 ------------
 
-- Jason Ekstrand, Intel
+- Faith Ekstrand, Intel
 - Ben Ashbaugh, Intel
 
 Status
@@ -211,6 +211,6 @@ Revision History
 [options="header"]
 |========================================
 |Rev|Date|Author|Changes
-|1 |2020-08-14 |Jason Ekstrand|Internal revisions
+|1 |2020-08-14 |Faith Ekstrand|Internal revisions
 |2 |2020-10-05 |Ben Ashbaugh|Added fp16 capability
 |========================================
