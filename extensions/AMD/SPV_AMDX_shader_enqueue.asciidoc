@@ -1,0 +1,316 @@
+SPV_AMDX_shader_enqueue
+======================
+
+Name Strings
+------------
+
+SPV_AMDX_shader_enqueue
+
+Contact
+-------
+
+See *Issues* list in the Khronos SPIRV-Headers repository:
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Provisional
+-----------
+
+*This extension is _provisional_ and should: not be used in production applications.
+The functionality may: change in ways that break backwards compatibility between
+revisions, and before final release.*
+
+Contributors
+------------
+
+- Tobias Hector, AMD
+- Matthäus Chajdas, AMD
+- Nicolai Hähnle, AMD
+- Junda Liu, AMD
+- Maciej Jesionowski, AMD
+- Daniel Brown, AMD
+- Stuart Smith, AMD
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2023-06-12
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the Unified SPIR-V Specification,
+Version 1.6, Revision 1.
+
+This extension requires SPIR-V 1.4.
+
+Overview
+--------
+
+This extension adds the ability for developers to enqueue compute shader
+workgroups from other compute shaders.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_AMDX_shader_enqueue"
+----
+
+=== Capabilities
+
+Modify Section 3.31, "Capability", adding this row to the table:
+
+[cols="1,10,8",options="header"]
+|====
+2+^.^| Capability | Enabling Capabilities
+| 5067 | *ShaderEnqueueAMDX* +
+Uses shader enqueue capabilities | *Shader*
+|====
+
+=== Storage Class
+
+Modify Section 3.7, "Storage Class", adding this row to the table:
+
+[cols="1,10,8",options="header"]
+|====
+2+^.^| Storage Class | Enabling Capabilities
+| 5068 | *NodePayloadAMDX* +
+Input payload from a node dispatch. +
+In the *GLCompute* execution model with the *CoalescingAMDX* execution mode, it is visible across all functions in all invocations in a workgroup; otherwise it is visible across all functions in all invocations in a dispatch. +
+Variables declared with this storage class are read-write, and must not have initializers.
+| *ShaderEnqueueAMDX*
+| 5076 | *NodeOutputPayloadAMDX* +
+Output payload to be used for dispatch. +
+Variables declared with this storage class are read-write, must not have initializers, and must be initialized with *OpInitializeNodePayloadsAMDX* before they are accessed. +
+Once initialized, a variable declared with this storage class is visible to all invocations in the declared _Scope_. +
+Valid in *GLCompute* execution models.
+| *ShaderEnqueueAMDX*
+|====
+
+== Execution Modes
+
+Modify Section 3.6, "Execution Mode", adding the following rows to the table:
+
+[cols="1,10,3,3,3,8",options="header"]
+|====
+2+^.^| Execution Mode 3+| Extra Operands | Enabling Capabilities
+| 5069 | *CoalescingAMDX* +
+Indicates that a GLCompute shader has coalescing semantics. (GLCompute only) +
+ +
+Must not be declared alongside *StaticNumWorkgroupsAMDX* or *MaxNumWorkgroupsAMDX*.
+3+|
+|*ShaderEnqueueAMDX*
+| 5071 | *MaxNodeRecursionAMDX* +
+Maximum number of times a node can enqueue itself.
+3+| _<id>_ +
+_Number of recursions_
+|*ShaderEnqueueAMDX*
+| 5072 | *StaticNumWorkgroupsAMDX* +
+Statically declare the number of workgroups dispatched for this shader, instead of obeying an API- or payload-specified value. Values are reflected in the NumWorkgroups built-in value. (GLCompute only) +
+ +
+Must not be declared alongside *CoalescingAMDX* or *MaxNumWorkgroupsAMDX*.
+| _<id>_ +
+_x size_
+| _<id>_ +
+_y size_
+| _<id>_ +
+_z size_
+|*ShaderEnqueueAMDX*
+| 5077 | *MaxNumWorkgroupsAMDX* +
+Declare the maximum number of workgroups dispatched for this shader. Dispatches must not exceed this value (GLCompute only) +
+ +
+Must not be declared alongside *CoalescingAMDX* or *StaticNumWorkgroupsAMDX*.
+| _<id>_ +
+_x size_
+| _<id>_ +
+_y size_
+| _<id>_ +
+_z size_
+|*ShaderEnqueueAMDX*
+| 5073 | *ShaderIndexAMDX* +
+Declare the node index for this shader. (GLCompute only) 3+| _<id>_ +
+_Shader Index_
+|*ShaderEnqueueAMDX*
+|====
+
+== Decorations
+
+Modify Section 3.20, "Decoration", adding the following row to the table:
+
+[cols="1,10,3,4",options="header"]
+|====
+2+^.^| Decoration | Extra Operands | Enabling Capabilities
+| 5020 | *NodeMaxPayloadsAMDX* +
+Must only be used to decorate a variable in the *NodeOutputPayloadAMDX* or *NodePayloadAMDX* storage class. +
+ +
+Variables in the *NodeOutputPayloadAMDX* storage class must have this decoration.
+If such a variable is decorated, the operand indicates the maximum number of payloads in the array +
+as well as the maximum number of payloads that can be allocated by a single workgroup for this output. +
+ +
+Variables in the *NodePayloadAMDX* storage class must have this decoration if the *CoalescingAMDX* execution mode is specified, otherwise they must not.
+If such a variable is decorated, the operand indicates the maximum number of payloads in the array. +
+| _<id>_ +
+_Max number of payloads_
+|*ShaderEnqueueAMDX*
+| 5019 | *NodeSharesPayloadLimitsWithAMDX* +
+Decorates a variable in the *NodeOutputPayloadAMDX* storage class to indicate that it shares output resources with _Payload Array_ when dispatched. +
+ +
+Without the decoration, each variable's resources are separately allocated against the output limits; by using the decoration only the limit of _Payload Array_ is considered.
+Applications must still ensure that at runtime the actual usage does not exceed these limits, as this decoration only relaxes static validation. +
+ +
+Must only be used to decorate a variable in the *NodeOutputPayloadAMDX* storage class,
+_Payload Array_ must be a different variable in the *NodeOutputPayloadAMDX* storage class, and
+_Payload Array_ must not be itself decorated with *NodeSharesPayloadLimitsWithAMDX*. +
+ +
+It is only necessary to decorate one variable to indicate sharing between two node outputs.
+Multiple variables can be decorated with the same _Payload Array_ to indicate sharing across multiple node outputs.
+| _<id>_ +
+_Payload Array_
+|*ShaderEnqueueAMDX*
+| 5091 | *PayloadNodeNameAMDX* +
+Decorates a variable in the *NodeOutputPayloadAMDX* storage class to indicate that the payloads in the array
+will be enqueued for the shader with _Node Name_. +
+ +
+Must only be used to decorate a variable that is initialized by *OpInitializeNodePayloadsAMDX*.
+| _Literal_ +
+_Node Name_
+|*ShaderEnqueueAMDX*
+| 5078 | *TrackFinishWritingAMDX* +
+Decorates a variable in the *NodeOutputPayloadAMDX* or *NodePayloadAMDX* storage class to indicate that a payload that is first
+enqueued and then accessed in a receiving shader, will be used with *OpFinishWritingNodePayloadAMDX* instruction. +
+ +
+Must only be used to decorate a variable in the *NodeOutputPayloadAMDX* or *NodePayloadAMDX* storage class. +
+ +
+Must not be used to decorate a variable in the *NodePayloadAMDX* storage class if the shader uses *CoalescingAMDX* execution mode. +
+ +
+If a variable in *NodeOutputPayloadAMDX* storage class is decorated, then a matching variable with *NodePayloadAMDX* storage class
+in the receiving shader must be decorated as well. +
+ +
+If a variable in *NodePayloadAMDX* storage class is decorated, then a matching variable with *NodeOutputPayloadAMDX* storage class
+in the enqueuing shader must be decorated as well. +
+|
+|*ShaderEnqueueAMDX*
+|====
+
+== Builtins
+
+Modify Section 3.21, "BuiltIn", adding the following row to the table:
+
+[cols="1,10,8",options="header"]
+|====
+2+^.^| BuiltIn | Enabling Capabilities
+| 5073 | *ShaderIndexAMDX* +
+Index assigned to the current shader.
+|*ShaderEnqueueAMDX*
+| 5021 | *CoalescedInputCountAMDX* +
+Number of valid inputs in the *NodePayloadAMDX* storage class array when using the *CoalescingAMDX* Execution Mode. (GLCompute only)
+|*ShaderEnqueueAMDX*
+|====
+
+== Instructions
+
+Add the following new instructions:
+
+[cols="1,2,2,2,2,2"]
+|======
+5+|[[OpInitializeNodePayloadsAMDX]]*OpInitializeNodePayloadsAMDX* +
+ +
+Allocate payloads in memory and make them accessible through the _Payload Array_ variable.
+The payloads are enqueued for the node shader identified by the _Node Index_ and _Node Name_ in the decoration
+*PayloadNodeNameAMDX* on the _Payload Array_ variable. +
+ +
+_Payload Array_ variable must be an *OpTypePointer* with a _Storage Class_ of _OutputNodePayloadAMDX_, and a _Type_ of *OpTypeArray* with an _Element Type_ of *OpTypeStruct*. +
+ +
+The array pointed to by _Payload Array_ variable must have _Payload Count_ elements. +
+ +
+Payloads are allocated for the _Scope_ indicated by _Visibility_, and are visible to all invocations in that _Scope_. +
+ +
+_Payload Count_ is the number of payloads to initialize in the _Payload Array_. +
+ +
+_Payload Count_ must be less than or equal to the *NodeMaxPayloadsAMDX* decoration on the _Payload Array_ variable. +
+ +
+_Payload Count_ and _Node Index_ must be dynamically uniform within the scope identified by _Visibility_. +
+ +
+_Visibility_ must only be either _Invocation_ or _Workgroup_. +
+ +
+This instruction must be called in uniform control flow. +
+This instruction must not be called on a _Payload Array_ variable that has previously been initialized.
+1+|Capability: +
+*ShaderEnqueueAMDX*
+| 5 | 5090
+| _<id>_ +
+_Payload Array_
+| _Scope <id>_ +
+_Visibility_
+| _<id>_ +
+_Payload Count_
+| _<id>_ +
+_Node Index_
+|======
+
+[cols="3,1,1"]
+|======
+2+|[[OpFinalizeNodePayloadsAMDX]]*OpFinalizeNodePayloadsAMDX* +
+ +
+Optionally indicates that all accesses to an array of output payloads have completed.
+ +
+_Payload Array_ is a payload array previously initialized by *OpInitializeNodePayloadsAMDX*.
+ +
+This instruction must be called in uniform control flow.
+ +
+_Payload Array_ must be an *OpTypePointer* with a _Storage Class_ of _OutputNodePayloadAMDX_, and a _Type_ of *OpTypeArray* or *OpTypeRuntimeArray* with an _Element Type_ of *OpTypeStruct*.
+_Payload Array_ must not have been previously finalized by *OpFinalizeNodePayloadsAMDX*.
+1+|Capability: +
+*ShaderEnqueueAMDX*
+| 2 | 5075
+| _<id>_ +
+_Payload Array_
+|======
+
+[cols="3,1,1,1,1"]
+|======
+4+|[[OpFinishWritingNodePayloadAMDX]]*OpFinishWritingNodePayloadAMDX* +
+ +
+Optionally indicates that all writes to the input payload by the current workgroup have completed.
+ +
+Returns `true` when all workgroups that can access this payload have called this function.
+
+Must not be called if the shader is using *CoalescingAMDX* execution mode,
+or if the shader was dispatched with a `vkCmdDispatchGraph*` command, rather than enqueued from another shader.
+
+Must not be called if the input payload is not decorated with *TrackFinishWritingAMDX*.
+
+_Result Type_ must be *OpTypeBool*.
+ +
+_Payload_ is a variable in the *NodePayloadAMDX* storage class.
+1+|Capability: +
+*ShaderEnqueueAMDX*
+| 4 | 5078
+| _<id>_ +
+_Result Type_
+| _Result_ _<id>_
+| _<id>_ +
+_Payload_
+|======
+
+== Issues
+
+- None
+
+
+== Revision History
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2021-07-22|Tobias Hector|Initial revision.
+|========================================
