@@ -16,7 +16,7 @@ Provisional
 -----------
 
 *This extension is _provisional_ and should: not be used in production applications.
-The functionality may: change in ways that break backwards compatibility between
+The functionality may change in ways that break backwards compatibility between
 revisions, and before final release.*
 
 Contributors
@@ -29,6 +29,17 @@ Contributors
 - Maciej Jesionowski, AMD
 - Daniel Brown, AMD
 - Stuart Smith, AMD
+
+Notice
+------
+
+Copyright (c) 2023 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+Status
+------
+
+Provisional.
 
 Version
 -------
