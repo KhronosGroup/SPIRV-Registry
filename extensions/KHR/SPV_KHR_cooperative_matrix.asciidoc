@@ -55,8 +55,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2023-05-03
-| Revision           | 3
+| Last Modified Date | 2023-07-26
+| Revision           | 4
 |========================================
 
 Dependencies
@@ -183,16 +183,16 @@ New section in 3 "Binary Form".
 [options="header"]
 |====
 2+^| Cooperative Matrix Operands | Enabling Capabilities
-| 0x0 | *None* |
-| 0x1 | *MatrixASignedComponents* +
+| 0x0 | *NoneKHR* |
+| 0x1 | *MatrixASignedComponentsKHR* +
 The components of matrix A are treated as signed. |
-| 0x2 | *MatrixBSignedComponents* +
+| 0x2 | *MatrixBSignedComponentsKHR* +
 The components of matrix B are treated as signed. |
-| 0x4 | *MatrixCSignedComponents* +
+| 0x4 | *MatrixCSignedComponentsKHR* +
 The components of matrix C are treated as signed. |
-| 0x8 | *MatrixResultSignedComponents* +
+| 0x8 | *MatrixResultSignedComponentsKHR* +
 The components of matrix Result are treated as signed. |
-| 0x10 | *SaturatingAccumulation* +
+| 0x10 | *SaturatingAccumulationKHR* +
 The accumulation of 'A' x 'B' and 'C' performed by *OpCooperativeMatrixMulAddKHR* is saturating. |
 |====
 --
@@ -596,6 +596,7 @@ Revision History
 [options="header"]
 |========================================
 |Rev|Date|Author|Changes
+|4|2023-07-26|Kevin Petit|Add KHR suffixes to Cooperative Matrix Operands
 |3|2023-05-03|Kevin Petit|Initial revision of SPV_KHR_cooperative_matrix
 |2|2019-07-12|Jeff Bolz|Added details for integer operations
 |1|2019-01-30|Jeff Bolz|Initial revision of SPV_NV_cooperative_matrix
