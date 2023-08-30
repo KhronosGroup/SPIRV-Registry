@@ -1,0 +1,297 @@
+SPV_NV_displacement_micromap
+============================
+
+Name Strings
+------------
+
+SPV_NV_displacement_micromap
+
+Contact
+-------
+
+See *Issues* list in the Khronos SPIRV-Registry repository:
+https://github.com/KhronosGroup/SPIRV-Registry
+
+Contributors
+------------
+
+- Eric Werness, NVIDIA
+- Ashwin Lele, NVIDIA
+- Pyarelal Knowles, NVIDIA
+- Christoph Kubisch, NVIDIA
+
+Status
+------
+
+- Provisional
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2023-08-01
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.1 Revision 4.
+
+This extension requires SPIR-V 1.0.
+
+This extension interacts with SPV_KHR_ray_tracing, SPV_NV_mesh_shader,
+SPV_EXT_mesh_shader.
+
+
+Overview
+--------
+
+This extension adds new functionality to support the Vulkan
+VK_NV_displacment_micromap extension in SPIR-V.
+
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_NV_displacement_micromap"
+----
+
+
+
+New Capabilities
+----------------
+
+This extension introduces new capabilities:
+
+----
+DisplacementMicromapNV
+RayTracingDisplacementMicromapNV
+----
+
+
+New Builtins
+------------
+
+Builtins added under the *RayTracingDisplacementMicromapNV* capability
+
+----
+HitMicroTriangleVertexPositionsNV
+HitMicroTriangleVertexBarycentricsNV
+HitKindFrontFacingMicroTriangleNV
+HitKindBackFacingMicroTriangleNV
+----
+
+New Instructions
+----------------
+
+Instructions added under the *DisplacementMicromapNV* capability
+
+----
+OpFetchMicroTriangleVertexPositionNV
+OpFetchMicroTriangleVertexBarycentricNV
+----
+
+Modifications to the SPIR-V Specification, Version 1.1
+------------------------------------------------------
+
+(Modify Section 2.2.2, Types ) ::
++
+add *OpTypeAccelerationStructureNV* to list of opaque types
+
+
+(Modify Section 3.21, Builtin, adding rows to the Builtin table) ::
++
+--
+[cols="3^,1,6^,4*2",options="header",width = "100%"]
+|====
+2+^.^| Decoration | <<Capability,Enabling Capabilities>> 2+<.^| Extra Operands
+| 5337 | *HitMicroTriangleVertexPositionsNV* +
+The vertex positions for a hit with a microtriangle for the ray being traced.
+
+Allowed in *AnyHitKHR* and *ClosestHitKHR* stages.
+
+
+|*RayTracingDisplacementMicromapNV* 2+|
+| 5344 | *HitMicroTriangleVertexBarycentricsNV* +
+The barycentric coordinates for vertices of a microtriangle hit for the ray being traced relative to the base triangle's vertices.
+
+Allowed in *AnyHitKHR* and *ClosestHitKHR* stages.
+
+Refer to the Ray Tracing chapter of Vulkan API specification for more details.
+|*RayTracingDisplacementMicromapNV* 2+|
+| 5405 | *HitKindFrontFacingMicroTriangleNV* +
+A link-time constant that *HitKindKHR* will return when *OpTraceRayKHR* intersects a front facing microtriangle.
+
+Allowed in all stages.
+
+|*RayTracingDisplacementMicromapNV* 2+|
+| 5406 | *HitKindBackFacingMicroTriangleNV* +
+A link-time constant that *HitKindKHR* will return when *OpTraceRayKHR* intersects a back facing microtriangle.
+
+Allowed in all stages.
+|*RayTracingDisplacementMicromapNV* 2+|
+|====
+--
+
+(Modify Section 3.HK, Hit Kinds, adding rows to the table) ::
++
+--
+[[hit_kinds]]
+*3.HK, Hit Kinds*
+
+Values returned in the variable decorated as *HitKindKHR* from built-in
+intersections with triangle geometry.
+
+[cols="2,12,15",options="header",width = "100%"]
+|====
+Value^.^| Hit Kind | Enabling Capabilities
+| builtin | *HitKindFrontFacingMicroTriangleNV* +
+The intersection was with front-facing displacement micromap geometry.
+| *RayTracingDisplacementMicromapNV*
+| builtin | *HitKindBackFacingMicroTriangleKHR* +
+The intersection was with back-facing displacement micromap geometry.
+| *RayTracingDisplacementMicromapNV*
+|====
+--
+
+(Modify Section 3.31, Capability, adding a row to the Capability table) ::
++
+--
+[cols="3^.^,6,25,15^,15",options="header",width = "100%"]
+|====
+2+^.^| Capability|Enabled by Extension
+| 5380 | *DisplacementMicromapNV* +
+
+|  *SPV_NV_displacement_micromap*
+| 5409 | *RayTracingDisplacementMicromapNV* +
+
+|  *SPV_NV_displacement_micromap*
+|====
+--
+
+(Modify Section 3.32.6, Type-Declaration Instructions, adding a new table) ::
++
+--
+[cols="1,1,5*3",width="100%"]
+|=====
+6+|[[OpTypeAccelerationStructureKHR]]*OpTypeAccelerationStructureKHR* +
+ +
+Declares an acceleration structure type which is an opaque reference to
+acceleration structure handle as defined in the client API
+specification.
+
+Consumed by <<OpFetchMicroTriangleVertexPositionNV,*OpFetchMicroTriangleVertexPositionNV*>> and
+<<OpFetchMicroTriangleVertexBarycentricNV,*OpFetchMicroTriangleVertexBarycentricNV*>>
+
+This type is opaque: values of this type have no defined physical size or
+bit pattern.
+
+1+|Capability: +
+*DisplacementMicromapNV*
+| 2 | 5341 | '<id>' 'Result'
+|=====
+--
+
+Instructions
+-----------
+
+
+(Add the new instruction) ::
+
+[cols="9*2"]
+|======
+8+|[[OpFetchMicroTriangleVertexPositionNV]]*OpFetchMicroTriangleVertexPositionNV* +
+ +
+ Returns the vertex position of a micro triangle in object space.
+ +
+
+ 'Result Type' must 3 component vector of 32-bit 'floating point' type +
+ +
+ 'Acceleration Structure' is the descriptor for the acceleration structure to trace into. +
+ +
+ 'Instance Id' must be an <id> of 32-bit scalar 'integer type'. +
+ +
+ 'Geometry Index' must be an <id> of 32-bit scalar 'integer type'. +
+ +
+ 'Primitive Index' must be an <id> of 32-bit scalar 'integer type'. +
+ +
+ 'Barycentrics' must be an <id> of 2 component vector of 'integer type'. +
+ +
+ This instruction is allowed only in *RayGenerationKHR*, *MeshNV* and *GLCompute* execution models. +
+1+|Capability: +
+*DisplacementMicromapNV*
+| 7 | 5300
+| '<id>' 'Result Type'
+| 'Result' '<id>'
+| '<id> Acceleration Structure'
+| '<id> Instance Id'
+| '<id> Geometry Index'
+| '<id> Primitive Index'
+| '<id> Barycentrics'
+|======
+
+[cols="9*2"]
+|======
+8+|[[OpFetchMicroTriangleVertexBarycentricNV]]*OpFetchMicroTriangleVertexBarycentricNV* +
+ +
+ Returns the barycentric coordinates of a micro triangle vertex relative to the base
+ triangle vertices.
+ +
+
+ 'Result Type' must 2 component vector of 32-bit 'floating point' type +
+ +
+ 'Acceleration Structure' is the descriptor for the acceleration structure to trace into. +
+ +
+ 'Instance Id' must be an <id> of 32-bit scalar 'integer type'. +
+ +
+ 'Geometry Index' must be an <id> of 32-bit scalar 'integer type'. +
+ +
+ 'Primitive Index' must be an <id> of 32-bit scalar 'integer type'. +
+ +
+ 'Barycentrics' must be an <id> of 2 component vector of 'integer type'. +
+ +
+  This instruction is allowed only in *RayGenerationKHR*, *MeshNV* and *GLCompute* execution models. +
+1+|Capability: +
+*DisplacementMicromapNV*
+| 7 | 5301
+| '<id>' 'Result Type'
+| 'Result' '<id>'
+| '<id> Acceleration Structure'
+| '<id> Instance Id'
+| '<id> Geometry Index'
+| '<id> Primitive Index'
+| '<id> Barycentrics'
+|======
+
+Validation Rules
+----------------
+
+An OpExtension must be added to the SPIR-V for validation layers to check
+legal use of this extension:
+
+----
+OpExtension "SPV_NV_displacement_micromap"
+----
+
+Issues
+------
+
+None yet!
+
+Revision History
+----------------
+
+[cols="6,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1 |2023-08-01 |Pyarelal Knowles|*Internal revisions*
+|========================================
