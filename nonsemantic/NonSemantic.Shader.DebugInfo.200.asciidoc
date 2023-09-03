@@ -42,7 +42,7 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2023-03-20
+| Last Modified Date | 2023-09-03
 | Revision           | 1
 |========================================
 
@@ -638,23 +638,18 @@ Subranges'
  be a 32-bit or 64-bit integer type. +
  +
 'Upper Bound' is the upper boundary of the array. 'Upper Bound' must be a
- 'Result <id>' of an *OpConstant*,
- <<DebugGlobalVariable,*DebugGlobalVariable*>>,
- <<DebugLocalVariable,*DebugLocalVariable*>> or
- <<DebugExpression,*DebugExpression*>>. If it is an *OpConstant*, its type must
- be a 32-bit or 64-bit integer type. If the *OpConstant* value is 0, this
- indicates an array with an unknown size at compile time which is sized at
- runtime, corresponding to the SPIR-V *OpTypeRuntimeArray* type. May be of a
- different type unlike 'Lower Bound'. +
+ 'Result <id>' of an *OpConstant*, <<DebugGlobalVariable,*DebugGlobalVariable*>>,
+ <<DebugLocalVariable,*DebugLocalVariable*>>,
+ <<DebugExpression,*DebugExpression*>> or <<DebugInfoNone,*DebugInfoNone*>>.
+ If it is an *OpConstant*, its type must
+ be a 32-bit or 64-bit integer type. May be of a different type unlike 'Lower Bound'. +
  +
 'Count' is the number of elements of the array. 'Count' must be a 'Result <id>'
- of an *OpConstant*, <<DebugGlobalVariable,*DebugGlobalVariable*>>, or
- <<DebugLocalVariable,*DebugLocalVariable*>>. If it is an *OpConstant*, its type
- must be a 32-bit or 64-bit integer type. Otherwise its type must be
- a <<DebugTypeBasic,*DebugTypeBasic*>> whose 'Size' is 32 or 64 and whose
- 'Encoding' is *Unsigned*. If the *OpConstant* value is 0, this indicates
- an array with an unknown size at compile time which is sized at runtime,
- corresponding to the SPIR-V *OpTypeRuntimeArray* type. +
+ of an *OpConstant*, <<DebugGlobalVariable,*DebugGlobalVariable*>>,
+ <<DebugLocalVariable,*DebugLocalVariable*>> or <<DebugInfoNone,*DebugInfoNone*>>.
+ If it is an *OpConstant*, its type  must be a 32-bit or 64-bit integer type.
+ Otherwise its type must be a <<DebugTypeBasic,*DebugTypeBasic*>> whose 'Size'
+ is 32 or 64 and whose 'Encoding' is *Unsigned* or <<DebugInfoNone,*DebugInfoNone*>>. +
  +
  'Stride' specifies the separation between successive elements along the
  dimension in bytes. 'Stride' must be a 'Result <id>' of an *OpConstant*,
@@ -663,6 +658,12 @@ Subranges'
  must be a 32-bit or 64-bit integer type. Otherwise its type must be
  a <<DebugTypeBasic,*DebugTypeBasic*>> whose 'Size' is 32 or 64 and whose
  'Encoding' is *Unsigned*. +
+ +
+ 'Upper Bound' and 'Count' are both *OpConstant* with a value of 0 or
+ <<DebugInfoNone,*DebugInfoNone*>> this indicates
+ an array with an unknown size at compile time which is sized at runtime,
+ corresponding to the SPIR-V *OpTypeRuntimeArray* type. +
+ +
 
 | 8+ | 12 | '<id>' +
 'Result Type' | 'Result <id>' | '<id> Set'| 201
@@ -995,5 +996,5 @@ Revision History
 [options="header"]
 |==============================================================================
 |Rev         |Date      |Author                             |Changes
-|1.00 Rev 1  |2023-03-20|Alexey Sotkin / Dmitry Sidorov     |*Initial revision*
+|1.00 Rev 1  |2023-09-03|Alexey Sotkin / Dmitry Sidorov     |*Initial revision*
 |===============================================================================

@@ -854,7 +854,7 @@ width:40%;
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2023-03-20</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2023-09-03</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Revision</p></td>
@@ -2653,23 +2653,18 @@ width:100%;
  be a 32-bit or 64-bit integer type.<br>
 <br>
 <em>Upper Bound</em> is the upper boundary of the array. <em>Upper Bound</em> must be a
- <em>Result &lt;id&gt;</em> of an <strong>OpConstant</strong>,
- <a href="#DebugGlobalVariable"><strong>DebugGlobalVariable</strong></a>,
- <a href="#DebugLocalVariable"><strong>DebugLocalVariable</strong></a> or
- <a href="#DebugExpression"><strong>DebugExpression</strong></a>. If it is an <strong>OpConstant</strong>, its type must
- be a 32-bit or 64-bit integer type. If the <strong>OpConstant</strong> value is 0, this
- indicates an array with an unknown size at compile time which is sized at
- runtime, corresponding to the SPIR-V <strong>OpTypeRuntimeArray</strong> type. May be of a
- different type unlike <em>Lower Bound</em>.<br>
+ <em>Result &lt;id&gt;</em> of an <strong>OpConstant</strong>, <a href="#DebugGlobalVariable"><strong>DebugGlobalVariable</strong></a>,
+ <a href="#DebugLocalVariable"><strong>DebugLocalVariable</strong></a>,
+ <a href="#DebugExpression"><strong>DebugExpression</strong></a> or <a href="#DebugInfoNone"><strong>DebugInfoNone</strong></a>.
+ If it is an <strong>OpConstant</strong>, its type must
+ be a 32-bit or 64-bit integer type. May be of a different type unlike <em>Lower Bound</em>.<br>
 <br>
 <em>Count</em> is the number of elements of the array. <em>Count</em> must be a <em>Result &lt;id&gt;</em>
- of an <strong>OpConstant</strong>, <a href="#DebugGlobalVariable"><strong>DebugGlobalVariable</strong></a>, or
- <a href="#DebugLocalVariable"><strong>DebugLocalVariable</strong></a>. If it is an <strong>OpConstant</strong>, its type
- must be a 32-bit or 64-bit integer type. Otherwise its type must be
- a <a href="#DebugTypeBasic"><strong>DebugTypeBasic</strong></a> whose <em>Size</em> is 32 or 64 and whose
- <em>Encoding</em> is <strong>Unsigned</strong>. If the <strong>OpConstant</strong> value is 0, this indicates
- an array with an unknown size at compile time which is sized at runtime,
- corresponding to the SPIR-V <strong>OpTypeRuntimeArray</strong> type.<br>
+ of an <strong>OpConstant</strong>, <a href="#DebugGlobalVariable"><strong>DebugGlobalVariable</strong></a>,
+ <a href="#DebugLocalVariable"><strong>DebugLocalVariable</strong></a> or <a href="#DebugInfoNone"><strong>DebugInfoNone</strong></a>.
+ If it is an <strong>OpConstant</strong>, its type  must be a 32-bit or 64-bit integer type.
+ Otherwise its type must be a <a href="#DebugTypeBasic"><strong>DebugTypeBasic</strong></a> whose <em>Size</em>
+ is 32 or 64 and whose <em>Encoding</em> is <strong>Unsigned</strong> or <a href="#DebugInfoNone"><strong>DebugInfoNone</strong></a>.<br>
 <br>
  <em>Stride</em> specifies the separation between successive elements along the
  dimension in bytes. <em>Stride</em> must be a <em>Result &lt;id&gt;</em> of an <strong>OpConstant</strong>,
@@ -2677,7 +2672,13 @@ width:100%;
  <a href="#DebugLocalVariable"><strong>DebugLocalVariable</strong></a>. If it is an <strong>OpConstant</strong>, its type
  must be a 32-bit or 64-bit integer type. Otherwise its type must be
  a <a href="#DebugTypeBasic"><strong>DebugTypeBasic</strong></a> whose <em>Size</em> is 32 or 64 and whose
- <em>Encoding</em> is <strong>Unsigned</strong>.<br></p></td>
+ <em>Encoding</em> is <strong>Unsigned</strong>.<br>
+<br>
+ <em>Upper Bound</em> and <em>Count</em> are both <strong>OpConstant</strong> with a value of 0 or
+ <a href="#DebugInfoNone"><strong>DebugInfoNone</strong></a> this indicates
+ an array with an unknown size at compile time which is sized at runtime,
+ corresponding to the SPIR-V <strong>OpTypeRuntimeArray</strong> type.<br>
+<br></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">8+</p></td>
@@ -3172,7 +3173,7 @@ width:100%;
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">1.00 Rev 1</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2023-03-20</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2023-09-03</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Alexey Sotkin / Dmitry Sidorov</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Initial revision</strong></p></td>
 </tr>
@@ -3185,7 +3186,7 @@ width:100%;
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2023-07-05 07:14:02 PDT
+ 2023-09-03 07:40:42 PDT
 </div>
 </div>
 </body>
