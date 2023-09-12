@@ -38,9 +38,9 @@ Dependencies
 ------------
 
 This extension is written against the SPIR-V Specification,
-Version 1.1 Revision 4.
+Version 1.5 Revision 1.
 
-This extension requires SPIR-V 1.0.
+This extension requires SPIR-V 1.4.
 
 This extension interacts with SPV_KHR_ray_tracing, SPV_NV_mesh_shader,
 SPV_EXT_mesh_shader.
