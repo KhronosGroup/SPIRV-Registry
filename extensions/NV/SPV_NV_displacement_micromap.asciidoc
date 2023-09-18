@@ -50,7 +50,7 @@ Overview
 --------
 
 This extension adds new functionality to support the Vulkan
-VK_NV_displacment_micromap extension in SPIR-V.
+VK_NV_displacement_micromap extension in SPIR-V.
 
 
 Extension Name
