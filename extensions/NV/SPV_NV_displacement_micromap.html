@@ -33,16 +33,6 @@
       </div>
     </div>
     <div class="sect1">
-      <h2 id="_provisional">Provisional</h2>
-      <div class="sectionbody">
-        <div class="paragraph">
-          <p>This extension is <em>provisional</em> and should: not be used in production
-            applications. The functionality may change in ways that break backwards
-            compatibility between revisions, and before final release.</p>
-        </div>
-      </div>
-    </div>
-    <div class="sect1">
       <h2 id="_contributors">Contributors</h2>
       <div class="sectionbody">
         <div class="ulist">
@@ -350,14 +340,14 @@ OpFetchMicroTriangleVertexBarycentricNV</pre>
                 <div class="content">
                   <table class="tableblock frame-all grid-all spread">
                     <colgroup>
-                      <col style="width: 13.0434%;">
-                      <col style="width: 54.3478%;">
-                      <col style="width: 32.6088%;">
+                      <col style="width: 33.3333%;">
+                      <col style="width: 33.3333%;">
+                      <col style="width: 33.3334%;">
                     </colgroup>
                     <thead>
                       <tr>
                         <th class="tableblock halign-center valign-middle" colspan="2">Capability</th>
-                        <th class="tableblock halign-left valign-top">Enabled by Extension</th>
+                        <th class="tableblock halign-left valign-top">Implicitly declares</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -366,10 +356,10 @@ OpFetchMicroTriangleVertexBarycentricNV</pre>
                           <p class="tableblock">5380</p>
                         </td>
                         <td class="tableblock halign-left valign-top">
-                          <p class="tableblock"><strong>DisplacementMicromapNV</strong><br></p>
+                          <p class="tableblock"><strong>DisplacementMicromapNV</strong><br> Uses the <strong>OpFetchMicroTriangleVertexPositionNV</strong>                            or <strong>OpFetchMicroTriangleVertexBarycentricNV</strong>                            instructions</p>
                         </td>
                         <td class="tableblock halign-left valign-top">
-                          <p class="tableblock"><strong>SPV_NV_displacement_micromap</strong></p>
+                          <p class="tableblock"><strong>Shader</strong></p>
                         </td>
                       </tr>
                       <tr>
@@ -377,10 +367,15 @@ OpFetchMicroTriangleVertexBarycentricNV</pre>
                           <p class="tableblock">5409</p>
                         </td>
                         <td class="tableblock halign-left valign-top">
-                          <p class="tableblock"><strong>RayTracingDisplacementMicromapNV</strong><br></p>
+                          <p class="tableblock"><strong>RayTracingDisplacementMicromapNV</strong><br> Uses
+                            either of <strong>HitMicroTriangleVertexPositionsNV</strong>,
+                            <strong>HitMicroTriangleVertexBarycentricsNV</strong>,
+                            <strong>HitKindFrontFacingMicroTriangleNV</strong>,
+                            <strong>HitKindBackFacingMicroTriangleNV</strong> , <strong>HitKindFrontFacingMicroTriangleNV</strong>                            or
+                            <strong>HitKindBackFacingMicroTriangleKHR</strong> builtins</p>
                         </td>
                         <td class="tableblock halign-left valign-top">
-                          <p class="tableblock"><strong>SPV_NV_displacement_micromap</strong></p>
+                          <p class="tableblock"><strong>Shader</strong></p>
                         </td>
                       </tr>
                     </tbody>

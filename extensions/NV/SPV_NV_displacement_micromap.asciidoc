@@ -164,15 +164,17 @@ The intersection was with back-facing displacement micromap geometry.
 (Modify Section 3.31, Capability, adding a row to the Capability table) ::
 +
 --
-[cols="3^.^,6,25,15^,15",options="header",width = "100%"]
+[options="header"]
 |====
-2+^.^| Capability|Enabled by Extension
+2+^.^| Capability| Implicitly declares
 | 5380 | *DisplacementMicromapNV* +
-
-|  *SPV_NV_displacement_micromap*
+Uses the *OpFetchMicroTriangleVertexPositionNV* or *OpFetchMicroTriangleVertexBarycentricNV* instructions
+|  *Shader*
 | 5409 | *RayTracingDisplacementMicromapNV* +
-
-|  *SPV_NV_displacement_micromap*
+Uses either of *HitMicroTriangleVertexPositionsNV*, *HitMicroTriangleVertexBarycentricsNV*, *HitKindFrontFacingMicroTriangleNV*,
+*HitKindBackFacingMicroTriangleNV* , *HitKindFrontFacingMicroTriangleNV* or
+*HitKindBackFacingMicroTriangleKHR* builtins
+|  *Shader*
 |====
 --
 
