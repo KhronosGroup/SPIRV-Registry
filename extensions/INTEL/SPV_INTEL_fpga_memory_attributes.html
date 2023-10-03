@@ -514,11 +514,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2023-09-06</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2023-10-03</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">H</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">I</p></td>
 </tr>
 </tbody>
 </table>
@@ -713,8 +713,24 @@ Apply to a variable or a structure-type member. Request, to the extent possible,
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">5826</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MemoryINTEL</strong><br>
-Apply to a variable or a structure-type member. Request, to the extent possible, that the variable or structure member should be implemented in memory of the specified type.</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><strong>MemoryINTEL</strong><br>
+Apply to a variable or a structure-type member. Request, to the extent possible, that the variable or structure member should be implemented in memory of the specified type.</p>
+</div>
+<div class="ulist">
+<div class="title">Supported strings:</div>
+<ul>
+<li>
+<p><em>DEFAULT</em>: Implemenation defined what memory resource is used to implement the variable</p>
+</li>
+<li>
+<p><em>MLAB</em>: data is stored in special Adaptive Logic Modules (ALMs), called memory-logic array blocks</p>
+</li>
+<li>
+<p><em>BLOCK_RAM</em>: data is stored in dedicated block RAM modules</p>
+</li>
+</ul>
+</div></div></td>
 <td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock">Literal String<br>
 <em>Memory Type</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGAMemoryAttributesINTEL</strong></p></td>
@@ -801,7 +817,7 @@ Apply to a variable or a structure-type member. Request that the variable or str
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">5883</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>StridesizeINTEL</strong><br>
-Apply to a variable or a structure-type member. Request, to the extent possible, that <em>Stride Size</em> worth of consecutive array elements be placed in the same memory bank.</p></td>
+Apply to a variable or a structure-type member of array type. Request, to the extent possible, that <em>Stride Size</em> worth of consecutive array elements be placed in the same memory bank.</p></td>
 <td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock">Literal Number<br>
 <em>Stride Size</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGAMemoryAttributesINTEL</strong></p></td>
@@ -809,7 +825,7 @@ Apply to a variable or a structure-type member. Request, to the extent possible,
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">5884</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>WordsizeINTEL</strong><br>
-Apply to a variable or a structure-type member. Request, to the extent possible, the size in array elements of a single memory transaction.</p></td>
+Apply to a variable or a structure-type member of array type. Request, to the extent possible, the size in array elements of a single memory transaction.</p></td>
 <td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock">Literal Number<br>
 <em>Word Size</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGAMemoryAttributesINTEL</strong></p></td>
@@ -939,6 +955,12 @@ Apply to a variable or a structure-type member. Request, to the extent possible,
 <td class="tableblock halign-left valign-top"><p class="tableblock">Artem Radzikhovskyy</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Added StridesizeINTEL, WordsizeINTEL, TrueDualPortINTEL decorations</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">I</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2023-10-03</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Artem Radzikhovskyy</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Definition clarifications; Defined supported strings in MemoryINTEL</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -946,7 +968,7 @@ Apply to a variable or a structure-type member. Request, to the extent possible,
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-09-06 14:38:25 -0700
+Last updated 2023-10-03 12:47:13 -0700
 </div>
 </div>
 </body>
