@@ -1,7 +1,7 @@
 SPIR-V Non-Semantic Clspv Reflection Instructions
 =================================================
 
-Version 5
+Version 6
 
 Contact
 -------
@@ -17,6 +17,7 @@ Contributors
 - Kévin Petit, Arm Ltd.
 - Callum Fare, Codeplay
 - Finlay Marno, Codeplay
+- Romaric Jodin, Google
 
 Notice
 ------
@@ -34,8 +35,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2023-01-12
-| Revision           | 5
+| Last Modified Date | 2023-10-11
+| Revision           | 6
 |========================================
 
 Dependencies
@@ -1195,6 +1196,43 @@ buffer size in bytes. +
 'BufferSize' |
 |=====
 
+[cols="5"]
+|=====
+5+|[[NormalizedSamplerMaskPushConstant]]*NormalizedSamplerMaskPushConstant* +
+ +
+ Missing before *version 6*. +
+ +
+Declares a *PushConstant* entry to specify the sampler mask of a non literal
+sampler. It means that the kernel is accessing a 3D images with this sampler.
+But as accessing 3D images with a sampler using unnormalized coordinates is not
+valid, *clspv* will have generated the code to normalized the coordinates.
+*clspv* will choose at runtime whether to use the original coordinates or the
+normalized one depending on the mask of the sampler.
+All kernels from this module should include a push constant range that
+encompasses the 'Offset' and 'Size' operands.
+ +
+'Kernel' must be a <<Kernel,*Kernel*>> extended instruction from the same import. +
+ +
+'Ordinal' must be a 32-bit unsigned integer *OpConstant* specifying the argument ordinal using
+zero-based counting. +
+ +
+'Offset' must be a 32-bit unsigned integer *OpConstant* specifying the offset in
+the block in bytes. +
+ +
+'Size' must be a 32-bit unsigned integer *OpConstant* specifying the size of the
+push constant in bytes. +
+ +
+
+1+| 41 | '<id>' +
+'Kernel' |
+'<id>' +
+'Ordinal' |
+'<id>'  +
+'Offset' |
+'<id>'  +
+'Size' |
+|=====
+
 
 Kernel Property Flags [[KernelPropertyFlags]]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1220,6 +1258,7 @@ Revision History
 [options="header"]
 |========================================
 |Rev|Date|Author|Changes
+|6|2023-10-11|Romaric Jodin|Add support for sampler mask push constants.
 |5|2022-12-22|Callum Fare and Finlay Marno|Add support for module-scope buffer push constants and printf. Add NumArguments, Flags, and Attributes to the Kernel instruction.
 |4|2022-10-04|Kévin Petit|Add support for texel buffer arguments.
 |3|2022-06-26|Kévin Petit|Add support for pointer arguments, program scope variables and image channel order and data type queries.

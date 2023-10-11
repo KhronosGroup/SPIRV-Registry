@@ -775,7 +775,7 @@ asciidoc.install(1);
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
-<div class="paragraph"><p>Version 5</p></div>
+<div class="paragraph"><p>Version 6</p></div>
 </div>
 </div>
 <div class="sect1">
@@ -809,6 +809,11 @@ Callum Fare, Codeplay
 Finlay Marno, Codeplay
 </p>
 </li>
+<li>
+<p>
+Romaric Jodin, Google
+</p>
+</li>
 </ul></div>
 </div>
 </div>
@@ -837,11 +842,11 @@ width:40%;
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2023-01-12</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2023-10-11</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">6</p></td>
 </tr>
 </tbody>
 </table>
@@ -2516,6 +2521,55 @@ buffer size in bytes.<br></p></td>
 </tr>
 </tbody>
 </table>
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<col style="width:20%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="5" ><p class="tableblock"><a id="NormalizedSamplerMaskPushConstant"></a><strong>NormalizedSamplerMaskPushConstant</strong><br>
+<br>
+ Missing before <strong>version 6</strong>.<br>
+<br>
+Declares a <strong>PushConstant</strong> entry to specify the sampler mask of a non literal
+sampler. It means that the kernel is accessing a 3D images with this sampler.
+But as accessing 3D images with a sampler using unnormalized coordinates is not
+valid, <strong>clspv</strong> will have generated the code to normalized the coordinates.
+<strong>clspv</strong> will choose at runtime whether to use the original coordinates or the
+normalized one depending on the mask of the sampler.
+All kernels from this module should include a push constant range that
+encompasses the <em>Offset</em> and <em>Size</em> operands.
+<br>
+<em>Kernel</em> must be a <a href="#Kernel"><strong>Kernel</strong></a> extended instruction from the same import.<br>
+<br>
+<em>Ordinal</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the argument ordinal using
+zero-based counting.<br>
+<br>
+<em>Offset</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the offset in
+the block in bytes.<br>
+<br>
+<em>Size</em> must be a 32-bit unsigned integer <strong>OpConstant</strong> specifying the size of the
+push constant in bytes.<br>
+<br></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">41</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>Kernel</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>Ordinal</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <br>
+<em>Offset</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <br>
+<em>Size</em></p></td>
+</tr>
+</tbody>
+</table>
 <div class="sect2">
 <h3 id="_kernel_property_flags_a_id_kernelpropertyflags_a">Kernel Property Flags <a id="KernelPropertyFlags"></a></h3>
 <table class="tableblock frame-all grid-all"
@@ -2571,6 +2625,12 @@ width:100%;
 </thead>
 <tbody>
 <tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2023-10-11</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Romaric Jodin</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Add support for sampler mask push constants.</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">2022-12-22</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Callum Fare and Finlay Marno</p></td>
@@ -2609,7 +2669,7 @@ width:100%;
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2023-01-12 11:09:17 EST
+ 2023-10-11 17:02:35 CEST
 </div>
 </div>
 </body>
