@@ -1205,7 +1205,7 @@ buffer size in bytes. +
 Declares a *PushConstant* entry to specify the sampler mask of a non literal
 sampler. It means that the kernel accesses 3D images with this sampler,
 but Vulkan does not allow accessing 3D images with a sampler using unnormalized coordinates. *Clspv* will generates code to normalized the coordinates.
-*clspv* will choose at runtime whether to use the original coordinates or the
+*Clspv* will choose at runtime whether to use the original coordinates or the
 normalized one depending on the mask of the sampler.
 All kernels from this module should include a push constant range that
 encompasses the 'Offset' and 'Size' operands.
