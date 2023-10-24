@@ -55,8 +55,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2023-07-26
-| Revision           | 4
+| Last Modified Date | 2023-12-06
+| Revision           | 5
 |========================================
 
 Dependencies
@@ -268,6 +268,10 @@ where all invocations in 'Scope' cooperate to compute and store the matrix. +
 'Use' must be a 'constant instruction' scalar 32-bit 'integer type' whose
 value corresponds to a 'Cooperative Matrix Use'. +
  +
+All dynamic instances of an instruction with an operand or result that is an
+object of this type must be executed such that all the invocations in the
+'Scope' instance are active or none of them are.
+ +
 1+|Capability: +
 *CooperativeMatrixKHR*
 1+| 7 | 4456 | 'Result <id>' | '<id>' +
@@ -309,14 +313,12 @@ a description of the layouts and detailed layout-specific rules. +
 'Stride' further qualifies how matrix elements are laid out in memory. It must be a
 scalar 'integer type' and its exact semantics depend on 'MemoryLayout'. +
  +
-'Memory Operand' must be a +Memory Operand+ literal. If not present, it is the
-same as specifying *None*. +
+'Memory Operand', if present, must begin with a +Memory Operand+ literal. If not
+present, it is the same as specifying the +Memory Operand+ *None*. +
  +
-For a given dynamic instance of this instruction, all operands of this
-instruction must be the same for all invocations in a given scope instance
-(where the scope is the scope the cooperative matrix type was created with).
-All invocations in a given scope instance must be active or all must be
-inactive.
+All the operands to this instruction must be dynamically uniform within every
+instance of the 'Scope' of the cooperative matrix.
+ +
 1+|Capability: +
 *CooperativeMatrixKHR*
 1+| 5+variable | 4457 | '<id>' +
@@ -348,14 +350,12 @@ a description of the layouts and detailed layout-specific rules. +
 'Stride' further qualifies how matrix elements are laid out in memory. It must be a
 scalar 'integer type' and its exact semantics depend on 'MemoryLayout'. +
  +
-'Memory Operand' must be a +Memory Operand+ literal. If not present, it is the
-same as specifying *None*. +
+'Memory Operand', if present, must begin with a +Memory Operand+ literal. If not
+present, it is the same as specifying the +Memory Operand+ *None*. +
  +
-For a given dynamic instance of this instruction, all operands of this
-instruction must be the same for all invocations in a given scope instance
-(where the scope is the scope the cooperative matrix type was created with).
-All invocations in a given scope instance must be active or all must be
-inactive.
+All the operands to this instruction must be dynamically uniform within every
+instance of the 'Scope' of the cooperative matrix.
+ +
 1+|Capability: +
 *CooperativeMatrixKHR*
 1+| 4+variable | 4458 | '<id>' +
@@ -386,20 +386,24 @@ invocation when treated as a composite. +
 3.42.11 Conversion Instructions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Allow cooperative matrix types for the following conversion instructions (if
-the component types are appropriate): *OpConvertFToU*, *OpConvertFToS*,
+Allow values of cooperative matrix type for the following conversion instructions
+(if the component types are appropriate): *OpConvertFToU*, *OpConvertFToS*,
 *OpConvertSToF*, *OpConvertUToF*, *OpUConvert*, *OpSConvert*, *OpFConvert*.
-Allow the use of *OpBitcast* on cooperative matrix types whose 'Component Type'
-are integer types with the same 'Width'.
+Allow the use of *OpBitcast* on objects of cooperative matrix type whose
+'Component Type' are integer types with the same 'Width'.
 The result type and value type must have the same 'Scope', number of 'Rows',
 number of 'Columns', and 'Use'.
+
+All the operands to this instruction must be dynamically uniform within every
+instance of the 'Scope' of the cooperative matrix.
 
 3.42.12 Composite Instructions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Modify *OpCompositeConstruct* to make an exception for cooperative matrix types:
 "If the 'Result Type' is a cooperative matrix type, then there must be only one
-'Constituent' and it is used to initialize all members."
+'Constituent' and it is used to initialize all members. The 'Constituent' must
+be dynamically uniform within the 'Scope' of the cooperative matrix type.
 
 3.42.13 Arithmetic Instructions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -451,9 +455,9 @@ _Cooperative Matrix Operand_ is present and are treated as unsigned otherwise. +
 'Cooperative Matrix Operands' is an optional _Cooperative Matrix Operand_ literal. If
 not present, it is the same as specifying the _Cooperative Matrix Operand_ *None*. +
  +
-For a given dynamic instance of this instruction, all invocations in a given
-scope instance must be active or all must be inactive (where the scope is the
-scope of the operation). +
+All the operands to this instruction must be dynamically uniform within every
+instance of the 'Scope' of the cooperative matrix.
+ +
 1+|Capability: +
 *CooperativeMatrixKHR*
 1+| 6+variable | 4459 | '<id>' +
@@ -484,6 +488,9 @@ Binary arithmetic instructions operate on the individual elements of a pair
 of cooperative matrices whose type must match.
 
 Allow cooperative matrix types for *OpMatrixTimesScalar*.
+
+All the operands to this instruction must be dynamically uniform within every
+instance of the 'Scope' of the cooperative matrix.
 
 Issues
 ------
@@ -588,6 +595,30 @@ using *OpConstantComposite* or by iterating over the elements of the
 cooperative matrix to multiply each element by the scalar.
 --
 
+. Both the _Stride_ and _Memory Operand_ operands to *OpCooperativeMatrixLoadKHR*
+and *OpCooperativeMatrixStoreKHR* are optional. Can _Memory Operand_ be provided
+alone?
++
+--
+*RESOLVED*: No, in line with core SPIR-V rules, all optional operands that
+appear before a given optional operand must be provided for it to be possible to
+provide that given optional operand. Only the following combinations are valid:
+
+  * None of the optional operands are present.
+  * _Stride_ alone is present.
+  * _Stride_ and _Memory Operand_ are both present.
+--
+
+. Can elements of cooperative matrix objects treated as composites be
+accessed in non-uniform control flow?
++
+--
+*RESOLVED*: Yes, control flow uniformity requirements apply to instructions
+whose operands are cooperative matrix objects but not pointers to cooperative
+matrix objects. Dereferencing a pointer to an element of a cooperative matrix
+object can be done in non-uniform control flow.
+--
+
 Revision History
 ----------------
 
@@ -596,6 +627,7 @@ Revision History
 [options="header"]
 |========================================
 |Rev|Date|Author|Changes
+|5|2023-12-06|Kevin Petit|Clarifications, mostly of uniformity rules
 |4|2023-07-26|Kevin Petit|Add KHR suffixes to Cooperative Matrix Operands
 |3|2023-05-03|Kevin Petit|Initial revision of SPV_KHR_cooperative_matrix
 |2|2019-07-12|Jeff Bolz|Added details for integer operations
