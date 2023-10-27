@@ -436,78 +436,78 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
 </head>
-<body class="article data-line-1">
+<body class="article">
 <div id="header">
 <h1>SPV_INTEL_global_variable_fpga_decorations</h1>
 </div>
 <div id="content">
-<div class="sect1 data-line-12">
+<div class="sect1">
 <h2 id="_name_strings">Name Strings</h2>
 <div class="sectionbody">
-<div class="paragraph data-line-14">
+<div class="paragraph">
 <p>SPV_INTEL_global_variable_fpga_decorations</p>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-16">
+<div class="sect1">
 <h2 id="_contact">Contact</h2>
 <div class="sectionbody">
-<div class="paragraph data-line-18">
+<div class="paragraph">
 <p>To report problems with this extension, please open a new issue at:</p>
 </div>
-<div class="paragraph data-line-20">
-<p><a href="https://github.com/KhronosGroup/SPIRV-Registry" class="undefined" data-href="https://github.com/KhronosGroup/SPIRV-Registry">https://github.com/KhronosGroup/SPIRV-Registry</a></p>
+<div class="paragraph">
+<p><a href="https://github.com/KhronosGroup/SPIRV-Registry" class="bare">https://github.com/KhronosGroup/SPIRV-Registry</a></p>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-22">
+<div class="sect1">
 <h2 id="_contributors">Contributors</h2>
 <div class="sectionbody">
-<div class="ulist data-line-24">
+<div class="ulist">
 <ul>
-<li class="data-line-24">
+<li>
 <p>Artem Radzikhovskyy, Intel</p>
 </li>
-<li class="data-line-25">
+<li>
 <p>Michael Kinsner, Intel</p>
 </li>
-<li class="data-line-26">
+<li>
 <p>Joe Garvey, Intel</p>
 </li>
-<li class="data-line-27">
+<li>
 <p>Mohammad Fawaz, Intel</p>
 </li>
-<li class="data-line-28">
+<li>
 <p>Gregory Lueck, Intel</p>
 </li>
 </ul>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-30">
+<div class="sect1">
 <h2 id="_notice">Notice</h2>
 <div class="sectionbody">
-<div class="paragraph data-line-32">
+<div class="paragraph">
 <p>Copyright (c) 2021-2023 Intel Corporation. All rights reserved.</p>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-34">
+<div class="sect1">
 <h2 id="_status">Status</h2>
 <div class="sectionbody">
-<div class="ulist data-line-36">
+<div class="ulist">
 <ul>
-<li class="data-line-36">
+<li>
 <p>Complete</p>
 </li>
 </ul>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-38">
+<div class="sect1">
 <h2 id="_version">Version</h2>
 <div class="sectionbody">
-<table class="tableblock frame-all grid-all data-line-41" style="width: 40%;">
+<table class="tableblock frame-all grid-all" style="width: 40%;">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -515,7 +515,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2023-06-14</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2023-10-27</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Revision</p></td>
@@ -525,61 +525,61 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </table>
 </div>
 </div>
-<div class="sect1 data-line-46">
+<div class="sect1">
 <h2 id="_dependencies">Dependencies</h2>
 <div class="sectionbody">
-<div class="paragraph data-line-48">
+<div class="paragraph">
 <p>This extension is written against the SPIR-V Specification,
 Version 1.6 Revision 2.</p>
 </div>
-<div class="paragraph data-line-51">
+<div class="paragraph">
 <p>This extension requires SPIR-V 1.0.</p>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-53">
+<div class="sect1">
 <h2 id="_overview">Overview</h2>
 <div class="sectionbody">
-<div class="paragraph data-line-55">
+<div class="paragraph">
 <p>This extension adds decorations that can be applied to global (module scope)
 variables. These decorations are intended to help code generation for
 FPGA devices, they can be ignored by all other consumers of this extension.</p>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-59">
+<div class="sect1">
 <h2 id="_extension_name">Extension Name</h2>
 <div class="sectionbody">
-<div class="paragraph data-line-60">
+<div class="paragraph">
 <p>To use this extension within a SPIR-V module, the following <strong>OpExtension</strong> must
 be present in the module:</p>
 </div>
-<div class="listingblock data-line-63">
+<div class="listingblock">
 <div class="content">
 <pre>OpExtension "SPV_INTEL_global_variable_fpga_decorations"</pre>
 </div>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-67">
+<div class="sect1">
 <h2 id="_new_capabilities">New Capabilities</h2>
 <div class="sectionbody">
-<div class="paragraph data-line-68">
+<div class="paragraph">
 <p>This extension introduces a new capability:</p>
 </div>
-<div class="listingblock data-line-70">
+<div class="listingblock">
 <div class="content">
 <pre>GlobalVariableFPGADecorationsINTEL</pre>
 </div>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-74">
+<div class="sect1">
 <h2 id="_token_number_assignments">Token Number Assignments</h2>
 <div class="sectionbody">
-<div class="openblock data-line-76">
+<div class="openblock">
 <div class="content">
-<table class="tableblock frame-all grid-rows data-line-80" style="width: 40%;">
+<table class="tableblock frame-all grid-rows" style="width: 40%;">
 <colgroup>
 <col style="width: 70%;">
 <col style="width: 30%;">
@@ -587,15 +587,15 @@ be present in the module:</p>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">GlobalVariableFPGADecorationsINTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">6146</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6187</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">InitModeINTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">6147</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6148</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ImplementInRegisterMapINTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">6148</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6149</p></td>
 </tr>
 </tbody>
 </table>
@@ -603,23 +603,23 @@ be present in the module:</p>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-87">
+<div class="sect1">
 <h2 id="_modifications_to_the_spir_v_specification_version_1_6">Modifications to the SPIR-V Specification, Version 1.6</h2>
 <div class="sectionbody">
-<div class="sect2 data-line-89">
+<div class="sect2">
 <h3 id="_initialization_mode_qualifier">Initialization Mode Qualifier</h3>
-<div class="paragraph data-line-91">
+<div class="paragraph">
 <p>After Section 3.18, add a new section "3.18a Initialization Mode Qualifier" as follows</p>
 </div>
-<div class="paragraph data-line-93">
+<div class="paragraph">
 <p>Defines how the initialization should be triggered.</p>
 </div>
-<div class="paragraph data-line-95">
+<div class="paragraph">
 <p>Used by InitModeINTEL.</p>
 </div>
-<div class="openblock data-line-97">
+<div class="openblock">
 <div class="content">
-<table class="tableblock frame-all grid-all stretch data-line-99">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -653,14 +653,14 @@ be present in the module:</p>
 </div>
 </div>
 </div>
-<div class="sect2 data-line-123">
+<div class="sect2">
 <h3 id="_decoration">Decoration</h3>
-<div class="paragraph data-line-125">
+<div class="paragraph">
 <p>Modify Section 3.20, Decoration, adding these rows to the Decoration table:</p>
 </div>
-<div class="openblock data-line-127">
+<div class="openblock">
 <div class="content">
-<table class="tableblock frame-all grid-all stretch data-line-129">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 7.1428%;">
 <col style="width: 35.7142%;">
@@ -677,7 +677,7 @@ be present in the module:</p>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock">6147</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">6148</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><strong>InitModeINTEL</strong><br>
 Only valid on global (module scope) <strong>OpVariable</strong> which has an <em>Initializer</em>
@@ -698,7 +698,7 @@ implementation defined.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>GlobalVariableFPGADecorationsINTEL</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock">6148</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">6149</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><strong>ImplementInRegisterMapINTEL</strong><br>
 Only valid on global (module scope) <strong>OpVariable</strong>.</p>
@@ -734,14 +734,14 @@ interface for the variable is implementation defined.</p>
 </div>
 </div>
 </div>
-<div class="sect2 data-line-176">
+<div class="sect2">
 <h3 id="_capability">Capability</h3>
-<div class="paragraph data-line-178">
+<div class="paragraph">
 <p>Modify Section 3.31, Capability, adding a row to the Capability table:</p>
 </div>
-<div class="openblock data-line-179">
+<div class="openblock">
 <div class="content">
-<table class="tableblock frame-all grid-all stretch data-line-181">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -755,7 +755,7 @@ interface for the variable is implementation defined.</p>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">6146</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6187</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">GlobalVariableFPGADecorationsINTEL</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
@@ -766,18 +766,18 @@ interface for the variable is implementation defined.</p>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-189">
+<div class="sect1">
 <h2 id="_issues">Issues</h2>
 <div class="sectionbody">
-<div class="paragraph data-line-191">
+<div class="paragraph">
 <p>None.</p>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-193">
+<div class="sect1">
 <h2 id="_revision_history">Revision History</h2>
 <div class="sectionbody">
-<table class="tableblock frame-all grid-rows stretch data-line-198">
+<table class="tableblock frame-all grid-rows stretch">
 <colgroup>
 <col style="width: 4.7619%;">
 <col style="width: 14.2857%;">
@@ -805,6 +805,12 @@ interface for the variable is implementation defined.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Artem Radzikhovskyy</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Seperated the FPGA specific decorations from the generic ones</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2023-10-27</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Artem Radzikhovskyy</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Reverting Capability ID</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -812,7 +818,7 @@ interface for the variable is implementation defined.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-06-14 06:29:18 -0700
+Last updated 2023-10-27 12:59:27 -0700
 </div>
 </div>
 </body>
