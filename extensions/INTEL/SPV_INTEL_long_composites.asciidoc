@@ -73,9 +73,9 @@ Capabilities
 Modify Section 3.31, "Capability", adding these rows to the Capability table:
 
 --
-[options="header"]
+[cols="^.^2,16,15",options="header"]
 |====
-2+^| Capability ^| Implicitly Declares
+2+^.^| Capability ^| Implicitly Declares
 | 6089 | *CapabilityLongCompositesINTEL* +
 Allow to use *OpTypeStructContinuedINTEL*, *OpConstantCompositeContinuedINTEL*,
 *OpCompositeConstructContinuedINTEL* and *OpSpecConstantCompositeContinuedINTEL* instructions |
@@ -87,7 +87,7 @@ Instructions
 In section 3.42.6. Type-Declaration Instructions add the new instruction
 [cols="3", width="100%"]
 |=====
-2+^|*OpTypeStructContinuedINTEL* +
+2+|*OpTypeStructContinuedINTEL* +
 
 Continue specifying an *OpTypeStruct* with number of _Member types_
 greater than the maximum possible WordCount.
@@ -115,7 +115,7 @@ instructions.
 In section 3.42.7. Constant-Creation Instructions, add the new instructions
 [cols="3", width="100%"]
 |=====
-2+^|*OpConstantCompositeContinuedINTEL* +
+2+|*OpConstantCompositeContinuedINTEL* +
 
 Continue specifying an *OpConstantComposite* instruction with number of
 _Constituents_ greater than the maximum possible WordCount.
@@ -134,7 +134,7 @@ elements of an array, or components of a vector, or columns of a matrix.
 |=====
 [cols="3", width="100%"]
 |=====
-2+^|*OpSpecConstantCompositeContinuedINTEL* +
+2+|*OpSpecConstantCompositeContinuedINTEL* +
 
 Continue specifying an *OpSpecConstantComposite* instruction with number of
 _Constituents_ greater than the maximum possible WordCount.
@@ -184,7 +184,7 @@ possible WordCount, the remaining _Constituents_ are specified by the following
 In section 3.42.12. Composite Instructions, add the new instruction
 [cols="3", width="100%"]
 |=====
-2+^|*OpCompositeConstructContinuedINTEL* +
+2+|*OpCompositeConstructContinuedINTEL* +
 
 Continue specifying an *OpCompositeConstruct* instruction with number of
 _Constituents_ greater than the maximum possible WordCount.
