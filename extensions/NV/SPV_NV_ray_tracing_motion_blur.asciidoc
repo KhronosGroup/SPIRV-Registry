@@ -1,5 +1,5 @@
-SPV_NV_ray_tracing_motion
-=========================
+SPV_NV_ray_tracing_motion_blur
+==============================
 
 Name Strings
 ------------
@@ -29,8 +29,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2021-06-01
-| Revision           | 1
+| Last Modified Date | 2023-11-29
+| Revision           | 2
 |========================================
 
 Dependencies
@@ -286,4 +286,5 @@ Revision History
 |========================================
 |Rev|Date|Author|Changes
 |1 |2020-06-01 |Ashwin Lele|*Internal revisions*
+|2 |2023-11-29 |Daniel Koch| fix typo in document title
 |========================================
