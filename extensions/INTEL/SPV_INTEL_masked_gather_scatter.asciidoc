@@ -37,7 +37,7 @@ Copyright (c) 2023 Intel Corporation.  All rights reserved.
 [width="40%",cols="25,25"]
 |========================================
 | Last Modified Date | 2023-09-05
-| Revision           | 2
+| Revision           | 1
 |========================================
 
 == Dependencies
@@ -286,6 +286,5 @@ Revision History
 [options="header"]
 |========================================
 |Rev|Date|Author|Changes
-|1|2022-08-19|Dmitry Sidorov|Initial revision
-|2|2023-09-05|Dmitry Sidorov|Prepare to ship
+|1|2023-09-05|Dmitry Sidorov|Prepare to ship
 |========================================
