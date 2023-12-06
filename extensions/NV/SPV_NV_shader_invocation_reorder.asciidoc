@@ -30,8 +30,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2022-09-01
-| Revision           | 1
+| Last Modified Date | 2023-12-06
+| Revision           | 2
 |========================================
 
 Dependencies
@@ -143,11 +143,7 @@ Modifications to the SPIR-V Specification
 +
 Add <<OpTraceRayWithHitObjectNV,*OpTraceRayWithHitObjectNV*>>,
 <<OpHitObjectExecuteShaderNV,*OpHitObjectExecuteShaderNV*>> to the list
-of shader call instructions. +
-+
-Add <<OpReorderThreadWithHintNV,*OpReorderThreadWithHintNV*>>,
-and <<OpReorderThreadWithHitObjectNV,*OpReorderThreadWithHitObjectNV*>> to the list of
-invocation repack instructions.
+of shader call instructions.
 
 (Add the following terminology to section 2.2.2, Types) ::
 +
@@ -1233,6 +1229,7 @@ Revision History
 |========================================
 |Rev|Date|Author|Changes
 |1 |2022-09-01 |Ashwin Lele         | Internal revisions
+|2 |2023-12-06 |Daniel Koch         | Remove references to non-existant SPIR-V definitions
 |========================================
 
 
