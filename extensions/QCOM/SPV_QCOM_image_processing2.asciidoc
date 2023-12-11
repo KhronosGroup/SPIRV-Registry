@@ -29,7 +29,7 @@ http://www.khronos.org/registry/speccopyright.html
 Status
 ------
 
-- draft
+- Final
 
 Version
 -------
@@ -37,7 +37,7 @@ Version
 [width="40%",cols="25,25"]
 |========================================
 | Last Modified Date | 2023-11-12
-| Revision           | 0
+| Revision           | 1
 |========================================
 
 Dependencies
@@ -276,5 +276,5 @@ Revision History
 [options="header"]
 |===========================================================
 |Rev|Date|Author|Changes
-|0|2023-11-12|Wooyoung Kim|Initial version
+|1|2023-11-12|Wooyoung Kim|Initial version
 |===========================================================
