@@ -1,0 +1,280 @@
+SPV_QCOM_image_processing2
+==========================
+
+Name Strings
+------------
+
+SPV_QCOM_image_processing2
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Jeff Leger, Qualcomm
+- Ruihao Zhang, Qualcomm
+- Wooyoung Kim, Qualcomm
+
+Notice
+------
+
+Copyright (c) 2023 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+Status
+------
+
+- draft
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2023-11-12
+| Revision           | 0
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.6 Revision 3.
+
+This extension requires SPIR-V 1.4.
+
+Overview
+--------
+
+This extension introduces a new set of operations for image processing, along with
+a new capability and a new decoration.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_QCOM_image_processing2"
+----
+
+New Capabilities
+----------------
+
+This extension introduces a new capability:
+
+----
+TextureBlockMatch2QCOM
+----
+
+New Decorations
+---------------
+
+The extension adds a new sampler decoration.
+
+----
+BlockMatchSamplerQCOM
+----
+
+New Instructions
+----------------
+
+Instructions added under the *TextureBlockMatch2QCOM* capability:
+
+----
+OpImageBlockMatchWindowSADQCOM
+OpImageBlockMatchWindowSSDQCOM
+OpImageBlockMatchGatherSADQCOM
+OpImageBlockMatchGatherSSDQCOM
+----
+
+Modifications to the SPIR-V Specification, Version 1.6
+------------------------------------------------------
+Capabilities
+~~~~~~~~~~~~
+
+Modify Section 3.31, "Capability", adding the following row to the Capability table:
+
+--
+[options="header"]
+|====
+2+^| Capability ^| Implicitly declares
+| 4498 | *TextureBlockMatch2QCOM* +
+Add texture block match2 operations. This capability is required to use any of the 
+OpImageBlockMatchWindow* or OpImageBlockMatchGather* instructions.|
+|====
+--
+
+Decorations
+~~~~~~~~~~~
+
+Modify Section 3.20, "Decoration", adding the following row to the Decoration table:
+
+--
+[options="header"]
+|====
+2+^| Decoration 2+^| Extra Operands	^| Enabling Capabilities
+| 4499 | *BlockMatchSamplerQCOM* +
+Apply to samplers used to create Target Sampled Image and Reference Sampled Image in 
+OpImageBlockMatchWindowSSDQCOM or OpImageBlockMatchWindowSADQCOM.  Behavior is defined by the runtime environment.
+2+| | *TextureBlockMatch2QCOM*
+|====
+--
+
+Instructions
+~~~~~~~~~~~~
+
+Modify Section 3.49.10, "Image Instructions", adding before OpImageSampleFootprintNV:
+
+[cols="1,1,7*3",width="100%"]
+|====
+7+|*OpImageBlockMatchWindowSSDQCOM* +
+ +
+Windowed image block match operation with sum of square differences.
+
+_Result Type_ is the type of the result of windowed image block match sum of square differences
+
+_Target Sampled Image_ must be an object whose type is OpTypeSampledImage.
+If the object is an interface object, it must be decorated with BlockMatchTextureQCOM and BlockMatchSamplerQCOM.
+Otherwise, a texture object which is used to construct the object must be decorated with BlockMatchTextureQCOM
+and the sampler object which is used to construct the object must be decorated with BlockMatchSamplerQCOM.
+The MS operand of the underlying OpTypeImage must be 0.
+
+_Target Coordinate_ must be a vector of integer type, whose vector size is 2 and signedness is 0.
+
+_Reference Sampled Image_ must be an object whose type is OpTypeSampledImage.
+If the object is an interface object, it must be decorated with BlockMatchTextureQCOM and BlockMatchSamplerQCOM.
+Otherwise, a texture object which is used to construct the object must be decorated with BlockMatchTextureQCOM
+and the sampler object which is used to construct the object must be decorated with BlockMatchSamplerQCOM.
+The MS operand of the underlying OpTypeImage must be 0.
+
+_Reference Coordinate_ must be a vector of integer type, whose vector size is 2 and signedness is 0.
+
+_Block Size_ must be a vector of integer type, whose vector size is 2 and signedness is 0.
+
+2+|<<Capability,Capability>>: +
+*TextureBlockMatch2QCOM*
+| 8 | 4500 | <id> _Result Type_ | <<ResultId,'<id> Result' >> | <id> _Target Sampled Image_ | <id> _Target Coordinate_ | <id> _Reference Sampled Image_ | <id> _Reference Coordinate_ | <id> _Block Size_ |
+|====
+
+[cols="1,1,7*3",width="100%"]
+|====
+7+|*OpImageBlockMatchWindowSADQCOM* +
+ +
+Windowed image block match operation with sum of absolute differences.
+
+_Result Type_ is the type of the result of windowed image block match sum of absolute differences
+
+_Target Sampled Image_ must be an object whose type is OpTypeSampledImage.
+If the object is an interface object, it must be decorated with BlockMatchTextureQCOM and BlockMatchSamplerQCOM.
+Otherwise, a texture object which is used to construct the object must be decorated with BlockMatchTextureQCOM
+and the sampler object which is used to construct the object must be decorated with BlockMatchSamplerQCOM.
+The MS operand of the underlying OpTypeImage must be 0.
+
+_Target Coordinate_ must be a vector of integer type, whose vector size is 2 and signedness is 0.
+
+_Reference Sampled Image_ must be an object whose type is OpTypeSampledImage.
+If the object is an interface object, it must be decorated with BlockMatchTextureQCOM and BlockMatchSamplerQCOM.
+Otherwise, a texture object which is used to construct the object must be decorated with BlockMatchTextureQCOM
+and the sampler object which is used to construct the object must be decorated with BlockMatchSamplerQCOM.
+The MS operand of the underlying OpTypeImage must be 0.
+
+_Reference Coordinate_ must be a vector of integer type, whose vector size is 2 and signedness is 0.
+
+_Block Size_ must be a vector of integer type, whose vector size is 2 and signedness is 0.
+
+2+|<<Capability,Capability>>: +
+*TextureBlockMatch2QCOM*
+| 8 | 4501 | <id> _Result Type_ | <<ResultId,'<id> Result' >> | <id> _Target Sampled Image_ | <id> _Target Coordinate_ | <id> _Reference Sampled Image_ | <id> _Reference Coordinate_ | <id> _Block Size_ |
+|====
+
+[cols="1,1,7*3",width="100%"]
+|====
+7+|*OpImageBlockMatchGatherSSDQCOM* +
+ +
+Gathered image block match operation with sum of square differences.
+
+_Result Type_ is the type of the result of gathered image block match sum of square differences
+
+_Target Sampled Image_ must be an object whose type is OpTypeSampledImage.
+If the object is an interface object, it must be decorated with BlockMatchTextureQCOM.
+Otherwise, a texture object which is used to construct the object must be decorated with BlockMatchTextureQCOM.
+The MS operand of the underlying OpTypeImage must be 0.
+
+_Target Coordinate_ must be a vector of integer type, whose vector size is 2 and signedness is 0.
+
+_Reference Sampled Image_ must be an object whose type is OpTypeSampledImage.
+If the object is an interface object, it must be decorated with BlockMatchTextureQCOM.
+Otherwise, a texture object which is used to construct the object must be decorated with BlockMatchTextureQCOM.
+The MS operand of the underlying OpTypeImage must be 0.
+
+_Reference Coordinate_ must be a vector of integer type, whose vector size is 2 and signedness is 0.
+
+_Block Size_ must be a vector of integer type, whose vector size is 2 and signedness is 0.
+
+2+|<<Capability,Capability>>: +
+*TextureBlockMatch2QCOM*
+| 8 | 4502 | <id> _Result Type_ | <<ResultId,'<id> Result' >> | <id> _Target Sampled Image_ | <id> _Target Coordinate_ | <id> _Reference Sampled Image_ | <id> _Reference Coordinate_ | <id> _Block Size_ |
+|====
+
+[cols="1,1,7*3",width="100%"]
+|====
+7+|*OpImageBlockMatchGatherSADQCOM* +
+ +
+Gathered image block match operation with sum of absolute differences.
+
+_Result Type_ is the type of the result of gathered image block match sum of absolute differences
+
+_Target Sampled Image_ must be an object whose type is OpTypeSampledImage.
+If the object is an interface object, it must be decorated with BlockMatchTextureQCOM.
+Otherwise, a texture object which is used to construct the object must be decorated with BlockMatchTextureQCOM.
+The MS operand of the underlying OpTypeImage must be 0.
+
+_Target Coordinate_ must be a vector of integer type, whose vector size is 2 and signedness is 0.
+
+_Reference Sampled Image_ must be an object whose type is OpTypeSampledImage.
+If the object is an interface object, it must be decorated with BlockMatchTextureQCOM.
+Otherwise, a texture object which is used to construct the object must be decorated with BlockMatchTextureQCOM.
+The MS operand of the underlying OpTypeImage must be 0.
+
+_Reference Coordinate_ must be a vector of integer type, whose vector size is 2 and signedness is 0.
+
+_Block Size_ must be a vector of integer type, whose vector size is 2 and signedness is 0.
+
+2+|<<Capability,Capability>>: +
+*TextureBlockMatch2QCOM*
+| 8 | 4503 | <id> _Result Type_ | <<ResultId,'<id> Result' >> | <id> _Target Sampled Image_ | <id> _Target Coordinate_ | <id> _Reference Sampled Image_ | <id> _Reference Coordinate_ | <id> _Block Size_ |
+|====
+
+Validation Rules
+----------------
+
+An OpExtension must be added to the SPIR-V for validation layers to check
+legal use of this extension:
+
+An object decorated with BlockMatchSamplerQCOM must be used only with the 
+corresponding built-in functions. Such an object must not be used with any other functions.
+
+----
+OpExtension "SPV_QCOM_image_processing2"
+----
+
+Issues
+------
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|===========================================================
+|Rev|Date|Author|Changes
+|0|2023-11-12|Wooyoung Kim|Initial version
+|===========================================================
