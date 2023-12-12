@@ -28,7 +28,7 @@ Dependencies
 This extension is written against the SPIR-V Specification, Version 1.6
 
 == Overview
-This extensions provides SPIR-V support for sthe *GLSL GL_HUAWEI_cluster_culling_shader* extension which adds a new programmable shader types - cluster culling shaders - that has an execution environment similar to that of compute shaders. The developer can use this new shader to perform coarse-level geometry culling on GPU and direct emit visible cluster with a shading rate to the subsequent rendering pipeline.
+This extensions provides SPIR-V support for the *GLSL GL_HUAWEI_cluster_culling_shader* extension which adds a new programmable shader types - cluster culling shaders - that has an execution environment similar to that of compute shaders. The developer can use this new shader to perform coarse-level geometry culling on GPU and direct emit visible cluster with a shading rate to the subsequent rendering pipeline.
 
 == Extension Name
 To use this extension within a SPIR-V module, the following *OpExtension* must be present in the module
