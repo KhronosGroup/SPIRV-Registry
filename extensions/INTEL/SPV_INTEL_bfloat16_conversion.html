@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="generator" content="AsciiDoc 9.1.0">
-<title>SPV_EXT_shader_atomic_float16_add</title>
+<meta name="generator" content="AsciiDoc 10.2.0">
+<title>SPV_INTEL_bfloat16_conversion</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
 
@@ -766,7 +766,7 @@ asciidoc.install(1);
 </head>
 <body class="article">
 <div id="header">
-<h1>SPV_EXT_shader_atomic_float16_add</h1>
+<h1>SPV_INTEL_bfloat16_conversion</h1>
 <div id="toc">
   <div id="toctitle">Table of Contents</div>
   <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
@@ -776,14 +776,14 @@ asciidoc.install(1);
 <div class="sect1">
 <h2 id="_name_strings">Name Strings</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>SPV_EXT_shader_atomic_float16_add</p></div>
+<div class="paragraph"><p>SPV_INTEL_bfloat16_conversion</p></div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_contact">Contact</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>To report problems with this extension, please open a new issue at:</p></div>
-<div class="paragraph"><p><a href="https://github.com/KhronosGroup/SPIRV-Headers">https://github.com/KhronosGroup/SPIRV-Headers</a></p></div>
+<div class="paragraph"><p><a href="https://github.com/KhronosGroup/SPIRV-Registry">https://github.com/KhronosGroup/SPIRV-Registry</a></p></div>
 </div>
 </div>
 <div class="sect1">
@@ -792,15 +792,31 @@ asciidoc.install(1);
 <div class="ulist"><ul>
 <li>
 <p>
-Faith Ekstrand, Intel
+Ben Ashbaugh, Intel<br>
 </p>
 </li>
 <li>
 <p>
-Ben Ashbaugh, Intel
+Greg Lueck, Intel<br>
+</p>
+</li>
+<li>
+<p>
+Alexey Sotkin, Intel<br>
+</p>
+</li>
+<li>
+<p>
+Arvind Sudarsanam, Intel<br>
 </p>
 </li>
 </ul></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_notice">Notice</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Copyright (c) 2023 Intel Corporation.  All rights reserved.</p></div>
 </div>
 </div>
 <div class="sect1">
@@ -809,7 +825,7 @@ Ben Ashbaugh, Intel
 <div class="ulist"><ul>
 <li>
 <p>
-Complete
+Shipping
 </p>
 </li>
 </ul></div>
@@ -827,7 +843,7 @@ width:40%;
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2021-01-13</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2023-03-06</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Revision</p></td>
@@ -840,140 +856,156 @@ width:40%;
 <div class="sect1">
 <h2 id="_dependencies">Dependencies</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>This extension is written against the SPIR-V Specification, Version 1.5 Revision 5.</p></div>
+<div class="paragraph"><p>This extension is written against the SPIR-V Specification, Version 1.6 Revision
+2.</p></div>
 <div class="paragraph"><p>This extension requires SPIR-V 1.0.</p></div>
-<div class="paragraph"><p>This extension depends on and extends the <strong>SPV_EXT_shader_atomic_float_add</strong> extension.</p></div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_overview">Overview</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>This extension extends the <strong>SPV_EXT_shader_atomic_float_add</strong> extension to support atomically adding to 16-bit floating-point numbers in memory.</p></div>
+<div class="paragraph"><p>This extension adds instructions to convert between single-precision 32-bit
+floating-point values and 16-bit <span class="monospaced">bfloat16</span> values.
+The <span class="monospaced">bfloat16</span> floating-point format is a truncated variant of the IEEE 754
+single-precision 32-bit floating-point format with one sign bit, eight exponent
+bits, and seven mantissa bits.
+This gives the 16-bit <span class="monospaced">bfloat16</span> format similar dynamic range as the 32-bit
+<span class="monospaced">float</span> format, albeit with lower precision than the 16-bit <span class="monospaced">half</span> format.</p></div>
+<div class="paragraph"><p>Please note that this extension does not introduce a <span class="monospaced">bfloat16</span> type to SPIR-V
+and instead the new instructions convert to or from a 16-bit integer type whose
+bit pattern represents a <span class="monospaced">bfloat16</span> value.</p></div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_extension_name">Extension Name</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>To use this extension within a SPIR-V module, the following
-<strong>OpExtension</strong> must be present in the module:</p></div>
+<div class="paragraph"><p>To use this extension within a SPIR-V module, the appropriate <strong>OpExtension</strong> must
+be present in the module:</p></div>
 <div class="listingblock">
 <div class="content monospaced">
-<pre>OpExtension "SPV_EXT_shader_atomic_float16_add"</pre>
-</div></div>
-<div class="paragraph"><p>Because this extension extends the <strong>SPV_EXT_shader_atomic_float_add</strong> extension, the following <strong>OpExtension</strong> must also be present in the module:</p></div>
-<div class="listingblock">
-<div class="content monospaced">
-<pre>OpExtension "SPV_EXT_shader_atomic_float_add"</pre>
+<pre>OpExtension "SPV_INTEL_bfloat16_conversion"</pre>
 </div></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_new_capabilities">New Capabilities</h2>
+<h2 id="_modifications_to_the_spir_v_specification_version_1_6">Modifications to the SPIR-V Specification, Version 1.6</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>This extension introduces the new capability:</p></div>
-<div class="listingblock">
-<div class="content monospaced">
-<pre>AtomicFloat16AddEXT</pre>
-</div></div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_modifications_to_the_spir_v_specification_version_1_5">Modifications to the SPIR-V Specification, Version 1.5</h2>
-<div class="sectionbody">
-<div class="paragraph"><p>Modify Section 3.31, "Capability", adding this row to the Capability table:</p></div>
+<div class="sect2">
+<h3 id="_capabilities">Capabilities</h3>
+<div class="paragraph"><p>Modify Section 3.31, Capability, adding rows to the Capability table:</p></div>
 <div class="openblock">
 <div class="content">
 <table class="tableblock frame-all grid-all"
 style="
 width:100%;
 ">
-<col style="width:3%;">
-<col style="width:48%;">
-<col style="width:48%;">
+<col style="width:33%;">
+<col style="width:33%;">
+<col style="width:33%;">
 <thead>
 <tr>
-<th class="tableblock halign-center valign-middle" colspan="2" > Capability </th>
+<th class="tableblock halign-center valign-top" colspan="2" > Capability </th>
 <th class="tableblock halign-center valign-top" > Implicitly Declares</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-middle" ><p class="tableblock">6095</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>AtomicFloat16AddEXT</strong><br>
-Uses the <strong>OpAtomicFAddEXT</strong> instruction with 16-bit floating point values.</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">6115</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>BFloat16ConversionINTEL</strong></p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
 </tr>
 </tbody>
 </table>
 </div></div>
-<div class="paragraph"><p>Add the <strong>AtomicFloat16AddEXT</strong> capability to the <strong>OpAtomicFAddEXT</strong> instruction added by <strong>SPV_EXT_shader_atomic_float_add</strong>:</p></div>
+</div>
+<div class="sect2">
+<h3 id="_instructions">Instructions</h3>
+<div class="paragraph"><p>Add to Section 3.42.11, Conversion Instructions:</p></div>
 <table class="tableblock frame-all grid-all"
 style="
 width:100%;
 ">
-<col style="width:3%;">
-<col style="width:3%;">
-<col style="width:15%;">
-<col style="width:15%;">
-<col style="width:15%;">
-<col style="width:15%;">
-<col style="width:15%;">
-<col style="width:15%;">
+<col style="width:9%;">
+<col style="width:9%;">
+<col style="width:27%;">
+<col style="width:27%;">
+<col style="width:27%;">
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" colspan="7" ><p class="tableblock"><a id="OpAtomicFAddEXT"></a><strong>OpAtomicFAddEXT</strong><br>
+<td class="tableblock halign-left valign-top" colspan="4" ><p class="tableblock"><a id="OpConvertFToBF16"></a><strong>OpConvertFToBF16INTEL</strong><br>
 <br>
-(The description of this instruction is unchanged from <strong>SPV_EXT_shader_atomic_float_add</strong>.)</p></td>
+Convert value numerically from 32-bit floating point to <span class="monospaced">bfloat16</span>, which is
+represented as a 16-bit unsigned integer.<br>
+<br>
+<em>Result Type</em> must be a scalar or vector of integer type.
+The component width must be 16 bits.
+The bit pattern in the <em>Result</em> represents a <span class="monospaced">bfloat16</span> value.<br>
+<br>
+<em>Float Value</em> must be a scalar or vector of floating-point type.
+It must have the same number of components as <em>Result Type</em>.
+The component width must be 32 bits.<br>
+<br>
+Results are computed per component.<br></p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
-<strong>AtomicFloat32AddEXT</strong> <strong>AtomicFloat64AddEXT</strong> <strong>AtomicFloat16AddEXT</strong></p></td>
+<strong>BFloat16ConversionINTEL</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">7</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">6035</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Result type</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">6116</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>Result Type</em></p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><em>Result &lt;id&gt;</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> Pointer</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>Scope &lt;id&gt; Memory</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Memory Semantics &lt;id&gt; Semantics</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">&lt;id&gt; Value</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>Float Value</em></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all"
+style="
+width:100%;
+">
+<col style="width:9%;">
+<col style="width:9%;">
+<col style="width:27%;">
+<col style="width:27%;">
+<col style="width:27%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="4" ><p class="tableblock"><a id="OpConvertBF16ToF"></a><strong>OpConvertBF16ToFINTEL</strong><br>
+<br>
+Interpret a 16-bit integer value as <span class="monospaced">bfloat16</span> and convert the value numerically
+to 32-bit floating point.<br>
+<br>
+<em>Result Type</em> must be a scalar or vector of floating-point type.
+The component width must be 32 bits.<br>
+<br>
+<em>BFloat16 Value</em> must be a scalar or vector of integer type, which is
+interpreted as a <span class="monospaced">bfloat16</span>.
+The type must have the same number of components as <em>Result Type</em>.
+The component width must be 16 bits.<br>
+<br>
+Results are computed per component.<br></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<strong>BFloat16ConversionINTEL</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">6117</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>Result &lt;id&gt;</em></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>BFloat16 Value</em></p></td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<div class="sect1">
-<h2 id="_validation_rules">Validation Rules</h2>
-<div class="sectionbody">
-<div class="paragraph"><p>An <strong>OpExtension</strong> must be added to the SPIR-V for validation layers to check
-legal use of this extension:</p></div>
-<div class="listingblock">
-<div class="content monospaced">
-<pre>OpExtension "SPV_EXT_shader_atomic_float16_add"</pre>
-</div></div>
-<div class="paragraph"><p>An <strong>OpExtension</strong> must also be added for the <strong>SPV_EXT_shader_atomic_float_add</strong> extension that this extension depends on:</p></div>
-<div class="listingblock">
-<div class="content monospaced">
-<pre>OpExtension "SPV_EXT_shader_atomic_float_add"</pre>
-</div></div>
-<div class="ulist"><ul>
-<li>
-<p>
-When using <strong>OpAtomicFAddEXT</strong> 16-bit floating-point values are allowed.
-</p>
-</li>
-<li>
-<p>
-If <strong>OpAtomicFAddEXT</strong> is used with 16-bit floating-point values, the <strong>AtomicFloat16AddEXT</strong>
-   capability must be declared.
-</p>
-</li>
-</ul></div>
-</div>
 </div>
 <div class="sect1">
 <h2 id="_issues">Issues</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>None yet.</p></div>
+<div class="paragraph"><p>None.</p></div>
 </div>
 </div>
 <div class="sect1">
@@ -998,9 +1030,9 @@ width:100%;
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2021-01-13</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2023-03-06</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Ben Ashbaugh</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Internal revisions</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Initial revision for publication</p></td>
 </tr>
 </tbody>
 </table>
@@ -1011,7 +1043,7 @@ width:100%;
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2021-06-16 10:53:16 CDT
+ 2023-03-06 16:00:00 PST
 </div>
 </div>
 </body>

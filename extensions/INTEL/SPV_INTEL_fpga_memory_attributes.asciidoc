@@ -18,10 +18,11 @@ https://github.com/KhronosGroup/SPIRV-Registry
 - Joe Garvey, Intel +
 - Michael Kinsner, Intel +
 - Julian Packer, Intel +
+- Artem Radzikhovksyy, Intel +
 
 == Notice
 
-Copyright (c) 2019-2020 Intel Corporation.  All rights reserved.
+Copyright (c) 2019-2023 Intel Corporation.  All rights reserved.
 
 == Status
 
@@ -32,7 +33,7 @@ Final draft
 [width="40%",cols="25,25"]
 |========================================
 | Last Modified Date | {docdate}
-| Revision           | G
+| Revision           | I
 |========================================
 
 == Dependencies
@@ -77,6 +78,9 @@ SimpleDualPortINTEL
 MergeINTEL
 BankBitsINTEL
 ForcePow2DepthINTEL
+StridesizeINTEL
+WordsizeINTEL
+TrueDualPortINTEL
 ----
 
 == Token Number Assignments
@@ -99,6 +103,9 @@ ForcePow2DepthINTEL
 |MergeINTEL               |5834
 |BankBitsINTEL            |5835
 |ForcePow2DepthINTEL      |5836
+|StridesizeINTEL          |5883
+|WordsizeINTEL            |5884
+|TrueDualPortINTEL        |5885
 |==== 
 --
 
@@ -115,8 +122,15 @@ Modify Section 3.20, Decoration, adding these rows to the Decoration table:
 | 5825 | *RegisterINTEL* +
 Apply to a variable or a structure-type member. Request, to the extent possible, that the variable or structure member should be implemented in logic and carried through the datapath. 
 2+| | *FPGAMemoryAttributesINTEL*
-| 5826 | *MemoryINTEL* +
-Apply to a variable or a structure-type member. Request, to the extent possible, that the variable or structure member should be implemented in memory of the specified type. 
+| 5826 a| 
+*MemoryINTEL* +
+Apply to a variable or a structure-type member. Request, to the extent possible, that the variable or structure member should be implemented in memory of the specified type.
+
+.Supported strings:
+* _DEFAULT_: Implemenation defined what memory resource is used to implement the variable
+* _MLAB_: data is stored in special Adaptive Logic Modules (ALMs), called memory-logic array blocks
+* _BLOCK_RAM_: data is stored in dedicated block RAM modules
+
 2+| Literal String +
 _Memory Type_ | *FPGAMemoryAttributesINTEL*
 | 5827 | *NumbanksINTEL*  +
@@ -157,6 +171,17 @@ _Bank Bits_ | *FPGAMemoryAttributesINTEL*
 Apply to a variable or a structure-type member. Request that the variable or structure member should be implemented in a memory that is a power-of-2 deep. This option is enabled if the subsequent literal number specified is 1, and disabled if the subsequent literal number specified is 0.
 2+| Literal Number +
 _Force Power-Of-2 Depth_ | *FPGAMemoryAttributesINTEL*
+| 5883 | *StridesizeINTEL* +
+Apply to a variable or a structure-type member of array type. Request, to the extent possible, that _Stride Size_ worth of consecutive array elements be placed in the same memory bank.
+2+| Literal Number +
+_Stride Size_ | *FPGAMemoryAttributesINTEL*
+| 5884 | *WordsizeINTEL* +
+Apply to a variable or a structure-type member of array type. Request, to the extent possible, the size in array elements of a single memory transaction.
+2+| Literal Number +
+_Word Size_ | *FPGAMemoryAttributesINTEL*
+| 5885 | *TrueDualPortINTEL* +
+Apply to a variable or a structure-type member. Request, to the extent possible, that the variable or structure member should be implemented in a memory that is configured such that all memory ports can service both stores and loads.
+2+| | *FPGAMemoryAttributesINTEL*
 |====
 --
 
@@ -179,12 +204,6 @@ None.
 
 None.
 
-//. Issue.
-//+
-//--
-//*RESOLVED*: Resolution.
-//--
-
 == Revision History
 
 [cols="5,15,15,70"]
@@ -199,4 +218,6 @@ None.
 |E|2019-06-18|Joe Garvey|Added the MaxReplicatesINTEL, SimpleDualPortINTEL, and MergeINTEL decorations
 |F|2019-12-18|Julian Packer|Added the BankBitsINTEL decoration
 |G|2020-02-06|Mohammad Fawaz|Added the ForcePow2DepthINTEL decoration
+|H|2023-07-26|Artem Radzikhovskyy|Added StridesizeINTEL, WordsizeINTEL, TrueDualPortINTEL decorations
+|I|2023-10-03|Artem Radzikhovskyy|Definition clarifications; Defined supported strings in MemoryINTEL
 |======================================== 

@@ -23,7 +23,7 @@ Contributors
 - David Neto, Google
 - Nicolai Hahnle, AMD
 - Brian Sumner, AMD
-- Jason Ekstrand, Intel
+- Faith Ekstrand, Intel
 - Graeme Leese, Broadcom
 
 Status

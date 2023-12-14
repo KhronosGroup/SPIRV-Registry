@@ -5,12 +5,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.17">
-<title>SPV_INTEL_fpga_cluster_attributes</title>
+<title>SPV_INTEL_fp_max_error</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
-/*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
-/* Uncomment the following line when using as a custom stylesheet */
-/* @import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700"; */
 html{font-family:sans-serif;-webkit-text-size-adjust:100%}
 a{background:none}
 a:focus{outline:thin dotted}
@@ -438,14 +435,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article data-line-1">
 <div id="header">
-<h1>SPV_INTEL_fpga_cluster_attributes</h1>
+<h1>SPV_INTEL_fp_max_error</h1>
 </div>
 <div id="content">
 <div class="sect1 data-line-4">
 <h2 id="_name_strings">Name Strings</h2>
 <div class="sectionbody">
 <div class="paragraph data-line-6">
-<p>SPV_INTEL_fpga_cluster_attributes</p>
+<p>SPV_INTEL_fp_max_error</p>
 </div>
 </div>
 </div>
@@ -466,32 +463,35 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist data-line-16">
 <ul>
 <li class="data-line-16">
-<p>Jessica Davies, Intel</p>
+<p>Shuo Niu, Intel</p>
+</li>
+<li class="data-line-17">
+<p>Daniel Zhang, Intel</p>
 </li>
 </ul>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-18">
+<div class="sect1 data-line-19">
 <h2 id="_notice">Notice</h2>
 <div class="sectionbody">
-<div class="paragraph data-line-20">
-<p>Copyright (c) 2020, 2023 Intel Corporation.  All rights reserved.</p>
+<div class="paragraph data-line-21">
+<p>Copyright (c) 2023 Intel Corporation.  All rights reserved.</p>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-22">
+<div class="sect1 data-line-23">
 <h2 id="_status">Status</h2>
 <div class="sectionbody">
-<div class="paragraph data-line-24">
+<div class="paragraph data-line-25">
 <p>Final draft</p>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-26">
+<div class="sect1 data-line-27">
 <h2 id="_version">Version</h2>
 <div class="sectionbody">
-<table class="tableblock frame-all grid-all data-line-29" style="width: 40%;">
+<table class="tableblock frame-all grid-all data-line-30" style="width: 40%;">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -499,110 +499,96 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2023-04-11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2023-03-16</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<div class="sect1 data-line-34">
+<div class="sect1 data-line-35">
 <h2 id="_dependencies">Dependencies</h2>
 <div class="sectionbody">
-<div class="paragraph data-line-36">
+<div class="paragraph data-line-37">
 <p>This extension is written against the SPIR-V Specification,
 Version 1.6 Revision 2.</p>
 </div>
-<div class="paragraph data-line-39">
+<div class="paragraph data-line-40">
 <p>This extension requires SPIR-V 1.0.</p>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-41">
+<div class="sect1 data-line-42">
 <h2 id="_overview">Overview</h2>
 <div class="sectionbody">
-<div class="paragraph data-line-43">
-<p>This extension adds decorations to request that statically-scheduled clusters use a stall-enable signal, or an exit FIFO, on an FPGA target.</p>
+<div class="paragraph data-line-44">
+<p>This extension adds a decoration that may be attached to any instruction of floating-point type. It can be used to express the maximum acceptable relative error in the result of that instruction, in ULPs.</p>
+</div>
+<div class="paragraph data-line-46">
+<p>Note that this takes precedence over accuracy requirements from the environment specification. Please refer to the client environment specification for the list of instruction that the decoration can be attached to. The client environment specification will also provide a list of valid values for the maximum acceptable relative error.</p>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-45">
+<div class="sect1 data-line-48">
 <h2 id="_extension_name">Extension Name</h2>
 <div class="sectionbody">
-<div class="paragraph data-line-47">
+<div class="paragraph data-line-50">
 <p>To use this extension within a SPIR-V module, the following <strong>OpExtension</strong> must be present in the module:</p>
 </div>
-<div class="listingblock data-line-49">
+<div class="listingblock data-line-52">
 <div class="content">
-<pre>OpExtension "SPV_INTEL_fpga_cluster_attributes"</pre>
+<pre>OpExtension "SPV_INTEL_fp_max_error"</pre>
 </div>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-53">
+<div class="sect1 data-line-56">
 <h2 id="_new_capabilities">New capabilities</h2>
 <div class="sectionbody">
-<div class="paragraph data-line-54">
-<p>This extension introduces two new capabilities:</p>
+<div class="paragraph data-line-57">
+<p>This extension introduces a new capability:</p>
 </div>
-<div class="listingblock data-line-56">
+<div class="listingblock data-line-59">
 <div class="content">
-<pre>FPGAClusterAttributesINTEL
-FPGAClusterAttributesV2INTEL</pre>
+<pre>FPMaxErrorINTEL</pre>
 </div>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-61">
+<div class="sect1 data-line-63">
 <h2 id="_new_decorations">New Decorations</h2>
 <div class="sectionbody">
-<div class="paragraph data-line-63">
-<p>This extension adds the following decoration under the <strong>FPGAClusterAttributesINTEL</strong> capability:</p>
+<div class="paragraph data-line-65">
+<p>This extension adds the following decoration under the <strong>FPMaxErrorINTEL</strong> capability:</p>
 </div>
-<div class="listingblock data-line-65">
+<div class="listingblock data-line-67">
 <div class="content">
-<pre>StallEnableINTEL</pre>
-</div>
-</div>
-<div class="paragraph data-line-69">
-<p>This extension adds the following decoration under the <strong>FPGAClusterAttributesV2INTEL</strong> capability:</p>
-</div>
-<div class="listingblock data-line-71">
-<div class="content">
-<pre>StallFreeINTEL</pre>
+<pre>FPMaxErrorDecorationINTEL</pre>
 </div>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-76">
+<div class="sect1 data-line-71">
 <h2 id="_token_number_assignments">Token Number Assignments</h2>
 <div class="sectionbody">
-<div class="openblock data-line-78">
+<div class="openblock data-line-73">
 <div class="content">
-<table class="tableblock frame-all grid-rows data-line-82" style="width: 40%;">
+<table class="tableblock frame-all grid-rows data-line-77" style="width: 40%;">
 <colgroup>
 <col style="width: 70%;">
 <col style="width: 30%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">FPGAClusterAttributesINTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5904</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FPMaxErrorINTEL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6169</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">StallEnableINTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5905</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">FPGAClusterAttributesV2INTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">6150</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">StallFreeINTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">6151</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FPMaxErrorDecorationINTEL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6170</p></td>
 </tr>
 </tbody>
 </table>
@@ -610,59 +596,56 @@ FPGAClusterAttributesV2INTEL</pre>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-90">
+<div class="sect1 data-line-83">
 <h2 id="_modifications_to_the_spir_v_specification_version_1_6">Modifications to the SPIR-V Specification, Version 1.6</h2>
 <div class="sectionbody">
-<div class="sect2 data-line-92">
+<div class="sect2 data-line-85">
 <h3 id="_decoration">Decoration</h3>
-<div class="paragraph data-line-94">
-<p>Modify Section 3.20, Decoration, adding these rows to the Decoration table:</p>
+<div class="paragraph data-line-87">
+<p>Modify Section 3.20, Decoration, adding the following row to the Decoration table:</p>
 </div>
-<div class="openblock data-line-96">
+<div class="openblock data-line-89">
 <div class="content">
-<table class="tableblock frame-all grid-all stretch data-line-98">
+<table class="tableblock frame-all grid-all stretch data-line-91">
 <colgroup>
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
 </colgroup>
 <thead>
 <tr>
 <th class="tableblock halign-center valign-top" colspan="2">Decoration</th>
-<th class="tableblock halign-center valign-top" colspan="2">Extra Operands</th>
+<th class="tableblock halign-center valign-top">Extra Operands</th>
 <th class="tableblock halign-center valign-top">Enabling Capabilities</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5905</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>StallEnableINTEL</strong><br>
-Only valid on OpFunction. Request, to the extent possible, that statically-scheduled clusters should handle stalls using a stall-enable signal to freeze computation within the cluster.</p></td>
-<td class="tableblock halign-left valign-top" colspan="2"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGAClusterAttributesINTEL</strong></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">6151</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>StallFreeINTEL</strong><br>
-Only valid on OpFunction. Request, to the extent possible, that statically-scheduled clusters should handle stalls by using an exit FIFO to hold any output data until the cluster is no longer stalled.</p></td>
-<td class="tableblock halign-left valign-top" colspan="2"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGAClusterAttributesV2INTEL</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6170</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPMaxErrorDecorationINTEL</strong><br>
+Apply to a floating-point instruction to express the maximum acceptable relative error in the result of that instruction, in ULPs. ULP is defined as follows:</p>
+<p class="tableblock">If x is a real number that lies between two finite consecutive floating-point numbers a and b, without being equal to one of them, then ulp(x) = |b - a|, otherwise ulp(x) is the distance between the two non-equal finite floating-point numbers nearest to x. Moreover, ulp(NaN) is NaN.
+To give attribution, this description referenced Jean-Michel Muller&#8217;s definition of ulp(x) with slight clarification for behaviour at zero. For details, please refer to <a href="https://hal.inria.fr/inria-00070503/document" class="undefined" data-href="https://hal.inria.fr/inria-00070503/document">https://hal.inria.fr/inria-00070503/document</a>.</p>
+<p class="tableblock"><em>Max Error</em> is a positive 32-bit float type number representing the maximum acceptable relative error.</p>
+<p class="tableblock">Note that this decoration can increase or decrease allowable error. It overrides the accuracy from the environment specification and allows both the expressions of additional error and/or less error when it differs from the environment specification.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Literal<br>
+<em>Max Error</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPMaxErrorINTEL</strong></p></td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 </div>
-<div class="sect2 data-line-110">
+<div class="sect2 data-line-108">
 <h3 id="_capability">Capability</h3>
-<div class="paragraph data-line-112">
-<p>Modify Section 3.31, Capability, adding the following rows to the Capability table:</p>
+<div class="paragraph data-line-110">
+<p>Modify Section 3.31, Capability, adding a row to the Capability table:</p>
 </div>
-<div class="openblock data-line-113">
+<div class="openblock data-line-111">
 <div class="content">
-<table class="tableblock frame-all grid-all stretch data-line-115">
+<table class="tableblock frame-all grid-all stretch data-line-113">
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -676,40 +659,35 @@ Only valid on OpFunction. Request, to the extent possible, that statically-sched
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5904</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">FPGAClusterAttributesINTEL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6169</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FPMaxErrorINTEL</p></td>
 <td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">6150</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">FPGAClusterAttributesV2INTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">FPGAClusterAttributesINTEL</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 </div>
-<div class="sect2 data-line-122">
+<div class="sect2 data-line-119">
 <h3 id="_validation_rules">Validation Rules</h3>
-<div class="paragraph data-line-124">
-<p>At most one of the <strong>StallEnableINTEL</strong> and <strong>StallFreeINTEL</strong> decorations can appear on an <strong>OpFunction</strong>.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1 data-line-126">
-<h2 id="_issues">Issues</h2>
-<div class="sectionbody">
-<div class="paragraph data-line-128">
+<div class="paragraph data-line-121">
 <p>None.</p>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-130">
+</div>
+<div class="sect1 data-line-123">
+<h2 id="_issues">Issues</h2>
+<div class="sectionbody">
+<div class="paragraph data-line-125">
+<p>None.</p>
+</div>
+</div>
+</div>
+<div class="sect1 data-line-127">
 <h2 id="_revision_history">Revision History</h2>
 <div class="sectionbody">
-<table class="tableblock frame-all grid-rows stretch data-line-135">
+<table class="tableblock frame-all grid-rows stretch data-line-132">
 <colgroup>
 <col style="width: 4.7619%;">
 <col style="width: 14.2857%;">
@@ -727,15 +705,9 @@ Only valid on OpFunction. Request, to the extent possible, that statically-sched
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2020-10-13</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Jessica Davies</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2023-03-16</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Shuo Niu</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Initial public release</strong></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2023-04-11</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Jessica Davies</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Add stall-free cluster decoration</p></td>
 </tr>
 </tbody>
 </table>
@@ -744,7 +716,7 @@ Only valid on OpFunction. Request, to the extent possible, that statically-sched
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-04-11 12:46:44 -0400
+Last updated 2023-03-16 15:10:46 -0700
 </div>
 </div>
 </body>

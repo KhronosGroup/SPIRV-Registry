@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.17">
-<title>SPV_INTEL_fpga_cluster_attributes</title>
+<title>SPV_INTEL_global_variable_host_access</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -436,62 +436,78 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
 </head>
-<body class="article data-line-1">
+<body class="article">
 <div id="header">
-<h1>SPV_INTEL_fpga_cluster_attributes</h1>
+<h1>SPV_INTEL_global_variable_host_access</h1>
 </div>
 <div id="content">
-<div class="sect1 data-line-4">
+<div class="sect1">
 <h2 id="_name_strings">Name Strings</h2>
 <div class="sectionbody">
-<div class="paragraph data-line-6">
-<p>SPV_INTEL_fpga_cluster_attributes</p>
+<div class="paragraph">
+<p>SPV_INTEL_global_variable_host_access</p>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-8">
+<div class="sect1">
 <h2 id="_contact">Contact</h2>
 <div class="sectionbody">
-<div class="paragraph data-line-10">
+<div class="paragraph">
 <p>To report problems with this extension, please open a new issue at:</p>
 </div>
-<div class="paragraph data-line-12">
-<p><a href="https://github.com/KhronosGroup/SPIRV-Registry" class="undefined" data-href="https://github.com/KhronosGroup/SPIRV-Registry">https://github.com/KhronosGroup/SPIRV-Registry</a></p>
+<div class="paragraph">
+<p><a href="https://github.com/KhronosGroup/SPIRV-Registry" class="bare">https://github.com/KhronosGroup/SPIRV-Registry</a></p>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-14">
+<div class="sect1">
 <h2 id="_contributors">Contributors</h2>
 <div class="sectionbody">
-<div class="ulist data-line-16">
+<div class="ulist">
 <ul>
-<li class="data-line-16">
-<p>Jessica Davies, Intel</p>
+<li>
+<p>Artem Radzikhovskyy, Intel</p>
+</li>
+<li>
+<p>Michael Kinsner, Intel</p>
+</li>
+<li>
+<p>Joe Garvey, Intel</p>
+</li>
+<li>
+<p>Mohammad Fawaz, Intel</p>
+</li>
+<li>
+<p>Gregory Lueck, Intel</p>
 </li>
 </ul>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-18">
+<div class="sect1">
 <h2 id="_notice">Notice</h2>
 <div class="sectionbody">
-<div class="paragraph data-line-20">
-<p>Copyright (c) 2020, 2023 Intel Corporation.  All rights reserved.</p>
+<div class="paragraph">
+<p>Copyright (c) 2021-2023 Intel Corporation. All rights reserved.</p>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-22">
+<div class="sect1">
 <h2 id="_status">Status</h2>
 <div class="sectionbody">
-<div class="paragraph data-line-24">
-<p>Final draft</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Complete</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-26">
+<div class="sect1">
 <h2 id="_version">Version</h2>
 <div class="sectionbody">
-<table class="tableblock frame-all grid-all data-line-29" style="width: 40%;">
+<table class="tableblock frame-all grid-all" style="width: 40%;">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -499,110 +515,82 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2023-04-11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2023-11-02</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<div class="sect1 data-line-34">
+<div class="sect1">
 <h2 id="_dependencies">Dependencies</h2>
 <div class="sectionbody">
-<div class="paragraph data-line-36">
+<div class="paragraph">
 <p>This extension is written against the SPIR-V Specification,
 Version 1.6 Revision 2.</p>
 </div>
-<div class="paragraph data-line-39">
+<div class="paragraph">
 <p>This extension requires SPIR-V 1.0.</p>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-41">
+<div class="sect1">
 <h2 id="_overview">Overview</h2>
 <div class="sectionbody">
-<div class="paragraph data-line-43">
-<p>This extension adds decorations to request that statically-scheduled clusters use a stall-enable signal, or an exit FIFO, on an FPGA target.</p>
+<div class="paragraph">
+<p>This extension adds a decoration that can be applied to global (module scope)
+variables. This decoration explicitly asserts that the global variable can be accessed outside the SPIR-V module.</p>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-45">
+<div class="sect1">
 <h2 id="_extension_name">Extension Name</h2>
 <div class="sectionbody">
-<div class="paragraph data-line-47">
-<p>To use this extension within a SPIR-V module, the following <strong>OpExtension</strong> must be present in the module:</p>
+<div class="paragraph">
+<p>To use this extension within a SPIR-V module, the following <strong>OpExtension</strong> must
+be present in the module:</p>
 </div>
-<div class="listingblock data-line-49">
+<div class="listingblock">
 <div class="content">
-<pre>OpExtension "SPV_INTEL_fpga_cluster_attributes"</pre>
+<pre>OpExtension "SPV_INTEL_global_variable_host_access"</pre>
 </div>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-53">
-<h2 id="_new_capabilities">New capabilities</h2>
+<div class="sect1">
+<h2 id="_new_capabilities">New Capabilities</h2>
 <div class="sectionbody">
-<div class="paragraph data-line-54">
-<p>This extension introduces two new capabilities:</p>
+<div class="paragraph">
+<p>This extension introduces a new capability:</p>
 </div>
-<div class="listingblock data-line-56">
+<div class="listingblock">
 <div class="content">
-<pre>FPGAClusterAttributesINTEL
-FPGAClusterAttributesV2INTEL</pre>
+<pre>GlobalVariableHostAccessINTEL</pre>
 </div>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-61">
-<h2 id="_new_decorations">New Decorations</h2>
-<div class="sectionbody">
-<div class="paragraph data-line-63">
-<p>This extension adds the following decoration under the <strong>FPGAClusterAttributesINTEL</strong> capability:</p>
-</div>
-<div class="listingblock data-line-65">
-<div class="content">
-<pre>StallEnableINTEL</pre>
-</div>
-</div>
-<div class="paragraph data-line-69">
-<p>This extension adds the following decoration under the <strong>FPGAClusterAttributesV2INTEL</strong> capability:</p>
-</div>
-<div class="listingblock data-line-71">
-<div class="content">
-<pre>StallFreeINTEL</pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1 data-line-76">
+<div class="sect1">
 <h2 id="_token_number_assignments">Token Number Assignments</h2>
 <div class="sectionbody">
-<div class="openblock data-line-78">
+<div class="openblock">
 <div class="content">
-<table class="tableblock frame-all grid-rows data-line-82" style="width: 40%;">
+<table class="tableblock frame-all grid-rows" style="width: 40%;">
 <colgroup>
 <col style="width: 70%;">
 <col style="width: 30%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">FPGAClusterAttributesINTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5904</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GlobalVariableHostAccessINTEL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6187</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">StallEnableINTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5905</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">FPGAClusterAttributesV2INTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">6150</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">StallFreeINTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">6151</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">HostAccessINTEL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6188</p></td>
 </tr>
 </tbody>
 </table>
@@ -610,59 +598,128 @@ FPGAClusterAttributesV2INTEL</pre>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-90">
+<div class="sect1">
 <h2 id="_modifications_to_the_spir_v_specification_version_1_6">Modifications to the SPIR-V Specification, Version 1.6</h2>
 <div class="sectionbody">
-<div class="sect2 data-line-92">
-<h3 id="_decoration">Decoration</h3>
-<div class="paragraph data-line-94">
-<p>Modify Section 3.20, Decoration, adding these rows to the Decoration table:</p>
+<div class="sect2">
+<h3 id="_host_access_qualifier">Host Access Qualifier</h3>
+<div class="paragraph">
+<p>After Section 3.18, add a new section "3.18a Host Access Qualifier" as follows</p>
 </div>
-<div class="openblock data-line-96">
+<div class="paragraph">
+<p>Defines the host system access permissions.</p>
+</div>
+<div class="paragraph">
+<p>Used by HostAccessINTEL.</p>
+</div>
+<div class="openblock">
 <div class="content">
-<table class="tableblock frame-all grid-all stretch data-line-98">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-center valign-top" colspan="2">Decoration</th>
-<th class="tableblock halign-center valign-top" colspan="2">Extra Operands</th>
+<th class="tableblock halign-center valign-top" colspan="2">Host Access Qualifier</th>
 <th class="tableblock halign-center valign-top">Enabling Capabilities</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5905</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>StallEnableINTEL</strong><br>
-Only valid on OpFunction. Request, to the extent possible, that statically-scheduled clusters should handle stalls using a stall-enable signal to freeze computation within the cluster.</p></td>
-<td class="tableblock halign-left valign-top" colspan="2"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGAClusterAttributesINTEL</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>NoneINTEL</strong></p>
+<p class="tableblock">The execution environment may neither read nor write the variable
+from the host. On an FPGA device, no memory port is exposed.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>GlobalVariableHostAccessINTEL</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">6151</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>StallFreeINTEL</strong><br>
-Only valid on OpFunction. Request, to the extent possible, that statically-scheduled clusters should handle stalls by using an exit FIFO to hold any output data until the cluster is no longer stalled.</p></td>
-<td class="tableblock halign-left valign-top" colspan="2"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPGAClusterAttributesV2INTEL</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>ReadINTEL</strong></p>
+<p class="tableblock">The execution environment may read the variable from the host but
+will never write it. On an FPGA device, only a read memory port is exposed.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>GlobalVariableHostAccessINTEL</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>WriteINTEL</strong></p>
+<p class="tableblock">The execution environment may write the variable from the host
+ but will never read it. On an FPGA device, only a write memory port is
+ exposed.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>GlobalVariableHostAccessINTEL</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>ReadWriteINTEL</strong></p>
+<p class="tableblock">The execution environment may read or write the variable
+ from the host. On an FPGA device, a read/write memory port is exposed.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>GlobalVariableHostAccessINTEL</strong></p></td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 </div>
-<div class="sect2 data-line-110">
-<h3 id="_capability">Capability</h3>
-<div class="paragraph data-line-112">
-<p>Modify Section 3.31, Capability, adding the following rows to the Capability table:</p>
+<div class="sect2">
+<h3 id="_decoration">Decoration</h3>
+<div class="paragraph">
+<p>Modify Section 3.20, Decoration, adding these rows to the Decoration table:</p>
 </div>
-<div class="openblock data-line-113">
+<div class="openblock">
 <div class="content">
-<table class="tableblock frame-all grid-all stretch data-line-115">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 7.1428%;">
+<col style="width: 35.7142%;">
+<col style="width: 8.9285%;">
+<col style="width: 8.9285%;">
+<col style="width: 39.286%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-middle" colspan="2">Decoration</th>
+<th class="tableblock halign-left valign-middle" colspan="2">Extra Operands</th>
+<th class="tableblock halign-left valign-top">Enabling Capabilities</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">6188</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><strong>HostAccessINTEL</strong><br>
+Only valid on global (module scope) <strong>OpVariable</strong>.</p>
+</div>
+<div class="paragraph">
+<p>The client API&#8217;s execution environment may provide a way to access a global
+variable&#8217;s value from the host system. If it does, this decoration provides
+two pieces of information. <em>Access</em> is an assertion by the producer about the
+types of these accesses, which may allow the consumer to perform certain
+optimizations. <em>Name</em> is a name which the client
+API&#8217;s execution environment may use to identify this variable.</p>
+</div>
+<div class="paragraph">
+<p>If a global <strong>OpVariable</strong> is not decorated with <strong>HostAccessINTEL</strong>, the default behavior is defined by the client API specification.</p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Host Access Qualifier<br>
+<em>Access</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Literal String<br>
+<em>Name</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>GlobalVariableHostAccessINTEL</strong></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_capability">Capability</h3>
+<div class="paragraph">
+<p>Modify Section 3.31, Capability, adding a row to the Capability table:</p>
+</div>
+<div class="openblock">
+<div class="content">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -676,40 +733,40 @@ Only valid on OpFunction. Request, to the extent possible, that statically-sched
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5904</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">FPGAClusterAttributesINTEL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6187</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>GlobalVariableHostAccessINTEL</strong></p></td>
 <td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">6150</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">FPGAClusterAttributesV2INTEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">FPGAClusterAttributesINTEL</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 </div>
-<div class="sect2 data-line-122">
+<div class="sect2">
 <h3 id="_validation_rules">Validation Rules</h3>
-<div class="paragraph data-line-124">
-<p>At most one of the <strong>StallEnableINTEL</strong> and <strong>StallFreeINTEL</strong> decorations can appear on an <strong>OpFunction</strong>.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>It is invalid for two <strong>HostAccessINTEL</strong> decorations in the same module to
+have the same <em>Name</em> operand.</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-126">
+<div class="sect1">
 <h2 id="_issues">Issues</h2>
 <div class="sectionbody">
-<div class="paragraph data-line-128">
+<div class="paragraph">
 <p>None.</p>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-130">
+<div class="sect1">
 <h2 id="_revision_history">Revision History</h2>
 <div class="sectionbody">
-<table class="tableblock frame-all grid-rows stretch data-line-135">
+<table class="tableblock frame-all grid-rows stretch">
 <colgroup>
 <col style="width: 4.7619%;">
 <col style="width: 14.2857%;">
@@ -727,15 +784,27 @@ Only valid on OpFunction. Request, to the extent possible, that statically-sched
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2020-10-13</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Jessica Davies</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Initial public release</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2022-11-1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gregory Lueck</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Initial revision</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2023-04-11</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Jessica Davies</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Add stall-free cluster decoration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2023-04-25</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Artem Radzikhovskyy</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Address default behavior</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2023-06-30</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Artem Radzikhovskyy</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Typo in capability</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2023-10-27</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Artem Radzikhovskyy</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Reverting Capability ID</p></td>
 </tr>
 </tbody>
 </table>
@@ -744,7 +813,7 @@ Only valid on OpFunction. Request, to the extent possible, that statically-sched
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-04-11 12:46:44 -0400
+Last updated 2023-11-02 10:44:50 -0700
 </div>
 </div>
 </body>

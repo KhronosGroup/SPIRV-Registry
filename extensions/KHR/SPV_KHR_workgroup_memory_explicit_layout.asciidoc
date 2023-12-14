@@ -19,7 +19,7 @@ Contributors
 - Caio Marcelo de Oliveira Filho, Intel
 - Jeff Bolz, NVIDIA
 - Graeme Leese, Broadcom
-- Jason Ekstrand, Intel
+- Faith Ekstrand, Intel
 
 Notice
 ------

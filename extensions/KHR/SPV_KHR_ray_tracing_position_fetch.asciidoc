@@ -1,0 +1,214 @@
+SPV_KHR_ray_tracing_position_fetch
+==================================
+
+Name Strings
+------------
+
+SPV_KHR_ray_tracing_position_fetch
+
+Contact
+-------
+
+See *Issues* list in the Khronos SPIRV-Headers repository:
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Eric Werness, NVIDIA
+- Daniel Koch, NVIDIA
+- Alan Baker, Google
+
+Status
+------
+
+- 2023-02-22 Approved by the SPIR Working Group
+- 2023-04-14 Ratified by the Khronos Board
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2023-04-21
+| Revision           | 4
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the Unified SPIR-V Specification,
+Version 1.5, Revision 1.
+
+This extension requires SPIR-V 1.4.
+
+This extension requires SPV_KHR_ray_tracing or SPV_KHR_ray_query.
+
+:RayQueryUrl: https://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/KHR/SPV_KHR_ray_query.html
+
+Overview
+--------
+
+This extension adds functionality to ray pipelines and ray query to allow
+fetching the vertex positions for the current hit.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_KHR_ray_tracing_position_fetch"
+----
+
+
+New Capabilities
+----------------
+
+This extension introduces two new capabilities:
+
+----
+RayTracingPositionFetchKHR
+RayQueryPositionFetchKHR
+----
+
+
+New Builtins
+------------
+
+Builtin added under the *RayTracingPositionFetchKHR* capability
+
+----
+HitTriangleVertexPositionsKHR
+----
+
+New Instructions
+----------------
+
+Instruction added under the *RayQueryPositionFetchKHR* capability
+
+----
+OpRayQueryGetIntersectionTriangleVertexPositionsKHR
+----
+
+Modifications to the SPIR-V Specification
+-----------------------------------------
+
+(Modify Section 3.21, BuiltIn, adding rows to the BuiltIn table) ::
++
+--
+[cols="1^,10,6^",options="header",width = "100%"]
+|====
+2+^.^| BuiltIn | <<Capability,Enabling Capabilities>>
+| 5335 | [[HitTriangleVertexPositionsKHR]]*HitTriangleVertexPositionsKHR* +
+The vertex positions for the triangle hit for the ray being traced in the *AnyHitKHR* or
+*ClosestHitKHR* execution models.
+
+Refer to the Ray Tracing chapter of Vulkan API specification for more details.
+|*RayTracingPositionFetchKHR*
+|====
+--
+
+(Modify Section 3.31, Capability, adding rows to the Capability table) ::
++
+--
+[cols="1^.^,25,15",options="header",width = "100%"]
+|====
+2+^.^| [[Capability]]Capability | Implicitly Declares
+| 5336 | *RayTracingPositionFetchKHR* +
+Uses the <<HitTriangleVertexPositionsKHR, *HitTriangleVertexPositionsKHR*>> builtin.
+| *RayTracingKHR*
+| 5391 | *RayQueryPositionFetchKHR* +
+Uses the <<OpRayQueryGetIntersectionTriangleVertexPositionsKHR, *OpRayQueryGetIntersectionTriangleVertexPositionsKHR*>>
+instruction.
+| *RayQueryKHR*
+|====
+--
+
+(Add to sub section 3.32.RQInstructions, Ray Query Instructions) ::
++
+--
+[cols="6*1"]
+|======
+5+|[[OpRayQueryGetIntersectionTriangleVertexPositionsKHR]]*OpRayQueryGetIntersectionTriangleVertexPositionsKHR* +
+ +
+ Gets the vertex positions for the triangle at the current intersection. +
+ +
+ 'Result' is the returned vertex positions. +
+ +
+ 'Result Type' must be an array with a 'Length' of 3, and an 'Element Type' that is a vector type with a 'Component Type' that is a 32-bit 'floating-point type' and a 'Component Count' of 3. +
+ +
+ 'Intersection' must be the <id> of a 'constant instruction' with a 32-bit scalar 'integer type'. +
+ +
+ 'Intersection' identifies which intersection values should be returned for, either the current candidate or the
+ closest recorded hit so far; see {RayQueryUrl}#ray_query_intersection[Ray Query Intersection]. +
+ +
+ 'Ray Query' is a pointer to the ray query object. +
+ +
+ If 'Intersection' is *RayQueryCandidateIntersectionKHR*, behavior is undefined if *OpRayQueryProceedKHR*
+ was not executed on the same ray query object, or if the last value returned by such an execution of *OpRayQueryProceedKHR* was not true.
+ +
+ If 'Intersection' is *RayQueryCommittedIntersectionKHR*, behavior is undefined if there is no current committed
+ intersection (see *OpRayQueryCommittedTypeKHR*).
+1+|Capability: +
+*RayQueryPositionFetchKHR*
+| 5 | 5340
+| '<id>' 'Result Type'
+| 'Result' '<id>'
+| '<id> Ray Query'
+| '<id> Intersection'
+|======
+
+--
+
+Validation Rules
+----------------
+
+An OpExtension must be added to the SPIR-V for validation layers to check
+legal use of this extension:
+
+----
+OpExtension "SPV_KHR_ray_tracing_position_fetch"
+----
+
+Interactions with SPV_KHR_ray_tracing
+-------------------------------------
+
+The *RayTracingPositionFetchKHR* capability and the *HitTriangleVertexPositionsKHR* builtin
+are only supported if SPV_KHR_ray_tracing and the *RayTracingKHR* capability are supported.
+
+Interactions with SPV_KHR_ray_query
+-----------------------------------
+
+The *RayQueryPositionFetchKHR* capability and the *OpRayQueryGetIntersectionTriangleVertexPositionsKHR*
+instruction are only supported if SPV_KHR_ray_query and the *RayQueryKHR* capability are supported.
+
+
+Issues
+------
+
+1) Should triangle be in the name somewhere? 
+
+RESOLVED: Yes, though *OpRayQueryGetIntersectionTriangleVertexPositionsKHR* seems a bit long.
+
+2) Where should the functionality of the new builtin and instruction be defined? 
+
+RESOLVED: Following precedent, ray tracing (pipeline) relies more on "Refer to the Ray Tracing
+chapter of Vulkan API" language while ray query inlines more of the functionality definition
+directly in the SPIR-V extensions.
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1 |2022-05-12 |Eric Werness  | First draft
+|2 |2022-12-14 |Daniel Koch   | Use two capabilities and other spec cleanup.
+|3 |2023-01-06 |Daniel Koch   | Follow SPIR-V conventions for undefined behavior.
+|4 |2023-04-21 |Daniel Koch   | Add ratification status
+|========================================
+

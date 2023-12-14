@@ -1,0 +1,1820 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<meta name="generator" content="AsciiDoc 10.1.2" />
+<title>SPV_KHR_cooperative_matrix</title>
+<style type="text/css">
+/* Shared CSS for AsciiDoc xhtml11 and html5 backends */
+
+/* Default font. */
+body {
+  font-family: Georgia,serif;
+}
+
+/* Title font. */
+h1, h2, h3, h4, h5, h6,
+div.title, caption.title,
+thead, p.table.header,
+#toctitle,
+#author, #revnumber, #revdate, #revremark,
+#footer {
+  font-family: Arial,Helvetica,sans-serif;
+}
+
+body {
+  margin: 1em 5% 1em 5%;
+}
+
+a {
+  color: blue;
+  text-decoration: underline;
+}
+a:visited {
+  color: fuchsia;
+}
+
+em {
+  font-style: italic;
+  color: navy;
+}
+
+strong {
+  font-weight: bold;
+  color: #083194;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #527bbd;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+  line-height: 1.3;
+}
+
+h1, h2, h3 {
+  border-bottom: 2px solid silver;
+}
+h2 {
+  padding-top: 0.5em;
+}
+h3 {
+  float: left;
+}
+h3 + * {
+  clear: left;
+}
+h5 {
+  font-size: 1.0em;
+}
+
+div.sectionbody {
+  margin-left: 0;
+}
+
+hr {
+  border: 1px solid silver;
+}
+
+p {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+ul, ol, li > p {
+  margin-top: 0;
+}
+ul > li     { color: #aaa; }
+ul > li > * { color: black; }
+
+.monospaced, code, pre {
+  font-family: "Courier New", Courier, monospace;
+  font-size: inherit;
+  color: navy;
+  padding: 0;
+  margin: 0;
+}
+pre {
+  white-space: pre-wrap;
+}
+
+#author {
+  color: #527bbd;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+#email {
+}
+#revnumber, #revdate, #revremark {
+}
+
+#footer {
+  font-size: small;
+  border-top: 2px solid silver;
+  padding-top: 0.5em;
+  margin-top: 4.0em;
+}
+#footer-text {
+  float: left;
+  padding-bottom: 0.5em;
+}
+#footer-badges {
+  float: right;
+  padding-bottom: 0.5em;
+}
+
+#preamble {
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+}
+div.imageblock, div.exampleblock, div.verseblock,
+div.quoteblock, div.literalblock, div.listingblock, div.sidebarblock,
+div.admonitionblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+div.admonitionblock {
+  margin-top: 2.0em;
+  margin-bottom: 2.0em;
+  margin-right: 10%;
+  color: #606060;
+}
+
+div.content { /* Block element content. */
+  padding: 0;
+}
+
+/* Block element titles. */
+div.title, caption.title {
+  color: #527bbd;
+  font-weight: bold;
+  text-align: left;
+  margin-top: 1.0em;
+  margin-bottom: 0.5em;
+}
+div.title + * {
+  margin-top: 0;
+}
+
+td div.title:first-child {
+  margin-top: 0.0em;
+}
+div.content div.title:first-child {
+  margin-top: 0.0em;
+}
+div.content + div.title {
+  margin-top: 0.0em;
+}
+
+div.sidebarblock > div.content {
+  background: #ffffee;
+  border: 1px solid #dddddd;
+  border-left: 4px solid #f0f0f0;
+  padding: 0.5em;
+}
+
+div.listingblock > div.content {
+  border: 1px solid #dddddd;
+  border-left: 5px solid #f0f0f0;
+  background: #f8f8f8;
+  padding: 0.5em;
+}
+
+div.quoteblock, div.verseblock {
+  padding-left: 1.0em;
+  margin-left: 1.0em;
+  margin-right: 10%;
+  border-left: 5px solid #f0f0f0;
+  color: #888;
+}
+
+div.quoteblock > div.attribution {
+  padding-top: 0.5em;
+  text-align: right;
+}
+
+div.verseblock > pre.content {
+  font-family: inherit;
+  font-size: inherit;
+}
+div.verseblock > div.attribution {
+  padding-top: 0.75em;
+  text-align: left;
+}
+/* DEPRECATED: Pre version 8.2.7 verse style literal block. */
+div.verseblock + div.attribution {
+  text-align: left;
+}
+
+div.admonitionblock .icon {
+  vertical-align: top;
+  font-size: 1.1em;
+  font-weight: bold;
+  text-decoration: underline;
+  color: #527bbd;
+  padding-right: 0.5em;
+}
+div.admonitionblock td.content {
+  padding-left: 0.5em;
+  border-left: 3px solid #dddddd;
+}
+
+div.exampleblock > div.content {
+  border-left: 3px solid #dddddd;
+  padding-left: 0.5em;
+}
+
+div.imageblock div.content { padding-left: 0; }
+span.image img { border-style: none; vertical-align: text-bottom; }
+a.image:visited { color: white; }
+
+dl {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+dt {
+  margin-top: 0.5em;
+  margin-bottom: 0;
+  font-style: normal;
+  color: navy;
+}
+dd > *:first-child {
+  margin-top: 0.1em;
+}
+
+ul, ol {
+    list-style-position: outside;
+}
+ol.arabic {
+  list-style-type: decimal;
+}
+ol.loweralpha {
+  list-style-type: lower-alpha;
+}
+ol.upperalpha {
+  list-style-type: upper-alpha;
+}
+ol.lowerroman {
+  list-style-type: lower-roman;
+}
+ol.upperroman {
+  list-style-type: upper-roman;
+}
+
+div.compact ul, div.compact ol,
+div.compact p, div.compact p,
+div.compact div, div.compact div {
+  margin-top: 0.1em;
+  margin-bottom: 0.1em;
+}
+
+tfoot {
+  font-weight: bold;
+}
+td > div.verse {
+  white-space: pre;
+}
+
+div.hdlist {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+div.hdlist tr {
+  padding-bottom: 15px;
+}
+dt.hdlist1.strong, td.hdlist1.strong {
+  font-weight: bold;
+}
+td.hdlist1 {
+  vertical-align: top;
+  font-style: normal;
+  padding-right: 0.8em;
+  color: navy;
+}
+td.hdlist2 {
+  vertical-align: top;
+}
+div.hdlist.compact tr {
+  margin: 0;
+  padding-bottom: 0;
+}
+
+.comment {
+  background: yellow;
+}
+
+.footnote, .footnoteref {
+  font-size: 0.8em;
+}
+
+span.footnote, span.footnoteref {
+  vertical-align: super;
+}
+
+#footnotes {
+  margin: 20px 0 20px 0;
+  padding: 7px 0 0 0;
+}
+
+#footnotes div.footnote {
+  margin: 0 0 5px 0;
+}
+
+#footnotes hr {
+  border: none;
+  border-top: 1px solid silver;
+  height: 1px;
+  text-align: left;
+  margin-left: 0;
+  width: 20%;
+  min-width: 100px;
+}
+
+div.colist td {
+  padding-right: 0.5em;
+  padding-bottom: 0.3em;
+  vertical-align: top;
+}
+div.colist td img {
+  margin-top: 0.3em;
+}
+
+@media print {
+  #footer-badges { display: none; }
+}
+
+#toc {
+  margin-bottom: 2.5em;
+}
+
+#toctitle {
+  color: #527bbd;
+  font-size: 1.1em;
+  font-weight: bold;
+  margin-top: 1.0em;
+  margin-bottom: 0.1em;
+}
+
+div.toclevel0, div.toclevel1, div.toclevel2, div.toclevel3, div.toclevel4 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+div.toclevel2 {
+  margin-left: 2em;
+  font-size: 0.9em;
+}
+div.toclevel3 {
+  margin-left: 4em;
+  font-size: 0.9em;
+}
+div.toclevel4 {
+  margin-left: 6em;
+  font-size: 0.9em;
+}
+
+span.aqua { color: aqua; }
+span.black { color: black; }
+span.blue { color: blue; }
+span.fuchsia { color: fuchsia; }
+span.gray { color: gray; }
+span.green { color: green; }
+span.lime { color: lime; }
+span.maroon { color: maroon; }
+span.navy { color: navy; }
+span.olive { color: olive; }
+span.purple { color: purple; }
+span.red { color: red; }
+span.silver { color: silver; }
+span.teal { color: teal; }
+span.white { color: white; }
+span.yellow { color: yellow; }
+
+span.aqua-background { background: aqua; }
+span.black-background { background: black; }
+span.blue-background { background: blue; }
+span.fuchsia-background { background: fuchsia; }
+span.gray-background { background: gray; }
+span.green-background { background: green; }
+span.lime-background { background: lime; }
+span.maroon-background { background: maroon; }
+span.navy-background { background: navy; }
+span.olive-background { background: olive; }
+span.purple-background { background: purple; }
+span.red-background { background: red; }
+span.silver-background { background: silver; }
+span.teal-background { background: teal; }
+span.white-background { background: white; }
+span.yellow-background { background: yellow; }
+
+span.big { font-size: 2em; }
+span.small { font-size: 0.6em; }
+
+span.underline { text-decoration: underline; }
+span.overline { text-decoration: overline; }
+span.line-through { text-decoration: line-through; }
+
+div.unbreakable { page-break-inside: avoid; }
+
+
+/*
+ * xhtml11 specific
+ *
+ * */
+
+div.tableblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+div.tableblock > table {
+  border: 3px solid #527bbd;
+}
+thead, p.table.header {
+  font-weight: bold;
+  color: #527bbd;
+}
+p.table {
+  margin-top: 0;
+}
+/* Because the table frame attribute is overridden by CSS in most browsers. */
+div.tableblock > table[frame="void"] {
+  border-style: none;
+}
+div.tableblock > table[frame="hsides"] {
+  border-left-style: none;
+  border-right-style: none;
+}
+div.tableblock > table[frame="vsides"] {
+  border-top-style: none;
+  border-bottom-style: none;
+}
+
+
+/*
+ * html5 specific
+ *
+ * */
+
+table.tableblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+thead, p.tableblock.header {
+  font-weight: bold;
+  color: #527bbd;
+}
+p.tableblock {
+  margin-top: 0;
+}
+table.tableblock {
+  border-width: 3px;
+  border-spacing: 0px;
+  border-style: solid;
+  border-color: #527bbd;
+  border-collapse: collapse;
+}
+th.tableblock, td.tableblock {
+  border-width: 1px;
+  padding: 4px;
+  border-style: solid;
+  border-color: #527bbd;
+}
+
+table.tableblock.frame-topbot {
+  border-left-style: hidden;
+  border-right-style: hidden;
+}
+table.tableblock.frame-sides {
+  border-top-style: hidden;
+  border-bottom-style: hidden;
+}
+table.tableblock.frame-none {
+  border-style: hidden;
+}
+
+th.tableblock.halign-left, td.tableblock.halign-left {
+  text-align: left;
+}
+th.tableblock.halign-center, td.tableblock.halign-center {
+  text-align: center;
+}
+th.tableblock.halign-right, td.tableblock.halign-right {
+  text-align: right;
+}
+
+th.tableblock.valign-top, td.tableblock.valign-top {
+  vertical-align: top;
+}
+th.tableblock.valign-middle, td.tableblock.valign-middle {
+  vertical-align: middle;
+}
+th.tableblock.valign-bottom, td.tableblock.valign-bottom {
+  vertical-align: bottom;
+}
+
+
+/*
+ * manpage specific
+ *
+ * */
+
+body.manpage h1 {
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  border-top: 2px solid silver;
+  border-bottom: 2px solid silver;
+}
+body.manpage h2 {
+  border-style: none;
+}
+body.manpage div.sectionbody {
+  margin-left: 3em;
+}
+
+@media print {
+  body.manpage div#toc { display: none; }
+}
+
+
+</style>
+<script type="text/javascript">
+/*<![CDATA[*/
+var asciidoc = {  // Namespace.
+
+/////////////////////////////////////////////////////////////////////
+// Table Of Contents generator
+/////////////////////////////////////////////////////////////////////
+
+/* Author: Mihai Bazon, September 2002
+ * http://students.infoiasi.ro/~mishoo
+ *
+ * Table Of Content generator
+ * Version: 0.4
+ *
+ * Feel free to use this script under the terms of the GNU General Public
+ * License, as long as you do not remove or alter this notice.
+ */
+
+ /* modified by Troy D. Hanson, September 2006. License: GPL */
+ /* modified by Stuart Rackham, 2006, 2009. License: GPL */
+
+// toclevels = 1..4.
+toc: function (toclevels) {
+
+  function getText(el) {
+    var text = "";
+    for (var i = el.firstChild; i != null; i = i.nextSibling) {
+      if (i.nodeType == 3 /* Node.TEXT_NODE */) // IE doesn't speak constants.
+        text += i.data;
+      else if (i.firstChild != null)
+        text += getText(i);
+    }
+    return text;
+  }
+
+  function TocEntry(el, text, toclevel) {
+    this.element = el;
+    this.text = text;
+    this.toclevel = toclevel;
+  }
+
+  function tocEntries(el, toclevels) {
+    var result = new Array;
+    var re = new RegExp('[hH]([1-'+(toclevels+1)+'])');
+    // Function that scans the DOM tree for header elements (the DOM2
+    // nodeIterator API would be a better technique but not supported by all
+    // browsers).
+    var iterate = function (el) {
+      for (var i = el.firstChild; i != null; i = i.nextSibling) {
+        if (i.nodeType == 1 /* Node.ELEMENT_NODE */) {
+          var mo = re.exec(i.tagName);
+          if (mo && (i.getAttribute("class") || i.getAttribute("className")) != "float") {
+            result[result.length] = new TocEntry(i, getText(i), mo[1]-1);
+          }
+          iterate(i);
+        }
+      }
+    }
+    iterate(el);
+    return result;
+  }
+
+  var toc = document.getElementById("toc");
+  if (!toc) {
+    return;
+  }
+
+  // Delete existing TOC entries in case we're reloading the TOC.
+  var tocEntriesToRemove = [];
+  var i;
+  for (i = 0; i < toc.childNodes.length; i++) {
+    var entry = toc.childNodes[i];
+    if (entry.nodeName.toLowerCase() == 'div'
+     && entry.getAttribute("class")
+     && entry.getAttribute("class").match(/^toclevel/))
+      tocEntriesToRemove.push(entry);
+  }
+  for (i = 0; i < tocEntriesToRemove.length; i++) {
+    toc.removeChild(tocEntriesToRemove[i]);
+  }
+
+  // Rebuild TOC entries.
+  var entries = tocEntries(document.getElementById("content"), toclevels);
+  for (var i = 0; i < entries.length; ++i) {
+    var entry = entries[i];
+    if (entry.element.id == "")
+      entry.element.id = "_toc_" + i;
+    var a = document.createElement("a");
+    a.href = "#" + entry.element.id;
+    a.appendChild(document.createTextNode(entry.text));
+    var div = document.createElement("div");
+    div.appendChild(a);
+    div.className = "toclevel" + entry.toclevel;
+    toc.appendChild(div);
+  }
+  if (entries.length == 0)
+    toc.parentNode.removeChild(toc);
+},
+
+
+/////////////////////////////////////////////////////////////////////
+// Footnotes generator
+/////////////////////////////////////////////////////////////////////
+
+/* Based on footnote generation code from:
+ * http://www.brandspankingnew.net/archive/2005/07/format_footnote.html
+ */
+
+footnotes: function () {
+  // Delete existing footnote entries in case we're reloading the footnodes.
+  var i;
+  var noteholder = document.getElementById("footnotes");
+  if (!noteholder) {
+    return;
+  }
+  var entriesToRemove = [];
+  for (i = 0; i < noteholder.childNodes.length; i++) {
+    var entry = noteholder.childNodes[i];
+    if (entry.nodeName.toLowerCase() == 'div' && entry.getAttribute("class") == "footnote")
+      entriesToRemove.push(entry);
+  }
+  for (i = 0; i < entriesToRemove.length; i++) {
+    noteholder.removeChild(entriesToRemove[i]);
+  }
+
+  // Rebuild footnote entries.
+  var cont = document.getElementById("content");
+  var spans = cont.getElementsByTagName("span");
+  var refs = {};
+  var n = 0;
+  for (i=0; i<spans.length; i++) {
+    if (spans[i].className == "footnote") {
+      n++;
+      var note = spans[i].getAttribute("data-note");
+      if (!note) {
+        // Use [\s\S] in place of . so multi-line matches work.
+        // Because JavaScript has no s (dotall) regex flag.
+        note = spans[i].innerHTML.match(/\s*\[([\s\S]*)]\s*/)[1];
+        spans[i].innerHTML =
+          "[<a id='_footnoteref_" + n + "' href='#_footnote_" + n +
+          "' title='View footnote' class='footnote'>" + n + "</a>]";
+        spans[i].setAttribute("data-note", note);
+      }
+      noteholder.innerHTML +=
+        "<div class='footnote' id='_footnote_" + n + "'>" +
+        "<a href='#_footnoteref_" + n + "' title='Return to text'>" +
+        n + "</a>. " + note + "</div>";
+      var id =spans[i].getAttribute("id");
+      if (id != null) refs["#"+id] = n;
+    }
+  }
+  if (n == 0)
+    noteholder.parentNode.removeChild(noteholder);
+  else {
+    // Process footnoterefs.
+    for (i=0; i<spans.length; i++) {
+      if (spans[i].className == "footnoteref") {
+        var href = spans[i].getElementsByTagName("a")[0].getAttribute("href");
+        href = href.match(/#.*/)[0];  // Because IE return full URL.
+        n = refs[href];
+        spans[i].innerHTML =
+          "[<a href='#_footnote_" + n +
+          "' title='View footnote' class='footnote'>" + n + "</a>]";
+      }
+    }
+  }
+},
+
+install: function(toclevels) {
+  var timerId;
+
+  function reinstall() {
+    asciidoc.footnotes();
+    if (toclevels) {
+      asciidoc.toc(toclevels);
+    }
+  }
+
+  function reinstallAndRemoveTimer() {
+    clearInterval(timerId);
+    reinstall();
+  }
+
+  timerId = setInterval(reinstall, 500);
+  if (document.addEventListener)
+    document.addEventListener("DOMContentLoaded", reinstallAndRemoveTimer, false);
+  else
+    window.onload = reinstallAndRemoveTimer;
+}
+
+}
+asciidoc.install();
+/*]]>*/
+</script>
+</head>
+<body class="article">
+<div id="header">
+<h1>SPV_KHR_cooperative_matrix</h1>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_name_strings">Name Strings</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>SPV_KHR_cooperative_matrix</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_contact">Contact</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>To report problems with this extension, please open a new issue at:</p></div>
+<div class="paragraph"><p><a href="https://github.com/KhronosGroup/SPIRV-Headers">https://github.com/KhronosGroup/SPIRV-Headers</a></p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_contributors">Contributors</h2>
+<div class="sectionbody">
+<div class="ulist"><ul>
+<li>
+<p>
+Jeff Bolz, NVIDIA
+</p>
+</li>
+<li>
+<p>
+Daniel Koch, NVIDIA
+</p>
+</li>
+<li>
+<p>
+Markus Tavenrath, NVIDIA
+</p>
+</li>
+<li>
+<p>
+Kevin Petit, Arm Ltd.
+</p>
+</li>
+<li>
+<p>
+Lei Zhang, Google
+</p>
+</li>
+<li>
+<p>
+Ben Ashbaugh, Intel
+</p>
+</li>
+<li>
+<p>
+Ruihao Zhang, Qualcomm
+</p>
+</li>
+<li>
+<p>
+David Neto, Google
+</p>
+</li>
+<li>
+<p>
+Tobias Hector, AMD
+</p>
+</li>
+<li>
+<p>
+John Kessenich, Google
+</p>
+</li>
+<li>
+<p>
+Nicolai Hahnle, AMD
+</p>
+</li>
+<li>
+<p>
+Mariusz Merecki, Intel
+</p>
+</li>
+<li>
+<p>
+Pedro Olsen Ferreira, Arm Ltd.
+</p>
+</li>
+<li>
+<p>
+Ni Hui, Tencent
+</p>
+</li>
+<li>
+<p>
+Dmitry Sidorov, Intel
+</p>
+</li>
+<li>
+<p>
+Dong Wang, AMD
+</p>
+</li>
+<li>
+<p>
+Ruimin Zhao, AMD
+</p>
+</li>
+<li>
+<p>
+Alan Baker, Google
+</p>
+</li>
+<li>
+<p>
+Lin Qun, AMD
+</p>
+</li>
+<li>
+<p>
+Wooyoung Kim, Qualcomm
+</p>
+</li>
+<li>
+<p>
+Krystian Andrzejewski, Intel
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_notice">Notice</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Copyright (c) 2020-2023 The Khronos Group Inc. Copyright terms at
+<a href="http://www.khronos.org/registry/speccopyright.html">http://www.khronos.org/registry/speccopyright.html</a></p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_status">Status</h2>
+<div class="sectionbody">
+<div class="ulist"><ul>
+<li>
+<p>
+Approved by the SPIR-V Working Group: 2023-05-03
+</p>
+</li>
+<li>
+<p>
+Approved by the Khronos Board of Promoters: 2023-06-16
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_version">Version</h2>
+<div class="sectionbody">
+<div class="tableblock">
+<table rules="all"
+width="40%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<col width="50%" />
+<col width="50%" />
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table">Last Modified Date</p></td>
+<td align="left" valign="top"><p class="table">2023-12-06</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Revision</p></td>
+<td align="left" valign="top"><p class="table">5</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_dependencies">Dependencies</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>This extension is written against the SPIR-V Specification,
+Version 1.6, Revision 2, Unified.</p></div>
+<div class="paragraph"><p>This extension requires SPIR-V 1.6.</p></div>
+<div class="paragraph"><p>This extension interacts with SPV_EXT_physical_storage_buffer.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_overview">Overview</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>This extension adds a new set of types known as "cooperative matrix" types,
+where the storage for and computations performed on the matrix are spread
+across a set of invocations such as a subgroup. These types give the
+implementation freedom in how to optimize matrix multiplies.</p></div>
+<div class="paragraph"><p>This extension introduces the types and instructions, but does not specify
+rules about what sizes/combinations are valid. This is left to the
+client API specs, and it is expected that different implementations may
+support different sizes. To help accommodate this, the dimensions of the
+cooperative types can be specialized via specialization constants. Since
+the scope parameter is also something that could potentially be specialized,
+this extension allows all scope ids to be specialization constants.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_extension_name">Extension Name</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>To use this extension within a SPIR-V module, the following
+<strong>OpExtension</strong> must be present in the module:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>OpExtension "SPV_KHR_cooperative_matrix"</code></pre>
+</div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_modifications_to_the_spir_v_specification_version_1_6">Modifications to the SPIR-V Specification, Version 1.6</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_2_2_terms">2.2 Terms</h3>
+<div class="paragraph"><p>Add new terms to section 2.2.2 Types:</p></div>
+<div class="paragraph"><p><a id="CooperativeMatrix"></a><em>Cooperative Matrix:</em> A two-dimensional ordered
+collection of scalars, whose storage is spread across multiple shader
+invocations.</p></div>
+<div class="paragraph"><p>Add <em>Cooperative Matrix</em> to the definition of <em>Abstract Type</em>.</p></div>
+<div class="paragraph"><p>Add <em>Cooperative Matrix</em> to the definition of <em>Composite</em>. A cooperative matrix
+is a composite with an implementation-dependent number of components
+(which can be queried with <strong>OpCooperativeMatrixLengthKHR</strong>). It can be used as a
+composite for all operations that act on composite types. The mapping
+of components to invocations and indexes is implementation-dependent.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_2_16_validation_rules">2.16 Validation Rules</h3>
+<div class="sect3">
+<h4 id="_modify_section_2_16_1_universal_validation_rules">Modify section 2.16.1. Universal Validation Rules:</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+Add <strong>OpCooperativeMatrixLoadKHR</strong> and <strong>OpCooperativeMatrixStoreKHR</strong> to the list
+of instructions under "It is invalid for a pointer to be an operand to any
+instruction other than:", when the <strong>Logical</strong> addressing model is selected and
+neither the <strong>VariablePointers</strong> nor <strong>VariablePointersStorageBuffer</strong> capability
+are declared.
+</p>
+</li>
+<li>
+<p>
+Cooperative matrix types (or types containing them) can only be allocated
+in <strong>Function</strong> or <strong>Private</strong> storage classes.
+</p>
+</li>
+<li>
+<p>
+The <strong>Matrix{A,B,C,Result}SignedComponents</strong> <em>Cooperative Matrix Operand</em> can only be
+used when the type of the corresponding matrix is an integer type.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_modify_section_2_16_2_validation_rules_for_shader_capabilities">Modify section 2.16.2. Validation Rules for Shader Capabilities:</h4>
+<div class="paragraph"><p>Replace:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+All &lt;id&gt; used for Scope &lt;id&gt; and Memory Semantics &lt;id&gt; must be of an <strong>OpConstant</strong>.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>with:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+All &lt;id&gt; used for Scope &lt;id&gt; must be the result of a constant instruction.
+</p>
+</li>
+<li>
+<p>
+All &lt;id&gt; used for Memory Semantics &lt;id&gt; must be of an <strong>OpConstant</strong>.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Add:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+If the <strong>CooperativeMatrixKHR</strong> capability is declared then the <strong>VulkanMemoryModel</strong>
+  capability must be declared as well.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_3_26_memory_operands">3.26 Memory Operands</h3>
+<div class="paragraph"><p>Modify Section 3.26, "Memory Operands":</p></div>
+<div class="paragraph"><p>In the description of <strong>MakePointerAvailable</strong>, change "Not valid with <strong>OpLoad</strong>"
+to "Not valid with <strong>OpLoad</strong> or <strong>OpCooperativeMatrixLoadKHR</strong>".</p></div>
+<div class="paragraph"><p>In the description of <strong>MakePointerVisible</strong>, change "Not valid with <strong>OpStore</strong>"
+to "Not valid with <strong>OpStore</strong> or <strong>OpCooperativeMatrixStoreKHR</strong>".</p></div>
+</div>
+<div class="sect2">
+<h3 id="_3_31_capabilities">3.31 Capabilities</h3>
+<div class="paragraph"><p>Modify Section 3.31, "Capability", adding these rows to the Capability table:</p></div>
+<div class="openblock">
+<div class="content">
+<div class="tableblock">
+<table rules="all"
+width="100%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+<thead>
+<tr>
+<th colspan="2" align="center" valign="top"> Capability </th>
+<th align="center" valign="top"> Enabling Capabilities</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table">6022</p></td>
+<td align="left" valign="top"><p class="table"><strong>CooperativeMatrixKHR</strong><br />
+Enables cooperative matrix types and instructions operating on them.</p></td>
+<td align="left" valign="top"><p class="table"></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_3_x_cooperative_matrix_operands">3.X Cooperative Matrix Operands</h3>
+<div class="paragraph"><p>New section in 3 "Binary Form".</p></div>
+<div class="openblock">
+<div class="content">
+<div class="tableblock">
+<table rules="all"
+width="100%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+<thead>
+<tr>
+<th colspan="2" align="center" valign="top"> Cooperative Matrix Operands </th>
+<th align="left" valign="top"> Enabling Capabilities</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table">0x0</p></td>
+<td align="left" valign="top"><p class="table"><strong>NoneKHR</strong></p></td>
+<td align="left" valign="top"><p class="table"></p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">0x1</p></td>
+<td align="left" valign="top"><p class="table"><strong>MatrixASignedComponentsKHR</strong><br />
+The components of matrix A are treated as signed.</p></td>
+<td align="left" valign="top"><p class="table"></p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">0x2</p></td>
+<td align="left" valign="top"><p class="table"><strong>MatrixBSignedComponentsKHR</strong><br />
+The components of matrix B are treated as signed.</p></td>
+<td align="left" valign="top"><p class="table"></p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">0x4</p></td>
+<td align="left" valign="top"><p class="table"><strong>MatrixCSignedComponentsKHR</strong><br />
+The components of matrix C are treated as signed.</p></td>
+<td align="left" valign="top"><p class="table"></p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">0x8</p></td>
+<td align="left" valign="top"><p class="table"><strong>MatrixResultSignedComponentsKHR</strong><br />
+The components of matrix Result are treated as signed.</p></td>
+<td align="left" valign="top"><p class="table"></p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">0x10</p></td>
+<td align="left" valign="top"><p class="table"><strong>SaturatingAccumulationKHR</strong><br />
+The accumulation of <em>A</em> x <em>B</em> and <em>C</em> performed by <strong>OpCooperativeMatrixMulAddKHR</strong> is saturating.</p></td>
+<td align="left" valign="top"><p class="table"></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_3_x_cooperative_matrix_layout">3.X Cooperative Matrix Layout</h3>
+<div class="paragraph"><p>New section in 3 "Binary Form".</p></div>
+<div class="openblock">
+<div class="content">
+<div class="tableblock">
+<table rules="all"
+width="100%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+<thead>
+<tr>
+<th colspan="2" align="center" valign="top"> Cooperative Matrix Layout </th>
+<th align="left" valign="top"> Enabling Capabilities</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table">0x0</p></td>
+<td align="left" valign="top"><p class="table"><strong>RowMajorKHR</strong><br />
+Elements in rows of the matrix are laid out in contiguous memory locations. Rows
+are laid out with a fixed stride communicated via the <em>Stride</em> operand to
+<strong>OpCooperativeMatrixLoadKHR</strong> or <strong>OpCooperativeMatrixStoreKHR</strong> which must be
+provided. Elements (row,*) of the result of load or store operations are taken
+in order from contiguous locations starting at <em>Pointer</em>[row*<em>Stride</em>] where
+<em>Pointer</em> is the <em>Pointer</em> operand to <strong>OpCooperativeMatrixLoadKHR</strong> or
+<strong>OpCooperativeMatrixStoreKHR</strong>. <em>Stride</em> must be greater than 0 when passed to
+<strong>OpCooperativeMatrixStoreKHR</strong> and must be greater than or equal to 0 when passed
+to <strong>OpCooperativeMatrixLoadKHR</strong>.</p></td>
+<td align="left" valign="top"><p class="table"></p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">0x1</p></td>
+<td align="left" valign="top"><p class="table"><strong>ColumnMajorKHR</strong><br />
+Elements in columns of the matrix are laid out in contiguous memory locations. Columns
+are laid out with a fixed stride communicated via the <em>Stride</em> operand to
+<strong>OpCooperativeMatrixLoadKHR</strong> or <strong>OpCooperativeMatrixStoreKHR</strong> which must be
+provided. Elements (*,col) of the result of load or store operations are taken
+in order from contiguous locations starting at <em>Pointer</em>[col*<em>Stride</em>] where
+<em>Pointer</em> is the <em>Pointer</em> operand to <strong>OpCooperativeMatrixLoadKHR</strong> or
+<strong>OpCooperativeMatrixStoreKHR</strong>. <em>Stride</em> must be greater than 0 when passed to
+<strong>OpCooperativeMatrixStoreKHR</strong> and must be greater than or equal to 0 when passed
+to <strong>OpCooperativeMatrixLoadKHR</strong>.</p></td>
+<td align="left" valign="top"><p class="table"></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_3_x_cooperative_matrix_use">3.X Cooperative Matrix Use</h3>
+<div class="paragraph"><p>New section in 3 "Binary Form".</p></div>
+<div class="openblock">
+<div class="content">
+<div class="tableblock">
+<table rules="all"
+width="100%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+<thead>
+<tr>
+<th colspan="2" align="center" valign="top"> Cooperative Matrix Use </th>
+<th align="left" valign="top"> Enabling Capabilities</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table">0</p></td>
+<td align="left" valign="top"><p class="table"><strong>MatrixAKHR</strong></p></td>
+<td align="left" valign="top"><p class="table"></p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">1</p></td>
+<td align="left" valign="top"><p class="table"><strong>MatrixBKHR</strong></p></td>
+<td align="left" valign="top"><p class="table"></p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">2</p></td>
+<td align="left" valign="top"><p class="table"><strong>MatrixAccumulatorKHR</strong></p></td>
+<td align="left" valign="top"><p class="table"></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_3_42_6_type_declaration_instructions">3.42.6 Type-Declaration Instructions</h3>
+<div class="tableblock">
+<table rules="all"
+width="100%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<col width="5%" />
+<col width="5%" />
+<col width="15%" />
+<col width="15%" />
+<col width="15%" />
+<col width="15%" />
+<col width="15%" />
+<col width="15%" />
+<tbody>
+<tr>
+<td colspan="7" align="left" valign="top"><p class="table"><a id="OpTypeCooperativeMatrixKHR"></a><strong>OpTypeCooperativeMatrixKHR</strong><br />
+<br />
+Declare a new cooperative matrix type with <em>Rows</em> rows and <em>Columns</em> columns,
+where all invocations in <em>Scope</em> cooperate to compute and store the matrix.<br />
+<br />
+<em>Component Type</em> must be a scalar <em>numerical type</em>.<br />
+<br />
+<em>Scope</em> must be a <em>constant instruction</em> with scalar 32-bit <em>integer type</em>.<br />
+<br />
+<em>Rows</em> must be a <em>constant instruction</em> with scalar 32-bit <em>integer type</em>.<br />
+<br />
+<em>Columns</em> must be a <em>constant instruction</em> with scalar 32-bit <em>integer type</em>.<br />
+<br />
+<em>Use</em> must be a <em>constant instruction</em> scalar 32-bit <em>integer type</em> whose
+value corresponds to a <em>Cooperative Matrix Use</em>.<br />
+<br />
+All dynamic instances of an instruction with an operand or result that is an
+object of this type must be executed such that all the invocations in the
+<em>Scope</em> instance are active or none of them are.
+<br /></p></td>
+<td align="left" valign="top"><p class="table">Capability:<br />
+<strong>CooperativeMatrixKHR</strong></p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">7</p></td>
+<td align="left" valign="top"><p class="table">4456</p></td>
+<td align="left" valign="top"><p class="table"><em>Result &lt;id&gt;</em></p></td>
+<td align="left" valign="top"><p class="table"><em>&lt;id&gt;</em><br />
+<em>Component Type</em></p></td>
+<td align="left" valign="top"><p class="table">Scope <em>&lt;id&gt;</em><br />
+<em>Scope</em></p></td>
+<td align="left" valign="top"><p class="table"><em>&lt;id&gt;</em><br />
+<em>Rows</em></p></td>
+<td align="left" valign="top"><p class="table"><em>&lt;id&gt;</em><br />
+<em>Columns</em></p></td>
+<td align="left" valign="top"><p class="table"><em>&lt;id&gt;</em><br />
+<em>Use</em></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_3_42_7_constant_creation_instructions">3.42.7 Constant-Creation Instructions</h3>
+<div class="paragraph"><p>Modify <strong>OpConstantComposite</strong> to make an exception for cooperative matrix types:
+"If the <em>Result Type</em> is a cooperative matrix type, then there must be only one
+<em>Constituent</em> and it is used to initialize all members."</p></div>
+</div>
+<div class="sect2">
+<h3 id="_3_42_8_memory_instructions">3.42.8 Memory Instructions</h3>
+<div class="tableblock">
+<table rules="all"
+width="100%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<col width="5%" />
+<col width="5%" />
+<col width="15%" />
+<col width="15%" />
+<col width="15%" />
+<col width="15%" />
+<col width="15%" />
+<col width="15%" />
+<tbody>
+<tr>
+<td colspan="7" align="left" valign="top"><p class="table"><a id="OpCooperativeMatrixLoadKHR"></a><strong>OpCooperativeMatrixLoadKHR</strong><br />
+<br />
+Load a cooperative matrix through a pointer.<br />
+<br />
+<em>Result Type</em> is the type of the loaded object. It must be a cooperative matrix
+type.<br />
+<br />
+<em>Pointer</em> is a pointer. Its type must be an <strong>OpTypePointer</strong> whose <em>Type</em> operand
+is a scalar or vector type. If the <strong>Shader</strong> capability was declared, <em>Pointer</em>
+must point into an array and any <strong>ArrayStride</strong> decoration on <em>Pointer</em> is ignored.<br />
+<br />
+<em>MemoryLayout</em> specifies how matrix elements are laid out in memory. It must come
+from a 32-bit integer <em>constant instruction</em> whose value corresponds to a
+<em>Cooperative Matrix Layout</em>. See the <em>Cooperative Matrix Layout</em> table for
+a description of the layouts and detailed layout-specific rules.<br />
+<br />
+<em>Stride</em> further qualifies how matrix elements are laid out in memory. It must be a
+scalar <em>integer type</em> and its exact semantics depend on <em>MemoryLayout</em>.<br />
+<br />
+<em>Memory Operand</em>, if present, must begin with a <code>Memory Operand</code> literal. If not
+present, it is the same as specifying the <code>Memory Operand</code> <strong>None</strong>.<br />
+<br />
+All the operands to this instruction must be dynamically uniform within every
+instance of the <em>Scope</em> of the cooperative matrix.
+<br /></p></td>
+<td align="left" valign="top"><p class="table">Capability:<br />
+<strong>CooperativeMatrixKHR</strong></p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">5+variable</p></td>
+<td align="left" valign="top"><p class="table">4457</p></td>
+<td align="left" valign="top"><p class="table"><em>&lt;id&gt;</em><br />
+<em>Result Type</em></p></td>
+<td align="left" valign="top"><p class="table"><em>Result &lt;id&gt;</em></p></td>
+<td align="left" valign="top"><p class="table"><em>&lt;id&gt;</em><br />
+<em>Pointer</em></p></td>
+<td align="left" valign="top"><p class="table"><em>&lt;id&gt;</em><br />
+<em>MemoryLayout</em></p></td>
+<td align="left" valign="top"><p class="table">Optional <em>&lt;id&gt;</em><br />
+<em>Stride</em></p></td>
+<td align="left" valign="top"><p class="table">Optional<br />
+<em>Memory Operand</em></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tableblock">
+<table rules="all"
+width="100%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<col width="5%" />
+<col width="5%" />
+<col width="17%" />
+<col width="17%" />
+<col width="17%" />
+<col width="17%" />
+<col width="17%" />
+<tbody>
+<tr>
+<td colspan="6" align="left" valign="top"><p class="table"><a id="OpCooperativeMatrixStoreKHR"></a><strong>OpCooperativeMatrixStoreKHR</strong><br />
+<br />
+Store a cooperative matrix through a pointer.<br />
+<br />
+<em>Pointer</em> is a pointer. Its type must be an <strong>OpTypePointer</strong> whose <em>Type</em> operand
+is a scalar or vector type. If the <strong>Shader</strong> capability was declared, <em>Pointer</em>
+must point into an array and any <strong>ArrayStride</strong> decoration on <em>Pointer</em> is ignored.<br />
+<br />
+<em>Object</em> is the object to store. Its type must be an
+<strong>OpTypeCooperativeMatrixKHR</strong>.<br />
+<br />
+<em>MemoryLayout</em> specifies how matrix elements are laid out in memory. It must come
+from a 32-bit integer <em>constant instruction</em> whose value corresponds to a
+<em>Cooperative Matrix Layout</em>. See the <em>Cooperative Matrix Layout</em> table for
+a description of the layouts and detailed layout-specific rules.<br />
+<br />
+<em>Stride</em> further qualifies how matrix elements are laid out in memory. It must be a
+scalar <em>integer type</em> and its exact semantics depend on <em>MemoryLayout</em>.<br />
+<br />
+<em>Memory Operand</em>, if present, must begin with a <code>Memory Operand</code> literal. If not
+present, it is the same as specifying the <code>Memory Operand</code> <strong>None</strong>.<br />
+<br />
+All the operands to this instruction must be dynamically uniform within every
+instance of the <em>Scope</em> of the cooperative matrix.
+<br /></p></td>
+<td align="left" valign="top"><p class="table">Capability:<br />
+<strong>CooperativeMatrixKHR</strong></p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">4+variable</p></td>
+<td align="left" valign="top"><p class="table">4458</p></td>
+<td align="left" valign="top"><p class="table"><em>&lt;id&gt;</em><br />
+<em>Pointer</em></p></td>
+<td align="left" valign="top"><p class="table"><em>&lt;id&gt;</em><br />
+<em>Object</em></p></td>
+<td align="left" valign="top"><p class="table"><em>&lt;id&gt;</em><br />
+<em>MemoryLayout</em></p></td>
+<td align="left" valign="top"><p class="table">Optional <em>&lt;id&gt;</em><br />
+<em>Stride</em></p></td>
+<td align="left" valign="top"><p class="table">Optional<br />
+<em>Memory Operand</em></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tableblock">
+<table rules="all"
+width="100%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<col width="9%" />
+<col width="9%" />
+<col width="27%" />
+<col width="27%" />
+<col width="27%" />
+<tbody>
+<tr>
+<td colspan="4" align="left" valign="top"><p class="table"><a id="OpCooperativeMatrixLengthKHR"></a><strong>OpCooperativeMatrixLengthKHR</strong><br />
+<br />
+Number of components of a cooperative matrix type accessible to the current
+invocation when treated as a composite.<br />
+<br />
+<em>Result Type</em> must be an <strong>OpTypeInt</strong> with 32-bit <em>Width</em> and 0 <em>Signedness</em>.<br />
+<br />
+<em>Type</em> is a cooperative matrix type.<br /></p></td>
+<td align="left" valign="top"><p class="table">Capability:<br />
+<strong>CooperativeMatrixKHR</strong></p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">4</p></td>
+<td align="left" valign="top"><p class="table">4460</p></td>
+<td align="left" valign="top"><p class="table"><em>&lt;id&gt;</em><br />
+<em>Result Type</em></p></td>
+<td align="left" valign="top"><p class="table"><em>Result &lt;id&gt;</em></p></td>
+<td align="left" valign="top"><p class="table"><em>&lt;id&gt;</em><br />
+<em>Type</em></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_3_42_11_conversion_instructions">3.42.11 Conversion Instructions</h3>
+<div class="paragraph"><p>Allow values of cooperative matrix type for the following conversion instructions
+(if the component types are appropriate): <strong>OpConvertFToU</strong>, <strong>OpConvertFToS</strong>,
+<strong>OpConvertSToF</strong>, <strong>OpConvertUToF</strong>, <strong>OpUConvert</strong>, <strong>OpSConvert</strong>, <strong>OpFConvert</strong>.
+Allow the use of <strong>OpBitcast</strong> on objects of cooperative matrix type whose
+<em>Component Type</em> are integer types with the same <em>Width</em>.
+The result type and value type must have the same <em>Scope</em>, number of <em>Rows</em>,
+number of <em>Columns</em>, and <em>Use</em>.</p></div>
+<div class="paragraph"><p>All the operands to this instruction must be dynamically uniform within every
+instance of the <em>Scope</em> of the cooperative matrix.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_3_42_12_composite_instructions">3.42.12 Composite Instructions</h3>
+<div class="paragraph"><p>Modify <strong>OpCompositeConstruct</strong> to make an exception for cooperative matrix types:
+"If the <em>Result Type</em> is a cooperative matrix type, then there must be only one
+<em>Constituent</em> and it is used to initialize all members. The <em>Constituent</em> must
+be dynamically uniform within the <em>Scope</em> of the cooperative matrix type.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_3_42_13_arithmetic_instructions">3.42.13 Arithmetic Instructions</h3>
+<div class="tableblock">
+<table rules="all"
+width="100%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<col width="5%" />
+<col width="5%" />
+<col width="15%" />
+<col width="15%" />
+<col width="15%" />
+<col width="15%" />
+<col width="15%" />
+<col width="15%" />
+<tbody>
+<tr>
+<td colspan="7" align="left" valign="top"><p class="table"><a id="OpCooperativeMatrixMulAddKHR"></a><strong>OpCooperativeMatrixMulAddKHR</strong><br />
+<br />
+Linear-algebraic matrix multiply of <em>A</em> by <em>B</em> and then component-wise
+add <em>C</em>. The order of the operations is implementation-dependent. The
+internal precision of floating-point operations is defined by the client
+API. Integer operations used in the multiplication of <em>A</em> by <em>B</em> are
+performed at the precision of the <em>Result Type</em> and the resulting value
+will equal the low-order N bits of the correct result R, where N is the
+result width and R is computed with enough precision to avoid overflow
+and underflow if the <strong>SaturatingAccumulation</strong> <em>Cooperative Matrix Operand</em>
+is not present. If the <strong>SaturatingAccumulation</strong> <em>Cooperative Matrix Operand</em>
+is present and overflow or underflow occurs as part of calculating that
+intermediate result, the result of the instruction is undefined. Integer
+additions of the elements of that intermediate
+result with those of <em>C</em> are performed at the precision of <em>Result Type</em>,
+are exact, and are saturating if the <strong>SaturatingAccumulation</strong>
+<em>Cooperative Matrix Operand</em> is present, with the signedness of the saturation
+being that of the components of <em>Result Type</em>. If the <strong>SaturatingAccumulation</strong>
+<em>Cooperative Matrix Operand</em> is not present then the resulting value will equal
+the low-order N bits of the correct result R, where N is the result width and
+R is computed with enough precision to avoid overflow and underflow.<br />
+<br />
+<em>Result Type</em> must be a cooperative matrix type with M rows and N columns
+whose <em>Use</em> must be <em>MatrixAccumulatorKHR</em>.<br />
+<br />
+<em>A</em> is a cooperative matrix with M rows and K columns whose <em>Use</em> must be <em>MatrixAKHR</em>.<br />
+<br />
+<em>B</em> is a cooperative matrix with K rows and N columns whose <em>Use</em> must be <em>MatrixBKHR</em>.<br />
+<br />
+<em>C</em> is a cooperative matrix with M rows and N columns whose <em>Use</em> must be <em>MatrixAccumulatorKHR</em>.<br />
+<br />
+The values of M, N, and K must be consistent across the result and operands.
+This is referred to as an <em>MxNxK</em> matrix multiply.<br />
+<br />
+<em>A</em>, <em>B</em>, <em>C</em>, and <em>Result Type</em> must have the same scope, and this defines
+the scope of the operation. <em>A</em>, <em>B</em>, <em>C</em>, and <em>Result Type</em> need not
+necessarily have the same component type, this is defined by the client API.<br />
+<br />
+If the <em>Component Type</em> of any matrix operand is an integer type, then its
+components are treated as signed if the <strong>Matrix{A,B,C,Result}SignedComponents</strong>
+<em>Cooperative Matrix Operand</em> is present and are treated as unsigned otherwise.<br />
+<br />
+<em>Cooperative Matrix Operands</em> is an optional <em>Cooperative Matrix Operand</em> literal. If
+not present, it is the same as specifying the <em>Cooperative Matrix Operand</em> <strong>None</strong>.<br />
+<br />
+All the operands to this instruction must be dynamically uniform within every
+instance of the <em>Scope</em> of the cooperative matrix.
+<br /></p></td>
+<td align="left" valign="top"><p class="table">Capability:<br />
+<strong>CooperativeMatrixKHR</strong></p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">6+variable</p></td>
+<td align="left" valign="top"><p class="table">4459</p></td>
+<td align="left" valign="top"><p class="table"><em>&lt;id&gt;</em><br />
+<em>Result Type</em></p></td>
+<td align="left" valign="top"><p class="table"><em>Result &lt;id&gt;</em></p></td>
+<td align="left" valign="top"><p class="table"><em>&lt;id&gt;</em><br />
+<em>A</em></p></td>
+<td align="left" valign="top"><p class="table"><em>&lt;id&gt;</em><br />
+<em>B</em></p></td>
+<td align="left" valign="top"><p class="table"><em>&lt;id&gt;</em><br />
+<em>C</em>'</p></td>
+<td align="left" valign="top"><p class="table">Optional<br />
+<em>Cooperative Matrix Operands</em></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="paragraph"><p>Allow cooperative matrix types for the following arithmetic instructions:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<strong>OpSNegate</strong> and <strong>OpFNegate</strong>
+</p>
+</li>
+<li>
+<p>
+<strong>OpIAdd</strong>, <strong>OpFAdd</strong>, <strong>OpISub</strong>, <strong>OpFSub</strong>, <strong>OpFMul</strong>, <strong>OpIMul</strong>,
+  <strong>OpFDiv</strong>, <strong>OpSDiv</strong>, and <strong>OpUDiv</strong>.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>if their <em>Component Type</em> is appropriate:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<strong>OpF</strong> instructions can be used with cooperative matrix types whose
+  <em>Component Type</em> is a floating-point type.
+</p>
+</li>
+<li>
+<p>
+<strong>OpI</strong>, <strong>OpS</strong>, and <strong>OpU</strong> instructions can be used with cooperative
+  matrix types whose <em>Component Type</em> is an integer type.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Unary arithmetic instructions operate on the individual elements of the cooperative
+matrices.</p></div>
+<div class="paragraph"><p>Binary arithmetic instructions operate on the individual elements of a pair
+of cooperative matrices whose type must match.</p></div>
+<div class="paragraph"><p>Allow cooperative matrix types for <strong>OpMatrixTimesScalar</strong>.</p></div>
+<div class="paragraph"><p>All the operands to this instruction must be dynamically uniform within every
+instance of the <em>Scope</em> of the cooperative matrix.</p></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_issues">Issues</h2>
+<div class="sectionbody">
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+Should cooperative operations imply a fixed scope (e.g. Subgroup) or be more
+flexible?
+</p>
+<div class="openblock">
+<div class="content">
+<div class="paragraph"><p>Discussion: Some hardware (e.g. NVidia Volta) use a smaller scope than the typical
+Subgroup size, and it is plausible that other implementations could also want a
+different scope.</p></div>
+<div class="paragraph"><p><strong>RESOLVED</strong>: Allow a specialization constant scope.</p></div>
+</div></div>
+</li>
+<li>
+<p>
+Should we have capabilities for each MxNxK matrix multiply "size" that is
+supported?
+</p>
+<div class="openblock">
+<div class="content">
+<div class="paragraph"><p>Discussion: It&#8217;s nice for validation if the shader instructions can be
+validated solely based on the OpCapability instructions. But that already
+breaks down for spec-constant-defined cooperative matrix types.</p></div>
+<div class="paragraph"><p><strong>RESOLVED</strong>: Just one capability for the overall feature.</p></div>
+</div></div>
+</li>
+<li>
+<p>
+Should strides be in bytes or elements?
+</p>
+<div class="openblock">
+<div class="content">
+<div class="paragraph"><p>Discussion: Using elements helps avoid the unsupportable (or more difficult
+to support) cases.</p></div>
+<div class="paragraph"><p><strong>RESOLVED</strong>: Stride is in elements of the pointee type (which can be different
+than the matrix component type).</p></div>
+</div></div>
+</li>
+<li>
+<p>
+Should we allow matrices to be stored in an opaque layout in shared
+memory?
+</p>
+<div class="openblock">
+<div class="content">
+<div class="paragraph"><p>Discussion: Some implementation need opaque layouts for optimal performance.</p></div>
+<div class="paragraph"><p><strong>RESOLVED</strong>: Load/store instructions accept a layout operand that vendors can
+use to select custom layouts.</p></div>
+</div></div>
+</li>
+<li>
+<p>
+Should the <em>MemoryLayout</em> operand be a literal constant, or a constant
+instruction?
+</p>
+<div class="openblock">
+<div class="content">
+<div class="paragraph"><p>Discussion: Constant instructions are more general, and easier for code
+generation.</p></div>
+<div class="paragraph"><p><strong>RESOLVED</strong>: Constant instruction.</p></div>
+</div></div>
+</li>
+<li>
+<p>
+Should we allow OpTranspose on cooperative matrix types?
+</p>
+<div class="openblock">
+<div class="content">
+<div class="paragraph"><p>Discussion: Most implementations are expected to support a restricted set of
+sizes where the transpose of a matrix will sometimes not be a valid type; it&#8217;s
+unclear if this is useful.</p></div>
+<div class="paragraph"><p><strong>RESOLVED</strong>: Not supported in this extension.</p></div>
+</div></div>
+</li>
+<li>
+<p>
+What should the Pointer operand to a cooperative Load/Store be?
+</p>
+<div class="openblock">
+<div class="content">
+<div class="paragraph"><p>Discussion: The spec currently chooses to have the Pointer parameter point at
+the first element of the matrix in memory, and this pointer is assumed to be
+in the middle of an array. Another option would be to have the Pointer
+parameter be a pointer to the whole array, and have an additional "Element"
+parameter to the instructions, which indicates where the matrix starts in the
+array.</p></div>
+<div class="paragraph"><p>The alternative option&#8217;s main benefit is that you don&#8217;t end up with a pointer
+parameter being used to access something it does not point to. However, it
+effectively splits out the last element of the access chain into the
+load/store instruction, which is kind of weird. And in the first option, the
+pointer to the array is still there implicitly in the access chain.</p></div>
+<div class="paragraph"><p><strong>RESOLVED</strong>: Pointer points to the first element of the array.</p></div>
+</div></div>
+</li>
+<li>
+<p>
+Should we allow the Pointer type and matrix component type to mismatch?
+</p>
+<div class="openblock">
+<div class="content">
+<div class="paragraph"><p><strong>RESOLVED</strong>: Yes, this makes it easier to efficiently load matrix data into
+shared memory, which can be declared to use a larger type (e.g. uvec4). The
+<em>Stride</em> parameter is interpreted in units of the pointed-to type, not in
+units of the matrix&#8217;s component type.</p></div>
+</div></div>
+</li>
+<li>
+<p>
+Should we make it possible to use <strong>OpMatrixTimesScalar</strong> with OpenCL?
+</p>
+<div class="openblock">
+<div class="content">
+<div class="paragraph"><p><strong>RESOLVED</strong>: No, this instruction is not generally supported in OpenCL
+environments and the same can be achieved either via an elementwise
+multiplication with a cooperative matrix object created from the scalar
+using <strong>OpConstantComposite</strong> or by iterating over the elements of the
+cooperative matrix to multiply each element by the scalar.</p></div>
+</div></div>
+</li>
+<li>
+<p>
+Both the <em>Stride</em> and <em>Memory Operand</em> operands to <strong>OpCooperativeMatrixLoadKHR</strong>
+and <strong>OpCooperativeMatrixStoreKHR</strong> are optional. Can <em>Memory Operand</em> be provided
+alone?
+</p>
+<div class="openblock">
+<div class="content">
+<div class="paragraph"><p><strong>RESOLVED</strong>: No, in line with core SPIR-V rules, all optional operands that
+appear before a given optional operand must be provided for it to be possible to
+provide that given optional operand. Only the following combinations are valid:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+None of the optional operands are present.
+</p>
+</li>
+<li>
+<p>
+<em>Stride</em> alone is present.
+</p>
+</li>
+<li>
+<p>
+<em>Stride</em> and <em>Memory Operand</em> are both present.
+</p>
+</li>
+</ul></div>
+</div></div>
+</li>
+<li>
+<p>
+Can elements of cooperative matrix objects treated as composites be
+accessed in non-uniform control flow?
+</p>
+<div class="openblock">
+<div class="content">
+<div class="paragraph"><p><strong>RESOLVED</strong>: Yes, control flow uniformity requirements apply to instructions
+whose operands are cooperative matrix objects but not pointers to cooperative
+matrix objects. Dereferencing a pointer to an element of a cooperative matrix
+object can be done in non-uniform control flow.</p></div>
+</div></div>
+</li>
+</ol></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_revision_history">Revision History</h2>
+<div class="sectionbody">
+<div class="tableblock">
+<table rules="rows"
+width="100%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<col width="4%" />
+<col width="14%" />
+<col width="14%" />
+<col width="66%" />
+<thead>
+<tr>
+<th align="left" valign="top">Rev</th>
+<th align="left" valign="top">Date</th>
+<th align="left" valign="top">Author</th>
+<th align="left" valign="top">Changes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table">5</p></td>
+<td align="left" valign="top"><p class="table">2023-12-06</p></td>
+<td align="left" valign="top"><p class="table">Kevin Petit</p></td>
+<td align="left" valign="top"><p class="table">Clarifications, mostly of uniformity rules</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">4</p></td>
+<td align="left" valign="top"><p class="table">2023-07-26</p></td>
+<td align="left" valign="top"><p class="table">Kevin Petit</p></td>
+<td align="left" valign="top"><p class="table">Add KHR suffixes to Cooperative Matrix Operands</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">3</p></td>
+<td align="left" valign="top"><p class="table">2023-05-03</p></td>
+<td align="left" valign="top"><p class="table">Kevin Petit</p></td>
+<td align="left" valign="top"><p class="table">Initial revision of SPV_KHR_cooperative_matrix</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">2</p></td>
+<td align="left" valign="top"><p class="table">2019-07-12</p></td>
+<td align="left" valign="top"><p class="table">Jeff Bolz</p></td>
+<td align="left" valign="top"><p class="table">Added details for integer operations</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">1</p></td>
+<td align="left" valign="top"><p class="table">2019-01-30</p></td>
+<td align="left" valign="top"><p class="table">Jeff Bolz</p></td>
+<td align="left" valign="top"><p class="table">Initial revision of SPV_NV_cooperative_matrix</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div id="footnotes"><hr /></div>
+<div id="footer">
+<div id="footer-text">
+Last updated
+ 2023-12-06 10:40:44 GMT
+</div>
+</div>
+</body>
+</html>
