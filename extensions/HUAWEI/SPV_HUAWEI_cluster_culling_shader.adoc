@@ -12,23 +12,23 @@ https://github.com/KhronosGroup/SPIRV-Registry
 
 == Contributors
 - Cheng Wei, HUAWEI
+- Jinyongjie, HUAWEI
 - Yuchang Wang, HUAWEI
 
 == Status
-Draft
+Complete.
 
 == Version
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2022-11-16
-| Revision           | 1
+| Last Modified Date | {docdate}
 |========================================
 
 Dependencies
 This extension is written against the SPIR-V Specification, Version 1.6
 
 == Overview
-This extensions provides SPIR-V support for the *GLSL GL_HUAWEI_cluster_culling_shader* extension which adds a new programmable shader types - cluster culling shaders - that has an execution environment similar to that of compute shaders. The developer can use this new shader to perform coarse-level geometry culling on GPU and direct emit visible cluster to the subsequent rendering pipeline.
+This extensions provides SPIR-V support for the *GLSL GL_HUAWEI_cluster_culling_shader* extension which adds a new programmable shader types - cluster culling shaders - that has an execution environment similar to that of compute shaders. The developer can use this new shader to perform coarse-level geometry culling on GPU and direct emit visible cluster with a shading rate to the subsequent rendering pipeline.
 
 == Extension Name
 To use this extension within a SPIR-V module, the following *OpExtension* must be present in the module
@@ -88,7 +88,10 @@ Cluster Culling shading stage. | *ClusterCullingShadingHUAWEI*
 |*SPV_HUAWEI_cluster_culling_shader*
 
 | 6281 | *ClusterIdHUAWEI* This variable specifies the index of cluster being rendered by this drawing command. 	 
- This id passed to vertex shader for cluster-related information fetching.
+ This id can be passed from CCS to the vertex shader, so that the vertex shader can also get information related to the cluster.
+|*SPV_HUAWEI_cluster_culling_shader*
+
+| 6283 | *ClusterShadingRateHUAWEI* This variable specifies the shading rate of a cluster being rendered by this drawing command.
 |*SPV_HUAWEI_cluster_culling_shader*
 
 |====
@@ -101,5 +104,17 @@ ClusterCulingShadingHUAWEI
 | 6282 | 6273 |
 |====
 
+== Issues
+
+None.
+
+== Revision History
+
+[cols="^,<,<,<",options="header",]
+|========================================================
+|Rev|Date|Author|Changes
+|1|2022-11-16|Yu-Chang Wang|*Initial Public Release*
+|2|{docdate}|Yu-Chang Wang|*add cluster shading rate*
+|========================================================
 
 
