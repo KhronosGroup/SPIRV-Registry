@@ -18,6 +18,7 @@ Contributors
 - Hai Nguyen, Google
 - David Neto, Google
 - Ehsan Nasiri, Google
+- Natalie Chouinard, Google
 
 Status
 ------
@@ -45,13 +46,13 @@ extension.
 
 Overview
 --------
-This extension provides one new decoration, UserTypeGOOGLE, that allows HLL
+This extension provides one new decoration, UserTypeGOOGLE, that allows HLSL
 shader compilers to optionally embed unambiguous type information.
 
-The decoration UserTypeGOOGLE is used with OpDecorateStringGOOGLE and
-OpMemberDecorateStringGOOGLE to store a string name for the type of the
-decorated object in the user's source. It can decorate only a variable, a
-type, or a member of a structure type. This has no semantic impact.
+The decoration UserTypeGOOGLE is used with OpDecorateString(GOOGLE) and
+OpMemberDecorateString(GOOGLE) to store a string name for the type of the
+decorated object in the user's source. It can decorate only a variable, a
+type, or a member of a structure type. This has no semantic impact.
 
 The following table describes standard HLSL resource types and their
 corresponding string names:
@@ -60,33 +61,52 @@ corresponding string names:
 [cols="70%,30%"]
 [grid="rows"]
 |====
-|cbuffer                 | cbuffer
-|tbuffer                 | tbuffer
-|AppendStructuredBuffer  | appendstructuredbuffer
-|Buffer                  | buffer
-|ByteAddressBuffer       | byteaddressbuffer
-|ConsumeStructuredBuffer | consumestructuredbuffer
-|InputPatch              | inputpatch
-|OutputPatch             | outputpatch
-|RWBuffer                | rwbuffer
-|RWByteAddressBuffer     | rwbyteaddressbuffer
-|RWStructuredBuffer      | rwstructuredbuffer
-|RWTexture1D             | rwtexture1d
-|RWTexture1DArray        | rwtexture1darray
-|RWTexture2D             | rwtexture2d
-|RWTexture2DArray        | rwtexture2darray
-|RWTexture3D             | rwtexture3d
-|StructuredBuffer        | structuredbuffer
-|Texture1D               | texture1d
-|Texture1DArray          | texture1darray
-|Texture2D               | texture2d
-|Texture2DArray          | texture2darray
-|Texture2DMS             | texture2dms
-|Texture2DMSArray        | texture2dmsarray
-|Texture3D               | texture3d
-|TextureCube             | texturecube
-|TextureCubeArray        | texturecubearray
+|cbuffer                            | cbuffer
+|tbuffer                            | tbuffer
+|AppendStructuredBuffer             | appendstructuredbuffer
+|Buffer                             | buffer
+|ByteAddressBuffer                  | byteaddressbuffer
+|ConstantBuffer                     | constantbuffer
+|ConsumeStructuredBuffer            | consumestructuredbuffer
+|InputPatch                         | inputpatch
+|OutputPatch                        | outputpatch
+|RasterizerOrderedBuffer            | rasterizerorderedbuffer
+|RasterizerOrderedByteAddressBuffer | rasterizerorderedbyteaddressbuffer
+|RasterizerOrderedStructuredBuffer  | rasterizerorderedstructuredbuffer
+|RasterizerOrderedTexture1D         | rasterizerorderedtexture1d
+|RasterizerOrderedTexture1DArray    | rasterizerorderedtexture1darray
+|RasterizerOrderedTexture2D         | rasterizerorderedtexture2d
+|RasterizerOrderedTexture2DArray    | rasterizerorderedtexture2darray
+|RasterizerOrderedTexture3D         | rasterizerorderedtexture3d
+|RaytracingAccelerationStructure    | raytracingaccelerationstructure
+|RWBuffer                           | rwbuffer
+|RWByteAddressBuffer                | rwbyteaddressbuffer
+|RWStructuredBuffer                 | rwstructuredbuffer
+|RWTexture1D                        | rwtexture1d
+|RWTexture1DArray                   | rwtexture1darray
+|RWTexture2D                        | rwtexture2d
+|RWTexture2DArray                   | rwtexture2darray
+|RWTexture3D                        | rwtexture3d
+|StructuredBuffer                   | structuredbuffer
+|SubpassInput                       | subpassinput
+|SubpassInputMS                     | subpassinputms
+|Texture1D                          | texture1d
+|Texture1DArray                     | texture1darray
+|Texture2D                          | texture2d
+|Texture2DArray                     | texture2darray
+|Texture2DMS                        | texture2dms
+|Texture2DMSArray                   | texture2dmsarray
+|Texture3D                          | texture3d
+|TextureBuffer                      | texturebuffer
+|TextureCube                        | texturecube
+|TextureCubeArray                   | texturecubearray
 |====
+
+If the HLSL type includes template parameters, they will be appended to the
+corresponding string name in the format `:<comma-separated-list>`. For example,
+the SPIR-V variable corresponding to an HLSL variable with type
+`Texture2DMSArray<float4, 64>` would be decorated with
+`"texture2dmsarray:<float4,64>"`.
 
 Extension Name
 --------------
@@ -176,4 +196,5 @@ Revision History
 |2 |2019-05-17 |Hai Nguyen|Added GOOGLE suffix and token number
 |3 |2019-05-17 |David Neto|Clarified definition of UserTypeGOOGLE
 |4 |2019-07-30 |Ehsan Nasiri|Added table of user type names
+|5 |2024-01-22 |Natalie Chouinard|Added and disambiguated some type names
 |========================================
