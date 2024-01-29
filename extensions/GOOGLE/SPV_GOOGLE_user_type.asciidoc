@@ -29,7 +29,7 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2024-01-25
+| Last Modified Date | 2024-01-29
 | Revision           | 5
 |========================================
 
@@ -196,5 +196,5 @@ Revision History
 |2 |2019-05-17 |Hai Nguyen|Added GOOGLE suffix and token number
 |3 |2019-05-17 |David Neto|Clarified definition of UserTypeGOOGLE
 |4 |2019-07-30 |Ehsan Nasiri|Added table of user type names
-|5 |2024-01-22 |Natalie Chouinard|Added and disambiguated some type names
+|5 |2024-01-29 |Natalie Chouinard|Added and disambiguated some type names
 |========================================
