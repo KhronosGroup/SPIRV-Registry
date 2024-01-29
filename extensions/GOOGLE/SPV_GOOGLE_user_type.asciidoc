@@ -46,7 +46,7 @@ extension.
 
 Overview
 --------
-This extension provides one new decoration, UserTypeGOOGLE, that allows HLSL
+This extension provides one new decoration, UserTypeGOOGLE, that allows HLL
 shader compilers to optionally embed unambiguous type information.
 
 The decoration UserTypeGOOGLE is used with OpDecorateString(GOOGLE) and
