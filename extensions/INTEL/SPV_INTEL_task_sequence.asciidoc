@@ -1,4 +1,4 @@
-        extensions/INTEL/SPV_INTEL_task_sequence.asciidoc= SPV_INTEL_task_sequence
+= SPV_INTEL_task_sequence
 
 == Name Strings
 
@@ -16,15 +16,15 @@ https://github.com/KhronosGroup/SPIRV-Headers
 - Joe Garvey, Intel +
 - Robert Ho, Intel +
 - Michael Kinsner, Intel +
-- Abhishek Tiwari, Intel
-
+- Abhishek Tiwari, Intel +
+- Bowen Xue, Intel
 == Notice
 
-Copyright (c) 2022-2023 Intel Corporation.  All rights reserved.
+Copyright (c) 2022-2024 Intel Corporation.  All rights reserved.
 
 == Status
 
-Initial draft
+Complete
 
 == Version
 
@@ -41,93 +41,231 @@ Version 1.6 Revision 2.
 
 This extension requires SPIR-V 1.0.
 
-This extension requires the SPV_INTEL_function_pointers extension.
-
 == Overview
 
-A task sequence is an abstraction of a sequence of invocations of a function
-that can execute asynchronously from the caller and each other. It provides a
-means to express sub-kernel task-level parallelism.
+A task sequence is an abstraction of a sequence of calls to a function that can
+execute asynchronously from the caller and each other. This extension introduces
+four new instructions that support task sequence execution.
 
-This extension introduces four new instructions that support task sequence
-execution.
-
-The `OpTaskSequenceCreateINTEL` instruction creates a task_sequence to which
+The *OpTaskSequenceCreateINTEL* instruction creates a task sequence to which
 asynchronous function calls can be submitted through the
-`OpTaskSequenceAsyncINTEL` function. The results of those function calls can be
-queried with the `OpTaskSequenceGetINTEL` function. Function invocations
-submitted to different task_sequences have stronger forward progress guarantees
-than functions submitted to the same task_sequence as described in the next
-section. The weaker forward progress guarantees for functions submitted to the
-same task_sequence can enable more efficient implementations, particularly on
-FPGA devices.
+*OpTaskSequenceAsyncINTEL* instruction. The results of those function calls can
+be queried with the *OpTaskSequenceGetINTEL* instruction.
+
+=== Task Sequence and Task Threads
+
+A task sequence object can be created by calling *OpTaskSequenceCreateINTEL*. 
+The *OpTaskSequenceAsyncINTEL*, *OpTaskSequenceGetINTEL*, and
+*OpTaskSequenceReleaseINTEL* instructions take a task sequence object as an
+argument. The *OpTaskSequenceAsyncINTEL* instruction creates a invocation which
+will be referred to as a 'task thread' in this document. This task thread is
+said to belong to the task sequence specified to the *OpTaskSequenceAsyncINTEL*
+instruction. The *OpTaskSequenceGetINTEL* instruction returns the result of a
+task thread in the specified task sequence. Results are returned from the task
+sequence in the same order as the *OpTaskSequenceAsyncINTEL* calls are made to
+the task sequence.
+
+An *OpFunction* `f` is passed as an argument to the *OpTaskSequenceCreateINTEL*
+instruction. The task threads belonging to a task sequence asynchronously
+execute `f` and they may run in parallel with the caller and with any other
+task threads. The implementation is not required to run these task threads in
+parallel except in so far as is necessary to meet the forward progress
+guarantees outlined in the section below.
 
 === Forward Progress Guarantees and Execution Model
 
-The `OpTaskSequenceAsyncINTEL` instruction asynchronously invokes the function
-`f` pointed to by its pointer argument. By calling `OpTaskSequenceAsyncINTEL` on
-a function `f`, it is implied that the invocation of `f` can be run in parallel
-with the caller and with any other `OpTaskSequenceAsyncINTEL` calls that have
-not yet completed. The implementation is, however, not obligated to run these
-invocations in parallel except in so far as is necessary to meet the forward
-progress guarantees outlined below. This instruction results in a non-blocking
-call which may return before the asynchronous `f` invocation completes
-execution, and potentially before `f` even begins executing.
+A task thread is a new *Invocation* which has a *LocalInvocationId*,
+*GlobalInvocationId*, and *WorkgroupId* of 0, *WorkgroupSize* and *GlobalSize*
+of 1 and *LocalSize* of 1, 1, 1. It does not share *Workgroup* storage class
+memory or *Function* storage class memory with the caller or with other task
+threads. It can access memory from *CrossWorkgroup* storage class. A task thread
+cannot synchronize with the caller or with other task threads using a barrier.
 
-The `OpTaskSequenceGetINTEL` instruction will return results in the same order
-in which the `OpTaskSequenceAsyncINTEL` instruction is invoked.
+NOTE: Calling *OpTaskSequenceAsyncINTEL* is analogous to enqueuing an OpenCL
+kernel with `global_work_offset, global_work_size, local_work_size` set to
+`0, 1, 1`, i.e., a task kernel. This extension does not support
+any instruction which would be analogous to enqueuing a kernel with a different
+geometry.
+
+An *OpTaskSequenceAsyncINTEL* call is guaranteed to not block the caller as long
+as the number of task threads in the task sequence is strictly less than the
+`AsyncCapacity` of the sequence.
+
+A task thread executes `f` and then writes its completion status and
+results to an output data structure _D_ associated with the sequence. The
+task thread can only write into _D_ if there is space available in it and the
+task thread ceases to exist after writing its results. The implementation must
+ensure that at least `GetCapacity` task threads can store their outputs to _D_.
+Results are removed from _D_ when they are retrieved by *OpTaskSequenceGetINTEL*
+calls. An *OpTaskSequenceGetINTEL* call is guaranteed to block the caller if
+there are no results stored in _D_.
 
 C{plus}{plus} defines a framework for describing the
-http://eel.is/c++draft/intro.progress[forward progress] of individual threads
-with respect to one another in a multi-threaded program.
+https://en.cppreference.com/w/cpp/language/memory_model[forward progress] of
+individual thread of execution in a multi-threaded program. Here are the terms
+and definitions from the C{plus}{plus} specification that we will use to define
+progress guarantees for task threads:
 
-Applying this framework to `task_sequence`, asynchronous tasks belonging to the
-same `task_sequence` object (i.e., where `OpTaskSequenceAsyncINTEL` is invoked
-with the same pointer argument) provide a
-http://eel.is/c++draft/intro.progress#11[weakly parallel forward progress
-guarantee]. That is, tasks belonging to a `task_sequence` object are not
-guaranteed to make forward progress with respect to each other.
+1. Weakly parallel forward progress guarantee: the implementation does not
+ensure that the thread will eventually make progress.
+2. Concurrent forward progress guarantee: the implementation ensures
+that the thread will eventually make progress for as long as it has not
+terminated.
+3. Blocking with forward progress guarantee delegation: When a thread of
+execution _A_ is specified to block with forward progress guarantee delegation
+on the completion of a set _M_ of threads of execution, then throughout the
+whole time of _A_ being blocked on _M_, the implementation shall ensure that the
+forward progress guarantees provided by at least one thread of execution in _M_
+is at least as strong as _A_'s forward progress guarantees. It is unspecified
+which thread or threads of execution in _M_ are chosen and for which number of
+execution steps. The strengthening is not necessarily in place for the rest of
+the lifetime of the affected thread of execution.
+Using the above definitions, the progress guarantees for task threads are
+defined as follows:
 
-Tasks belonging to different `task_sequence` objects (i.e., where
-`OpTaskSequenceAsyncINTEL` is invoked for different pointer arguments)
-provide a http://eel.is/c++draft/intro.progress#9[parallel forward progress
- guarantee] with respect to each other. That is, tasks belonging to different
- `task_sequence` objects are guaranteed to make forward progress with respect to
- each other once they have been initiated.
+ - When a task sequence object _O_ is created by *OpTaskSequenceCreateINTEL*, a
+ task sequence object thread is also created.
 
-Tasks belonging to a `task_sequence` object provide a
-http://eel.is/c++draft/intro.progress#9[parallel forward progress guarantee]
-with respect to their caller. That is, a task sequence's tasks are guaranteed
-to make forward progress with respect to their caller (that invoked
-`OpTaskSequenceAsyncINTEL`).
+ - At any point in time, the progress guarantee of all task sequence object
+ threads created by a work item _WI_ matches that of _WI_. For example,
+ if _WI_ is strengthened to have a stronger progress guarantee than its
+ initial guarantee, all of the task sequence object threads created by _WI_
+ are also strengthened.
 
-`OpTaskSequenceAsyncINTEL` takes an argument `AsyncCapacity`.
-`OpTaskSequenceAsyncINTEL` calls are guaranteed to not block if the number of
-outstanding calls are less than or equal to `AsyncCapacity`. An outstanding
-invocation is a call to `OpTaskSequenceAsyncINTEL` whose corresponding result
-has not yet been retrieved by a call to `OpTaskSequenceGetINTEL`.
-`OpTaskSequenceAsyncINTEL` may block if outstanding calls exceed
-`AsyncCapacity`.
+  - A call to `OpTaskSequenceAsyncINTEL(O, ...)` will result in creation of a
+ task thread. `OpTaskSequenceAsyncINTEL(O, ...)` can be called multiple times
+ to create multiple task threads for _O_. A task thread has weakly parallel
+ forward progress guarantee.
 
-`OpTaskSequenceGetINTEL` takes an argument `GetCapacity`. If the number of
-outstanding invocations of `OpTaskSequenceAsyncINTEL` is less than or equal to
-`GetCapacity`, the implementation must guarantee that at least one outstanding
-invocation will make forward progress.
+ - Upon creation, a task sequence object thread _P_ immediately blocks on the
+ set _S_ of task threads that belong to _O_ with forward progress guarantee
+ delegation.
 
-However, if there are more than `GetCapacity` number of outstanding
-`OpTaskSequenceAsyncINTEL` invocations, none of them are guaranteed to make any
-progress until at least one more `OpTaskSequenceGetINTEL` is called. This is
-analogous to the concept of 'blocking with forward progress guarantee
-delegation' used by parallel algorithms in the C++ standard library:
+ - If a task thread with concurrent forward progress guarantee has finished
+ executing `f` and if it can write its results to the output data structure _D_,
+ then it does so and some other task thread in _S_ is strengthened to have
+ concurrent forward progress guarantee. If a task thread cannot write its
+ results to _D_, the task thread blocks until space is available.
 
-If a thread offers weakly parallel forward progress guarantee, it does not
-guarantee to eventually make progress, regardless of whether other threads make
-progress or not. Such threads can still be guaranteed to make progress by
-blocking with forward progress guarantee delegation: if a thread P blocks in
-this manner on the completion of a set of threads S, then at least one thread in
-S will offer a forward progress guarantee that is same or stronger than P. Once
-that thread completes, another thread in S will be similarly strengthened. Once
-the set is empty, P will unblock.
+The two examples below, respectively, show the following:
+
+1. How strengthening of a work item strengthens the task threads.
+
+2. How a task thread delegates its progress guarantee to other task threads in
+the same task sequence object.
+
+Example 1 uses the following pseudo-code program:
+
+```
+// A work item WI
+{
+  ...
+  TaskSeqObject1 = OpTaskSequenceCreateINTEL(SomeFunction, ...); // Object_1_Thread
+  OpTaskSequenceAsyncINTEL(TaskSeqObject1, ...); // Task_1_1
+  OpTaskSequenceAsyncINTEL(TaskSeqObject1, ...); // Task_1_2
+  ...
+  TaskSeqObject2 = OpTaskSequenceCreateINTEL(SomeFunction, ...); // Object_2_Thread
+  OpTaskSequenceAsyncINTEL(TaskSeqObject2, ...); // Task_2_1
+  OpTaskSequenceAsyncINTEL(TaskSeqObject2, ...); // Task_2_2
+}
+```
+The *OpTaskSequenceCreateINTEL* calls create task object threads
+_Object_1_Thread_ and _Object_2_Thread_. The first two
+*OpTaskSequenceAsyncINTEL* calls create task threads _Task_1_1_ and _Task_1_2_.
+Similarly the next two calls create _Task_2_1_ and _Task_2_2_.
+
+The table below provides a view of the hierarchy of task threads that will be
+generated.
+
+.Hierarchy of task threads.
+[cols="s,,,,"]
+|=====
+// row 1, cells 2 spans 4 cells hence the '4+' before '|'
+| Work Item 4+^| _WI_
+// row 2, cells after the first one span 2 cells each
+|Task Sequence Object Thread
+2+^|_Object_1_Thread_
+2+^| _Object_2_Thread_
+// row 3
+| Task Thread
+^| _Task_1_1_
+^|__Task_1_2__
+^|_Task_2_1_
+^|_Task_2_2_
+|=====
+
+At some initial stage, all task threads have weakly parallel forward progress
+guarantee. If _WI_ is strengthened to have concurrent forward progress
+guarantee, then all of the object threads are also strengthened. Next, in this
+example one task thread for each task sequence is also strengthened. This is
+depicted in the table below (progress guarantee for each thread is in
+parenthesis):
+
+.Possible Progress Guarantees at some time after _WI_ is strengthened.
+[cols="s,,,,"]
+|=====
+// row 1, cells 2 spans 4 cells hence the '4+' before '|'
+| Work Item
+4+^| _WI_ (concurrently parallel)
+// row 2, cells after the first one span 2 cells each
+|Task Sequence Object Thread
+2+^|_Object_1_Thread_ (concurrent)
+2+^| _Object_2_Thread_ (concurrent)
+// row 3
+| Task Thread
+^| _Task_1_1_ (weakly parallel)
+^|__Task_1_2__ (concurrent)
+^|_Task_2_1_ (concurrent)
+^|_Task_2_2_ (weakly parallel)
+|=====
+
+The next example shows how a task thread delegates its progress
+guarantee to another task thread:
+
+Assume that we have a task sequence _TS_ with `GetCapacity` of 1 and
+`AsyncCapacity` of 5. Four *OpTaskSequenceAsyncINTEL* calls create the
+following task threads: _T1_, _T2_, _T3_ and _T4_, for _TS_. _T1_ has
+concurrent forward progress guarantee after getting strengthened, while
+_T2_, _T3_ and _T4_ have  weakly parallel forward progress guarantees. The
+task threads go through the following execution flow:
+
+ - _T1_ finishes executing the function `f` associated with _TS_.
+
+ - For _TS_, the output data structure _D_ can store the output of only one
+ task thread since `GetCapacity` is one. _T1_ writes its output.
+
+ - Any task thread can now be picked to be strengthened to have concurrent
+ forward progress guarantee. Let's say _T2_ is picked.
+
+ - At some point _T2_ finishes executing `f`. _T1_'s results are still in the
+ output data structure.
+
+ - _T2_ cannot write its results until space is available in _D_. Hence
+ , none of the other task threads can be picked to be strengthened to the
+ stronger progress guarantee.
+
+ - *OpTaskSequenceGetINTEL* is invoked. _T1_'s results get removed from
+ _D_.
+
+ - _T2_ can write its results and some other task thread can be picked to be
+ strengthened.
+
+=== Memory Order Semantics
+
+- *OpTaskSequenceAsyncINTEL* is a *Release* operation scoped to include the work
+item that called it and the task thread that the *OpTaskSequenceAsyncINTEL* call
+creates.
+
+- The beginning of a task thread _T_ is an *Acquire* operation scoped to include
+the work item that called *OpTaskSequenceAsyncINTEL* to create _T_ and the
+task thread _T_.
+
+- The end of a task thread _T_ is a *Release* operation scoped to include _T_
+and the work item that called *OpTaskSequenceAsyncINTEL* to create _T_.
+
+- *OpTaskSequenceGetINTEL* is an *Acquire* operation scoped to include the task
+thread that is being retrieved by *OpTaskSequenceGetINTEL* and the work item
+that is calling *OpTaskSequenceGetINTEL*.
 
 == Extension Name
 To use this extension within a SPIR-V module, the following *OpExtension* must
@@ -168,10 +306,11 @@ OpTaskSequenceReleaseINTEL
 |OpTaskSequenceAsyncINTEL  | 6164
 |OpTaskSequenceGetINTEL  | 6165
 |OpTaskSequenceReleaseINTEL  | 6166
+|OpTypeTaskSequenceINTEL  | 6411
 |====
 --
 
-== Modifications to the SPIR-V Specification, Version 1.6
+== Modifications to the SPIR-V Specification, Version 1.6, Revision 2
 
 === Capability
 
@@ -180,28 +319,46 @@ Modify Section 3.31, Capability, adding a row to the Capability table:
 [options="header"]
 |====
 2+^| Capability ^| Implicitly Declares
-| 6162 | TaskSequenceINTEL | FunctionPointersINTEL
+| 6162 | TaskSequenceINTEL |
 |====
 --
 
-=== Instructions
-Add a new subsection, 3.37.26, Task Sequence Instructions, and add four new
-instructions in this subsection as follows:
-[cols="6", width="100%"]
+=== Type Declaration Instruction
+
+Add a new subsection, 3.42.26, Task Sequence Type Declaration Instruction, and
+add one new instruction in this subsection as follows:
+
+[cols="3", width="100%"]
 |=====
-5+^|*OpTaskSequenceCreateINTEL* +
+2+^|*OpTypeTaskSequenceINTEL* +
 
-Create an instance of a task sequence.
+Declare a task sequence type.
 
-_Pointer_ must have a type of OpTypePointer. The pointer value uniquely
-identifies the task sequence.
+| Capability:
+*TaskSequenceINTEL*
 
-_Function Pointer_ must have a type of OpFunctionPointerINTEL. Its _Function_
-operand is the function that will be called asynchronously when
-*OpTaskSequenceAsyncINTEL* is called with this _Pointer_ as an argument.
+| 2 | 6411 | Result +
+_<id>_
+|=====
 
-_Pipelined_ is a literal number and it represents the following based on the
-value:
+=== Instructions
+Add a new subsection, 3.42.27, Task Sequence Instructions, and add four new
+instructions in this subsection as follows:
+
+[cols="9", width="100%"]
+|=====
+8+^|*OpTaskSequenceCreateINTEL* +
+
+Create and return an instance of a task sequence with type
+ *OpTypeTaskSequenceINTEL*. All calls to *OpTaskSequenceAsyncINTEL* with
+ _Result_ passed in as an argument will execute the function _Function_.
+
+_Result Type_ must be *OpTypeTaskSequenceINTEL*.
+
+_Function_ is an *OpFunction*.
+
+_Pipelined_ is a literal 32-bit signed integer and it represents the following
+based on the value:
 
 0 - Do not pipeline the task sequence data path.
 
@@ -212,105 +369,106 @@ sequence can be launched every N cycles (also known as the Initiation Interval).
 
 This argument is only meaningful on FPGA devices.
 
-_UseStallEnableClusters_ is a literal number and it is a request, that
-statically-scheduled clusters should handle stalls using a stall-enable signal
-to freeze computation within the cluster.
+_ClusterMode_ is a literal 32-bit signed integer and it is a request
+for the method that statically-scheduled clusters should handle stalls: using an
+exit FIFO to drain computations from the cluster or using a stall-enable signal
+to freeze computations within the cluster.
 
 The valid values are:
 
-0 - Disable the use of stall enable clusters.
+0 - Direct the compiler to use stall-free clusters.
 
-1 - Direct the compiler to use stall enable clusters.
+1 - Direct the compiler to use stall-enable clusters.
 
 -1 - Let the compiler decide which type of cluster to use.
 
 This argument is only meaningful on FPGA devices.
 
+_GetCapacity_ is a literal 32-bit unsigned integer. A task thread that has
+finished executing _Function_ is guaranteed to write its results to the results
+data structure of the task sequence as long as there is space to do so. The
+implementation must ensure that at least the oldest _GetCapacity_ task threads
+can write their results and completion status. Only task threads that have
+written their results are counted against this limit.
+
+_AsyncCapacity_ is a literal 32-bit unsigned integer. *OpTaskSequenceAsyncINTEL*
+calls for _Result_ are guaranteed to not block as long as the number of task
+threads in _Result_ are strictly less than this limit.
+
 | Capability:
 *TaskSequenceINTEL*
 
-| 5 | 6163 | _<id>_ +
-_Pointer_ | _<id>_ +
-_Function Pointer_ | _Literal_ +
+| 8 | 6163 | _<id>_ +
+_Result Type_ | _Result_ +
+_<id>_ | _<id>_ +
+_Function_ | _Literal_ +
 _Pipelined_ | _Literal_ +
-_UseStallEnableClusters_
-|=====
-
-[cols="5", width="100%"]
-|=====
-4+^|*OpTaskSequenceAsyncINTEL* +
-
-Asynchronously invoke a function.
-
-_Pointer_ must have a type of OpTypePointer and must be a pointer that was
-passed to a preceding call to *OpTaskSequenceCreateINTEL*. It uniquely
-identifies the task sequence.
-
-_AsyncCapacity_ is a literal number. The *OpTaskSequenceAsyncINTEL* call is
-guaranteed to not block as long as the number of outstanding calls are less than
-or equal to _AsyncCapacity_. See the section on progress guarantees for more
-details.
-
-_Argument N_ is the object to copy to parameter _N_ of the _Function_.
-
-| Capability:
-*TaskSequenceINTEL*
-
-| 3+variable | 6164 | _<id>_ +
-_Pointer_ | _Literal_ +
-_AsyncCapacity_ | _<id>, <id>, ..._ +
-_Argument 0_, +
-_Argument 1_, +
-_..._
+_UseStallEnableClusters_ | _Literal_ +
+_GetCapacity_ | _Literal_ +
+_AsyncCapacity_
 |=====
 
 [cols="4", width="100%"]
 |=====
-3+^|*OpTaskSequenceGetINTEL* +
+3+^|*OpTaskSequenceAsyncINTEL* +
 
-Retrieve the result of an *OpTaskSequenceAsyncINTEL*.
+Asynchronously invoke the *OpFunction* `f` associated with the task sequence
+_Sequence_.
 
-_Pointer_ must have a type of OpTypePointer and must be a pointer that was
-passed to a preceding call to *OpTaskSequenceCreateINTEL*. It uniquely
-identifies the task sequence.
+_Sequence_ must have type *OpTypeTaskSequenceINTEL*.
 
-_GetCapacity_ is a literal number and it defines a threshold that if the
-number of outstanding invocations of *OpTaskSequenceAsyncINTEL* is kept below
-(less than or equal to), the implementation must guarantee that at least one
-outstanding invocation will make forward progress. See the section on progress
-guarantees for more details.
+This instruction is guaranteed to not block as long as the number of task
+threads in _Sequence_ are strictly less than the *AsyncCapacity* of _Sequence_.
+The call may return before the asynchronous call to `f` completes execution, and
+potentially before `f` even begins executing.
 
+_Argument N_ is the object to pass as the _N_ th parameter of the function `f`.
+If `f` cannot be called with _N_ arguments the behavior is undefined.
 
 | Capability:
 *TaskSequenceINTEL*
 
-| 3 | 6165 | _<id>_ +
-_Pointer_ | _Literal_ +
-_GetCapacity_
+| 2+variable | 6164 | _<id>_ +
+_Sequence_ | _<id>, <id>, ..._ +
+_Argument 0_, +
+_Argument 1_, +
+_..._
 |=====
-
+[cols="5", width="100%"]
+|=====
+4+^|*OpTaskSequenceGetINTEL* +
+Retrieve the result of a task thread in the task sequence _Sequence_. If there
+are multiple task threads, the results are retrieved in the same order in which
+the threads were created.
+_Sequence_ must have type *OpTypeTaskSequenceINTEL*.
+This instruction will block if there are no results to return.
+_Result Type_ is the same as the return type of the *OpFunction* associated with
+_Sequence_.
+| Capability:
+*TaskSequenceINTEL*
+| 4 | 6165 | _<id>_ +
+_Result Type_ | _Result_ +
+_<id>_ | _<id>_ +
+_Sequence_
+|=====
 [cols="3", width="100%"]
 |=====
 2+^|*OpTaskSequenceReleaseINTEL* +
-
-Release the memory allocated for an instance of a task sequence.
-
-_Pointer_ must have a type of OpTypePointer. The pointer value uniquely
-identifies the task sequence.
-
+Release the memory allocated for the task sequence uniquely identified by the
+id _Sequence_.
+_Sequence_ must have type *OpTypeTaskSequenceINTEL*.
 | Capability:
 *TaskSequenceINTEL*
-
 | 2 | 6166 | _<id>_ +
-_Pointer_
+_Sequence_
 |=====
-
+== SPIR-V Representation in LLVM IR
+This is a non-normative section. `OpTypeTaskSequenceINTEL` can be mapped to LLVM
+opaque type `spirv.TaskSequenceINTEL` and mangled as
+`\\__spirv_TaskSequenceINTEL__`.
 == Issues
-
 None.
-
 == Revision History
-
 [cols="5,15,15,70"]
 [grid="rows"]
 [options="header"]
