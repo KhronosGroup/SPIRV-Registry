@@ -134,6 +134,7 @@ Khronos SPIR-V Registry](https://www.khronos.org/registry/spir-v/).
 1. [SPV_INTEL_long_composites               ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/INTEL/SPV_INTEL_long_composites.html)
 1. [SPV_INTEL_masked_gather_scatter         ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/INTEL/SPV_INTEL_masked_gather_scatter.html)
 1. [SPV_QCOM_image_processing2              ]( https://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/QCOM/SPV_QCOM_image_processing2.html)
+1. [SPV_KHR_maximal_reconvergence           ]( https://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/KHR/SPV_KHR_maximal_reconvergence.html)
 
 ## Non-Semantic Extended Instruction Set Specifications
 

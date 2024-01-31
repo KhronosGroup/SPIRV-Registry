@@ -1,0 +1,358 @@
+SPV_KHR_maximal_reconvergence
+=============================
+
+Name Strings
+------------
+
+SPV_KHR_maximal_reconvergence
+
+Contact
+-------
+
+To report a problem with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Registry
+
+Contributors
+------------
+
+- Alan Baker, Google LLC
+- David Neto, Google LLC
+- Jeff Bolz, NVIDIA Corporation
+- Graeme Leese, Broadcom
+- Nicolai Hahnle, AMD
+- Ruihao Zhang, Qualcomm
+- Tobias Hector, AMD
+
+Notice
+------
+
+Copyright (c) 2024 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+Status
+------
+
+- Complete
+- Approved by the SPIR Working Group: 2023-12-06
+- Approved by the Khronos Board of Promoters: 2024-01-19
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2022-01-24
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.6 Revision 1.
+
+This extension requires SPIR-V 1.0.
+
+Overview
+--------
+
+This extension adds a new execution mode
+<<MaximallyReconvergesKHR,*MaximallyReconvergesKHR*>> which changes the
+behavior of divergence and reconvergence of invocations executing affected
+entry points. Under maximal reconvergence, invocations that diverge must
+reconverge as soon as possible such that as many invocations as possible
+execute the same dynamic instruction instances.
+
+Maximal reconvergence provides guarantees that match shader author intuition
+concerning divergence and reconvergence. Divergence and reconvergence is
+understandable from the control flow graph of the IR.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_KHR_maximal_reconvergence"
+----
+
+Modifications to the SPIR-V Specification, Version 1.6
+------------------------------------------------------
+
+Add the following new terms:
+
+[[Tangle]]'Tangle': The set of invocations that execute the same dynamic instance of an
+instruction. The rules describing the behavior of tangles are
+<<MaximalReconvergence,Maximal Reconvergence>>.
+
+[[Converged]]'Converged': If all invocations in a particular scope instance are part of the
+tangle, the tangle is said to be converged for that scope instance.
+
+[[DynamicSuccessor]]'Dynamic Successor': Given a dynamic instance, 'A', of an instruction 'a', and
+a dynamic instance, 'B', of instruction 'b', where 'a' differs from 'b', 'B' is
+a dynamic successor of 'A' if 'B' is executed immediately after 'A' for a given
+invocation. Similarly, if 'B' is a dynamic successor of 'A', then 'A' is
+[[DynamicPredecessor]]'dynamic predecessor' of 'B'.
+
+Changes to Section *2.11 Structured Control Flow*
+
+Add the following to the end of the section:
+
+Any function in the static call tree of an entry point annotated with the
+<<MaximallyReconvergesKHR,*MaximallyReconvergesKHR*>> execution mode must
+satisfy the following requirements:
+
+* The only *Basic Blocks* that may have multiple unique predecessors are:
+
+** Any *Basic Block* containing an *OpLoopMerge* instruction
+
+** Any declared *Merge Block*
+
+** Any declared 'Continue Target'
+
+** Any 'Target' or 'Default' of an *OpSwitch* instruction
+
+Changes to Section *3 Binary Form*
+
+Add the following row to the table in Section *3.6 Execution Mode*:
+--
+[cols="^2,22,3*3,22",options="header",width = "100%"]
+|====
+2+^.^| Execution Mode 3+<.^| Extra Operands | Enabling Capabilities
+| 6023 | [[MaximallyReconvergesKHR]]*MaximallyReconvergesKHR* +
+Invocations in the entry point will obey the rules in <<MaximalReconvergence,*Maximal Reconvergence*>>. 3+||*Shader*
+|====
+--
+
+Modify the description of *OpBranchConditional*:
+
+Change:
+****
+Starting with *version 1.6*, 'True Label' and 'False Label' *must not* be the same '<id>'.
+****
+
+To:
+****
+Starting with *version 1.6*, or in any function reachable from an entry
+point with the execution mode
+<<MaximallyReconvergesKHR,*MaximallyReconvergesKHR*>>, 'True Label' and 'False
+Label' *must not* be the same '<id>'.
+****
+
+Add a new section to the end of Section *2 Specification* titled
+
+[[MaximalReconvergence]]
+Maximal Reconvergence
+---------------------
+
+Notation
+~~~~~~~~
+
+If 'I' is a dynamic instance of an instruction, let the tangle that executes 'I' be 'T(I)'.
+
+Initial State
+~~~~~~~~~~~~~
+
+Let 'F' be the first dynamically executed instruction in an entry point. 'T(F)'
+will be <<Converged,converged>>.
+
+Note: This is a restatement of the initial conditions in *Uniform Control Flow*.
+
+Divergence
+~~~~~~~~~~
+
+A [[Divergence]]'divergence' occurs when executing 'I' if the invocations in
+'T(I)' do not all have the same <<DynamicSuccessor,dynamic successor>>.
+
+The <<Tangle,tangles>> that execute the dynamic successors of a dynamic
+instruction instance 'I' form a partition of those invocations in 'T(I)' that
+have a dynamic successor. The tangles of the dynamic successors may include
+invocations not in 'T(I)' if that dynamic successor <<Reconverge,reconverges>>.
+
+The only instructions that can produce a divergence are:
+
+* An *OpBranchConditional*.
+
+  ** 'T(I)' is partitioned into up to two tangles.
+     All the invocations in 'T(I)' for whom 'Condition' evaluates to *true* are
+     members of the tangle that executes 'True Label' and the rest are in the
+     tangle that executes 'False Label'.
+
+* An *OpSwitch*.
+
+  ** 'T(I)' is partitioned into at least one tangle per 'case construct',
+     and at most one tangle per unique 'Selector' value. Invocations in 'T(I)'
+     with the same 'Selector' value will be partitioned into the same tangle,
+     executing the associated 'case construct'. Invocations with different
+     'Selector' values executing the same 'case construct' *may* be partitioned
+     into the same tangle. This behavior is deterministic for a given
+     compilation of a shader.
+
+* An *OpDemoteToHelperInvocation* or *OpKill* instruction executed for the
+  last non-demoted invocations in a quad. The newly demoted invocations may be
+  in a different tangle causing a divergence to appear to occur for any
+  instruction.
+
+Note: This means that invocations cannot spontaneously diverge, although demoting
+an invocation to a helper invocation may look like spontaneous divergence.
+
+Note: All invocations in a tangle that are not terminated during the execution
+of an *OpFunctionCall* will remain tangled in the next dynamic instance
+executed in calling function. That is, function call return acts as
+reconvergence point.
+
+Note: When the last invocation in a quad is demoted to a helper invocation, the
+whole quad may be terminated. Since the invocations in the quad may be
+diverged, the termination of a quad may give the appearance of spontaneous
+divergence of some tangles. The invocations that were already helper
+invocations might be in vastly different points in the program execution.
+
+[[Reconvergence]]
+Reconvergence
+~~~~~~~~~~~~~
+
+Invocations that diverged from each other are said to [[Reconverge]]*reconverge*
+when they rejoin a common tangle. Reconvergence occurs at certain _related dynamic instances_.
+A dynamic instruction instance, 'L', is [[Related]]*related* to another
+dynamic instruction instance, 'I', if 'I' executed before 'L' and the
+invocations in 'T(I)' are candiates for inclusion in 'T(L)'. The subset of
+'T(I)' required to reconverge depends on the instructions executed as detailed
+below.
+
+With 'L' related to 'I' as above, an invocation [[EscapeReconvergence]]*escapes
+reconvergence* when that invocation is in 'T(I)', but not in 'T(L)'. This only
+occurs when:
+
+* The invocation executes *OpTerminateInvocation* or *OpKill*.
+
+* The last non-demoted, non-terminated invocation in the invocation's quad
+  executes *OpDemoteToHelperInvocation*, *OpTerminateInvocation*, or
+  *OpKill*.
+
+* The invocation executes *OpReturn* or *OpReturnValue*. Escaping in this manner only
+  affects <<Related,relations>> in the current function.
+
+* Executing *OpBranch* or *OpBranchConditional* causes an invocation
+  to branch to the *Merge Block* or 'Continue Target' for a merge instruction
+  instance that strictly dominates 'I'.
+
+Note: The common cases an invocation would escape reconvergence are breaking
+from a switch or loop, or continuing in a loop.
+
+Note: *OpKill* will behave the same as either *OpTerminateInvocation* or
+*OpDemoteToHelperInvocation* depending on the implementation. It is
+recommended that shader authors use *OpTerminateInvocation* or
+*OpDemoteToHelperInvocation* instead of *OpKill* whenever possible to
+produce more predictable behavior.
+
+The only related instances introduced during execution are the following:
+
+* Given dynamic instances 'L' of an *OpLabel* and 'M' of an *OpSelectionMerge*, where:
+  ** The *OpLabel* is the declared *Merge Block* of the *OpSelectionMerge*, and
+  ** An invocation 'i' executes both 'L' and 'M', and
+  ** 'M' is the last execution of the *OpSelectionMerge* before executing 'L' for 'i', then
+  ** 'L' is related to 'M', and
+  ** 'T(L)' will include all non-escaping invocations in 'T(M)'
+
+* Given dynamic instances 'L' of an *OpLabel* and 'S' of an *OpSwitch*, where:
+  ** The *OpLabel* is a declared 'Target' or 'Default' of the *OpSwitch*, and
+  ** An invocation 'i' executes both 'L' and 'S', and
+  ** 'S' is the last execution of the *OpSwitch* before executing 'L' for 'i', then
+  ** 'L' is related to 'S', and
+  ** 'T(L)' *may* include a subset of non-escaping invocations in 'T(J)'
+
+* Given dynamic instances 'L' of an *OpLabel* and 'M' of an *OpLoopMerge*, where:
+  ** The *OpLabel* is the declared *Merge Block* of the *OpLoopMerge*, and
+  ** An invocation 'i' executes both 'L' and 'M', and
+  ** 'M' is the last execution of the *OpLoopMerge* where 'i' did not enter the basic block
+     via the loop backedge before executing 'L' for 'i', then
+  ** 'L' is related to 'M', and
+  ** 'T(L)' will include all non-escaping invocations in 'T(M)'
+
+* Given dynamic instances 'L' of an *OpLabel* and 'M' of an *OpLoopMerge*, where:
+  ** The *OpLabel* is the declared 'Continue Target' of the *OpLoopMerge*, and
+  ** An invocation 'i' executes both 'L' and 'M', and
+  ** 'M' is the last execution of the *OpLoopMerge* before executing 'L' for 'i', then
+  ** 'L' is related to 'M', and
+  ** 'T(L)' will include all non-escaping invocations in 'T(M)'
+  ** Note: this requires that invocations reconverge at the 'Continue Target' of a loop.
+     Therefore, at the beginning of each iteration of the loop, invocations that entered
+     the loop together and are continuing to the execute the loop will be converged.
+
+* Given dynamic instances 'I' of an instruction and 'FC' of an *OpFunctionCall*, where:
+  ** The instruction of 'I' immediately succeeds the *OpFunctionCall* in binary order, and
+  ** An invocation 'i' executes both 'I' and 'FC', and
+  ** 'FC' is the last execution of the *OpFunctionCall* before executing 'I' for 'i', then
+  ** 'I' is related to 'FC', and
+  ** 'T(I)' will include all non-escaping invocations in 'T(FC)'
+
+Non-reconvergence
+~~~~~~~~~~~~~~~~~
+
+Invocations will not <<Reconvergence,reconverge>> except at *Merge Blocks*,
+'Continue Targets', and 'case constructs' or after *OpFunctionCall* is
+executed.
+
+A <<Tangle,tangle>> that executes an instance of a merge instruction, 'M',
+represents the maximal tangle for all of the invocations in 'T(M)'. That is,
+implementations will not merge tangles during execution except through
+reconvergence.
+
+Note: This means that the instructions in a *break block* will execute as if
+they were still diverged according to the loop iteration.  This restricts
+potential transformations an implementation may perform on the IR to match
+shader author expectations. Similarly, instructions in the loop construct
+cannot be moved into the continue construct unless it can be proven that
+invocations are always <<Converged,converged>>.
+
+Issues
+------
+
+. What should be the behavior of an *OpSwitch* with multiple labels for a single case construct?
++
+--
+*Resolved*
+
+This behavior is implementation-defined. An implementation will guarantee that
+at least all invocations that have the same selector value remain tangled, but
+may further include invocations up to all of those invocations that reach the
+same case construct.
+--
+
+. Should any structured control flow rules be tightened for this extension?
++
+--
+*Unresolved*
+--
+
+. Should this extension make any mention of forward progress?
++
+--
+*Resolved*
+
+No, similar to memory model synchronization, if the invocations do not
+reconverge, the the program may hang. Behaviour is undefined if invocations
+don't make progress.
+--
+
+. Is enough said about helper invocations?
++
+--
+*Resolved*
+
+Yes, the extension describes the behavior as specifically as it can. Quads
+being terminated may look like unexpected divergence, but the behavior is
+reasonable when viewed as a whole.
+--
+
+Revision History
+----------------
+
+[cols="4"]
+|===
+|Rev|Date|Author|Changes
+|1|2022-01-22|Alan Baker|Initial Revision
+|===
+
