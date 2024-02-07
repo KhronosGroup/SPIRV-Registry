@@ -1,9 +1,8 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
-    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 8.6.9" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="AsciiDoc 10.2.0">
 <title>SPIR-V Extension SPV_AMD_shader_explicit_vertex_parameter</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
@@ -435,7 +434,7 @@ thead, p.table.header {
 p.table {
   margin-top: 0;
 }
-/* Because the table frame attribute is overriden by CSS in most browsers. */
+/* Because the table frame attribute is overridden by CSS in most browsers. */
 div.tableblock > table[frame="void"] {
   border-style: none;
 }
@@ -535,6 +534,40 @@ body.manpage div.sectionbody {
 }
 
 
+@media screen {
+  body {
+    max-width: 50em; /* approximately 80 characters wide */
+    margin-left: 16em;
+  }
+
+  #toc {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 13em;
+    padding: 0.5em;
+    padding-bottom: 1.5em;
+    margin: 0;
+    overflow: auto;
+    border-right: 3px solid #f8f8f8;
+    background-color: white;
+  }
+
+  #toc .toclevel1 {
+    margin-top: 0.5em;
+  }
+
+  #toc .toclevel2 {
+    margin-top: 0.25em;
+    display: list-item;
+    color: #aaaaaa;
+  }
+
+  #toctitle {
+    margin-top: 0.5em;
+  }
+}
 </style>
 <script type="text/javascript">
 /*<![CDATA[*/
@@ -727,13 +760,17 @@ install: function(toclevels) {
 }
 
 }
-asciidoc.install();
+asciidoc.install(1);
 /*]]>*/
 </script>
 </head>
 <body class="article">
 <div id="header">
 <h1>SPIR-V Extension SPV_AMD_shader_explicit_vertex_parameter</h1>
+<div id="toc">
+  <div id="toctitle">Table of Contents</div>
+  <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
+</div>
 </div>
 <div id="content">
 <div class="sect1">
@@ -796,8 +833,14 @@ Dominik Witczak, AMD
 <div class="sect1">
 <h2 id="_version">Version</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Modified Date: October 13, 2016
-Revision:      4</p></div>
+<div class="paragraph"><p>Modified Date: May 30, 2016
+Revision:      3</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_number">Number</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Extension #1</p></div>
 </div>
 </div>
 <div class="sect1">
@@ -824,8 +867,8 @@ adds 6 new built-in variables to get the barycentric coordinate of a fragment.</
 <div class="sectionbody">
 <div class="paragraph"><p>To enable SPV_AMD_shader_explicit_vertex_parameter extension in SPIR-V, use</p></div>
 <div class="literalblock">
-<div class="content">
-<pre><code>OpExtension "SPV_AMD_shader_explicit_vertex_parameter"</code></pre>
+<div class="content monospaced">
+<pre>OpExtension "SPV_AMD_shader_explicit_vertex_parameter"</pre>
 </div></div>
 </div>
 </div>
@@ -834,38 +877,38 @@ adds 6 new built-in variables to get the barycentric coordinate of a fragment.</
 <div class="sectionbody">
 <div class="paragraph"><p>This extension adds the following builtins:</p></div>
 <div class="listingblock">
-<div class="content">
-<pre><code>BaryCoordNoPerspAMD = 4992
-BaryCoordNoPerspCentroidAMD = 4993
-BaryCoordNoPerspSampleAMD = 4994
-BaryCoordSmoothAMD = 4995
-BaryCoordSmoothCentroidAMD = 4996
-BaryCoordSmoothSampleAMD = 4997
-BaryCoordPullModelAMD = 4998</code></pre>
+<div class="content monospaced">
+<pre>BaryCoordNoPerspAMD
+BaryCoordNoPerspCentroidAMD
+BaryCoordNoPerspSampleAMD
+BaryCoordSmoothAMD
+BaryCoordSmoothCentroidAMD
+BaryCoordSmoothSampleAMD
+BaryCoordPullModelAMD</pre>
 </div></div>
 <div class="paragraph"><p><strong>BaryCoordNoPerspAMD</strong>, <strong>BaryCoordNoPerspCentroidAMD</strong>, <strong>BaryCoordNoPerspSampleAMD</strong>,
 <strong>BaryCoordSmoothAMD</strong>, <strong>BaryCoordSmoothCentroidAMD</strong> and <strong>BaryCoordSmoothSampleAMD</strong>
 must only decorate input variable which type is a 32-bit float vector with
 2 components, like:</p></div>
 <div class="listingblock">
-<div class="content">
-<pre><code>OpDecorate %BaryCoordNoPerspAMD BuiltIn BaryCoordNoPerspAMD
+<div class="content monospaced">
+<pre>OpDecorate %BaryCoordNoPerspAMD BuiltIn BaryCoordNoPerspAMD
 
 %float32_t           = OpTypeFloat 32
 %vec2                = OpTypeVector %float32_t 2
 %vec2_ptr            = OpTypePointer Input %vec2
-%BaryCoordNoPerspAMD = OpVariable %vec2_ptr Input</code></pre>
+%BaryCoordNoPerspAMD = OpVariable %vec2_ptr Input</pre>
 </div></div>
 <div class="paragraph"><p><strong>BaryCoordPullModelAMD</strong> must only decorate input variables whose type is a 32-bit
 float vector with 3 components, like:</p></div>
 <div class="listingblock">
-<div class="content">
-<pre><code>OpDecorate %BaryCoordPullModelAMD BuiltIn BaryCoordPullModelAMD
+<div class="content monospaced">
+<pre>OpDecorate %BaryCoordPullModelAMD BuiltIn BaryCoordPullModelAMD
 
 %float32_t           = OpTypeFloat 32
 %vec3                = OpTypeVector %float32_t 3
 %vec3_ptr            = OpTypePointer Input %vec3
-%BaryCoordNoPerspAMD = OpVariable %vec3_ptr Input</code></pre>
+%BaryCoordNoPerspAMD = OpVariable %vec3_ptr Input</pre>
 </div></div>
 </div>
 </div>
@@ -874,8 +917,8 @@ float vector with 3 components, like:</p></div>
 <div class="sectionbody">
 <div class="paragraph"><p>This extension introduces the following new decorations:</p></div>
 <div class="listingblock">
-<div class="content">
-<pre><code>ExplicitInterpAMD = 4999</code></pre>
+<div class="content monospaced">
+<pre>ExplicitInterpAMD</pre>
 </div></div>
 <div class="paragraph"><p><strong>ExplicitInterp</strong> must only be applied to an object or a member of a structure type.
 It indicates that custom interpolation must be used. The object or member can
@@ -888,13 +931,13 @@ valid for Input and Output Storage Classes.</p></div>
 <div class="sectionbody">
 <div class="paragraph"><p>This extension adds the extended instruction</p></div>
 <div class="listingblock">
-<div class="content">
-<pre><code>InterpolateAtVertexAMD = 1</code></pre>
+<div class="content monospaced">
+<pre>InterpolateAtVertexAMD</pre>
 </div></div>
 <div class="paragraph"><p>To use the extended instructions described below, declare:</p></div>
 <div class="listingblock">
-<div class="content">
-<pre><code>OpExtInstImport %ext "SPV_AMD_shader_explicit_vertex_parameter"</code></pre>
+<div class="content monospaced">
+<pre>OpExtInstImport %ext "SPV_AMD_shader_explicit_vertex_parameter"</pre>
 </div></div>
 </div>
 </div>
@@ -904,14 +947,14 @@ valid for Input and Output Storage Classes.</p></div>
 <div class="paragraph"><p>Modify Section 3.21, the BuiltIn list.</p></div>
 <div class="paragraph"><p>(Add to the list of builtins with a <strong>Shader</strong> capability)</p></div>
 <div class="listingblock">
-<div class="content">
-<pre><code>BaryCoordNoPerspAMD = 4992
-BaryCoordNoPerspCentroidAMD = 4993
-BaryCoordNoPerspSampleAMD = 4994
-BaryCoordSmoothAMD = 4995
-BaryCoordSmoothCentroidAMD = 4996
-BaryCoordSmoothSampleAMD = 4997
-BaryCoordPullModelAMD = 4998</code></pre>
+<div class="content monospaced">
+<pre>BaryCoordNoPerspAMD
+BaryCoordNoPerspCentroidAMD
+BaryCoordNoPerspSampleAMD
+BaryCoordSmoothAMD
+BaryCoordSmoothCentroidAMD
+BaryCoordSmoothSampleAMD
+BaryCoordPullModelAMD</pre>
 </div></div>
 <div class="paragraph"><p>(Add a description)</p></div>
 <div class="paragraph"><p>Except the <strong>BaryCoordPullModelAMD</strong>, the <strong>BaryCoord??AMD</strong> builtins
@@ -922,47 +965,45 @@ I+J+K=1.0.</p></div>
 the shader can use it to calculate gradients and to interpolate I, J, and W to any
 desired sample location.</p></div>
 <div class="paragraph"><p>The interpolation mode of <strong>BaryCoord??AMD</strong> builtins is as follows:</p></div>
-<div class="tableblock">
-<table rules="rows"
-width="100%"
-frame="border"
-cellspacing="0" cellpadding="4">
-<col width="30%" />
-<col width="70%" />
+<table class="tableblock frame-all grid-rows"
+style="
+width:100%;
+">
+<col style="width:30%;">
+<col style="width:70%;">
 <thead>
 <tr>
-<th align="left" valign="top">Variable name</th>
-<th align="left" valign="top">Description</th>
+<th class="tableblock halign-left valign-top" >Variable name</th>
+<th class="tableblock halign-left valign-top" >Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="left" valign="top"><p class="table">BaryCoordNoPerspAMD</p></td>
-<td align="left" valign="top"><p class="table">Linear interpolation evaluated at the pixel&#8217;s center</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">BaryCoordNoPerspAMD</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Linear interpolation evaluated at the pixel&#8217;s center</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table">BaryCoordNoPerspCentroidAMD</p></td>
-<td align="left" valign="top"><p class="table">Linear interpolation evaluated at the centroid</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">BaryCoordNoPerspCentroidAMD</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Linear interpolation evaluated at the centroid</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table">BaryCoordNoPerspSampleAMD</p></td>
-<td align="left" valign="top"><p class="table">Linear interpolation evaluated at each covered sample</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">BaryCoordNoPerspSampleAMD</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Linear interpolation evaluated at each covered sample</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table">BaryCoordSmoothAMD</p></td>
-<td align="left" valign="top"><p class="table">Perspective interpolation evaluated at the pixel&#8217;s center</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">BaryCoordSmoothAMD</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Perspective interpolation evaluated at the pixel&#8217;s center</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table">BaryCoordSmoothCentroidAMD</p></td>
-<td align="left" valign="top"><p class="table">Perspective interpolation evaluated at the centroid</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">BaryCoordSmoothCentroidAMD</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Perspective interpolation evaluated at the centroid</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table">BaryCoordSmoothSampleAMD</p></td>
-<td align="left" valign="top"><p class="table">Perspective interpolation evaluated at each covered sample</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">BaryCoordSmoothSampleAMD</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Perspective interpolation evaluated at each covered sample</p></td>
 </tr>
 </tbody>
 </table>
-</div>
 <div class="paragraph"><p>Modify Section 3.32.1, Miscellaneous Instructions</p></div>
 <div class="paragraph"><p>(Add to the end of the section a list of instructions with "<strong>InterpolationFunction</strong>"
 capability)</p></div>
@@ -972,35 +1013,33 @@ capability)</p></div>
 raw output value of previous shader stage.</p></div>
 <div class="paragraph"><p>It is guaranteed that the association of the vertex index and barycentric coordinate
 is represented with the following table.</p></div>
-<div class="tableblock">
-<table rules="rows"
-width="100%"
-frame="border"
-cellspacing="0" cellpadding="4">
-<col width="15%" />
-<col width="85%" />
+<table class="tableblock frame-all grid-rows"
+style="
+width:100%;
+">
+<col style="width:15%;">
+<col style="width:85%;">
 <thead>
 <tr>
-<th align="left" valign="top">&lt;vertexIdx&gt;</th>
-<th align="left" valign="top">Barycentric coordinates</th>
+<th class="tableblock halign-left valign-top" >&lt;vertexIdx&gt;</th>
+<th class="tableblock halign-left valign-top" >Barycentric coordinates</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="left" valign="top"><p class="table">0</p></td>
-<td align="left" valign="top"><p class="table">I=0, J=0, K=1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">I=0, J=0, K=1</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table">1</p></td>
-<td align="left" valign="top"><p class="table">I=1, J=0, K=0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">I=1, J=0, K=0</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table">2</p></td>
-<td align="left" valign="top"><p class="table">I=0, J=1, K=0</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">I=0, J=1, K=0</p></td>
 </tr>
 </tbody>
 </table>
-</div>
 <div class="paragraph"><p>However this order has no association with the vertex order specified
 by the application in the originating draw.</p></div>
 <div class="paragraph"><p>The operand &lt;interpolant&gt; must be a pointer to the Input Storage Class.</p></div>
@@ -1012,8 +1051,8 @@ capability.</p></div>
 <div class="paragraph"><p>The operand &lt;vertexIdx&gt; must be constant integer expression with value of 0, 1
 or 2.</p></div>
 <div class="listingblock">
-<div class="content">
-<pre><code>3 | 1 | &lt;id&gt; interpolant | &lt;id&gt; vertexIdx</code></pre>
+<div class="content monospaced">
+<pre>3 | 1 | &lt;id&gt; interpolant | &lt;id&gt; vertexIdx</pre>
 </div></div>
 </div>
 </div>
@@ -1033,58 +1072,51 @@ or 2.</p></div>
 <div class="sect1">
 <h2 id="_revision_history">Revision History</h2>
 <div class="sectionbody">
-<div class="tableblock">
-<table rules="rows"
-width="100%"
-frame="border"
-cellspacing="0" cellpadding="4">
-<col width="5%" />
-<col width="10%" />
-<col width="15%" />
-<col width="70%" />
+<table class="tableblock frame-all grid-rows"
+style="
+width:100%;
+">
+<col style="width:5%;">
+<col style="width:10%;">
+<col style="width:15%;">
+<col style="width:70%;">
 <thead>
 <tr>
-<th align="left" valign="top">Rev</th>
-<th align="left" valign="top">Date</th>
-<th align="left" valign="top">Author</th>
-<th align="left" valign="top">Changes</th>
+<th class="tableblock halign-left valign-top" >Rev</th>
+<th class="tableblock halign-left valign-top" >Date</th>
+<th class="tableblock halign-left valign-top" >Author</th>
+<th class="tableblock halign-left valign-top" >Changes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="left" valign="top"><p class="table">1</p></td>
-<td align="left" valign="top"><p class="table">April 21, 2016</p></td>
-<td align="left" valign="top"><p class="table">Quentin Lin</p></td>
-<td align="left" valign="top"><p class="table">Initial revision based on AMD_shader_explicit_vertex_parameter.</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">April 21, 2016</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Quentin Lin</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Initial revision based on AMD_shader_explicit_vertex_parameter.</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table">2</p></td>
-<td align="left" valign="top"><p class="table">May 20, 2016</p></td>
-<td align="left" valign="top"><p class="table">Dominik Witczak</p></td>
-<td align="left" valign="top"><p class="table">Document refactoring</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">May 20, 2016</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Dominik Witczak</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Document refactoring</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table">3</p></td>
-<td align="left" valign="top"><p class="table">May 30, 2016</p></td>
-<td align="left" valign="top"><p class="table">Dominik Witczak</p></td>
-<td align="left" valign="top"><p class="table">Minor corrections</p></td>
-</tr>
-<tr>
-<td align="left" valign="top"><p class="table">4</p></td>
-<td align="left" valign="top"><p class="table">October 13, 2016</p></td>
-<td align="left" valign="top"><p class="table">Dominik Witczak</p></td>
-<td align="left" valign="top"><p class="table"><strong>Added missing numerical value assignments, removed extension number</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">May 30, 2016</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Dominik Witczak</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Minor corrections</strong></p></td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 </div>
-</div>
-<div id="footnotes"><hr /></div>
+<div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-10-13 18:03:56 Central European Daylight Time
+Last updated
+ 2024-02-06 18:25:31 PST
 </div>
 </div>
 </body>

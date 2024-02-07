@@ -1,9 +1,8 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
-    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 8.6.9" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="AsciiDoc 10.2.0">
 <title>SPIR-V Extension SPV_AMD_gcn_shader</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
@@ -435,7 +434,7 @@ thead, p.table.header {
 p.table {
   margin-top: 0;
 }
-/* Because the table frame attribute is overriden by CSS in most browsers. */
+/* Because the table frame attribute is overridden by CSS in most browsers. */
 div.tableblock > table[frame="void"] {
   border-style: none;
 }
@@ -535,6 +534,40 @@ body.manpage div.sectionbody {
 }
 
 
+@media screen {
+  body {
+    max-width: 50em; /* approximately 80 characters wide */
+    margin-left: 16em;
+  }
+
+  #toc {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 13em;
+    padding: 0.5em;
+    padding-bottom: 1.5em;
+    margin: 0;
+    overflow: auto;
+    border-right: 3px solid #f8f8f8;
+    background-color: white;
+  }
+
+  #toc .toclevel1 {
+    margin-top: 0.5em;
+  }
+
+  #toc .toclevel2 {
+    margin-top: 0.25em;
+    display: list-item;
+    color: #aaaaaa;
+  }
+
+  #toctitle {
+    margin-top: 0.5em;
+  }
+}
 </style>
 <script type="text/javascript">
 /*<![CDATA[*/
@@ -727,13 +760,17 @@ install: function(toclevels) {
 }
 
 }
-asciidoc.install();
+asciidoc.install(1);
 /*]]>*/
 </script>
 </head>
 <body class="article">
 <div id="header">
 <h1>SPIR-V Extension SPV_AMD_gcn_shader</h1>
+<div id="toc">
+  <div id="toctitle">Table of Contents</div>
+  <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
+</div>
 </div>
 <div id="content">
 <div class="sect1">
@@ -785,14 +822,20 @@ Graham Sellers, AMD
 <div class="sect1">
 <h2 id="_status">Status</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Released.</p></div>
+<div class="paragraph"><p>Proposed.</p></div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_version">Version</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Modified Date: October 13, 2016
-Revision:      2</p></div>
+<div class="paragraph"><p>Modified Date: May 31, 2016
+Revision:      1</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_number">Number</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>## Extension #NNN <em>TBD</em></p></div>
 </div>
 </div>
 <div class="sect1">
@@ -817,8 +860,8 @@ to query the elapsed shader core time.</p></div>
 <div class="sectionbody">
 <div class="paragraph"><p>To enable SPV_AMD_gcn_shader extension in SPIR-V, use</p></div>
 <div class="literalblock">
-<div class="content">
-<pre><code>OpExtension "SPV_AMD_gcn_shader"</code></pre>
+<div class="content monospaced">
+<pre>OpExtension "SPV_AMD_gcn_shader"</pre>
 </div></div>
 </div>
 </div>
@@ -827,15 +870,15 @@ to query the elapsed shader core time.</p></div>
 <div class="sectionbody">
 <div class="paragraph"><p>This extension adds the following extended instructions</p></div>
 <div class="listingblock">
-<div class="content">
-<pre><code>CubeFaceCoordAMD = 2
-CubeFaceIndexAMD = 1
-TimeAMD = 3</code></pre>
+<div class="content monospaced">
+<pre>CubeFaceCoordAMD
+CubeFaceIndexAMD
+TimeAMD</pre>
 </div></div>
 <div class="paragraph"><p>To use the extended instructions described below, declare:</p></div>
 <div class="listingblock">
-<div class="content">
-<pre><code>OpExtInstImport %ext "SPV_AMD_gcn_shader"</code></pre>
+<div class="content monospaced">
+<pre>OpExtInstImport %ext "SPV_AMD_gcn_shader"</pre>
 </div></div>
 </div>
 </div>
@@ -854,8 +897,8 @@ cube map face for the given cube map texture coordinates given as parameter P.</
 TessellationEvaluation and Vertex execution models.</p></div>
 <div class="paragraph"><p>Result Type must be a 2-component 32-bit floating-point vector.</p></div>
 <div class="listingblock">
-<div class="content">
-<pre><code>3 | 2 | &lt;id&gt; Result Type | &lt;id&gt; P</code></pre>
+<div class="content monospaced">
+<pre>3 | 2 | &lt;id&gt; Result Type | &lt;id&gt; P</pre>
 </div></div>
 </div>
 <div class="sect2">
@@ -901,8 +944,8 @@ correspond to cube map faces as follows:</p></div>
 TessellationEvaluation and Vertex execution models.</p></div>
 <div class="paragraph"><p>Result Type must be a 32-bit floating-point scalar.</p></div>
 <div class="listingblock">
-<div class="content">
-<pre><code>3 | 1 | &lt;id&gt; Result Type | &lt;id&gt; P</code></pre>
+<div class="content monospaced">
+<pre>3 | 1 | &lt;id&gt; Result Type | &lt;id&gt; P</pre>
 </div></div>
 </div>
 <div class="sect2">
@@ -921,8 +964,8 @@ TessellationEvaluation and Vertex execution models.</p></div>
 <div class="paragraph"><p>Use of this instruction requires declaration of the <strong>Int64</strong> capability.</p></div>
 <div class="paragraph"><p>Result Type must be a 64-bit unsigned integer scalar.</p></div>
 <div class="listingblock">
-<div class="content">
-<pre><code>2 | 3 | &lt;id&gt; Result Type</code></pre>
+<div class="content monospaced">
+<pre>2 | 3 | &lt;id&gt; Result Type</pre>
 </div></div>
 </div>
 </div>
@@ -942,46 +985,39 @@ TessellationEvaluation and Vertex execution models.</p></div>
 <div class="sect1">
 <h2 id="_revision_history">Revision History</h2>
 <div class="sectionbody">
-<div class="tableblock">
-<table rules="rows"
-width="100%"
-frame="border"
-cellspacing="0" cellpadding="4">
-<col width="5%" />
-<col width="10%" />
-<col width="15%" />
-<col width="70%" />
+<table class="tableblock frame-all grid-rows"
+style="
+width:100%;
+">
+<col style="width:5%;">
+<col style="width:10%;">
+<col style="width:15%;">
+<col style="width:70%;">
 <thead>
 <tr>
-<th align="left" valign="top">Rev</th>
-<th align="left" valign="top">Date</th>
-<th align="left" valign="top">Author</th>
-<th align="left" valign="top">Changes</th>
+<th class="tableblock halign-left valign-top" >Rev</th>
+<th class="tableblock halign-left valign-top" >Date</th>
+<th class="tableblock halign-left valign-top" >Author</th>
+<th class="tableblock halign-left valign-top" >Changes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="left" valign="top"><p class="table">1</p></td>
-<td align="left" valign="top"><p class="table">May 31, 2016</p></td>
-<td align="left" valign="top"><p class="table">Dominik Witczak</p></td>
-<td align="left" valign="top"><p class="table">Initial revision based on AMD_gcn_shader.</p></td>
-</tr>
-<tr>
-<td align="left" valign="top"><p class="table">2</p></td>
-<td align="left" valign="top"><p class="table">October 13, 2016</p></td>
-<td align="left" valign="top"><p class="table">Dominik Witczak</p></td>
-<td align="left" valign="top"><p class="table"><strong>Added missing numerical value assignments, removed extension number</strong></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">May 31, 2016</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Dominik Witczak</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Initial revision based on AMD_gcn_shader.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 </div>
-</div>
-<div id="footnotes"><hr /></div>
+<div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-10-13 18:04:54 Central European Daylight Time
+Last updated
+ 2024-02-06 18:25:31 PST
 </div>
 </div>
 </body>

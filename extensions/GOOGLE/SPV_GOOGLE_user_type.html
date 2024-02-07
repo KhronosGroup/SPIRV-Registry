@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="generator" content="AsciiDoc 9.0.0rc2">
+<meta name="generator" content="AsciiDoc 10.2.0">
 <title>SPV_GOOGLE_user_type</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
@@ -805,6 +805,11 @@ David Neto, Google
 Ehsan Nasiri, Google
 </p>
 </li>
+<li>
+<p>
+Natalie Chouinard, Google
+</p>
+</li>
 </ul></div>
 </div>
 </div>
@@ -832,11 +837,11 @@ width:40%;
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2019-04-22</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2024-01-29</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Initial</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Revision</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
 </tr>
 </tbody>
 </table>
@@ -857,10 +862,10 @@ extension.</p></div>
 <div class="sectionbody">
 <div class="paragraph"><p>This extension provides one new decoration, UserTypeGOOGLE, that allows HLL
 shader compilers to optionally embed unambiguous type information.</p></div>
-<div class="paragraph"><p>The decoration UserTypeGOOGLE is used with OpDecorateStringGOOGLE and
-OpMemberDecorateStringGOOGLE to store a string name for the type of the
-decorated object in the user&#8217;s source. It can decorate only a variable, a
-type, or a member of a structure type. This has no semantic impact.</p></div>
+<div class="paragraph"><p>The decoration UserTypeGOOGLE is used with OpDecorateString(GOOGLE) and
+OpMemberDecorateString(GOOGLE) to store a string name for the type of the
+decorated object in the user&#8217;s source. It can decorate only a variable, a
+type, or a member of a structure type. This has no semantic impact.</p></div>
 <div class="paragraph"><p>The following table describes standard HLSL resource types and their
 corresponding string names:</p></div>
 <table class="tableblock frame-all grid-rows"
@@ -891,6 +896,10 @@ width:40%;
 <td class="tableblock halign-left valign-top" ><p class="tableblock">byteaddressbuffer</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">ConstantBuffer</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">constantbuffer</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">ConsumeStructuredBuffer</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">consumestructuredbuffer</p></td>
 </tr>
@@ -901,6 +910,42 @@ width:40%;
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">OutputPatch</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">outputpatch</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">RasterizerOrderedBuffer</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">rasterizerorderedbuffer</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">RasterizerOrderedByteAddressBuffer</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">rasterizerorderedbyteaddressbuffer</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">RasterizerOrderedStructuredBuffer</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">rasterizerorderedstructuredbuffer</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">RasterizerOrderedTexture1D</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">rasterizerorderedtexture1d</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">RasterizerOrderedTexture1DArray</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">rasterizerorderedtexture1darray</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">RasterizerOrderedTexture2D</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">rasterizerorderedtexture2d</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">RasterizerOrderedTexture2DArray</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">rasterizerorderedtexture2darray</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">RasterizerOrderedTexture3D</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">rasterizerorderedtexture3d</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">RaytracingAccelerationStructure</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">raytracingaccelerationstructure</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">RWBuffer</p></td>
@@ -939,6 +984,14 @@ width:40%;
 <td class="tableblock halign-left valign-top" ><p class="tableblock">structuredbuffer</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">SubpassInput</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">subpassinput</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">SubpassInputMS</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">subpassinputms</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Texture1D</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">texture1d</p></td>
 </tr>
@@ -967,6 +1020,10 @@ width:40%;
 <td class="tableblock halign-left valign-top" ><p class="tableblock">texture3d</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">TextureBuffer</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">texturebuffer</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">TextureCube</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">texturecube</p></td>
 </tr>
@@ -976,6 +1033,11 @@ width:40%;
 </tr>
 </tbody>
 </table>
+<div class="paragraph"><p>If the HLSL type includes template parameters, they will be appended to the
+corresponding string name in the format <span class="monospaced">:&lt;comma-separated-list&gt;</span>. For example,
+the SPIR-V variable corresponding to an HLSL variable with type
+<span class="monospaced">Texture2DMSArray&lt;float4, 64&gt;</span> would be decorated with
+<span class="monospaced">"texture2dmsarray:&lt;float4,64&gt;"</span>.</p></div>
 </div>
 </div>
 <div class="sect1">
@@ -1153,6 +1215,12 @@ width:100%;
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Ehsan Nasiri</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Added table of user type names</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2024-01-29</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Natalie Chouinard</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Added and disambiguated some type names</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1162,7 +1230,7 @@ width:100%;
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2020-12-02 12:28:08 EST
+ 2024-02-06 18:25:31 PST
 </div>
 </div>
 </body>

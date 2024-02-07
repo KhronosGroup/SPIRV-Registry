@@ -1,9 +1,8 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
-    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 8.6.9" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="AsciiDoc 10.2.0">
 <title>SPIR-V Extension SPV_AMD_shader_ballot</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
@@ -435,7 +434,7 @@ thead, p.table.header {
 p.table {
   margin-top: 0;
 }
-/* Because the table frame attribute is overriden by CSS in most browsers. */
+/* Because the table frame attribute is overridden by CSS in most browsers. */
 div.tableblock > table[frame="void"] {
   border-style: none;
 }
@@ -535,6 +534,40 @@ body.manpage div.sectionbody {
 }
 
 
+@media screen {
+  body {
+    max-width: 50em; /* approximately 80 characters wide */
+    margin-left: 16em;
+  }
+
+  #toc {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 13em;
+    padding: 0.5em;
+    padding-bottom: 1.5em;
+    margin: 0;
+    overflow: auto;
+    border-right: 3px solid #f8f8f8;
+    background-color: white;
+  }
+
+  #toc .toclevel1 {
+    margin-top: 0.5em;
+  }
+
+  #toc .toclevel2 {
+    margin-top: 0.25em;
+    display: list-item;
+    color: #aaaaaa;
+  }
+
+  #toctitle {
+    margin-top: 0.5em;
+  }
+}
 </style>
 <script type="text/javascript">
 /*<![CDATA[*/
@@ -727,13 +760,17 @@ install: function(toclevels) {
 }
 
 }
-asciidoc.install();
+asciidoc.install(1);
 /*]]>*/
 </script>
 </head>
 <body class="article">
 <div id="header">
 <h1>SPIR-V Extension SPV_AMD_shader_ballot</h1>
+<div id="toc">
+  <div id="toctitle">Table of Contents</div>
+  <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
+</div>
 </div>
 <div id="content">
 <div class="sect1">
@@ -831,8 +868,8 @@ instructions to SPIR-V that enable additional subgroup operations in shaders.</p
 <div class="sectionbody">
 <div class="paragraph"><p>To enable SPV_AMD_shader_ballot extension in SPIR-V, use</p></div>
 <div class="literalblock">
-<div class="content">
-<pre><code>OpExtension "SPV_AMD_shader_ballot"</code></pre>
+<div class="content monospaced">
+<pre>OpExtension "SPV_AMD_shader_ballot"</pre>
 </div></div>
 </div>
 </div>
@@ -841,35 +878,35 @@ instructions to SPIR-V that enable additional subgroup operations in shaders.</p
 <div class="sectionbody">
 <div class="paragraph"><p>This extension adds the following core instructions</p></div>
 <div class="listingblock">
-<div class="content">
-<pre><code>OpGroupIAddNonUniformAMD = 5000
+<div class="content monospaced">
+<pre>OpGroupIAddNonUniformAMD = 5000
 OpGroupFAddNonUniformAMD = 5001
 OpGroupFMinNonUniformAMD = 5002
 OpGroupUMinNonUniformAMD = 5003
 OpGroupSMinNonUniformAMD = 5004
 OpGroupFMaxNonUniformAMD = 5005
 OpGroupUMaxNonUniformAMD = 5006
-OpGroupSMaxNonUniformAMD = 5007</code></pre>
+OpGroupSMaxNonUniformAMD = 5007</pre>
 </div></div>
 <div class="paragraph"><p>This extension adds the following extended instructions</p></div>
 <div class="listingblock">
-<div class="content">
-<pre><code>SwizzleInvocationsAMD = 1
+<div class="content monospaced">
+<pre>SwizzleInvocationsAMD = 1
 SwizzleInvocationsMaskedAMD = 2
 WriteInvocationAMD = 3
-MbcntAMD = 4</code></pre>
+MbcntAMD = 4</pre>
 </div></div>
 <div class="paragraph"><p>To use the new core instructions, declare:</p></div>
 <div class="listingblock">
-<div class="content">
-<pre><code>OpCapability Groups
-OpExtension "SPV_AMD_shader_ballot"</code></pre>
+<div class="content monospaced">
+<pre>OpCapability Groups
+OpExtension "SPV_AMD_shader_ballot"</pre>
 </div></div>
 <div class="paragraph"><p>To use the new extended instructions, declare:</p></div>
 <div class="listingblock">
-<div class="content">
-<pre><code>OpExtension "SPV_AMD_shader_ballot"
-OpExtInstImport %ext "SPV_AMD_shader_ballot"</code></pre>
+<div class="content monospaced">
+<pre>OpExtension "SPV_AMD_shader_ballot"
+OpExtInstImport %ext "SPV_AMD_shader_ballot"</pre>
 </div></div>
 </div>
 </div>
@@ -925,8 +962,8 @@ flow within &lt;Execution&gt;.</p></div>
 <div class="paragraph"><p>&lt;Execution&gt; must be Workgroup or Subgroup Scope.</p></div>
 <div class="paragraph"><p>The type of &lt;X&gt; must be the same as &lt;Result Type&gt;.</p></div>
 <div class="listingblock">
-<div class="content">
-<pre><code>6 | 5000  | &lt;id&gt; Result Type | &lt;id&gt; Result  | Scope &lt;id&gt; Execution | Group Operation | &lt;id&gt; X</code></pre>
+<div class="content monospaced">
+<pre>6 | 5000  | &lt;id&gt; Result Type | &lt;id&gt; Result  | Scope &lt;id&gt; Execution | Group Operation | &lt;id&gt; X</pre>
 </div></div>
 </div>
 <div class="sect2">
@@ -942,8 +979,8 @@ flow within &lt;Execution&gt;.</p></div>
 <div class="paragraph"><p>&lt;Execution&gt; must be Workgroup or Subgroup Scope.</p></div>
 <div class="paragraph"><p>The type of &lt;X&gt; must be the same as &lt;Result Type&gt;.</p></div>
 <div class="listingblock">
-<div class="content">
-<pre><code>6 | 5001 | &lt;id&gt; Result Type | &lt;id&gt; Result | &lt;id&gt; Scope Execution | Group Operation | &lt;id&gt; X</code></pre>
+<div class="content monospaced">
+<pre>6 | 5001 | &lt;id&gt; Result Type | &lt;id&gt; Result | &lt;id&gt; Scope Execution | Group Operation | &lt;id&gt; X</pre>
 </div></div>
 </div>
 <div class="sect2">
@@ -959,8 +996,8 @@ flow within &lt;Execution&gt;.</p></div>
 <div class="paragraph"><p>&lt;Execution&gt; must be Workgroup or Subgroup Scope.</p></div>
 <div class="paragraph"><p>The type of &lt;X&gt; must be the same as &lt;Result Type&gt;.</p></div>
 <div class="listingblock">
-<div class="content">
-<pre><code>6 | 5002 | &lt;id&gt; Result Type | &lt;id&gt; Result | &lt;id&gt; Scope Execution | Group Operation | &lt;id&gt; X</code></pre>
+<div class="content monospaced">
+<pre>6 | 5002 | &lt;id&gt; Result Type | &lt;id&gt; Result | &lt;id&gt; Scope Execution | Group Operation | &lt;id&gt; X</pre>
 </div></div>
 </div>
 <div class="sect2">
@@ -976,8 +1013,8 @@ within &lt;Execution&gt;.</p></div>
 <div class="paragraph"><p>&lt;Execution&gt; must be Workgroup or Subgroup Scope.</p></div>
 <div class="paragraph"><p>The type of &lt;X&gt; must be the same as &lt;Result Type&gt;.</p></div>
 <div class="listingblock">
-<div class="content">
-<pre><code>6 | 5003 | &lt;id&gt; Result Type | &lt;id&gt; Result | &lt;id&gt; Scope Execution | Group Operation | &lt;id&gt; X</code></pre>
+<div class="content monospaced">
+<pre>6 | 5003 | &lt;id&gt; Result Type | &lt;id&gt; Result | &lt;id&gt; Scope Execution | Group Operation | &lt;id&gt; X</pre>
 </div></div>
 </div>
 <div class="sect2">
@@ -994,8 +1031,8 @@ flow within &lt;Execution&gt;.</p></div>
 <div class="paragraph"><p>&lt;Execution&gt; must be Workgroup or Subgroup Scope.</p></div>
 <div class="paragraph"><p>The type of &lt;X&gt; must be the same as &lt;Result Type&gt;.</p></div>
 <div class="listingblock">
-<div class="content">
-<pre><code>6 | 5004 | &lt;id&gt; Result Type | &lt;id&gt; Result | &lt;id&gt; Scope Execution | Group Operation | &lt;id&gt; X</code></pre>
+<div class="content monospaced">
+<pre>6 | 5004 | &lt;id&gt; Result Type | &lt;id&gt; Result | &lt;id&gt; Scope Execution | Group Operation | &lt;id&gt; X</pre>
 </div></div>
 </div>
 <div class="sect2">
@@ -1011,8 +1048,8 @@ flow within &lt;Execution&gt;.</p></div>
 <div class="paragraph"><p>&lt;Execution&gt; must be Workgroup or Subgroup Scope.</p></div>
 <div class="paragraph"><p>The type of &lt;X&gt; must be the same as &lt;Result Type&gt;.</p></div>
 <div class="listingblock">
-<div class="content">
-<pre><code>6 | 5005 | &lt;id&gt; Result Type | &lt;id&gt; Result | &lt;id&gt; Scope Execution | Group Operation | &lt;id&gt; X</code></pre>
+<div class="content monospaced">
+<pre>6 | 5005 | &lt;id&gt; Result Type | &lt;id&gt; Result | &lt;id&gt; Scope Execution | Group Operation | &lt;id&gt; X</pre>
 </div></div>
 </div>
 <div class="sect2">
@@ -1027,8 +1064,8 @@ within &lt;Execution&gt;.</p></div>
 <div class="paragraph"><p>&lt;Execution&gt; must be Workgroup or Subgroup Scope.</p></div>
 <div class="paragraph"><p>The type of &lt;X&gt; must be the same as &lt;Result Type&gt;.</p></div>
 <div class="listingblock">
-<div class="content">
-<pre><code>6 | 5006 | &lt;id&gt; Result Type | &lt;id&gt; Result | &lt;id&gt; Scope Execution&gt; | Group Operation | &lt;id&gt; X</code></pre>
+<div class="content monospaced">
+<pre>6 | 5006 | &lt;id&gt; Result Type | &lt;id&gt; Result | &lt;id&gt; Scope Execution&gt; | Group Operation | &lt;id&gt; X</pre>
 </div></div>
 </div>
 <div class="sect2">
@@ -1050,13 +1087,13 @@ flow within &lt;Execution&gt;.</p></div>
 <div class="paragraph"><p>Swizzles data within a group of 4 consecutive invocations of the subgroup based
 on &lt;offset&gt; as described below:</p></div>
 <div class="listingblock">
-<div class="content">
-<pre><code>for (i = 0; i &lt; SubgroupSize; i+=4) {
+<div class="content monospaced">
+<pre>for (i = 0; i &lt; SubgroupSize; i+=4) {
     dataOut[i+0] = isActive[i+offset.x] ? dataIn[i+offset.x] : 0;
     dataOut[i+1] = isActive[i+offset.y] ? dataIn[i+offset.y] : 0;
     dataOut[i+2] = isActive[i+offset.z] ? dataIn[i+offset.z] : 0;
     dataOut[i+3] = isActive[i+offset.w] ? dataIn[i+offset.w] : 0;
-}</code></pre>
+}</pre>
 </div></div>
 <div class="paragraph"><p>Where:</p></div>
 <div class="ulist"><ul>
@@ -1082,8 +1119,8 @@ dataOut[i] is the return value of the function for invocation index &lt;i&gt;.
 component is constant integer with a value in the range [0, 3].</p></div>
 <div class="paragraph"><p>Result Type and the type of operand &lt;data&gt; must be the same type.</p></div>
 <div class="listingblock">
-<div class="content">
-<pre><code>3 | 1 | &lt;id&gt; data | &lt;id&gt; offset</code></pre>
+<div class="content monospaced">
+<pre>3 | 1 | &lt;id&gt; data | &lt;id&gt; offset</pre>
 </div></div>
 </div>
 <div class="sect2">
@@ -1091,12 +1128,12 @@ component is constant integer with a value in the range [0, 3].</p></div>
 <div class="paragraph"><p>Swizzles data within a group of 32 consecutive invocations with a
 limited mask as described below:</p></div>
 <div class="listingblock">
-<div class="content">
-<pre><code>for (i = 0; i &lt; SubgroupSize; i++) {
+<div class="content monospaced">
+<pre>for (i = 0; i &lt; SubgroupSize; i++) {
    j = (((i &amp; 0x1f) &amp; mask.x) | mask.y) ^ mask.z;
    j |= (i &amp; 0x20); // which group of 32
    dataOut[i] = isActive[j] ? dataIn[j] : 0;
-}</code></pre>
+}</pre>
 </div></div>
 <div class="paragraph"><p>Where:</p></div>
 <div class="ulist"><ul>
@@ -1122,8 +1159,8 @@ dataOut[i] is the return value of the function for invocation index &lt;i&gt;.
 component is constant integer with a value in the range [0, 31].</p></div>
 <div class="paragraph"><p>Result Type and the type of operand &lt;data&gt; must be the same type.</p></div>
 <div class="listingblock">
-<div class="content">
-<pre><code>3 | 2 | &lt;id&gt; data | &lt;id&gt; mask</code></pre>
+<div class="content monospaced">
+<pre>3 | 2 | &lt;id&gt; data | &lt;id&gt; mask</pre>
 </div></div>
 </div>
 <div class="sect2">
@@ -1132,10 +1169,10 @@ component is constant integer with a value in the range [0, 31].</p></div>
 invocation whose invocation index within the subgroup is &lt;invocationIndex&gt;.
 Within a subgroup, the outputs are defined as described below:</p></div>
 <div class="listingblock">
-<div class="content">
-<pre><code>for (i = 0; i &lt; SubgroupSize; i++) {
+<div class="content monospaced">
+<pre>for (i = 0; i &lt; SubgroupSize; i++) {
    out[i] = (i == invocationIndex) ? writeValue : inputValue;
-}</code></pre>
+}</pre>
 </div></div>
 <div class="paragraph"><p>Where out[i] is the return value of the function for invocation index &lt;i&gt;.</p></div>
 <div class="paragraph"><p>Result Type must be a scalar or vector type.</p></div>
@@ -1145,22 +1182,22 @@ Within a subgroup, the outputs are defined as described below:</p></div>
 <div class="paragraph"><p>writeValue and invocationIndex must be dynamically uniform within the subgroup,
 otherwise the result of the operation is undefined.</p></div>
 <div class="listingblock">
-<div class="content">
-<pre><code>4 | 3  | &lt;id&gt; inputValue | &lt;id&gt; writeValue | &lt;id&gt; invocationIndex</code></pre>
+<div class="content monospaced">
+<pre>4 | 3  | &lt;id&gt; inputValue | &lt;id&gt; writeValue | &lt;id&gt; invocationIndex</pre>
 </div></div>
 </div>
 <div class="sect2">
 <h3 id="_mbcntamd">MbcntAMD</h3>
 <div class="paragraph"><p>Returns the bit count of SubgroupLtMaskARB with &lt;mask&gt; as described below:</p></div>
 <div class="listingblock">
-<div class="content">
-<pre><code>%X = OpBitwiseAnd u32 %SubgroupLtMaskARB %mask
-&lt;Result&gt; = OpBitCount u32 %X</code></pre>
+<div class="content monospaced">
+<pre>%X = OpBitwiseAnd u32 %SubgroupLtMaskARB %mask
+&lt;Result&gt; = OpBitCount u32 %X</pre>
 </div></div>
 <div class="paragraph"><p>Result Type and mask must be 32-bit unsigned integers.</p></div>
 <div class="listingblock">
-<div class="content">
-<pre><code>4 | &lt;id&gt; mask</code></pre>
+<div class="content monospaced">
+<pre>4 | &lt;id&gt; mask</pre>
 </div></div>
 </div>
 </div>
@@ -1186,76 +1223,75 @@ specialized integer types.</p></div>
 <div class="sect1">
 <h2 id="_revision_history">Revision History</h2>
 <div class="sectionbody">
-<div class="tableblock">
-<table rules="rows"
-width="100%"
-frame="border"
-cellspacing="0" cellpadding="4">
-<col width="5%" />
-<col width="10%" />
-<col width="15%" />
-<col width="70%" />
+<table class="tableblock frame-all grid-rows"
+style="
+width:100%;
+">
+<col style="width:5%;">
+<col style="width:10%;">
+<col style="width:15%;">
+<col style="width:70%;">
 <thead>
 <tr>
-<th align="left" valign="top">Rev</th>
-<th align="left" valign="top">Date</th>
-<th align="left" valign="top">Author</th>
-<th align="left" valign="top">Changes</th>
+<th class="tableblock halign-left valign-top" >Rev</th>
+<th class="tableblock halign-left valign-top" >Date</th>
+<th class="tableblock halign-left valign-top" >Author</th>
+<th class="tableblock halign-left valign-top" >Changes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="left" valign="top"><p class="table">1</p></td>
-<td align="left" valign="top"><p class="table">April 21, 2016</p></td>
-<td align="left" valign="top"><p class="table">Quentin Lin</p></td>
-<td align="left" valign="top"><p class="table">Initial revision based on AMD_shader_ballot.</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">April 21, 2016</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Quentin Lin</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Initial revision based on AMD_shader_ballot.</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table">2</p></td>
-<td align="left" valign="top"><p class="table">May 20, 2016</p></td>
-<td align="left" valign="top"><p class="table">Dominik Witczak</p></td>
-<td align="left" valign="top"><p class="table">Document refactoring</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">May 20, 2016</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Dominik Witczak</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Document refactoring</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table">3</p></td>
-<td align="left" valign="top"><p class="table">May 20, 2016</p></td>
-<td align="left" valign="top"><p class="table">Matthäus G. Chajdas</p></td>
-<td align="left" valign="top"><p class="table">Document refactoring</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">May 20, 2016</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Matthäus G. Chajdas</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Document refactoring</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table">4</p></td>
-<td align="left" valign="top"><p class="table">August 11, 2016</p></td>
-<td align="left" valign="top"><p class="table">Rex Xu</p></td>
-<td align="left" valign="top"><p class="table">Add new core instructions to handle group operations placed with non-uniform control flow.</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">August 11, 2016</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Rex Xu</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Add new core instructions to handle group operations placed with non-uniform control flow.</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table">5</p></td>
-<td align="left" valign="top"><p class="table">October 13, 2016</p></td>
-<td align="left" valign="top"><p class="table">Dominik Witczak</p></td>
-<td align="left" valign="top"><p class="table">Added missing numerical value assignments, removed extension number</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">October 13, 2016</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Dominik Witczak</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Added missing numerical value assignments, removed extension number</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table">6</p></td>
-<td align="left" valign="top"><p class="table">March 28, 2018</p></td>
-<td align="left" valign="top"><p class="table">Dominik Witczak</p></td>
-<td align="left" valign="top"><p class="table">Generalized type restrictions for result types of group operation instructions to integer types. Added issue#1.</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">March 28, 2018</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Dominik Witczak</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Generalized type restrictions for result types of group operation instructions to integer types. Added issue#1.</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table">7</p></td>
-<td align="left" valign="top"><p class="table">May 16, 2019</p></td>
-<td align="left" valign="top"><p class="table">Dominik Witczak</p></td>
-<td align="left" valign="top"><p class="table">Fixed an issue in the section describing how to use the new functionality. Fixed MbcntAMD&#8217;s return type.</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">7</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">May 16, 2019</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Dominik Witczak</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Fixed an issue in the section describing how to use the new functionality. Fixed MbcntAMD&#8217;s return type.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 </div>
-</div>
-<div id="footnotes"><hr /></div>
+<div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-05-16 17:12:16 Central European Daylight Time
+Last updated
+ 2024-02-06 18:25:31 PST
 </div>
 </div>
 </body>
