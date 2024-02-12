@@ -1,0 +1,224 @@
+SPV_NV_raw_access_chains
+=========================
+
+Name Strings
+------------
+
+SPV_NV_raw_access_chains
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Hans-Kristian Arntzen, Valve
+- Jeff Bolz, NVIDIA
+- Rodrigo Locatti, NVIDIA
+
+Notice
+------
+
+Copyright (c) 2023 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+Status
+------
+
+- Complete
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2024-01-17
+| Revision           | 7
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.6 Revision 2.
+
+This extension requires SPIR-V 1.0.
+
+Overview
+--------
+
+This extension exposes an interface similar to Direct3D structured buffers and byte address buffers, allowing shaders compiled from an HLSL source to generate more efficient code. +
+This adds the instruction <<OpRawAccessChainNV,*OpRawAccessChainNV*>> under the *RawAccessChainsNV* capability. An optional operand can be provided to control bounds checking.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_NV_raw_access_chains"
+----
+
+Modifications to the SPIR-V Specification, Version 1.6
+------------------------------------------------------
+
+Validation Rules
+~~~~~~~~~~~~~~~~
+
+Modify section 2.16.1. Universal Validation Rules:
+
+In the section:
+
+    "It is invalid for a pointer to be an operand to any instruction other than:"
+
+Add:
+
+    <<OpRawAccessChainNV,*OpRawAccessChainNV*>>
+
+In the section:
+
+    "It is invalid for a pointer to be the Result <id> of any instruction other than:"
+
+Add:
+
+    <<OpRawAccessChainNV,*OpRawAccessChainNV*>>
+
+Change:
+
+    "All indexes in <<OpAccessChain,*OpAccessChain*>> and <<OpInBoundsAccessChain,*OpInBoundsAccessChain*>> that are <<OpConstant,*OpConstant*>> with type of <<OpTypeInt,*OpTypeInt*>> with a 'signedness' of 1 must not have their sign bit set."
+
+To:
+
+    "All indexes in <<OpAccessChain,*OpAccessChain*>>, <<OpInBoundsAccessChain,*OpInBoundsAccessChain*>>, and <<OpRawAccessChainNV,*OpRawAccessChainNV*>> that are <<OpConstant,*OpConstant*>> with type of <<OpTypeInt,*OpTypeInt*>> with a 'signedness' of 1 must not have their sign bit set."
+
+Change:
+
+    "An <<OpTypePointer, *OpTypePointer*>> pointing to a 16-bit scalar, a 16-bit vector, or a composite containing a 16-bit member can be used as the result type of <<OpVariable, *OpVariable*>>, or <<OpAccessChain, *OpAccessChain*>>, or <<OpInBoundsAccessChain, *OpInBoundsAccessChain*>>."
+
+To:
+
+    "An <<OpTypePointer, *OpTypePointer*>> pointing to a 16-bit scalar, a 16-bit vector, or a composite containing a 16-bit member can be used as the result type of <<OpVariable, *OpVariable*>>, or <<OpAccessChain, *OpAccessChain*>>, or <<OpInBoundsAccessChain, *OpInBoundsAccessChain*>>, or <<OpRawAccessChainNV,*OpRawAccessChainNV*>>."
+
+Change:
+
+    "An <<OpTypePointer, *OpTypePointer*>> pointing to an 8-bit scalar, an 8-bit vector, or a composite containing an 8-bit member can be used as the result type of <<OpVariable, *OpVariable*>>, or <<OpAccessChain, *OpAccessChain*>>, or <<OpInBoundsAccessChain, *OpInBoundsAccessChain*>>."
+
+To:
+
+    "An <<OpTypePointer, *OpTypePointer*>> pointing to an 8-bit scalar, an 8-bit vector, or a composite containing an 8-bit member can be used as the result type of <<OpVariable, *OpVariable*>>, or <<OpAccessChain, *OpAccessChain*>>, or <<OpInBoundsAccessChain, *OpInBoundsAccessChain*>>, or <<OpRawAccessChainNV,*OpRawAccessChainNV*>>."
+
+Modify section 2.6.2. Validation Rules for Shader Capabilities:
+
+Add text to the decorations 'Restrict', 'Aliased', 'Volatile', 'Coherent', 'NonWritable', and 'NonReadable' specifying that they can also be used on the result of <<OpRawAccessChainNV,*OpRawAccessChainNV*>>.
+
+Capabilities
+~~~~~~~~~~~~
+
+Modify Section 3.31, "Capability", adding these rows to the Capability table:
+
+--
+[options="header"]
+|====
+2+^| Capability ^| Depends On
+| 5414 | *RawAccessChainNV* +
+Allow the instruction <<OpRawAccessChainNV,*OpRawAccessChainNV*>>, and raw access chain operands *RawAccessChainRobustnessPerComponentNV* and *RawAccessChainRobustnessPerElementNV*. | *Shader*
+|====
+--
+
+Instructions
+~~~~~~~~~~~~
+
+Add the following instruction:
+
+[cols="1,1,7*3",width="100%"]
+|=====
+7+|[[OpRawAccessChainNV]]*OpRawAccessChainNV* +
+ +
+Create a pointer into a <<CompositeType,'composite'>> object with a type different than 'Base''s pointer type. +
+'Result type' must be an <<OpTypePointer,*OpTypePointer*>>. Its 'Storage Class' operand must be the same as the 'Storage Class' of 'Base'.
+The pointee type of 'Result type' must also not be <<OpTypeArray,*OpTypeArray*>>, <<OpTypeMatrix,*OpTypeMatrix*>>, or <<OpTypeStruct,*OpTypeStruct*>>. +
+'Base''s type must be an <<OpTypePointer,*OpTypePointer*>>. The <<Storage_Class, storage class>> must be *StorageBuffer*, *PhysicalStorageBuffer*, or *Uniform*.
+If *StorageBuffer*, the pointee type of 'Base', or if it points to an <<OpTypeArray,*OpTypeArray*>>, the pointee type of the array it points to, must be decorated with *Block*.
+If *Uniform*, they must be decorated with *BufferBlock*. +
+'Stride' must be a scalar <<OpConstant,*OpConstant*>> of <<Integer,'integer type'>>. It is treated as an unsigned value. +
+'Index' and 'Offset' must be a scalar <<Integer,'integer type'>> with a 32-bit width. They are treated as unsigned values. +
+If the product of 'Stride' and 'Index' would overflow, or the addition of 'Offset' to that result would overflow, the behavior is implementation defined but it is not allowed to fault.
+If 'Stride' is not zero, 'Offset' plus the size of the pointee type must be less than or equal to 'Stride'. +
+The returned pointer is calculated using 'Base's' byte address, adding 'Offset', and the product of 'Stride' and 'Index'. +
+If the optional operand 'Raw Access Chain Operands' is not provided, the default value of *None* is used. +
+The result must only be consumed by <<OpLoad,*OpLoad*>> and <<OpStore,*OpStore*>>.
+
+2+|<<Capability,Capability>>: +
+*RawAccessChainsNV*
+| 7+ | 5398
+ | '<id>' +
+'Result Type' | <<ResultId,'Result <id>' >> | '<id>' +
+'Base' | '<id>' +
+'Stride' | '<id>' +
+'Index' | '<id>' +
+'Offset' | Optional +
+<<Raw_Access_Chain_Operands, Raw Access Chain +
+Operands>>
+|=====
+
+Modify the <<OpLoad,*OpLoad*>> and <<OpStore,*OpStore*>> instructions to add:
+
+If 'Pointer' is the result of a <<OpRawAccessChainNV,*OpRawAccessChainNV*>> instruction, a valid *Aligned* <<Memory_Operands, memory operand>> must be defined. +
+This alignment must be at least the size of the component.
+
+=== [[Raw_Access_Chain_Operands]]Raw Access Chain Operands
+
+At the end of Section 3 "Binary Form", add:
+
+--
+[cols="10,65,25",options="header"]
+|====
+2+^| Raw Access Chain Operands ^| <<Capability,Enabling Capabilities>>
+| 0x0 | *None* |
+| 0x1 | *RobustnessPerComponentNV* +
+Consumers of this access chain will bounds check each scalar using the computed offset. +
+The behavior for out of bounds accesses is specified by the host environment. +
+Must not be used on a pointer with <<Storage_Class, storage class>> *PhysicalStorageBuffer*. +
+Must not be used with *RobustnessPerElementNV*.
+|*RawAccessChainsNV*
+| 0x2 | *RobustnessPerElementNV* +
+Consumers of this access chain will bounds check using the product of 'Stride' and 'Index' as access offset for the whole operation. 'Stride' must not be zero. +
+The behavior for out of bounds accesses is specified by the host environment. +
+The implementation may assume any offset within 'Index' is either all in-bounds or all out-of-bounds. +
+Must not be decorated on a pointer with <<Storage_Class, storage class>> *PhysicalStorageBuffer*. +
+Must not be used with *RobustnessPerComponentNV*.
+|*RawAccessChainsNV*
+|====
+--
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2023-07-03|Rodrigo Locatti|Initial revision.
+|2|2023-07-06|Hans-Kristian Arntzen|Misc refinements.
+|3|2023-07-07|Rodrigo Locatti|
+Add support for memory decorations to OpRawAccessChainEXT. +
+Clarify stride restrictions for bounds checking decorations. +
+Define behavior for overflows. Offset must be smaller than Stride. +
+|4|2023-07-12|Rodrigo Locatti|Define overflows on Offset.
+|5|2023-08-29|Rodrigo Locatti|Rename extension to SPV_NV_raw_access_chains.
+|6|2023-09-29|Rodrigo Locatti|Allow per-component bounds checking for non-zero strides. +
+Move robustness decorations to an operand in the OpRawAccessChainNV. +
+Remove support for ignoring 'Index' if 'Stride' is zero. +
+Define enums.
+|7|2024-01-17|Rodrigo Locatti|Remove mentions to old decorations. +
+Fix OpRawAccessChainsNV pointer type rules for 'Base'. +
+Explicitly mention overflow does not allow faulting. +
+Give the optional operand a default value. +
+Minor wording changes.
+|========================================
