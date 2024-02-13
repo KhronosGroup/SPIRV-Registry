@@ -119,7 +119,7 @@ Specifies the maximum number of registers to be allocated to a single invocation
 using a named policy rather than a specific numeric number of registers.
 This is a performance hint only.
 If the named policy is not supported then the compiler may ignore the request.
-3+| 'Literal' +
+3+| 'Named Maximum Number of Registers' +
 'Named Maximum Number of Registers'
 | *RegisterLimitsINTEL*
 |====
