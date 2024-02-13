@@ -102,7 +102,7 @@ This is a performance hint only.
 If the specified number of registers is not supported then the compiler may
 choose the closest number of supported registers or may ignore the request.
 3+| 'Literal' +
-'Number of Registers`
+'Number of Registers'
 | *RegisterLimitsINTEL*
 
 | {maximum_registers_id_token} | *MaximumRegistersIdINTEL* +
@@ -111,7 +111,7 @@ operand instead of a literal.
 The operand must be an integer type scalar and is interpreted as an unsigned
 value.
 3+| '<id>' +
-'Number of Registers`
+'Number of Registers'
 | *RegisterLimitsINTEL*
 
 | {named_maximum_registers_token} | *NamedMaximumRegistersINTEL* +
@@ -119,12 +119,12 @@ Specifies the maximum number of registers to be allocated to a single invocation
 using a named policy rather than a specific numeric number of registers.
 This is a performance hint only.
 If the named policy is not supported then the compiler may ignore the request.
-3+| 'Named Maximum Number of Registers' +
+3+| <<NamedMaxNumberOfRegisters,'Named Maximum Number of Registers'>> +
 'Named Maximum Number of Registers'
 | *RegisterLimitsINTEL*
 |====
 
-=== Named Maximum Number of Registers
+=== [[NamedMaxNumberOfRegisters]]Named Maximum Number of Registers
 
 Add a new Section 3.XX, "Named Maximum Number of Registers":
 
