@@ -1,0 +1,130 @@
+SPV_NV_shader_atomic_fp16_vector
+================================
+
+Name Strings
+------------
+
+SPV_NV_shader_atomic_fp16_vector
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Pankaj Mistry, NVIDIA
+- Jeff Bolz, NVIDIA
+
+Status
+------
+
+- Draft
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2024-02-03
+| Revision           | 2
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification, Version 1.6 Revision 3.
+
+This extension requires SPIR-V 1.0.
+
+This extension depends on and extends extensions
+`SPV_EXT_shader_atomic_float_add` and `SPV_EXT_shader_atomic_float_min_max`.
+
+
+Overview
+--------
+
+This extension adds support for atomic add, min, max and exchange instructions
+on float16 vectors with 2 or 4 components.
+
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_NV_shader_atomic_fp16_vector"
+----
+
+New Capabilities
+----------------
+
+This extension introduces the new capability:
+
+----
+AtomicFloat16VectorNV
+----
+
+
+Modifications to the SPIR-V Specification, Version 1.5
+------------------------------------------------------
+
+Modify Section 3.31, "Capability", adding this row to the Capability table:
+
+--
+[cols="1,15,15",options="header"]
+|====
+2+^| Capability ^| Implicitly Declares
+| 6095 | *AtomicFloat16VectorNV* +
+Uses the *OpAtomicFAddEXT*, *OpAtomicExchange*, *OpAtomicFMinEXT*, and
+*OpAtomicFMaxEXT* instructions on float16 vectors with 2 or 4 components.
+|
+|====
+--
+
+Modify section 3.49.18, Atomic Instructions:
+
+Add the *AtomicFloat16VectorNV* capability to the *OpAtomicFAddEXT*,
+*OpAtomicFMinEXT*, and *OpAtomicFMaxEXT* instructions,
+
+Modify each of the instructions *OpAtomicFAddEXT*,
+*OpAtomicFMinEXT*, *OpAtomicFMaxEXT*, and *OpAtomicExchange* to allow the
+'Result Type' to be a vector of float16 with two or four components.
+Atomic operations on vectors only guarantee atomicity of each component.
+
+
+Validation Rules
+----------------
+
+An *OpExtension* must be added to the SPIR-V for validation layers to check
+legal use of this extension:
+
+----
+OpExtension "SPV_NV_shader_atomic_fp16_vector"
+----
+
+ * When using *OpAtomicFAddEXT*, *OpAtomicExchange*, *OpAtomicFMinEXT* or *OpAtomicFMaxEXT* float16 vector with 2 or 4 components are allowed.
+ * If *OpAtomicFAddEXT*, *OpAtomicExchange*, *OpAtomicFMinEXT* or *OpAtomicFMaxEXT* is used with float16 vector with 2 or 4 components, the *AtomicFloat16VectorNV*
+   capability must be declared.
+
+Issues
+------
+
+None.
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date       |Author|Changes
+| 1 |           |Pankaj Mistry|Internal revisions
+| 2 |2024-02-03 |  Jeff Bolz  |Updates and simplifications
+|========================================
