@@ -1,0 +1,195 @@
+:capability_token: 6460
+:maximum_registers_literal_token: 6461
+:maximum_registers_id_token: 6462
+:named_maximum_registers_token: 6463
+
+= SPV_INTEL_maximum_registers
+
+== Name Strings
+
+SPV_INTEL_maximum_registers
+
+== Contact
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Registry
+
+== Contributors
+
+// spell-checker: disable
+- Ben Ashbaugh, Intel +
+- Greg Lueck, Intel +
+// spell-checker: enable
+
+== Notice
+
+Copyright (c) 2024 Intel Corporation.  All rights reserved.
+
+== Status
+
+* Complete
+
+== Version
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | {docdate}
+| Revision           | 1
+|========================================
+
+== Dependencies
+
+This extension is written against the SPIR-V Specification, Version 1.6 Revision
+3.
+
+This extension requires SPIR-V 1.0.
+
+== Overview
+
+This extension adds an execution mode to specify the maximum number of registers
+a SPIR-V consumer should use when compiling an entry point.
+This is a hint only that does not modify the functional behavior of the program,
+but can change its performance characteristics.
+
+== Extension Name
+
+To use this extension within a SPIR-V module, the appropriate *OpExtension* must
+be present in the module:
+
+[subs="attributes"]
+----
+OpExtension "SPV_INTEL_maximum_registers"
+----
+
+== Modifications to the SPIR-V Specification, Version 1.6
+
+=== Validation Rules
+
+Add validation rules to section 2.16.1 Universal Validation Rules under Entry Point:
+
+* Each *OpEntryPoint* must contain at most one of the
+*MaximumRegistersINTEL*, *MaximumRegistersIdINTEL*, or
+*NamedMaximumRegistersINTEL* execution modes.
+
+=== Capabilities
+
+Modify Section 3.31, Capability, adding rows to the Capability table:
+
+--
+[cols="^.^1,5,3",options="header"]
+|====
+2+^| Capability ^| Implicitly Declares 
+| {capability_token} | *RegisterLimitsINTEL* +
+Specifies the maximum number of registers that may be used by an entry point.
+|
+|====
+--
+
+=== Execution Modes
+
+Modify Section 3.6, Execution Mode, adding rows to the Execution Mode table:
+
+[cols="^4,20,3*5,22",options="header",width = "100%"]
+|====
+2+^.^| Execution Mode 3+<.^| Extra Operands 
+| Enabling Capabilities
+
+| {maximum_registers_literal_token} | *MaximumRegistersINTEL* +
+Specifies the maximum number of registers to be allocated to a single
+invocation.
+This is a performance hint only.
+If the specified number of registers is not supported then the compiler may
+choose the closest number of supported registers or may ignore the request.
+3+| 'Literal' +
+'Number of Registers'
+| *RegisterLimitsINTEL*
+
+| {maximum_registers_id_token} | *MaximumRegistersIdINTEL* +
+Same as the *MaximumRegistersINTEL* execution mode but using an '<id>'
+operand instead of a literal.
+The operand must be an integer type scalar and is interpreted as an unsigned
+value.
+3+| '<id>' +
+'Number of Registers'
+| *RegisterLimitsINTEL*
+
+| {named_maximum_registers_token} | *NamedMaximumRegistersINTEL* +
+Specifies the maximum number of registers to be allocated to a single invocation
+using a named policy rather than a specific numeric number of registers.
+This is a performance hint only.
+If the named policy is not supported then the compiler may ignore the request.
+3+| <<NamedMaxNumberOfRegisters,'Named Maximum Number of Registers'>> +
+'Named Maximum Number of Registers'
+| *RegisterLimitsINTEL*
+|====
+
+=== [[NamedMaxNumberOfRegisters]]Named Maximum Number of Registers
+
+Add a new Section 3.XX, "Named Maximum Number of Registers":
+
+Specify the maximum number of registers using a named policy.
+A named maximum number of registers policy is a symbolic name describing
+desired properties that may influence the maximum number of registers allocated
+to a single invocation.
+
+--
+[cols="^.^4,16,15",options="header"]
+|====
+2+^.^| Named Maximum Number of Registers | Enabling Capabilities
+| 0 | *AutoINTEL* +
+Choose the maximum number of registers automatically to minimize register spills.
+    | *RegisterLimitsINTEL*
+|====
+--
+
+== Issues
+
+. Do we need to support both the 'literal' and '<id>' execution modes?
++
+--
+*RESOLVED*: Because different devices may support differently sized register
+files it is valuable to support specifying the maximum number of registers
+using a specialization constant.
+--
+
+. Should we support other "performance tuning directives" in addition to the
+maximum number of registers?
++
+--
+*RESOLVED*: Not in this extension.
+--
+
+. What should behavior be when no maximum number of registers is specified for
+an entry point?
++
+--
+*RESOLVED*: This is outside of the scope of this extension, but for informative
+purposes: behavior should be considered implementation-defined when no explicit
+maximum number of registers is specified for an entry point.  Some possible
+valid implementations could be: the compiler chooses a fixed number of registers
+for simplicity and predictability, or the compiler chooses a number of registers
+based on heuristics to balance parallelism and register spills.
+--
+
+. What should the named maximum number of register policy be in the initial
+version of this extension?
++
+--
+*RESOLVED*: The name is colloquially known as "auto" therefore it is the name
+that is used currently.
+
+Note that the behavior is implementation-defined both with this named policy and
+when the entry point does not describe any specific maximum number of registers,
+although it is a *different* implementation, at least for current Intel GPUs.
+--
+
+== Revision History
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2024-02-05|Ben Ashbaugh|Initial public revision.
+|========================================
