@@ -773,8 +773,8 @@ large but finite values of <code>a</code>.</p>
 <tr>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">0x10000</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>AllowContract</strong><br>
-Allows a floating-point operation and any operation(s) producing its operands
-to be contracted. Rounding steps may be eliminated or may preserve higher
+Allows a floating-point operation to be contracted with any operation(s)
+producing its operands. Rounding steps may be eliminated or may preserve higher
 bit-depth than the specified types. The instructions producing the operands do
 not need to be decorated to allow this transformation.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FloatControls2</strong></p></td>
@@ -782,17 +782,17 @@ not need to be decorated to allow this transformation.</p></td>
 <tr>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">0x20000</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>AllowReassoc</strong><br>
-Allows a floating-point operation and any operation(s) producing its operands
-to be reordered according to real-number associativity rules. The instructions
-producing the operands do not need to be decorated to allow this
+Allows a floating-point operation to be reordered with any operation(s)
+producing its operands according to real-number associativity rules. The
+instructions producing the operands do not need to be decorated to allow this
 transformation.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FloatControls2</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">0x40000</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>AllowTransform</strong><br>
-Allows a floating-point operation and any operation(s) producing its operands
-to be transformed according to real-number rules. This is a superset of
+Allows a floating-point operation to be transformed with any operation(s)
+producing its operands according to real-number rules. This is a superset of
 <strong>AllowContract</strong> and <strong>AllowReassoc</strong> and those bits must be set whenever this bit
 is set. The instructions producing the operands do not need to be decorated to
 allow this transformation, but note that non-trivial transformations may
@@ -1023,7 +1023,7 @@ is outside the scope of this extension.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-02-01 12:26:51 UTC
+Last updated 2024-02-14 14:58:41 UTC
 </div>
 </div>
 </body>

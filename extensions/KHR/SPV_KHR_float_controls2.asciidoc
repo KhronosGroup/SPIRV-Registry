@@ -163,20 +163,20 @@ Add the following rows to the FP Fast Math Mode table:
 |====
 2+^.^| FP Fast Math Mode| <<Capability,Enabling Capabilities>>
 | 0x10000 | *AllowContract* +
-Allows a floating-point operation and any operation(s) producing its operands
-to be contracted. Rounding steps may be eliminated or may preserve higher
+Allows a floating-point operation to be contracted with any operation(s)
+producing its operands. Rounding steps may be eliminated or may preserve higher
 bit-depth than the specified types. The instructions producing the operands do
 not need to be decorated to allow this transformation.
 | *FloatControls2*
 | 0x20000 | *AllowReassoc* +
-Allows a floating-point operation and any operation(s) producing its operands
-to be reordered according to real-number associativity rules. The instructions
-producing the operands do not need to be decorated to allow this
+Allows a floating-point operation to be reordered with any operation(s)
+producing its operands according to real-number associativity rules. The
+instructions producing the operands do not need to be decorated to allow this
 transformation.
 | *FloatControls2*
 | 0x40000 | *AllowTransform* +
-Allows a floating-point operation and any operation(s) producing its operands
-to be transformed according to real-number rules. This is a superset of
+Allows a floating-point operation to be transformed with any operation(s)
+producing its operands according to real-number rules. This is a superset of
 *AllowContract* and *AllowReassoc* and those bits must be set whenever this bit
 is set. The instructions producing the operands do not need to be decorated to
 allow this transformation, but note that non-trivial transformations may
