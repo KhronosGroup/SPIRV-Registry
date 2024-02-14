@@ -137,6 +137,7 @@ Khronos SPIR-V Registry](https://www.khronos.org/registry/spir-v/).
 1. [SPV_KHR_maximal_reconvergence           ]( https://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/KHR/SPV_KHR_maximal_reconvergence.html)
 1. [SPV_KHR_float_controls2                 ]( https://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/KHR/SPV_KHR_float_controls2.html)
 1. [SPV_INTEL_maximum_registers             ]( https://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/INTEL/SPV_INTEL_maximum_registers.html)
+1. [SPV_NV_raw_access_chains                ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/NV/SPV_NV_raw_access_chains.html)
 
 ## Non-Semantic Extended Instruction Set Specifications
 
