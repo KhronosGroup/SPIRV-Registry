@@ -29,8 +29,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2024-02-03
-| Revision           | 2
+| Last Modified Date | 2024-02-21
+| Revision           | 3
 |========================================
 
 Dependencies
@@ -40,8 +40,9 @@ This extension is written against the SPIR-V Specification, Version 1.6 Revision
 
 This extension requires SPIR-V 1.0.
 
-This extension depends on and extends extensions
-`SPV_EXT_shader_atomic_float_add` and `SPV_EXT_shader_atomic_float_min_max`.
+This extension reuses instructions from extensions
+`SPV_EXT_shader_atomic_float_add` and `SPV_EXT_shader_atomic_float_min_max`
+but does not require them to be supported or enabled.
 
 
 Overview
@@ -127,4 +128,5 @@ Revision History
 |Rev|Date       |Author|Changes
 | 1 |           |Pankaj Mistry|Internal revisions
 | 2 |2024-02-03 |  Jeff Bolz  |Updates and simplifications
+| 3 |2024-02-21 |  Jeff Bolz  |Fix interaction with float_add/float_min_max
 |========================================

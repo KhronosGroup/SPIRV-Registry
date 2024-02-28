@@ -827,11 +827,11 @@ width:40%;
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2024-02-03</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2024-02-21</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">3</p></td>
 </tr>
 </tbody>
 </table>
@@ -842,8 +842,9 @@ width:40%;
 <div class="sectionbody">
 <div class="paragraph"><p>This extension is written against the SPIR-V Specification, Version 1.6 Revision 3.</p></div>
 <div class="paragraph"><p>This extension requires SPIR-V 1.0.</p></div>
-<div class="paragraph"><p>This extension depends on and extends extensions
-<span class="monospaced">SPV_EXT_shader_atomic_float_add</span> and <span class="monospaced">SPV_EXT_shader_atomic_float_min_max</span>.</p></div>
+<div class="paragraph"><p>This extension reuses instructions from extensions
+<span class="monospaced">SPV_EXT_shader_atomic_float_add</span> and <span class="monospaced">SPV_EXT_shader_atomic_float_min_max</span>
+but does not require them to be supported or enabled.</p></div>
 </div>
 </div>
 <div class="sect1">
@@ -975,6 +976,12 @@ width:100%;
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Jeff Bolz</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Updates and simplifications</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2024-02-21</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Jeff Bolz</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Fix interaction with float_add/float_min_max</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -984,7 +991,7 @@ width:100%;
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2024-02-14 09:14:14 CST
+ 2024-02-22 11:21:53 CST
 </div>
 </div>
 </body>
