@@ -201,6 +201,7 @@ Indicates a floating-point fast math flag. 2+| <<FP_Fast_Math_Mode,'FP Fast Math
 In section 3.31 "Capability" add the following row to the capability table:
 [cols="^.^2,16,15",options="header",width = "100%"]
 |====
+2+| Capability | Implicitly Declares
 | 6029 | *FloatControls2* +
 Uses *FPFastMathDefault* execution mode or uses *FPFastMath* decoration (unless enabled with the *Kernel* capability). |
 |====
