@@ -30,7 +30,8 @@ http://www.khronos.org/registry/speccopyright.html
 Status
 ------
 
-- Draft
+- Approved by the SPIR-V Working Group: 2023-12-06
+- Approved by the Khronos Board of Promoters: 2024-01-19
 
 Version
 -------
