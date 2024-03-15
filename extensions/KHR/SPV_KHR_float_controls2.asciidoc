@@ -32,8 +32,8 @@ http://www.khronos.org/registry/speccopyright.html
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2023-10-02
-| Revision           | 8
+| Last Modified Date | 2024-03-15
+| Revision           | 9
 |========================================
 
 == Dependencies
@@ -110,7 +110,8 @@ which are otherwise unsafe", add:
 If an operation is decorated with *FPFastMathMode* then the flags from that
 decoration apply. Otherwise, if the current entry point sets any
 *FPFastMathDefault* execution mode then all flags specified for any operand
-type or for the result type of the operation apply. If the entry point set no
+type or for the result type of the operation apply. If the operation is not
+decorated wiht *FPFastMathMode* and the entry point sets no
 *FPFastMathDefault* execution modes then the flags to be applied are determined
 by the client API and not by SPIR-V.
 
@@ -271,5 +272,6 @@ is outside the scope of this extension.
 |5|2023-05-09|Graeme Leese|Resolve issues.
 |6|2023-05-17|Graeme Leese|Clarify interaction of transforms with inf/nan.
 |7|2023-06-08|Graeme Leese|Update deprecations, fix defaults to use IDs.
-|8|2023-10-02|Graeme Leese|Update required SPIR-V version, clarify deprecation of 'fast'
+|8|2023-10-02|Graeme Leese|Update required SPIR-V version, clarify deprecation of 'fast'.
+|9|2024-03-15|Graeme Leese|Clarify rules for modules declaring no *FPFastMathDefault*.
 |========================================
