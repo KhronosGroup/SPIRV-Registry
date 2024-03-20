@@ -331,7 +331,7 @@ add one new instruction in this subsection as follows:
 
 [cols="3", width="100%"]
 |=====
-2+^|*OpTypeTaskSequenceINTEL* +
+2+|*OpTypeTaskSequenceINTEL* +
 
 Declare a task sequence type.
 
@@ -348,7 +348,7 @@ instructions in this subsection as follows:
 
 [cols="9", width="100%"]
 |=====
-8+^|*OpTaskSequenceCreateINTEL* +
+8+|*OpTaskSequenceCreateINTEL* +
 
 Create and return an instance of a task sequence with type
  *OpTypeTaskSequenceINTEL*. All calls to *OpTaskSequenceAsyncINTEL* with
@@ -411,7 +411,7 @@ _AsyncCapacity_
 
 [cols="4", width="100%"]
 |=====
-3+^|*OpTaskSequenceAsyncINTEL* +
+3+|*OpTaskSequenceAsyncINTEL* +
 
 Asynchronously invoke the *OpFunction* `f` associated with the task sequence
 _Sequence_.
@@ -437,7 +437,7 @@ _..._
 |=====
 [cols="5", width="100%"]
 |=====
-4+^|*OpTaskSequenceGetINTEL* +
+4+|*OpTaskSequenceGetINTEL* +
 Retrieve the result of a task thread in the task sequence _Sequence_. If there
 are multiple task threads, the results are retrieved in the same order in which
 the threads were created.
@@ -454,7 +454,7 @@ _Sequence_
 |=====
 [cols="3", width="100%"]
 |=====
-2+^|*OpTaskSequenceReleaseINTEL* +
+2+|*OpTaskSequenceReleaseINTEL* +
 Release the memory allocated for the task sequence uniquely identified by the
 id _Sequence_.
 _Sequence_ must have type *OpTypeTaskSequenceINTEL*.
