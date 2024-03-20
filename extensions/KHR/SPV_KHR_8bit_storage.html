@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="generator" content="AsciiDoc 8.6.9">
+<meta name="generator" content="AsciiDoc 10.2.0">
 <title>SPV_KHR_8bit_storage</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
@@ -434,7 +434,7 @@ thead, p.table.header {
 p.table {
   margin-top: 0;
 }
-/* Because the table frame attribute is overriden by CSS in most browsers. */
+/* Because the table frame attribute is overridden by CSS in most browsers. */
 div.tableblock > table[frame="void"] {
   border-style: none;
 }
@@ -839,11 +839,11 @@ width:40%;
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2018-03-28</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2019-06-10</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
 </tr>
 </tbody>
 </table>
@@ -862,11 +862,9 @@ Version 1.3 Revision 1.</p></div>
 <div class="sect1">
 <h2 id="_overview">Overview</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>This extension adds new <strong>StorageBuffer8BitAccess</strong>, <strong>UniformAndStorageBuffer8BitAccess</strong>
-capabilities that allow to access 8-bit data in objects in <strong>Uniform</strong> and <strong>StorageBuffer</strong> storage
-classes.</p></div>
-<div class="paragraph"><p>It also adds new <strong>StoragePushConstant8</strong> capability that allows access to 8-bit
-data in objects in <strong>PushConstant</strong> storage class.</p></div>
+<div class="paragraph"><p>This extension adds new <strong>StorageBuffer8BitAccess</strong>, <strong>UniformAndStorageBuffer8BitAccess</strong>,
+and <strong>StoragePushConstant8</strong> capabilities to allow accesses to 8-bit integer types in
+the <strong>StorageBuffer</strong>, <strong>Uniform</strong>, and <strong>PushConstant</strong> storage classes.</p></div>
 </div>
 </div>
 <div class="sect1">
@@ -878,56 +876,6 @@ data in objects in <strong>PushConstant</strong> storage class.</p></div>
 <div class="content monospaced">
 <pre>OpExtension "SPV_KHR_8bit_storage"</pre>
 </div></div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_new_capabilities">New Capabilities</h2>
-<div class="sectionbody">
-<div class="paragraph"><p>This extension introduces new capabilities:</p></div>
-<div class="listingblock">
-<div class="content monospaced">
-<pre>StorageBuffer8BitAccess
-UniformAndStorageBuffer8BitAccess
-StoragePushConstant8</pre>
-</div></div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_new_builtins">New Builtins</h2>
-<div class="sectionbody">
-<div class="paragraph"><p>None.</p></div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_new_instructions">New Instructions</h2>
-<div class="sectionbody">
-<div class="paragraph"><p>None.</p></div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_token_number_assignments">Token Number Assignments</h2>
-<div class="sectionbody">
-<table class="tableblock frame-all grid-rows"
-style="
-width:40%;
-">
-<col style="width:70%;">
-<col style="width:30%;">
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">StorageBuffer8BitAccess</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">4448</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">UniformAndStorageBuffer8BitAccess</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">4449</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">StoragePushConstant8</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">4450</p></td>
-</tr>
-</tbody>
-</table>
 </div>
 </div>
 <div class="sect1">
@@ -957,15 +905,13 @@ width:100%;
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">4448</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>StorageBuffer8BitAccess</strong><br>
-Allows a 8-bit <a href="#OpTypeInt"><strong>OpTypeInt</strong></a>
-instruction for the sole purpose of creating an <a href="#OpTypePointer"><strong>OpTypePointer</strong></a>
-to a 8-bit integer member of an object in <strong>StorageBuffer</strong>
-<a href="#Storage_Class">Storage Class</a>.</p>
-<p class="tableblock">An object of a 8-bit type produced by dereferencing such a pointer
-may be the result of a width-only conversion instruction (<a href="#OpSConvert"><strong>OpSConvert</strong></a>,
+Allows an <a href="#OpTypePointer"><strong>OpTypePointer</strong></a> to an 8-bit <a href="#OpTypeInt"><strong>OpTypeInt</strong></a>
+type used as a member of a structure in the <strong>StorageBuffer</strong> <a href="#Storage_Class">storage class</a>.</p>
+<p class="tableblock">The 8-bit object pointed to by such a pointer may be the result of a width-only
+conversion instruction (<a href="#OpSConvert"><strong>OpSConvert</strong></a>,
 or <a href="#OpUConvert"><strong>OpUConvert</strong></a>) from another type or of
 an <a href="#OpLoad"><strong>OpLoad</strong></a>, and may be used as an operand to a width-only conversion
-instruction to another type or as the object argument of an
+instruction to another type or as the <em>Object</em> operand of an
 <a href="#OpStore"><strong>OpStore</strong></a>.</p>
 <p class="tableblock">Other uses of 8-bit types are not enabled by this capability.</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
@@ -973,14 +919,14 @@ instruction to another type or as the object argument of an
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">4449</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>UniformAndStorageBuffer8BitAccess</strong><br>
-Allows a 8-bit <a href="#OpTypeInt"><strong>OpTypeInt</strong></a>
-instruction for the sole purpose of creating an <a href="#OpTypePointer"><strong>OpTypePointer</strong></a>
-to a 8-bit integer member of an object in <strong>Uniform</strong> and <strong>StorageBuffer</strong>
-<a href="#Storage_Class">Storage Class</a>.</p>
-<p class="tableblock">An object of a 8-bit type produced by dereferencing such a pointer
-may be the result of a width-only conversion instruction from another type or of
+Allows an <a href="#OpTypePointer"><strong>OpTypePointer</strong></a> to an 8-bit <a href="#OpTypeInt"><strong>OpTypeInt</strong></a>
+type used as a member of a structure in either of the <strong>Uniform</strong> or <strong>StorageBuffer</strong>
+<a href="#Storage_Class">storage classes</a>.</p>
+<p class="tableblock">The 8-bit object pointed to by such a pointer may be the result of a width-only
+conversion instruction (<a href="#OpSConvert"><strong>OpSConvert</strong></a>,
+or <a href="#OpUConvert"><strong>OpUConvert</strong></a>) from another type or of
 an <a href="#OpLoad"><strong>OpLoad</strong></a>, and may be used as an operand to a width-only conversion
-instruction to another type or as the object argument of an
+instruction to another type or as the <em>Object</em> operand of an
 <a href="#OpStore"><strong>OpStore</strong></a>.</p>
 <p class="tableblock">Other uses of 8-bit types are not enabled by this capability.</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>StorageBuffer8BitAccess</strong></p></td>
@@ -988,12 +934,11 @@ instruction to another type or as the object argument of an
 <tr>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">4450</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>StoragePushConstant8</strong><br>
-Allows a 8-bit <a href="#OpTypeInt"><strong>OpTypeInt</strong></a>
-instruction for the sole purpose of creating an <a href="#OpTypePointer"><strong>OpTypePointer</strong></a>
-to a 8-bit integer object in <strong>PushConstant</strong>
-<a href="#Storage_Class">Storage Class</a>.</p>
-<p class="tableblock">An object of a 8-bit type produced by dereferencing such a pointer
-may only be the result of a width-only conversion instruction from another type or of
+Allows an <a href="#OpTypePointer"><strong>OpTypePointer</strong></a> to an 8-bit <a href="#OpTypeInt"><strong>OpTypeInt</strong></a>
+type used as a member of a structure in the <strong>PushConstant</strong> <a href="#Storage_Class">storage class</a>.</p>
+<p class="tableblock">The 8-bit object pointed to by such a pointer may be the result of a width-only
+conversion instruction (<a href="#OpSConvert"><strong>OpSConvert</strong></a>,
+or <a href="#OpUConvert"><strong>OpUConvert</strong></a>) from another type or of
 an <a href="#OpLoad"><strong>OpLoad</strong></a>.</p>
 <p class="tableblock">Other uses of 8-bit types are not enabled by this capability.</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
@@ -1008,13 +953,13 @@ an <a href="#OpLoad"><strong>OpLoad</strong></a>.</p>
 <div class="sect1">
 <h2 id="_interactions_with_optional_types">Interactions with optional types</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>If the <strong>Int8</strong> capability is enabled, then the 8-bit <a href="#OpTypeInt"><strong>OpTypeInt</strong></a>
-instruction mentioned eariler can be used as an operand or a result to any supported instruction
-with a 8-bit result type or a 8-bit operand type.</p></div>
-<div class="paragraph"><p>If the <strong>Int16</strong> or the <strong>Float16</strong> capability is enabled, then the 8-bit <a href="#OpTypeInt"><strong>OpTypeInt</strong></a>
+<div class="paragraph"><p>If the <strong>Int8</strong> capability is declared, then the 8-bit <a href="#OpTypeInt"><strong>OpTypeInt</strong></a>
+instruction mentioned earlier can be used as an operand or a result to any supported instruction
+with an 8-bit result type or an 8-bit operand type.</p></div>
+<div class="paragraph"><p>If the <strong>Int16</strong> or the <strong>Float16</strong> capability is declared, then the 8-bit <a href="#OpTypeInt"><strong>OpTypeInt</strong></a>
 instruction mentioned earlier can be used as an operand or a result to any supported conversion
 instruction with a 16-bit result type or a 16-bit operand type.</p></div>
-<div class="paragraph"><p>If the <strong>Int64</strong> or the <strong>Float64</strong> capability is enabled, then the 8-bit <a href="#OpTypeInt"><strong>OpTypeInt</strong></a>
+<div class="paragraph"><p>If the <strong>Int64</strong> or the <strong>Float64</strong> capability is declared, then the 8-bit <a href="#OpTypeInt"><strong>OpTypeInt</strong></a>
 instruction mentioned earlier can be used as an operand or result to any supported conversion
 instruction with a 64-bit result type or a 64-bit operand type.</p></div>
 </div>
@@ -1022,14 +967,14 @@ instruction with a 64-bit result type or a 64-bit operand type.</p></div>
 <div class="sect1">
 <h2 id="_interactions_with_spv_khr_16bit_storage">Interactions with SPV_KHR_16bit_storage</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>If any capability introduced by the <strong>SPV_KHR_16bit_storage</strong> extension is enabled,
+<div class="paragraph"><p>If any capability is declared from the <strong>SPV_KHR_16bit_storage</strong> extension,
 then the object produced by dereferencing a pointer pointing to 8-bit data can be used
 as an operand or a result to a width-only conversion instruction with
 a 16-bit result type or a 16-bit operand type, and in addition,
 the object produced by dereferencing a pointer pointing to 16-bit data mentioned
 in the <strong>Capability</strong> section of the <strong>SPV_KHR_16bit_storage</strong> extension
 can be used as an operand or a result to a width-only conversion instruction with
-a 8-bit result type or a 8-bit operand type.</p></div>
+an 8-bit result type or an 8-bit operand type.</p></div>
 </div>
 </div>
 <div class="sect1">
@@ -1075,6 +1020,12 @@ width:100%;
 <td class="tableblock halign-left valign-top" ><p class="tableblock">David Neto</p></td>
 <td class="tableblock halign-left valign-top" ><p class="tableblock">Record approval by SPIR Working Group</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">2019-06-10</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">John Kessenich</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Rationalize and clean up</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1083,7 +1034,8 @@ width:100%;
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-09-06 10:38:48 MDT
+Last updated
+ 2024-02-06 18:25:31 PST
 </div>
 </div>
 </body>

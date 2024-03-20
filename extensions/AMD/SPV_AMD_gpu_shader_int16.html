@@ -1,9 +1,8 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
-    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 8.6.9" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="AsciiDoc 10.2.0">
 <title>SPIR-V Extension SPV_AMD_gpu_shader_int16</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
@@ -435,7 +434,7 @@ thead, p.table.header {
 p.table {
   margin-top: 0;
 }
-/* Because the table frame attribute is overriden by CSS in most browsers. */
+/* Because the table frame attribute is overridden by CSS in most browsers. */
 div.tableblock > table[frame="void"] {
   border-style: none;
 }
@@ -535,6 +534,40 @@ body.manpage div.sectionbody {
 }
 
 
+@media screen {
+  body {
+    max-width: 50em; /* approximately 80 characters wide */
+    margin-left: 16em;
+  }
+
+  #toc {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 13em;
+    padding: 0.5em;
+    padding-bottom: 1.5em;
+    margin: 0;
+    overflow: auto;
+    border-right: 3px solid #f8f8f8;
+    background-color: white;
+  }
+
+  #toc .toclevel1 {
+    margin-top: 0.5em;
+  }
+
+  #toc .toclevel2 {
+    margin-top: 0.25em;
+    display: list-item;
+    color: #aaaaaa;
+  }
+
+  #toctitle {
+    margin-top: 0.5em;
+  }
+}
 </style>
 <script type="text/javascript">
 /*<![CDATA[*/
@@ -727,13 +760,17 @@ install: function(toclevels) {
 }
 
 }
-asciidoc.install();
+asciidoc.install(1);
 /*]]>*/
 </script>
 </head>
 <body class="article">
 <div id="header">
 <h1>SPIR-V Extension SPV_AMD_gpu_shader_int16</h1>
+<div id="toc">
+  <div id="toctitle">Table of Contents</div>
+  <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
+</div>
 </div>
 <div id="content">
 <div class="sect1">
@@ -835,8 +872,8 @@ instructions described in the GLSL.std.450 extended instruction set.</p></div>
 <div class="sectionbody">
 <div class="paragraph"><p>To enable SPV_AMD_gpu_shader_int16 extension in SPIR-V, use</p></div>
 <div class="literalblock">
-<div class="content">
-<pre><code>OpExtension "SPV_AMD_gpu_shader_int16"</code></pre>
+<div class="content monospaced">
+<pre>OpExtension "SPV_AMD_gpu_shader_int16"</pre>
 </div></div>
 </div>
 </div>
@@ -846,8 +883,8 @@ instructions described in the GLSL.std.450 extended instruction set.</p></div>
 <div class="paragraph"><p>This extension adds support for 16-bit signed and unsigned integer component types
 for the following instructions described in the GLSL.std.450 extended instruction set:</p></div>
 <div class="listingblock">
-<div class="content">
-<pre><code>Frexp</code></pre>
+<div class="content monospaced">
+<pre>Frexp</pre>
 </div></div>
 </div>
 </div>
@@ -866,23 +903,23 @@ for the following instructions described in the GLSL.std.450 extended instructio
 <div class="paragraph"><p>Modify Section 2, Binary Form</p></div>
 <div class="sect2">
 <h3 id="_frexp">Frexp</h3>
-<div class="paragraph"><p>(Replace the following sentence:)<br />
-<br />
-The <em>exp</em> operand must be a pointer to a scalar or vector with integer component type, with 32-bit component width.<br />
-<br />
-(with:)<br />
-<br />
-The <em>exp</em> operand must be a pointer to a scalar or vector with integer component type, with 16- or 32-bit component width.<br /></p></div>
+<div class="paragraph"><p>(Replace the following sentence:)<br>
+<br>
+The <em>exp</em> operand must be a pointer to a scalar or vector with integer component type, with 32-bit component width.<br>
+<br>
+(with:)<br>
+<br>
+The <em>exp</em> operand must be a pointer to a scalar or vector with integer component type, with 16- or 32-bit component width.<br></p></div>
 </div>
 <div class="sect2">
 <h3 id="_frexpstruct">FrexpStruct</h3>
-<div class="paragraph"><p>(Replace the following sentence:)<br />
-<br />
-Member 1 must be a scalar or vector with integer component type, with 32-bit component width.<br />
-<br />
-(with:)<br />
-<br />
-Member 1 must be a scalar or vector with integer component type, with 16- or 32-bit component width.<br /></p></div>
+<div class="paragraph"><p>(Replace the following sentence:)<br>
+<br>
+Member 1 must be a scalar or vector with integer component type, with 32-bit component width.<br>
+<br>
+(with:)<br>
+<br>
+Member 1 must be a scalar or vector with integer component type, with 16- or 32-bit component width.<br></p></div>
 </div>
 </div>
 </div>
@@ -901,40 +938,39 @@ Member 1 must be a scalar or vector with integer component type, with 16- or 32-
 <div class="sect1">
 <h2 id="_revision_history">Revision History</h2>
 <div class="sectionbody">
-<div class="tableblock">
-<table rules="rows"
-width="100%"
-frame="border"
-cellspacing="0" cellpadding="4">
-<col width="5%" />
-<col width="10%" />
-<col width="15%" />
-<col width="70%" />
+<table class="tableblock frame-all grid-rows"
+style="
+width:100%;
+">
+<col style="width:5%;">
+<col style="width:10%;">
+<col style="width:15%;">
+<col style="width:70%;">
 <thead>
 <tr>
-<th align="left" valign="top">Rev</th>
-<th align="left" valign="top">Date</th>
-<th align="left" valign="top">Author</th>
-<th align="left" valign="top">Changes</th>
+<th class="tableblock halign-left valign-top" >Rev</th>
+<th class="tableblock halign-left valign-top" >Date</th>
+<th class="tableblock halign-left valign-top" >Author</th>
+<th class="tableblock halign-left valign-top" >Changes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="left" valign="top"><p class="table">1</p></td>
-<td align="left" valign="top"><p class="table">June 8, 2017</p></td>
-<td align="left" valign="top"><p class="table">Dominik Witczak</p></td>
-<td align="left" valign="top"><p class="table">Initial revision based on AMD_gpu_shader_int16.</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">June 8, 2017</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Dominik Witczak</p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock">Initial revision based on AMD_gpu_shader_int16.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 </div>
-</div>
-<div id="footnotes"><hr /></div>
+<div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-06-08 14:19:57 Central European Daylight Time
+Last updated
+ 2024-02-06 18:25:31 PST
 </div>
 </div>
 </body>
