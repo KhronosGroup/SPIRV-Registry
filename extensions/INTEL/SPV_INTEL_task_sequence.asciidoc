@@ -463,12 +463,15 @@ _Sequence_ must have type *OpTypeTaskSequenceINTEL*.
 | 2 | 6166 | _<id>_ +
 _Sequence_
 |=====
+
 == SPIR-V Representation in LLVM IR
 This is a non-normative section. `OpTypeTaskSequenceINTEL` can be mapped to LLVM
 opaque type `spirv.TaskSequenceINTEL` and mangled as
 `\\__spirv_TaskSequenceINTEL__`.
+
 == Issues
 None.
+
 == Revision History
 [cols="5,15,15,70"]
 [grid="rows"]
