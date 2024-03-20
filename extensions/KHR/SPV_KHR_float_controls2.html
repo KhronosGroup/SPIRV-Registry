@@ -435,6 +435,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 #footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
@@ -538,11 +539,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2023-10-02</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2024-03-15</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">8</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">9</p></td>
 </tr>
 </tbody>
 </table>
@@ -678,7 +679,8 @@ which are otherwise unsafe", add:</p>
 <p>If an operation is decorated with <strong>FPFastMathMode</strong> then the flags from that
 decoration apply. Otherwise, if the current entry point sets any
 <strong>FPFastMathDefault</strong> execution mode then all flags specified for any operand
-type or for the result type of the operation apply. If the entry point set no
+type or for the result type of the operation apply. If the operation is not
+decorated with <strong>FPFastMathMode</strong> and the entry point sets no
 <strong>FPFastMathDefault</strong> execution modes then the flags to be applied are determined
 by the client API and not by SPIR-V.</p>
 </div>
@@ -686,7 +688,7 @@ by the client API and not by SPIR-V.</p>
 <table>
 <tr>
 <td class="icon">
-<img src="./images/icons/note.png" alt="Note">
+<i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
 <div class="title">Note</div>
@@ -731,7 +733,7 @@ change which rearrangements are valid.</p>
 <table>
 <tr>
 <td class="icon">
-<img src="./images/icons/note.png" alt="Note">
+<i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
 <div class="title">Note</div>
@@ -1020,7 +1022,13 @@ is outside the scope of this extension.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">8</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2023-10-02</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Graeme Leese</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Update required SPIR-V version, clarify deprecation of 'fast'</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Update required SPIR-V version, clarify deprecation of 'fast'.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">9</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2024-03-15</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Graeme Leese</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Clarify rules for modules declaring no <strong>FPFastMathDefault</strong>.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1029,7 +1037,7 @@ is outside the scope of this extension.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-03-08 17:57:37 UTC
+Last updated 2024-03-20 10:19:57 UTC
 </div>
 </div>
 </body>
