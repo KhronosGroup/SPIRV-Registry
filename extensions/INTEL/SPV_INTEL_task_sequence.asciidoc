@@ -18,6 +18,7 @@ https://github.com/KhronosGroup/SPIRV-Headers
 - Michael Kinsner, Intel +
 - Abhishek Tiwari, Intel +
 - Bowen Xue, Intel
+
 == Notice
 
 Copyright (c) 2022-2024 Intel Corporation.  All rights reserved.
