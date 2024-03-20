@@ -54,7 +54,7 @@ be queried with the *OpTaskSequenceGetINTEL* instruction.
 
 === Task Sequence and Task Threads
 
-A task sequence object can be created by calling *OpTaskSequenceCreateINTEL*. 
+A task sequence object can be created by calling *OpTaskSequenceCreateINTEL*.
 The *OpTaskSequenceAsyncINTEL*, *OpTaskSequenceGetINTEL*, and
 *OpTaskSequenceReleaseINTEL* instructions take a task sequence object as an
 argument. The *OpTaskSequenceAsyncINTEL* instruction creates a invocation which
@@ -306,7 +306,7 @@ OpTaskSequenceReleaseINTEL
 |OpTaskSequenceAsyncINTEL  | 6164
 |OpTaskSequenceGetINTEL  | 6165
 |OpTaskSequenceReleaseINTEL  | 6166
-|OpTypeTaskSequenceINTEL  | 6411
+|OpTypeTaskSequenceINTEL  | 6199
 |====
 --
 
@@ -337,7 +337,7 @@ Declare a task sequence type.
 | Capability:
 *TaskSequenceINTEL*
 
-| 2 | 6411 | Result +
+| 2 | 6199 | Result +
 _<id>_
 |=====
 
