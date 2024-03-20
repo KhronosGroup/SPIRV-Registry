@@ -1174,9 +1174,12 @@ Global Variables
  +
 'Linkage Name' is an *OpString*, holding the linkage name of the variable. +
  +
-'Variable' is the '<id>' of the source global variable or constant that
- is described by this instruction. If the variable is optimized out, this
- operand must be <<DebugInfoNone,*DebugInfoNone*>>. +
+'Variable' can hold two kinds of values.  First it can hold the '<id>' of the
+ source global variable or constant that is described by this instruction. If
+ the variable is optimized out, this operand can be the '<id>' of a
+ <<DebugExpression,*DebugExpression*>> instruction that contains the constant
+ value of the variable that was optimized out. Otherwise this operand must be
+ <<DebugInfoNone,*DebugInfoNone*>>. +
  +
 {flags} +
  +

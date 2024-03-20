@@ -1,0 +1,277 @@
+= SPV_KHR_float_controls2
+
+== Name Strings
+
+SPV_KHR_float_controls2
+
+== Contact
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Registry
+
+== Contributors
+
+- Graeme Leese, Broadcom
+- Ben Ashbaugh, Intel
+- Alan Baker, Google
+- David Neto, Google
+- Ruihao Zhang, Qualcomm
+
+== Notice
+
+Copyright (c) 2021 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+== Status
+
+- Approved by the SPIR-V Working Group: 2023-12-06
+- Approved by the Khronos Board of Promoters: 2024-01-19
+
+== Version
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2024-03-15
+| Revision           | 9
+|========================================
+
+== Dependencies
+
+This extension is written against the SPIR-V Specification,
+Version 1.6 Revision 1, Unified
+
+This extension requires SPIR-V 1.2.
+
+This extension interacts trivially with SPV_KHR_float_controls (which became core in SPIR-V 1.4).
+
+This extension supersedes SPV_INTEL_fp_fast_math_mode.
+
+== Overview
+
+This extension provides a single mechanism for specifying the floating-point
+environment which can be used on whole modules and individual instructions.
+It is designed to supersede the various existing ways of specifying different
+modifications to the floating-point semantics.
+
+== Extension Name
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_KHR_float_controls2"
+----
+
+== Modifications to the SPIR-V Specification, Version 1.6
+
+=== Universal Validation Rules
+
+In section 2.16.1 "Universal Validation Rules" add the rules:
+
+* It is not valid for an entry point using the *FPFastMathDefault* execution mode to:
+  - Use the execution modes *ContractionOff* or *SignedZeroInfNanPreserve*.
+  - Contain any instructions decorated with *NoContraction*.
+  - Contain any *FP Fast Math Mode* bitmask containing *Fast*.
+
+* It is not valid for any instruction to be decorated with both *NoContraction*
+  and *FPFastMath*.
+
+* Any *FP Fast Math Mode* bitmask that includes the *AllowTransform* bit must also
+  include the *AllowContract* and *AllowReassoc* bits.
+
+=== Execution Mode
+
+In section 3.6 "Execution Mode" add the following row to the Execution Mode table:
+
+[cols="^4,20,2*8,22",options="header",width = "100%"]
+|====
+2+^.^| Execution Mode 2+<.^| Extra Operands | <<Capability,Enabling Capabilities>>
+| 6028 | *FPFastMathDefault* +
+Set the default fast math flags for instructions not themselves decorated with
+*FPFastMathMode*. This only affects instructions operating on or resulting in a
+type that is 'Target Type' or an *OpTypeMatrix* or *OpTypeVector* derived from it. 'Target
+Type' must be a scalar, floating-point type. 'Fast-Math Mode' must be the <id>
+of a <<ConstantInstruction,'constant instruction'>> of 32-bit integer type
+containing a valid <<FP_Fast_Math_Mode,'FP Fast Math Mode'>> bitmask.
+'Fast-Math Mode' must not be a specialization-constant instruction.
+| <id> +
+'Target Type'
+| <id> +
+'Fast-Math Mode' | *FloatControls2*
+
+|====
+
+=== FP Fast Math Mode
+
+In section 3.15 "FP Fast Math Mode", following "Enables fast math operations
+which are otherwise unsafe", add:
+
+If an operation is decorated with *FPFastMathMode* then the flags from that
+decoration apply. Otherwise, if the current entry point sets any
+*FPFastMathDefault* execution mode then all flags specified for any operand
+type or for the result type of the operation apply. If the operation is not
+decorated with *FPFastMathMode* and the entry point sets no
+*FPFastMathDefault* execution modes then the flags to be applied are determined
+by the client API and not by SPIR-V.
+
+[NOTE]
+.Note
+====
+This definition implies that, if the entry point set any *FPFastMathDefault*
+execution mode then any type for which a default is not set uses no fast math
+flags (although this can still be overridden on a per-operation basis). Modules
+must not mix setting fast math modes explicitly using this extension and
+relying on older API defaults.
+====
+
+Replace the text following "Only valid on ..." with:
+
+ * All core instructions which use any floating-point type for either operands or result.
+ * *OpExInst* extended instructions, where expressly permitted by the extended
+   instruction set in use.
+
+Add the text:
+
+Expressions decorated with *AllowContract*, *AllowReassoc*, or *AllowTransform*
+may be rearranged using the appropriate mathematical properties even though this
+may cause a change in the floating-point results and may involve a different
+number of rounding steps than would otherwise occur. Where these operations are
+not also decorated with *NotInf* and *NotNaN* then these values must be
+considered in the results of the transformed expressions, but they do not
+change which rearrangements are valid.
+
+[NOTE]
+.Note
+====
+For example, if the expression `a + b + (-a)` is decorated *AllowReassoc* then
+it may be implemented as `b`. This is valid whether or not it is also decorated
+*NotInf* even though the original expression may overflow to infinity when
+evaluated in floating-point.
+
+If the expression `a + a + (-a)` is not decorated *AllowReassoc* then it
+cannot, in general be rearranged. However, in this case, if it is decorated
+with *NotInf* then it may be implemented as `a` since the replacement is exact
+for all values that do not overflow to infinity and the value is undefined if
+one of the operands is infinity. If the expression is not decorated with either
+*AllowReassoc* or *NotInf* then the result must be infinity for sufficiently
+large but finite values of `a`.
+====
+
+Add the following rows to the FP Fast Math Mode table:
+
+[cols="^.^4,16,15",options="header",width = "100%"]
+|====
+2+^.^| FP Fast Math Mode| <<Capability,Enabling Capabilities>>
+| 0x10000 | *AllowContract* +
+Allows a floating-point operation to be contracted with any operation(s)
+producing its operands. Rounding steps may be eliminated or may preserve higher
+bit-depth than the specified types. The instructions producing the operands do
+not need to be decorated to allow this transformation.
+| *FloatControls2*
+| 0x20000 | *AllowReassoc* +
+Allows a floating-point operation to be reordered with any operation(s)
+producing its operands according to real-number associativity rules. The
+instructions producing the operands do not need to be decorated to allow this
+transformation.
+| *FloatControls2*
+| 0x40000 | *AllowTransform* +
+Allows a floating-point operation to be transformed with any operation(s)
+producing its operands according to real-number rules. This is a superset of
+*AllowContract* and *AllowReassoc* and those bits must be set whenever this bit
+is set. The instructions producing the operands do not need to be decorated to
+allow this transformation, but note that non-trivial transformations may
+require multiple instructions to be decorated.
+| *FloatControls2*
+|====
+
+=== Decoration
+
+In section 3.20 "Decoration" modify row 40 of the Decoration table to add the enabling capability
+*FloatControls2*:
+[cols="^4,20,2*5,22",options="header",width = "100%"]
+|====
+2+^.^| Decoration 2+<.^| Extra Operands | <<Capability,Enabling Capabilities>>
+| 40 | *FPFastMathMode* +
+Indicates a floating-point fast math flag. 2+| <<FP_Fast_Math_Mode,'FP Fast Math Mode'>> +
+'Fast-Math Mode'| *Kernel*, *FloatControls2*
+|====
+
+=== Capability
+
+In section 3.31 "Capability" add the following row to the capability table:
+[cols="^.^2,16,15",options="header",width = "100%"]
+|====
+2+| Capability | Implicitly Declares
+| 6029 | *FloatControls2* +
+Uses *FPFastMathDefault* execution mode or uses *FPFastMath* decoration (unless enabled with the *Kernel* capability). |
+|====
+
+
+== Modifications to the GLSL.std.450 Extended Instruction Set
+
+=== Introduction
+
+Following the introduction, add "For environments that allow use of
+FPFastMathMode decorations on OpExtInst instructions, FPFastMathMode
+decorations may be applied to any instruction which uses any floating-point
+type for either operands or result".
+
+== Deprecation
+
+This extension deprecates the following features:
+
+* The execution modes *ContractionOff* and *SignedZeroInfNanPreserve*. Use
+  *FPFastMathDefault* with the appropriate flags instead.
+* The decoration *NoContraction*. Use the *FPFastMath* decoration instead.
+* The *FPFastMath* mode bit *Fast*. Set all the other *FPFastMath* bits instead.
+* Enabling the *FPFastMath* decoration using the *Kernel* capability. All uses should
+  declare the *FloatControls2* capability.
+* The *OpenCL.std* instructions *fmin_common*, *fmax_common*. Use *fmin*, *fmax* with
+  *NInf* and *NNaN* instead.
+
+== Issues
+
+1. How does this interact with SPV_INTEL_fp_fast_math_mode?
++
+--
+*RESOLVED*: It supersedes it. This extension contains a superset of the functionality and is expected to be supported on a wider range of implementations, but applications targeting only Intel platforms can continue to use the older extension.
+--
+
+2. Which operations must be decorated with *Contract* or *Reassoc* to allow the optimisation?
++
+--
+*RESOLVED*: Only the operation consuming a value must be decorated to permit the contraction or reassociation.
+This is useful when mixing precise and imprecise operations (the imprecise ones are still permitted to use the
+faster, contracted computation). Optimisers (and consumers) must ensure that following any transformation, no
+operation is affected by any FastMath flag where it was not affected in the input program.
+--
+
+3. Are there any other fast-math flags that should be added here?
++
+--
+*RESOLVED*: Not at the moment. The current set covers all gcc and LLVM relaxed
+modes except for gcc's sign-dependent-rounding and LLVM's 'afn' (approximate
+function). Most SPIR-V consumers do not support rounding that is sign-dependent
+so that flag is unlikely to be significant. It is envisaged that something like
+'afn' will be added in a future extension but the accuracy of builtin functions
+is outside the scope of this extension.
+--
+
+== Revision History
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2021-09-15|Graeme Leese|Initial KHR extension.
+|2|2021-09-24|Graeme Leese|Updated following review.
+|3|2022-04-06|Graeme Leese|Updated following review.
+|4|2023-04-26|Graeme Leese|Clarify which operations must be decorated.
+|5|2023-05-09|Graeme Leese|Resolve issues.
+|6|2023-05-17|Graeme Leese|Clarify interaction of transforms with inf/nan.
+|7|2023-06-08|Graeme Leese|Update deprecations, fix defaults to use IDs.
+|8|2023-10-02|Graeme Leese|Update required SPIR-V version, clarify deprecation of 'fast'.
+|9|2024-03-15|Graeme Leese|Clarify rules for modules declaring no *FPFastMathDefault*.
+|========================================
