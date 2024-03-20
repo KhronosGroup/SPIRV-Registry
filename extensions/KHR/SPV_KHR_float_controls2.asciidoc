@@ -111,7 +111,7 @@ If an operation is decorated with *FPFastMathMode* then the flags from that
 decoration apply. Otherwise, if the current entry point sets any
 *FPFastMathDefault* execution mode then all flags specified for any operand
 type or for the result type of the operation apply. If the operation is not
-decorated wiht *FPFastMathMode* and the entry point sets no
+decorated with *FPFastMathMode* and the entry point sets no
 *FPFastMathDefault* execution modes then the flags to be applied are determined
 by the client API and not by SPIR-V.
 
