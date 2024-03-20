@@ -319,7 +319,7 @@ Modify Section 3.31, Capability, adding a row to the Capability table:
 --
 [options="header"]
 |====
-2+^| Capability ^| Implicitly Declares
+2+^| Capability | Implicitly Declares
 | 6162 | TaskSequenceINTEL |
 |====
 --
