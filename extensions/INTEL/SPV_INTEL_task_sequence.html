@@ -481,11 +481,15 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Abhishek Tiwari, Intel<br></p>
 </li>
 <li>
-<p>Bowen Xue, Intel
-== Notice</p>
+<p>Bowen Xue, Intel</p>
 </li>
 </ul>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_notice">Notice</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>Copyright (c) 2022-2024 Intel Corporation.  All rights reserved.</p>
 </div>
@@ -510,7 +514,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2024-03-20</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2024-03-21</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Revision</p></td>
@@ -958,7 +962,7 @@ OpTaskSequenceReleaseINTEL</pre>
 <thead>
 <tr>
 <th class="tableblock halign-center valign-top" colspan="2">Capability</th>
-<th class="tableblock halign-center valign-top">Implicitly Declares</th>
+<th class="tableblock halign-left valign-top">Implicitly Declares</th>
 </tr>
 </thead>
 <tbody>
@@ -986,7 +990,7 @@ add one new instruction in this subsection as follows:</p>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-top" colspan="2"><p class="tableblock"><strong>OpTypeTaskSequenceINTEL</strong><br></p>
+<td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock"><strong>OpTypeTaskSequenceINTEL</strong><br></p>
 <p class="tableblock">Declare a task sequence type.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Capability:
 <strong>TaskSequenceINTEL</strong></p></td>
@@ -1020,7 +1024,7 @@ instructions in this subsection as follows:</p>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-top" colspan="8"><p class="tableblock"><strong>OpTaskSequenceCreateINTEL</strong><br></p>
+<td class="tableblock halign-left valign-top" colspan="8"><p class="tableblock"><strong>OpTaskSequenceCreateINTEL</strong><br></p>
 <p class="tableblock">Create and return an instance of a task sequence with type
  <strong>OpTypeTaskSequenceINTEL</strong>. All calls to <strong>OpTaskSequenceAsyncINTEL</strong> with
  <em>Result</em> passed in as an argument will execute the function <em>Function</em>.</p>
@@ -1083,7 +1087,7 @@ threads in <em>Result</em> are strictly less than this limit.</p></td>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-top" colspan="3"><p class="tableblock"><strong>OpTaskSequenceAsyncINTEL</strong><br></p>
+<td class="tableblock halign-left valign-top" colspan="3"><p class="tableblock"><strong>OpTaskSequenceAsyncINTEL</strong><br></p>
 <p class="tableblock">Asynchronously invoke the <strong>OpFunction</strong> <code>f</code> associated with the task sequence
 <em>Sequence</em>.</p>
 <p class="tableblock"><em>Sequence</em> must have type <strong>OpTypeTaskSequenceINTEL</strong>.</p>
@@ -1118,7 +1122,7 @@ If <code>f</code> cannot be called with <em>N</em> arguments the behavior is und
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-top" colspan="4"><p class="tableblock"><strong>OpTaskSequenceGetINTEL</strong><br>
+<td class="tableblock halign-left valign-top" colspan="4"><p class="tableblock"><strong>OpTaskSequenceGetINTEL</strong><br>
 Retrieve the result of a task thread in the task sequence <em>Sequence</em>. If there
 are multiple task threads, the results are retrieved in the same order in which
 the threads were created.
@@ -1149,7 +1153,7 @@ This instruction will block if there are no results to return.
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-top" colspan="2"><p class="tableblock"><strong>OpTaskSequenceReleaseINTEL</strong><br>
+<td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock"><strong>OpTaskSequenceReleaseINTEL</strong><br>
 Release the memory allocated for the task sequence uniquely identified by the
 id <em>Sequence</em>.
 <em>Sequence</em> must have type <strong>OpTypeTaskSequenceINTEL</strong>.</p></td>
@@ -1173,11 +1177,21 @@ id <em>Sequence</em>.
 <div class="paragraph">
 <p>This is a non-normative section. <code>OpTypeTaskSequenceINTEL</code> can be mapped to LLVM
 opaque type <code>spirv.TaskSequenceINTEL</code> and mangled as
-<code>__spirv_TaskSequenceINTEL__</code>.
-== Issues
-None.
-== Revision History</p>
+<code>__spirv_TaskSequenceINTEL__</code>.</p>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_issues">Issues</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>None.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_revision_history">Revision History</h2>
+<div class="sectionbody">
 <table class="tableblock frame-all grid-rows stretch">
 <colgroup>
 <col style="width: 4.7619%;">
@@ -1207,7 +1221,7 @@ None.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-03-20 12:42:49 -0700
+Last updated 2024-03-21 07:44:24 -0700
 </div>
 </div>
 </body>
