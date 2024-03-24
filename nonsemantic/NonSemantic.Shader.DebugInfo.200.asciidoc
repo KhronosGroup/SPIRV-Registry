@@ -1,0 +1,1000 @@
+SPIR-V NonSemantic Shader DebugInfo Instructions
+================================================
+
+:result_type: pass:normal['Result Type' must be *OpTypeVoid*.]
+:source:      pass:normal['Source' is a *DebugSource* instruction representing the text of the source program]
+:flags:       pass:normal['Flags' is the '<id>' of a 32-bit integer *OpConstant* formed by the bitwise-OR of values from the <<DebugFlags,*Debug Info Flags*>> table.]
+:NonSemantic100URL: https://github.com/KhronosGroup/SPIRV-Registry/blob/main/nonsemantic/NonSemantic.Shader.DebugInfo.100.asciidoc
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors and Acknowledgments
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ - Alexey Sotkin, Intel
+ - Dmitry Sidorov, Intel
+ - Mariya Podchishchaeva, Intel
+ - Nikita Kornev, Intel
+ - Stanley Gambarin, Intel
+ - Viktoria Maksimova, Intel
+
+Author of *NonSemantic.Shader.DebugInfo.100* specification.
+
+ - Baldur Karlsson, Valve
+
+Notice
+------
+Copyright (c) 2023 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+Status
+------
+
+- Working draft
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2023-09-03
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.6 Revision 2.
+
+This extension is written against the NonSemantic.Shader.DebugInfo.100,
+Revision 9.
+
+This instruction set requires SPIR-V 1.0.
+
+This instruction set requires *NonSemantic.Shader.DebugInfo.100* extended instruction
+set.
+
+Introduction
+------------
+This is the specification of the *NonSemantic.Shader.DebugInfo.200* extended instruction
+set. It inherits terms, semantics and instructions from {NonSemantic100URL}[NonSemantic.Shader.DebugInfo.100]
+and adds new instructions and debug operations.
+
+This extended instruction set is imported into a SPIR-V module in the following
+manner:
+
+[[OpExtInstImport]]`<extinst-id> OpExtInstImport "NonSemantic.Shader.DebugInfo.200"`
+
+It also implicitly imports *NonSemantic.Shader.DebugInfo.100* extended instruction
+set:
+
+[[OpExtInstImport]]`<extinst-id> OpExtInstImport "NonSemantic.Shader.DebugInfo.100"`
+
+The instructions below are capable of conveying debug information about the
+source program.
+
+The design guidelines for these instructions are:
+
+* Similarity with OpenCL.DebugInfo.100 and NonSemantic.Shader.DebugInfo.100,
+  to re-use their tooling and benefit from their design work. To aid in future
+  compatibility, new extended instructions in this extension begin at number 100.
+* Compatibility with rules regarding non-semantic instruction sets
+* Expansion to handle cases needed for Vulkan SPIR-V modules
+
+This is a non-normative list of changes to the NonSemantic.Shader.DebugInfo.100 specification:
+
+* New instructions: <<DebugModule,*DebugModule*>>, <<DebugTypeSubrange,*DebugTypeSubrange*>>,
+  <<DebugTypeArrayDynamic,*DebugTypeArrayDynamic*>> and <<DebugTypeString,*DebugTypeString*>>.
+
+* New Debug Operations.
+
+* <<DebugTypeArray, *DebugTypeArray*>> no longer has an `Component Count <id>`
+  operand. It was replaced by a new operand `<id>, <id>, ... Subranges` to fully
+  represent all characteristics of the elements of
+  <<DebugTypeArray, *DebugTypeArray*>>.
+
+* Added an optional 'Target function' operand to <<DebugFunction,*DebugFunction*>>.
+
+* Added an optional 'Inline namespace' operand to <<DebugLexicalBlock, *DebugLexicalBlock*>>.
+
+* Added a '<<SrcLang, source language>>' table to be used by
+  <<DebugCompilationUnit,*DebugCompilationUnit*>> instruction.
+
+* Added new flag *FlagBitField* to indicate that member of a structure is bitfield.
+
+* Added new Encoding code *Complex* for Fortran complex type.
+
+* Added two optional operands to <<DebugSource,*DebugSource*>> - 'Checksum Kind' and 'Checksum Value'.
+
+* Added 'Column' operand to <<DebugInlinedAt, *DebugInlinedAt*>>.
+
+
+Enumerations
+------------
+
+Instruction Enumeration [[InstEnum]]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[cols="^1,7",options="header", width="50%"]
+|======
+| Instruction +
+  number .^| Instruction name
+| 200 | <<DebugModule,*DebugModule*>>
+| 201 | <<DebugTypeSubrange,*DebugTypeSubrange*>>
+| 202 | <<DebugTypeArrayDynamic,*DebugTypeArrayDynamic*>>
+| 203 | <<DebugTypeString,*DebugTypeString*>>
+|======
+Source Language [[SrcLang]]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[cols="^4,8",options="header", width="50%"]
+|======
+| Value .^| Meaning
+| 0   | *Unknown*
+| 1   | *ESSL*
+| 2   | *GLSL*
+| 3   | *OpenCL_C*
+| 4   | *OpenCL_CPP*
+| 5   | *HLSL*
+| 6   | *CPP_for_OpenCL*
+| 7   | *SYCL*
+| 200 | *Python*
+| 201 | *Julia*
+| 202 | *Rust*
+| 203 | *D*
+| 204 | *Fortran 77*
+| 205 | *Fortran 90*
+| 206 | *Fortran 95*
+| 207 | *Fortran 2003*
+| 208 | *Fortran 2008*
+| 209 | *Fortran 2018*
+| 210 | *C*
+| 211 | *C99*
+| 212 | *C11*
+| 213 | *C17*
+| 214 | *C++*
+| 215 | *C++03*
+| 216 | *C++11*
+| 217 | *C++14*
+| 218 | *C++17*
+| 219 | *C++20*
+|======
+
+Debug Info Flags [[DebugFlags]]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[cols="^4,8",options="header", width="50%"]
+|======
+| Value .^| Flag Name
+| 1 << 0  | *FlagIsProtected*
+| 1 << 1  | *FlagIsPrivate*
+| 1<<0 \| 1<<1 | *FlagIsPublic*
+| 1 << 2  | *FlagIsLocal*
+| 1 << 3  | *FlagIsDefinition*
+| 1 << 4  | *FlagFwdDecl*
+| 1 << 5  | *FlagArtificial*
+| 1 << 6  | *FlagExplicit*
+| 1 << 7  | *FlagPrototyped*
+| 1 << 8  | *FlagObjectPointer*
+| 1 << 9  | *FlagStaticMember*
+| 1 << 10 | *FlagIndirectVariable*
+| 1 << 11 | *FlagLValueReference*
+| 1 << 12 | *FlagRValueReference*
+| 1 << 13 | *FlagIsOptimized*
+| 1 << 14 | *FlagIsEnumClass*
+| 1 << 15 | *FlagTypePassByValue*
+| 1 << 16 | *FlagTypePassByReference*
+| 1 << 17 | *FlagUnknownPhysicalLayout*
+| 1 << 18 | *FlagBitField*
+|======
+
+Base Type Attribute Encodings [[BaseTypeAttributeEncoding]]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Used by <<DebugTypeBasic,*DebugTypeBasic*>> +
+
+[cols="^1,10",options="header",width = "50%"]
+|======
+2+^| Encoding code name
+| 0 | *Unspecified*
+| 1 | *Address*
+| 2 | *Boolean*
+| 3 | *Float*
+| 4 | *Signed*
+| 5 | *SignedChar*
+| 6 | *Unsigned*
+| 7 | *UnsignedChar*
+| 8 | *Complex*
+|======
+
+Checksum Kind [[ChecksumKind]]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Used by <<DebugSource,*DebugSource*>> +
+
+[cols="^1,10",options="header",width = "50%"]
+|======
+2+^| Encoding code name
+| 0 | *MD5*
+| 1 | *SHA1*
+| 2 | *SHA256*
+|======
+
+
+Debug Operations [[Operation]]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+These operations are used to form a DWARF expression.
+Such expressions provide information about the current location
+(described by <<DebugDeclare,*DebugDeclare*>>) or value
+(described by <<DebugValue,*DebugValue*>>) of a variable.
+Operations in an expression are to be applied on a stack.
+Initially, the stack contains one element: the address or value of the source variable. +
+Used by <<DebugOperation,*DebugOperation*>> +
+
+The table below replaced one added in *OpenCL.DebugInfo.100* and *NonSemantic.Shader.DebugInfo.100*
+specifications: 
+
+[cols="^1,3,1,6",options="header",width = "50%"]
+|======
+2+^| Operation encodings | No. of Operands | Description
+| 0 | *Deref*            | 0               | Pops the top stack entry, treats it as an address, pushes the value retrieved from that address.
+| 1 | *Plus*             | 0               | Pops the top two entries from the stack, adds them together and pushes the result.
+| 2 | *Minus*            | 0               | Pops the top two entries from the stack, subtracts the former top entry from the former second to top entry and pushes the result.
+| 3 | *PlusUconst*       | 1               | Pops the top stack entry, adds the 'addend' operand to it, and pushes the result.
+                                             The operand must be a single 32-bit integer *OpConstant*.
+| 4 | *BitPiece*         | 2               | Describes an object or value that may be contained in part of a register or stored in more than one location.
+                                             The first operand is 'offset' in bit from the location defined by the preceding operation.
+                                             The second operand is 'size' of the piece in bits.
+                                             The operands must each be a single 32-bit integer *OpConstant*.
+| 5 | *Swap*             | 0               | Swaps the top two stack values.
+| 6 | *Xderef*           | 0               | Pops the top two entries from the stack.
+                                             Treats the former top entry as an address and the former second to top entry as an address space.
+                                             The value retrieved from the address in the given address space is pushed.
+| 7 | *StackValue*       | 0               | Describes an object that doesn't exist in memory but it's value is known and is at the top of the DWARF expression stack.
+| 8 | *Constu*           | 1               | Pushes a constant 'value' onto the stack. The 'value' operand must be a single 32-bit unsigned integer *OpConstant*.
+| 9 | *Fragment*         | 2               | Has the same semantics as *BitPiece*, but the 'offset' operand defines location within the source variable.
+| 10 | *Convert* | 1 | Pops the top stack entry and converts to *DebugTypeBasic*
+                        specified by offset from debug information entry
+                        in the current compilation unit provided by a single
+                        32-bit integer *OpConstant* parameter.
+| 11 | *Addr*             | 1               | Pushes a machine address passed in the operand to the stack.
+| 12 | *Const1u* |  1 | *Const<n>u* Pushes a constant 'value' onto the stack. The 'value' operand must be a single <n>-bit unsigned integer *OpConstant*.
+| 13 | *Const1s* |  1 | *Const<n>s* Pushes a constant 'value' onto the stack. The 'value' operand must be a single <n>-bit signed integer *OpConstant*.
+| 14 | *Const2u* |  1 |
+| 15 | *Const2s* |  1 |
+| 16 | *Const4u* |  1 |
+| 17 | *Const4s* |  1 |
+| 18 | *Const8u* |  1 |
+| 19 | *Const8s* |  1 |
+| 20 | *Consts* |  1 | Pushes a constant 'value' onto the stack. The 'value' operand must be a single 32-bit signed integer *OpConstant*.
+| 21 | *Dup* |  0 | Duplicates the value from the top of the stack including it's *OpType*.
+| 22 | *Drop* |  0 | Pops the value from the top of the stack including it's *OpType*.
+| 23 | *Over* |  0 | Equivalent to *Pick* operation with the index value of 1.
+| 24 | *Pick* |  1 | The single operand of the operation provides a 1-byte integer *OpConstant* index. Copies the value of the stack entry at the provided index and pushes in to the stack.
+| 25 | *Rot* |  0 | Rotates the first three stack entries. The entry at the top of the stack becomes the third stack entry, the second entry becomes the top of the stack, and the third entry becomes the second entry.
+| 26 | *Abs* |  0 | Pops the top entry from stack, interprets it as a signed value and pushes its absolute value. If the absolute value cannot be represented, the result is undefined.
+| 27 | *And* |  0 | Pops the top two entries from stack, performs a bitwise and operation on the two, and pushes the result.
+| 28 | *Div* |  0 | Pops the top two entries from stack, divides the value of the second entry by the value of the first entry, and pushes the result.
+| 29 | *Mod* |  0 | Pops the top two entries from stack, modulo the value of the second entry by the value of the first entry, and pushes the result.
+| 30 | *Mul* |  0 | Pops the top two entries from stack, multiplies them together, and pushes the result.
+| 31 | *Neg* |  0 | Pops the top entry from stack, interprets it as a signed value and pushes its negation. If the negation cannot be represented, the result is undefined.
+| 32 | *Not* |  0 | Pops the top entry from stack and pushes its bitwise complement.
+| 33 | *Or* |  0 | Pops the top two entries from stack, performs a bitwise or operation on the two, and pushes the result.
+| 34 | *Shl* |  0 | Pops the top two entries from stack, shifts left (filling with zero bits) the value of the second entry by the value of the first entry, and pushes the result.
+| 35 | *Shr* |  0 | Pops the top two entries from stack, shifts right logically (filling with zero bits) the value of the second entry by the value of the first entry, and pushes the result.
+| 36 | *Shra* | 0 | Pops the top two entries from stack, shifts right arithmetically (divide the magnitude by 2, keep the same sign for the result) the value of the second entry by the value of the first entry, and pushes the result.
+| 37 | *Xor* |  0 | Pops the top two entries from stack, performs a bitwise exclusive-or operation on the two, and pushes the result.
+| 38 | *Bra* |  1 | Pops the top entry from stack. If the value popped is not *OpConstant* holding 0, then skip forward or backward from the current operation by a number of bytes provided by its 2-bytes integer *OpConstant* operand.
+| 39 | *Eq* |  0 | Pops two entries from stack with the same *OpType*, push 32-bit integer *OpConstant* with a value of 1 onto the stack if the value of the second entry is equal to the value of the first entry.
+| 40 | *Ge* |  0 | Pops two entries from stack with the same *OpType*, push 32-bit integer *OpConstant* with a value of 1 onto the stack if the value of the second entry is greater than or equal to the value of the first entry.
+| 41 | *Gt* |  0 | Pops two entries from stack with the same *OpType*, push 32-bit integer *OpConstant* with a value of 1 onto the stack if the value of the second entry is greater than the value of the first entry.
+| 42 | *Le* |  0 | Pops two entries from stack with the same *OpType*, push 32-bit integer *OpConstant* with a value of 1 onto the stack if the value of the second entry is less than or equal to the value of the first entry.
+| 43 | *Lt* |  0 | Pops two entries from stack with the same *OpType*, push 32-bit integer *OpConstant* with a value of 1 onto the stack if the value of the second entry is less than the value of the first entry.
+| 44 | *Ne* |  0 | Pops two entries from stack with the same *OpType*, push 32-bit integer *OpConstant* with a value of 1 onto the stack if the value of the second entry is not equal to the value of the first entry.
+| 45 | *Skip* |  1 | Skip forward or backward from the current operation by a number of bytes provided by its 2-bytes integer *OpConstant* operand.
+| 46 | *Lit0* |  0 | *Lit<n>* encodes unsigned literal values from 0 through 31 inclusive
+| 47 | *Lit1* |  0 |
+| 48 | *Lit2* |  0 |
+| 49 | *Lit3* |  0 |
+| 50 | *Lit4* |  0 |
+| 51 | *Lit5* |  0 |
+| 52 | *Lit6* |  0 |
+| 53 | *Lit7* |  0 |
+| 54 | *Lit8* |  0 |
+| 55 | *Lit9* |  0 |
+| 56 | *Lit10* |  0 |
+| 57 | *Lit11* |  0 |
+| 58 | *Lit12* |  0 |
+| 59 | *Lit13* |  0 |
+| 60 | *Lit14* |  0 |
+| 61 | *Lit15* |  0 |
+| 62 | *Lit16* |  0 |
+| 63 | *Lit17* |  0 |
+| 64 | *Lit18* |  0 |
+| 65 | *Lit19* |  0 |
+| 66 | *Lit20* |  0 |
+| 67 | *Lit21* |  0 |
+| 68 | *Lit22* |  0 |
+| 69 | *Lit23* |  0 |
+| 70 | *Lit24* |  0 |
+| 71 | *Lit25* |  0 |
+| 72 | *Lit26* |  0 |
+| 73 | *Lit27* |  0 |
+| 74 | *Lit28* |  0 |
+| 75 | *Lit29* |  0 |
+| 76 | *Lit30* |  0 |
+| 77 | *Lit31* |  0 |
+| 78 | *Reg0* |  0 | *reg<n>* encodes names of up to 32 registers
+| 79 | *Reg1* |  0 |
+| 80 | *Reg2* |  0 |
+| 81 | *Reg3* |  0 |
+| 82 | *Reg4* |  0 |
+| 83 | *Reg5* |  0 |
+| 84 | *Reg6* |  0 |
+| 85 | *Reg7* |  0 |
+| 86 | *Reg8* |  0 |
+| 87 | *Reg9* |  0 |
+| 88 | *Reg10* |  0 |
+| 89 | *Reg11* |  0 |
+| 90 | *Reg12* |  0 |
+| 91 | *Reg13* |  0 |
+| 92 | *Reg14* |  0 |
+| 93 | *Reg15* |  0 |
+| 94 | *Reg16* |  0 |
+| 95 | *Reg17* |  0 |
+| 96 | *Reg18* |  0 |
+| 97 | *Reg19* |  0 |
+| 98 | *Reg20* |  0 |
+| 99 | *Reg21* |  0 |
+| 100 | *Reg22* |  0 |
+| 101 | *Reg23* |  0 |
+| 102 | *Reg24* |  0 |
+| 103 | *Reg25* |  0 |
+| 104 | *Reg26* |  0 |
+| 105 | *Reg27* |  0 |
+| 106 | *Reg28* |  0 |
+| 107 | *Reg29* |  0 |
+| 108 | *Reg30* |  0 |
+| 109 | *Reg31* |  0 |
+| 110 | *Breg0* |  1 | *breg<n>* a single 32-bit signed integer *OpConstant*
+                       operand encodes an signed offset from the contents of the *<n>* register
+| 111 | *Breg1* |  1 |
+| 112 | *Breg2* |  1 |
+| 113 | *Breg3* |  1 |
+| 114 | *Breg4* |  1 |
+| 115 | *Breg5* |  1 |
+| 116 | *Breg6* |  1 |
+| 117 | *Breg7* |  1 |
+| 118 | *Breg8* |  1 |
+| 119 | *Breg9* |  1 |
+| 120 | *Breg10* |  1 |
+| 121 | *Breg11* |  1 |
+| 122 | *Breg12* |  1 |
+| 123 | *Breg13* |  1 |
+| 124 | *Breg14* |  1 |
+| 125 | *Breg15* |  1 |
+| 126 | *Breg16* |  1 |
+| 127 | *Breg17* |  1 |
+| 128 | *Breg18* |  1 |
+| 129 | *Breg19* |  1 |
+| 130 | *Breg20* |  1 |
+| 131 | *Breg21* |  1 |
+| 132 | *Breg22* |  1 |
+| 133 | *Breg23* |  1 |
+| 134 | *Breg24* |  1 |
+| 135 | *Breg25* |  1 |
+| 136 | *Breg26* |  1 |
+| 137 | *Breg27* |  1 |
+| 138 | *Breg28* |  1 |
+| 139 | *Breg29* |  1 |
+| 140 | *Breg30* |  1 |
+| 141 | *Breg31* |  1 |
+| 142 | *Regx* |  1 | A single 32-bit unsigned integer *OpConstant* operand encodes
+                      the name of a register
+| 143 | *Fbreg* |  1 | A single 32-bit signed integer *OpConstant* operand encodes
+                       an offset from the address
+| 144 | *Bregx* |  2 | Provides a sum of its 32-bit integer *OpConstant* operands,
+                       where 1st operand is a register number and 2nd is signed offset
+| 145 | *Piece* |  1 | Describes an object or value that may be contained in part
+                       of a register or stored in more than one location.
+                       A single 32-bit integer *OpConstant* operand specifies
+                       the size of the piece in bytes.
+| 146 | *DerefSize* |  1 | Pops the top stack entry, treats it as an address.
+                           A single 8-bit integer *OpConstant* operand specifies
+                           a size of data to retrieved. The data retrieved is
+                           zero extended to the size of an address on the target machine.
+                           Pushes the value retrieved from that address.
+| 147 | *XDerefSize* |  1 | Pops the top two entries from the stack.
+                           Treats the former top entry as an address and the former
+                           second to top entry as an address space.
+                           A single 8-bit integer *OpConstant* operand specifies
+                           a size of data to retrieved. The data retrieved is
+                           zero extended to the size of an address on the target machine.
+                           Pushes the value retrieved from that address in the given address space is pushed.
+| 148 | *Nop* |  0 | Place holder operation with no effects
+| 149 | *PushObjectAddress* |  0 | Pushes address of an object currently processed.
+| 150 | *Call2* |  1 | Perform a call during *DebugOperation* evaluation.
+                       A single 16-bit integer *OpConstant* operand specifies
+                       offset, respectively, of a debugging information entry in the
+                       current compilation unit.
+| 151 | *Call4* |  1 | Perform a call during *DebugOperation* evaluation.
+                       A single 32-bit integer *OpConstant* operand specifies
+                       offset, respectively, of a debugging information entry in the
+                       current compilation unit.
+| 152 | *CallRef* |  1 | Perform a call during *DebugOperation* evaluation.
+                         A single operand must be either 32-bit or 64-bit integer
+                         *OpConstant* and specifies offset, respectively, of a
+                         debugging information entry in the current compilation unit.
+| 153 | *FormTlsAddress* |  0 | Pops the top stack entry, it must be of an integer type,
+                                translates it to an address in the thread-local storage,
+                                pushes the address back to the stack.
+| 154 | *CallFrameCfa* |  0 | Pushes the value of the Call Frame Information.
+| 155 | *ImplicitValue* |  2 | Creates an immediate value. The first 32-bit integer *OpConstant*
+                               parameter is length that specifies a lenght of sequence
+                               of bytes following this parameter and contains
+                               this value.
+| 156 | *ImplicitPointer* |  2 | Specifies the dereferenced value. It can be used
+                                 when the pointer was optimized out by the compiler
+                                 but yet the value it was pointed to was retained.
+                                 The first operand must be either 32-bit or 64-bit integer
+                                 *OpConstant* that is a reference to debug information
+                                 entry containing the value and the second
+                                 operand is a 32-bit integer *OpConstant* offset
+                                 from the start to this value.
+| 157 | *Addrx* |  1 | Placeholder. Has a single 32-bit integer *OpConstant* operand.
+| 158 | *Constx* |  1 | Placeholder. Has a single 32-bit integer *OpConstant* operand.
+| 159 | *EntryValue* |  2 | Pushes a result value of *DebugExpression* (the second
+                            parameter of the operation) that describes location
+                            held upon entering the current *DebugFunction*. Length
+                            of the *DebugExpression* is specified by the first
+                            32-bit integer *OpConstant* operand. The operation
+                            assumes, that the stack is empty. If *DebugExpression*
+                            held a register location operation, then *EntryValue*
+                            pushes the value that register had to the stack.
+| 160 | *ConstType* |  3 | Creates a constant of a type provided as the first
+                           parameter which should point to *DebugTypeBasic*.
+                           The second operand must be 8-bit integer *OpConstant*,
+                           which specifies the size of this constant. The third
+                           parameter is a sequence of bytes of the given size
+                           that is interpreted as a value of the referenced type.
+| 161 | *RegvalType* |  2 | Pushes a value of a register specified by the first
+                            32-bit integer *OpConstant* parameter. The second
+                            parameter must be 32-bit integer *OpConstant*, it
+                            specifies and offset from debug information entry
+                            in the current compilation unit, it must be
+                            *DebugTypeBasic*. The operation interprets the pushed
+                            value as a value of *DebugTypeBasic*.
+| 162 | *DerefType* |  2 | Pops the top stack entry, treats it as an address.
+                          The first 8-bit integer *OpConstant* operand specifies
+                          a size of data to retrieved. The data retrieved is
+                          zero extended to the size of an address on the target machine.
+                          The second is 32-bit integer *OpConstant* that represents the
+                          offset of a debugging information entry in the current
+                          compilation unit, which should point to *DebugTypeBasic*.
+                          Pushes the value retrieved from that address
+                          including type identifier.
+| 163 | *XDerefType* |  2 | Pops the top two entries from the stack.
+                           Treats the former top entry as an address and the former
+                          The first 8-bit integer *OpConstant* operand specifies
+                          a size of data to retrieved. The data retrieved is
+                          zero extended to the size of an address on the target machine.
+                          The second is 32-bit integer *OpConstant* that represents the
+                          offset of a debugging information entry in the current
+                          compilation unit, which should point to *DebugTypeBasic*.
+                          Pushes the value retrieved from that address in the given address space is pushed.
+                          including type identifier.
+| 164 | *Reinterpret* |  1 | Pops the top stack entry and reinterprets its bits as
+                             a value of *DebugTypeBasic* specified by offset from
+                             debug information entry in the current compilation unit
+                             provided by a single 32-bit integer *OpConstant* parameter.
+| 165 | *Arg* |  1 | A single 32-bit integer *OpConstant* parameter specifies
+                     an argument used in debug operation.
+| 166 | *ImplicitPointerTag* |  0 | Specifies the dereferenced value. It can be
+                                    used when the pointer was optimized out by
+                                    the compiler but yet the value it was pointed
+                                    to was retained.
+| 167 | *TagOffset* | 1 | Specifies that a memory tag should be optionally applied to the
+                          pointer. The tag is derived from the single 32-bit integer
+                          *OpConstant* operand offset and is implementation defined.
+|======
+
+
+Instructions
+------------
+
+Compilation Unit
+~~~~~~~~~~~~~~~~
+
+Change the definition of <<DebugCompilationUnit,*DebugCompilationUnit*>> adding
+a reference to the new '<<source language, source language>>' table:
+
+[cols="2*1,3*2,1,5*3"]
+|======
+11+|[[DebugCompilationUnit]]*DebugCompilationUnit* +
+ +
+ Describe a source compilation unit. A compilation unit is the single source input to a
+ SPIR-V front-end after any preprocessing has occurred. Multiple compilation units can
+ be linked together to produce a SPIR-V module, and the same source file can be used for
+ multiple compilation units if different compilation settings are used each time. +
+ +
+ The 'Result <id>' of this instruction represents a <<LexicalScope,lexical scope>>. +
+ +
+ {result_type} +
+ +
+ 'Version' is version of the SPIRV debug information format, stored in a 32-bit integer
+ *OpConstant*. +
+ +
+ 'DWARF Version' is version of the DWARF standard this specification is compatible
+ with, stored in a 32-bit integer *OpConstant*. +
+ +
+ 'Source' is a *DebugSource* instruction representing the text of the initial input
+ file before pre-processing. +
+ +
+ '<<SrcLang,Language>>' is a 32-bit integer *OpConstant*. The value from
+ '<<SrcLang, source language>>' table is the source programming language of this
+ particular compilation unit. +
+ +
+ 'Producer' is id of *OpString* instruction holding the name and possibly version of compiler
+ used to consumer the program in a high-level language and produce the SPIR-V module.
+
+| 10 | 12 | '<id>' +
+'Result Type' | 'Result <id>' | '<id> Set'| 1
+| '<id>' 'Version'
+| '<id>' 'DWARF version'
+| '<id>' 'Source'
+| '<id>' '<<SrcLang,Language>>'
+| '<id>' 'Producer'
+|======
+
+Change the definition of <<DebugSource,*DebugSource*>> adding
+a two new optional operands that preserve file's checksum information:
+
+[cols="2*1,3*2,1,4*3"]
+|======
+10+|[[DebugSource]]*DebugSource* +
+ +
+ Describe the source program. It can be either the primary source file or a
+ file added via a `#include` directive. +
+ +
+ {result_type} +
+ +
+ 'File' is an *OpString* holding the name of the source file including its full
+ path. +
+ +
+ 'Checksum Kind' is an 32-bit integer *OpConstant* describing the type of hash algorithm.
+ It must has a value from <<Checksum Kind,*Checksum Kind*>> table. +
+ +
+ 'Checksum Value' is an *OpString* holding the checksum value of the source program file. +
+ +
+ 'Text' is an *OpString* that contains text of the source program the SPIR-V
+  module is derived from. +
+ +
+ If 'Checksum Kind' aka *OpConstant* exists, then the next *OpString* parameter
+ must be interpreted as 'Checksum Value'. 'Text' parameter is always the last
+ parameter of the instruction. +
+ +
+
+| 6+ | 12 | '<id>' +
+'Result Type' | 'Result <id>' | '<id> Set'| 35
+| '<id>' 'File'
+| Optional +
+  '<id>' 'Checksum Kind'
+| Optional +
+  '<id>' 'Checksum Value'
+| Optional +
+  '<id>' 'Text'
+|======
+
+
+Type instructions
+~~~~~~~~~~~~~~~~~
+
+Change the definition of <<DebugTypeArray,*DebugTypeArray*>> to:
+
+[cols="2*1,3*2,1,2*3"]
+|======
+8+|[[DebugTypeArray]]*DebugTypeArray* +
+ +
+ Describe an array data type. +
+ +
+{result_type} +
+ +
+'Base Type' is a debugging instruction that describes the element type of the
+ array. +
+ +
+'Subranges' are the elements in the corresponding dimension of the array. The
+ number and the order of 'Subranges' operands must match with the number and
+ the order of array dimensions as they appear in the source program.
+ 'Subranges' must be a 'Result <id>' of <<DebugTypeSubranges,
+ *DebugTypeSubrange*>>. +
+
+| 7+ | 12 | '<id>' +
+'Result Type' | 'Result <id>' | '<id> Set'| 5
+| '<id> Base Type'
+| '<id>, <id>, ... +
+Subranges'
+|======
+
+
+[cols="2*1,3*2,1,4*3"]
+|======
+10+|[[DebugTypeSubrange]]*DebugTypeSubrange* +
+ +
+ Describe an array subrange. +
+ +
+{result_type} +
+ +
+'Lower Bound' is the lower boundary of the array. 'Lower Bound' must be a
+ 'Result <id>' of an *OpConstant*,
+ <<DebugGlobalVariable,*DebugGlobalVariable*>>,
+ <<DebugLocalVariable,*DebugLocalVariable*>> or
+ <<DebugExpression,*DebugExpression*>>. If it is an *OpConstant*, its type must
+ be a 32-bit or 64-bit integer type. +
+ +
+'Upper Bound' is the upper boundary of the array. 'Upper Bound' must be a
+ 'Result <id>' of an *OpConstant*, <<DebugGlobalVariable,*DebugGlobalVariable*>>,
+ <<DebugLocalVariable,*DebugLocalVariable*>>,
+ <<DebugExpression,*DebugExpression*>> or <<DebugInfoNone,*DebugInfoNone*>>.
+ If it is an *OpConstant*, its type must
+ be a 32-bit or 64-bit integer type. May be of a different type unlike 'Lower Bound'. +
+ +
+'Count' is the number of elements of the array. 'Count' must be a 'Result <id>'
+ of an *OpConstant*, <<DebugGlobalVariable,*DebugGlobalVariable*>>,
+ <<DebugLocalVariable,*DebugLocalVariable*>> or <<DebugInfoNone,*DebugInfoNone*>>.
+ If it is an *OpConstant*, its type  must be a 32-bit or 64-bit integer type.
+ Otherwise its type must be a <<DebugTypeBasic,*DebugTypeBasic*>> whose 'Size'
+ is 32 or 64 and whose 'Encoding' is *Unsigned* or <<DebugInfoNone,*DebugInfoNone*>>. +
+ +
+ 'Stride' specifies the separation between successive elements along the
+ dimension in bytes. 'Stride' must be a 'Result <id>' of an *OpConstant*,
+ <<DebugGlobalVariable,*DebugGlobalVariable*>>, or
+ <<DebugLocalVariable,*DebugLocalVariable*>>. If it is an *OpConstant*, its type
+ must be a 32-bit or 64-bit integer type. Otherwise its type must be
+ a <<DebugTypeBasic,*DebugTypeBasic*>> whose 'Size' is 32 or 64 and whose
+ 'Encoding' is *Unsigned*. +
+ +
+ 'Upper Bound' and 'Count' are both *OpConstant* with a value of 0 or
+ <<DebugInfoNone,*DebugInfoNone*>> this indicates
+ an array with an unknown size at compile time which is sized at runtime,
+ corresponding to the SPIR-V *OpTypeRuntimeArray* type. +
+ +
+
+| 8+ | 12 | '<id>' +
+'Result Type' | 'Result <id>' | '<id> Set'| 201
+| '<id> Lower Bound'
+| '<id> Upper Bound'
+| '<id> Count'
+| Optional +
+  '<id> Stride'
+|======
+
+[cols="2*1,3*2,1,6*3"]
+|======
+12+|[[DebugTypeArrayDynamic]]*DebugTypeArrayDynamic* +
+ +
+ Describe a dynamic array, mostly for Fortran 90. +
+ +
+{result_type} +
+ +
+'Base Type' is a debugging instruction that describes the element type of the
+ array. +
+ +
+'Data Location' is either a 'Result <id>' of <<DebugExpression,*DebugExpression*>>,
+ <<DebugGlobalVariable,*DebugGlobalVariable*>> or
+ <<DebugLocalVariable,*DebugLocalVariable*>> instruction that's used as a descriptor
+ to calculate the address of the actual data or a 'Result <id>' or
+ <<DebugInfoNone,*DebugInfoNone*>> instruction.
+ If the latter is applied, then the address of the data is the same as the
+ address of the object. +
+ +
+'Associated' is an *OpConstant* with 32-bit or 64-bit integer type, or a
+ 'Result <id>' of <<DebugExpression,*DebugExpression*>>, <<DebugGlobalVariable,*DebugGlobalVariable*>>
+ or <<DebugLocalVariable,*DebugLocalVariable*>>.
+ A non-zero value indicates that the dynamic array is dynamically associated with other
+ objects. +
+ +
+'Allocated' is an *OpConstant* with 32-bit or 64-bit integer type, or a
+ 'Result <id>' of <<DebugExpression,*DebugExpression*>>, <<DebugGlobalVariable,*DebugGlobalVariable*>>
+ or <<DebugLocalVariable,*DebugLocalVariable*>>.
+ A non-zero value indicates that the dynamic array is dynamically associated with other
+ objects. +
+ +
+'Rank' is an *OpConstant* with 32-bit or 64-bit integer type, or a
+ 'Result <id>' of <<DebugExpression,*DebugExpression*>>, <<DebugGlobalVariable,*DebugGlobalVariable*>>
+ or <<DebugLocalVariable,*DebugLocalVariable*>>.
+ The value specifies the rank of the dynamic array. +
+ +
+'Subranges' is the elements in the corresponding dimension of the array. The
+ number and order of 'Subranges' operands must match with the number and order of
+ array dimensions as they appear in the source program. 'Subranges' must be a
+ 'Result <id>' of <<DebugTypeSubranges, *DebugTypeSubrange*>>. +
+
+| 10+ | 12 | '<id>' +
+'Result Type' | 'Result <id>' | '<id> Set'| 202
+| '<id> Base Type'
+| '<id> Data Location'
+| '<id> Associated'
+| '<id> Allocated'
+| '<id> Rank'
+| '<id>, <id>, ...' +
+  'Subranges'
+|======
+
+[cols="2*1,3*2,1,6*3"]
+|======
+12+|[[DebugTypeString]]*DebugTypeString* +
+ +
+ Describe a string, mostly for Fortran 90. +
+ +
+{result_type} +
+ +
+'Name' is an *OpString* representing the name of the string type as it appears
+ in the source program. May be empty. +
+ +
+'Base Type' is a debugging instruction that describes how each character is
+ encoded and is to be interpreted. Must be either 'Result <id>' of
+ <<DebugTypeBasic,*DebugTypeBasic*>> or <<DebugInfoNone,*DebugInfoNone*>> instruction.
+ If the latter is applied, then the character is encoded using the system default. +
+ +
+'Data Location' is either a 'Result <id>' of <<DebugExpression,*DebugExpression*>>,
+ <<DebugGlobalVariable,*DebugGlobalVariable*>> or
+ <<DebugLocalVariable,*DebugLocalVariable*>> instruction that's used as a descriptor
+ to calculate the address of the actual data or a 'Result <id>' or
+ <<DebugInfoNone,*DebugInfoNone*>> instruction.
+ If the latter is applied, then the address of the data is the same as the
+ address of the object. +
+ +
+'Size' is an *OpConstant* with 32-bit or 64-bit integer type and its value is
+ the number of bits needed to hold a value of the string type. +
+ +
+'LengthAddr' is either a 'Result <id>' of <<DebugExpression,*DebugExpression*>>,
+ <<DebugGlobalVariable,*DebugGlobalVariable*>> or <<DebugLocalVariable,*DebugLocalVariable*>>
+ instruction that's used as a descriptor to calculate the address where length
+ of the string is placed or a 'Result <id>' or <<DebugInfoNone,*DebugInfoNone*>>
+ instruction. If the latter is applied, then the size of the string is assumed
+ to be the amount of storage that is allocated for the string, which is
+ specified by 'Size' parameter. +
+ +
+'LengthSize' is an *OpConstant* with 32-bit or 64-bit integer type. If
+ optional parameter present, it specifies the size of the data to be retrieved
+ from the location referenced by the 'LengthAddr' parameter. If it isn't
+ present, then default size of an address on the machine is used.
+
+| 10+ | 13 | '<id>' +
+'Result Type' | 'Result <id>' | '<id> Set'| 203
+| '<id> Name'
+| '<id> Base Type'
+| '<id> Data Location'
+| '<id> Size'
+| '<id> LengthAddr'
+| Optional '<id> LengthSize'
+|======
+
+
+Functions
+~~~~~~~~~
+
+[cols="2*1,3*2,1,11*3"]
+|======
+17+|[[DebugFunction]]*DebugFunction* +
+ +
+Describe a function or method definition. The 'Result <id>' of this instruction
+ represents a <<LexicalScope,lexical scope>>. +
+ +
+{result_type} +
+ +
+'Name' is an *OpString*, holding the name of the function as it appears in the
+ source program. +
+ +
+'Type' is an <<DebugTypeFunction,*DebugTypeFunction*>> instruction that
+ represents the type of the function. +
+ +
+{source} containing the function definition. +
+ +
+'Line' is the '<id>' of a 32-bit integer *OpConstant* denoting the source line number at
+ which the function declaration appears in the 'Source'. +
+ +
+'Column' is the '<id>' of a 32-bit integer *OpConstant* denoting the column number at
+ which the first character of the function declaration appears. +
+ +
+'Scope' is the '<id>' of a debug instruction that represents the
+ <<LexicalScope,lexical scope>> that contains the function definition. +
+ +
+'Linkage Name' is an *OpString*, holding the linkage name of the function. +
+ +
+ {flags} +
+  +
+'Scope Line' is the '<id>' of a 32-bit integer *OpConstant* denoting the line number in
+ the source program at which the function lexical scope begins. +
+ +
+'Declaration' is <<DebugFunctionDeclaration,*DebugFunctionDeclaration*>>
+ that represents non-defining declaration of the function. +
+ +
+'Target function' is an *OpString*. It's used when compiler has to generate
+ trampoline function to call a function defined in a different compilation unit.
+ It holds the name of that function as it appears in the source program.
+ When 'Target function' present and is not an '<id>' of
+ <<DebugInfoNone,*DebugInfoNone*>> - 'Declaration' must be an '<id>' of
+ <<DebugInfoNone,*DebugInfoNone*>>. +
+
+| 15+ | 13 | '<id>' +
+'Result Type' | 'Result <id>' | '<id> Set'| 20
+| '<id> Name'
+| '<id> Type'
+| '<id> Source'
+| '<id> Line'
+| '<id> Column'
+| '<id> Scope'
+| '<id> Linkage Name'
+| '<id>' <<DebugFlags,'Flags'>> +
+| '<id> Scope Line'
+| Optional '<id> Declaration'
+| Optional '<id> Target function'
+|======
+
+Location Information
+~~~~~~~~~~~~~~~~~~~~
+
+[cols="2*1,3*2,1,6*3"]
+|======
+12+|[[DebugLexicalBlock]]*DebugLexicalBlock* +
+ +
+Describe a lexical block in the source program. The 'Result <id>' of this
+ instruction represents a <<LexicalScope,lexical scope>>. +
+ +
+{result_type} +
+ +
+{source} containing the lexical block. +
+ +
+'Line' is the '<id>' of a 32-bit integer *OpConstant* denoting the source line number at
+ which the lexical block begins in the 'Source'. +
+ +
+'Column' is the '<id>' of a 32-bit integer *OpConstant* denoting the column number at
+ which the lexical block begins. +
+ +
+'Scope' is the '<id>' of a debug instruction that represents the
+ <<LexicalScope,lexical scope>> containing the lexical block. Entities
+ in the global lexical scope should have 'Scope' referring to a
+ <<DebugCompilationUnit,*DebugCompilationUnit*>>. +
+ +
+ The presence of the 'Name' operand indicates that this instruction represents a
+ C\++ namespace. This operand refers to an *OpString* holding the name of the
+ namespace. For anonymous C++ namespaces, the name must be an empty string. +
+ +
+ If 'Name' operand present, then the instruction can also have optional
+ 'Inline namespace' parameter. It specifies whether C++ namespace is inline or not.
+ It must be either result id of <<OpConstantTrue,*OpConstantTrue*>> or
+ <<OpConstantFalse,*OpConstantFalse*>>. +
+ +
+
+| 10+ | 13 | '<id>' +
+'Result Type' | 'Result <id>' | '<id> Set'| 21
+| '<id>' 'Source'
+| '<id> Line'
+| '<id> Column'
+| '<id>' 'Scope'
+| Optional '<id>' 'Name'
+| Optional '<id>' 'Inline namespace'
+|======
+
+[cols="2*1,3*2,1,4*3"]
+|======
+10+|[[DebugInlinedAt]]*DebugInlinedAt* +
+ +
+Declare to where instructions grouped together by a <<DebugScope,*DebugScope*>>
+ instruction are inlined. When a function is inlined, a
+ <<DebugScope,*DebugScope*>> for the function or a part of the function can have
+ an 'Inlined' operand i.e., <<DebugInlinedAt,*DebugInlinedAt*>>, which means the
+ set of instructions grouped by the <<DebugScope,*DebugScope*>> was inlined to
+ the 'Line' operand of the <<DebugInlinedAt,*DebugInlinedAt*>> of the 'Scope'
+ operand of the <<DebugInlinedAt,*DebugInlinedAt*>>. +
+ +
+{result_type} +
+ +
+'Line' is the '<id>' of a 32-bit integer *OpConstant* denoting the source line number
+ where the range of instructions were inlined. +
+ +
+'Column' is the '<id>' of a 32-bit integer *OpConstant* denoting the column number of
+ the first character where the range of instructions were inlined. +
+ +
+'Scope' is a <<LexicalScope,lexical scope>> that contains 'Line'. +
+ +
+'Inlined' is a debug instruction representing the next level of inlining in case
+ of recursive inlining. +
+
+| 8+ | 12 | '<id>' +
+'Result Type' | 'Result <id>' | '<id> Set'| 25
+| '<id> Line'
+| '<id> Column'
+| '<id> Scope'
+| Optional '<id> Inlined'
+|======
+
+Local Variables
+~~~~~~~~~~~~~~~
+
+Modify the description of <<DebugOperation,*DebugOperation*>> instruction,
+adding the following sentence to the end:
+If Operation is *Arg*, the *DebugOperation* has only one optional operand, which is
+of a non-debug instruction whose value is used as an argument of a debug expression.
+
+Imported Entities
+~~~~~~~~~~~~~~~~~
+
+[cols="2*1,3*2,1,8*3"]
+|=====
+14+^|[[DebugModule]]*DebugModule* +
+
+Represents a module in the programming language, for example a Fortran module. +
+
+{result_type} +
+
+'Name' is '<id>' of an *OpString*, holding the name of the imported module. +
+
+'Source' is '<id>' of a *DebugSource* instruction representing text of the source
+program of the module. +
+
+'Line' is '<id>' of a 32-bit integer *OpConstant* denoting the line number in
+the source at which the declaration or use of the module appears in the _Source_. +
+
+'Parent' is '<id>' of a debug instruction which represents the parent lexical scope. +
+
+'ConfigurationMacros' is '<id>' of an *OpString*, holding space-separated shell-quoted
+list of `-D` macro definitions as they would appear on a command line specified
+to a preprocessor on early stages of _Source_ translation to the SPIR-V module. +
+
+'IncludePath' is '<id>' of an *OpString*, holding the path to the module map file. +
+
+'APINotesFile' is '<id>' of an *OpString*, holding the path to an API notes file
+for this module. +
+
+'IsDecl' is '<id>' of a 32-bit integer *OpConstant* which indicates if the module is
+a declaration and it must have one of the following values: +
+0 indicates that this module is not a declaration +
+1 indicates that this module is a declaration +
+
+Result of this instruction can be used as 'Entity' operand of
+*DebugImportedEntity* instruction. +
+
+| 13 | 12 | '<id>' +
+'Result Type' | 'Result <id>' | '<id> Set'| 200
+| '<id>' 'Name'
+| '<id>' 'Source'
+| '<id>' 'Line'
+| '<id>' 'Parent'
+| '<id>' 'ConfigurationMacros'
+| '<id>' 'IncludePath'
+| '<id>' 'APINotesFile'
+| '<id>' 'IsDeclaration'
+|=====
+
+Validation Rules
+----------------
+
+None.
+
+Issues
+------
+. Should we update 3.2. Source Language instead of adding a new table?
++
+Discussion:
+While it's a good suggestion it would require a core SPIR-V spec update with the
+appropriate SPIR-V version update. While here we can add a table that is being
+used just by extended instruction set.
+
+
+Revision History
+----------------
+[cols="14%,12%,10%,64%"]
+[grid="rows"]
+[options="header"]
+|==============================================================================
+|Rev         |Date      |Author                             |Changes
+|1.00 Rev 1  |2023-09-03|Alexey Sotkin / Dmitry Sidorov     |*Initial revision*
+|===============================================================================
