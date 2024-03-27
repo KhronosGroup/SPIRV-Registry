@@ -140,6 +140,7 @@ Khronos SPIR-V Registry](https://www.khronos.org/registry/spir-v/).
 1. [SPV_NV_raw_access_chains                ]( https://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/NV/SPV_NV_raw_access_chains.html)
 1. [SPV_NV_shader_atomic_fp16_vector        ]( https://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/NV/SPV_NV_shader_atomic_fp16_vector.html)
 1. [SPV_KHR_quad_control                    ]( https://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/KHR/SPV_KHR_quad_control.html)
+1. [SPV_INTEL_task_sequence                 ]( https://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/INTEL/SPV_INTEL_task_sequence.html)
 
 ## Non-Semantic Extended Instruction Set Specifications
 
