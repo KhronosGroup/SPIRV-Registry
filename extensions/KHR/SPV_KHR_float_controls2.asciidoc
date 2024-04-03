@@ -32,8 +32,8 @@ http://www.khronos.org/registry/speccopyright.html
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2024-03-15
-| Revision           | 9
+| Last Modified Date | 2024-04-03
+| Revision           | 10
 |========================================
 
 == Dependencies
@@ -75,7 +75,7 @@ In section 2.16.1 "Universal Validation Rules" add the rules:
   - Contain any *FP Fast Math Mode* bitmask containing *Fast*.
 
 * It is not valid for any instruction to be decorated with both *NoContraction*
-  and *FPFastMath*.
+  and *FPFastMathMode*.
 
 * Any *FP Fast Math Mode* bitmask that includes the *AllowTransform* bit must also
   include the *AllowContract* and *AllowReassoc* bits.
@@ -95,6 +95,7 @@ Type' must be a scalar, floating-point type. 'Fast-Math Mode' must be the <id>
 of a <<ConstantInstruction,'constant instruction'>> of 32-bit integer type
 containing a valid <<FP_Fast_Math_Mode,'FP Fast Math Mode'>> bitmask.
 'Fast-Math Mode' must not be a specialization-constant instruction.
+May be applied at most once per 'Target Type' to any execution mode.
 | <id> +
 'Target Type'
 | <id> +
@@ -204,7 +205,7 @@ In section 3.31 "Capability" add the following row to the capability table:
 |====
 2+| Capability | Implicitly Declares
 | 6029 | *FloatControls2* +
-Uses *FPFastMathDefault* execution mode or uses *FPFastMath* decoration (unless enabled with the *Kernel* capability). |
+Uses *FPFastMathDefault* execution mode or uses *FPFastMathMode* decoration (unless enabled with the *Kernel* capability). |
 |====
 
 
@@ -223,9 +224,9 @@ This extension deprecates the following features:
 
 * The execution modes *ContractionOff* and *SignedZeroInfNanPreserve*. Use
   *FPFastMathDefault* with the appropriate flags instead.
-* The decoration *NoContraction*. Use the *FPFastMath* decoration instead.
-* The *FPFastMath* mode bit *Fast*. Set all the other *FPFastMath* bits instead.
-* Enabling the *FPFastMath* decoration using the *Kernel* capability. All uses should
+* The decoration *NoContraction*. Use the *FPFastMathMode* decoration instead.
+* The *FPFastMathMode* mode bit *Fast*. Set all the other *FPFastMathMode* bits instead.
+* Enabling the *FPFastMathMode* decoration using the *Kernel* capability. All uses should
   declare the *FloatControls2* capability.
 * The *OpenCL.std* instructions *fmin_common*, *fmax_common*. Use *fmin*, *fmax* with
   *NInf* and *NNaN* instead.
@@ -265,13 +266,14 @@ is outside the scope of this extension.
 [options="header"]
 |========================================
 |Rev|Date|Author|Changes
-|1|2021-09-15|Graeme Leese|Initial KHR extension.
-|2|2021-09-24|Graeme Leese|Updated following review.
-|3|2022-04-06|Graeme Leese|Updated following review.
-|4|2023-04-26|Graeme Leese|Clarify which operations must be decorated.
-|5|2023-05-09|Graeme Leese|Resolve issues.
-|6|2023-05-17|Graeme Leese|Clarify interaction of transforms with inf/nan.
-|7|2023-06-08|Graeme Leese|Update deprecations, fix defaults to use IDs.
-|8|2023-10-02|Graeme Leese|Update required SPIR-V version, clarify deprecation of 'fast'.
-|9|2024-03-15|Graeme Leese|Clarify rules for modules declaring no *FPFastMathDefault*.
+| 1|2021-09-15|Graeme Leese|Initial KHR extension.
+| 2|2021-09-24|Graeme Leese|Updated following review.
+| 3|2022-04-06|Graeme Leese|Updated following review.
+| 4|2023-04-26|Graeme Leese|Clarify which operations must be decorated.
+| 5|2023-05-09|Graeme Leese|Resolve issues.
+| 6|2023-05-17|Graeme Leese|Clarify interaction of transforms with inf/nan.
+| 7|2023-06-08|Graeme Leese|Update deprecations, fix defaults to use IDs.
+| 8|2023-10-02|Graeme Leese|Update required SPIR-V version, clarify deprecation of 'fast'.
+| 9|2024-03-15|Graeme Leese|Clarify rules for modules declaring no *FPFastMathDefault*.
+|10|2024-04-03|Graeme Leese|Fix some spellings and clarify multiple use of execution mode.
 |========================================
