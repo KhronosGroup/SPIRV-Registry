@@ -14,12 +14,13 @@ For most SPIR-V specifications it is easiest to copy and modify an existing SPIR
 
 The Asciidoctor toolchain supports many output formats.
 To publish an extension in this repo, generate an HTML specification.
+Please refer to the online documentation to install the Asciidoctor toolchain.
 
-Most specifications in this repo are built with the Asciidoc toolchain.
-Please refer to the online documentation to install the Asciidoc toolchain.
+Khronos maintains and publishes docker containers with the toolchain installed.
+The `khronosgroup/docker-images:asciidoctor-spec` image provides the minimal tooling to convert to HTML using asciidoctor.
 
-Alternatively, Khronos maintains and publishes docker containers with the toolchain installed.
-The `khronosgroup/docker-images:asciidoctor-spec` image provides the minimal tooling to convert to HTML.
+Most specifications in this repo were built with the older Asciidoc toolchain rather than Asciidoctor.
+Please refer to the online documentation to install the Asciidoc toolchain if need be.
 
 A recommended command line to build an HTML specification from Asciidoc source is:
 
