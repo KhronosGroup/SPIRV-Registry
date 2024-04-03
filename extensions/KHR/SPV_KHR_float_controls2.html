@@ -539,11 +539,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2024-03-15</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2024-04-03</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">9</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
 </tr>
 </tbody>
 </table>
@@ -620,7 +620,7 @@ modifications to the floating-point semantics.</p>
 </li>
 <li>
 <p>It is not valid for any instruction to be decorated with both <strong>NoContraction</strong>
-and <strong>FPFastMath</strong>.</p>
+and <strong>FPFastMathMode</strong>.</p>
 </li>
 <li>
 <p>Any <strong>FP Fast Math Mode</strong> bitmask that includes the <strong>AllowTransform</strong> bit must also
@@ -659,7 +659,8 @@ type that is 'Target Type' or an <strong>OpTypeMatrix</strong> or <strong>OpType
 Type' must be a scalar, floating-point type. 'Fast-Math Mode' must be the &lt;id&gt;
 of a <a href="#ConstantInstruction">'constant instruction'</a> of 32-bit integer type
 containing a valid <a href="#FP_Fast_Math_Mode">'FP Fast Math Mode'</a> bitmask.
-'Fast-Math Mode' must not be a specialization-constant instruction.</p></td>
+'Fast-Math Mode' must not be a specialization-constant instruction.
+May be applied at most once per 'Target Type' to any execution mode.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">&lt;id&gt;<br>
 'Target Type'</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">&lt;id&gt;<br>
@@ -858,7 +859,7 @@ Indicates a floating-point fast math flag.</p></td>
 <tr>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">6029</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FloatControls2</strong><br>
-Uses <strong>FPFastMathDefault</strong> execution mode or uses <strong>FPFastMath</strong> decoration (unless enabled with the <strong>Kernel</strong> capability).</p></td>
+Uses <strong>FPFastMathDefault</strong> execution mode or uses <strong>FPFastMathMode</strong> decoration (unless enabled with the <strong>Kernel</strong> capability).</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 </tbody>
@@ -893,13 +894,13 @@ type for either operands or result".</p>
 <strong>FPFastMathDefault</strong> with the appropriate flags instead.</p>
 </li>
 <li>
-<p>The decoration <strong>NoContraction</strong>. Use the <strong>FPFastMath</strong> decoration instead.</p>
+<p>The decoration <strong>NoContraction</strong>. Use the <strong>FPFastMathMode</strong> decoration instead.</p>
 </li>
 <li>
-<p>The <strong>FPFastMath</strong> mode bit <strong>Fast</strong>. Set all the other <strong>FPFastMath</strong> bits instead.</p>
+<p>The <strong>FPFastMathMode</strong> mode bit <strong>Fast</strong>. Set all the other <strong>FPFastMathMode</strong> bits instead.</p>
 </li>
 <li>
-<p>Enabling the <strong>FPFastMath</strong> decoration using the <strong>Kernel</strong> capability. All uses should
+<p>Enabling the <strong>FPFastMathMode</strong> decoration using the <strong>Kernel</strong> capability. All uses should
 declare the <strong>FloatControls2</strong> capability.</p>
 </li>
 <li>
@@ -1030,6 +1031,12 @@ is outside the scope of this extension.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Graeme Leese</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Clarify rules for modules declaring no <strong>FPFastMathDefault</strong>.</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2024-04-03</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Graeme Leese</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fix some spellings and clarify multiple use of execution mode.</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1037,7 +1044,7 @@ is outside the scope of this extension.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-03-20 10:19:57 UTC
+Last updated 2024-04-03 11:18:13 +0100
 </div>
 </div>
 </body>
