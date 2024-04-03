@@ -15,15 +15,23 @@
 ASCIIDOC ?= asciidoctor
 DOS2UNIX ?= dos2unix
 
-ASCIIDOC_HTML_OPTIONS = --trace --safe-mode safe -b html5 -a icons=font -a data-uri -a toc2 -a toclevels=1
-
-SRC_ASCIIDOC = $(wildcard extensions/*/*.asciidoc)
-DST_HTML = $(SRC_ASCIIDOC:.asciidoc=.html)
-
 # Compute the absolute directory name from the location of this Makefile
 # so that we can compile from anywhere even if we use make -f
 # <this_makefile>:
 SPIRV_DIR := $(abspath $(dir $(firstword $(MAKEFILE_LIST))))
+
+
+ASCIIDOC_HTML_OPTIONS = --trace \
+  -b html5 \
+  -a icons=font \
+  -a data-uri \
+  -a stylesdir=$(SPIRV_DIR)/resources \
+  -a stylesheet=spirv.css \
+  -a toc2 \
+  -a toclevels=1
+
+SRC_ASCIIDOC = $(wildcard extensions/*/*.asciidoc)
+DST_HTML = $(SRC_ASCIIDOC:.asciidoc=.html)
 
 all: $(DST_HTML)
 
@@ -46,11 +54,12 @@ $(foreach file, $(DST_HTML), $(eval $(call SHORTHAND_RULE,$(notdir $(file)),$(fi
 #   make docker-clean docker-html docker-pdf
 # Also useful to have a shell inside docker:
 #   make docker-bash
+#
+# Run with current user and group id the published AsciiDoctor
+# capable Khronos docker image.
+# Re-set MAKEFLAGS to pass variables to the inner make since
+# variables are dropped by docker.
 docker-%:
-	# Run with current user and group id the published AsciiDoctor
-	# capable Khronos docker image.
-	# Re-set MAKEFLAGS to pass variables to the inner make since
-	# variables are dropped by docker.
 	docker run --user `id --user`:`id --group` \
 	  --interactive --tty --rm \
 	  --volume $(SPIRV_DIR):/spirv khronosgroup/docker-images:asciidoctor-spec \
