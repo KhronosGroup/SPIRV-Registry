@@ -699,12 +699,12 @@ Describe a vector data type. +
 'Memory Size' is the '<id>' of a 32-bit integer *OpConstant* denoting the memory size in bits of
  the vector. +
 
-| 8 | 12 | '<id>' +
+| 7+ | 12 | '<id>' +
 'Result Type' | 'Result <id>' | '<id> Set'| 6
 | '<id> Base Type'
 | '<id>' +
   'Component Count'
-| '<id>' +
+| Optional '<id>' +
   'Memory Size'
 |======
 
