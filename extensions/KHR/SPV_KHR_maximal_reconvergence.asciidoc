@@ -42,8 +42,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2022-01-24
-| Revision           | 1
+| Last Modified Date | 2024-04-18
+| Revision           | 2
 |========================================
 
 Dependencies
@@ -261,7 +261,7 @@ The only related instances introduced during execution are the following:
   ** An invocation 'i' executes both 'L' and 'S', and
   ** 'S' is the last execution of the *OpSwitch* before executing 'L' for 'i', then
   ** 'L' is related to 'S', and
-  ** 'T(L)' *may* include a subset of non-escaping invocations in 'T(J)'
+  ** 'T(L)' *may* include a subset of non-escaping invocations in 'T(S)'
 
 * Given dynamic instances 'L' of an *OpLabel* and 'M' of an *OpLoopMerge*, where:
   ** The *OpLabel* is the declared *Merge Block* of the *OpLoopMerge*, and
@@ -324,7 +324,9 @@ same case construct.
 . Should any structured control flow rules be tightened for this extension?
 +
 --
-*Unresolved*
+*Resolved*
+
+Yes, see the modifications to *2.11 Structured Control Flow*.
 --
 
 . Should this extension make any mention of forward progress?
@@ -354,5 +356,6 @@ Revision History
 |===
 |Rev|Date|Author|Changes
 |1|2022-01-22|Alan Baker|Initial Revision
+|2|2024-04-18|Alan Baker|Fix typo and resolve issue
 |===
 
