@@ -1,0 +1,181 @@
+SPV_KHR_relaxed_extended_instruction
+====================================
+
+Name Strings
+------------
+
+SPV_KHR_relaxed_extended_instruction
+
+Contact
+-------
+
+To report a problem with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Registry
+
+Contributors
+------------
+
+- Alan Baker, Google LLC
+- Nathan Gauër, Google LLC
+
+Notice
+------
+
+Copyright (c) 2024 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+Status
+------
+
+- Complete
+- Approved by the SPIR-V Working Group: 2024-04-03
+- Ratified by the Khronos Group: 2024-05-17
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2024-05-28
+| Revision           | 3
+|========================================
+
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification, Version 1.6
+Revision 3.
+
+This extension requires SPIR-V 1.0 or later and "SPV_KHR_non_semantic_info".
+
+This extension interacts with "NonSemantic.Shader.DebugInfo.100" extended
+instruction set and "SPV_KHR_non_semantic_info".
+
+Overview
+--------
+
+This extension adds the ability to have forward declaration in some specific
+non-semantic instructions. It modifies similarly both the core SPIR-V
+specification and the SPV_KHR_non_semantic_info extension specification.
+
+Modifications to the SPIR-V Specification, Version 1.6
+------------------------------------------------------
+
+Logical Layout of a Module
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Modify section 9, modifying:
+
+(Replace the following sentence):
+
+All operands in all these instructions must be declared before being used.
+
+(with):
+
+All operands in all these instructions must be declared before being used,
+except when the opcode is *OpExtInstWithForwardRefs*.
+
+Modify section 9, modifying:
+
+(Replace the following sentence):
+
+This section is the first section to allow use of _Non-semantic instructions_ with *OpExtInst*
+
+(with):
+
+This section is the first section to allow use of _Non-semantic instructions_ with *OpExtInst* or *OpExtInstWithForwardRefs*
+
+Modifies the list of locations where a forward reference is allowed to add
+the following cases:
+
+ - OpExtInstWithForwardRefs can contain forward references.
+
+Instructions
+~~~~~~~~~~~~
+
+Add the following new instruction:
+
+[cols="1,2,2,2,2,2,2"]
+|======
+7+|[[OpExtInstWithForwardRefs]]*OpExtInstWithForwardRefs* +
+ +
+Executes an instruction in an imported set of non-semantic extended
+instructions.
+
+At least one _<id>_ operand must be a forward reference, otherwise,
+*OpExtInst* must be used.
+
+| 5 + variable | TBD
+| _<id>_ +
+_Result Type_
+| _Result <id>_
+| _<id>_ +
+_Set_
+| _Literal_ +
+_Instruction_
+| _<id>, <id>, ..._ +
+_Operand 1, Operand 2, ..._
+|======
+
+Modifications to the NonSemantic.Shader.DebugInfo.100 extended instruction set, Version 1.0
+-------------------------------------------------------------------------------------------
+
+Introduction
+~~~~~~~~~~~~
+
+(Replace the following sentence):
+
+- Forward references in any instruction are disallowed.
+
+(with):
+
+- Forward references in any instruction are disallowed, except as operands in
+  *OpExtInstWithForwardRefs*.
+
+Binary Form
+~~~~~~~~~~~
+
+Modify the *Forward references* section:
+
+(Replace the following sentence):
+
+Forward references are not allowed, to be compliant with SPV_KHR_non_semantic_info.
+
+(with):
+
+Forward references are not allowed, except when the instruction allows it,
+and when the instruction is used with *OpExtInstWithForwardRefs*.
+
+Validation Rules
+----------------
+
+To use this extension within a SPIR-V module, the following OpExtension must
+be present in the module:
+
+----
+OpExtension "SPV_KHR_relaxed_extended_instruction"
+----
+
+Each **OpExtInstWithForwardRefs** use must have at least one forward reference
+as operand.
+
+Each extended opcode used with **OpExtInstWithForwardRefs** must belong to a
+non-semantic instruction set.
+
+Issues
+------
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2023-10-11|Nathan Gauër|*Initial revision*
+|2|2024-03-11|Nathan Gauër|Relaxed SPIR-V version requirements.
+|3|2024-05-28|Nathan Gauër|Added ratification/approval dates.
+|========================================
