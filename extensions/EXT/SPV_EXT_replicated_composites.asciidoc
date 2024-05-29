@@ -87,7 +87,7 @@ Uses **OpConstantCompositeReplicateEXT**, **OpSpecConstantCompositeReplicateEXT*
 Instructions
 ~~~~~~~~~~~~
 
-Modify Section 3.42.7, "Constant-Creation Instructions", adding three new instructions:
+Modify Section 3.42.7, "Constant-Creation Instructions", adding two new instructions:
 
 [cols="5*1"]
 |======
@@ -133,6 +133,8 @@ See Section 1.9, Specialization.
 | 'Result <id>'
 | '<id> Value'
 |======
+
+Modify Section 3.42.12, "Composite Instructions", adding one new instruction:
 
 [cols="5*1"]
 |======
