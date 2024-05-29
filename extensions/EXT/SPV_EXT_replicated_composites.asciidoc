@@ -38,7 +38,7 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2024-04-03
+| Last Modified Date | 2024-05-29
 | Revision           | 1
 |========================================
 
@@ -87,7 +87,7 @@ Uses **OpConstantCompositeReplicateEXT**, **OpSpecConstantCompositeReplicateEXT*
 Instructions
 ~~~~~~~~~~~~
 
-Add the following new instructions:
+Modify Section 3.42.7, "Constant-Creation Instructions", adding three new instructions:
 
 [cols="5*1"]
 |======
@@ -166,5 +166,5 @@ Revision History
 [options="header"]
 |========================================
 |Rev|Date|Author|Changes
-|1|2024-04-03|Kevin Petit|Initial revision
+|1|2024-05-29|Kevin Petit|Initial revision
 |========================================
