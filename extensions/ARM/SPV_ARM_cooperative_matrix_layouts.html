@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.22">
+<title>SPV_ARM_cooperative_matrix_layouts</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+p {
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: normal;
+}
+em, b, strong {
+    color: darkblue;
+}
+
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>SPV_ARM_cooperative_matrix_layouts</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_name_strings">Name Strings</a></li>
+<li><a href="#_contact">Contact</a></li>
+<li><a href="#_contributors">Contributors</a></li>
+<li><a href="#_notice">Notice</a></li>
+<li><a href="#_status">Status</a></li>
+<li><a href="#_version">Version</a></li>
+<li><a href="#_dependencies">Dependencies</a></li>
+<li><a href="#_overview">Overview</a></li>
+<li><a href="#_extension_name">Extension Name</a></li>
+<li><a href="#_modifications_to_the_spir_v_specification_version_1_6">Modifications to the SPIR-V Specification, Version 1.6</a></li>
+<li><a href="#_issues">Issues</a></li>
+<li><a href="#_revision_history">Revision History</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_name_strings">Name Strings</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>SPV_ARM_cooperative_matrix_layouts</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_contact">Contact</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To report problems with this extension, please open a new issue at:</p>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/KhronosGroup/SPIRV-Headers" class="bare">https://github.com/KhronosGroup/SPIRV-Headers</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_contributors">Contributors</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Kevin Petit, Arm Ltd.<br></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_notice">Notice</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Copyright (c) 2023 Arm Ltd.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_status">Status</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Complete.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_version">Version</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all" style="width: 40%;">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Last Modified Date</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2024-05-29</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Revision</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_dependencies">Dependencies</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This extension is written against the SPIR-V Specification,
+Version 1.6 Revision 2.</p>
+</div>
+<div class="paragraph">
+<p>This extension requires SPIR-V 1.6.</p>
+</div>
+<div class="paragraph">
+<p>This extension requires SPV_KHR_cooperative_matrix.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_overview">Overview</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This extension adds support for cooperative matrix memory layouts used on Arm GPUs.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_extension_name">Extension Name</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To use this extension within a SPIR-V module, the following
+<strong>OpExtension</strong> must be present in the module:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>OpExtension "SPV_ARM_cooperative_matrix_layouts"</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_modifications_to_the_spir_v_specification_version_1_6">Modifications to the SPIR-V Specification, Version 1.6</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_validation_rules">Validation Rules</h3>
+<div class="sect3">
+<h4 id="_modify_section_2_16_1_universal_validation_rules">Modify section 2.16.1 Universal Validation Rules:</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>If the <em>MemoryLayout</em> provided to <strong>OpCooperativeMatrixLoadKHR</strong> or
+<strong>OpCooperativeMatrixStoreKHR</strong> is <strong>RowBlockedInterleavedARM</strong>
+or <strong>ColumnBlockedInterleavedARM</strong> then their <em>Result Type</em>, or
+<em>Object</em>, respectively, must be a cooperative matrix type whose
+<em>Rows</em> is a multiple of 4 and whose <em>Columns</em> is a multiple of
+16 / <code>sizeof</code>(<em>Component Type</em>).</p>
+</li>
+<li>
+<p>If the <em>MemoryLayout</em> provided to <strong>OpCooperativeMatrixLoadKHR</strong> or
+<strong>OpCooperativeMatrixStoreKHR</strong> is <strong>RowBlockedInterleavedARM</strong>
+then their <em>Result Type</em>, or <em>Object</em>, respectively, must be a cooperative
+matrix type whose <em>Columns</em> is a multiple of 16 / <code>sizeof</code>(<em>Component Type</em>)
+multiplied by the <em>Stride</em> operand to the <strong>OpCooperativeMatrixLoadKHR</strong> or
+<strong>OpCooperativeMatrixStoreKHR</strong> instruction.</p>
+</li>
+<li>
+<p>If the <em>MemoryLayout</em> provided to <strong>OpCooperativeMatrixLoadKHR</strong> or
+<strong>OpCooperativeMatrixStoreKHR</strong> is <strong>ColumnBlockedInterleavedARM</strong>
+then their <em>Result Type</em>, or <em>Object</em>, respectively, must be a cooperative
+matrix type whose <em>Rows</em> is a multiple of 4 times the <em>Stride</em> operand to
+the <strong>OpCooperativeMatrixLoadKHR</strong> or <strong>OpCooperativeMatrixStoreKHR</strong> instruction.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_capabilities">Capabilities</h3>
+<div class="paragraph">
+<p>Modify Section 3.31, "Capability", adding these rows to the Capability table:</p>
+</div>
+<div class="openblock">
+<div class="content">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top" colspan="2">Capability</th>
+<th class="tableblock halign-center valign-top">Depends On</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4201</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>CooperativeMatrixLayoutsARM</strong><br>
+Uses ARM cooperative matrix layouts</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>CooperativeMatrixKHR</strong></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_3_x_cooperative_matrix_layout">3.X Cooperative Matrix Layout</h3>
+<div class="paragraph">
+<p>Add the following to the table introduced by SPV_KHR_cooperative_matrix:</p>
+</div>
+<div class="openblock">
+<div class="content">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top" colspan="2">Cooperative Matrix Layout</th>
+<th class="tableblock halign-left valign-top">Enabling Capabilities</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4202</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RowBlockedInterleavedARM</strong><br>
+Matrix elements are grouped in blocks of 64 bytes. Each block stores a sub-matrix
+of 4 rows and a number of columns that depends on the size of the <em>Component Type</em>
+of the matrix. The number of columns in a block is given by
+16 / <code>sizeof</code>(<em>Component Type</em>). The matrix elements within individual blocks are
+laid out in row-major order. Blocks are laid out in row-major order. Blocks are
+interleaved at a 4-byte granularity in in groups whose size is given by the
+<em>Stride</em> operand to <strong>OpCooperativeMatrixLoadKHR</strong> or <strong>OpCooperativeMatrixStoreKHR</strong>.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>CooperativeMatrixLayoutsARM</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4203</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>ColumnBlockedInterleavedARM</strong><br>
+Matrix elements are grouped in blocks of 64 bytes. Each block stores a sub-matrix
+of 4 rows and a number of columns that depends on the size of the <em>Component Type</em>
+of the matrix. The number of columns in a block is given by
+16 / <code>sizeof</code>(<em>Component Type</em>). The matrix elements within individual blocks are
+laid out in row-major order. Blocks are laid out in column-major order. Blocks are
+interleaved at a 4-byte granularity in in groups whose size is given by the
+<em>Stride</em> operand to <strong>OpCooperativeMatrixLoadKHR</strong> or <strong>OpCooperativeMatrixStoreKHR</strong>.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>CooperativeMatrixLayoutsARM</strong></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_issues">Issues</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>None.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_revision_history">Revision History</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-rows stretch">
+<colgroup>
+<col style="width: 4.7619%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Rev</th>
+<th class="tableblock halign-left valign-top">Date</th>
+<th class="tableblock halign-left valign-top">Author</th>
+<th class="tableblock halign-left valign-top">Changes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2024-05-29</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Kevin Petit</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Initial revision</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-05-29 15:52:16 UTC
+</div>
+</div>
+</body>
+</html>
