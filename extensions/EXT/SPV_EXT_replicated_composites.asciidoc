@@ -1,0 +1,172 @@
+SPV_EXT_replicated_composites
+=============================
+
+Name Strings
+------------
+
+SPV_EXT_replicated_composites
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Kevin Petit, Arm Ltd.
+- Jeff Bolz, NVIDIA
+- Alan Baker, Google
+- Yuehang Wu, Arm Ltd.
+
+Notice
+------
+
+Copyright (c) 2024 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+Status
+------
+
+- Approved by the SPIR-V Working Group: 2024-04-03
+- Approved by the Khronos Board of Promoters: 2024-05-17
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2024-05-29
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+version 1.6 Revision 3.
+
+This extension requires SPIR-V 1.0.
+
+Overview
+--------
+
+This extension adds instructions to create composite objects whose
+constituents all have the same value without requiring the value to be
+provided for each constituent.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_EXT_replicated_composites"
+----
+
+Modifications to the SPIR-V Specification, Version 1.6
+------------------------------------------------------
+
+Capabilities
+~~~~~~~~~~~~
+
+Modify Section 3.31, "Capability", adding these rows to the Capability table:
+
+--
+[options="header"]
+|====
+2+^| Capability ^| Depends On
+| 6024 | *ReplicatedCompositesEXT* +
+Uses **OpConstantCompositeReplicateEXT**, **OpSpecConstantCompositeReplicateEXT**, or **OpCompositeConstructReplicateEXT** |
+|====
+--
+
+Instructions
+~~~~~~~~~~~~
+
+Modify Section 3.42.7, "Constant-Creation Instructions", adding two new instructions:
+
+[cols="5*1"]
+|======
+4+|[[OpConstantCompositeReplicateEXT]]*OpConstantCompositeReplicateEXT* +
+ +
+Declare a new composite constant whose constituents all have the same value. +
+ +
+'Result Type' must be a homegeneous composite type. +
+ +
+'Value' is the value to use for all constituents. 'Value' must have the
+same type as the constituents of the result. 'Value' must be the
+<id> of a non-specialization constant-instruction declarations or an **OpUndef**.
+ +
+1+|Capability: +
+*ReplicatedCompositesEXT*
+| 4 | 4461
+| '<id> Result Type'
+| 'Result <id>'
+| '<id> Value'
+|======
+
+[cols="5*1"]
+|======
+4+|[[OpSpecConstantCompositeReplicateEXT]]*OpSpecConstantCompositeReplicateEXT* +
+ +
+Declare a new composite specialization constant whose constituents all have the same value. +
+ +
+'Result Type' must be a homogeneous composite type.
+ +
+'Value' is the value to use for all constituents. 'Value' must have the
+same type as the constituents of the result. 'Value' must be the
+<id> of a specialization constant, constant declaration, or an **OpUndef**. +
+ +
+This instruction will be specialized to an **OpConstantCompositeReplicateEXT**
+instruction. +
+ +
+See Section 1.9, Specialization.
+ +
+1+|Capability: +
+*ReplicatedCompositesEXT*
+| 4 | 4462
+| '<id> Result Type'
+| 'Result <id>'
+| '<id> Value'
+|======
+
+Modify Section 3.42.12, "Composite Instructions", adding one new instruction:
+
+[cols="5*1"]
+|======
+4+|[[OpCompositeConstructReplicateEXT]]*OpCompositeConstructReplicateEXT* +
+ +
+Construct a new composite object whose constituents all have the same value. +
+ +
+'Result Type' must be a homogeneous composite type. +
+ +
+'Value' is the value to use for all constituents. 'Value' must have the
+same type as the constituents of the result.
+ +
+1+|Capability: +
+*ReplicatedCompositesEXT*
+| 4 | 4463
+| '<id> Result Type'
+| 'Result <id>'
+| '<id> Value'
+|======
+
+Issues
+------
+
+None, for now.
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2024-05-29|Kevin Petit|Initial revision
+|========================================
