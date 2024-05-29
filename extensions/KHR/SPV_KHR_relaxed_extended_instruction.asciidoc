@@ -95,7 +95,8 @@ the following cases:
 Instructions
 ~~~~~~~~~~~~
 
-Add the following new instruction:
+Modify Section 3.49.4, "Extension Instructions",
+adding one new instruction:
 
 [cols="1,2,2,2,2,2,2"]
 |======
@@ -107,7 +108,8 @@ instructions.
 At least one _<id>_ operand must be a forward reference, otherwise,
 *OpExtInst* must be used.
 
-| 5 + variable | TBD
+| 5 + variable
+| 404
 | _<id>_ +
 _Result Type_
 | _Result <id>_
