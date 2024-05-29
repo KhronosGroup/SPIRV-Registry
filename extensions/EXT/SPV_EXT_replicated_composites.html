@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.22">
+<title>SPV_EXT_replicated_composites</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+p {
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: normal;
+}
+em, b, strong {
+    color: darkblue;
+}
+
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>SPV_EXT_replicated_composites</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_name_strings">Name Strings</a></li>
+<li><a href="#_contact">Contact</a></li>
+<li><a href="#_contributors">Contributors</a></li>
+<li><a href="#_notice">Notice</a></li>
+<li><a href="#_status">Status</a></li>
+<li><a href="#_version">Version</a></li>
+<li><a href="#_dependencies">Dependencies</a></li>
+<li><a href="#_overview">Overview</a></li>
+<li><a href="#_extension_name">Extension Name</a></li>
+<li><a href="#_modifications_to_the_spir_v_specification_version_1_6">Modifications to the SPIR-V Specification, Version 1.6</a></li>
+<li><a href="#_issues">Issues</a></li>
+<li><a href="#_revision_history">Revision History</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_name_strings">Name Strings</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>SPV_EXT_replicated_composites</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_contact">Contact</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To report problems with this extension, please open a new issue at:</p>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/KhronosGroup/SPIRV-Headers" class="bare">https://github.com/KhronosGroup/SPIRV-Headers</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_contributors">Contributors</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Kevin Petit, Arm Ltd.</p>
+</li>
+<li>
+<p>Jeff Bolz, NVIDIA</p>
+</li>
+<li>
+<p>Alan Baker, Google</p>
+</li>
+<li>
+<p>Yuehang Wu, Arm Ltd.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_notice">Notice</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Copyright (c) 2024 The Khronos Group Inc. Copyright terms at
+<a href="http://www.khronos.org/registry/speccopyright.html" class="bare">http://www.khronos.org/registry/speccopyright.html</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_status">Status</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Approved by the SPIR-V Working Group: 2024-04-03</p>
+</li>
+<li>
+<p>Approved by the Khronos Board of Promoters: 2024-05-17</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_version">Version</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all" style="width: 40%;">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Last Modified Date</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2024-04-03</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Revision</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_dependencies">Dependencies</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This extension is written against the SPIR-V Specification,
+version 1.6 Revision 3.</p>
+</div>
+<div class="paragraph">
+<p>This extension requires SPIR-V 1.0.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_overview">Overview</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This extension adds instructions to create composite objects whose
+constituents all have the same value without requiring the value to be
+provided for each constituent.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_extension_name">Extension Name</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To use this extension within a SPIR-V module, the following
+<strong>OpExtension</strong> must be present in the module:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>OpExtension "SPV_EXT_replicated_composites"</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_modifications_to_the_spir_v_specification_version_1_6">Modifications to the SPIR-V Specification, Version 1.6</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_capabilities">Capabilities</h3>
+<div class="paragraph">
+<p>Modify Section 3.31, "Capability", adding these rows to the Capability table:</p>
+</div>
+<div class="openblock">
+<div class="content">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top" colspan="2">Capability</th>
+<th class="tableblock halign-center valign-top">Depends On</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6024</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>ReplicatedCompositesEXT</strong><br>
+Uses <strong>OpConstantCompositeReplicateEXT</strong>, <strong>OpSpecConstantCompositeReplicateEXT</strong>, or <strong>OpCompositeConstructReplicateEXT</strong></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_instructions">Instructions</h3>
+<div class="paragraph">
+<p>Add the following new instructions:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="4"><p class="tableblock"><a id="OpConstantCompositeReplicateEXT"></a><strong>OpConstantCompositeReplicateEXT</strong><br>
+<br>
+Declare a new composite constant whose constituents all have the same value.<br>
+<br>
+<em>Result Type</em> must be a homegeneous composite type.<br>
+<br>
+<em>Value</em> is the value to use for all constituents. <em>Value</em> must have the
+same type as the constituents of the result. <em>Value</em> must be the
+&lt;id&gt; of a non-specialization constant-instruction declarations or an <strong>OpUndef</strong>.
+<br></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
+<strong>ReplicatedCompositesEXT</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4461</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Result Type</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Result &lt;id&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Value</em></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="4"><p class="tableblock"><a id="OpSpecConstantCompositeReplicateEXT"></a><strong>OpSpecConstantCompositeReplicateEXT</strong><br>
+<br>
+Declare a new composite specialization constant whose constituents all have the same value.<br>
+<br>
+<em>Result Type</em> must be a homogeneous composite type.
+<br>
+<em>Value</em> is the value to use for all constituents. <em>Value</em> must have the
+same type as the constituents of the result. <em>Value</em> must be the
+&lt;id&gt; of a specialization constant, constant declaration, or an <strong>OpUndef</strong>.<br>
+<br>
+This instruction will be specialized to an <strong>OpConstantCompositeReplicateEXT</strong>
+instruction.<br>
+<br>
+See Section 1.9, Specialization.
+<br></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
+<strong>ReplicatedCompositesEXT</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4462</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Result Type</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Result &lt;id&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Value</em></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="4"><p class="tableblock"><a id="OpCompositeConstructReplicateEXT"></a><strong>OpCompositeConstructReplicateEXT</strong><br>
+<br>
+Construct a new composite object whose constituents all have the same value.<br>
+<br>
+<em>Result Type</em> must be a homogeneous composite type.<br>
+<br>
+<em>Value</em> is the value to use for all constituents. <em>Value</em> must have the
+same type as the constituents of the result.
+<br></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
+<strong>ReplicatedCompositesEXT</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4463</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Result Type</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Result &lt;id&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Value</em></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_issues">Issues</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>None, for now.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_revision_history">Revision History</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-rows stretch">
+<colgroup>
+<col style="width: 4.7619%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Rev</th>
+<th class="tableblock halign-left valign-top">Date</th>
+<th class="tableblock halign-left valign-top">Author</th>
+<th class="tableblock halign-left valign-top">Changes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2024-04-03</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Kevin Petit</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Initial revision</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-05-29 11:55:47 UTC
+</div>
+</div>
+</body>
+</html>
