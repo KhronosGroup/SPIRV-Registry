@@ -142,6 +142,7 @@ Khronos SPIR-V Registry](https://www.khronos.org/registry/spir-v/).
 1. [SPV_KHR_quad_control                    ]( https://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/KHR/SPV_KHR_quad_control.html)
 1. [SPV_INTEL_task_sequence                 ]( https://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/INTEL/SPV_INTEL_task_sequence.html)
 1. [SPV_EXT_replicated_composites           ]( https://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/EXT/SPV_EXT_replicated_composites.html)
+1. [SPV_KHR_relaxed_extended_instruction    ]( https://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/KHR/SPV_KHR_relaxed_extended_instruction.html)
 
 ## Non-Semantic Extended Instruction Set Specifications
 
