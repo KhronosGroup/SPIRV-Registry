@@ -37,8 +37,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2024-05-28
-| Revision           | 3
+| Last Modified Date | 2024-06-05
+| Revision           | 4
 |========================================
 
 
@@ -75,7 +75,7 @@ All operands in all these instructions must be declared before being used.
 (with):
 
 All operands in all these instructions must be declared before being used,
-except when the opcode is *OpExtInstWithForwardRefs*.
+except when the opcode is *OpExtInstWithForwardRefsKHR*.
 
 Modify section 9, modifying:
 
@@ -85,12 +85,12 @@ This section is the first section to allow use of _Non-semantic instructions_ wi
 
 (with):
 
-This section is the first section to allow use of _Non-semantic instructions_ with *OpExtInst* or *OpExtInstWithForwardRefs*
+This section is the first section to allow use of _Non-semantic instructions_ with *OpExtInst* or *OpExtInstWithForwardRefsKHR*
 
 Modifies the list of locations where a forward reference is allowed to add
 the following cases:
 
- - OpExtInstWithForwardRefs can contain forward references.
+ - OpExtInstWithForwardRefsKHR can contain forward references.
 
 Instructions
 ~~~~~~~~~~~~
@@ -100,7 +100,7 @@ adding one new instruction:
 
 [cols="1,2,2,2,2,2,2"]
 |======
-7+|[[OpExtInstWithForwardRefs]]*OpExtInstWithForwardRefs* +
+7+|[[OpExtInstWithForwardRefsKHR]]*OpExtInstWithForwardRefsKHR* +
  +
 Executes an instruction in an imported set of non-semantic extended
 instructions.
@@ -134,7 +134,7 @@ Introduction
 (with):
 
 - Forward references in any instruction are disallowed, except as operands in
-  *OpExtInstWithForwardRefs*.
+  *OpExtInstWithForwardRefsKHR*.
 
 Binary Form
 ~~~~~~~~~~~
@@ -148,7 +148,7 @@ Forward references are not allowed, to be compliant with SPV_KHR_non_semantic_in
 (with):
 
 Forward references are not allowed, except when the instruction allows it,
-and when the instruction is used with *OpExtInstWithForwardRefs*.
+and when the instruction is used with *OpExtInstWithForwardRefsKHR*.
 
 Validation Rules
 ----------------
@@ -160,10 +160,10 @@ be present in the module:
 OpExtension "SPV_KHR_relaxed_extended_instruction"
 ----
 
-Each **OpExtInstWithForwardRefs** use must have at least one forward reference
+Each **OpExtInstWithForwardRefsKHR** use must have at least one forward reference
 as operand.
 
-Each extended opcode used with **OpExtInstWithForwardRefs** must belong to a
+Each extended opcode used with **OpExtInstWithForwardRefsKHR** must belong to a
 non-semantic instruction set.
 
 Issues
@@ -180,4 +180,5 @@ Revision History
 |1|2023-10-11|Nathan Gauër|*Initial revision*
 |2|2024-03-11|Nathan Gauër|Relaxed SPIR-V version requirements.
 |3|2024-05-28|Nathan Gauër|Added ratification/approval dates.
+|4|2024-06-05|Nathan Gauër|Add KHR to opcode name.
 |========================================

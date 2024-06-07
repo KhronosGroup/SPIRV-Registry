@@ -171,7 +171,7 @@ specification and the SPV_KHR_non_semantic_info extension specification.</p>
 </div>
 <div class="paragraph">
 <p>All operands in all these instructions must be declared before being used,
-except when the opcode is <strong>OpExtInstWithForwardRefs</strong>.</p>
+except when the opcode is <strong>OpExtInstWithForwardRefsKHR</strong>.</p>
 </div>
 <div class="paragraph">
 <p>Modify section 9, modifying:</p>
@@ -186,7 +186,7 @@ except when the opcode is <strong>OpExtInstWithForwardRefs</strong>.</p>
 <p>(with):</p>
 </div>
 <div class="paragraph">
-<p>This section is the first section to allow use of <em>Non-semantic instructions</em> with <strong>OpExtInst</strong> or <strong>OpExtInstWithForwardRefs</strong></p>
+<p>This section is the first section to allow use of <em>Non-semantic instructions</em> with <strong>OpExtInst</strong> or <strong>OpExtInstWithForwardRefsKHR</strong></p>
 </div>
 <div class="paragraph">
 <p>Modifies the list of locations where a forward reference is allowed to add
@@ -195,7 +195,7 @@ the following cases:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>OpExtInstWithForwardRefs can contain forward references.</p>
+<p>OpExtInstWithForwardRefsKHR can contain forward references.</p>
 </li>
 </ul>
 </div>
@@ -218,7 +218,7 @@ adding one new instruction:</p>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" colspan="7"><p class="tableblock"><a id="OpExtInstWithForwardRefs"></a><strong>OpExtInstWithForwardRefs</strong><br>
+<td class="tableblock halign-left valign-top" colspan="7"><p class="tableblock"><a id="OpExtInstWithForwardRefsKHR"></a><strong>OpExtInstWithForwardRefsKHR</strong><br>
 <br>
 Executes an instruction in an imported set of non-semantic extended
 instructions.</p>
@@ -265,7 +265,7 @@ instructions.</p>
 <ul>
 <li>
 <p>Forward references in any instruction are disallowed, except as operands in
-<strong>OpExtInstWithForwardRefs</strong>.</p>
+<strong>OpExtInstWithForwardRefsKHR</strong>.</p>
 </li>
 </ul>
 </div>
@@ -286,7 +286,7 @@ instructions.</p>
 </div>
 <div class="paragraph">
 <p>Forward references are not allowed, except when the instruction allows it,
-and when the instruction is used with <strong>OpExtInstWithForwardRefs</strong>.</p>
+and when the instruction is used with <strong>OpExtInstWithForwardRefsKHR</strong>.</p>
 </div>
 </div>
 </div>
@@ -304,11 +304,11 @@ be present in the module:</p>
 </div>
 </div>
 <div class="paragraph">
-<p>Each <strong>OpExtInstWithForwardRefs</strong> use must have at least one forward reference
+<p>Each <strong>OpExtInstWithForwardRefsKHR</strong> use must have at least one forward reference
 as operand.</p>
 </div>
 <div class="paragraph">
-<p>Each extended opcode used with <strong>OpExtInstWithForwardRefs</strong> must belong to a
+<p>Each extended opcode used with <strong>OpExtInstWithForwardRefsKHR</strong> must belong to a
 non-semantic instruction set.</p>
 </div>
 </div>
@@ -363,7 +363,7 @@ non-semantic instruction set.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-05-30 13:44:51 +0200
+Last updated 2024-06-05 16:37:13 +0200
 </div>
 </div>
 </body>
