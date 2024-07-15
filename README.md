@@ -49,6 +49,7 @@ Khronos SPIR-V Registry](https://www.khronos.org/registry/spir-v/).
 * [SPV_KHR_subgroup_vote                   ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/KHR/SPV_KHR_subgroup_vote.html)
 * [SPV_KHR_terminate_invocation            ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/KHR/SPV_KHR_terminate_invocation.html)
 * [SPV_KHR_uniform_group_instructions      ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/KHR/SPV_KHR_uniform_group_instructions.html)
+* [SPV_KHR_untyped_pointers                ]( https://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/KHR/SPV_KHR_untyped_pointers.html)
 * [SPV_KHR_variable_pointers               ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/KHR/SPV_KHR_variable_pointers.html)
 * [SPV_KHR_vulkan_memory_model             ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/KHR/SPV_KHR_vulkan_memory_model.html)
 * [SPV_KHR_workgroup_memory_explicit_layout]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/KHR/SPV_KHR_workgroup_memory_explicit_layout.html)
