@@ -909,7 +909,7 @@ Allocate an object in memory, resulting in a pointer to it. +
  +
 'Initializer' is optional. If 'Initializer' is present, it will be the initial value of the variable’s memory content. 'Initializer' must be an '<id>' from a constant instruction or a global (module scope) <<Variable,variable>>. 'Initializer' must have the same type as 'Data Type'. 2+| Capability: +
 *UntypedPointersKHR*
-| 5 + variable | 4418 | '<id> Result Type' | 'Result <id>' | 'Storage Class' | Optional '<id> Data Type' | Optional '<id> Initializer'
+| 4 + variable | 4418 | '<id> Result Type' | 'Result <id>' | 'Storage Class' | Optional '<id> Data Type' | Optional '<id> Initializer'
 |===
 
 [cols="7"]
@@ -975,7 +975,7 @@ Length of a run-time array. +
  +
 'Array member' is an unsigned 32-bit integer index of the last member of 'Structure'. That member’s type must be from *OpTypeRuntimeArray*. 2+| Capability: +
 *UntypedPointersKHR*
-| 7 | 4425 | '<id> Result Type' | 'Result <id>' | '<id> Structure' | '<id> Pointer' | 'Literal Array member'
+| 6 | 4425 | '<id> Result Type' | 'Result <id>' | '<id> Structure' | '<id> Pointer' | 'Literal Array member'
 |===
 
 [cols="7"]
@@ -1006,7 +1006,7 @@ The value must be either 0 (for instruction cache) or 1 (for data cache). +
  +
 The default values of all optional operands are implementation defined. 2+| Capability: +
 *UntypedPointersKHR*
-| 4+ | 4426 | '<id> Pointer Type' | '<id> Num Bytes' | Optional '<id> RW' | Optional '<id> Locality' | Optional '<id> Cache Type'
+| 3  + variable | 4426 | '<id> Pointer Type' | '<id> Num Bytes' | Optional '<id> RW' | Optional '<id> Locality' | Optional '<id> Cache Type'
 |===
 
 Modifications to the extension SPV_KHR_workgroup_memory_explicit_layout
