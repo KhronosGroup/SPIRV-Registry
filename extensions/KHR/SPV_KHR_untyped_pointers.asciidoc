@@ -971,7 +971,7 @@ Length of a run-time array. +
  +
 'Structure' must be a *Block*-decorated *OpTypeStruct* whose last member is a run-time array. +
  +
-'Pointer' must be a <<PointerType,pointer type>>. 'Pointer' must have the same value as a descriptor. That is, the value must be the same as a <<Variable,variable>> decorated with *DescriptorSet* and *Binding* or an element in such a variable when the data type is an array of *Block*-decoarated structures. +
+'Pointer' must be a <<PointerType,pointer type>>. 'Pointer' must have the same value as a descriptor. That is, the value must be the same as a <<Variable,variable>> decorated with *DescriptorSet* and *Binding* or an element in such a variable when the data type is an array of *Block*-decorated structures. +
  +
 'Array member' is an unsigned 32-bit integer index of the last member of 'Structure'. That member’s type must be from *OpTypeRuntimeArray*. 2+| Capability: +
 *UntypedPointersKHR*
