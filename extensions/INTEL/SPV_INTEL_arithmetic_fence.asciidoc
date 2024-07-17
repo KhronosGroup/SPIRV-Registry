@@ -1,0 +1,164 @@
+:llvm_intrinsic_link: https://llvm.org/docs/LangRef.html#llvm-arithmetic-fence-intrinsic
+
+SPV_INTEL_arithmetic_fence
+==========================
+
+Name Strings
+------------
+
+SPV_INTEL_arithmetic_fence
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Dmitry Sidorov, Intel
+- Joe Garvey, Intel
+- Arvind Sudarsanam, Intel
+- Pawel Jurek, Intel
+- Ben Ashbaugh, Intel
+- Greg Lueck, Intel
+
+Notice
+------
+
+Copyright (c) 2024 Intel Corporation.  All rights reserved.
+
+Status
+------
+
+* Complete
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2024-07-16
+| Revision           | 2
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.6 Revision 3.
+
+This extension requires SPIR-V 1.0.
+
+Overview
+--------
+
+The extension adds *OpArithmeticFenceINTEL* instruction that prevents fast-math
+optimizations between its argument and the expression that contains it.
+For example for fast FP model a compiler can perform reassociation:
+
+If all these *OpFAdd* instructions have the "Fast" FP fast math mode then:
+
+[source,C]
+OpArithmeticFenceINTEL(a + b + c) + d
+
+can be transformed into:
+
+[source,C]
+OpArithmeticFenceINTEL(a + (b + c)) + d
+
+but not into:
+
+[source,C]
+OpArithmeticFenceINTEL(a + b) + (c + d)
+
+This instruction is an equivalent of {llvm_intrinsic_link}[llvm.arithmetic.fence] intrinsic function.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following *OpExtension* must
+be present in the module:
+
+----
+OpExtension "SPV_INTEL_arithmetic_fence"
+----
+
+New Capabilities
+----------------
+This extension introduces a new capability:
+
+----
+ArithmeticFenceINTEL
+----
+
+New Instructions
+----------------
+Instructions added under the *ArithmeticFenceINTEL* capability:
+
+----
+OpArithmeticFenceINTEL
+----
+
+Token Number Assignments
+------------------------
+[width="45%",cols="30,15"]
+|===============================
+| ArithmeticFenceINTEL | 6144
+| OpArithmeticFenceINTEL | 6145
+|===============================
+
+Modifications to the SPIR-V Specification, Version 1.5
+------------------------------------------------------
+
+Capabilities
+~~~~~~~~~~~~
+
+Modify Section 3.31, "Capability", adding these rows to the Capability table:
+
+--
+[options="header"]
+|====
+2+^| Capability ^| Depends On
+| 6144 | *ArithmeticFenceINTEL* +
+Allow to use *OpArithmeticFenceINTEL* instruction |
+|====
+--
+
+Instructions
+~~~~~~~~~~~~
+
+In section 3.49.1. Miscellaneous Instructions, add a new instruction:
+
+[cols="5", width="100%"]
+|=====
+4+^|*OpArithmeticFenceINTEL* +
+Return 'Target'. Indicates that the optimizer can not move or combine 'Target'
+with the expression that uses 'Result' of the instruction. +
+ +
+'Target' must be scalar or vector of _floating-point type_. +
+ +
+'Result Type' must be the same as the return type of the 'Target' instruction. +
+ +
+| Capability:
+*ArithmeticFenceINTEL*
+
+| 4 | 6145 | 'Result Type' <id> | 'Result' <id> | 'Target' <id>
+|=====
+
+Issues
+------
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2021-05-26|Dmitry Sidorov|Initial revision
+|2|2024-07-16|Dmitry Sidorov|Prepare for publication
+|========================================
