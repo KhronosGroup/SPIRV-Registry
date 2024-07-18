@@ -96,7 +96,7 @@ table:
 Strong request, to the extent possible, to not optimize the function. Only functions
 with *Inline* _Function Control_ mask can be considered to be inlined into the
 function. +
-This implicitly applies request of *DontInline* mask. +
+This function should never be inlined. +
 It must not be used together with *Inline* bit. +
 | *CapabilityOptNoneINTEL*
 |====
