@@ -1,0 +1,2147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.18">
+<title>SPV_KHR_untyped_pointers</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+p {
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: normal;
+}
+em, b, strong {
+    color: darkblue;
+}
+
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>SPV_KHR_untyped_pointers</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_name_strings">Name Strings</a></li>
+<li><a href="#_contact">Contact</a></li>
+<li><a href="#_contributors">Contributors</a></li>
+<li><a href="#_notice">Notice</a></li>
+<li><a href="#_status">Status</a></li>
+<li><a href="#_version">Version</a></li>
+<li><a href="#_dependencies">Dependencies</a></li>
+<li><a href="#_overview">Overview</a></li>
+<li><a href="#_extension_name">Extension Name</a></li>
+<li><a href="#_modifications_to_the_spir_v_specification_version_1_6">Modifications to the SPIR-V Specification, Version 1.6</a></li>
+<li><a href="#_modifications_to_the_extension_spv_khr_workgroup_memory_explicit_layout">Modifications to the extension SPV_KHR_workgroup_memory_explicit_layout</a></li>
+<li><a href="#_modifications_to_the_extension_spv_khr_cooperative_matrix">Modifications to the extension SPV_KHR_cooperative_matrix</a></li>
+<li><a href="#_modifications_to_the_opencl_std_extended_instruction_set">Modifications to the OpenCL.std extended instruction set</a></li>
+<li><a href="#_issues">Issues</a></li>
+<li><a href="#_revision_history">Revision History</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_name_strings">Name Strings</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>SPV_KHR_untyped_pointers</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_contact">Contact</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To report problems with this extension, please open a new issue at:</p>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/KhronosGroup/SPIRV-Headers" class="bare">https://github.com/KhronosGroup/SPIRV-Headers</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_contributors">Contributors</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Alan Baker, Google</p>
+</li>
+<li>
+<p>David Neto, Google</p>
+</li>
+<li>
+<p>Hugo Devillers, Saarland University</p>
+</li>
+<li>
+<p>Tobias Hector, AMD</p>
+</li>
+<li>
+<p>Caio Oliveira, Intel</p>
+</li>
+<li>
+<p>Graeme Leese, Broadcom</p>
+</li>
+<li>
+<p>Ruihao Zhang, Qualcomm,</p>
+</li>
+<li>
+<p>Dmitry Sidorov, Intel</p>
+</li>
+<li>
+<p>Jeff Bolz, Nvidia</p>
+</li>
+<li>
+<p>Victor Lomuller, Codeplay</p>
+</li>
+<li>
+<p>Kevin Petit, Arm</p>
+</li>
+<li>
+<p>Ben Ashbaugh, Intel</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_notice">Notice</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Copyright (c) 2024 The Khronos Group Inc. Copyright terms at
+<a href="http://www.khronos.org/registry/speccopyright.html" class="bare">http://www.khronos.org/registry/speccopyright.html</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_status">Status</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Provisional</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Approved by the SPIR-V Working Group: 2024-05-29</p>
+</li>
+<li>
+<p>Approved by the Khronos Board of Promoters: 2024-07-12</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_version">Version</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all" style="width: 40%;">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Last Modified Date</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2024-05-29</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Revision</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_dependencies">Dependencies</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This extension is written against the SPIR-V Specification, Version 1.6
+Revision 3.</p>
+</div>
+<div class="paragraph">
+<p>This extension modifies SPV_KHR_workgroup_memory_explicit_layout.</p>
+</div>
+<div class="paragraph">
+<p>This extension modifies SPV_KHR_cooperative_matrix.</p>
+</div>
+<div class="paragraph">
+<p>This extension modifies the OpenCL.std extended instruction set.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_overview">Overview</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This extension introduces support for untyped pointers. It allows for the
+declaration and use of pointers that do not specify the type of data they point
+to. It also allows memory, atomic and other instructions to reinterpret data
+differently than the declared type of the variables they are used with. For
+example, loading a vector of floating-point values from a variable with a
+declared type of an array of integers. It provides an equivalent set of
+functionality to type-punning via pointer casting in high-level languages.</p>
+</div>
+<div class="paragraph">
+<p>This extension adds the following new instructions:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#OpTypeUntypedPointerKHR"><strong>OpTypeUntypedPointerKHR</strong></a></p>
+</li>
+<li>
+<p><a href="#OpUntypedVariableKHR"><strong>OpUntypedVariableKHR</strong></a></p>
+</li>
+<li>
+<p><a href="#OpUntypedAccessChainKHR"><strong>OpUntypedAccessChainKHR</strong></a></p>
+</li>
+<li>
+<p><a href="#OpUntypedInBoundsAccessChainKHR"><strong>OpUntypedInBoundsAccessChainKHR</strong></a></p>
+</li>
+<li>
+<p><a href="#OpUntypedPtrAccessChainKHR"><strong>OpUntypedPtrAccessChainKHR</strong></a></p>
+</li>
+<li>
+<p><a href="#OpUntypedInBoundsPtrAccessChainKHR"><strong>OpUntypedInBoundsPtrAccessChainKHR</strong></a></p>
+</li>
+<li>
+<p><a href="#OpUntypedArrayLengthKHR"><strong>OpUntypedArrayLengthKHR</strong></a></p>
+</li>
+<li>
+<p><a href="#OpUntypedPrefetchKHR"><strong>OpUntypedPrefetchKHR</strong></a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_extension_name">Extension Name</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To use this extension within a SPIR-V module, the following <strong>OpExtension</strong> must
+be present in the module:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>OpExtension "SPV_KHR_untyped_pointers"</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_modifications_to_the_spir_v_specification_version_1_6">Modifications to the SPIR-V Specification, Version 1.6</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Modify Section <strong>2.2.1 Instructions</strong>:</p>
+</div>
+<div class="paragraph">
+<p>Add the following new term:</p>
+</div>
+<div class="paragraph">
+<p><a id="Variable"></a><em>Variable</em>: An <strong>OpVariable</strong> or <a href="#OpUntypedVariableKHR"><strong>OpUntypedVariableKHR</strong></a>.</p>
+</div>
+<div class="paragraph">
+<p>Change the following existing terms:</p>
+</div>
+<div class="paragraph">
+<p><a id="Object"></a><em>Object</em>: An instantiation of a non-void type, either as the <em>Result
+&lt;id&gt;</em> of an operation, or created through a <a href="#Variable">variable</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="MemoryObject"></a><em>Memory Object</em>: An object created through a
+<a href="#Variable">variable</a>. Such an object exists only for the duration of a
+function if it is a function variable, and otherwise exists for the duration of
+the invocation.</p>
+</div>
+<div class="paragraph">
+<p><a id="MemoryObjectDeclaration"></a><em>Memory Object Declaration</em>: A
+<a href="#Variable">variable</a>, or an <strong>OpFunctionParameter</strong> of <a href="#PointerType">pointer
+type</a>, or the contents of a variable that holds either a pointer to the
+<strong>PhysicalStorageBuffer</strong> storage class or an array of such pointers.</p>
+</div>
+<div class="paragraph">
+<p><em>Intermediate Object</em> or <em>Intermediate Value</em> or <em>Intermediate Result</em>: An
+object created by an operation (not memory allocated by a
+<a href="#Variable">variable</a>) and dying on its last consumption.</p>
+</div>
+<div class="paragraph">
+<p>Modify Section <strong>2.2.2 Types</strong>:</p>
+</div>
+<div class="paragraph">
+<p>Add the following new term:</p>
+</div>
+<div class="paragraph">
+<p><a id="PointerType"></a><em>Pointer Type</em>: An <strong>OpTypePointer</strong> or <a href="#OpTypeUntypedPointerKHR"><strong>OpTypeUntypedPointerKHR</strong></a>.</p>
+</div>
+<div class="paragraph">
+<p>Changes the following existing terms:</p>
+</div>
+<div class="paragraph">
+<p><a id="PhysicalPointerType"></a><em>Physical Pointer Type</em>: A <a href="#PointerType">pointer type</a>
+whose <em>Storage Class</em> uses physical addressing according to the addressing
+model.</p>
+</div>
+<div class="paragraph">
+<p><a id="VariablePointer"></a><em>Variable Pointer</em>: A pointer of logical
+<a href="#PointerType">pointer type</a> that results from one of the following opcodes:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>OpSelect</strong></p>
+</li>
+<li>
+<p><strong>OpPhi</strong></p>
+</li>
+<li>
+<p><strong>OpFunctionCall</strong></p>
+</li>
+<li>
+<p><strong>OpPtrAccessChain</strong></p>
+</li>
+<li>
+<p><a href="#OpUntypedPtrAccessChainKHR"><strong>OpUntypedPtrAccessChainKHR</strong></a></p>
+</li>
+<li>
+<p><strong>OpLoad</strong></p>
+</li>
+<li>
+<p><strong>OpConstantNull</strong></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Additionally, any <strong>OpAccessChain</strong>, <strong>OpInBoundsAccessChain</strong>,
+<a href="#OpUntypedAccessChainKHR"><strong>OpUntypedAccessChainKHR</strong></a>,
+<a href="#OpUntypedInBoundsAccessChainKHR"><strong>OpUntypedInBoundsAccessChainKHR</strong></a> or
+<strong>OpCopyObject</strong> that takes a variable pointer as an operand also produces a
+variable pointer.  An <strong>OpFunctionParameter</strong> of <a href="#PointerType">pointer type</a> is
+a variable pointer if any <strong>OpFunctionCall</strong> to the function statically passes a
+variable pointer as the value of the parameter.</p>
+</div>
+<div class="paragraph">
+<p>Modify Section <strong>2.4 Logical Layout of a Module</strong>:</p>
+</div>
+<div class="paragraph">
+<p>Change references to OpVariable to <a href="#Variable">variable</a>.</p>
+</div>
+<div class="paragraph">
+<p>Modify Section <strong>2.16.1 Universal Validation Rules</strong>:</p>
+</div>
+<div class="paragraph">
+<p>Modify the list items under the following list item:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>If neither the <strong>VariablePointers</strong> nor <strong>VariablePointersStorageBuffer</strong> capabilities
+are declared, the following rules apply to logical pointer types:</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Change:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p><strong>OpVariable</strong> must not allocate an object whose type is or contains a logical pointer type.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>To:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p><a href="#Variable">Variables</a> must not allocate an object whose type is or contains a logical pointer type.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Change:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>It is invalid for a pointer to be an operand to any instruction other than:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>OpLoad</strong></p>
+</li>
+<li>
+<p><strong>OpStore</strong></p>
+</li>
+<li>
+<p><strong>OpAccessChain</strong></p>
+</li>
+<li>
+<p><strong>OpInBoundsAccessChain</strong></p>
+</li>
+<li>
+<p><strong>OpFunctionCall</strong></p>
+</li>
+<li>
+<p><strong>OpImageTexelPointer</strong></p>
+</li>
+<li>
+<p><strong>OpCopyMemory</strong></p>
+</li>
+<li>
+<p><strong>OpCopyObject</strong></p>
+</li>
+<li>
+<p><strong>OpArrayLength</strong></p>
+</li>
+<li>
+<p>all <strong>OpAtomic</strong> instructions</p>
+</li>
+<li>
+<p>extended instruction-set instructions that are explicitly identified as taking pointer operands</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>To:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>It is invalid for a pointer to be an operand to any instruction other than:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>OpLoad</strong></p>
+</li>
+<li>
+<p><strong>OpStore</strong></p>
+</li>
+<li>
+<p><strong>OpAccessChain</strong></p>
+</li>
+<li>
+<p><strong>OpInBoundsAccessChain</strong></p>
+</li>
+<li>
+<p><a href="#OpUntypedAccessChainKHR"><strong>OpUntypedAccessChainKHR</strong></a></p>
+</li>
+<li>
+<p><a href="#OpUntypedInBoundsAccessChainKHR"><strong>OpUntypedInBoundsAccessChainKHR</strong></a></p>
+</li>
+<li>
+<p><strong>OpFunctionCall</strong></p>
+</li>
+<li>
+<p><strong>OpImageTexelPointer</strong></p>
+</li>
+<li>
+<p><strong>OpCopyMemory</strong></p>
+</li>
+<li>
+<p><strong>OpCopyObject</strong></p>
+</li>
+<li>
+<p><strong>OpArrayLength</strong></p>
+</li>
+<li>
+<p><a href="#OpUntypedArrayLengthHR"><strong>OpUntypedArrayLengthKHR</strong></a></p>
+</li>
+<li>
+<p><strong>OpCopyMemorySized</strong></p>
+</li>
+<li>
+<p>all <strong>OpAtomic</strong> instructions</p>
+</li>
+<li>
+<p>extended instruction-set instructions that are explicitly identified as taking pointer operands</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Change:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>It is invalid for a pointer to be the <em>Result &lt;id&gt;</em> of any instruction other than:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>OpVariable</strong></p>
+</li>
+<li>
+<p><strong>OpAccessChain</strong></p>
+</li>
+<li>
+<p><strong>OpInBoundsAccessChain</strong></p>
+</li>
+<li>
+<p><strong>OpFunctionParameter</strong></p>
+</li>
+<li>
+<p><strong>OpImageTexelPointer</strong></p>
+</li>
+<li>
+<p><strong>OpCopyObject</strong></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>To:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>It is invalid for a pointer to be the <em>Result &lt;id&gt;</em> of any instruction other than:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>OpVariable</strong></p>
+</li>
+<li>
+<p><a href="#OpUntypedVariableKHR"><strong>OpUntypedVariableKHR</strong></a></p>
+</li>
+<li>
+<p><strong>OpAccessChain</strong></p>
+</li>
+<li>
+<p><strong>OpInBoundsAccessChain</strong></p>
+</li>
+<li>
+<p><a href="#OpUntypedAccessChainKHR"><strong>OpUntypedAccessChainKHR</strong></a></p>
+</li>
+<li>
+<p><a href="#OpUntypedInBoundsAccessChainKHR"><strong>OpUntypedInBoundsAccessChainKHR</strong></a></p>
+</li>
+<li>
+<p><strong>OpFunctionParameter</strong></p>
+</li>
+<li>
+<p><strong>OpImageTexelPointer</strong></p>
+</li>
+<li>
+<p><strong>OpCopyObject</strong></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Change:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>All indexes in <strong>OpAccessChain</strong> and <strong>OpInBoundsAccessChain</strong> that are <strong>OpConstant</strong> with
+type of <strong>OpTypeInt</strong> with a signedness of 1 must not have their sign bit set.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>To:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>All indexes in <strong>OpAccessChain</strong>, <strong>OpInBoundsAccessChain</strong>,
+<a href="#OpUntypedAccessChainKHR"><strong>OpUntypedAccessChainKHR</strong></a> and
+<a href="#OpUntypedInBoundsAccessChainKHR"><strong>OpUntypedInBoundsAccessChainKHR</strong></a> that are
+<strong>OpConstant</strong> with type of <strong>OpTypeInt</strong> with a signedness of 1 must not have
+their sign bit set.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Modify the list items under the following list item:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>If the <strong>VariablePointers</strong> or <strong>VariablePointersStorageBuffer</strong> capability is
+declared, the following are allowed for logical pointer types:</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Change:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>If <strong>OpVariable</strong> allocates an object whose type is or contains a logical pointer
+type, the <em>Storage Class</em> operand of the <strong>OpVariable</strong> must be one of the
+following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Function</strong></p>
+</li>
+<li>
+<p><strong>Private</strong></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>To:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>If a <a href="#Variable">variable</a> allocates an object whose type is or contains a logical pointer
+type, the <em>Storage Class</em> operand of the <a href="#Variable">variable</a> must be one of the
+following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Function</strong></p>
+</li>
+<li>
+<p><strong>Private</strong></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Change:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>A pointer can be a <a href="#VariablePointer">variable pointer</a> or an operand to one of:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>OpPtrAccessChain</strong></p>
+</li>
+<li>
+<p><strong>OpPtrEqual</strong></p>
+</li>
+<li>
+<p><strong>OpPtrNotEqual</strong></p>
+</li>
+<li>
+<p><strong>OpPtrDiff</strong></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>To:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>A pointer can be a <a href="#VariablePointer">variable pointer</a> or an operand to one of:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>OpPtrAccessChain</strong></p>
+</li>
+<li>
+<p><a href="#OpUntypedPtrAccessChainKHR"><strong>OpUntypedPtrAccessChainKHR</strong></a></p>
+</li>
+<li>
+<p><strong>OpPtrEqual</strong></p>
+</li>
+<li>
+<p><strong>OpPtrNotEqual</strong></p>
+</li>
+<li>
+<p><strong>OpPtrDiff</strong></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Change:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>The instructions <strong>OpPtrEqual</strong> and <strong>OpPtrNotEqual</strong> can be used only if the
+<em>Storage Class</em> of the operands <strong>OpTypePointer</strong> declaration:</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>To:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>The instructions <strong>OpPtrEqual</strong> and <strong>OpPtrNotEqual</strong> can be used only if the
+<em>Storage Class</em> of the operands <a href="#PointerType">pointer type</a> declaration:</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Modify the list items under the following list item:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>A <a href="#VariablePointer">variable pointer</a> must not:</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Change:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>be an operand to an <strong>OpArrayLength</strong> instruction</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>To:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>be an operand to an <strong>OpArrayLength</strong> or <a href="#OpUntypedArrayLengthKHR"><strong>OpUntypedArrayLengthKHR</strong></a> instruction</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Modify the list items under the following list item:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>Physical Storage Buffer</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Change:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p><strong>OpVariable</strong> must not use the <strong>PhysicalStorageBuffer</strong> storage class.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>To:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p><a href="#Variable">Variables</a> must not use the <strong>PhysicalStorageBuffer</strong> storage class.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Change:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>If the type an <strong>OpVariable</strong> points to is a pointer (or array of pointers) in the
+<strong>PhysicalStorageBuffer</strong> storage class, the <strong>OpVariable</strong> must be decorated with
+exactly one of <strong>AliasedPointer</strong> or <strong>RestrictPointer</strong>.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>To:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>If the type a <a href="#Variable">variable</a> points to is a pointer (or array of pointers) in the
+<strong>PhysicalStorageBuffer</strong> storage class, the variable must be decorated with
+exactly one of <strong>AliasedPointer</strong> or <strong>RestrictPointer</strong>.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Modify the list items under the following list item:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>Global (Module Scope) Variables</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Change:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>A module-scope <strong>OpVariable</strong> with an <em>Initializer</em> operand must not be decorated
+with the <strong>Import</strong> <strong>Linkage Type</strong>.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>To:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>A module-scope <a href="#Variable">variable</a> with an <em>Initializer</em> operand must not be decorated
+with the <strong>Import</strong> <strong>Linkage Type</strong>.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Changes list items under the following list item:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>The capabilities <strong>StorageBuffer16BitAccess</strong>, <strong>UniformAndStorageBuffer16BitAccess</strong>,
+<strong>StoragePushConstant16</strong>, and <strong>StorageInputOutput16</strong> do not generally add 16-bit
+operations. Rather, they add only the following specific abilities:</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Change:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>A structure containing a 16-bit member can be an operand to <strong>OpArrayLength</strong>.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>To:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>A structure containing a 16-bit member can be an operand to <strong>OpArrayLength</strong> or <a href="#OpUntypedArrayLengthKHR"><strong>OpUntypedArrayLengthKHR</strong></a>.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Add the following list items:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>The <em>Data Type</em> of an <a href="#OpUntypedVariableKHR"><strong>OpUntypedVariableKHR</strong></a> may
+contain a 16-bit scalar, a 16-bit vector, or a composite containing 16-bit
+members.</p>
+</li>
+<li>
+<p>The <em>Base Type</em> of an <a href="#OpUntypedAccessChainKHR"><strong>OpUntypedAccessChainKHR</strong></a>,
+<a href="#OpUntypedInBoundsAccessChainKHR"><strong>OpUntypedInBoundsAccessChainKHR</strong></a>, or
+<a href="#OpUntypedPtrAccessChainKHR"><strong>OpUntypedPtrAccessChainKHR</strong></a> may contain a 16-bit
+scalar, a 16-bit vector, or a composite containing 16-bit members.</p>
+</li>
+<li>
+<p>In <strong>OpCopyMemorySized</strong>, the runtime-value of <em>Size</em> may be a multiple of two.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Change list items under the following list item:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>The capabilities <strong>StorageBuffer8BitAccess</strong>, <strong>UniformAndStorageBuffer8BitAccess</strong>,
+and <strong>StoragePushConstant8</strong>, do not generally add 8-bit operations. Rather, they
+add only the following specific abilities:</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Change:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>A structure containing a 8-bit member can be an operand to <strong>OpArrayLength</strong>.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>To:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>A structure containing a 8-bit member can be an operand to <strong>OpArrayLength</strong> or <a href="#OpUntypedArrayLengthKHR"><strong>OpUntypedArrayLengthKHR</strong></a>.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Add the following list items:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>The <em>Data Type</em> of an <a href="#OpUntypedVariableKHR"><strong>OpUntypedVariableKHR</strong></a> may
+contain a 8-bit scalar, a 8-bit vector, or a composite containing 8-bit
+members.</p>
+</li>
+<li>
+<p>The <em>Base Type</em> of an <a href="#OpUntypedAccessChainKHR"><strong>OpUntypedAccessChainKHR</strong></a>,
+<a href="#OpUntypedInBoundsAccessChainKHR"><strong>OpUntypedInBoundsAccessChainKHR</strong></a>, or
+<a href="#OpUntypedPtrAccessChainKHR"><strong>OpUntypedPtrAccessChainKHR</strong></a> may contain a 8-bit
+scalar, a 8-bit vector, or a composite containing 8-bit members.</p>
+</li>
+<li>
+<p>In <strong>OpCopyMemorySized</strong>, the runtime-value of <em>Size</em> may be any number of bytes.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Modify Section <strong>2.16.2 Validation Rules for Shader Capabilities</strong>:</p>
+</div>
+<div class="paragraph">
+<p>Modify the list items under the following list item:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>Composite objects in the <strong>StorageBuffer</strong>, <strong>PhysicalStorageBuffer</strong>, <strong>Uniform</strong>, and
+<strong>PushConstant</strong> Storage Classes must be explicitly laid out. The following apply
+to all the aggregate and matrix types describing such an object, recursively
+through their nested types:</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Add the following list items:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Each <a href="#OpUntypedPtrAccessChainKHR"><strong>OpUntypedPtrAccessChainKHR</strong></a> must have a
+<em>Base</em> whose type is decorated with <strong>ArrayStride</strong>.</p>
+</li>
+<li>
+<p>Any <em>Data Type</em> in <a href="#OpUntypedVariableKHR"><strong>OpUntypedVariableKHR</strong></a>, or the
+<em>Base Type</em> in <a href="#OpUntypedAccessChainKHR"><strong>OpUntypedAccessChainKHR</strong></a>,
+<a href="#OpUntypedInBoundsAccessChainKHR"><strong>OpUntypedInBoundsAccessChainKHR</strong></a> or
+<a href="#OpUntypedPtrAccessChainKHR"><strong>OpUntypedPtrAccessChainKHR</strong></a> must not be a
+matrix type.</p>
+</li>
+<li>
+<p>Any <em>Data Type</em> in <a href="#OpUntypedVariableKHR"><strong>OpUntypedVariableKHR</strong></a>, or <em>Base
+Type</em> in <a href="#OpUntypedAccessChainKHR"><strong>OpUntypedAccessChainKHR</strong></a>,
+<a href="#OpUntypedInBoundsAccessChainKHR"><strong>OpUntypedInBoundsAccessChainKHR</strong></a> or
+<a href="#OpUntypedPtrAccessChainKHR"><strong>OpUntypedPtrAccessChainKHR</strong></a> must be a type that
+is explicitly laid out according the preceding rules.</p>
+</li>
+<li>
+<p>The <em>Result Type</em> of <strong>OpLoad</strong> must be explicitly laid out according to the
+preceding rules if the <em>Pointer</em> operand is an <a href="#UntypedPointer">untyped pointer</a>.</p>
+</li>
+<li>
+<p>The type of the <em>Object</em> operand of <strong>OpStore</strong> must be explicitly laid out according
+to the preceding rules if the <em>Pointer</em> operand is an <a href="#UntypedPointer">untyped pointer</a>.</p>
+</li>
+<li>
+<p>The <em>Structure</em> operand of <a href="#OpUntypedArrayLengthKHR"><strong>OpUntypedArrayLengthKHR</strong></a> must be
+explicitly laid out according to the preceding rules.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Modify the list items under the following list item:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>Type Rules:</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Change:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>All declared types are restricted to those types that are, or are contained
+within, valid types for an <strong>OpVariable</strong> <em>Result Type</em> or an <strong>OpTypeFunction</strong> <em>Return
+Type</em>.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>To:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>All declared types are restricted to those types that are, or are contained
+within, valid types for an <strong>OpVariable</strong> <em>Result Type</em>, an
+<a href="#OpUntypedVariableKHR"><strong>OpUntypedVariableKHR</strong></a> <em>Data Type</em>,
+or an <strong>OpTypeFunction</strong> <em>Return Type</em>.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Change:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>Aggregate types for intermediate objects are restricted to those types that are
+a valid Type of an <strong>OpVariable</strong> <em>Result Type</em> in the global storage classes.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>To:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>Aggregate types for intermediate objects are restricted to those types that are
+a valid Type of an <strong>OpVariable</strong> <em>Result Type</em>, or an
+<a href="#OpUntypedVariableKHR"><strong>OpUntypedVariableKHR</strong></a> <em>Data Type</em> in the global
+storage classes.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Modify Section <strong>2.17 Universal Limits</strong>:</p>
+</div>
+<div class="paragraph">
+<p>Change the table entry:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>Indexes for <strong>OpAccessChain</strong>, <strong>OpInBoundsAccessChain</strong>, <strong>OpPtrAccessChain</strong>,
+<strong>OpInBoundsPtrAccessChain</strong>, <strong>OpCompositeExtract</strong>, and <strong>OpCompositeInsert</strong></p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>To:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>Indexes for <strong>OpAccessChain</strong>, <strong>OpInBoundsAccessChain</strong>, <strong>OpPtrAccessChain</strong>,
+<strong>OpInBoundsPtrAccessChain</strong>, <strong>OpCompositeExtract</strong>, <strong>OpCompositeInsert</strong>,
+<a href="#OpUntypedAccessChainKHR"><strong>OpUntypedAccessChainKHR</strong></a>,
+<a href="#OpUntypedInBoundsAccessChainKHR"><strong>OpUntypedInBoundsAccessChainKHR</strong></a>,
+<a href="#OpUntypedPtrAccessChainKHR"><strong>OpUntypedPtrAccessChainKHR</strong></a>, and
+<a href="#OpUntypedInBoundsPtrAccessChainKHR"><strong>OpUntypedInBoundsPtrAccessChainKHR</strong></a></p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Modify Section <strong>2.18 Memory Model</strong>:</p>
+</div>
+<div class="paragraph">
+<p>Change references to <strong>OpVariable</strong> to <a href="#Variable">variable</a>.</p>
+</div>
+<div id="UntypedPointer" class="paragraph">
+<p>Add a new section at the end of Section <strong>2 Specification</strong> titled <strong>Untyped Pointers</strong>:</p>
+</div>
+<div class="paragraph">
+<p><strong>OpTypePointer</strong> includes the data type of the memory that it points to as an
+operand of the type-declaration. Logical pointer types of type <strong>OpTypePointer</strong>
+are strongly typed. That is, the data they point to cannot be reinterpreted as
+another type in memory. Physical pointer types of type <strong>OpTypePointer</strong> are
+<strong>not</strong> strongly typed as <strong>OpBitcast</strong> can be used to cast from one representation
+to another. Unlike, <strong>OpTypePointer</strong>, <a href="#OpTypeUntypedPointerKHR"><strong>OpTypeUntypedPointerKHR</strong></a>
+does <strong>not</strong> encode the type of data that it points to. This means that
+interpretation of the data type is left to instructions that utilize the
+pointer.</p>
+</div>
+<div class="paragraph">
+<p>Each untyped instruction (<strong>OpUntyped&#8230;&#8203;</strong>) has an operand that specifies how the
+data should be interpreted (e.g. <em>Base Type</em> in
+<a href="#OpUntypedAccessChainKHR"><strong>OpUntypedAccessChainKHR</strong></a>). Also,
+<a href="#OpUntypedAccessChainKHR"><strong>OpUntypedAccessChainKHR</strong></a>,
+<a href="#OpUntypedInBoundsAccessChainKHR"><strong>OpUntypedInBoundsAccessChainKHR</strong></a>,
+<a href="#OpUntypedPtrAccessChainKHR"><strong>OpUntypedPtrAccessChainKHR</strong></a>, and
+<a href="#OpUntypedInBoundsPtrAccessChainKHR"><strong>OpUntypedInBoundsPtrAccessChainKHR</strong></a>
+may take either a typed or untyped pointer as the <em>Base</em> operand. This
+facilitates translations from high-level languages as it can localize where
+untyped pointers appear in syntax evaluation.</p>
+</div>
+<div class="paragraph">
+<p>When memory accessed via instructions have a pointer operand with type
+<a href="#OpTypeUntypedPointerKHR"><strong>OpTypeUntypedPointerKHR</strong></a> (e.g. <strong>OpLoad</strong> or atomic
+instructions), the interpreted data type is specified by the <em>Result Type</em> if
+it exists. The intepreted data type for instructions without a <em>Result Type</em>
+(e.g. <strong>OpStore</strong>) comes from the type of the operand of the object being stored.
+<strong>OpCopyMemorySized</strong> interprets the data as an array of 8-bit integers.</p>
+</div>
+<div class="paragraph">
+<p>When an instruction accesses memory via an untyped pointer for storage class
+<em>S</em> and with interpreted data type <em>T</em>, the instruction behaves as if the
+pointer were of type <strong>OpTypePointer</strong> having Storage Class <em>S</em> and Type <em>T</em>.
+That is, the instruction will access exactly the same memory locations and
+interpret the data there as if using the corresponding strongly typed pointer.</p>
+</div>
+<div class="paragraph">
+<p>Modify Section <strong>3.7 Storage Class</strong>:</p>
+</div>
+<div class="paragraph">
+<p>Add <a href="#OpTypeUntypedPointerKHR"><strong>OpTypeUntypedPointerKHR</strong></a> and
+<a href="#OpUntypedVariableKHR"><strong>OpUntypedVariableKHR</strong></a> to the list of "Used by"
+instructions.</p>
+</div>
+<div class="paragraph">
+<p>Modify Section <strong>3.20 Decoration</strong>:</p>
+</div>
+<div class="paragraph">
+<p>Change references to <strong>OpVariable</strong> to <a href="#Variable">variable</a>.</p>
+</div>
+<div class="paragraph">
+<p>Modify Section <strong>3.21 BuiltIn</strong>:</p>
+</div>
+<div class="paragraph">
+<p>Change references to <strong>OpVariable</strong> to <a href="#Variable">variable</a>.</p>
+</div>
+<div class="paragraph">
+<p>Modify Section <strong>3.31 Capability</strong>:</p>
+</div>
+<div class="paragraph">
+<p>Change references to <strong>OpTypePointer</strong> to <a href="#PointerType">pointer type</a>.</p>
+</div>
+<div class="paragraph">
+<p>Add the following rows to the table:</p>
+</div>
+<div class="openblock">
+<div class="content">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top" colspan="2">Capability</th>
+<th class="tableblock halign-left valign-top">Implicitly Declares</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4473</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>UntypedPointersKHR</strong><br>
+<br>
+Enables the use of untyped pointers.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="paragraph">
+<p>Modify Section <strong>3.37 Instructions</strong>:</p>
+</div>
+<div class="paragraph">
+<p>In the following instructions, change references to <strong>OpVariable</strong> to <a href="#Variable">variable</a>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>OpDecorateId</strong></p>
+</li>
+<li>
+<p><strong>OpEntryPoint</strong></p>
+</li>
+<li>
+<p><strong>OpTypeBool</strong></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Change the description of <em>Result Type</em> in <strong>OpImageTexelPointer</strong> to:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p><em>Result Type</em> must be a <a href="#PointerType">pointer type</a> whose <em>Storage Class</em> is <strong>Image</strong>. If it is an
+<strong>OpTypePointer</strong> type, its <em>Type</em> operand must be a numerical scalar type or <strong>OpTypeVoid</strong>.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Change the description of <em>Pointer</em> in <strong>OpLoad</strong> to:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p><em>Pointer</em> is the pointer to load through. It must be a <a href="#PointerType">pointer type</a>. If it is an
+<strong>OpTypePointer</strong> type, its <em>Type</em> operand must be the same as <em>Result Type</em>.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Change the description of <em>Pointer</em> in <strong>OpStore</strong> to:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p><em>Pointer</em> is the pointer to store through. It must be a <a href="#PointerType">pointer
+type</a>. If it is an <strong>OpTypePointer</strong> type, its <em>Type</em> operand must be the same
+as the type of <em>Object</em>.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Change the description of <strong>OpCopyMemory</strong> to:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>Copy from the memory pointed to by <em>Source</em> to the memory pointed to by <em>Target</em>.
+Both operands must be pointers and at least one must be an <strong>OpTypePointer</strong> type.
+If either <em>Source</em> or <em>Target</em> has type of <strong>OpTypePointer</strong>, the <em>&lt;id&gt; Type</em>
+operand must be non-void.
+If both <em>Source</em> and <em>Target</em> have a type of <strong>OpTypePointer</strong>, they must have
+the <em>&lt;id&gt; Type</em> operand.
+Matching Storage Class is not required.
+The amount of memory copied is the size of the type pointed to by an operand
+with a type of <strong>OpTypePointer</strong>.
+The copied type must have a fixed size; i.e., it must not be, nor include, any
+<strong>OpTypeRuntimeArray</strong> types.</p>
+</div>
+<div class="paragraph">
+<p>If present, any <em>Memory Operands</em> must begin with a memory operand literal. If
+not present, it is the same as specifying the memory operand <strong>None</strong>. Before
+<strong>version 1.4</strong>, at most one memory operands mask can be provided. Starting with
+<strong>version 1.4</strong> two masks can be provided, as described in <strong>Memory Operands</strong>. If no
+masks or only one mask is present, it applies to both <em>Source</em> and <em>Target</em>. If two
+masks are present, the first applies to <em>Target</em> and must not include
+<strong>MakePointerVisible</strong>, and the second applies to <em>Source</em> and must not include
+<strong>MakePointerAvailable</strong>.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Add the enabling capability <strong>UntypedPointersKHR</strong> to <strong>OpCopyMemorySized</strong>.</p>
+</div>
+<div class="paragraph">
+<p>Change the restrictions on <em>Operand 1</em> and <em>Operand 2</em> in <strong>OpPtrEqual</strong> and <strong>OpPtrNotEqual</strong> to:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>The <em>Storage Class</em> operand of the type of both <em>Operand 1</em> and <em>Operand 2</em> must match.
+If the types of <em>Operand 1</em> and <em>Operand 2</em> are <strong>OpTypePointer</strong>, they must be the same type.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Change the restriction on <em>Operand 1</em> and <em>Operand 2</em> in <strong>OpPtrDiff</strong> to:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>The <em>Storage Class</em> operand of the type of both <em>Operand 1</em> and <em>Operand 2</em> must match.
+If the types of <em>Operand 1</em> and <em>Operand 2</em> are <strong>OpTypePointer</strong>, they must be the same type.
+<em>Operand 1</em> and <em>Operand 2</em> must point to a type that can be aggregated into an array.
+For an array of length <em>L</em>, <em>Operand 1</em> and <em>Operand 2</em> can point to any
+element in the range <em>[0, L]</em>, where element <em>L</em> is outside the array but has a
+representative address computed with the same stride as elements in the array.
+Additionally, <em>Operand 1</em> must be a valid <em>Base</em> operand of <strong>OpPtrAccessChain</strong>,
+<a href="#OpUntypedPtrAccessChainKHR"><strong>OpUntypedPtrAccessChainKHR</strong></a>,
+<strong>OpInBoundsPtrAccessChain</strong>, or
+<a href="#OpUntypedInBoundsPtrAccessChainKHR"><strong>OpUntypedInBoundsPtrAccessChainKHR</strong></a>.
+Behavior is undefined if <em>Operand 1</em> and <em>Operand 2</em> are not pointers to
+element numbers in <em>[0, L]</em> in the same array. If <em>Operand 1</em> and <em>Operand 2</em> are
+<a href="#OpTypeUntypedPointerKHR"><strong>OpTypeUntypedPointerKHR</strong></a>, the array is interpreted as
+an array of 8-bit integers.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Change the description of <em>Result Type</em> in <strong>OpPtrCastToGeneric</strong> to:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p><em>Result Type</em> must be a <a href="#PointerType">pointer type</a>. Its <em>Storage Class</em> must be <strong>Generic</strong>.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Change the description of <strong>OpGenericCastToPtr</strong> to:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>Convert a pointer’s <em>Storage Class</em> to a non-<strong>Generic</strong> class.</p>
+</div>
+<div class="paragraph">
+<p><em>Result Type</em> must be a <a href="#PointerType">pointer type</a>. Its <em>Storage Class</em> must be
+<strong>Workgroup</strong>, <strong>CrossWorkgroup</strong>, or <strong>Function</strong>.</p>
+</div>
+<div class="paragraph">
+<p><em>Pointer</em> must point to the <strong>Generic</strong> Storage Class.</p>
+</div>
+<div class="paragraph">
+<p>If <em>Result Type</em> and the type of <em>Pointer</em> are <strong>OpTypePointer</strong>, they must point to the same type.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Change the description of <strong>OpGenericCastToPtrExplicit</strong> to:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>Attempts to explicitly convert <em>Pointer</em> to <em>Storage</em> storage-class pointer value.</p>
+</div>
+<div class="paragraph">
+<p><em>Result Type</em> must be a <a href="#PointerType">pointer type</a>. Its <em>Storage Class</em> must be <em>Storage</em>.</p>
+</div>
+<div class="paragraph">
+<p>The type of <em>Pointer</em> must be a <a href="#PointerType">pointer type</a>. <em>Pointer</em> must point to the
+<strong>Generic</strong> Storage Class. If the cast fails, the instruction result is an
+<strong>OpConstantNull</strong> pointer in the <em>Storage</em> Storage Class.</p>
+</div>
+<div class="paragraph">
+<p>If <em>Result Type</em> and the type of <em>Pointer</em> are <strong>OpTypePointer</strong>, they must point to the same type.</p>
+</div>
+<div class="paragraph">
+<p><em>Storage</em> must be one of the following literal values from Storage Class:
+<strong>Workgroup</strong>, <strong>CrossWorkgroup</strong>, or <strong>Function</strong>.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Change the description of <strong>OpBitcast</strong> to:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>Bit pattern-preserving type conversion.</p>
+</div>
+<div class="paragraph">
+<p><em>Result Type</em> must be a <a href="#PointerType">pointer type</a>, or a scalar or vector of numerical-type.</p>
+</div>
+<div class="paragraph">
+<p><em>Operand</em> must be a <a href="#PointerType">pointer type</a>, or a scalar or vector of
+numerical-type. It must be a different type than <em>Result Type</em>.</p>
+</div>
+<div class="paragraph">
+<p>Before <strong>version 1.5</strong>: If either <em>Result Type</em> or <em>Operand</em> is a pointer, the other
+must be a pointer or an integer scalar.
+Starting with <strong>version 1.5</strong>: If either <em>Result Type</em> or <em>Operand</em> is a pointer, the
+other must be a pointer, an integer scalar, or an integer vector.</p>
+</div>
+<div class="paragraph">
+<p>If <em>Result Type</em> has the same number of components as <em>Operand</em>, they must also
+have the same component width, and results are computed per component.</p>
+</div>
+<div class="paragraph">
+<p>If <em>Result Type</em> has a different number of components than <em>Operand</em>, the total
+number of bits in <em>Result Type</em> must equal the total number of bits in <em>Operand</em>.
+Let <em>L</em> be the type, either <em>Result Type</em> or <em>Operand</em>’s type, that has the larger
+number of components. Let <em>S</em> be the other type, with the smaller number of
+components. The number of components in <em>L</em> must be an integer multiple of the
+number of components in <em>S</em>. The first component (that is, the only or
+lowest-numbered component) of <em>S</em> maps to the first components of <em>L</em>, and so on,
+up to the last component of <em>S</em> mapping to the last components of <em>L</em>. Within this
+mapping, any single component of <em>S</em> (mapping to multiple components of <em>L</em>) maps
+its lower-ordered bits to the lower-numbered components of <em>L</em>.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Change the description of <em>Pointer</em> in <strong>OpLifetimeStart</strong> and <strong>OpLifetimeStop</strong> to:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p><em>Pointer</em> is a pointer to the object whose lifetime is starting/ending. Its type must be
+a <a href="#PointerType">pointer type</a> with Storage Class <strong>Function</strong>.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Change the description of <em>Pointer</em> in <strong>OpAtomicLoad</strong> to:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p><em>Pointer</em> is the pointer to the memory to read. It must be a
+<a href="#PointerType">pointer type</a>. If its type is <strong>OpTypePointer</strong>, the type of the
+value pointed to by Pointer must be the same as <em>Result Type</em>.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Change the description of <em>Pointer</em> in <strong>OpAtomicStore</strong> to:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p><em>Pointer</em> is the pointer to the memory to write. It must be a
+<a href="#PointerType">pointer type</a>. If its type is <strong>OpTypePointer</strong>, the type it
+points to must be a scalar of integer type or floating-point type.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Change the description of <em>Value</em> in <strong>OpAtomicExchange</strong> to:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>The type of <em>Value</em> must be the same as <em>Result Type</em>. <em>Pointer</em> must be a
+<a href="#PointerType">pointer type</a>. If the type of <em>Pointer</em> is <strong>OpTypePointer</strong>,  the
+type of the value pointed to by <em>Pointer</em> must be the same as <em>Result Type</em>.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Change the description of <em>Value</em> in <strong>OpAtomicCompareExchange</strong> to:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>The type of <em>Value</em> must be the same as <em>Result Type</em>. <em>Pointer</em> must be a
+<a href="#PointerType">pointer type</a>. If the type of <em>Pointer</em> is <strong>OpTypePointer</strong>, the
+type of the value pointed to by <em>Pointer</em> must be the same as <em>Result Type</em>.
+This type must also match the type of <em>Comparator</em>.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Change the description of <em>Value</em> in <strong>OpAtomicIIncrement</strong>, <strong>OpAtomicIDecrement</strong>,
+<strong>OpAtomicIAdd</strong>, <strong>OpAtomicISub</strong>, <strong>OpAtomicSMin</strong>, <strong>OpAtomicUMin</strong>, <strong>OpAtomicSMax</strong>,
+<strong>OpAtomicUMax</strong>, <strong>OpAtomicAnd</strong>, <strong>OpAtomicOr</strong>, and <strong>OpAtomicXor</strong> to:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>The type of <em>Value</em> must be the same as <em>Result Type</em>. <em>Pointer</em> must be a
+<a href="#PointerType">pointer type</a>. If the type of <em>Pointer</em> is <strong>OpTypePointer</strong>, the
+type of the value pointed to by <em>Pointer</em> must be the same as <em>Result Type</em>.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Add the following instruction to Section <strong>3.37.6 Type-Declaration Instructions</strong>:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="3"><p class="tableblock"><a id="OpTypeUntypedPointerKHR"></a><strong>OpTypeUntypedPointerKHR</strong><br>
+<br>
+Declare a new pointer type.<br>
+<br>
+<em>Storage Class</em> is the Storage Class of the memory holding object pointed to. Refer to the client API for allowed storage classes.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
+<strong>UntypedPointersKHR</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4417</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Result &lt;id&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Storage Class</em></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Add the following instructions to Section <strong>3.37.8 Memory Instructions</strong>:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2858%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="5"><p class="tableblock"><a id="OpUntypedVariableKHR"></a><strong>OpUntypedVariableKHR</strong><br>
+<br>
+Allocate an object in memory, resulting in a pointer to it.<br>
+<br>
+<em>Result Type</em> must be an <strong>OpTypeUntypedPointerKHR</strong>.<br>
+<br>
+<em>Storage Class</em> is the Storage Class of the memory holding the object. It must not be <strong>Generic</strong>. It must be the same storage class as the <em>Storage Class</em> operand of the <em>Result Type</em>.<br>
+<br>
+<em>Data Type</em> is optional. It is the type of the object in memory. <em>Data Type</em> must be specified if <em>Storage Class</em> is <strong>Function</strong>, <strong>Private</strong>, or <strong>Workgroup</strong>. Refer to the client API for other storage classes.<br>
+<br>
+<em>Initializer</em> is optional. If <em>Initializer</em> is present, it will be the initial value of the variable’s memory content. <em>Initializer</em> must be an <em>&lt;id&gt;</em> from a constant instruction or a global (module scope) <a href="#Variable">variable</a>. <em>Initializer</em> must have the same type as <em>Data Type</em>.</p></td>
+<td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock">Capability:<br>
+<strong>UntypedPointersKHR</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4 + variable</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4418</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Result Type</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Result &lt;id&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Storage Class</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional <em>&lt;id&gt; Data Type</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional <em>&lt;id&gt; Initializer</em></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2858%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="5"><p class="tableblock"><a id="OpUntypedAccessChainKHR"></a><strong>OpUntypedAccessChainKHR</strong><br>
+<br>
+Has the same semantics as <strong>OpAccessChain</strong>, with the following additions:<br>
+- <em>Result Type</em> must be an <a href="#OpTypeUntypedPointerKHR"><strong>OpTypeUntypedPointerKHR</strong></a>. Its <em>Storage Class</em> operand must be the same Storage Class as <em>Base</em>.<br>
+- a <em>Base Type</em> operand. It must be a non-pointer type-declaration instruction.<br>
+- <em>Base</em> must be a <a href="#PointerType">pointer type</a>.<br>
+- <em>Indexes</em> walk the type hierarchy of <em>Base Type</em> instead of <em>Base</em>.</p></td>
+<td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock">Capability:<br>
+<strong>UntypedPointersKHR</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5 + variable</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4419</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Result Type</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Result &lt;id&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Base Type</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Base</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;, &lt;id&gt;, &#8230;&#8203;</em><br>
+<em>Indexes</em></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2858%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="5"><p class="tableblock"><a id="OpUntypedInBoundsAccessChainKHR"></a><strong>OpUntypedInBoundsAccessChainKHR</strong><br>
+<br>
+Has the same semantics as <a href="#OpUntypedAccessChainKHR"><strong>OpUntypedAccessChainKHR</strong></a>, with the addition that the resulting pointer is known to point within the base object.</p></td>
+<td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock">Capability:<br>
+<strong>OpUntypedPointersKHR</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5 + variable</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4420</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Result Type</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Result &lt;id&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Base Type</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Base</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;, &lt;id&gt;, &#8230;&#8203;</em><br>
+<em>Indexes</em></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="6"><p class="tableblock"><a id="OpUntypedPtrAccessChainKHR"></a><strong>OpUntypedPtrAccessChainKHR</strong><br>
+<br>
+Has the same semantics as <strong>OpPtrAccessChain</strong>, with the following additions:<br>
+- <em>Result Type</em> must be an <a href="#OpTypeUntypedPointerKHR"><strong>OpTypeUntypedPointerKHR</strong></a>. Its <em>Storage Class</em> operand must be the same Storage Class as <em>Base</em>.<br>
+- a <em>Base Type</em> operand. It must be a non-pointer type-declaration instruction.<br>
+- <em>Base</em> must be a <a href="#PointerType">pointer type</a>.<br>
+- <em>Element</em> is used to generate an <a href="#OpUntypedAccessChainKHR"><strong>OpUntypedAccessChainKHR</strong></a> <em>Base</em>.<br>
+- <em>Indexes</em> walk the type hierarchy of <em>Base Type</em> instead of <em>Base</em>.</p></td>
+<td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock">Capability:<br>
+<strong>UntypedPointersKHR</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6 + variable</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4423</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Result Type</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Result &lt;id&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Base Type</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Base</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Element</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;, &lt;id&gt;, &#8230;&#8203;</em><br>
+<em>Indexes</em></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="6"><p class="tableblock"><a id="OpUntypedInBoundsPtrAccessChainKHR"></a><strong>OpUntypedInBoundsPtrAccessChainKHR</strong><br>
+<br>
+Has the same semantics as <a href="#OpUntypedPtrAccessChainKHR"><strong>OpUntypedPtrAccessChainKHR</strong></a>, with the addition that the resulting pointer is known to point within the base object.</p></td>
+<td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock">Capability:<br>
+<strong>UntypedPointersKHR</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6 + variable</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4424</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Result Type</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Result &lt;id&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Base Type</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Base</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Element</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;, &lt;id&gt;, &#8230;&#8203;</em><br>
+<em>Indexes</em></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2858%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="5"><p class="tableblock"><a id="OpUntypedArrayLengthKHR"></a><strong>OpUntypedArrayLengthKHR</strong><br>
+<br>
+Length of a run-time array.<br>
+<br>
+<em>Result Type</em> must be an <strong>OpTypeInt</strong> with 32-bit <em>Width</em> and 0 <em>Signedness</em>.<br>
+<br>
+<em>Structure</em> must be a <strong>Block</strong>-decorated <strong>OpTypeStruct</strong> whose last member is a run-time array.<br>
+<br>
+<em>Pointer</em> must be a <a href="#PointerType">pointer type</a>. <em>Pointer</em> must have the same value as a descriptor. That is, the value must be the same as a <a href="#Variable">variable</a> decorated with <strong>DescriptorSet</strong> and <strong>Binding</strong> or an element in such a variable when the data type is an array of <strong>Block</strong>-decorated structures.<br>
+<br>
+<em>Array member</em> is an unsigned 32-bit integer index of the last member of <em>Structure</em>. That member’s type must be from <strong>OpTypeRuntimeArray</strong>.</p></td>
+<td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock">Capability:<br>
+<strong>UntypedPointersKHR</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4425</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Result Type</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Result &lt;id&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Structure</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Pointer</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Literal Array member</em></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2858%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="5"><p class="tableblock"><a id="OpUntypedPrefetchKHR"></a><strong>OpUntypedPrefetchKHR</strong><br>
+<br>
+Prefetch <strong>Num Bytes</strong> bytes of data from <strong>Pointer</strong> into the global cache.
+This instruction does not affect the functionality of the module.<br>
+<br>
+<em>Pointer</em> must be a <a href="#PointerType">pointer</a> whose <em>Storage Class</em> is <strong>CrossWorkgroup</strong>.<br>
+<br>
+<em>Num Bytes</em> is the number of bytes to prefetch. Its type must be an integer scalar.<br>
+<br>
+<em>RW</em> is optional.
+If <em>RW</em> is present, it specifies whether the fetch should be for a read or write.
+It must be a constant instruction with an integer scalar type.
+The value must be either 0 (for read) or 1 (for write).<br>
+<br>
+<em>Locality</em> is optional.
+If <em>Locality</em> is present, it specifies the temporal locality for the caching.
+It must be a constant instruction with an integer scalar type.
+The value must be between 0 (for no locality) and 3 (for extreme locality) inclusive.<br>
+<br>
+<em>Cache Type</em> is optional.
+If <em>Cache Type</em> is present, it specifies the type of cache.
+It must be a constant instruction with an integer scalar type.
+The value must be either 0 (for instruction cache) or 1 (for data cache).<br>
+<br>
+The default values of all optional operands are implementation defined.</p></td>
+<td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock">Capability:<br>
+<strong>UntypedPointersKHR</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3  + variable</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4426</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Pointer Type</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Num Bytes</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional <em>&lt;id&gt; RW</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional <em>&lt;id&gt; Locality</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional <em>&lt;id&gt; Cache Type</em></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_modifications_to_the_extension_spv_khr_workgroup_memory_explicit_layout">Modifications to the extension SPV_KHR_workgroup_memory_explicit_layout</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Change:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>If <strong>WorkgroupMemoryExplicitLayoutKHR</strong> capability is declared, for each entry point in the module</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Either all or none of the <strong>Workgroup</strong> Storage Class variables in the entry point interface must point to struct types decorated with <strong>Block</strong>.</p>
+</li>
+<li>
+<p>If more than one <strong>Workgroup</strong> Storage Class variable in the entry point interface point to a type decorated with <strong>Block</strong>, all of them must be decorated with <strong>Aliased</strong>.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>To:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>If <strong>WorkgroupMemoryExplicitLayoutKHR</strong> capability is declared, for each entry point in the module</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Either all or none of the <strong>Workgroup</strong> Storage Class variables in the entry point
+interface must point to struct types decorated with <strong>Block</strong>.</p>
+</li>
+<li>
+<p>If more than one <strong>Workgroup</strong> Storage Class variable in the entry point interface
+point to a type decorated with <strong>Block</strong>, all of them must be decorated with <strong>Aliased</strong>,
+unless the <strong>UntypedPointersKHR</strong> capability is declared. Only those variables
+decorated with <strong>Aliased</strong> may alias each other.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Change:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>In addition to the above table, memory object declarations in the
+<strong>CrossWorkgroup</strong>, <strong>Function</strong>, <strong>Input</strong>, <strong>Output</strong> or <strong>Private</strong> storage classes must also
+have matching pointee types for aliasing to be present. The restriction also
+applies for <strong>Workgroup</strong> storage class, except when
+<strong>WorkgroupMemoryExplicitLayoutKHR</strong> capability is declared and the pointee types
+are structs decorated with <strong>Block</strong>. In all other cases the decoration is ignored.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>To:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>In addition to the above table, memory object declarations in the
+<strong>CrossWorkgroup</strong>, <strong>Function</strong>, <strong>Input</strong>, <strong>Output</strong> or <strong>Private</strong> storage classes must also
+have matching pointee types for aliasing to be present. The restriction also
+applies for <strong>Workgroup</strong> storage class, except when
+<strong>WorkgroupMemoryExplicitLayoutKHR</strong> capability is declared and the pointee types
+are structs decorated with <strong>Block</strong> or the pointer has the type
+<a href="#OpTypedUntypedPointerKHR"><strong>OpTypeUntypedPointerKHR</strong></a>. In all other cases the
+decoration is ignored.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_modifications_to_the_extension_spv_khr_cooperative_matrix">Modifications to the extension SPV_KHR_cooperative_matrix</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In the descriptions of <strong>OpCooperativeMatrixLoadKHR</strong> and
+<strong>OpCooperativeMatrixStoreKHR</strong> change:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p><em>Pointer</em> is a pointer.
+Its type must be an <strong>OpTypePointer</strong> whose <em>Type</em> operand is a scalar or vector
+type.
+If the <strong>Shader</strong> capability was declared, <em>Pointer</em> must point into an array and any
+<strong>ArrayStride</strong> decoration on <em>Pointer</em> is ignored.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>To:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p><em>Pointer</em> is a pointer.
+Its type must be a <a href="#PointerType">pointer type</a>.
+If it is an <strong>OpTypePointer</strong>, its <em>Type</em> operand must be a scalar or vector
+type.
+If the <strong>Shader</strong> capability was declared and <em>Pointer&#8217;s</em> type is
+<strong>OpTypePointer</strong>, <em>Pointer</em> must point into an array and any <strong>ArrayStride</strong>
+decoration on <em>Pointer</em> is ignored.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>And, change:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p><em>Stride</em> further qualifies how matrix elements are laid out in memory.
+It must be a scalar integer type and its exact semantics depend on
+<em>MemoryLayout</em>.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>To:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p><em>Stride</em> further qualifies how matrix elements are laid out in memory.
+It must be a scalar integer type and its exact semantics depend on
+<em>MemoryLayout</em>.
+When the type of <em>Pointer</em> is <strong>OpTypePointer</strong>, <em>Stride</em> is specified in number
+of elements based on the <em>Type</em> operand of the pointer type.
+When the type of <em>Pointer</em> is <strong>OpTypeUntypedPointerKHR</strong>, <em>Stride</em> is specified
+in bytes.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_modifications_to_the_opencl_std_extended_instruction_set">Modifications to the OpenCL.std extended instruction set</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Change the pointer naming conventions from:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p><em>pointer(storage)</em> denotes an <strong>OpTypePointer</strong> which points to the <em>storage</em> <strong>Storage Class</strong>.</p>
+<div class="ulist">
+<ul>
+<li>
+<p><em>pointer(constant)</em> denotes an <strong>OpTypePointer</strong> which points to the <strong>UniformConstant</strong> <strong>Storage Class</strong>.</p>
+</li>
+<li>
+<p><em>pointer(generic)</em> denotes an <strong>OpTypePointer</strong> which points to the <strong>Generic</strong> <strong>Storage Class</strong>.</p>
+</li>
+<li>
+<p><em>pointer(global)</em> denotes an <strong>OpTypePointer</strong> which points to the <strong>CrossWorkgroup</strong> <strong>Storage Class</strong>.</p>
+</li>
+<li>
+<p><em>pointer(local)</em> denotes an <strong>OpTypePointer</strong> which points to the <strong>Workgroup</strong> <strong>Storage Class</strong>.</p>
+</li>
+<li>
+<p><em>pointer(private)</em> denotes an <strong>OpTypePointer</strong> which points to the <strong>Function</strong> <strong>Storage Class</strong>.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>To:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p><em>pointer(storage)</em> denotes an <strong>OpTypePointer</strong> or <strong>OpTypeUntypedPointerKHR</strong> which points to the <em>storage</em> <strong>Storage Class</strong>.</p>
+<div class="ulist">
+<ul>
+<li>
+<p><em>pointer(constant)</em> denotes an <strong>OpTypePointer</strong> or <strong>OpTypeUntypedPointerKHR</strong> which points to the <strong>UniformConstant</strong> <strong>Storage Class</strong>.</p>
+</li>
+<li>
+<p><em>pointer(generic)</em> denotes an <strong>OpTypePointer</strong> or <strong>OpTypeUntypedPointerKHR</strong> which points to the <strong>Generic</strong> <strong>Storage Class</strong>.</p>
+</li>
+<li>
+<p><em>pointer(global)</em> denotes an <strong>OpTypePointer</strong> or <strong>OpTypeUntypedPointerKHR</strong> which points to the <strong>CrossWorkgroup</strong> <strong>Storage Class</strong>.</p>
+</li>
+<li>
+<p><em>pointer(local)</em> denotes an <strong>OpTypePointer</strong> or <strong>OpTypeUntypedPointerKHR</strong> which points to the <strong>Workgroup</strong> <strong>Storage Class</strong>.</p>
+</li>
+<li>
+<p><em>pointer(private)</em> denotes an <strong>OpTypePointer</strong> or <strong>OpTypeUntypedPointerKHR</strong> which points to the <strong>Function</strong> <strong>Storage Class</strong>.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>In the descriptions of the extended instructions, whenever a pointer operand is described as <em>pointer(p1, p2, &#8230;&#8203;)</em> to <em>data types</em>, split the sentence into two as follows:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p><em>operand</em> must be a <em>pointer(p1, &#8230;&#8203;)</em>.
+If it is a typed pointer, it must point to <em>data types</em>.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>This applies to the following instructions:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>ptr</em> in <strong>fract</strong></p>
+</li>
+<li>
+<p><em>exp</em> in <strong>frexp</strong></p>
+</li>
+<li>
+<p><em>signp</em> in <strong>lgamma_r</strong></p>
+</li>
+<li>
+<p><em>iptr</em> in <strong>modf</strong></p>
+</li>
+<li>
+<p><em>quo</em> in <strong>remquo</strong></p>
+</li>
+<li>
+<p><em>cosval</em> in <strong>sincos</strong></p>
+</li>
+<li>
+<p><em>p</em> in <strong>vloadn</strong></p>
+</li>
+<li>
+<p><em>p</em> in <strong>vstoren</strong></p>
+</li>
+<li>
+<p><em>p</em> in <strong>vload_half</strong></p>
+</li>
+<li>
+<p><em>p</em> in <strong>vload_halfn</strong></p>
+</li>
+<li>
+<p><em>p</em> in <strong>vstore_half</strong></p>
+</li>
+<li>
+<p><em>p</em> in <strong>vstore_half_r</strong></p>
+</li>
+<li>
+<p><em>p</em> in <strong>vstore_halfn</strong></p>
+</li>
+<li>
+<p><em>p</em> in <strong>vstore_halfn_r</strong></p>
+</li>
+<li>
+<p><em>p</em> in <strong>vloada_halfn</strong></p>
+</li>
+<li>
+<p><em>p</em> in <strong>vstorea_halfn</strong></p>
+</li>
+<li>
+<p><em>p</em> in <strong>vstorea_halfn_r</strong></p>
+</li>
+<li>
+<p><em>format</em> in <strong>printf</strong></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>In the above instructions any type matching rule that applies to a pointee type is only applied to typed pointers.
+For untyped pointers, the instructions as if the it were an appropriate typed pointer.</p>
+</div>
+<div class="paragraph">
+<p>Note: <strong>prefetch</strong> should be replaced with <a href="#OpUntypedPrefetchKHR"><strong>OpUntypedPrefetchKHR</strong></a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_issues">Issues</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Should this extension modify any other extensions?<br></p>
+<div class="openblock">
+<div class="content">
+<div class="paragraph">
+<p><strong>Resolved</strong></p>
+</div>
+<div class="paragraph">
+<p>This extension modifies SPV_KHR_workgroup_memory_explicit_layout and
+SPV_KHR_cooperative_matrix.</p>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p>Should this extension include pointer access chain equivalents?<br></p>
+<div class="openblock">
+<div class="content">
+<div class="paragraph">
+<p><strong>Resolved</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>OpUntypedPtrAccessChainKHR</strong> and
+<strong>OpUntypedInBoundsPtrAccessChainKHR</strong> are not strictly necessary.
+<strong>OpUntypedAccessChainKHR</strong> (or <strong>OpUntypedInBoundsAccessChainKHR</strong>) could be used
+in place in all cases by changing the <em>Base Type</em> to be an array instead of
+just the element type; however, to simplify implementation transitions these
+instructions are included.</p>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p>Should this extension modify any extended instructions?<br></p>
+<div class="openblock">
+<div class="content">
+<div class="paragraph">
+<p><strong>Resolved</strong></p>
+</div>
+<div class="paragraph">
+<p>This extension modifies the OpenCL.std extended instruction set.
+GLSL.std.450 is not modified as the interpolation instructions operate on the
+<strong>Input</strong> storage class and <strong>FrexpStruct</strong> and <strong>ModfStruct</strong> should be preferred to
+the version that utilize pointers.</p>
+</div>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_revision_history">Revision History</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rev</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Date</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Author</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Changes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2024-05-29</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Alan Baker</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Initial Revision</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-07-17 11:57:26 -0400
+</div>
+</div>
+</body>
+</html>
