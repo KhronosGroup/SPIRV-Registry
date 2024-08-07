@@ -38,7 +38,7 @@ Contributors to original *OpenCL.DebugInfo.100* specification.
 Notice
 ------
 
-Copyright (c) 2019-2020 The Khronos Group Inc. Copyright terms at
+Copyright (c) 2019-2024 The Khronos Group Inc. Copyright terms at
 http://www.khronos.org/registry/speccopyright.html
 
 
@@ -54,8 +54,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2022-02-28
-| Revision           | 9
+| Last Modified Date | 2024-08-07
+| Revision           | 10
 |========================================
 
 Dependencies
@@ -393,7 +393,7 @@ unknown, not available, or not applicable. +
 {result_type} +
 
 | 5 | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 0 |
+'Result Type' | 'Result <id>' | '<id> Set'| 0
 |======
 
 Debug Info Metadata
@@ -1425,7 +1425,7 @@ Delimit the end of a contiguous group of instructions started by the
  {result_type} +
 
 | 5 | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 24 |
+'Result Type' | 'Result <id>' | '<id> Set'| 24
 |======
 
 
@@ -1486,7 +1486,7 @@ instruction. +
  column number where the location begins. +
  +
  'Column End' is the '<id>' of a 32-bit integer *OpConstant* denoting the source
- column number where the location ends. This must be greater than 'Column Start'. +
+ column number where the location ends. This must be greater then or equal to 'Column Start'. +
 
 | 10 | 12 | '<id>' +
 'Result Type' | 'Result <id>' | '<id> Set'| 103
@@ -1510,7 +1510,7 @@ Discontinue any source-level line and column information specified by any previo
  {result_type} +
 
 | 5 | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 104 |
+'Result Type' | 'Result <id>' | '<id> Set'| 104
 |======
 
 
@@ -1841,5 +1841,7 @@ Revision History
                                              basic blocks.
 |1.00 Rev 9  |2022-02-28|Baldur Karlsson    |Clarify that *DebugEntryPoint* refers to a
                                              *DebugFunction*, not an *OpEntryPoint*.
+|1.00 Rev 10 |2024-08-07|Victor Lomüller    |Fix that in *DebugLine* the 'Column end' operand
+                                             can be equal to 'Column start' operand.
 |========================================================
 
