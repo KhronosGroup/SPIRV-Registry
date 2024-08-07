@@ -24,6 +24,7 @@ Contributors
 - Pawel Jurek, Intel
 - Ben Ashbaugh, Intel
 - Greg Lueck, Intel
+- Kévin Petit, ARM
 
 Notice
 ------
@@ -62,17 +63,26 @@ For example for fast FP model a compiler can perform reassociation:
 If all these *OpFAdd* instructions have the "Fast" FP fast math mode then:
 
 [source,C]
-OpArithmeticFenceINTEL(a + b + c) + d
+%ab = OpFAdd %float %a %b
+%abc = OpFAdd %float %ab %c
+%abc_fence = OpArithmeticFenceINTEL %float %abc
+%result = OpFAdd %float %abc_fence %d
 
 can be transformed into:
 
 [source,C]
-OpArithmeticFenceINTEL(a + (b + c)) + d
+%bc = OpFAdd %float %b %c
+%abc = OpFAdd %float %a %bc
+%abc_fence = OpArithmeticFenceINTEL %float %abc
+%result = OpFAdd %float %abc_fence %d
 
 but not into:
 
 [source,C]
-OpArithmeticFenceINTEL(a + b) + (c + d)
+%ab = OpFAdd %float %a %b
+%ab_fence = OpArithmeticFenceINTEL %float %ab
+%cd = OpFAdd %float %c %d
+%result = OpFAdd %float %ab_fence %cd
 
 This instruction is an equivalent of {llvm_intrinsic_link}[llvm.arithmetic.fence] intrinsic function.
 
