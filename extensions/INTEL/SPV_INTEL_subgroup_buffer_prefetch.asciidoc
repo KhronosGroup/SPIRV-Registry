@@ -91,7 +91,7 @@ The prefetch operation may be silently ignored unless _NumBytes_ is a power of t
 Behavior is undefined unless _Ptr_ and _NumBytes_ are dynamically uniform for all invocations in the subgroup.
 1+|Capability: +
 *SubgroupBufferPrefetchINTEL*
-| 4 | 6221 | _<id>_ _Ptr_ | _<id>_ _NumBytes_
+| 3 | 6221 | _<id>_ _Ptr_ | _<id>_ _NumBytes_
 |=====
 
 == Validation Rules
