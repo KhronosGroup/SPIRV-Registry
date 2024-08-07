@@ -41,7 +41,7 @@ Contributors
 Notice
 ------
 
-Copyright (c) 2020-2023 The Khronos Group Inc. Copyright terms at
+Copyright (c) 2020-2024 The Khronos Group Inc. Copyright terms at
 http://www.khronos.org/registry/speccopyright.html
 
 Status
@@ -55,8 +55,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2023-12-06
-| Revision           | 5
+| Last Modified Date | 2024-08-07
+| Revision           | 6
 |========================================
 
 Dependencies
@@ -129,7 +129,7 @@ are declared.
 * Cooperative matrix types (or types containing them) can only be allocated
 in *Function* or *Private* storage classes.
 
-* The *Matrix{A,B,C,Result}SignedComponents* _Cooperative Matrix Operand_ can only be
+* The *Matrix{A,B,C,Result}SignedComponentsKHR* _Cooperative Matrix Operand_ can only be
 used when the type of the corresponding matrix is an integer type.
 
 ==== Modify section 2.16.2. Validation Rules for Shader Capabilities:
@@ -229,7 +229,7 @@ in order from contiguous locations starting at 'Pointer'[col*'Stride'] where
 *OpCooperativeMatrixStoreKHR* and must be greater than or equal to 0 when passed
 to *OpCooperativeMatrixLoadKHR*.
 |
-|===
+|====
 --
 
 3.X Cooperative Matrix Use
@@ -244,7 +244,7 @@ New section in 3 "Binary Form".
 | 0 | *MatrixAKHR*           |
 | 1 | *MatrixBKHR*           |
 | 2 | *MatrixAccumulatorKHR* |
-|===
+|====
 --
 
 3.42.6 Type-Declaration Instructions
@@ -415,7 +415,10 @@ be dynamically uniform within the 'Scope' of the cooperative matrix type.
 Linear-algebraic matrix multiply of 'A' by 'B' and then component-wise
 add 'C'. The order of the operations is implementation-dependent. The
 internal precision of floating-point operations is defined by the client
-API. Integer operations used in the multiplication of 'A' by 'B' are
+API. If any of the *Matrix{A,B,C}SignedComponentsKHR* operands are present,
+elements of the coresponding matrix operands are sign-extended to the
+precision of 'Result Type', otherwise they are zero-extended.
+Integer operations used in the multiplication of 'A' by 'B' are
 performed at the precision of the 'Result Type' and the resulting value
 will equal the low-order N bits of the correct result R, where N is the
 result width and R is computed with enough precision to avoid overflow
@@ -449,7 +452,7 @@ the scope of the operation. 'A', 'B', 'C', and 'Result Type' need not
 necessarily have the same component type, this is defined by the client API. +
  +
 If the 'Component Type' of any matrix operand is an integer type, then its
-components are treated as signed if the *Matrix{A,B,C,Result}SignedComponents*
+components are treated as signed if the *Matrix{A,B,C,Result}SignedComponentsKHR*
 _Cooperative Matrix Operand_ is present and are treated as unsigned otherwise. +
  +
 'Cooperative Matrix Operands' is an optional _Cooperative Matrix Operand_ literal. If
@@ -627,6 +630,7 @@ Revision History
 [options="header"]
 |========================================
 |Rev|Date|Author|Changes
+|6|2024-08-07|Jeff Bolz|Clarify sign/zero-extension behavior
 |5|2023-12-06|Kevin Petit|Clarifications, mostly of uniformity rules
 |4|2023-07-26|Kevin Petit|Add KHR suffixes to Cooperative Matrix Operands
 |3|2023-05-03|Kevin Petit|Initial revision of SPV_KHR_cooperative_matrix
