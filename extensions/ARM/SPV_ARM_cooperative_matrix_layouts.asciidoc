@@ -132,7 +132,7 @@ laid out in row-major order. Blocks are laid out in column-major order. Blocks a
 interleaved at a 4-byte granularity in in groups whose size is given by the
 'Stride' operand to *OpCooperativeMatrixLoadKHR* or *OpCooperativeMatrixStoreKHR*.
 | *CooperativeMatrixLayoutsARM*
-|===
+|====
 --
 Issues
 ------
