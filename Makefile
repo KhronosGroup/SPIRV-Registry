@@ -21,10 +21,11 @@ DOS2UNIX ?= dos2unix
 SPIRV_DIR := $(abspath $(dir $(firstword $(MAKEFILE_LIST))))
 
 
-ASCIIDOC_HTML_OPTIONS = --trace \
+ASCIIDOC_HTML_OPTIONS = --trace --failure-level ERROR \
   -b html5 \
   -a icons=font \
   -a data-uri \
+  -a nofooter \
   -a stylesdir=$(SPIRV_DIR)/resources \
   -a stylesheet=spirv.css \
   -a toc2 \
