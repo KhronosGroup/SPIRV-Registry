@@ -61,6 +61,6 @@ $(foreach file, $(DST_HTML), $(eval $(call SHORTHAND_RULE,$(notdir $(file)),$(fi
 # variables are dropped by docker.
 docker-%:
 	docker run --user `id --user`:`id --group` \
-	  --interactive --tty --rm \
+	  --tty --rm \
 	  --volume $(SPIRV_DIR):/spirv khronosgroup/docker-images:asciidoctor-spec \
 	  $(MAKE) MAKEFLAGS="$(MAKEFLAGS)" --directory=/spirv $*

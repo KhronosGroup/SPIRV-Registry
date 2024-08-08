@@ -1,0 +1,17 @@
+name: Presubmit
+on: [push, pull_request]
+
+jobs:
+  checkhtml:
+    name: Check generated HTML
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate HTML specs from asciidoc
+        run: |
+          touch extensions/*/*.asciidoc
+          make docker-all
+      - name: Check generated HTML matches HTML in repo
+        run: |
+          git diff --stat
+          git diff --exit-code
