@@ -1486,7 +1486,7 @@ instruction. +
  column number where the location begins. +
  +
  'Column End' is the '<id>' of a 32-bit integer *OpConstant* denoting the source
- column number where the location ends. This must be greater then or equal to 'Column Start'. +
+ column number where the location ends. This must be greater than or equal to 'Column Start'. +
 
 | 10 | 12 | '<id>' +
 'Result Type' | 'Result <id>' | '<id> Set'| 103
