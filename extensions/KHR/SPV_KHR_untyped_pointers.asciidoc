@@ -48,8 +48,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2024-05-29
-| Revision           | 1
+| Last Modified Date | 2024-08-08
+| Revision           | 2
 |========================================
 
 Dependencies
@@ -748,9 +748,9 @@ If the types of 'Operand 1' and 'Operand 2' are *OpTypePointer*, they must be th
 Change the restriction on 'Operand 1' and 'Operand 2' in *OpPtrDiff* to:
 
 ****
-The 'Storage Class' operand of the type of both 'Operand 1' and 'Operand 2' must match.
-If the types of 'Operand 1' and 'Operand 2' are *OpTypePointer*, they must be the same type.
-'Operand 1' and 'Operand 2' must point to a type that can be aggregated into an array.
+The types of 'Operand 1' and 'Operand 2' must be the same *OpTypePointer* or
+*OpTypeUntypedPointerKHR*. If the types of 'Operand 1' and 'Operand 2' are
+*OpTypePointer*, they must point to a type that can be aggregated into an array.
 For an array of length 'L', 'Operand 1' and 'Operand 2' can point to any
 element in the range '[0, L]', where element 'L' is outside the array but has a
 representative address computed with the same stride as elements in the array.
@@ -1207,5 +1207,6 @@ Revision History
 [cols="4"]
 |===
 |Rev|Date|Author|Changes
+|2|2024-08-08|Kevin Petit|Clarify OpPtrDiff support
 |1|2024-05-29|Alan Baker|Initial Revision
 |===
