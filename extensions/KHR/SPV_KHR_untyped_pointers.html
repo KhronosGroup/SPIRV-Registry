@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 2.0.18">
+<meta name="generator" content="Asciidoctor 2.0.22">
 <title>SPV_KHR_untyped_pointers</title>
 <style>
 @import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
@@ -148,11 +148,11 @@ em, b, strong {
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2024-05-29</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2024-08-08</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
 </tr>
 </tbody>
 </table>
@@ -1282,9 +1282,9 @@ If the types of <em>Operand 1</em> and <em>Operand 2</em> are <strong>OpTypePoin
 <div class="sidebarblock">
 <div class="content">
 <div class="paragraph">
-<p>The <em>Storage Class</em> operand of the type of both <em>Operand 1</em> and <em>Operand 2</em> must match.
-If the types of <em>Operand 1</em> and <em>Operand 2</em> are <strong>OpTypePointer</strong>, they must be the same type.
-<em>Operand 1</em> and <em>Operand 2</em> must point to a type that can be aggregated into an array.
+<p>The types of <em>Operand 1</em> and <em>Operand 2</em> must be the same <strong>OpTypePointer</strong> or
+<strong>OpTypeUntypedPointerKHR</strong>. If the types of <em>Operand 1</em> and <em>Operand 2</em> are
+<strong>OpTypePointer</strong>, they must point to a type that can be aggregated into an array.
 For an array of length <em>L</em>, <em>Operand 1</em> and <em>Operand 2</em> can point to any
 element in the range <em>[0, L]</em>, where element <em>L</em> is outside the array but has a
 representative address computed with the same stride as elements in the array.
@@ -2128,6 +2128,12 @@ the version that utilize pointers.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Changes</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2024-08-08</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Kevin Petit</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Clarify OpPtrDiff support</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2024-05-29</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Alan Baker</p></td>
@@ -2140,7 +2146,7 @@ the version that utilize pointers.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-07-17 11:57:26 -0400
+Last updated 2024-08-09 09:14:40 UTC
 </div>
 </div>
 </body>
