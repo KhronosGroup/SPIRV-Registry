@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.16">
-<title>SPV_INTEL_arithmetic_fence</title>
+<title>SPV_EXT_arithmetic_fence</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -440,7 +440,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
-<h1>SPV_INTEL_arithmetic_fence</h1>
+<h1>SPV_EXT_arithmetic_fence</h1>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
@@ -467,7 +467,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="_name_strings">Name Strings</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>SPV_INTEL_arithmetic_fence</p>
+<p>SPV_EXT_arithmetic_fence</p>
 </div>
 </div>
 </div>
@@ -505,6 +505,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li>
 <p>Greg Lueck, Intel</p>
 </li>
+<li>
+<p>Kévin Petit, ARM</p>
+</li>
 </ul>
 </div>
 </div>
@@ -513,7 +516,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="_notice">Notice</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Copyright (c) 2024 Intel Corporation.  All rights reserved.</p>
+<p>Copyright (c) 2024 The Khronos Group Inc. Copyright terms at <a href="http://www.khronos.org/registry/speccopyright.html" class="bare">http://www.khronos.org/registry/speccopyright.html</a></p>
 </div>
 </div>
 </div>
@@ -566,7 +569,7 @@ Version 1.6 Revision 3.</p>
 <h2 id="_overview">Overview</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The extension adds <strong>OpArithmeticFenceINTEL</strong> instruction that prevents fast-math
+<p>The extension adds <strong>OpArithmeticFenceEXT</strong> instruction that prevents fast-math
 optimizations between its argument and the expression that contains it.
 For example for fast FP model a compiler can perform reassociation:</p>
 </div>
@@ -575,7 +578,10 @@ For example for fast FP model a compiler can perform reassociation:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-C" data-lang="C">OpArithmeticFenceINTEL(a + b + c) + d</code></pre>
+<pre class="highlight"><code class="language-C" data-lang="C">%ab = OpFAdd %float %a %b
+%abc = OpFAdd %float %ab %c
+%abc_fence = OpArithmeticFenceEXT %float %abc
+%result = OpFAdd %float %abc_fence %d</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -583,7 +589,10 @@ For example for fast FP model a compiler can perform reassociation:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-C" data-lang="C">OpArithmeticFenceINTEL(a + (b + c)) + d</code></pre>
+<pre class="highlight"><code class="language-C" data-lang="C">%bc = OpFAdd %float %b %c
+%abc = OpFAdd %float %a %bc
+%abc_fence = OpArithmeticFenceEXT %float %abc
+%result = OpFAdd %float %abc_fence %d</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -591,7 +600,10 @@ For example for fast FP model a compiler can perform reassociation:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-C" data-lang="C">OpArithmeticFenceINTEL(a + b) + (c + d)</code></pre>
+<pre class="highlight"><code class="language-C" data-lang="C">%ab = OpFAdd %float %a %b
+%ab_fence = OpArithmeticFenceEXT %float %ab
+%cd = OpFAdd %float %c %d
+%result = OpFAdd %float %ab_fence %cd</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -608,7 +620,7 @@ be present in the module:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>OpExtension "SPV_INTEL_arithmetic_fence"</pre>
+<pre>OpExtension "SPV_EXT_arithmetic_fence"</pre>
 </div>
 </div>
 </div>
@@ -621,7 +633,7 @@ be present in the module:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>ArithmeticFenceINTEL</pre>
+<pre>ArithmeticFenceEXT</pre>
 </div>
 </div>
 </div>
@@ -630,11 +642,11 @@ be present in the module:</p>
 <h2 id="_new_instructions">New Instructions</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Instructions added under the <strong>ArithmeticFenceINTEL</strong> capability:</p>
+<p>Instructions added under the <strong>ArithmeticFenceEXT</strong> capability:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>OpArithmeticFenceINTEL</pre>
+<pre>OpArithmeticFenceEXT</pre>
 </div>
 </div>
 </div>
@@ -649,11 +661,11 @@ be present in the module:</p>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ArithmeticFenceINTEL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ArithmeticFenceEXT</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">6144</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">OpArithmeticFenceINTEL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OpArithmeticFenceEXT</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">6145</p></td>
 </tr>
 </tbody>
@@ -685,8 +697,8 @@ be present in the module:</p>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">6144</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>ArithmeticFenceINTEL</strong><br>
-Allow to use <strong>OpArithmeticFenceINTEL</strong> instruction</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>ArithmeticFenceEXT</strong><br>
+Allow to use <strong>OpArithmeticFenceEXT</strong> instruction</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 </tbody>
@@ -709,7 +721,7 @@ Allow to use <strong>OpArithmeticFenceINTEL</strong> instruction</p></td>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-top" colspan="4"><p class="tableblock"><strong>OpArithmeticFenceINTEL</strong><br>
+<td class="tableblock halign-center valign-top" colspan="4"><p class="tableblock"><strong>OpArithmeticFenceEXT</strong><br>
 Return <em>Target</em>. Indicates that the optimizer can not move or combine <em>Target</em>
 with the expression that uses <em>Result</em> of the instruction.<br>
 <br>
@@ -718,7 +730,7 @@ with the expression that uses <em>Result</em> of the instruction.<br>
 <em>Result Type</em> must be the same as the return type of the <em>Target</em> instruction.<br>
 <br></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Capability:
-<strong>ArithmeticFenceINTEL</strong></p></td>
+<strong>ArithmeticFenceEXT</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
@@ -776,7 +788,7 @@ with the expression that uses <em>Result</em> of the instruction.<br>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-07-17 11:17:14 -0700
+Last updated 2024-08-20 14:18:17 -0700
 </div>
 </div>
 </body>

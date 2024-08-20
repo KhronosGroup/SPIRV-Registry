@@ -1,12 +1,12 @@
 :llvm_intrinsic_link: https://llvm.org/docs/LangRef.html#llvm-arithmetic-fence-intrinsic
 
-SPV_INTEL_arithmetic_fence
-==========================
+SPV_EXT_arithmetic_fence
+========================
 
 Name Strings
 ------------
 
-SPV_INTEL_arithmetic_fence
+SPV_EXT_arithmetic_fence
 
 Contact
 -------
@@ -29,7 +29,7 @@ Contributors
 Notice
 ------
 
-Copyright (c) 2024 Intel Corporation.  All rights reserved.
+Copyright (c) 2024 The Khronos Group Inc. Copyright terms at http://www.khronos.org/registry/speccopyright.html
 
 Status
 ------
@@ -56,7 +56,7 @@ This extension requires SPIR-V 1.0.
 Overview
 --------
 
-The extension adds *OpArithmeticFenceINTEL* instruction that prevents fast-math
+The extension adds *OpArithmeticFenceEXT* instruction that prevents fast-math
 optimizations between its argument and the expression that contains it.
 For example for fast FP model a compiler can perform reassociation:
 
@@ -65,7 +65,7 @@ If all these *OpFAdd* instructions have the "Fast" FP fast math mode then:
 [source,C]
 %ab = OpFAdd %float %a %b
 %abc = OpFAdd %float %ab %c
-%abc_fence = OpArithmeticFenceINTEL %float %abc
+%abc_fence = OpArithmeticFenceEXT %float %abc
 %result = OpFAdd %float %abc_fence %d
 
 can be transformed into:
@@ -73,14 +73,14 @@ can be transformed into:
 [source,C]
 %bc = OpFAdd %float %b %c
 %abc = OpFAdd %float %a %bc
-%abc_fence = OpArithmeticFenceINTEL %float %abc
+%abc_fence = OpArithmeticFenceEXT %float %abc
 %result = OpFAdd %float %abc_fence %d
 
 but not into:
 
 [source,C]
 %ab = OpFAdd %float %a %b
-%ab_fence = OpArithmeticFenceINTEL %float %ab
+%ab_fence = OpArithmeticFenceEXT %float %ab
 %cd = OpFAdd %float %c %d
 %result = OpFAdd %float %ab_fence %cd
 
@@ -93,7 +93,7 @@ To use this extension within a SPIR-V module, the following *OpExtension* must
 be present in the module:
 
 ----
-OpExtension "SPV_INTEL_arithmetic_fence"
+OpExtension "SPV_EXT_arithmetic_fence"
 ----
 
 New Capabilities
@@ -101,23 +101,23 @@ New Capabilities
 This extension introduces a new capability:
 
 ----
-ArithmeticFenceINTEL
+ArithmeticFenceEXT
 ----
 
 New Instructions
 ----------------
-Instructions added under the *ArithmeticFenceINTEL* capability:
+Instructions added under the *ArithmeticFenceEXT* capability:
 
 ----
-OpArithmeticFenceINTEL
+OpArithmeticFenceEXT
 ----
 
 Token Number Assignments
 ------------------------
 [width="45%",cols="30,15"]
 |===============================
-| ArithmeticFenceINTEL | 6144
-| OpArithmeticFenceINTEL | 6145
+| ArithmeticFenceEXT | 6144
+| OpArithmeticFenceEXT | 6145
 |===============================
 
 Modifications to the SPIR-V Specification, Version 1.5
@@ -132,8 +132,8 @@ Modify Section 3.31, "Capability", adding these rows to the Capability table:
 [options="header"]
 |====
 2+^| Capability ^| Depends On
-| 6144 | *ArithmeticFenceINTEL* +
-Allow to use *OpArithmeticFenceINTEL* instruction |
+| 6144 | *ArithmeticFenceEXT* +
+Allow to use *OpArithmeticFenceEXT* instruction |
 |====
 --
 
@@ -144,7 +144,7 @@ In section 3.49.1. Miscellaneous Instructions, add a new instruction:
 
 [cols="5", width="100%"]
 |=====
-4+^|*OpArithmeticFenceINTEL* +
+4+^|*OpArithmeticFenceEXT* +
 Return 'Target'. Indicates that the optimizer can not move or combine 'Target'
 with the expression that uses 'Result' of the instruction. +
  +
@@ -153,7 +153,7 @@ with the expression that uses 'Result' of the instruction. +
 'Result Type' must be the same as the return type of the 'Target' instruction. +
  +
 | Capability:
-*ArithmeticFenceINTEL*
+*ArithmeticFenceEXT*
 
 | 4 | 6145 | 'Result Type' <id> | 'Result' <id> | 'Target' <id>
 |=====
