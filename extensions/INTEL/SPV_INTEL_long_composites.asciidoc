@@ -101,7 +101,7 @@ _Member types_ follow the same rules as defined for _Member types_ of
 | Capability:
 *CapabilityLongCompositesINTEL*
 
-| 2 + variable | 6090 | _<id>, <id>, ... Member N type, member N + 1 type_|
+| 2 + variable | 6090 | _<id>, <id>, ... Member N type, member N + 1 type_
 |=====
 
 Modify the description of *OpTypeStruct* instruction, adding the
@@ -130,7 +130,7 @@ elements of an array, or components of a vector, or columns of a matrix.
 | Capability:
 *CapabilityLongCompositesINTEL*
 
-| 2 + variable | 6091 | _<id>, <id>, ... Constituents_ |
+| 2 + variable | 6091 | _<id>, <id>, ... Constituents_
 |=====
 [cols="3", width="100%"]
 |=====
@@ -154,7 +154,7 @@ See <<Specialization, Specialization>>.
 | Capability:
 *CapabilityLongCompositesINTEL*
 
-| 2 + variable | 6092 | _<id>, <id>, ... Constituents_ |
+| 2 + variable | 6092 | _<id>, <id>, ... Constituents_
 |=====
 
 Modify the description of *OpConstantComposite* instruction, adding the
@@ -199,7 +199,7 @@ elements of an array, or components of a vector, or columns of a matrix.
 | Capability:
 *CapabilityLongCompositesINTEL*
 
-| 2 + variable | 6096 | _<id>, <id>, ... Constituents_ |
+| 2 + variable | 6096 | _<id>, <id>, ... Constituents_
 |=====
 
 Validation Rules

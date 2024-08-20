@@ -119,7 +119,6 @@ Results are computed per component. +
 | 'Result <id>'
 | '<id>' +
 'Float Value'
-| '<id>' +
 |=====
 
 [cols="1,1,3*3",width="100%"]
@@ -147,7 +146,6 @@ Results are computed per component. +
 | 'Result <id>'
 | '<id>' +
 'BFloat16 Value'
-| '<id>' +
 |=====
 
 

@@ -1056,7 +1056,7 @@ Result Type must be one of the following types:
 
 [cols="1,1,2,2"]
 !====================
-! 3 ! 46 ! <id> Result Type ! Result <id> !
+! 3 ! 46 ! <id> Result Type ! Result <id>
 !====================
 |====================
 
@@ -1075,7 +1075,7 @@ Sampled Image must have type OpTypeSampledImage or [blue]#<<bookmark-OpTypeVmeIm
 
 [cols="1,1,2,2,3"]
 !====================
-! 4 ! 100 ! <id> Result Type ! Result <id> ! <id> VME Image !
+! 4 ! 100 ! <id> Result Type ! Result <id> ! <id> VME Image
 !====================
 |====================
 
@@ -2943,7 +2943,7 @@ The instruction [blue]#<<bookmark-OpSubgroupAvcSicGetMotionVectorMask,OpSubgroup
 
 | Capability: + 
 *SubgroupAvcMotionEstimationINTEL* +
-| 9 | 5792 | <id> Result Type | Result <id> | <id> Skip Block Partition Type | | <id> Skip Motion Vector Mask | <id> Motion Vectors | <id> Bidirectional Weight | <id> Sad Adjustment | <id> Payload
+| 9 | 5792 | <id> Result Type | Result <id> | <id> Skip Block Partition Type | <id> Skip Motion Vector Mask | <id> Motion Vectors | <id> Bidirectional Weight | <id> Sad Adjustment | <id> Payload
 |=====
 
 [[bookmark-OpSubgroupAvcSicConfigureIpeLumaINTEL]]
