@@ -112,12 +112,12 @@ or holds an array of such pointers.
 
 Modify the first part of the definition of 'Variable pointer' from:
 
-[[VariablePointer]]'Variable pointer:' A pointer that results from one of the
+'Variable pointer:' A pointer that results from one of the
 following instructions: ...
 
 to:
 
-[[VariablePointer]]'Variable pointer:' A pointer of logical pointer type that
+'Variable pointer:' A pointer of logical pointer type that
 results from one of the following instructions: ...
 
 2.16 Validation Rules
@@ -297,7 +297,7 @@ addressing.
 ~~~~~~~~~~~~~~~~
 
 --
-[cols="1^,10,6^,2*2",options="header",width = "100%"]
+[cols="^1,10,^6,2*2",options="header",width = "100%"]
 |====
 2+^.^| Decoration | Enabling Capabilities 2+<.^| Extra Operands
 | 5355 | *RestrictPointer* +

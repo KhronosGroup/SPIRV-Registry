@@ -98,13 +98,13 @@ Modifications to the SPIR-V Specification
 (Modify Section 3.21, BuiltIn, adding rows to the BuiltIn table) ::
 +
 --
-[cols="1^,10,6^",options="header",width = "100%"]
+[cols="^1,10,^6",options="header",width = "100%"]
 |====
 2+^.^| BuiltIn | <<Capability,Enabling Capabilities>>
 | 5335 | [[HitTriangleVertexPositionsKHR]]*HitTriangleVertexPositionsKHR* +
 The vertex positions for the triangle hit for the ray being traced in the *AnyHitKHR* or
-*ClosestHitKHR* execution models.
-
+*ClosestHitKHR* execution models.+
++
 Refer to the Ray Tracing chapter of Vulkan API specification for more details.
 |*RayTracingPositionFetchKHR*
 |====
@@ -113,7 +113,7 @@ Refer to the Ray Tracing chapter of Vulkan API specification for more details.
 (Modify Section 3.31, Capability, adding rows to the Capability table) ::
 +
 --
-[cols="1^.^,25,15",options="header",width = "100%"]
+[cols="^.^1,25,15",options="header",width = "100%"]
 |====
 2+^.^| [[Capability]]Capability | Implicitly Declares
 | 5336 | *RayTracingPositionFetchKHR* +

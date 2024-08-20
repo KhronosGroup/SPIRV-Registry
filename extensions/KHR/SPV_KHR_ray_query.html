@@ -1,892 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="generator" content="AsciiDoc 10.2.0">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.23">
 <title>SPV_KHR_ray_query</title>
-<style type="text/css">
-/* Shared CSS for AsciiDoc xhtml11 and html5 backends */
-
-/* Default font. */
-body {
-  font-family: Georgia,serif;
-}
-
-/* Title font. */
-h1, h2, h3, h4, h5, h6,
-div.title, caption.title,
-thead, p.table.header,
-#toctitle,
-#author, #revnumber, #revdate, #revremark,
-#footer {
-  font-family: Arial,Helvetica,sans-serif;
-}
-
-body {
-  margin: 1em 5% 1em 5%;
-}
-
-a {
-  color: blue;
-  text-decoration: underline;
-}
-a:visited {
-  color: fuchsia;
-}
-
-em {
-  font-style: italic;
-  color: navy;
-}
-
-strong {
-  font-weight: bold;
-  color: #083194;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  color: #527bbd;
-  margin-top: 1.2em;
-  margin-bottom: 0.5em;
-  line-height: 1.3;
-}
-
-h1, h2, h3 {
-  border-bottom: 2px solid silver;
-}
-h2 {
-  padding-top: 0.5em;
-}
-h3 {
-  float: left;
-}
-h3 + * {
-  clear: left;
-}
-h5 {
-  font-size: 1.0em;
-}
-
-div.sectionbody {
-  margin-left: 0;
-}
-
-hr {
-  border: 1px solid silver;
-}
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
 
 p {
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: normal;
+}
+em, b, strong {
+    color: darkblue;
 }
 
-ul, ol, li > p {
-  margin-top: 0;
-}
-ul > li     { color: #aaa; }
-ul > li > * { color: black; }
-
-.monospaced, code, pre {
-  font-family: "Courier New", Courier, monospace;
-  font-size: inherit;
-  color: navy;
-  padding: 0;
-  margin: 0;
-}
-pre {
-  white-space: pre-wrap;
-}
-
-#author {
-  color: #527bbd;
-  font-weight: bold;
-  font-size: 1.1em;
-}
-#email {
-}
-#revnumber, #revdate, #revremark {
-}
-
-#footer {
-  font-size: small;
-  border-top: 2px solid silver;
-  padding-top: 0.5em;
-  margin-top: 4.0em;
-}
-#footer-text {
-  float: left;
-  padding-bottom: 0.5em;
-}
-#footer-badges {
-  float: right;
-  padding-bottom: 0.5em;
-}
-
-#preamble {
-  margin-top: 1.5em;
-  margin-bottom: 1.5em;
-}
-div.imageblock, div.exampleblock, div.verseblock,
-div.quoteblock, div.literalblock, div.listingblock, div.sidebarblock,
-div.admonitionblock {
-  margin-top: 1.0em;
-  margin-bottom: 1.5em;
-}
-div.admonitionblock {
-  margin-top: 2.0em;
-  margin-bottom: 2.0em;
-  margin-right: 10%;
-  color: #606060;
-}
-
-div.content { /* Block element content. */
-  padding: 0;
-}
-
-/* Block element titles. */
-div.title, caption.title {
-  color: #527bbd;
-  font-weight: bold;
-  text-align: left;
-  margin-top: 1.0em;
-  margin-bottom: 0.5em;
-}
-div.title + * {
-  margin-top: 0;
-}
-
-td div.title:first-child {
-  margin-top: 0.0em;
-}
-div.content div.title:first-child {
-  margin-top: 0.0em;
-}
-div.content + div.title {
-  margin-top: 0.0em;
-}
-
-div.sidebarblock > div.content {
-  background: #ffffee;
-  border: 1px solid #dddddd;
-  border-left: 4px solid #f0f0f0;
-  padding: 0.5em;
-}
-
-div.listingblock > div.content {
-  border: 1px solid #dddddd;
-  border-left: 5px solid #f0f0f0;
-  background: #f8f8f8;
-  padding: 0.5em;
-}
-
-div.quoteblock, div.verseblock {
-  padding-left: 1.0em;
-  margin-left: 1.0em;
-  margin-right: 10%;
-  border-left: 5px solid #f0f0f0;
-  color: #888;
-}
-
-div.quoteblock > div.attribution {
-  padding-top: 0.5em;
-  text-align: right;
-}
-
-div.verseblock > pre.content {
-  font-family: inherit;
-  font-size: inherit;
-}
-div.verseblock > div.attribution {
-  padding-top: 0.75em;
-  text-align: left;
-}
-/* DEPRECATED: Pre version 8.2.7 verse style literal block. */
-div.verseblock + div.attribution {
-  text-align: left;
-}
-
-div.admonitionblock .icon {
-  vertical-align: top;
-  font-size: 1.1em;
-  font-weight: bold;
-  text-decoration: underline;
-  color: #527bbd;
-  padding-right: 0.5em;
-}
-div.admonitionblock td.content {
-  padding-left: 0.5em;
-  border-left: 3px solid #dddddd;
-}
-
-div.exampleblock > div.content {
-  border-left: 3px solid #dddddd;
-  padding-left: 0.5em;
-}
-
-div.imageblock div.content { padding-left: 0; }
-span.image img { border-style: none; vertical-align: text-bottom; }
-a.image:visited { color: white; }
-
-dl {
-  margin-top: 0.8em;
-  margin-bottom: 0.8em;
-}
-dt {
-  margin-top: 0.5em;
-  margin-bottom: 0;
-  font-style: normal;
-  color: navy;
-}
-dd > *:first-child {
-  margin-top: 0.1em;
-}
-
-ul, ol {
-    list-style-position: outside;
-}
-ol.arabic {
-  list-style-type: decimal;
-}
-ol.loweralpha {
-  list-style-type: lower-alpha;
-}
-ol.upperalpha {
-  list-style-type: upper-alpha;
-}
-ol.lowerroman {
-  list-style-type: lower-roman;
-}
-ol.upperroman {
-  list-style-type: upper-roman;
-}
-
-div.compact ul, div.compact ol,
-div.compact p, div.compact p,
-div.compact div, div.compact div {
-  margin-top: 0.1em;
-  margin-bottom: 0.1em;
-}
-
-tfoot {
-  font-weight: bold;
-}
-td > div.verse {
-  white-space: pre;
-}
-
-div.hdlist {
-  margin-top: 0.8em;
-  margin-bottom: 0.8em;
-}
-div.hdlist tr {
-  padding-bottom: 15px;
-}
-dt.hdlist1.strong, td.hdlist1.strong {
-  font-weight: bold;
-}
-td.hdlist1 {
-  vertical-align: top;
-  font-style: normal;
-  padding-right: 0.8em;
-  color: navy;
-}
-td.hdlist2 {
-  vertical-align: top;
-}
-div.hdlist.compact tr {
-  margin: 0;
-  padding-bottom: 0;
-}
-
-.comment {
-  background: yellow;
-}
-
-.footnote, .footnoteref {
-  font-size: 0.8em;
-}
-
-span.footnote, span.footnoteref {
-  vertical-align: super;
-}
-
-#footnotes {
-  margin: 20px 0 20px 0;
-  padding: 7px 0 0 0;
-}
-
-#footnotes div.footnote {
-  margin: 0 0 5px 0;
-}
-
-#footnotes hr {
-  border: none;
-  border-top: 1px solid silver;
-  height: 1px;
-  text-align: left;
-  margin-left: 0;
-  width: 20%;
-  min-width: 100px;
-}
-
-div.colist td {
-  padding-right: 0.5em;
-  padding-bottom: 0.3em;
-  vertical-align: top;
-}
-div.colist td img {
-  margin-top: 0.3em;
-}
-
-@media print {
-  #footer-badges { display: none; }
-}
-
-#toc {
-  margin-bottom: 2.5em;
-}
-
-#toctitle {
-  color: #527bbd;
-  font-size: 1.1em;
-  font-weight: bold;
-  margin-top: 1.0em;
-  margin-bottom: 0.1em;
-}
-
-div.toclevel0, div.toclevel1, div.toclevel2, div.toclevel3, div.toclevel4 {
-  margin-top: 0;
-  margin-bottom: 0;
-}
-div.toclevel2 {
-  margin-left: 2em;
-  font-size: 0.9em;
-}
-div.toclevel3 {
-  margin-left: 4em;
-  font-size: 0.9em;
-}
-div.toclevel4 {
-  margin-left: 6em;
-  font-size: 0.9em;
-}
-
-span.aqua { color: aqua; }
-span.black { color: black; }
-span.blue { color: blue; }
-span.fuchsia { color: fuchsia; }
-span.gray { color: gray; }
-span.green { color: green; }
-span.lime { color: lime; }
-span.maroon { color: maroon; }
-span.navy { color: navy; }
-span.olive { color: olive; }
-span.purple { color: purple; }
-span.red { color: red; }
-span.silver { color: silver; }
-span.teal { color: teal; }
-span.white { color: white; }
-span.yellow { color: yellow; }
-
-span.aqua-background { background: aqua; }
-span.black-background { background: black; }
-span.blue-background { background: blue; }
-span.fuchsia-background { background: fuchsia; }
-span.gray-background { background: gray; }
-span.green-background { background: green; }
-span.lime-background { background: lime; }
-span.maroon-background { background: maroon; }
-span.navy-background { background: navy; }
-span.olive-background { background: olive; }
-span.purple-background { background: purple; }
-span.red-background { background: red; }
-span.silver-background { background: silver; }
-span.teal-background { background: teal; }
-span.white-background { background: white; }
-span.yellow-background { background: yellow; }
-
-span.big { font-size: 2em; }
-span.small { font-size: 0.6em; }
-
-span.underline { text-decoration: underline; }
-span.overline { text-decoration: overline; }
-span.line-through { text-decoration: line-through; }
-
-div.unbreakable { page-break-inside: avoid; }
-
-
-/*
- * xhtml11 specific
- *
- * */
-
-div.tableblock {
-  margin-top: 1.0em;
-  margin-bottom: 1.5em;
-}
-div.tableblock > table {
-  border: 3px solid #527bbd;
-}
-thead, p.table.header {
-  font-weight: bold;
-  color: #527bbd;
-}
-p.table {
-  margin-top: 0;
-}
-/* Because the table frame attribute is overridden by CSS in most browsers. */
-div.tableblock > table[frame="void"] {
-  border-style: none;
-}
-div.tableblock > table[frame="hsides"] {
-  border-left-style: none;
-  border-right-style: none;
-}
-div.tableblock > table[frame="vsides"] {
-  border-top-style: none;
-  border-bottom-style: none;
-}
-
-
-/*
- * html5 specific
- *
- * */
-
-table.tableblock {
-  margin-top: 1.0em;
-  margin-bottom: 1.5em;
-}
-thead, p.tableblock.header {
-  font-weight: bold;
-  color: #527bbd;
-}
-p.tableblock {
-  margin-top: 0;
-}
-table.tableblock {
-  border-width: 3px;
-  border-spacing: 0px;
-  border-style: solid;
-  border-color: #527bbd;
-  border-collapse: collapse;
-}
-th.tableblock, td.tableblock {
-  border-width: 1px;
-  padding: 4px;
-  border-style: solid;
-  border-color: #527bbd;
-}
-
-table.tableblock.frame-topbot {
-  border-left-style: hidden;
-  border-right-style: hidden;
-}
-table.tableblock.frame-sides {
-  border-top-style: hidden;
-  border-bottom-style: hidden;
-}
-table.tableblock.frame-none {
-  border-style: hidden;
-}
-
-th.tableblock.halign-left, td.tableblock.halign-left {
-  text-align: left;
-}
-th.tableblock.halign-center, td.tableblock.halign-center {
-  text-align: center;
-}
-th.tableblock.halign-right, td.tableblock.halign-right {
-  text-align: right;
-}
-
-th.tableblock.valign-top, td.tableblock.valign-top {
-  vertical-align: top;
-}
-th.tableblock.valign-middle, td.tableblock.valign-middle {
-  vertical-align: middle;
-}
-th.tableblock.valign-bottom, td.tableblock.valign-bottom {
-  vertical-align: bottom;
-}
-
-
-/*
- * manpage specific
- *
- * */
-
-body.manpage h1 {
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
-  border-top: 2px solid silver;
-  border-bottom: 2px solid silver;
-}
-body.manpage h2 {
-  border-style: none;
-}
-body.manpage div.sectionbody {
-  margin-left: 3em;
-}
-
-@media print {
-  body.manpage div#toc { display: none; }
-}
-
-
-@media screen {
-  body {
-    max-width: 50em; /* approximately 80 characters wide */
-    margin-left: 16em;
-  }
-
-  #toc {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 13em;
-    padding: 0.5em;
-    padding-bottom: 1.5em;
-    margin: 0;
-    overflow: auto;
-    border-right: 3px solid #f8f8f8;
-    background-color: white;
-  }
-
-  #toc .toclevel1 {
-    margin-top: 0.5em;
-  }
-
-  #toc .toclevel2 {
-    margin-top: 0.25em;
-    display: list-item;
-    color: #aaaaaa;
-  }
-
-  #toctitle {
-    margin-top: 0.5em;
-  }
-}
 </style>
-<script type="text/javascript">
-/*<![CDATA[*/
-var asciidoc = {  // Namespace.
-
-/////////////////////////////////////////////////////////////////////
-// Table Of Contents generator
-/////////////////////////////////////////////////////////////////////
-
-/* Author: Mihai Bazon, September 2002
- * http://students.infoiasi.ro/~mishoo
- *
- * Table Of Content generator
- * Version: 0.4
- *
- * Feel free to use this script under the terms of the GNU General Public
- * License, as long as you do not remove or alter this notice.
- */
-
- /* modified by Troy D. Hanson, September 2006. License: GPL */
- /* modified by Stuart Rackham, 2006, 2009. License: GPL */
-
-// toclevels = 1..4.
-toc: function (toclevels) {
-
-  function getText(el) {
-    var text = "";
-    for (var i = el.firstChild; i != null; i = i.nextSibling) {
-      if (i.nodeType == 3 /* Node.TEXT_NODE */) // IE doesn't speak constants.
-        text += i.data;
-      else if (i.firstChild != null)
-        text += getText(i);
-    }
-    return text;
-  }
-
-  function TocEntry(el, text, toclevel) {
-    this.element = el;
-    this.text = text;
-    this.toclevel = toclevel;
-  }
-
-  function tocEntries(el, toclevels) {
-    var result = new Array;
-    var re = new RegExp('[hH]([1-'+(toclevels+1)+'])');
-    // Function that scans the DOM tree for header elements (the DOM2
-    // nodeIterator API would be a better technique but not supported by all
-    // browsers).
-    var iterate = function (el) {
-      for (var i = el.firstChild; i != null; i = i.nextSibling) {
-        if (i.nodeType == 1 /* Node.ELEMENT_NODE */) {
-          var mo = re.exec(i.tagName);
-          if (mo && (i.getAttribute("class") || i.getAttribute("className")) != "float") {
-            result[result.length] = new TocEntry(i, getText(i), mo[1]-1);
-          }
-          iterate(i);
-        }
-      }
-    }
-    iterate(el);
-    return result;
-  }
-
-  var toc = document.getElementById("toc");
-  if (!toc) {
-    return;
-  }
-
-  // Delete existing TOC entries in case we're reloading the TOC.
-  var tocEntriesToRemove = [];
-  var i;
-  for (i = 0; i < toc.childNodes.length; i++) {
-    var entry = toc.childNodes[i];
-    if (entry.nodeName.toLowerCase() == 'div'
-     && entry.getAttribute("class")
-     && entry.getAttribute("class").match(/^toclevel/))
-      tocEntriesToRemove.push(entry);
-  }
-  for (i = 0; i < tocEntriesToRemove.length; i++) {
-    toc.removeChild(tocEntriesToRemove[i]);
-  }
-
-  // Rebuild TOC entries.
-  var entries = tocEntries(document.getElementById("content"), toclevels);
-  for (var i = 0; i < entries.length; ++i) {
-    var entry = entries[i];
-    if (entry.element.id == "")
-      entry.element.id = "_toc_" + i;
-    var a = document.createElement("a");
-    a.href = "#" + entry.element.id;
-    a.appendChild(document.createTextNode(entry.text));
-    var div = document.createElement("div");
-    div.appendChild(a);
-    div.className = "toclevel" + entry.toclevel;
-    toc.appendChild(div);
-  }
-  if (entries.length == 0)
-    toc.parentNode.removeChild(toc);
-},
-
-
-/////////////////////////////////////////////////////////////////////
-// Footnotes generator
-/////////////////////////////////////////////////////////////////////
-
-/* Based on footnote generation code from:
- * http://www.brandspankingnew.net/archive/2005/07/format_footnote.html
- */
-
-footnotes: function () {
-  // Delete existing footnote entries in case we're reloading the footnodes.
-  var i;
-  var noteholder = document.getElementById("footnotes");
-  if (!noteholder) {
-    return;
-  }
-  var entriesToRemove = [];
-  for (i = 0; i < noteholder.childNodes.length; i++) {
-    var entry = noteholder.childNodes[i];
-    if (entry.nodeName.toLowerCase() == 'div' && entry.getAttribute("class") == "footnote")
-      entriesToRemove.push(entry);
-  }
-  for (i = 0; i < entriesToRemove.length; i++) {
-    noteholder.removeChild(entriesToRemove[i]);
-  }
-
-  // Rebuild footnote entries.
-  var cont = document.getElementById("content");
-  var spans = cont.getElementsByTagName("span");
-  var refs = {};
-  var n = 0;
-  for (i=0; i<spans.length; i++) {
-    if (spans[i].className == "footnote") {
-      n++;
-      var note = spans[i].getAttribute("data-note");
-      if (!note) {
-        // Use [\s\S] in place of . so multi-line matches work.
-        // Because JavaScript has no s (dotall) regex flag.
-        note = spans[i].innerHTML.match(/\s*\[([\s\S]*)]\s*/)[1];
-        spans[i].innerHTML =
-          "[<a id='_footnoteref_" + n + "' href='#_footnote_" + n +
-          "' title='View footnote' class='footnote'>" + n + "</a>]";
-        spans[i].setAttribute("data-note", note);
-      }
-      noteholder.innerHTML +=
-        "<div class='footnote' id='_footnote_" + n + "'>" +
-        "<a href='#_footnoteref_" + n + "' title='Return to text'>" +
-        n + "</a>. " + note + "</div>";
-      var id =spans[i].getAttribute("id");
-      if (id != null) refs["#"+id] = n;
-    }
-  }
-  if (n == 0)
-    noteholder.parentNode.removeChild(noteholder);
-  else {
-    // Process footnoterefs.
-    for (i=0; i<spans.length; i++) {
-      if (spans[i].className == "footnoteref") {
-        var href = spans[i].getElementsByTagName("a")[0].getAttribute("href");
-        href = href.match(/#.*/)[0];  // Because IE return full URL.
-        n = refs[href];
-        spans[i].innerHTML =
-          "[<a href='#_footnote_" + n +
-          "' title='View footnote' class='footnote'>" + n + "</a>]";
-      }
-    }
-  }
-},
-
-install: function(toclevels) {
-  var timerId;
-
-  function reinstall() {
-    asciidoc.footnotes();
-    if (toclevels) {
-      asciidoc.toc(toclevels);
-    }
-  }
-
-  function reinstallAndRemoveTimer() {
-    clearInterval(timerId);
-    reinstall();
-  }
-
-  timerId = setInterval(reinstall, 500);
-  if (document.addEventListener)
-    document.addEventListener("DOMContentLoaded", reinstallAndRemoveTimer, false);
-  else
-    window.onload = reinstallAndRemoveTimer;
-}
-
-}
-asciidoc.install(1);
-/*]]>*/
-</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-<body class="article">
+<body class="article toc2 toc-left">
 <div id="header">
 <h1>SPV_KHR_ray_query</h1>
-<div id="toc">
-  <div id="toctitle">Table of Contents</div>
-  <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_name_strings">Name Strings</a></li>
+<li><a href="#_contact">Contact</a></li>
+<li><a href="#_contributors">Contributors</a></li>
+<li><a href="#_status">Status</a></li>
+<li><a href="#_version">Version</a></li>
+<li><a href="#_dependencies">Dependencies</a></li>
+<li><a href="#_overview">Overview</a></li>
+<li><a href="#_extension_name">Extension Name</a></li>
+<li><a href="#_new_capabilities">New Capabilities</a></li>
+<li><a href="#_new_instructions">New Instructions</a></li>
+<li><a href="#_modifications_to_the_spir_v_specification">Modifications to the SPIR-V Specification</a></li>
+<li><a href="#_validation_rules">Validation Rules</a></li>
+<li><a href="#_interactions_with_spv_khr_ray_tracing">Interactions with SPV_KHR_ray_tracing</a></li>
+<li><a href="#_issues">Issues</a></li>
+<li><a href="#_revision_history">Revision History</a></li>
+</ul>
 </div>
 </div>
 <div id="content">
 <div class="sect1">
 <h2 id="_name_strings">Name Strings</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>SPV_KHR_ray_query</p></div>
+<div class="paragraph">
+<p>SPV_KHR_ray_query</p>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_contact">Contact</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>See <strong>Issues</strong> list in the Khronos SPIRV-Registry repository:
-<a href="https://github.com/KhronosGroup/SPIRV-Registry">https://github.com/KhronosGroup/SPIRV-Registry</a></p></div>
+<div class="paragraph">
+<p>See <strong>Issues</strong> list in the Khronos SPIRV-Registry repository:
+<a href="https://github.com/KhronosGroup/SPIRV-Registry" class="bare">https://github.com/KhronosGroup/SPIRV-Registry</a></p>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_contributors">Contributors</h2>
 <div class="sectionbody">
-<div class="ulist"><ul>
+<div class="ulist">
+<ul>
 <li>
-<p>
-Contributors to SPV_KHR_ray_tracing
-</p>
+<p>Contributors to SPV_KHR_ray_tracing</p>
 </li>
 <li>
-<p>
-Tobias Hector, AMD
-</p>
+<p>Tobias Hector, AMD</p>
 </li>
 <li>
-<p>
-Nicolai Haehnle, AMD
-</p>
+<p>Nicolai Haehnle, AMD</p>
 </li>
 <li>
-<p>
-Eric Werness, NVIDIA
-</p>
+<p>Eric Werness, NVIDIA</p>
 </li>
 <li>
-<p>
-Joshua Barczak, Intel
-</p>
+<p>Joshua Barczak, Intel</p>
 </li>
 <li>
-<p>
-Ashwin Lele, NVIDIA
-</p>
+<p>Ashwin Lele, NVIDIA</p>
 </li>
 <li>
-<p>
-Daniel Koch, NVIDIA
-</p>
+<p>Daniel Koch, NVIDIA</p>
 </li>
 <li>
-<p>
-Hans-Kristian Arntzen, Valve
-</p>
+<p>Hans-Kristian Arntzen, Valve</p>
 </li>
 <li>
-<p>
-David McAllister, Qualcomm
-</p>
+<p>David McAllister, Qualcomm</p>
 </li>
 <li>
-<p>
-Dae Kim, Imagination
-</p>
+<p>Dae Kim, Imagination</p>
 </li>
 <li>
-<p>
-Alan Baker, Google
-</p>
+<p>Alan Baker, Google</p>
 </li>
 <li>
-<p>
-Aleksandra Krstic, Qualcomm
-</p>
+<p>Aleksandra Krstic, Qualcomm</p>
 </li>
-</ul></div>
+</ul>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_status">Status</h2>
 <div class="sectionbody">
-<div class="ulist"><ul>
+<div class="ulist">
+<ul>
 <li>
-<p>
-Complete
-</p>
+<p>Complete</p>
 </li>
 <li>
-<p>
-Ratified by the Khronos Board 2020-11-20
-</p>
+<p>Ratified by the Khronos Board 2020-11-20</p>
 </li>
-</ul></div>
+</ul>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_version">Version</h2>
 <div class="sectionbody">
-<table class="tableblock frame-all grid-all"
-style="
-width:40%;
-">
-<col style="width:50%;">
-<col style="width:50%;">
+<table class="tableblock frame-all grid-all" style="width: 40%;">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2023-01-13</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Last Modified Date</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2023-01-13</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">14</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Revision</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">14</p></td>
 </tr>
 </tbody>
 </table>
@@ -895,46 +147,62 @@ width:40%;
 <div class="sect1">
 <h2 id="_dependencies">Dependencies</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>This extension is written against the Unified SPIR-V Specification,
-Version 1.5, Revision 1.</p></div>
-<div class="paragraph"><p>This extension requires SPIR-V 1.0.</p></div>
-<div class="paragraph"><p>This extension interacts with SPV_KHR_ray_tracing.</p></div>
+<div class="paragraph">
+<p>This extension is written against the Unified SPIR-V Specification,
+Version 1.5, Revision 1.</p>
+</div>
+<div class="paragraph">
+<p>This extension requires SPIR-V 1.0.</p>
+</div>
+<div class="paragraph">
+<p>This extension interacts with SPV_KHR_ray_tracing.</p>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_overview">Overview</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>This extension adds ray query objects to enable ray traversal in any shader stage.</p></div>
+<div class="paragraph">
+<p>This extension adds ray query objects to enable ray traversal in any shader stage.</p>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_extension_name">Extension Name</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>To use this extension within a SPIR-V module, the following
-<strong>OpExtension</strong> must be present in the module:</p></div>
+<div class="paragraph">
+<p>To use this extension within a SPIR-V module, the following
+<strong>OpExtension</strong> must be present in the module:</p>
+</div>
 <div class="listingblock">
-<div class="content monospaced">
+<div class="content">
 <pre>OpExtension "SPV_KHR_ray_query"</pre>
-</div></div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_new_capabilities">New Capabilities</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>This extension introduces new capabilities:</p></div>
+<div class="paragraph">
+<p>This extension introduces new capabilities:</p>
+</div>
 <div class="listingblock">
-<div class="content monospaced">
+<div class="content">
 <pre>RayQueryKHR
 RayTraversalPrimitiveCullingKHR</pre>
-</div></div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_new_instructions">New Instructions</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Instructions added under the <strong>RayQueryKHR</strong> capability</p></div>
+<div class="paragraph">
+<p>Instructions added under the <strong>RayQueryKHR</strong> capability</p>
+</div>
 <div class="listingblock">
-<div class="content monospaced">
+<div class="content">
 <pre>OpTypeAccelerationStructureKHR
 OpTypeRayQueryKHR
 OpRayQueryInitializeKHR
@@ -961,371 +229,383 @@ OpRayQueryGetIntersectionObjectRayOriginKHR
 OpRayQueryGetIntersectionObjectToWorldKHR
 OpRayQueryGetIntersectionWorldToObjectKHR
 OpConvertUToAccelerationStructureKHR</pre>
-</div></div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_modifications_to_the_spir_v_specification">Modifications to the SPIR-V Specification</h2>
 <div class="sectionbody">
-<div class="dlist"><dl>
-<dt class="hdlist1">
-(Add the following terminology to section 2.2.2, Types) 
-</dt>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">(Add the following terminology to section 2.2.2, Types) </dt>
 <dd>
 <div class="openblock">
 <div class="content">
-<div class="paragraph"><p><em>Ray query type</em>: The type returned by <strong>OpTypeRayQueryKHR</strong>.</p></div>
-</div></div>
+<div class="paragraph">
+<p><em>Ray query type</em>: The type returned by <strong>OpTypeRayQueryKHR</strong>.</p>
+</div>
+</div>
+</div>
 </dd>
-<dt class="hdlist1">
-(Add to the list of opaque types in section 2.2.2, Types) 
-</dt>
+<dt class="hdlist1">(Add to the list of opaque types in section 2.2.2, Types) </dt>
 <dd>
 <div class="openblock">
 <div class="content">
-<div class="ulist"><ul>
+<div class="ulist">
+<ul>
 <li>
-<p>
-<strong>OpTypeAccelerationStructureKHR</strong>
-</p>
+<p><strong>OpTypeAccelerationStructureKHR</strong></p>
 </li>
 <li>
-<p>
-<strong>OpTypeRayQueryKHR</strong>
-</p>
+<p><strong>OpTypeRayQueryKHR</strong></p>
 </li>
-</ul></div>
-</div></div>
+</ul>
+</div>
+</div>
+</div>
 </dd>
-<dt class="hdlist1">
-(Modify Section 2.16.1, Universal Validation Rules) 
-</dt>
+<dt class="hdlist1">(Modify Section 2.16.1, Universal Validation Rules) </dt>
 <dd>
 <div class="openblock">
 <div class="content">
-<div class="paragraph"><p>Change the second bullet under "Any pointer operand to an <strong>OpFunctionCall</strong> must be"
-to include <strong>OpTypeAccelerationStructureKHR</strong>:</p></div>
-<div class="ulist"><ul>
+<div class="paragraph">
+<p>Change the second bullet under "Any pointer operand to an <strong>OpFunctionCall</strong> must be"
+to include <strong>OpTypeAccelerationStructureKHR</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
 <li>
-<p>
-a pointer to an element in an array that is a memory object declaration,
-   where the element type is <strong>OpTypeSampler</strong>, <strong>OpTypeImage</strong>, or
-   <strong>OpTypeAccelerationStructureKHR</strong>.
-</p>
+<p>a pointer to an element in an array that is a memory object declaration,
+where the element type is <strong>OpTypeSampler</strong>, <strong>OpTypeImage</strong>, or
+<strong>OpTypeAccelerationStructureKHR</strong>.</p>
 </li>
-</ul></div>
-<div class="paragraph"><p>Add a new bullet under "Data rules":</p></div>
-<div class="ulist"><ul>
+</ul>
+</div>
+<div class="paragraph">
+<p>Add a new bullet under "Data rules":</p>
+</div>
+<div class="ulist">
+<ul>
 <li>
-<p>
-Instructions accessing a scalar acceleration structure out of a composite
-   must only use <em>dynamically-uniform</em> indexes, unless the index is decorated with
-   <strong>NonUniformEXT</strong>. They must be in the same block in which their <em>Result &lt;id&gt;</em>
-   are consumed. Such <em>Result &lt;id&gt;</em> must not appear as operands to <strong>OpPhi</strong> or
-   <strong>OpSelect</strong> instructions, or any instructions other than the ray tracing
-   instructions specified to operate on them.
-</p>
+<p>Instructions accessing a scalar acceleration structure out of a composite
+must only use <em>dynamically-uniform</em> indexes, unless the index is decorated with
+<strong>NonUniformEXT</strong>. They must be in the same block in which their <em>Result &lt;id&gt;</em>
+are consumed. Such <em>Result &lt;id&gt;</em> must not appear as operands to <strong>OpPhi</strong> or
+<strong>OpSelect</strong> instructions, or any instructions other than the ray tracing
+instructions specified to operate on them.</p>
 </li>
-</ul></div>
-</div></div>
+</ul>
+</div>
+</div>
+</div>
 </dd>
-</dl></div>
-<div class="dlist"><dl>
-<dt class="hdlist1">
-(Add a new sub-section 3.RF, Ray Flags, adding a new table) 
-</dt>
+</dl>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">(Add a new sub-section 3.RF, Ray Flags, adding a new table) </dt>
 <dd>
 <div class="openblock">
 <div class="content">
-<div class="paragraph" id="ray_flags"><p><strong>3.RF, Ray Flags</strong></p></div>
-<div class="paragraph"><p>Flags controlling the properties of an <strong>OpRayQueryInitializeKHR</strong> instruction
+<div id="ray_flags" class="paragraph">
+<p><strong>3.RF, Ray Flags</strong></p>
+</div>
+<div class="paragraph">
+<p>Flags controlling the properties of an <strong>OpRayQueryInitializeKHR</strong> instruction
 or for comparing against the <strong>IncomingRayFlagsKHR</strong> builtin.
-See the client API specification for more details.</p></div>
-<div class="paragraph"><p>Despite being a mask and allowing multiple bits to be combined,
-the following combinations are invalid:</p></div>
-<div class="ulist"><ul>
+See the client API specification for more details.</p>
+</div>
+<div class="paragraph">
+<p>Despite being a mask and allowing multiple bits to be combined,
+the following combinations are invalid:</p>
+</div>
+<div class="ulist">
+<ul>
 <li>
-<p>
-if more than one of these four bits are set:
-    <strong>OpaqueKHR</strong>, <strong>NoOpaqueKHR</strong>, <strong>CullOpaqueKHR</strong>, <strong>CullNoOpaqueKHR</strong>.
-</p>
+<p>if more than one of these four bits are set:
+<strong>OpaqueKHR</strong>, <strong>NoOpaqueKHR</strong>, <strong>CullOpaqueKHR</strong>, <strong>CullNoOpaqueKHR</strong>.</p>
 </li>
 <li>
-<p>
-if more than one of these three bits are set: <strong>SkipTrianglesKHR</strong>,
-    <strong>CullBackFacingTrianglesKHR</strong>, <strong>CullFrontFacingTrianglesKHR</strong>.
-</p>
+<p>if more than one of these three bits are set: <strong>SkipTrianglesKHR</strong>,
+<strong>CullBackFacingTrianglesKHR</strong>, <strong>CullFrontFacingTrianglesKHR</strong>.</p>
 </li>
 <li>
-<p>
-if more than one of these two bits are set: <strong>SkipTrianglesKHR</strong>,
-    <strong>SkipAABBsKHR</strong>.
-</p>
+<p>if more than one of these two bits are set: <strong>SkipTrianglesKHR</strong>,
+<strong>SkipAABBsKHR</strong>.</p>
 </li>
-</ul></div>
-<table class="tableblock frame-all grid-all"
-style="
-width:80%;
-">
-<col style="width:4%;">
-<col style="width:71%;">
-<col style="width:23%;">
+</ul>
+</div>
+<table class="tableblock frame-all grid-all" style="width: 80%;">
+<colgroup>
+<col style="width: 4.7619%;">
+<col style="width: 71.4285%;">
+<col style="width: 23.8096%;">
+</colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-center valign-middle" colspan="2" > Ray Flags </th>
-<th class="tableblock halign-left valign-top" > Enabling Capabilities</th>
+<th class="tableblock halign-center valign-middle" colspan="2">Ray Flags</th>
+<th class="tableblock halign-left valign-top">Enabling Capabilities</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>NoneKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>NoneKHR</strong><br>
 No flags specified.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>OpaqueKHR</strong> <br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>OpaqueKHR</strong> <br>
 Force all intersections with the trace to be opaque.<br>
 See the Ray Opacity Culling section in the Vulkan API specification.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>NoOpaqueKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>NoOpaqueKHR</strong><br>
 Force all intersections with the trace to be non-opaque.<br>
 See the Ray Opacity Culling section in the Vulkan API specification.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>TerminateOnFirstHitKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>TerminateOnFirstHitKHR</strong><br>
 Accept the first hit discovered.<br>
 See the Ray Closest Hit Determination section in the Vulkan API specification.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">8</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>SkipClosestHitShaderKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">8</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>SkipClosestHitShaderKHR</strong><br>
 Do not execute a closest hit shader.<br>
 See the Ray Result Determination section in the Vulkan API specification.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">16</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>CullBackFacingTrianglesKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">16</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>CullBackFacingTrianglesKHR</strong><br>
 Do not intersect with the back face of triangles.<br>
 See the Ray Face Culling section in the Vulkan API specification.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">32</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>CullFrontFacingTrianglesKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">32</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>CullFrontFacingTrianglesKHR</strong><br>
 Do not intersect with the front face of triangles.<br>
 See the Ray Face Culling section in the Vulkan API specification.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">64</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>CullOpaqueKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">64</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>CullOpaqueKHR</strong><br>
 Do not intersect with opaque geometry.<br>
 See the Ray Opacity Culling section in the Vulkan API specification.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">128</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>CullNoOpaqueKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">128</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>CullNoOpaqueKHR</strong><br>
 Do not intersect with non-opaque geometry.<br>
 See the Ray Opacity Culling section in the Vulkan API specification.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">256</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>SkipTrianglesKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">256</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>SkipTrianglesKHR</strong><br>
 Do not intersect with any triangle geometries.
 See the Ray Primitive Culling section in the Vulkan API specification.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTraversalPrimitiveCullingKHR</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayTraversalPrimitiveCullingKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">512</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>SkipAABBsKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">512</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>SkipAABBsKHR</strong><br>
 Do not intersect with any aabb geometries.
 See the Ray Primitive Culling section in the Vulkan API specification.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTraversalPrimitiveCullingKHR</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayTraversalPrimitiveCullingKHR</strong></p></td>
 </tr>
 </tbody>
 </table>
-</div></div>
+</div>
+</div>
 </dd>
-<dt class="hdlist1">
-(Add a new sub-section 3.RQIntersection, Ray Query Intersection, adding a new table) 
-</dt>
+</dl>
+</div>
+<div id="ray_query_intersection" class="dlist">
+<dl>
+<dt class="hdlist1">(Add a new sub-section 3.RQIntersection, Ray Query Intersection, adding a new table) </dt>
 <dd>
-<div class="openblock" id="ray_query_intersection">
+<div class="openblock">
 <div class="content">
-<div class="paragraph"><p>Identifies which intersection should be returned from a ray query.</p></div>
-<table class="tableblock frame-all grid-all"
-style="
-width:80%;
-">
-<col style="width:3%;">
-<col style="width:42%;">
-<col style="width:53%;">
+<div class="paragraph">
+<p>Identifies which intersection should be returned from a ray query.</p>
+</div>
+<table class="tableblock frame-all grid-all" style="width: 80%;">
+<colgroup>
+<col style="width: 3.5714%;">
+<col style="width: 42.8571%;">
+<col style="width: 53.5715%;">
+</colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-center valign-middle" colspan="2" > Ray Query Intersection </th>
-<th class="tableblock halign-left valign-top" > Enabling Capabilities</th>
+<th class="tableblock halign-center valign-middle" colspan="2">Ray Query Intersection</th>
+<th class="tableblock halign-left valign-top">Enabling Capabilities</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryCandidateIntersectionKHR</strong><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayQueryCandidateIntersectionKHR</strong><br>
 Identifies the current candidate intersection being considered, valid when <em>OpRayQueryProceedKHR</em> returns true.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryCommittedIntersectionKHR</strong><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayQueryCommittedIntersectionKHR</strong><br>
 Identifies the last intersection committed that is being considered, valid when <em>OpRayQueryGetCommittedIntersectionTypeKHR</em> does not return <strong>RayQueryCommittedIntersectionNoneKHR</strong>.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
 </tr>
 </tbody>
 </table>
-</div></div>
+</div>
+</div>
 </dd>
-<dt class="hdlist1">
-(Add a new sub-section 3.RQCommitted, Ray Query Committed Intersection Type, adding a new table) 
-</dt>
+</dl>
+</div>
+<div id="ray_query_committed_intersection_type" class="dlist">
+<dl>
+<dt class="hdlist1">(Add a new sub-section 3.RQCommitted, Ray Query Committed Intersection Type, adding a new table) </dt>
 <dd>
-<div class="openblock" id="ray_query_committed_intersection_type">
+<div class="openblock">
 <div class="content">
-<div class="paragraph"><p>Describes the type of the intersection currently committed in a ray query.</p></div>
-<table class="tableblock frame-all grid-all"
-style="
-width:80%;
-">
-<col style="width:3%;">
-<col style="width:42%;">
-<col style="width:53%;">
+<div class="paragraph">
+<p>Describes the type of the intersection currently committed in a ray query.</p>
+</div>
+<table class="tableblock frame-all grid-all" style="width: 80%;">
+<colgroup>
+<col style="width: 3.5714%;">
+<col style="width: 42.8571%;">
+<col style="width: 53.5715%;">
+</colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-center valign-middle" colspan="2" > Ray Query Committed Intersection Type </th>
-<th class="tableblock halign-left valign-top" > Enabling Capabilities</th>
+<th class="tableblock halign-center valign-middle" colspan="2">Ray Query Committed Intersection Type</th>
+<th class="tableblock halign-left valign-top">Enabling Capabilities</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryCommittedIntersectionNoneKHR</strong><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayQueryCommittedIntersectionNoneKHR</strong><br>
 No intersection is committed.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryCommittedIntersectionTriangleKHR</strong><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayQueryCommittedIntersectionTriangleKHR</strong><br>
 An intersection with a triangle has been committed.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryCommittedIntersectionGeneratedKHR</strong><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayQueryCommittedIntersectionGeneratedKHR</strong><br>
 A user-generated intersection has been committed.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
 </tr>
 </tbody>
 </table>
-</div></div>
+</div>
+</div>
 </dd>
-<dt class="hdlist1">
-(Add a new sub-section 3.RQCandidate, Ray Query Candidate Intersection Type, adding a new table) 
-</dt>
+</dl>
+</div>
+<div id="ray_query_candidate_intersection_type" class="dlist">
+<dl>
+<dt class="hdlist1">(Add a new sub-section 3.RQCandidate, Ray Query Candidate Intersection Type, adding a new table) </dt>
 <dd>
-<div class="openblock" id="ray_query_candidate_intersection_type">
+<div class="openblock">
 <div class="content">
-<div class="paragraph"><p>Describes the type of the intersection which is currently the candidate in a ray query.</p></div>
-<table class="tableblock frame-all grid-all"
-style="
-width:80%;
-">
-<col style="width:3%;">
-<col style="width:42%;">
-<col style="width:53%;">
+<div class="paragraph">
+<p>Describes the type of the intersection which is currently the candidate in a ray query.</p>
+</div>
+<table class="tableblock frame-all grid-all" style="width: 80%;">
+<colgroup>
+<col style="width: 3.5714%;">
+<col style="width: 42.8571%;">
+<col style="width: 53.5715%;">
+</colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-center valign-middle" colspan="2" > Ray Query Candidate Intersection Type </th>
-<th class="tableblock halign-left valign-top" > Enabling Capabilities</th>
+<th class="tableblock halign-center valign-middle" colspan="2">Ray Query Candidate Intersection Type</th>
+<th class="tableblock halign-left valign-top">Enabling Capabilities</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryCandidateIntersectionTriangleKHR</strong><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayQueryCandidateIntersectionTriangleKHR</strong><br>
 A potential intersection with a triangle is being considered.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryCandidateIntersectionAABBKHR</strong><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayQueryCandidateIntersectionAABBKHR</strong><br>
 A potential intersection with an axis-aligned bounding box is being considered.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
 </tr>
 </tbody>
 </table>
-</div></div>
+</div>
+</div>
 </dd>
-<dt class="hdlist1">
-(Modify Section 3.31, Capability, adding a row to the Capability table) 
-</dt>
+<dt class="hdlist1">(Modify Section 3.31, Capability, adding a row to the Capability table) </dt>
 <dd>
 <div class="openblock">
 <div class="content">
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:2%;">
-<col style="width:60%;">
-<col style="width:36%;">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 2.439%;">
+<col style="width: 60.9756%;">
+<col style="width: 36.5854%;">
+</colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-center valign-middle" colspan="2" > Capability </th>
-<th class="tableblock halign-left valign-top" > Implicitly Declares</th>
+<th class="tableblock halign-center valign-middle" colspan="2">Capability</th>
+<th class="tableblock halign-left valign-top">Implicitly Declares</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-middle" ><p class="tableblock">4472</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryKHR</strong><br>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">4472</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayQueryKHR</strong><br>
 Uses <a href="#ray-query">Ray Query</a></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Shader</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Shader</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-middle" ><p class="tableblock">4478</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTraversalPrimitiveCullingKHR</strong><br>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">4478</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayTraversalPrimitiveCullingKHR</strong><br>
 Uses <strong>SkipAABBsKHR</strong> or <strong>SkipTrianglesKHR</strong></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayQueryKHR</strong></p></td>
 </tr>
 </tbody>
 </table>
-</div></div>
+</div>
+</div>
 </dd>
-<dt class="hdlist1">
-(Modify Section 3.36.6, Type-Declaration Instructions, adding two new tables) 
-</dt>
+<dt class="hdlist1">(Modify Section 3.36.6, Type-Declaration Instructions, adding two new tables) </dt>
 <dd>
 <div class="openblock">
 <div class="content">
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:55%;">
-<col style="width:11%;">
-<col style="width:33%;">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 55.5555%;">
+<col style="width: 11.1111%;">
+<col style="width: 33.3334%;">
+</colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" colspan="2" ><p class="tableblock"><a id="OpTypeAccelerationStructureKHR"></a><strong>OpTypeAccelerationStructureKHR</strong><br>
+<td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock"><a id="OpTypeAccelerationStructureKHR"></a><strong>OpTypeAccelerationStructureKHR</strong><br>
 <br>
 Declares an acceleration structure type which is an opaque reference to
 acceleration structure handle as defined in the client API
@@ -1334,87 +614,88 @@ specification.</p>
 <a href="#OpTraceRayKHR"><strong>OpTraceRayKHR</strong></a></p>
 <p class="tableblock">This type is opaque: values of this type have no defined physical size or
 bit pattern.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
 <strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">5341</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5341</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Result</em></p></td>
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:55%;">
-<col style="width:11%;">
-<col style="width:33%;">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 55.5555%;">
+<col style="width: 11.1111%;">
+<col style="width: 33.3334%;">
+</colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" colspan="2" ><p class="tableblock"><a id="OpTypeRayQueryKHR"></a><strong>OpTypeRayQueryKHR</strong><br>
+<td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock"><a id="OpTypeRayQueryKHR"></a><strong>OpTypeRayQueryKHR</strong><br>
 <br>
-Declares a ray query type which is an opaque object representing a ray traversal.</p>
-<p class="tableblock">This type is opaque: values of this type have no defined physical size or
+Declares a ray query type which is an opaque object representing a ray traversal.<br>
+<br>
+This type is opaque: values of this type have no defined physical size or
 bit pattern.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
 <strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">4472</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4472</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Result</em></p></td>
 </tr>
 </tbody>
 </table>
-</div></div>
+</div>
+</div>
 </dd>
-<dt class="hdlist1">
-(Add the following line to the description of OpTypePointer, in Section 3.32.6, Type-Declaration Instructions) 
-</dt>
+<dt class="hdlist1">(Add the following line to the description of OpTypePointer, in Section 3.32.6, Type-Declaration Instructions) </dt>
 <dd>
 <div class="openblock">
 <div class="content">
-<div class="paragraph"><p>If <em>Type</em> is <strong>OpTypeRayQueryKHR</strong>, <em>Storage Class</em> must be <em>Private</em> or <em>Function</em>.</p></div>
-</div></div>
+<div class="paragraph">
+<p>If <em>Type</em> is <strong>OpTypeRayQueryKHR</strong>, <em>Storage Class</em> must be <em>Private</em> or <em>Function</em>.</p>
+</div>
+</div>
+</div>
 </dd>
-<dt class="hdlist1">
-(Add the following line to the description of OpStore and OpLoad, in Section 3.32.8, Memory Instructions) 
-</dt>
+<dt class="hdlist1">(Add the following line to the description of OpStore and OpLoad, in Section 3.32.8, Memory Instructions) </dt>
 <dd>
 <div class="openblock">
 <div class="content">
-<div class="paragraph"><p>The <em>Type</em> operand to the <strong>OpTypePointer</strong> used for <em>Pointer</em> must not be <strong>OpTypeRayQueryKHR</strong>.</p></div>
-</div></div>
+<div class="paragraph">
+<p>The <em>Type</em> operand to the <strong>OpTypePointer</strong> used for <em>Pointer</em> must not be <strong>OpTypeRayQueryKHR</strong>.</p>
+</div>
+</div>
+</div>
 </dd>
-<dt class="hdlist1">
-(Add the following line to the description of OpCopyMemory and OpCopyMemorySized, in Section 3.32.8, Memory Instructions) 
-</dt>
+<dt class="hdlist1">(Add the following line to the description of OpCopyMemory and OpCopyMemorySized, in Section 3.32.8, Memory Instructions) </dt>
 <dd>
 <div class="openblock">
 <div class="content">
-<div class="paragraph"><p>The <em>Type</em> operand to the <strong>OpTypePointer</strong> used for <em>Target</em> or <em>Source</em> must not be <strong>OpTypeRayQueryKHR</strong>.</p></div>
-</div></div>
+<div class="paragraph">
+<p>The <em>Type</em> operand to the <strong>OpTypePointer</strong> used for <em>Target</em> or <em>Source</em> must not be <strong>OpTypeRayQueryKHR</strong>.</p>
+</div>
+</div>
+</div>
 </dd>
-<dt class="hdlist1">
-(Modify Section 3.36.11, Conversion Instructions, adding a new table) 
-</dt>
+<dt class="hdlist1">(Modify Section 3.36.11, Conversion Instructions, adding a new table) </dt>
 <dd>
 <div class="openblock">
 <div class="content">
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:9%;">
-<col style="width:9%;">
-<col style="width:27%;">
-<col style="width:27%;">
-<col style="width:27%;">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 9.0909%;">
+<col style="width: 9.0909%;">
+<col style="width: 27.2727%;">
+<col style="width: 27.2727%;">
+<col style="width: 27.2728%;">
+</colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" colspan="4" ><p class="tableblock"><a id="OpConvertUToAccelerationStructureKHR"></a><strong>OpConvertUToAccelerationStructureKHR</strong><br>
+<td class="tableblock halign-left valign-top" colspan="4"><p class="tableblock"><a id="OpConvertUToAccelerationStructureKHR"></a><strong>OpConvertUToAccelerationStructureKHR</strong><br>
 <br>
  Converts a 64-bit integer into an <strong>OpTypeAccelerationStructureKHR</strong>.<br>
 <br>
@@ -1425,43 +706,41 @@ width:100%;
 <br>
 <em>Result Type</em> must be an <em>OpTypeAccelerationStructureKHR</em>.
 <br></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
 <strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">4447</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Result Type</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Result</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Acceleration Structure</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4447</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Result Type</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Result</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Acceleration Structure</em></p></td>
 </tr>
 </tbody>
 </table>
-</div></div>
+</div>
+</div>
 </dd>
-<dt class="hdlist1">
-(Add a new sub section 3.36.RQInstructions, Ray Query Instructions) 
-</dt>
+<dt class="hdlist1">(Add a new sub section 3.36.RQInstructions, Ray Query Instructions) </dt>
 <dd>
 <div class="openblock">
 <div class="content">
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:3%;">
-<col style="width:3%;">
-<col style="width:11%;">
-<col style="width:11%;">
-<col style="width:11%;">
-<col style="width:11%;">
-<col style="width:11%;">
-<col style="width:11%;">
-<col style="width:11%;">
-<col style="width:11%;">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 3.8461%;">
+<col style="width: 3.8461%;">
+<col style="width: 11.5384%;">
+<col style="width: 11.5384%;">
+<col style="width: 11.5384%;">
+<col style="width: 11.5384%;">
+<col style="width: 11.5384%;">
+<col style="width: 11.5384%;">
+<col style="width: 11.5384%;">
+<col style="width: 11.539%;">
+</colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" colspan="9" ><p class="tableblock"><a id="OpRayQueryInitializeKHR"></a><strong>OpRayQueryInitializeKHR</strong><br>
+<td class="tableblock halign-left valign-top" colspan="9"><p class="tableblock"><a id="OpRayQueryInitializeKHR"></a><strong>OpRayQueryInitializeKHR</strong><br>
 <br>
  Initialize a ray query object, defining parameters of traversal. After this call, a new ray trace can be performed with <strong>OpRayQueryProceedKHR</strong>. Any previous traversal state stored in the object is lost.<br>
 <br>
@@ -1482,33 +761,32 @@ width:100%;
  <em>Ray Origin</em> and <em>Ray Direction</em> must be a 32-bit <em>floating-point type</em> 3-component vector.<br>
 <br>
  <em>Ray Tmin</em> and <em>Ray Tmax</em> must be a 32-bit <em>floating-point type</em> scalar.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
 <strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">9</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">4473</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Ray Query</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Acceleration Structure</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Ray Flags</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Cull Mask</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray Origin</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray Tmin</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray Direction</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray Tmax</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">9</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4473</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Ray Query</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Acceleration Structure</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Ray Flags</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Cull Mask</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray Origin</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray Tmin</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray Direction</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray Tmax</em></p></td>
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:33%;">
-<col style="width:33%;">
-<col style="width:33%;">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" colspan="2" ><p class="tableblock"><a id="OpRayQueryTerminateKHR"></a><strong>OpRayQueryTerminateKHR</strong><br>
+<td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock"><a id="OpRayQueryTerminateKHR"></a><strong>OpRayQueryTerminateKHR</strong><br>
 <br>
  Terminates further execution of a ray query; further calls to OpRayQueryProceed will return false.
  Refer to the client API specification for more details.<br>
@@ -1516,27 +794,26 @@ width:100%;
  <em>Ray Query</em> is a pointer to the ray query to terminate.<br>
 <br>
  Behavior is undefined if the value returned by any prior execution of <strong>OpRayQueryProceedKHR</strong> with the same ray query object was not true.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
 <strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">4474</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Ray Query</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4474</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Ray Query</em></p></td>
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:25%;">
-<col style="width:25%;">
-<col style="width:25%;">
-<col style="width:25%;">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" colspan="3" ><p class="tableblock"><a id="OpRayQueryGenerateIntersectionKHR"></a><strong>OpRayQueryGenerateIntersectionKHR</strong><br>
+<td class="tableblock halign-left valign-top" colspan="3"><p class="tableblock"><a id="OpRayQueryGenerateIntersectionKHR"></a><strong>OpRayQueryGenerateIntersectionKHR</strong><br>
 <br>
  Adds a candidate generated intersection to the ray query to be included in the determination of the closest hit for a ray query.<br>
 <br>
@@ -1550,27 +827,26 @@ width:100%;
  or if the last value returned by such an execution of <strong>OpRayQueryProceedKHR</strong> was not true.
 <br>
  Behavior is undefined if the Ray Query Candidate Intersection Type is not <strong>RayQueryCandidateIntersectionAABBKHR</strong>.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
 <strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">3</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">4475</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Ray Query</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Hit T</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4475</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Ray Query</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Hit T</em></p></td>
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:33%;">
-<col style="width:33%;">
-<col style="width:33%;">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" colspan="2" ><p class="tableblock"><a id="OpRayQueryConfirmIntersectionKHR"></a><strong>OpRayQueryConfirmIntersectionKHR</strong><br>
+<td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock"><a id="OpRayQueryConfirmIntersectionKHR"></a><strong>OpRayQueryConfirmIntersectionKHR</strong><br>
 <br>
  Confirms a triangle intersection to be included in the determination of the closest hit for a ray query.<br>
 <br>
@@ -1580,28 +856,27 @@ width:100%;
  or if the last value returned by such an execution of <strong>OpRayQueryProceedKHR</strong> was not true.
 <br>
  Ray Query Candidate Intersection Type must be <strong>RayQueryCandidateIntersectionTriangleKHR</strong>.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
 <strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">4476</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Ray Query</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4476</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Ray Query</em></p></td>
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:20%;">
-<col style="width:20%;">
-<col style="width:20%;">
-<col style="width:20%;">
-<col style="width:20%;">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" colspan="4" ><p class="tableblock"><a id="OpRayQueryProceedKHR"></a><strong>OpRayQueryProceedKHR</strong><br>
+<td class="tableblock halign-left valign-top" colspan="4"><p class="tableblock"><a id="OpRayQueryProceedKHR"></a><strong>OpRayQueryProceedKHR</strong><br>
 <br>
  Allow traversal to proceed. Returns true if traversal is incomplete, and false when it has completed.<br>
 <br>
@@ -1610,31 +885,30 @@ width:100%;
  Behavior is undefined if a previous call to <em>OpRayQueryProceedKHR</em> with the same ray query object returned false.
 <br>
  <em>Result Type</em> must be a Boolean type.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
 <strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">4477</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Result Type</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>Result &lt;id&gt;</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Ray Query</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4477</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Result Type</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Result &lt;id&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Ray Query</em></p></td>
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.667%;">
+</colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" colspan="5" ><p class="tableblock"><a id="OpRayQueryGetIntersectionTypeKHR"></a><strong>OpRayQueryGetIntersectionTypeKHR</strong><br>
+<td class="tableblock halign-left valign-top" colspan="5"><p class="tableblock"><a id="OpRayQueryGetIntersectionTypeKHR"></a><strong>OpRayQueryGetIntersectionTypeKHR</strong><br>
 <br>
  Returns the type of the current candidate or committed intersection.<br>
 <br>
@@ -1652,31 +926,30 @@ width:100%;
 <br>
  If <em>Intersection</em> is <strong>RayQueryCandidateIntersectionKHR</strong>, behavior is undefined if <strong>OpRayQueryProceedKHR</strong>
  was not executed on the same ray query object, or if the last value returned by such an execution of <strong>OpRayQueryProceedKHR</strong> was not true.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
 <strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">4479</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>Result</em> <em>&lt;id&gt;</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Ray Query</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Intersection</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4479</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Result</em> <em>&lt;id&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Ray Query</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Intersection</em></p></td>
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:20%;">
-<col style="width:20%;">
-<col style="width:20%;">
-<col style="width:20%;">
-<col style="width:20%;">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" colspan="4" ><p class="tableblock"><a id="OpRayQueryGetRayTMinKHR"></a><strong>OpRayQueryGetRayTMinKHR</strong><br>
+<td class="tableblock halign-left valign-top" colspan="4"><p class="tableblock"><a id="OpRayQueryGetRayTMinKHR"></a><strong>OpRayQueryGetRayTMinKHR</strong><br>
 <br>
  Returns the <em>Ray Tmin</em> value used by the ray query.<br>
 <br>
@@ -1685,30 +958,29 @@ width:100%;
  <em>Result Type</em> must be a 32-bit <em>floating-point type</em> scalar.<br>
 <br>
  <em>Ray Query</em> is a pointer to the ray query object.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
 <strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">6016</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>Result</em> <em>&lt;id&gt;</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Ray Query</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6016</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Result</em> <em>&lt;id&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Ray Query</em></p></td>
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:20%;">
-<col style="width:20%;">
-<col style="width:20%;">
-<col style="width:20%;">
-<col style="width:20%;">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" colspan="4" ><p class="tableblock"><a id="OpRayQueryGetRayFlagsKHR"></a><strong>OpRayQueryGetRayFlagsKHR</strong><br>
+<td class="tableblock halign-left valign-top" colspan="4"><p class="tableblock"><a id="OpRayQueryGetRayFlagsKHR"></a><strong>OpRayQueryGetRayFlagsKHR</strong><br>
 <br>
  Returns the <em>Ray Flags</em> used by the ray query.<br>
 <br>
@@ -1717,31 +989,30 @@ width:100%;
  <em>Result Type</em> must be a 32-bit <em>integer type</em> scalar.<br>
 <br>
  <em>Ray Query</em> is a pointer to the ray query object.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
 <strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">6017</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>Result</em> <em>&lt;id&gt;</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Ray Query</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6017</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Result</em> <em>&lt;id&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Ray Query</em></p></td>
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.667%;">
+</colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" colspan="5" ><p class="tableblock"><a id="OpRayQueryGetIntersectionTKHR"></a><strong>OpRayQueryGetIntersectionTKHR</strong><br>
+<td class="tableblock halign-left valign-top" colspan="5"><p class="tableblock"><a id="OpRayQueryGetIntersectionTKHR"></a><strong>OpRayQueryGetIntersectionTKHR</strong><br>
 <br>
  Gets the T value for the current or previous intersection considered in a ray query.<br>
 <br>
@@ -1760,32 +1031,31 @@ width:100%;
  current intersection candidate does not have a Ray Query Candidate Intersection Type of <strong>RayQueryCandidateIntersectionTriangleKHR</strong>.
  If <em>Intersection</em> is <strong>RayQueryCommittedIntersectionKHR</strong>, behavior is undefined if there is no current committed intersection
  (see <strong>OpRayQueryGetIntersectionTypeKHR</strong>).</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
 <strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">6018</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>Result</em> <em>&lt;id&gt;</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Ray Query</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Intersection</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6018</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Result</em> <em>&lt;id&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Ray Query</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Intersection</em></p></td>
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.667%;">
+</colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" colspan="5" ><p class="tableblock"><a id="OpRayQueryGetIntersectionInstanceCustomIndexKHR"></a><strong>OpRayQueryGetIntersectionInstanceCustomIndexKHR</strong><br>
+<td class="tableblock halign-left valign-top" colspan="5"><p class="tableblock"><a id="OpRayQueryGetIntersectionInstanceCustomIndexKHR"></a><strong>OpRayQueryGetIntersectionInstanceCustomIndexKHR</strong><br>
 <br>
  Gets the custom index of the instance for the current intersection considered in a ray query.<br>
 <br>
@@ -1803,32 +1073,31 @@ width:100%;
  was not executed on the same ray query object, or if the last value returned by such an execution of <strong>OpRayQueryProceedKHR</strong> was not true.
  If <em>Intersection</em> is <strong>RayQueryCommittedIntersectionKHR</strong>, behavior is undefined if there is no current committed
  intersection (see <strong>OpRayQueryGetIntersectionTypeKHR</strong>).</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
 <strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">6019</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>Result</em> <em>&lt;id&gt;</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Ray Query</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Intersection</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6019</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Result</em> <em>&lt;id&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Ray Query</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Intersection</em></p></td>
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.667%;">
+</colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" colspan="5" ><p class="tableblock"><a id="OpRayQueryGetIntersectionInstanceIdKHR"></a><strong>OpRayQueryGetIntersectionInstanceIdKHR</strong><br>
+<td class="tableblock halign-left valign-top" colspan="5"><p class="tableblock"><a id="OpRayQueryGetIntersectionInstanceIdKHR"></a><strong>OpRayQueryGetIntersectionInstanceIdKHR</strong><br>
 <br>
  Gets the id of the instance for the current intersection considered in a ray query.<br>
 <br>
@@ -1846,32 +1115,31 @@ width:100%;
  was not executed on the same ray query object, or if the last value returned by such an execution of <strong>OpRayQueryProceedKHR</strong> was not true.
  If <em>Intersection</em> is <strong>RayQueryCommittedIntersectionKHR</strong>, behavior is undefined if there is no current committed
  intersection (see <strong>OpRayQueryGetIntersectionTypeKHR</strong>).</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
 <strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">6020</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>Result</em> <em>&lt;id&gt;</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Ray Query</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Intersection</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6020</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Result</em> <em>&lt;id&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Ray Query</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Intersection</em></p></td>
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.667%;">
+</colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" colspan="5" ><p class="tableblock"><a id="OpRayQueryGetIntersectionInstanceShaderBindingTableRecordOffsetKHR"></a><strong>OpRayQueryGetIntersectionInstanceShaderBindingTableRecordOffsetKHR</strong><br>
+<td class="tableblock halign-left valign-top" colspan="5"><p class="tableblock"><a id="OpRayQueryGetIntersectionInstanceShaderBindingTableRecordOffsetKHR"></a><strong>OpRayQueryGetIntersectionInstanceShaderBindingTableRecordOffsetKHR</strong><br>
 <br>
  Gets the shader binding table record offset for the current intersection considered in a ray query.<br>
 <br>
@@ -1889,32 +1157,31 @@ width:100%;
  was not executed on the same ray query object, or if the last value returned by such an execution of <strong>OpRayQueryProceedKHR</strong> was not true.
  If <em>Intersection</em> is <strong>RayQueryCommittedIntersectionKHR</strong>, behavior is undefined if there is no current committed
  intersection (see <strong>OpRayQueryGetIntersectionTypeKHR</strong>).</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
 <strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">6021</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>Result</em> <em>&lt;id&gt;</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Ray Query</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Intersection</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6021</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Result</em> <em>&lt;id&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Ray Query</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Intersection</em></p></td>
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.667%;">
+</colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" colspan="5" ><p class="tableblock"><a id="OpRayQueryGetIntersectionGeometryIndexKHR"></a><strong>OpRayQueryGetIntersectionGeometryIndexKHR</strong><br>
+<td class="tableblock halign-left valign-top" colspan="5"><p class="tableblock"><a id="OpRayQueryGetIntersectionGeometryIndexKHR"></a><strong>OpRayQueryGetIntersectionGeometryIndexKHR</strong><br>
 <br>
  Gets the geometry index for the current intersection considered in a ray query.<br>
 <br>
@@ -1932,32 +1199,31 @@ width:100%;
  was not executed on the same ray query object, or if the last value returned by such an execution of <strong>OpRayQueryProceedKHR</strong> was not true.
  If <em>Intersection</em> is <strong>RayQueryCommittedIntersectionKHR</strong>, behavior is undefined if there is no current committed
  intersection (see <strong>OpRayQueryGetIntersectionTypeKHR</strong>).</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
 <strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">6022</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>Result</em> <em>&lt;id&gt;</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Ray Query</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Intersection</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6022</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Result</em> <em>&lt;id&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Ray Query</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Intersection</em></p></td>
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.667%;">
+</colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" colspan="5" ><p class="tableblock"><a id="OpRayQueryGetIntersectionPrimitiveIndexKHR"></a><strong>OpRayQueryGetIntersectionPrimitiveIndexKHR</strong><br>
+<td class="tableblock halign-left valign-top" colspan="5"><p class="tableblock"><a id="OpRayQueryGetIntersectionPrimitiveIndexKHR"></a><strong>OpRayQueryGetIntersectionPrimitiveIndexKHR</strong><br>
 <br>
  Gets the primitive index for the current intersection considered in a ray query.<br>
 <br>
@@ -1975,32 +1241,31 @@ width:100%;
  was not executed on the same ray query object, or if the last value returned by such an execution of <strong>OpRayQueryProceedKHR</strong> was not true.
  If <em>Intersection</em> is <strong>RayQueryCommittedIntersectionKHR</strong>, behavior is undefined if there is no current committed
  intersection (see <strong>OpRayQueryGetIntersectionTypeKHR</strong>).</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
 <strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">6023</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>Result</em> <em>&lt;id&gt;</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Ray Query</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Intersection</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6023</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Result</em> <em>&lt;id&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Ray Query</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Intersection</em></p></td>
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.667%;">
+</colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" colspan="5" ><p class="tableblock"><a id="OpRayQueryGetIntersectionBarycentricsKHR"></a><strong>OpRayQueryGetIntersectionBarycentricsKHR</strong><br>
+<td class="tableblock halign-left valign-top" colspan="5"><p class="tableblock"><a id="OpRayQueryGetIntersectionBarycentricsKHR"></a><strong>OpRayQueryGetIntersectionBarycentricsKHR</strong><br>
 <br>
  Gets the second and third barycentric coordinates of the current intersection considered in a ray query against the primitive it hit.<br>
 <br>
@@ -2019,32 +1284,31 @@ width:100%;
  current intersection candidate does not have a Ray Query Candidate Intersection Type of <strong>RayQueryCandidateIntersectionTriangleKHR</strong>.
  If <em>Intersection</em> is <strong>RayQueryCommittedIntersectionKHR</strong>, behavior is undefined if there is no current committed intersection
  (see <strong>OpRayQueryGetIntersectionTypeKHR</strong>), or if the Ray Query Committed Intersection Type is not <strong>RayQueryCommittedIntersectionTriangleKHR</strong>.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
 <strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">6024</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>Result</em> <em>&lt;id&gt;</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Ray Query</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Intersection</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6024</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Result</em> <em>&lt;id&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Ray Query</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Intersection</em></p></td>
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.667%;">
+</colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" colspan="5" ><p class="tableblock"><a id="OpRayQueryGetIntersectionFrontFaceKHR"></a><strong>OpRayQueryGetIntersectionFrontFaceKHR</strong><br>
+<td class="tableblock halign-left valign-top" colspan="5"><p class="tableblock"><a id="OpRayQueryGetIntersectionFrontFaceKHR"></a><strong>OpRayQueryGetIntersectionFrontFaceKHR</strong><br>
 <br>
  Gets a boolean indicating whether the current intersection considered in a ray query was with the front face or back face of a primitive.<br>
 <br>
@@ -2063,31 +1327,30 @@ width:100%;
  current intersection candidate does not have a Ray Query Candidate Intersection Type of <strong>RayQueryCandidateIntersectionTriangleKHR</strong>.
  If <em>Intersection</em> is <strong>RayQueryCommittedIntersectionKHR</strong>, behavior is undefined if there is no current committed intersection
  (see <strong>OpRayQueryGetIntersectionTypeKHR</strong>), or if the Ray Query Committed Intersection Type is not <strong>RayQueryCommittedIntersectionTriangleKHR</strong>.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
 <strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">6025</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>Result</em> <em>&lt;id&gt;</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Ray Query</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Intersection</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6025</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Result</em> <em>&lt;id&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Ray Query</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Intersection</em></p></td>
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:20%;">
-<col style="width:20%;">
-<col style="width:20%;">
-<col style="width:20%;">
-<col style="width:20%;">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" colspan="4" ><p class="tableblock"><a id="OpRayQueryGetIntersectionCandidateAABBOpaqueKHR"></a><strong>OpRayQueryGetIntersectionCandidateAABBOpaqueKHR</strong><br>
+<td class="tableblock halign-left valign-top" colspan="4"><p class="tableblock"><a id="OpRayQueryGetIntersectionCandidateAABBOpaqueKHR"></a><strong>OpRayQueryGetIntersectionCandidateAABBOpaqueKHR</strong><br>
 <br>
  Gets a boolean indicating whether a candidate intersection considered in a ray query was with an opaque AABB or not.<br>
 <br>
@@ -2096,31 +1359,30 @@ width:100%;
  <em>Result Type</em> must be a <em>boolean type</em> scalar.<br>
 <br>
  <em>Ray Query</em> is a pointer to the ray query object.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
 <strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">6026</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>Result</em> <em>&lt;id&gt;</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Ray Query</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6026</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Result</em> <em>&lt;id&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Ray Query</em></p></td>
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.667%;">
+</colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" colspan="5" ><p class="tableblock"><a id="OpRayQueryGetIntersectionObjectRayDirectionKHR"></a><strong>OpRayQueryGetIntersectionObjectRayDirectionKHR</strong><br>
+<td class="tableblock halign-left valign-top" colspan="5"><p class="tableblock"><a id="OpRayQueryGetIntersectionObjectRayDirectionKHR"></a><strong>OpRayQueryGetIntersectionObjectRayDirectionKHR</strong><br>
 <br>
  Gets the object-space ray direction for the current intersection considered in a ray query.<br>
 <br>
@@ -2138,32 +1400,31 @@ width:100%;
  was not executed on the same ray query object, or if the last value returned by such an execution of <strong>OpRayQueryProceedKHR</strong> was not true.
  If <em>Intersection</em> is <strong>RayQueryCommittedIntersectionKHR</strong>, behavior is undefined if there is no current committed
  intersection (see <strong>OpRayQueryGetIntersectionTypeKHR</strong>).</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
 <strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">6027</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>Result</em> <em>&lt;id&gt;</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Ray Query</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Intersection</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6027</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Result</em> <em>&lt;id&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Ray Query</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Intersection</em></p></td>
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.667%;">
+</colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" colspan="5" ><p class="tableblock"><a id="OpRayQueryGetIntersectionObjectRayOriginKHR"></a><strong>OpRayQueryGetIntersectionObjectRayOriginKHR</strong><br>
+<td class="tableblock halign-left valign-top" colspan="5"><p class="tableblock"><a id="OpRayQueryGetIntersectionObjectRayOriginKHR"></a><strong>OpRayQueryGetIntersectionObjectRayOriginKHR</strong><br>
 <br>
  Gets the object-space ray origin for the current intersection considered in a ray query.<br>
 <br>
@@ -2181,31 +1442,30 @@ width:100%;
  was not executed on the same ray query object, or if the last value returned by such an execution of <strong>OpRayQueryProceedKHR</strong> was not true.
  If <em>Intersection</em> is <strong>RayQueryCommittedIntersectionKHR</strong>, behavior is undefined if there is no current committed
  intersection (see <strong>OpRayQueryGetIntersectionTypeKHR</strong>).</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
 <strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">6028</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>Result</em> <em>&lt;id&gt;</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Ray Query</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Intersection</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6028</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Result</em> <em>&lt;id&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Ray Query</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Intersection</em></p></td>
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:20%;">
-<col style="width:20%;">
-<col style="width:20%;">
-<col style="width:20%;">
-<col style="width:20%;">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" colspan="4" ><p class="tableblock"><a id="OpRayQueryGetWorldRayDirectionKHR"></a><strong>OpRayQueryGetWorldRayDirectionKHR</strong><br>
+<td class="tableblock halign-left valign-top" colspan="4"><p class="tableblock"><a id="OpRayQueryGetWorldRayDirectionKHR"></a><strong>OpRayQueryGetWorldRayDirectionKHR</strong><br>
 <br>
  Gets the world-space direction for the ray traced in a ray query.<br>
 <br>
@@ -2214,30 +1474,29 @@ width:100%;
  <em>Result Type</em> must be a 32-bit <em>floating-point type</em> 3-component vector.<br>
 <br>
  <em>Ray Query</em> is a pointer to the ray query object.<br></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
 <strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">6029</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>Result</em> <em>&lt;id&gt;</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Ray Query</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6029</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Result</em> <em>&lt;id&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Ray Query</em></p></td>
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:20%;">
-<col style="width:20%;">
-<col style="width:20%;">
-<col style="width:20%;">
-<col style="width:20%;">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" colspan="4" ><p class="tableblock"><a id="OpRayQueryGetWorldRayOriginKHR"></a><strong>OpRayQueryGetWorldRayOriginKHR</strong><br>
+<td class="tableblock halign-left valign-top" colspan="4"><p class="tableblock"><a id="OpRayQueryGetWorldRayOriginKHR"></a><strong>OpRayQueryGetWorldRayOriginKHR</strong><br>
 <br>
  Gets the world-space origin for the ray traced in a ray query.<br>
 <br>
@@ -2246,31 +1505,30 @@ width:100%;
  <em>Result Type</em> must be a 32-bit <em>floating-point type</em> 3-component vector.<br>
 <br>
  <em>Ray Query</em> is a pointer to the ray query object.<br></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
 <strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">6030</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>Result</em> <em>&lt;id&gt;</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Ray Query</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6030</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Result</em> <em>&lt;id&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Ray Query</em></p></td>
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.667%;">
+</colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" colspan="5" ><p class="tableblock"><a id="OpRayQueryGetIntersectionObjectToWorldKHR"></a><strong>OpRayQueryGetIntersectionObjectToWorldKHR</strong><br>
+<td class="tableblock halign-left valign-top" colspan="5"><p class="tableblock"><a id="OpRayQueryGetIntersectionObjectToWorldKHR"></a><strong>OpRayQueryGetIntersectionObjectToWorldKHR</strong><br>
 <br>
  Gets a matrix that transforms values to world-space from the object-space of the current intersection considered in a ray query.<br>
 <br>
@@ -2288,32 +1546,31 @@ width:100%;
  was not executed on the same ray query object, or if the last value returned by such an execution of <strong>OpRayQueryProceedKHR</strong> was not true.
  If <em>Intersection</em> is <strong>RayQueryCommittedIntersectionKHR</strong>, behavior is undefined if there is no current committed
  intersection (see <strong>OpRayQueryGetIntersectionTypeKHR</strong>).</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
 <strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">6031</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>Result</em> <em>&lt;id&gt;</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Ray Query</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Intersection</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6031</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Result</em> <em>&lt;id&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Ray Query</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Intersection</em></p></td>
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:16%;">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.667%;">
+</colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" colspan="5" ><p class="tableblock"><a id="OpRayQueryGetIntersectionWorldToObjectKHR"></a><strong>OpRayQueryGetIntersectionWorldToObjectKHR</strong><br>
+<td class="tableblock halign-left valign-top" colspan="5"><p class="tableblock"><a id="OpRayQueryGetIntersectionWorldToObjectKHR"></a><strong>OpRayQueryGetIntersectionWorldToObjectKHR</strong><br>
 <br>
  Gets a matrix that transforms values from world-space to the object-space of the current intersection considered in a ray query.<br>
 <br>
@@ -2331,193 +1588,192 @@ width:100%;
  was not executed on the same ray query object, or if the last value returned by such an execution of <strong>OpRayQueryProceedKHR</strong> was not true.
  If <em>Intersection</em> is <strong>RayQueryCommittedIntersectionKHR</strong>, behavior is undefined if there is no current committed
  intersection (see <strong>OpRayQueryGetIntersectionTypeKHR</strong>).</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
 <strong>RayQueryKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">6032</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>Result</em> <em>&lt;id&gt;</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Ray Query</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Intersection</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6032</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Result</em> <em>&lt;id&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Ray Query</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Intersection</em></p></td>
 </tr>
 </tbody>
 </table>
-</div></div>
+</div>
+</div>
 </dd>
-</dl></div>
+</dl>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_validation_rules">Validation Rules</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>An OpExtension must be added to the SPIR-V for validation layers to check
-legal use of this extension:</p></div>
+<div class="paragraph">
+<p>An OpExtension must be added to the SPIR-V for validation layers to check
+legal use of this extension:</p>
+</div>
 <div class="listingblock">
-<div class="content monospaced">
+<div class="content">
 <pre>OpExtension "SPV_KHR_ray_query"</pre>
-</div></div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_interactions_with_spv_khr_ray_tracing">Interactions with SPV_KHR_ray_tracing</h2>
 <div class="sectionbody">
-<div class="paragraph"><p><strong>OpTypeAccelerationStructureKHR</strong>, <strong>RayTraversalPrimitiveCullingKHR</strong>,
-<strong>OpConvertUToAccelerationStructureKHR</strong> and the <span class="monospaced">Ray Flags</span> are added by both
-this extension and <span class="monospaced">SPV_KHR_ray_tracing</span>; they
+<div class="paragraph">
+<p><strong>OpTypeAccelerationStructureKHR</strong>, <strong>RayTraversalPrimitiveCullingKHR</strong>,
+<strong>OpConvertUToAccelerationStructureKHR</strong> and the <code>Ray Flags</code> are added by both
+this extension and <code>SPV_KHR_ray_tracing</code>; they
 are intended to have identical definitions, and can be enabled by either
 extension&#8217;s capability, for use with the instructions under that same
 capability.
-If <span class="monospaced">SPV_KHR_ray_tracing</span> is not supported, ignore any references to
-<strong>OpTraceRayKHR</strong>.</p></div>
+If <code>SPV_KHR_ray_tracing</code> is not supported, ignore any references to
+<strong>OpTraceRayKHR</strong>.</p>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_issues">Issues</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>1) What are the differences between provisional and final?</p></div>
-<div class="paragraph"><p>Discussion:</p></div>
-<div class="ulist"><ul>
+<div class="paragraph">
+<p>1) What are the differences between provisional and final?</p>
+</div>
+<div class="paragraph">
+<p>Discussion:</p>
+</div>
+<div class="ulist">
+<ul>
 <li>
-<p>
-rename OpTypeRayQueryProvisionalKHR to OpTypeRayQueryKHR as was originally
-    intended. Seems like it fell victim to an overreaching seach and replace
-    when this was made provisional.
-</p>
+<p>rename OpTypeRayQueryProvisionalKHR to OpTypeRayQueryKHR as was originally
+intended. Seems like it fell victim to an overreaching seach and replace
+when this was made provisional.</p>
 </li>
 <li>
-<p>
-change RayQueryProvisionalKHR to RayQueryKHR and assign new
-    token (4472)
-</p>
+<p>change RayQueryProvisionalKHR to RayQueryKHR and assign new
+token (4472)</p>
 </li>
 <li>
-<p>
-add OpConvertUToAccelerationStructureKHR (4447) instruction to convert
-    64-bit integer to OpTypeAccelerationStructureKHR to enable query by handle
-</p>
+<p>add OpConvertUToAccelerationStructureKHR (4447) instruction to convert
+64-bit integer to OpTypeAccelerationStructureKHR to enable query by handle</p>
 </li>
-</ul></div>
+</ul>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_revision_history">Revision History</h2>
 <div class="sectionbody">
-<table class="tableblock frame-all grid-rows"
-style="
-width:100%;
-">
-<col style="width:4%;">
-<col style="width:14%;">
-<col style="width:14%;">
-<col style="width:66%;">
+<table class="tableblock frame-all grid-rows stretch">
+<colgroup>
+<col style="width: 4.7619%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 66.6667%;">
+</colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top" >Rev</th>
-<th class="tableblock halign-left valign-top" >Date</th>
-<th class="tableblock halign-left valign-top" >Author</th>
-<th class="tableblock halign-left valign-top" >Changes</th>
+<th class="tableblock halign-left valign-top">Rev</th>
+<th class="tableblock halign-left valign-top">Date</th>
+<th class="tableblock halign-left valign-top">Author</th>
+<th class="tableblock halign-left valign-top">Changes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2019-12-05</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Tobias Hector</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">First draft</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2019-12-05</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tobias Hector</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">First draft</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2019-12-11</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Daniel Koch</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">add Provisional string to capabilities.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2019-12-11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Daniel Koch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">add Provisional string to capabilities.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">3</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2020-03-06</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Ashwin Lele</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Reorder operands and rename builtins (!170)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2020-03-06</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ashwin Lele</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Reorder operands and rename builtins (!170)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2020-04-14</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Jeff Bolz</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Fix return type of OpRayQueryGetIntersectionTKHR</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2020-04-14</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jeff Bolz</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fix return type of OpRayQueryGetIntersectionTKHR</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2020-06-03</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Daniel Koch</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Update capabilities tables to match SPIR-V 1.5.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2020-06-03</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Daniel Koch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Update capabilities tables to match SPIR-V 1.5.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">6</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2020-06-05</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Hans-Kristian Arntzen</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Add conversion from 64-bit acceleration structure pointer
+<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2020-06-05</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Hans-Kristian Arntzen</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Add conversion from 64-bit acceleration structure pointer
                                         to OpTypeAccelerationStructureKHR</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">7</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2020-06-12</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Daniel Koch</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">rename OpTypeRayQueryProvisionalKHR &#8594; OpTypeRayQueryKHR
+<td class="tableblock halign-left valign-top"><p class="tableblock">7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2020-06-12</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Daniel Koch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">rename OpTypeRayQueryProvisionalKHR &#8594; OpTypeRayQueryKHR
                                         refactored common code to include files</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">8</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2020-07-03</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Daniel Koch</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Remove provisional notices and update capabilities</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2020-07-03</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Daniel Koch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Remove provisional notices and update capabilities</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">9</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2020-07-10</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Tobias Hector</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Clarify that subset of bits are used for cull mask</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">9</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2020-07-10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tobias Hector</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Clarify that subset of bits are used for cull mask</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">10</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2020-07-22</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">David McAllister</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Disallow querying candidate T value for AABB primitives (!191)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2020-07-22</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">David McAllister</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Disallow querying candidate T value for AABB primitives (!191)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">11</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2021-02-19</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Dae Kim</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Fix barycentric coordinates retrieved for
+<td class="tableblock halign-left valign-top"><p class="tableblock">11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2021-02-19</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Dae Kim</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fix barycentric coordinates retrieved for
                                         OpRayQueryGetIntersectionBarycentricsKHR (!203)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">12</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2021-09-08</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Daniel Koch</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">replace references to nonexistent OpRayQueryCommittedTypeKHR (GH#128)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">12</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2021-09-08</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Daniel Koch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">replace references to nonexistent OpRayQueryCommittedTypeKHR (GH#128)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">13</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2022-05-27</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Daniel Koch</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">disallow more combinations of ray flags (vk-gl-cts#3647)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">13</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2022-05-27</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Daniel Koch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">disallow more combinations of ray flags (vk-gl-cts#3647)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">14</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2023-01-13</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Daniel Koch</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Follow SPIR-V conventions for undefined behavior.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">14</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2023-01-13</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Daniel Koch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Follow SPIR-V conventions for undefined behavior.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-</div>
-</div>
-<div id="footnotes"><hr></div>
-<div id="footer">
-<div id="footer-text">
-Last updated
- 2023-01-13 16:13:42 EST
 </div>
 </div>
 </body>

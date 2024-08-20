@@ -152,7 +152,6 @@ How aliasing is managed depends on the Memory Model:
 (Add to the table in 3.5, Memory Model):
 
 [cols="10%,60%,30%"]
-[grid="rows"]
 |====
 | 3 | *VulkanKHR* +
 Vulkan Memory Model, as specified by the client API.
@@ -179,7 +178,6 @@ or the <<Memory_Semantics, Memory Semantics>> bit *Volatile* can be used instead
 (Modify Section 3.14, Image Operands, adding to the end of the table)
 
 [cols="10%,60%,30%"]
-[grid="rows"]
 |====
 | 0x100 | *MakeTexelAvailableKHR* +
 Perform an availability operation on the texel locations after the store.
@@ -212,7 +210,6 @@ If the declared memory model is *VulkanKHR*, *SequentiallyConsistent* must not b
 Add new entries to the end of the table:
 
 [cols="10%,60%,30%"]
-[grid="rows"]
 |====
 | 0x1000 | *OutputMemoryKHR* +
 Apply the memory-ordering constraints to Output Storage Class memory.
@@ -236,7 +233,6 @@ accesses.
 Add to the end of the table:
 
 [cols="10%,60%,30%"]
-[grid="rows"]
 |====
 | 0x08 | *MakePointerAvailableKHR* +
 Perform an availability operation on the locations pointed to by the
@@ -260,7 +256,6 @@ The memory access obeys inter-thread ordering, as specified by the client API.
 (Modify Section 3.27, Scope <id>, adding to the end of the table)
 
 [cols="10%,60%,30%"]
-[grid="rows"]
 |====
 | 5 | *QueueFamilyKHR* +
 Scope is the current queue family.
@@ -270,7 +265,7 @@ Scope is the current queue family.
 (Modify Section 3.31, Capability, adding new rows to the Capability table) ::
 +
 --
-[cols="1^.^,15,8^,30",options="header",width = "100%"]
+[cols="^.^1,15,^8,30",options="header",width = "100%"]
 |====
 2+^.^| Capability | Implicitly Declares | Enabled by Extension
 | 5345 | *VulkanMemoryModelKHR* +

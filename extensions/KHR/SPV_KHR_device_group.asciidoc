@@ -96,7 +96,6 @@ Token Number Assignments
 
 [width="40%"]
 [cols="70%,30%"]
-[grid="rows"]
 |====
 |DeviceGroup                | 4437
 |DeviceIndex                | 4438
@@ -108,7 +107,7 @@ Token Number Assignments
 
 (add a new row to the Builtin table)
 
-[cols="1^.^,20,8^",options="header",width = "90%"]
+[cols="^.^1,20,^8",options="header",width = "90%"]
 |====
 2+^.^| BuiltIn| Enabling Capabilities
 | 4438 | *DeviceIndex* +
@@ -121,7 +120,7 @@ Input device index of the logical device. See VK_KHX_device_group for more detai
 (Modify Section 3.31, Capability, adding new row to the Capability table) ::
 +
 --
-[cols="1^.^,10,8^,15",options="header",width = "80%"]
+[cols="^.^1,10,^8,15",options="header",width = "80%"]
 |====
 2+^.^| Capability | Depends On | Enabled by Extension
 | 4437    | *DeviceGroup* |

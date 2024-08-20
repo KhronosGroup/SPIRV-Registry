@@ -91,7 +91,6 @@ Token Number Assignments
 
 [width="30%"]
 [cols="70%,30%"]
-[grid="rows"]
 |====
 |NoSignedWrap|4469
 |NoUnsignedWrap|4470

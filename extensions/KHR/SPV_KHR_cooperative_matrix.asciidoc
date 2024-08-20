@@ -326,7 +326,7 @@ instance of the 'Scope' of the cooperative matrix.
 'Pointer' | '<id>' +
 'MemoryLayout' | Optional '<id>' +
 'Stride' | Optional +
-'Memory Operand' |
+'Memory Operand'
 |=====
 
 [cols="1,1,5*3",width="100%"]
@@ -363,7 +363,7 @@ instance of the 'Scope' of the cooperative matrix.
 'Object' | '<id>' +
 'MemoryLayout' | Optional '<id>' +
 'Stride' | Optional +
-'Memory Operand' |
+'Memory Operand'
 |=====
 
 [cols="1,1,3*3",width="100%"]

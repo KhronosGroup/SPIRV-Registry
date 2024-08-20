@@ -1,879 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="generator" content="AsciiDoc 10.2.0">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.23">
 <title>SPV_KHR_maximal_reconvergence</title>
-<style type="text/css">
-/* Shared CSS for AsciiDoc xhtml11 and html5 backends */
-
-/* Default font. */
-body {
-  font-family: Georgia,serif;
-}
-
-/* Title font. */
-h1, h2, h3, h4, h5, h6,
-div.title, caption.title,
-thead, p.table.header,
-#toctitle,
-#author, #revnumber, #revdate, #revremark,
-#footer {
-  font-family: Arial,Helvetica,sans-serif;
-}
-
-body {
-  margin: 1em 5% 1em 5%;
-}
-
-a {
-  color: blue;
-  text-decoration: underline;
-}
-a:visited {
-  color: fuchsia;
-}
-
-em {
-  font-style: italic;
-  color: navy;
-}
-
-strong {
-  font-weight: bold;
-  color: #083194;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  color: #527bbd;
-  margin-top: 1.2em;
-  margin-bottom: 0.5em;
-  line-height: 1.3;
-}
-
-h1, h2, h3 {
-  border-bottom: 2px solid silver;
-}
-h2 {
-  padding-top: 0.5em;
-}
-h3 {
-  float: left;
-}
-h3 + * {
-  clear: left;
-}
-h5 {
-  font-size: 1.0em;
-}
-
-div.sectionbody {
-  margin-left: 0;
-}
-
-hr {
-  border: 1px solid silver;
-}
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
 
 p {
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: normal;
+}
+em, b, strong {
+    color: darkblue;
 }
 
-ul, ol, li > p {
-  margin-top: 0;
-}
-ul > li     { color: #aaa; }
-ul > li > * { color: black; }
-
-.monospaced, code, pre {
-  font-family: "Courier New", Courier, monospace;
-  font-size: inherit;
-  color: navy;
-  padding: 0;
-  margin: 0;
-}
-pre {
-  white-space: pre-wrap;
-}
-
-#author {
-  color: #527bbd;
-  font-weight: bold;
-  font-size: 1.1em;
-}
-#email {
-}
-#revnumber, #revdate, #revremark {
-}
-
-#footer {
-  font-size: small;
-  border-top: 2px solid silver;
-  padding-top: 0.5em;
-  margin-top: 4.0em;
-}
-#footer-text {
-  float: left;
-  padding-bottom: 0.5em;
-}
-#footer-badges {
-  float: right;
-  padding-bottom: 0.5em;
-}
-
-#preamble {
-  margin-top: 1.5em;
-  margin-bottom: 1.5em;
-}
-div.imageblock, div.exampleblock, div.verseblock,
-div.quoteblock, div.literalblock, div.listingblock, div.sidebarblock,
-div.admonitionblock {
-  margin-top: 1.0em;
-  margin-bottom: 1.5em;
-}
-div.admonitionblock {
-  margin-top: 2.0em;
-  margin-bottom: 2.0em;
-  margin-right: 10%;
-  color: #606060;
-}
-
-div.content { /* Block element content. */
-  padding: 0;
-}
-
-/* Block element titles. */
-div.title, caption.title {
-  color: #527bbd;
-  font-weight: bold;
-  text-align: left;
-  margin-top: 1.0em;
-  margin-bottom: 0.5em;
-}
-div.title + * {
-  margin-top: 0;
-}
-
-td div.title:first-child {
-  margin-top: 0.0em;
-}
-div.content div.title:first-child {
-  margin-top: 0.0em;
-}
-div.content + div.title {
-  margin-top: 0.0em;
-}
-
-div.sidebarblock > div.content {
-  background: #ffffee;
-  border: 1px solid #dddddd;
-  border-left: 4px solid #f0f0f0;
-  padding: 0.5em;
-}
-
-div.listingblock > div.content {
-  border: 1px solid #dddddd;
-  border-left: 5px solid #f0f0f0;
-  background: #f8f8f8;
-  padding: 0.5em;
-}
-
-div.quoteblock, div.verseblock {
-  padding-left: 1.0em;
-  margin-left: 1.0em;
-  margin-right: 10%;
-  border-left: 5px solid #f0f0f0;
-  color: #888;
-}
-
-div.quoteblock > div.attribution {
-  padding-top: 0.5em;
-  text-align: right;
-}
-
-div.verseblock > pre.content {
-  font-family: inherit;
-  font-size: inherit;
-}
-div.verseblock > div.attribution {
-  padding-top: 0.75em;
-  text-align: left;
-}
-/* DEPRECATED: Pre version 8.2.7 verse style literal block. */
-div.verseblock + div.attribution {
-  text-align: left;
-}
-
-div.admonitionblock .icon {
-  vertical-align: top;
-  font-size: 1.1em;
-  font-weight: bold;
-  text-decoration: underline;
-  color: #527bbd;
-  padding-right: 0.5em;
-}
-div.admonitionblock td.content {
-  padding-left: 0.5em;
-  border-left: 3px solid #dddddd;
-}
-
-div.exampleblock > div.content {
-  border-left: 3px solid #dddddd;
-  padding-left: 0.5em;
-}
-
-div.imageblock div.content { padding-left: 0; }
-span.image img { border-style: none; vertical-align: text-bottom; }
-a.image:visited { color: white; }
-
-dl {
-  margin-top: 0.8em;
-  margin-bottom: 0.8em;
-}
-dt {
-  margin-top: 0.5em;
-  margin-bottom: 0;
-  font-style: normal;
-  color: navy;
-}
-dd > *:first-child {
-  margin-top: 0.1em;
-}
-
-ul, ol {
-    list-style-position: outside;
-}
-ol.arabic {
-  list-style-type: decimal;
-}
-ol.loweralpha {
-  list-style-type: lower-alpha;
-}
-ol.upperalpha {
-  list-style-type: upper-alpha;
-}
-ol.lowerroman {
-  list-style-type: lower-roman;
-}
-ol.upperroman {
-  list-style-type: upper-roman;
-}
-
-div.compact ul, div.compact ol,
-div.compact p, div.compact p,
-div.compact div, div.compact div {
-  margin-top: 0.1em;
-  margin-bottom: 0.1em;
-}
-
-tfoot {
-  font-weight: bold;
-}
-td > div.verse {
-  white-space: pre;
-}
-
-div.hdlist {
-  margin-top: 0.8em;
-  margin-bottom: 0.8em;
-}
-div.hdlist tr {
-  padding-bottom: 15px;
-}
-dt.hdlist1.strong, td.hdlist1.strong {
-  font-weight: bold;
-}
-td.hdlist1 {
-  vertical-align: top;
-  font-style: normal;
-  padding-right: 0.8em;
-  color: navy;
-}
-td.hdlist2 {
-  vertical-align: top;
-}
-div.hdlist.compact tr {
-  margin: 0;
-  padding-bottom: 0;
-}
-
-.comment {
-  background: yellow;
-}
-
-.footnote, .footnoteref {
-  font-size: 0.8em;
-}
-
-span.footnote, span.footnoteref {
-  vertical-align: super;
-}
-
-#footnotes {
-  margin: 20px 0 20px 0;
-  padding: 7px 0 0 0;
-}
-
-#footnotes div.footnote {
-  margin: 0 0 5px 0;
-}
-
-#footnotes hr {
-  border: none;
-  border-top: 1px solid silver;
-  height: 1px;
-  text-align: left;
-  margin-left: 0;
-  width: 20%;
-  min-width: 100px;
-}
-
-div.colist td {
-  padding-right: 0.5em;
-  padding-bottom: 0.3em;
-  vertical-align: top;
-}
-div.colist td img {
-  margin-top: 0.3em;
-}
-
-@media print {
-  #footer-badges { display: none; }
-}
-
-#toc {
-  margin-bottom: 2.5em;
-}
-
-#toctitle {
-  color: #527bbd;
-  font-size: 1.1em;
-  font-weight: bold;
-  margin-top: 1.0em;
-  margin-bottom: 0.1em;
-}
-
-div.toclevel0, div.toclevel1, div.toclevel2, div.toclevel3, div.toclevel4 {
-  margin-top: 0;
-  margin-bottom: 0;
-}
-div.toclevel2 {
-  margin-left: 2em;
-  font-size: 0.9em;
-}
-div.toclevel3 {
-  margin-left: 4em;
-  font-size: 0.9em;
-}
-div.toclevel4 {
-  margin-left: 6em;
-  font-size: 0.9em;
-}
-
-span.aqua { color: aqua; }
-span.black { color: black; }
-span.blue { color: blue; }
-span.fuchsia { color: fuchsia; }
-span.gray { color: gray; }
-span.green { color: green; }
-span.lime { color: lime; }
-span.maroon { color: maroon; }
-span.navy { color: navy; }
-span.olive { color: olive; }
-span.purple { color: purple; }
-span.red { color: red; }
-span.silver { color: silver; }
-span.teal { color: teal; }
-span.white { color: white; }
-span.yellow { color: yellow; }
-
-span.aqua-background { background: aqua; }
-span.black-background { background: black; }
-span.blue-background { background: blue; }
-span.fuchsia-background { background: fuchsia; }
-span.gray-background { background: gray; }
-span.green-background { background: green; }
-span.lime-background { background: lime; }
-span.maroon-background { background: maroon; }
-span.navy-background { background: navy; }
-span.olive-background { background: olive; }
-span.purple-background { background: purple; }
-span.red-background { background: red; }
-span.silver-background { background: silver; }
-span.teal-background { background: teal; }
-span.white-background { background: white; }
-span.yellow-background { background: yellow; }
-
-span.big { font-size: 2em; }
-span.small { font-size: 0.6em; }
-
-span.underline { text-decoration: underline; }
-span.overline { text-decoration: overline; }
-span.line-through { text-decoration: line-through; }
-
-div.unbreakable { page-break-inside: avoid; }
-
-
-/*
- * xhtml11 specific
- *
- * */
-
-div.tableblock {
-  margin-top: 1.0em;
-  margin-bottom: 1.5em;
-}
-div.tableblock > table {
-  border: 3px solid #527bbd;
-}
-thead, p.table.header {
-  font-weight: bold;
-  color: #527bbd;
-}
-p.table {
-  margin-top: 0;
-}
-/* Because the table frame attribute is overridden by CSS in most browsers. */
-div.tableblock > table[frame="void"] {
-  border-style: none;
-}
-div.tableblock > table[frame="hsides"] {
-  border-left-style: none;
-  border-right-style: none;
-}
-div.tableblock > table[frame="vsides"] {
-  border-top-style: none;
-  border-bottom-style: none;
-}
-
-
-/*
- * html5 specific
- *
- * */
-
-table.tableblock {
-  margin-top: 1.0em;
-  margin-bottom: 1.5em;
-}
-thead, p.tableblock.header {
-  font-weight: bold;
-  color: #527bbd;
-}
-p.tableblock {
-  margin-top: 0;
-}
-table.tableblock {
-  border-width: 3px;
-  border-spacing: 0px;
-  border-style: solid;
-  border-color: #527bbd;
-  border-collapse: collapse;
-}
-th.tableblock, td.tableblock {
-  border-width: 1px;
-  padding: 4px;
-  border-style: solid;
-  border-color: #527bbd;
-}
-
-table.tableblock.frame-topbot {
-  border-left-style: hidden;
-  border-right-style: hidden;
-}
-table.tableblock.frame-sides {
-  border-top-style: hidden;
-  border-bottom-style: hidden;
-}
-table.tableblock.frame-none {
-  border-style: hidden;
-}
-
-th.tableblock.halign-left, td.tableblock.halign-left {
-  text-align: left;
-}
-th.tableblock.halign-center, td.tableblock.halign-center {
-  text-align: center;
-}
-th.tableblock.halign-right, td.tableblock.halign-right {
-  text-align: right;
-}
-
-th.tableblock.valign-top, td.tableblock.valign-top {
-  vertical-align: top;
-}
-th.tableblock.valign-middle, td.tableblock.valign-middle {
-  vertical-align: middle;
-}
-th.tableblock.valign-bottom, td.tableblock.valign-bottom {
-  vertical-align: bottom;
-}
-
-
-/*
- * manpage specific
- *
- * */
-
-body.manpage h1 {
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
-  border-top: 2px solid silver;
-  border-bottom: 2px solid silver;
-}
-body.manpage h2 {
-  border-style: none;
-}
-body.manpage div.sectionbody {
-  margin-left: 3em;
-}
-
-@media print {
-  body.manpage div#toc { display: none; }
-}
-
-
-@media screen {
-  body {
-    max-width: 50em; /* approximately 80 characters wide */
-    margin-left: 16em;
-  }
-
-  #toc {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 13em;
-    padding: 0.5em;
-    padding-bottom: 1.5em;
-    margin: 0;
-    overflow: auto;
-    border-right: 3px solid #f8f8f8;
-    background-color: white;
-  }
-
-  #toc .toclevel1 {
-    margin-top: 0.5em;
-  }
-
-  #toc .toclevel2 {
-    margin-top: 0.25em;
-    display: list-item;
-    color: #aaaaaa;
-  }
-
-  #toctitle {
-    margin-top: 0.5em;
-  }
-}
 </style>
-<script type="text/javascript">
-/*<![CDATA[*/
-var asciidoc = {  // Namespace.
-
-/////////////////////////////////////////////////////////////////////
-// Table Of Contents generator
-/////////////////////////////////////////////////////////////////////
-
-/* Author: Mihai Bazon, September 2002
- * http://students.infoiasi.ro/~mishoo
- *
- * Table Of Content generator
- * Version: 0.4
- *
- * Feel free to use this script under the terms of the GNU General Public
- * License, as long as you do not remove or alter this notice.
- */
-
- /* modified by Troy D. Hanson, September 2006. License: GPL */
- /* modified by Stuart Rackham, 2006, 2009. License: GPL */
-
-// toclevels = 1..4.
-toc: function (toclevels) {
-
-  function getText(el) {
-    var text = "";
-    for (var i = el.firstChild; i != null; i = i.nextSibling) {
-      if (i.nodeType == 3 /* Node.TEXT_NODE */) // IE doesn't speak constants.
-        text += i.data;
-      else if (i.firstChild != null)
-        text += getText(i);
-    }
-    return text;
-  }
-
-  function TocEntry(el, text, toclevel) {
-    this.element = el;
-    this.text = text;
-    this.toclevel = toclevel;
-  }
-
-  function tocEntries(el, toclevels) {
-    var result = new Array;
-    var re = new RegExp('[hH]([1-'+(toclevels+1)+'])');
-    // Function that scans the DOM tree for header elements (the DOM2
-    // nodeIterator API would be a better technique but not supported by all
-    // browsers).
-    var iterate = function (el) {
-      for (var i = el.firstChild; i != null; i = i.nextSibling) {
-        if (i.nodeType == 1 /* Node.ELEMENT_NODE */) {
-          var mo = re.exec(i.tagName);
-          if (mo && (i.getAttribute("class") || i.getAttribute("className")) != "float") {
-            result[result.length] = new TocEntry(i, getText(i), mo[1]-1);
-          }
-          iterate(i);
-        }
-      }
-    }
-    iterate(el);
-    return result;
-  }
-
-  var toc = document.getElementById("toc");
-  if (!toc) {
-    return;
-  }
-
-  // Delete existing TOC entries in case we're reloading the TOC.
-  var tocEntriesToRemove = [];
-  var i;
-  for (i = 0; i < toc.childNodes.length; i++) {
-    var entry = toc.childNodes[i];
-    if (entry.nodeName.toLowerCase() == 'div'
-     && entry.getAttribute("class")
-     && entry.getAttribute("class").match(/^toclevel/))
-      tocEntriesToRemove.push(entry);
-  }
-  for (i = 0; i < tocEntriesToRemove.length; i++) {
-    toc.removeChild(tocEntriesToRemove[i]);
-  }
-
-  // Rebuild TOC entries.
-  var entries = tocEntries(document.getElementById("content"), toclevels);
-  for (var i = 0; i < entries.length; ++i) {
-    var entry = entries[i];
-    if (entry.element.id == "")
-      entry.element.id = "_toc_" + i;
-    var a = document.createElement("a");
-    a.href = "#" + entry.element.id;
-    a.appendChild(document.createTextNode(entry.text));
-    var div = document.createElement("div");
-    div.appendChild(a);
-    div.className = "toclevel" + entry.toclevel;
-    toc.appendChild(div);
-  }
-  if (entries.length == 0)
-    toc.parentNode.removeChild(toc);
-},
-
-
-/////////////////////////////////////////////////////////////////////
-// Footnotes generator
-/////////////////////////////////////////////////////////////////////
-
-/* Based on footnote generation code from:
- * http://www.brandspankingnew.net/archive/2005/07/format_footnote.html
- */
-
-footnotes: function () {
-  // Delete existing footnote entries in case we're reloading the footnodes.
-  var i;
-  var noteholder = document.getElementById("footnotes");
-  if (!noteholder) {
-    return;
-  }
-  var entriesToRemove = [];
-  for (i = 0; i < noteholder.childNodes.length; i++) {
-    var entry = noteholder.childNodes[i];
-    if (entry.nodeName.toLowerCase() == 'div' && entry.getAttribute("class") == "footnote")
-      entriesToRemove.push(entry);
-  }
-  for (i = 0; i < entriesToRemove.length; i++) {
-    noteholder.removeChild(entriesToRemove[i]);
-  }
-
-  // Rebuild footnote entries.
-  var cont = document.getElementById("content");
-  var spans = cont.getElementsByTagName("span");
-  var refs = {};
-  var n = 0;
-  for (i=0; i<spans.length; i++) {
-    if (spans[i].className == "footnote") {
-      n++;
-      var note = spans[i].getAttribute("data-note");
-      if (!note) {
-        // Use [\s\S] in place of . so multi-line matches work.
-        // Because JavaScript has no s (dotall) regex flag.
-        note = spans[i].innerHTML.match(/\s*\[([\s\S]*)]\s*/)[1];
-        spans[i].innerHTML =
-          "[<a id='_footnoteref_" + n + "' href='#_footnote_" + n +
-          "' title='View footnote' class='footnote'>" + n + "</a>]";
-        spans[i].setAttribute("data-note", note);
-      }
-      noteholder.innerHTML +=
-        "<div class='footnote' id='_footnote_" + n + "'>" +
-        "<a href='#_footnoteref_" + n + "' title='Return to text'>" +
-        n + "</a>. " + note + "</div>";
-      var id =spans[i].getAttribute("id");
-      if (id != null) refs["#"+id] = n;
-    }
-  }
-  if (n == 0)
-    noteholder.parentNode.removeChild(noteholder);
-  else {
-    // Process footnoterefs.
-    for (i=0; i<spans.length; i++) {
-      if (spans[i].className == "footnoteref") {
-        var href = spans[i].getElementsByTagName("a")[0].getAttribute("href");
-        href = href.match(/#.*/)[0];  // Because IE return full URL.
-        n = refs[href];
-        spans[i].innerHTML =
-          "[<a href='#_footnote_" + n +
-          "' title='View footnote' class='footnote'>" + n + "</a>]";
-      }
-    }
-  }
-},
-
-install: function(toclevels) {
-  var timerId;
-
-  function reinstall() {
-    asciidoc.footnotes();
-    if (toclevels) {
-      asciidoc.toc(toclevels);
-    }
-  }
-
-  function reinstallAndRemoveTimer() {
-    clearInterval(timerId);
-    reinstall();
-  }
-
-  timerId = setInterval(reinstall, 500);
-  if (document.addEventListener)
-    document.addEventListener("DOMContentLoaded", reinstallAndRemoveTimer, false);
-  else
-    window.onload = reinstallAndRemoveTimer;
-}
-
-}
-asciidoc.install(1);
-/*]]>*/
-</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-<body class="article">
+<body class="article toc2 toc-left">
 <div id="header">
 <h1>SPV_KHR_maximal_reconvergence</h1>
-<div id="toc">
-  <div id="toctitle">Table of Contents</div>
-  <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_name_strings">Name Strings</a></li>
+<li><a href="#_contact">Contact</a></li>
+<li><a href="#_contributors">Contributors</a></li>
+<li><a href="#_notice">Notice</a></li>
+<li><a href="#_status">Status</a></li>
+<li><a href="#_version">Version</a></li>
+<li><a href="#_dependencies">Dependencies</a></li>
+<li><a href="#_overview">Overview</a></li>
+<li><a href="#_extension_name">Extension Name</a></li>
+<li><a href="#_modifications_to_the_spir_v_specification_version_1_6">Modifications to the SPIR-V Specification, Version 1.6</a></li>
+<li><a href="#MaximalReconvergence">Maximal Reconvergence</a></li>
+<li><a href="#_issues">Issues</a></li>
+<li><a href="#_revision_history">Revision History</a></li>
+</ul>
 </div>
 </div>
 <div id="content">
 <div class="sect1">
 <h2 id="_name_strings">Name Strings</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>SPV_KHR_maximal_reconvergence</p></div>
+<div class="paragraph">
+<p>SPV_KHR_maximal_reconvergence</p>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_contact">Contact</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>To report a problem with this extension, please open a new issue at:</p></div>
-<div class="paragraph"><p><a href="https://github.com/KhronosGroup/SPIRV-Registry">https://github.com/KhronosGroup/SPIRV-Registry</a></p></div>
+<div class="paragraph">
+<p>To report a problem with this extension, please open a new issue at:</p>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/KhronosGroup/SPIRV-Registry" class="bare">https://github.com/KhronosGroup/SPIRV-Registry</a></p>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_contributors">Contributors</h2>
 <div class="sectionbody">
-<div class="ulist"><ul>
+<div class="ulist">
+<ul>
 <li>
-<p>
-Alan Baker, Google LLC
-</p>
+<p>Alan Baker, Google LLC</p>
 </li>
 <li>
-<p>
-David Neto, Google LLC
-</p>
+<p>David Neto, Google LLC</p>
 </li>
 <li>
-<p>
-Jeff Bolz, NVIDIA Corporation
-</p>
+<p>Jeff Bolz, NVIDIA Corporation</p>
 </li>
 <li>
-<p>
-Graeme Leese, Broadcom
-</p>
+<p>Graeme Leese, Broadcom</p>
 </li>
 <li>
-<p>
-Nicolai Hahnle, AMD
-</p>
+<p>Nicolai Hahnle, AMD</p>
 </li>
 <li>
-<p>
-Ruihao Zhang, Qualcomm
-</p>
+<p>Ruihao Zhang, Qualcomm</p>
 </li>
 <li>
-<p>
-Tobias Hector, AMD
-</p>
+<p>Tobias Hector, AMD</p>
 </li>
-</ul></div>
+</ul>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_notice">Notice</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Copyright (c) 2024 The Khronos Group Inc. Copyright terms at
-<a href="http://www.khronos.org/registry/speccopyright.html">http://www.khronos.org/registry/speccopyright.html</a></p></div>
+<div class="paragraph">
+<p>Copyright (c) 2024 The Khronos Group Inc. Copyright terms at
+<a href="http://www.khronos.org/registry/speccopyright.html" class="bare">http://www.khronos.org/registry/speccopyright.html</a></p>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_status">Status</h2>
 <div class="sectionbody">
-<div class="ulist"><ul>
+<div class="ulist">
+<ul>
 <li>
-<p>
-Complete
-</p>
+<p>Complete</p>
 </li>
 <li>
-<p>
-Approved by the SPIR Working Group: 2023-12-06
-</p>
+<p>Approved by the SPIR Working Group: 2023-12-06</p>
 </li>
 <li>
-<p>
-Approved by the Khronos Board of Promoters: 2024-01-19
-</p>
+<p>Approved by the Khronos Board of Promoters: 2024-01-19</p>
 </li>
-</ul></div>
+</ul>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_version">Version</h2>
 <div class="sectionbody">
-<table class="tableblock frame-all grid-all"
-style="
-width:40%;
-">
-<col style="width:50%;">
-<col style="width:50%;">
+<table class="tableblock frame-all grid-all" style="width: 40%;">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2024-04-18</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Last Modified Date</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2024-04-18</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Revision</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
 </tr>
 </tbody>
 </table>
@@ -882,131 +144,168 @@ width:40%;
 <div class="sect1">
 <h2 id="_dependencies">Dependencies</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>This extension is written against the SPIR-V Specification,
-Version 1.6 Revision 1.</p></div>
-<div class="paragraph"><p>This extension requires SPIR-V 1.0.</p></div>
+<div class="paragraph">
+<p>This extension is written against the SPIR-V Specification,
+Version 1.6 Revision 1.</p>
+</div>
+<div class="paragraph">
+<p>This extension requires SPIR-V 1.0.</p>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_overview">Overview</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>This extension adds a new execution mode
+<div class="paragraph">
+<p>This extension adds a new execution mode
 <a href="#MaximallyReconvergesKHR"><strong>MaximallyReconvergesKHR</strong></a> which changes the
 behavior of divergence and reconvergence of invocations executing affected
 entry points. Under maximal reconvergence, invocations that diverge must
 reconverge as soon as possible such that as many invocations as possible
-execute the same dynamic instruction instances.</p></div>
-<div class="paragraph"><p>Maximal reconvergence provides guarantees that match shader author intuition
+execute the same dynamic instruction instances.</p>
+</div>
+<div class="paragraph">
+<p>Maximal reconvergence provides guarantees that match shader author intuition
 concerning divergence and reconvergence. Divergence and reconvergence is
-understandable from the control flow graph of the IR.</p></div>
+understandable from the control flow graph of the IR.</p>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_extension_name">Extension Name</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>To use this extension within a SPIR-V module, the following
-<strong>OpExtension</strong> must be present in the module:</p></div>
+<div class="paragraph">
+<p>To use this extension within a SPIR-V module, the following
+<strong>OpExtension</strong> must be present in the module:</p>
+</div>
 <div class="listingblock">
-<div class="content monospaced">
+<div class="content">
 <pre>OpExtension "SPV_KHR_maximal_reconvergence"</pre>
-</div></div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_modifications_to_the_spir_v_specification_version_1_6">Modifications to the SPIR-V Specification, Version 1.6</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Add the following new terms:</p></div>
-<div class="paragraph"><p><a id="Tangle"></a><em>Tangle</em>: The set of invocations that execute the same dynamic instance of an
+<div class="paragraph">
+<p>Add the following new terms:</p>
+</div>
+<div class="paragraph">
+<p><a id="Tangle"></a><em>Tangle</em>: The set of invocations that execute the same dynamic instance of an
 instruction. The rules describing the behavior of tangles are
-<a href="#MaximalReconvergence">Maximal Reconvergence</a>.</p></div>
-<div class="paragraph"><p><a id="Converged"></a><em>Converged</em>: If all invocations in a particular scope instance are part of the
-tangle, the tangle is said to be converged for that scope instance.</p></div>
-<div class="paragraph"><p><a id="DynamicSuccessor"></a><em>Dynamic Successor</em>: Given a dynamic instance, <em>A</em>, of an instruction <em>a</em>, and
+<a href="#MaximalReconvergence">Maximal Reconvergence</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="Converged"></a><em>Converged</em>: If all invocations in a particular scope instance are part of the
+tangle, the tangle is said to be converged for that scope instance.</p>
+</div>
+<div class="paragraph">
+<p><a id="DynamicSuccessor"></a><em>Dynamic Successor</em>: Given a dynamic instance, <em>A</em>, of an instruction <em>a</em>, and
 a dynamic instance, <em>B</em>, of instruction <em>b</em>, where <em>a</em> differs from <em>b</em>, <em>B</em> is
 a dynamic successor of <em>A</em> if <em>B</em> is executed immediately after <em>A</em> for a given
 invocation. Similarly, if <em>B</em> is a dynamic successor of <em>A</em>, then <em>A</em> is
-<a id="DynamicPredecessor"></a><em>dynamic predecessor</em> of <em>B</em>.</p></div>
-<div class="paragraph"><p>Changes to Section <strong>2.11 Structured Control Flow</strong></p></div>
-<div class="paragraph"><p>Add the following to the end of the section:</p></div>
-<div class="paragraph"><p>Any function in the static call tree of an entry point annotated with the
+<a id="DynamicPredecessor"></a><em>dynamic predecessor</em> of <em>B</em>.</p>
+</div>
+<div class="paragraph">
+<p>Changes to Section <strong>2.11 Structured Control Flow</strong></p>
+</div>
+<div class="paragraph">
+<p>Add the following to the end of the section:</p>
+</div>
+<div class="paragraph">
+<p>Any function in the static call tree of an entry point annotated with the
 <a href="#MaximallyReconvergesKHR"><strong>MaximallyReconvergesKHR</strong></a> execution mode must
-satisfy the following requirements:</p></div>
-<div class="ulist"><ul>
+satisfy the following requirements:</p>
+</div>
+<div class="ulist">
+<ul>
 <li>
-<p>
-The only <strong>Basic Blocks</strong> that may have multiple unique predecessors are:
-</p>
-<div class="ulist"><ul>
+<p>The only <strong>Basic Blocks</strong> that may have multiple unique predecessors are:</p>
+<div class="ulist">
+<ul>
 <li>
-<p>
-Any <strong>Basic Block</strong> containing an <strong>OpLoopMerge</strong> instruction
-</p>
+<p>Any <strong>Basic Block</strong> containing an <strong>OpLoopMerge</strong> instruction</p>
 </li>
 <li>
-<p>
-Any declared <strong>Merge Block</strong>
-</p>
+<p>Any declared <strong>Merge Block</strong></p>
 </li>
 <li>
-<p>
-Any declared <em>Continue Target</em>
-</p>
+<p>Any declared <em>Continue Target</em></p>
 </li>
 <li>
-<p>
-Any <em>Target</em> or <em>Default</em> of an <strong>OpSwitch</strong> instruction
-</p>
+<p>Any <em>Target</em> or <em>Default</em> of an <strong>OpSwitch</strong> instruction</p>
 </li>
-</ul></div>
+</ul>
+</div>
 </li>
-</ul></div>
-<div class="paragraph"><p>Changes to Section <strong>3 Binary Form</strong></p></div>
-<div class="paragraph"><p>Add the following row to the table in Section <strong>3.6 Execution Mode</strong>:</p></div>
+</ul>
+</div>
+<div class="paragraph">
+<p>Changes to Section <strong>3 Binary Form</strong></p>
+</div>
+<div class="paragraph">
+<p>Add the following row to the table in Section <strong>3.6 Execution Mode</strong>:</p>
+</div>
 <div class="openblock">
 <div class="content">
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:3%;">
-<col style="width:40%;">
-<col style="width:5%;">
-<col style="width:5%;">
-<col style="width:5%;">
-<col style="width:40%;">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 3.6363%;">
+<col style="width: 40%;">
+<col style="width: 5.4545%;">
+<col style="width: 5.4545%;">
+<col style="width: 5.4545%;">
+<col style="width: 40.0002%;">
+</colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-center valign-middle" colspan="2" > Execution Mode </th>
-<th class="tableblock halign-left valign-middle" colspan="3" > Extra Operands </th>
-<th class="tableblock halign-left valign-top" > Enabling Capabilities</th>
+<th class="tableblock halign-center valign-middle" colspan="2">Execution Mode</th>
+<th class="tableblock halign-left valign-middle" colspan="3">Extra Operands</th>
+<th class="tableblock halign-left valign-top">Enabling Capabilities</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">6023</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><a id="MaximallyReconvergesKHR"></a><strong>MaximallyReconvergesKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">6023</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a id="MaximallyReconvergesKHR"></a><strong>MaximallyReconvergesKHR</strong><br>
 Invocations in the entry point will obey the rules in <a href="#MaximalReconvergence"><strong>Maximal Reconvergence</strong></a>.</p></td>
-<td class="tableblock halign-left valign-top" colspan="3" ><p class="tableblock"></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Shader</strong></p></td>
+<td class="tableblock halign-left valign-top" colspan="3"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Shader</strong></p></td>
 </tr>
 </tbody>
 </table>
-</div></div>
-<div class="paragraph"><p>Modify the description of <strong>OpBranchConditional</strong>:</p></div>
-<div class="paragraph"><p>Change:</p></div>
+</div>
+</div>
+<div class="paragraph">
+<p>Modify the description of <strong>OpBranchConditional</strong>:</p>
+</div>
+<div class="paragraph">
+<p>Change:</p>
+</div>
 <div class="sidebarblock">
 <div class="content">
-<div class="paragraph"><p>Starting with <strong>version 1.6</strong>, <em>True Label</em> and <em>False Label</em> <strong>must not</strong> be the same <em>&lt;id&gt;</em>.</p></div>
-</div></div>
-<div class="paragraph"><p>To:</p></div>
+<div class="paragraph">
+<p>Starting with <strong>version 1.6</strong>, <em>True Label</em> and <em>False Label</em> <strong>must not</strong> be the same <em>&lt;id&gt;</em>.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>To:</p>
+</div>
 <div class="sidebarblock">
 <div class="content">
-<div class="paragraph"><p>Starting with <strong>version 1.6</strong>, or in any function reachable from an entry
+<div class="paragraph">
+<p>Starting with <strong>version 1.6</strong>, or in any function reachable from an entry
 point with the execution mode
 <a href="#MaximallyReconvergesKHR"><strong>MaximallyReconvergesKHR</strong></a>, <em>True Label</em> and <em>False
-Label</em> <strong>must not</strong> be the same <em>&lt;id&gt;</em>.</p></div>
-</div></div>
-<div class="paragraph"><p>Add a new section to the end of Section <strong>2 Specification</strong> titled</p></div>
+Label</em> <strong>must not</strong> be the same <em>&lt;id&gt;</em>.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Add a new section to the end of Section <strong>2 Specification</strong> titled</p>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -1014,408 +313,388 @@ Label</em> <strong>must not</strong> be the same <em>&lt;id&gt;</em>.</p></div>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_notation">Notation</h3>
-<div class="paragraph"><p>If <em>I</em> is a dynamic instance of an instruction, let the tangle that executes <em>I</em> be <em>T(I)</em>.</p></div>
+<div class="paragraph">
+<p>If <em>I</em> is a dynamic instance of an instruction, let the tangle that executes <em>I</em> be <em>T(I)</em>.</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_initial_state">Initial State</h3>
-<div class="paragraph"><p>Let <em>F</em> be the first dynamically executed instruction in an entry point. <em>T(F)</em>
-will be <a href="#Converged">converged</a>.</p></div>
-<div class="paragraph"><p>Note: This is a restatement of the initial conditions in <strong>Uniform Control Flow</strong>.</p></div>
+<div class="paragraph">
+<p>Let <em>F</em> be the first dynamically executed instruction in an entry point. <em>T(F)</em>
+will be <a href="#Converged">converged</a>.</p>
+</div>
+<div class="paragraph">
+<p>Note: This is a restatement of the initial conditions in <strong>Uniform Control Flow</strong>.</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_divergence">Divergence</h3>
-<div class="paragraph"><p>A <a id="Divergence"></a><em>divergence</em> occurs when executing <em>I</em> if the invocations in
-<em>T(I)</em> do not all have the same <a href="#DynamicSuccessor">dynamic successor</a>.</p></div>
-<div class="paragraph"><p>The <a href="#Tangle">tangles</a> that execute the dynamic successors of a dynamic
+<div class="paragraph">
+<p>A <a id="Divergence"></a><em>divergence</em> occurs when executing <em>I</em> if the invocations in
+<em>T(I)</em> do not all have the same <a href="#DynamicSuccessor">dynamic successor</a>.</p>
+</div>
+<div class="paragraph">
+<p>The <a href="#Tangle">tangles</a> that execute the dynamic successors of a dynamic
 instruction instance <em>I</em> form a partition of those invocations in <em>T(I)</em> that
 have a dynamic successor. The tangles of the dynamic successors may include
-invocations not in <em>T(I)</em> if that dynamic successor <a href="#Reconverge">reconverges</a>.</p></div>
-<div class="paragraph"><p>The only instructions that can produce a divergence are:</p></div>
-<div class="ulist"><ul>
+invocations not in <em>T(I)</em> if that dynamic successor <a href="#Reconverge">reconverges</a>.</p>
+</div>
+<div class="paragraph">
+<p>The only instructions that can produce a divergence are:</p>
+</div>
+<div class="ulist">
+<ul>
 <li>
-<p>
-An <strong>OpBranchConditional</strong>.
-</p>
-<div class="ulist"><ul>
+<p>An <strong>OpBranchConditional</strong>.</p>
+<div class="ulist">
+<ul>
 <li>
-<p>
-<em>T(I)</em> is partitioned into up to two tangles.
-     All the invocations in <em>T(I)</em> for whom <em>Condition</em> evaluates to <strong>true</strong> are
-     members of the tangle that executes <em>True Label</em> and the rest are in the
-     tangle that executes <em>False Label</em>.
-</p>
+<p><em>T(I)</em> is partitioned into up to two tangles.
+All the invocations in <em>T(I)</em> for whom <em>Condition</em> evaluates to <strong>true</strong> are
+members of the tangle that executes <em>True Label</em> and the rest are in the
+tangle that executes <em>False Label</em>.</p>
 </li>
-</ul></div>
-</li>
-<li>
-<p>
-An <strong>OpSwitch</strong>.
-</p>
-<div class="ulist"><ul>
-<li>
-<p>
-<em>T(I)</em> is partitioned into at least one tangle per <em>case construct</em>,
-     and at most one tangle per unique <em>Selector</em> value. Invocations in <em>T(I)</em>
-     with the same <em>Selector</em> value will be partitioned into the same tangle,
-     executing the associated <em>case construct</em>. Invocations with different
-     <em>Selector</em> values executing the same <em>case construct</em> <strong>may</strong> be partitioned
-     into the same tangle. This behavior is deterministic for a given
-     compilation of a shader.
-</p>
-</li>
-</ul></div>
+</ul>
+</div>
 </li>
 <li>
-<p>
-An <strong>OpDemoteToHelperInvocation</strong> or <strong>OpKill</strong> instruction executed for the
-  last non-demoted invocations in a quad. The newly demoted invocations may be
-  in a different tangle causing a divergence to appear to occur for any
-  instruction.
-</p>
+<p>An <strong>OpSwitch</strong>.</p>
+<div class="ulist">
+<ul>
+<li>
+<p><em>T(I)</em> is partitioned into at least one tangle per <em>case construct</em>,
+and at most one tangle per unique <em>Selector</em> value. Invocations in <em>T(I)</em>
+with the same <em>Selector</em> value will be partitioned into the same tangle,
+executing the associated <em>case construct</em>. Invocations with different
+<em>Selector</em> values executing the same <em>case construct</em> <strong>may</strong> be partitioned
+into the same tangle. This behavior is deterministic for a given
+compilation of a shader.</p>
 </li>
-</ul></div>
-<div class="paragraph"><p>Note: This means that invocations cannot spontaneously diverge, although demoting
-an invocation to a helper invocation may look like spontaneous divergence.</p></div>
-<div class="paragraph"><p>Note: All invocations in a tangle that are not terminated during the execution
+</ul>
+</div>
+</li>
+<li>
+<p>An <strong>OpDemoteToHelperInvocation</strong> or <strong>OpKill</strong> instruction executed for the
+last non-demoted invocations in a quad. The newly demoted invocations may be
+in a different tangle causing a divergence to appear to occur for any
+instruction.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Note: This means that invocations cannot spontaneously diverge, although demoting
+an invocation to a helper invocation may look like spontaneous divergence.</p>
+</div>
+<div class="paragraph">
+<p>Note: All invocations in a tangle that are not terminated during the execution
 of an <strong>OpFunctionCall</strong> will remain tangled in the next dynamic instance
 executed in calling function. That is, function call return acts as
-reconvergence point.</p></div>
-<div class="paragraph"><p>Note: When the last invocation in a quad is demoted to a helper invocation, the
+reconvergence point.</p>
+</div>
+<div class="paragraph">
+<p>Note: When the last invocation in a quad is demoted to a helper invocation, the
 whole quad may be terminated. Since the invocations in the quad may be
 diverged, the termination of a quad may give the appearance of spontaneous
 divergence of some tangles. The invocations that were already helper
-invocations might be in vastly different points in the program execution.</p></div>
+invocations might be in vastly different points in the program execution.</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="Reconvergence">Reconvergence</h3>
-<div class="paragraph"><p>Invocations that diverged from each other are said to <a id="Reconverge"></a><strong>reconverge</strong>
+<div class="paragraph">
+<p>Invocations that diverged from each other are said to <a id="Reconverge"></a><strong>reconverge</strong>
 when they rejoin a common tangle. Reconvergence occurs at certain <em>related dynamic instances</em>.
 A dynamic instruction instance, <em>L</em>, is <a id="Related"></a><strong>related</strong> to another
 dynamic instruction instance, <em>I</em>, if <em>I</em> executed before <em>L</em> and the
 invocations in <em>T(I)</em> are candiates for inclusion in <em>T(L)</em>. The subset of
 <em>T(I)</em> required to reconverge depends on the instructions executed as detailed
-below.</p></div>
-<div class="paragraph"><p>With <em>L</em> related to <em>I</em> as above, an invocation <a id="EscapeReconvergence"></a><strong>escapes
+below.</p>
+</div>
+<div class="paragraph">
+<p>With <em>L</em> related to <em>I</em> as above, an invocation <a id="EscapeReconvergence"></a><strong>escapes
 reconvergence</strong> when that invocation is in <em>T(I)</em>, but not in <em>T(L)</em>. This only
-occurs when:</p></div>
-<div class="ulist"><ul>
+occurs when:</p>
+</div>
+<div class="ulist">
+<ul>
 <li>
-<p>
-The invocation executes <strong>OpTerminateInvocation</strong> or <strong>OpKill</strong>.
-</p>
+<p>The invocation executes <strong>OpTerminateInvocation</strong> or <strong>OpKill</strong>.</p>
 </li>
 <li>
-<p>
-The last non-demoted, non-terminated invocation in the invocation&#8217;s quad
-  executes <strong>OpDemoteToHelperInvocation</strong>, <strong>OpTerminateInvocation</strong>, or
-  <strong>OpKill</strong>.
-</p>
+<p>The last non-demoted, non-terminated invocation in the invocation&#8217;s quad
+executes <strong>OpDemoteToHelperInvocation</strong>, <strong>OpTerminateInvocation</strong>, or
+<strong>OpKill</strong>.</p>
 </li>
 <li>
-<p>
-The invocation executes <strong>OpReturn</strong> or <strong>OpReturnValue</strong>. Escaping in this manner only
-  affects <a href="#Related">relations</a> in the current function.
-</p>
+<p>The invocation executes <strong>OpReturn</strong> or <strong>OpReturnValue</strong>. Escaping in this manner only
+affects <a href="#Related">relations</a> in the current function.</p>
 </li>
 <li>
-<p>
-Executing <strong>OpBranch</strong> or <strong>OpBranchConditional</strong> causes an invocation
-  to branch to the <strong>Merge Block</strong> or <em>Continue Target</em> for a merge instruction
-  instance that strictly dominates <em>I</em>.
-</p>
+<p>Executing <strong>OpBranch</strong> or <strong>OpBranchConditional</strong> causes an invocation
+to branch to the <strong>Merge Block</strong> or <em>Continue Target</em> for a merge instruction
+instance that strictly dominates <em>I</em>.</p>
 </li>
-</ul></div>
-<div class="paragraph"><p>Note: The common cases an invocation would escape reconvergence are breaking
-from a switch or loop, or continuing in a loop.</p></div>
-<div class="paragraph"><p>Note: <strong>OpKill</strong> will behave the same as either <strong>OpTerminateInvocation</strong> or
+</ul>
+</div>
+<div class="paragraph">
+<p>Note: The common cases an invocation would escape reconvergence are breaking
+from a switch or loop, or continuing in a loop.</p>
+</div>
+<div class="paragraph">
+<p>Note: <strong>OpKill</strong> will behave the same as either <strong>OpTerminateInvocation</strong> or
 <strong>OpDemoteToHelperInvocation</strong> depending on the implementation. It is
 recommended that shader authors use <strong>OpTerminateInvocation</strong> or
 <strong>OpDemoteToHelperInvocation</strong> instead of <strong>OpKill</strong> whenever possible to
-produce more predictable behavior.</p></div>
-<div class="paragraph"><p>The only related instances introduced during execution are the following:</p></div>
-<div class="ulist"><ul>
+produce more predictable behavior.</p>
+</div>
+<div class="paragraph">
+<p>The only related instances introduced during execution are the following:</p>
+</div>
+<div class="ulist">
+<ul>
 <li>
-<p>
-Given dynamic instances <em>L</em> of an <strong>OpLabel</strong> and <em>M</em> of an <strong>OpSelectionMerge</strong>, where:
-</p>
-<div class="ulist"><ul>
+<p>Given dynamic instances <em>L</em> of an <strong>OpLabel</strong> and <em>M</em> of an <strong>OpSelectionMerge</strong>, where:</p>
+<div class="ulist">
+<ul>
 <li>
-<p>
-The <strong>OpLabel</strong> is the declared <strong>Merge Block</strong> of the <strong>OpSelectionMerge</strong>, and
-</p>
+<p>The <strong>OpLabel</strong> is the declared <strong>Merge Block</strong> of the <strong>OpSelectionMerge</strong>, and</p>
 </li>
 <li>
-<p>
-An invocation <em>i</em> executes both <em>L</em> and <em>M</em>, and
-</p>
+<p>An invocation <em>i</em> executes both <em>L</em> and <em>M</em>, and</p>
 </li>
 <li>
-<p>
-<em>M</em> is the last execution of the <strong>OpSelectionMerge</strong> before executing <em>L</em> for <em>i</em>, then
-</p>
+<p><em>M</em> is the last execution of the <strong>OpSelectionMerge</strong> before executing <em>L</em> for <em>i</em>, then</p>
 </li>
 <li>
-<p>
-<em>L</em> is related to <em>M</em>, and
-</p>
+<p><em>L</em> is related to <em>M</em>, and</p>
 </li>
 <li>
-<p>
-<em>T(L)</em> will include all non-escaping invocations in <em>T(M)</em>
-</p>
+<p><em>T(L)</em> will include all non-escaping invocations in <em>T(M)</em></p>
 </li>
-</ul></div>
-</li>
-<li>
-<p>
-Given dynamic instances <em>L</em> of an <strong>OpLabel</strong> and <em>S</em> of an <strong>OpSwitch</strong>, where:
-</p>
-<div class="ulist"><ul>
-<li>
-<p>
-The <strong>OpLabel</strong> is a declared <em>Target</em> or <em>Default</em> of the <strong>OpSwitch</strong>, and
-</p>
+</ul>
+</div>
 </li>
 <li>
-<p>
-An invocation <em>i</em> executes both <em>L</em> and <em>S</em>, and
-</p>
+<p>Given dynamic instances <em>L</em> of an <strong>OpLabel</strong> and <em>S</em> of an <strong>OpSwitch</strong>, where:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>The <strong>OpLabel</strong> is a declared <em>Target</em> or <em>Default</em> of the <strong>OpSwitch</strong>, and</p>
 </li>
 <li>
-<p>
-<em>S</em> is the last execution of the <strong>OpSwitch</strong> before executing <em>L</em> for <em>i</em>, then
-</p>
+<p>An invocation <em>i</em> executes both <em>L</em> and <em>S</em>, and</p>
 </li>
 <li>
-<p>
-<em>L</em> is related to <em>S</em>, and
-</p>
+<p><em>S</em> is the last execution of the <strong>OpSwitch</strong> before executing <em>L</em> for <em>i</em>, then</p>
 </li>
 <li>
-<p>
-<em>T(L)</em> <strong>may</strong> include a subset of non-escaping invocations in <em>T(S)</em>
-</p>
-</li>
-</ul></div>
+<p><em>L</em> is related to <em>S</em>, and</p>
 </li>
 <li>
-<p>
-Given dynamic instances <em>L</em> of an <strong>OpLabel</strong> and <em>M</em> of an <strong>OpLoopMerge</strong>, where:
-</p>
-<div class="ulist"><ul>
-<li>
-<p>
-The <strong>OpLabel</strong> is the declared <strong>Merge Block</strong> of the <strong>OpLoopMerge</strong>, and
-</p>
+<p><em>T(L)</em> <strong>may</strong> include a subset of non-escaping invocations in <em>T(S)</em></p>
+</li>
+</ul>
+</div>
 </li>
 <li>
-<p>
-An invocation <em>i</em> executes both <em>L</em> and <em>M</em>, and
-</p>
+<p>Given dynamic instances <em>L</em> of an <strong>OpLabel</strong> and <em>M</em> of an <strong>OpLoopMerge</strong>, where:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>The <strong>OpLabel</strong> is the declared <strong>Merge Block</strong> of the <strong>OpLoopMerge</strong>, and</p>
 </li>
 <li>
-<p>
-<em>M</em> is the last execution of the <strong>OpLoopMerge</strong> where <em>i</em> did not enter the basic block
-     via the loop backedge before executing <em>L</em> for <em>i</em>, then
-</p>
+<p>An invocation <em>i</em> executes both <em>L</em> and <em>M</em>, and</p>
 </li>
 <li>
-<p>
-<em>L</em> is related to <em>M</em>, and
-</p>
+<p><em>M</em> is the last execution of the <strong>OpLoopMerge</strong> where <em>i</em> did not enter the basic block
+via the loop backedge before executing <em>L</em> for <em>i</em>, then</p>
 </li>
 <li>
-<p>
-<em>T(L)</em> will include all non-escaping invocations in <em>T(M)</em>
-</p>
-</li>
-</ul></div>
+<p><em>L</em> is related to <em>M</em>, and</p>
 </li>
 <li>
-<p>
-Given dynamic instances <em>L</em> of an <strong>OpLabel</strong> and <em>M</em> of an <strong>OpLoopMerge</strong>, where:
-</p>
-<div class="ulist"><ul>
-<li>
-<p>
-The <strong>OpLabel</strong> is the declared <em>Continue Target</em> of the <strong>OpLoopMerge</strong>, and
-</p>
+<p><em>T(L)</em> will include all non-escaping invocations in <em>T(M)</em></p>
+</li>
+</ul>
+</div>
 </li>
 <li>
-<p>
-An invocation <em>i</em> executes both <em>L</em> and <em>M</em>, and
-</p>
+<p>Given dynamic instances <em>L</em> of an <strong>OpLabel</strong> and <em>M</em> of an <strong>OpLoopMerge</strong>, where:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>The <strong>OpLabel</strong> is the declared <em>Continue Target</em> of the <strong>OpLoopMerge</strong>, and</p>
 </li>
 <li>
-<p>
-<em>M</em> is the last execution of the <strong>OpLoopMerge</strong> before executing <em>L</em> for <em>i</em>, then
-</p>
+<p>An invocation <em>i</em> executes both <em>L</em> and <em>M</em>, and</p>
 </li>
 <li>
-<p>
-<em>L</em> is related to <em>M</em>, and
-</p>
+<p><em>M</em> is the last execution of the <strong>OpLoopMerge</strong> before executing <em>L</em> for <em>i</em>, then</p>
 </li>
 <li>
-<p>
-<em>T(L)</em> will include all non-escaping invocations in <em>T(M)</em>
-</p>
+<p><em>L</em> is related to <em>M</em>, and</p>
 </li>
 <li>
-<p>
-Note: this requires that invocations reconverge at the <em>Continue Target</em> of a loop.
-     Therefore, at the beginning of each iteration of the loop, invocations that entered
-     the loop together and are continuing to the execute the loop will be converged.
-</p>
-</li>
-</ul></div>
+<p><em>T(L)</em> will include all non-escaping invocations in <em>T(M)</em></p>
 </li>
 <li>
-<p>
-Given dynamic instances <em>I</em> of an instruction and <em>FC</em> of an <strong>OpFunctionCall</strong>, where:
-</p>
-<div class="ulist"><ul>
-<li>
-<p>
-The instruction of <em>I</em> immediately succeeds the <strong>OpFunctionCall</strong> in binary order, and
-</p>
+<p>Note: this requires that invocations reconverge at the <em>Continue Target</em> of a loop.
+Therefore, at the beginning of each iteration of the loop, invocations that entered
+the loop together and are continuing to the execute the loop will be converged.</p>
+</li>
+</ul>
+</div>
 </li>
 <li>
-<p>
-An invocation <em>i</em> executes both <em>I</em> and <em>FC</em>, and
-</p>
+<p>Given dynamic instances <em>I</em> of an instruction and <em>FC</em> of an <strong>OpFunctionCall</strong>, where:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>The instruction of <em>I</em> immediately succeeds the <strong>OpFunctionCall</strong> in binary order, and</p>
 </li>
 <li>
-<p>
-<em>FC</em> is the last execution of the <strong>OpFunctionCall</strong> before executing <em>I</em> for <em>i</em>, then
-</p>
+<p>An invocation <em>i</em> executes both <em>I</em> and <em>FC</em>, and</p>
 </li>
 <li>
-<p>
-<em>I</em> is related to <em>FC</em>, and
-</p>
+<p><em>FC</em> is the last execution of the <strong>OpFunctionCall</strong> before executing <em>I</em> for <em>i</em>, then</p>
 </li>
 <li>
-<p>
-<em>T(I)</em> will include all non-escaping invocations in <em>T(FC)</em>
-</p>
+<p><em>I</em> is related to <em>FC</em>, and</p>
 </li>
-</ul></div>
+<li>
+<p><em>T(I)</em> will include all non-escaping invocations in <em>T(FC)</em></p>
 </li>
-</ul></div>
+</ul>
+</div>
+</li>
+</ul>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_non_reconvergence">Non-reconvergence</h3>
-<div class="paragraph"><p>Invocations will not <a href="#Reconvergence">reconverge</a> except at <strong>Merge Blocks</strong>,
+<div class="paragraph">
+<p>Invocations will not <a href="#Reconvergence">reconverge</a> except at <strong>Merge Blocks</strong>,
 <em>Continue Targets</em>, and <em>case constructs</em> or after <strong>OpFunctionCall</strong> is
-executed.</p></div>
-<div class="paragraph"><p>A <a href="#Tangle">tangle</a> that executes an instance of a merge instruction, <em>M</em>,
+executed.</p>
+</div>
+<div class="paragraph">
+<p>A <a href="#Tangle">tangle</a> that executes an instance of a merge instruction, <em>M</em>,
 represents the maximal tangle for all of the invocations in <em>T(M)</em>. That is,
 implementations will not merge tangles during execution except through
-reconvergence.</p></div>
-<div class="paragraph"><p>Note: This means that the instructions in a <strong>break block</strong> will execute as if
+reconvergence.</p>
+</div>
+<div class="paragraph">
+<p>Note: This means that the instructions in a <strong>break block</strong> will execute as if
 they were still diverged according to the loop iteration.  This restricts
 potential transformations an implementation may perform on the IR to match
 shader author expectations. Similarly, instructions in the loop construct
 cannot be moved into the continue construct unless it can be proven that
-invocations are always <a href="#Converged">converged</a>.</p></div>
+invocations are always <a href="#Converged">converged</a>.</p>
+</div>
 </div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_issues">Issues</h2>
 <div class="sectionbody">
-<div class="olist arabic"><ol class="arabic">
+<div class="olist arabic">
+<ol class="arabic">
 <li>
-<p>
-What should be the behavior of an <strong>OpSwitch</strong> with multiple labels for a single case construct?
-</p>
+<p>What should be the behavior of an <strong>OpSwitch</strong> with multiple labels for a single case construct?</p>
 <div class="openblock">
 <div class="content">
-<div class="paragraph"><p><strong>Resolved</strong></p></div>
-<div class="paragraph"><p>This behavior is implementation-defined. An implementation will guarantee that
+<div class="paragraph">
+<p><strong>Resolved</strong></p>
+</div>
+<div class="paragraph">
+<p>This behavior is implementation-defined. An implementation will guarantee that
 at least all invocations that have the same selector value remain tangled, but
 may further include invocations up to all of those invocations that reach the
-same case construct.</p></div>
-</div></div>
+same case construct.</p>
+</div>
+</div>
+</div>
 </li>
 <li>
-<p>
-Should any structured control flow rules be tightened for this extension?
-</p>
+<p>Should any structured control flow rules be tightened for this extension?</p>
 <div class="openblock">
 <div class="content">
-<div class="paragraph"><p><strong>Resolved</strong></p></div>
-<div class="paragraph"><p>Yes, see the modifications to <strong>2.11 Structured Control Flow</strong>.</p></div>
-</div></div>
+<div class="paragraph">
+<p><strong>Resolved</strong></p>
+</div>
+<div class="paragraph">
+<p>Yes, see the modifications to <strong>2.11 Structured Control Flow</strong>.</p>
+</div>
+</div>
+</div>
 </li>
 <li>
-<p>
-Should this extension make any mention of forward progress?
-</p>
+<p>Should this extension make any mention of forward progress?</p>
 <div class="openblock">
 <div class="content">
-<div class="paragraph"><p><strong>Resolved</strong></p></div>
-<div class="paragraph"><p>No, similar to memory model synchronization, if the invocations do not
+<div class="paragraph">
+<p><strong>Resolved</strong></p>
+</div>
+<div class="paragraph">
+<p>No, similar to memory model synchronization, if the invocations do not
 reconverge, the the program may hang. Behaviour is undefined if invocations
-don&#8217;t make progress.</p></div>
-</div></div>
+don&#8217;t make progress.</p>
+</div>
+</div>
+</div>
 </li>
 <li>
-<p>
-Is enough said about helper invocations?
-</p>
+<p>Is enough said about helper invocations?</p>
 <div class="openblock">
 <div class="content">
-<div class="paragraph"><p><strong>Resolved</strong></p></div>
-<div class="paragraph"><p>Yes, the extension describes the behavior as specifically as it can. Quads
+<div class="paragraph">
+<p><strong>Resolved</strong></p>
+</div>
+<div class="paragraph">
+<p>Yes, the extension describes the behavior as specifically as it can. Quads
 being terminated may look like unexpected divergence, but the behavior is
-reasonable when viewed as a whole.</p></div>
-</div></div>
+reasonable when viewed as a whole.</p>
+</div>
+</div>
+</div>
 </li>
-</ol></div>
+</ol>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_revision_history">Revision History</h2>
 <div class="sectionbody">
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:25%;">
-<col style="width:25%;">
-<col style="width:25%;">
-<col style="width:25%;">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Rev</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Date</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Author</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Changes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rev</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Date</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Author</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Changes</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2022-01-22</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Alan Baker</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Initial Revision</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2022-01-22</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Alan Baker</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Initial Revision</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2024-04-18</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Alan Baker</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Fix typo and resolve issue</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2024-04-18</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Alan Baker</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fix typo and resolve issue</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-</div>
-</div>
-<div id="footnotes"><hr></div>
-<div id="footer">
-<div id="footer-text">
-Last updated
- 2024-04-18 09:24:29 EDT
 </div>
 </div>
 </body>

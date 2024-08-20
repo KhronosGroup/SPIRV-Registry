@@ -105,7 +105,6 @@ Token Number Assignments
 
 [width="40%"]
 [cols="70%,30%"]
-[grid="rows"]
 |====
 |OpSubgroupAllKHR      | 4428
 |OpSubgroupAnyKHR      | 4429
@@ -159,10 +158,10 @@ value returned by *OpSubgroupAllKHR*, *OpSubgroupAnyKHR*, and
 (Modify Section 3.31, Capability, adding a row to the Capability table) ::
 +
 --
-[cols="1^.^,10,8^",options="header",width = "80%"]
+[cols="^.^1,10,^8",options="header",width = "80%"]
 |====
 2+^.^| Capability | Depends On
-| 4431 | *SubgroupVoteKHR* |     |
+| 4431 | *SubgroupVoteKHR* |
 |====
 --
 

@@ -87,7 +87,6 @@ Token Number Assignments
 
 [width="40%"]
 [cols="70%,30%"]
-[grid="rows"]
 |====
 |ShaderClockKHR|5055
 |OpReadClockKHR|5056
@@ -99,7 +98,7 @@ Modifications to the SPIR-V Specification, Version 1.3
 
 Modify Section 3.31, Capability, adding rows to the Capability table:
 
-[cols="1^.^,10,8^",options="header",width = "80%"]
+[cols="^.^1,10,^8",options="header",width = "80%"]
 |====
 2+^.^| Capability
 | Implicitly Declares
@@ -127,13 +126,13 @@ of the program, and may be affected by conditions beyond the control of
 the programmer. The sampled value read by this instruction consists of
 the least significant bits of the idealized clock's tick count at the
 time the instruction was executed. In particular, an observer may see
-sampled values wrap around zero.
-
+sampled values wrap around zero. +
+ +
 'Result Type' must be a 64-bit unsigned integer type or a vector of
 two-components of 32-bit unsigned integer type with the first component
 containing the 32 least significant bits and the second component containing
-the 32 most significant bits.
-
+the 32 most significant bits. +
+ +
 All invocations within the 'Scope' read from the same source clock.
 _Scope_ must be a valid _Scope <id>_ (Section 3.27).
 1+|Capability: +

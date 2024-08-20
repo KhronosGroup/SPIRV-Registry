@@ -203,7 +203,7 @@ A potential intersection with an axis-aligned bounding box is being considered.
 (Modify Section 3.31, Capability, adding a row to the Capability table) ::
 +
 --
-[cols="1^.^,25,15",options="header",width = "100%"]
+[cols="^.^1,25,15",options="header",width = "100%"]
 :capability: RayQueryKHR
 |====
 2+^.^| Capability | Implicitly Declares
@@ -224,11 +224,10 @@ include::ray_common/optypeaccelerationstructure_table.txt[]
 |=====
 2+|[[OpTypeRayQueryKHR]]*OpTypeRayQueryKHR* +
  +
-Declares a ray query type which is an opaque object representing a ray traversal.
-
+Declares a ray query type which is an opaque object representing a ray traversal. +
+ +
 This type is opaque: values of this type have no defined physical size or
 bit pattern.
-
 1+|Capability: +
 *RayQueryKHR*
 | 2 | 4472 | '<id>' 'Result'
