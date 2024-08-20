@@ -1,10 +1,10 @@
-SPV_INTEL_optnone
-=================
+SPV_EXT_optnone
+===============
 
 Name Strings
 ------------
 
-SPV_INTEL_optnone
+SPV_EXT_optnone
 
 Contact
 -------
@@ -25,7 +25,7 @@ Contributors
 Notice
 ------
 
-Copyright (c) 2024 Intel Corporation. All rights reserved.
+Copyright (c) 2024 The Khronos Group Inc. Copyright terms at http://www.khronos.org/registry/speccopyright.html
 
 Status
 ------
@@ -51,7 +51,7 @@ This extension requires SPIR-V 1.0.
 Overview
 --------
 
-This extension adds new possible value for Function Control mask - *OptNoneINTEL*,
+This extension adds new possible value for Function Control mask - *OptNoneEXT*,
 which represents a strong request to not optimize the function. It is useful in cases
 where the user wants to debug a particular function without sacrificing performance of
 the entire application, and this is accomplished by disabling optimizations solely
@@ -64,7 +64,7 @@ To use this extension within a SPIR-V module, the following
 *OpExtension* must be present in the module:
 
 ----
-OpExtension "SPV_INTEL_optnone*
+OpExtension "SPV_EXT_optnone*
 ----
 
 Modifications to the SPIR-V Specification, Version 1.6, Revision 3, Unified
@@ -78,8 +78,8 @@ Modify Section 3.31, "Capability", adding these rows to the Capability table:
 [options="header"]
 |====
 2+^| Capability ^| Implicitly Declares
-| 6094 | *OptNoneINTEL* +
-Allow to use *OptNoneINTEL* Function Control mask value |
+| 6094 | *OptNoneEXT* +
+Allow to use *OptNoneEXT* Function Control mask value |
 |====
 --
 
@@ -92,13 +92,13 @@ table:
 [cols="1,4,4",options="header",width="100%"]
 |====
 2+| Function Control | <<Capability,Enabling Capabilities>> |
-0x10000 | *OptNoneINTEL* +
+0x10000 | *OptNoneEXT* +
 Strong request, to the extent possible, to not optimize the function. Only functions
 with *Inline* _Function Control_ mask can be considered to be inlined into the
 function. +
 This function should never be inlined. +
 It must not be used together with *Inline* bit. +
-| *CapabilityOptNoneINTEL*
+| *CapabilityOptNoneEXT*
 |====
 
 
