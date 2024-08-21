@@ -1,843 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="generator" content="AsciiDoc 8.6.9">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.23">
 <title>SPV_INTEL_media_block_io</title>
-<style type="text/css">
-/* Shared CSS for AsciiDoc xhtml11 and html5 backends */
-
-/* Default font. */
-body {
-  font-family: Georgia,serif;
-}
-
-/* Title font. */
-h1, h2, h3, h4, h5, h6,
-div.title, caption.title,
-thead, p.table.header,
-#toctitle,
-#author, #revnumber, #revdate, #revremark,
-#footer {
-  font-family: Arial,Helvetica,sans-serif;
-}
-
-body {
-  margin: 1em 5% 1em 5%;
-}
-
-a {
-  color: blue;
-  text-decoration: underline;
-}
-a:visited {
-  color: fuchsia;
-}
-
-em {
-  font-style: italic;
-  color: navy;
-}
-
-strong {
-  font-weight: bold;
-  color: #083194;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  color: #527bbd;
-  margin-top: 1.2em;
-  margin-bottom: 0.5em;
-  line-height: 1.3;
-}
-
-h1, h2, h3 {
-  border-bottom: 2px solid silver;
-}
-h2 {
-  padding-top: 0.5em;
-}
-h3 {
-  float: left;
-}
-h3 + * {
-  clear: left;
-}
-h5 {
-  font-size: 1.0em;
-}
-
-div.sectionbody {
-  margin-left: 0;
-}
-
-hr {
-  border: 1px solid silver;
-}
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
 
 p {
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: normal;
+}
+em, b, strong {
+    color: darkblue;
 }
 
-ul, ol, li > p {
-  margin-top: 0;
-}
-ul > li     { color: #aaa; }
-ul > li > * { color: black; }
-
-.monospaced, code, pre {
-  font-family: "Courier New", Courier, monospace;
-  font-size: inherit;
-  color: navy;
-  padding: 0;
-  margin: 0;
-}
-pre {
-  white-space: pre-wrap;
-}
-
-#author {
-  color: #527bbd;
-  font-weight: bold;
-  font-size: 1.1em;
-}
-#email {
-}
-#revnumber, #revdate, #revremark {
-}
-
-#footer {
-  font-size: small;
-  border-top: 2px solid silver;
-  padding-top: 0.5em;
-  margin-top: 4.0em;
-}
-#footer-text {
-  float: left;
-  padding-bottom: 0.5em;
-}
-#footer-badges {
-  float: right;
-  padding-bottom: 0.5em;
-}
-
-#preamble {
-  margin-top: 1.5em;
-  margin-bottom: 1.5em;
-}
-div.imageblock, div.exampleblock, div.verseblock,
-div.quoteblock, div.literalblock, div.listingblock, div.sidebarblock,
-div.admonitionblock {
-  margin-top: 1.0em;
-  margin-bottom: 1.5em;
-}
-div.admonitionblock {
-  margin-top: 2.0em;
-  margin-bottom: 2.0em;
-  margin-right: 10%;
-  color: #606060;
-}
-
-div.content { /* Block element content. */
-  padding: 0;
-}
-
-/* Block element titles. */
-div.title, caption.title {
-  color: #527bbd;
-  font-weight: bold;
-  text-align: left;
-  margin-top: 1.0em;
-  margin-bottom: 0.5em;
-}
-div.title + * {
-  margin-top: 0;
-}
-
-td div.title:first-child {
-  margin-top: 0.0em;
-}
-div.content div.title:first-child {
-  margin-top: 0.0em;
-}
-div.content + div.title {
-  margin-top: 0.0em;
-}
-
-div.sidebarblock > div.content {
-  background: #ffffee;
-  border: 1px solid #dddddd;
-  border-left: 4px solid #f0f0f0;
-  padding: 0.5em;
-}
-
-div.listingblock > div.content {
-  border: 1px solid #dddddd;
-  border-left: 5px solid #f0f0f0;
-  background: #f8f8f8;
-  padding: 0.5em;
-}
-
-div.quoteblock, div.verseblock {
-  padding-left: 1.0em;
-  margin-left: 1.0em;
-  margin-right: 10%;
-  border-left: 5px solid #f0f0f0;
-  color: #888;
-}
-
-div.quoteblock > div.attribution {
-  padding-top: 0.5em;
-  text-align: right;
-}
-
-div.verseblock > pre.content {
-  font-family: inherit;
-  font-size: inherit;
-}
-div.verseblock > div.attribution {
-  padding-top: 0.75em;
-  text-align: left;
-}
-/* DEPRECATED: Pre version 8.2.7 verse style literal block. */
-div.verseblock + div.attribution {
-  text-align: left;
-}
-
-div.admonitionblock .icon {
-  vertical-align: top;
-  font-size: 1.1em;
-  font-weight: bold;
-  text-decoration: underline;
-  color: #527bbd;
-  padding-right: 0.5em;
-}
-div.admonitionblock td.content {
-  padding-left: 0.5em;
-  border-left: 3px solid #dddddd;
-}
-
-div.exampleblock > div.content {
-  border-left: 3px solid #dddddd;
-  padding-left: 0.5em;
-}
-
-div.imageblock div.content { padding-left: 0; }
-span.image img { border-style: none; vertical-align: text-bottom; }
-a.image:visited { color: white; }
-
-dl {
-  margin-top: 0.8em;
-  margin-bottom: 0.8em;
-}
-dt {
-  margin-top: 0.5em;
-  margin-bottom: 0;
-  font-style: normal;
-  color: navy;
-}
-dd > *:first-child {
-  margin-top: 0.1em;
-}
-
-ul, ol {
-    list-style-position: outside;
-}
-ol.arabic {
-  list-style-type: decimal;
-}
-ol.loweralpha {
-  list-style-type: lower-alpha;
-}
-ol.upperalpha {
-  list-style-type: upper-alpha;
-}
-ol.lowerroman {
-  list-style-type: lower-roman;
-}
-ol.upperroman {
-  list-style-type: upper-roman;
-}
-
-div.compact ul, div.compact ol,
-div.compact p, div.compact p,
-div.compact div, div.compact div {
-  margin-top: 0.1em;
-  margin-bottom: 0.1em;
-}
-
-tfoot {
-  font-weight: bold;
-}
-td > div.verse {
-  white-space: pre;
-}
-
-div.hdlist {
-  margin-top: 0.8em;
-  margin-bottom: 0.8em;
-}
-div.hdlist tr {
-  padding-bottom: 15px;
-}
-dt.hdlist1.strong, td.hdlist1.strong {
-  font-weight: bold;
-}
-td.hdlist1 {
-  vertical-align: top;
-  font-style: normal;
-  padding-right: 0.8em;
-  color: navy;
-}
-td.hdlist2 {
-  vertical-align: top;
-}
-div.hdlist.compact tr {
-  margin: 0;
-  padding-bottom: 0;
-}
-
-.comment {
-  background: yellow;
-}
-
-.footnote, .footnoteref {
-  font-size: 0.8em;
-}
-
-span.footnote, span.footnoteref {
-  vertical-align: super;
-}
-
-#footnotes {
-  margin: 20px 0 20px 0;
-  padding: 7px 0 0 0;
-}
-
-#footnotes div.footnote {
-  margin: 0 0 5px 0;
-}
-
-#footnotes hr {
-  border: none;
-  border-top: 1px solid silver;
-  height: 1px;
-  text-align: left;
-  margin-left: 0;
-  width: 20%;
-  min-width: 100px;
-}
-
-div.colist td {
-  padding-right: 0.5em;
-  padding-bottom: 0.3em;
-  vertical-align: top;
-}
-div.colist td img {
-  margin-top: 0.3em;
-}
-
-@media print {
-  #footer-badges { display: none; }
-}
-
-#toc {
-  margin-bottom: 2.5em;
-}
-
-#toctitle {
-  color: #527bbd;
-  font-size: 1.1em;
-  font-weight: bold;
-  margin-top: 1.0em;
-  margin-bottom: 0.1em;
-}
-
-div.toclevel0, div.toclevel1, div.toclevel2, div.toclevel3, div.toclevel4 {
-  margin-top: 0;
-  margin-bottom: 0;
-}
-div.toclevel2 {
-  margin-left: 2em;
-  font-size: 0.9em;
-}
-div.toclevel3 {
-  margin-left: 4em;
-  font-size: 0.9em;
-}
-div.toclevel4 {
-  margin-left: 6em;
-  font-size: 0.9em;
-}
-
-span.aqua { color: aqua; }
-span.black { color: black; }
-span.blue { color: blue; }
-span.fuchsia { color: fuchsia; }
-span.gray { color: gray; }
-span.green { color: green; }
-span.lime { color: lime; }
-span.maroon { color: maroon; }
-span.navy { color: navy; }
-span.olive { color: olive; }
-span.purple { color: purple; }
-span.red { color: red; }
-span.silver { color: silver; }
-span.teal { color: teal; }
-span.white { color: white; }
-span.yellow { color: yellow; }
-
-span.aqua-background { background: aqua; }
-span.black-background { background: black; }
-span.blue-background { background: blue; }
-span.fuchsia-background { background: fuchsia; }
-span.gray-background { background: gray; }
-span.green-background { background: green; }
-span.lime-background { background: lime; }
-span.maroon-background { background: maroon; }
-span.navy-background { background: navy; }
-span.olive-background { background: olive; }
-span.purple-background { background: purple; }
-span.red-background { background: red; }
-span.silver-background { background: silver; }
-span.teal-background { background: teal; }
-span.white-background { background: white; }
-span.yellow-background { background: yellow; }
-
-span.big { font-size: 2em; }
-span.small { font-size: 0.6em; }
-
-span.underline { text-decoration: underline; }
-span.overline { text-decoration: overline; }
-span.line-through { text-decoration: line-through; }
-
-div.unbreakable { page-break-inside: avoid; }
-
-
-/*
- * xhtml11 specific
- *
- * */
-
-div.tableblock {
-  margin-top: 1.0em;
-  margin-bottom: 1.5em;
-}
-div.tableblock > table {
-  border: 3px solid #527bbd;
-}
-thead, p.table.header {
-  font-weight: bold;
-  color: #527bbd;
-}
-p.table {
-  margin-top: 0;
-}
-/* Because the table frame attribute is overriden by CSS in most browsers. */
-div.tableblock > table[frame="void"] {
-  border-style: none;
-}
-div.tableblock > table[frame="hsides"] {
-  border-left-style: none;
-  border-right-style: none;
-}
-div.tableblock > table[frame="vsides"] {
-  border-top-style: none;
-  border-bottom-style: none;
-}
-
-
-/*
- * html5 specific
- *
- * */
-
-table.tableblock {
-  margin-top: 1.0em;
-  margin-bottom: 1.5em;
-}
-thead, p.tableblock.header {
-  font-weight: bold;
-  color: #527bbd;
-}
-p.tableblock {
-  margin-top: 0;
-}
-table.tableblock {
-  border-width: 3px;
-  border-spacing: 0px;
-  border-style: solid;
-  border-color: #527bbd;
-  border-collapse: collapse;
-}
-th.tableblock, td.tableblock {
-  border-width: 1px;
-  padding: 4px;
-  border-style: solid;
-  border-color: #527bbd;
-}
-
-table.tableblock.frame-topbot {
-  border-left-style: hidden;
-  border-right-style: hidden;
-}
-table.tableblock.frame-sides {
-  border-top-style: hidden;
-  border-bottom-style: hidden;
-}
-table.tableblock.frame-none {
-  border-style: hidden;
-}
-
-th.tableblock.halign-left, td.tableblock.halign-left {
-  text-align: left;
-}
-th.tableblock.halign-center, td.tableblock.halign-center {
-  text-align: center;
-}
-th.tableblock.halign-right, td.tableblock.halign-right {
-  text-align: right;
-}
-
-th.tableblock.valign-top, td.tableblock.valign-top {
-  vertical-align: top;
-}
-th.tableblock.valign-middle, td.tableblock.valign-middle {
-  vertical-align: middle;
-}
-th.tableblock.valign-bottom, td.tableblock.valign-bottom {
-  vertical-align: bottom;
-}
-
-
-/*
- * manpage specific
- *
- * */
-
-body.manpage h1 {
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
-  border-top: 2px solid silver;
-  border-bottom: 2px solid silver;
-}
-body.manpage h2 {
-  border-style: none;
-}
-body.manpage div.sectionbody {
-  margin-left: 3em;
-}
-
-@media print {
-  body.manpage div#toc { display: none; }
-}
-
-
-@media screen {
-  body {
-    max-width: 50em; /* approximately 80 characters wide */
-    margin-left: 16em;
-  }
-
-  #toc {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 13em;
-    padding: 0.5em;
-    padding-bottom: 1.5em;
-    margin: 0;
-    overflow: auto;
-    border-right: 3px solid #f8f8f8;
-    background-color: white;
-  }
-
-  #toc .toclevel1 {
-    margin-top: 0.5em;
-  }
-
-  #toc .toclevel2 {
-    margin-top: 0.25em;
-    display: list-item;
-    color: #aaaaaa;
-  }
-
-  #toctitle {
-    margin-top: 0.5em;
-  }
-}
 </style>
-<script type="text/javascript">
-/*<![CDATA[*/
-var asciidoc = {  // Namespace.
-
-/////////////////////////////////////////////////////////////////////
-// Table Of Contents generator
-/////////////////////////////////////////////////////////////////////
-
-/* Author: Mihai Bazon, September 2002
- * http://students.infoiasi.ro/~mishoo
- *
- * Table Of Content generator
- * Version: 0.4
- *
- * Feel free to use this script under the terms of the GNU General Public
- * License, as long as you do not remove or alter this notice.
- */
-
- /* modified by Troy D. Hanson, September 2006. License: GPL */
- /* modified by Stuart Rackham, 2006, 2009. License: GPL */
-
-// toclevels = 1..4.
-toc: function (toclevels) {
-
-  function getText(el) {
-    var text = "";
-    for (var i = el.firstChild; i != null; i = i.nextSibling) {
-      if (i.nodeType == 3 /* Node.TEXT_NODE */) // IE doesn't speak constants.
-        text += i.data;
-      else if (i.firstChild != null)
-        text += getText(i);
-    }
-    return text;
-  }
-
-  function TocEntry(el, text, toclevel) {
-    this.element = el;
-    this.text = text;
-    this.toclevel = toclevel;
-  }
-
-  function tocEntries(el, toclevels) {
-    var result = new Array;
-    var re = new RegExp('[hH]([1-'+(toclevels+1)+'])');
-    // Function that scans the DOM tree for header elements (the DOM2
-    // nodeIterator API would be a better technique but not supported by all
-    // browsers).
-    var iterate = function (el) {
-      for (var i = el.firstChild; i != null; i = i.nextSibling) {
-        if (i.nodeType == 1 /* Node.ELEMENT_NODE */) {
-          var mo = re.exec(i.tagName);
-          if (mo && (i.getAttribute("class") || i.getAttribute("className")) != "float") {
-            result[result.length] = new TocEntry(i, getText(i), mo[1]-1);
-          }
-          iterate(i);
-        }
-      }
-    }
-    iterate(el);
-    return result;
-  }
-
-  var toc = document.getElementById("toc");
-  if (!toc) {
-    return;
-  }
-
-  // Delete existing TOC entries in case we're reloading the TOC.
-  var tocEntriesToRemove = [];
-  var i;
-  for (i = 0; i < toc.childNodes.length; i++) {
-    var entry = toc.childNodes[i];
-    if (entry.nodeName.toLowerCase() == 'div'
-     && entry.getAttribute("class")
-     && entry.getAttribute("class").match(/^toclevel/))
-      tocEntriesToRemove.push(entry);
-  }
-  for (i = 0; i < tocEntriesToRemove.length; i++) {
-    toc.removeChild(tocEntriesToRemove[i]);
-  }
-
-  // Rebuild TOC entries.
-  var entries = tocEntries(document.getElementById("content"), toclevels);
-  for (var i = 0; i < entries.length; ++i) {
-    var entry = entries[i];
-    if (entry.element.id == "")
-      entry.element.id = "_toc_" + i;
-    var a = document.createElement("a");
-    a.href = "#" + entry.element.id;
-    a.appendChild(document.createTextNode(entry.text));
-    var div = document.createElement("div");
-    div.appendChild(a);
-    div.className = "toclevel" + entry.toclevel;
-    toc.appendChild(div);
-  }
-  if (entries.length == 0)
-    toc.parentNode.removeChild(toc);
-},
-
-
-/////////////////////////////////////////////////////////////////////
-// Footnotes generator
-/////////////////////////////////////////////////////////////////////
-
-/* Based on footnote generation code from:
- * http://www.brandspankingnew.net/archive/2005/07/format_footnote.html
- */
-
-footnotes: function () {
-  // Delete existing footnote entries in case we're reloading the footnodes.
-  var i;
-  var noteholder = document.getElementById("footnotes");
-  if (!noteholder) {
-    return;
-  }
-  var entriesToRemove = [];
-  for (i = 0; i < noteholder.childNodes.length; i++) {
-    var entry = noteholder.childNodes[i];
-    if (entry.nodeName.toLowerCase() == 'div' && entry.getAttribute("class") == "footnote")
-      entriesToRemove.push(entry);
-  }
-  for (i = 0; i < entriesToRemove.length; i++) {
-    noteholder.removeChild(entriesToRemove[i]);
-  }
-
-  // Rebuild footnote entries.
-  var cont = document.getElementById("content");
-  var spans = cont.getElementsByTagName("span");
-  var refs = {};
-  var n = 0;
-  for (i=0; i<spans.length; i++) {
-    if (spans[i].className == "footnote") {
-      n++;
-      var note = spans[i].getAttribute("data-note");
-      if (!note) {
-        // Use [\s\S] in place of . so multi-line matches work.
-        // Because JavaScript has no s (dotall) regex flag.
-        note = spans[i].innerHTML.match(/\s*\[([\s\S]*)]\s*/)[1];
-        spans[i].innerHTML =
-          "[<a id='_footnoteref_" + n + "' href='#_footnote_" + n +
-          "' title='View footnote' class='footnote'>" + n + "</a>]";
-        spans[i].setAttribute("data-note", note);
-      }
-      noteholder.innerHTML +=
-        "<div class='footnote' id='_footnote_" + n + "'>" +
-        "<a href='#_footnoteref_" + n + "' title='Return to text'>" +
-        n + "</a>. " + note + "</div>";
-      var id =spans[i].getAttribute("id");
-      if (id != null) refs["#"+id] = n;
-    }
-  }
-  if (n == 0)
-    noteholder.parentNode.removeChild(noteholder);
-  else {
-    // Process footnoterefs.
-    for (i=0; i<spans.length; i++) {
-      if (spans[i].className == "footnoteref") {
-        var href = spans[i].getElementsByTagName("a")[0].getAttribute("href");
-        href = href.match(/#.*/)[0];  // Because IE return full URL.
-        n = refs[href];
-        spans[i].innerHTML =
-          "[<a href='#_footnote_" + n +
-          "' title='View footnote' class='footnote'>" + n + "</a>]";
-      }
-    }
-  }
-},
-
-install: function(toclevels) {
-  var timerId;
-
-  function reinstall() {
-    asciidoc.footnotes();
-    if (toclevels) {
-      asciidoc.toc(toclevels);
-    }
-  }
-
-  function reinstallAndRemoveTimer() {
-    clearInterval(timerId);
-    reinstall();
-  }
-
-  timerId = setInterval(reinstall, 500);
-  if (document.addEventListener)
-    document.addEventListener("DOMContentLoaded", reinstallAndRemoveTimer, false);
-  else
-    window.onload = reinstallAndRemoveTimer;
-}
-
-}
-asciidoc.install(1);
-/*]]>*/
-</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-<body class="article">
+<body class="article toc2 toc-left">
 <div id="header">
 <h1>SPV_INTEL_media_block_io</h1>
-<div id="toc">
-  <div id="toctitle">Table of Contents</div>
-  <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_name_strings">Name Strings</a></li>
+<li><a href="#_contact">Contact</a></li>
+<li><a href="#_contributors">Contributors</a></li>
+<li><a href="#_notice">Notice</a></li>
+<li><a href="#_status">Status</a></li>
+<li><a href="#_version">Version</a></li>
+<li><a href="#_dependencies">Dependencies</a></li>
+<li><a href="#_overview">Overview</a></li>
+<li><a href="#_extension_name">Extension Name</a></li>
+<li><a href="#_new_capabilities">New Capabilities</a></li>
+<li><a href="#_new_instructions">New Instructions</a></li>
+<li><a href="#_token_number_assignments">Token Number Assignments</a></li>
+<li><a href="#_modifications_to_the_spir_v_specification_version_1_2">Modifications to the SPIR-V Specification, Version 1.2</a></li>
+<li><a href="#_validation_rules">Validation Rules</a></li>
+<li><a href="#_issues">Issues</a></li>
+<li><a href="#_revision_history">Revision History</a></li>
+</ul>
 </div>
 </div>
 <div id="content">
 <div class="sect1">
 <h2 id="_name_strings">Name Strings</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>SPV_INTEL_media_block_io</p></div>
+<div class="paragraph">
+<p>SPV_INTEL_media_block_io</p>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_contact">Contact</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>To report problems with this extension, please open a new issue at:</p></div>
-<div class="paragraph"><p><a href="https://github.com/KhronosGroup/SPIRV-Registry">https://github.com/KhronosGroup/SPIRV-Registry</a></p></div>
+<div class="paragraph">
+<p>To report problems with this extension, please open a new issue at:</p>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/KhronosGroup/SPIRV-Registry" class="bare">https://github.com/KhronosGroup/SPIRV-Registry</a></p>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_contributors">Contributors</h2>
 <div class="sectionbody">
-<div class="ulist"><ul>
+<div class="ulist">
+<ul>
 <li>
-<p>
-Ben Ashbaugh, Intel<br>
-</p>
+<p>Ben Ashbaugh, Intel<br></p>
 </li>
 <li>
-<p>
-Biju George, Intel
-</p>
+<p>Biju George, Intel</p>
 </li>
-</ul></div>
+</ul>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_notice">Notice</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Copyright (c) 2018 Intel Corporation.  All rights reserved.</p></div>
+<div class="paragraph">
+<p>Copyright (c) 2018 Intel Corporation.  All rights reserved.</p>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_status">Status</h2>
 <div class="sectionbody">
-<div class="ulist"><ul>
+<div class="ulist">
+<ul>
 <li>
-<p>
-Final Draft
-</p>
+<p>Final Draft</p>
 </li>
-</ul></div>
+</ul>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_version">Version</h2>
 <div class="sectionbody">
-<table class="tableblock frame-all grid-all"
-style="
-width:40%;
-">
-<col style="width:50%;">
-<col style="width:50%;">
+<table class="tableblock frame-all grid-all" style="width: 40%;">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2018-11-20</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Last Modified Date</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2024-08-21</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Revision</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
 </tr>
 </tbody>
 </table>
@@ -846,69 +125,83 @@ width:40%;
 <div class="sect1">
 <h2 id="_dependencies">Dependencies</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>This extension is written against the SPIR-V Specification,
-Version 1.2 Revision 1.</p></div>
-<div class="paragraph"><p>This extension requires SPIR-V 1.0.</p></div>
+<div class="paragraph">
+<p>This extension is written against the SPIR-V Specification,
+Version 1.2 Revision 1.</p>
+</div>
+<div class="paragraph">
+<p>This extension requires SPIR-V 1.0.</p>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_overview">Overview</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>This extension adds additional subgroup block read and write functionality that allow applications to flexibly specify the width and height of the block to read from or write to a 2D image.</p></div>
+<div class="paragraph">
+<p>This extension adds additional subgroup block read and write functionality that allow applications to flexibly specify the width and height of the block to read from or write to a 2D image.</p>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_extension_name">Extension Name</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>To use this extension within a SPIR-V module, the appropriate <strong>OpExtension</strong> must be present in the module:</p></div>
+<div class="paragraph">
+<p>To use this extension within a SPIR-V module, the appropriate <strong>OpExtension</strong> must be present in the module:</p>
+</div>
 <div class="listingblock">
-<div class="content monospaced">
+<div class="content">
 <pre>OpExtension "SPV_INTEL_media_block_io"</pre>
-</div></div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_new_capabilities">New Capabilities</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>This extension introduces new capabilities:</p></div>
+<div class="paragraph">
+<p>This extension introduces new capabilities:</p>
+</div>
 <div class="listingblock">
-<div class="content monospaced">
+<div class="content">
 <pre>SubgroupImageMediaBlockIOINTEL</pre>
-</div></div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_new_instructions">New Instructions</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Instructions added under the <strong>SubgroupImageMediaBlockIOINTEL</strong> capability:</p></div>
+<div class="paragraph">
+<p>Instructions added under the <strong>SubgroupImageMediaBlockIOINTEL</strong> capability:</p>
+</div>
 <div class="listingblock">
-<div class="content monospaced">
+<div class="content">
 <pre>OpSubgroupImageMediaBlockReadINTEL
 OpSubgroupImageMediaBlockWriteINTEL</pre>
-</div></div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_token_number_assignments">Token Number Assignments</h2>
 <div class="sectionbody">
-<table class="tableblock frame-all grid-rows"
-style="
-width:40%;
-">
-<col style="width:70%;">
-<col style="width:30%;">
+<table class="tableblock frame-all grid-rows" style="width: 40%;">
+<colgroup>
+<col style="width: 70%;">
+<col style="width: 30%;">
+</colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">SubgroupImageMediaBlockIOINTEL</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">5579</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SubgroupImageMediaBlockIOINTEL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5579</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">OpSubgroupImageMediaBlockReadINTEL</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">5580</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OpSubgroupImageMediaBlockReadINTEL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5580</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">OpSubgroupImageMediaBlockWriteINTEL</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">5581</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OpSubgroupImageMediaBlockWriteINTEL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5581</p></td>
 </tr>
 </tbody>
 </table>
@@ -919,87 +212,88 @@ width:40%;
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_capabilities">Capabilities</h3>
-<div class="paragraph"><p>Modify Section 3.31, Capability, adding rows to the Capability table:</p></div>
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:5%;">
-<col style="width:52%;">
-<col style="width:21%;">
-<col style="width:21%;">
+<div class="paragraph">
+<p>Modify Section 3.31, Capability, adding rows to the Capability table:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 5.2631%;">
+<col style="width: 52.6315%;">
+<col style="width: 21.0526%;">
+<col style="width: 21.0528%;">
+</colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-center valign-top" colspan="2" > Capability </th>
-<th class="tableblock halign-center valign-top" > Implicitly Declares </th>
-<th class="tableblock halign-center valign-top" > Enabled by Extension</th>
+<th class="tableblock halign-center valign-top" colspan="2">Capability</th>
+<th class="tableblock halign-center valign-top">Implicitly Declares</th>
+<th class="tableblock halign-center valign-top">Enabled by Extension</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">5579</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>SubgroupImageMediaBlockIOINTEL</strong></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>SPV_INTEL_media_block_io</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5579</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>SubgroupImageMediaBlockIOINTEL</strong></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>SPV_INTEL_media_block_io</strong></p></td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="sect2">
 <h3 id="_instructions">Instructions</h3>
-<div class="paragraph"><p>Modify Section 3.32.21, Group Instructions, adding to the end of the list of instructions:</p></div>
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:5%;">
-<col style="width:5%;">
-<col style="width:15%;">
-<col style="width:15%;">
-<col style="width:15%;">
-<col style="width:15%;">
-<col style="width:15%;">
-<col style="width:15%;">
+<div class="paragraph">
+<p>Modify Section 3.32.21, Group Instructions, adding to the end of the list of instructions:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 5%;">
+<col style="width: 5%;">
+<col style="width: 15%;">
+<col style="width: 15%;">
+<col style="width: 15%;">
+<col style="width: 15%;">
+<col style="width: 15%;">
+<col style="width: 15%;">
+</colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" colspan="7" ><p class="tableblock"><a id="OpSubgroupImageMediaBlockReadINTEL"></a><strong>OpSubgroupImageMediaBlockReadINTEL</strong><br>
+<td class="tableblock halign-left valign-top" colspan="7"><p class="tableblock"><a id="OpSubgroupImageMediaBlockReadINTEL"></a><strong>OpSubgroupImageMediaBlockReadINTEL</strong><br>
 <br>
 Reads a block of data from a 2D region of the specified <em>Image</em>.</p>
 <p class="tableblock"><em>Image</em> must be an object whose type is <strong>OpTypeImage</strong> with a <em>Sampled</em> operand of 0 or 2.</p>
 <p class="tableblock">The <em>Result Type</em> is used to compute the maximum size of the 2D region that may be read, and may be a scalar or a vector type.  For this description, the block read <em>Component Type</em> is defined as the <em>Result Type</em> if <em>Result Type</em> is a scalar type, or as the vector <em>Component Type</em> if <em>Result Type</em> is a vector type.</p>
 <p class="tableblock">The size of the 2D region to read is specified by the <em>Width</em> and <em>Height</em> operands.  The <em>Width</em> of the 2D region is expressed in units of the block read <em>Component Type</em>, and the <em>Height</em> directly describes the number of rows of the 2D region to read.</p>
 <p class="tableblock">The <em>Coordinate</em> describes where in the <em>Image</em> to start reading the 2D region, and must be a vector of integer type.  The first component of the <em>Coordinate</em> is a byte coordinate into a row of the <em>Image</em> and is not expressed in units of the block read <em>Component Type</em>.  Remaining coordinates are non-normalized texel coordinates.</p>
-<p class="tableblock">The data read from the 2D region is assigned to <em>Result</em> for each invocation in the subgroup by reorganizing the data read from the 2D region into a different 2D destination region in row major order.  The width of the destination 2D region is equivalent to <strong>SubgroupMaxSize</strong> in units of the <em>Component Type</em>, and the height of the destination 2D region is equivalent to one if <em>Result Type</em> is a scalar type, or to the vector <em>Component Count</em> if <em>Result Type</em> is a vector type.  The reorganization assigns rows of the source 2D region to the destination 2D region in row-major order.  If the source 2D region row byte width is not a power-of-two then the source 2D region row is assigned to the destination 2D region with undefined padding values to make a power-of-two row byte width.  Each invocation in the subgroup is then assigned a <em>Component Type</em> column vector of the reorganized 2D region, i.e. each invocation&#8217;s subsequent data element&#8217;s index is strided by the <strong>SubgroupMaxSize</strong> in the 2D destination region.</p>
+<p class="tableblock">The data read from the 2D region is assigned to <em>Result</em> for each invocation in the subgroup by reorganizing the data read from the 2D region into a different 2D destination region in row major order.  The width of the destination 2D region is equivalent to <strong>SubgroupMaxSize</strong> in units of the <em>Component Type</em>, and the height of the destination 2D region is equivalent to one if <em>Result Type</em> is a scalar type, or to the vector <em>Component Count</em> if <em>Result Type</em> is a vector type.  The reorganization assigns rows of the source 2D region to the destination 2D region in row-major order.  If the source 2D region row byte width is not a power-of-two then the source 2D region row is assigned to the destination 2D region with undefined padding values to make a power-of-two row byte width.  Each invocation in the subgroup is then assigned a <em>Component Type</em> column vector of the reorganized 2D region, i.e. each invocation_s subsequent data element_s index is strided by the <strong>SubgroupMaxSize</strong> in the 2D destination region.</p>
 <p class="tableblock">If the size of the requested 2D region to read is smaller than the 2D destination region then some tail components of some <em>Result</em> values will not be assigned values.  If the size of the 2D region to read is larger than the 2D destination region then some parts of the 2D region to read will be not be assigned and will be dropped.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
 <strong>SubgroupImageMediaBlockIOINTEL</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">7</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">5580</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Image</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Coordinate</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Width</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Height</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5580</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Result</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Image</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Coordinate</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Width</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Height</em></p></td>
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:5%;">
-<col style="width:5%;">
-<col style="width:17%;">
-<col style="width:17%;">
-<col style="width:17%;">
-<col style="width:17%;">
-<col style="width:17%;">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 5.8823%;">
+<col style="width: 5.8823%;">
+<col style="width: 17.647%;">
+<col style="width: 17.647%;">
+<col style="width: 17.647%;">
+<col style="width: 17.647%;">
+<col style="width: 17.6474%;">
+</colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" colspan="6" ><p class="tableblock"><a id="OpSubgroupImageMediaBlockWriteINTEL"></a><strong>OpSubgroupImageMediaBlockWriteINTEL</strong><br>
+<td class="tableblock halign-left valign-top" colspan="6"><p class="tableblock"><a id="OpSubgroupImageMediaBlockWriteINTEL"></a><strong>OpSubgroupImageMediaBlockWriteINTEL</strong><br>
 <br>
 Writes a block of data into a 2D region of the specified <em>Image</em>.</p>
 <p class="tableblock"><em>Image</em> must be an object whose type is <strong>OpTypeImage</strong> with a <em>Sampled</em> operand of 0 or 2.</p>
@@ -1008,17 +302,17 @@ Writes a block of data into a 2D region of the specified <em>Image</em>.</p>
 <p class="tableblock">The <em>Coordinate</em> describes where in the <em>Image</em> to start writing the 2D region, and must be a vector of integer type.  The first component of the <em>Coordinate</em> is a byte coordinate into a row of the <em>Image</em> and is not expressed in units of the <em>Component Type</em>.  Remaining coordinates are non-normalized texel coordinates.</p>
 <p class="tableblock">The <em>Data</em> for each invocation in the subgroup collectively forms a 2D source region, where the width of the 2D source region is equivalent to the <strong>SubgroupMaxSize</strong> in units of the block write <em>Component Type</em>, and the height of the 2D source region is equivalent to one if the type of <em>Data</em> is a scalar type, or to the vector <em>Component Count</em> if it is a vector type.  This 2D source region is then reorganized into a different 2D region to write.  The reorganization assigns data from the 2D source region to rows of the 2D region to write in row-major order.  If the row byte width of the 2D region to write is not a power-of-two, then some values from the 2D source region are skipped during assignment, so that each row of the 2D region to write begins at an byte offset that is a power-of-two.</p>
 <p class="tableblock">If the size of the 2D source region is greater than the size of the 2D region to write then some tail components of some <em>Data</em> values will not be written.  This SPIR-V extension does not require any specific behavior when the size of the 2D source region is smaller than the size of the 2D region to write, but some environments may define behavior for this case.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
 <strong>SubgroupImageMediaBlockIOINTEL</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">6</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">5581</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Image</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Coordinate</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Width</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Height</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Data</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5581</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Image</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Coordinate</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Width</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Height</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Data</em></p></td>
 </tr>
 </tbody>
 </table>
@@ -1028,51 +322,47 @@ Writes a block of data into a 2D region of the specified <em>Image</em>.</p>
 <div class="sect1">
 <h2 id="_validation_rules">Validation Rules</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>None.</p></div>
+<div class="paragraph">
+<p>None.</p>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_issues">Issues</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>None.</p></div>
+<div class="paragraph">
+<p>None.</p>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_revision_history">Revision History</h2>
 <div class="sectionbody">
-<table class="tableblock frame-all grid-rows"
-style="
-width:100%;
-">
-<col style="width:4%;">
-<col style="width:14%;">
-<col style="width:14%;">
-<col style="width:66%;">
+<table class="tableblock frame-all grid-rows stretch">
+<colgroup>
+<col style="width: 4.7619%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 66.6667%;">
+</colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top" >Rev</th>
-<th class="tableblock halign-left valign-top" >Date</th>
-<th class="tableblock halign-left valign-top" >Author</th>
-<th class="tableblock halign-left valign-top" >Changes</th>
+<th class="tableblock halign-left valign-top">Rev</th>
+<th class="tableblock halign-left valign-top">Date</th>
+<th class="tableblock halign-left valign-top">Author</th>
+<th class="tableblock halign-left valign-top">Changes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2018-10-29</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Ben Ashbaugh</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Initial revision</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2018-10-29</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ben Ashbaugh</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Initial revision</strong></p></td>
 </tr>
 </tbody>
 </table>
 </div>
-</div>
-</div>
-<div id="footnotes"><hr></div>
-<div id="footer">
-<div id="footer-text">
-Last updated
- 2018-11-20 13:33:29 PST
 </div>
 </div>
 </body>
