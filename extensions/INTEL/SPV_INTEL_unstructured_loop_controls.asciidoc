@@ -102,7 +102,7 @@ Modify Section 3.31, Capability, adding a row to the Capability table:
 In section 3.32.17, Control-Flow Instructions, add a new instruction, *OpLoopControlINTEL*, as follows:
 [cols="4", width="100%"]
 |=====
-3+^|*OpLoopControlINTEL* +
+3+|*OpLoopControlINTEL* +
 
 Declare a loop.
 

@@ -59,7 +59,7 @@ A task sequence object can be created by calling *OpTaskSequenceCreateINTEL*.
 The *OpTaskSequenceAsyncINTEL*, *OpTaskSequenceGetINTEL*, and
 *OpTaskSequenceReleaseINTEL* instructions take a task sequence object as an
 argument. The *OpTaskSequenceAsyncINTEL* instruction creates a invocation which
-will be referred to as a 'task thread' in this document. This task thread is
+will be referred to as a _task thread_ in this document. This task thread is
 said to belong to the task sequence specified to the *OpTaskSequenceAsyncINTEL*
 instruction. The *OpTaskSequenceGetINTEL* instruction returns the result of a
 task thread in the specified task sequence. Results are returned from the task
