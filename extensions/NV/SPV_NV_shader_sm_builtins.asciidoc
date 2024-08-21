@@ -84,7 +84,7 @@ Builtin
 (Modify Section 3.21, Builtin, adding rows to the Builtin table) ::
 +
 --
-[cols="1^,10,6^",options="header"]
+[cols="^1,10,^6",options="header"]
 |====
 2+^.^| Builtin | <<Capability,Enabling Capabilities>>
 | 5374 | *WarpsPerSMNV* +
@@ -111,7 +111,7 @@ Capabilities
 Modify Section 3.31, "Capability", adding these rows to the Capability table:
 
 --
-[cols="1^,10,6^",options="header"]
+[cols="^1,10,^6",options="header"]
 |====
 2+^| Capability ^| Depends On
 | 5373 | *ShaderSMBuiltinsNV* +

@@ -72,7 +72,7 @@ Add *OpImageSampleFootprintNV* to the list of opcodes that use 'Image Operands'.
 (Modify Section 3.31, Capability, adding a new row to the Capability table) ::
 +
 --
-[cols="1^.^,10,8^,15",options="header",width = "80%"]
+[cols="^.^1,10,^8,15",options="header",width = "80%"]
 |====
 2+^.^| Capability | Depends On | Enabled by Extension
 | 5282 | *ImageFootprintNV* | *Shader*
@@ -152,7 +152,7 @@ It contains ('u', 'v'[, 'w']) as needed by the definition of 'Sampled Image'.  +
 
 Granularity of an image footprint mask.
 Used by <<OpImageSampleFootprintNV,*OpImageSampleFootprintNV*>>.
-[cols="1^.^,^10,^10,8^",options="header",width = "80%"]
+[cols="^.^1,^10,^10,^8",options="header",width = "80%"]
 |====
 3+^.^| Granularity        | <<Capability,Enabling Capabilities>>
 |    |Dim=*2D* | Dim=*3D* |

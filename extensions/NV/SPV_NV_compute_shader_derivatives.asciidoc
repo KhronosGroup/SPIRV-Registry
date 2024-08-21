@@ -100,7 +100,7 @@ Derivatives appear in the *Fragment* and *GLCompute* Execution Models.
 --
 (add new rows to the Execution Mode table)
 
-[cols="1^.^,20,10^,8<.<",options="header",width = "100%"]
+[cols="^.^1,20,^10,<.<8",options="header",width = "100%"]
 |====
   2+^.^| Execution Mode  | Enabling Capabilities | Extra Operands
 | 5289 | *DerivativeGroupQuadsNV* +
@@ -121,7 +121,7 @@ Only valid with the *Compute* Execution Model.
 (Modify Section 3.31, Capability, adding a new row to the Capability table) ::
 +
 --
-[cols="1^.^,10,8^,15",options="header",width = "80%"]
+[cols="^.^1,10,^8,15",options="header",width = "80%"]
 |====
 2+^.^| Capability | Depends On | Enabled by Extension
 | 5288 | *ComputeDerivativeGroupQuadsNV*  +

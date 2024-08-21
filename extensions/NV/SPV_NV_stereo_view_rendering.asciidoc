@@ -131,7 +131,7 @@ Modifications to the SPIR-V Specification, Version 1.1
 (Modify Section 3.20, Decoration, adding a row to the Decoration table) ::
 +
 --
-[cols="1^,10,6^,2*2",options="header",width = "100%"]
+[cols="^1,10,^6,2*2",options="header",width = "100%"]
 |====
 2+^.^| Decoration | Enabling Capabilities 2+<.^| Extra Operands
 | 5256 | *SecondaryViewportRelativeNV* +
@@ -150,7 +150,7 @@ variable decorated with *ViewportIndex* to the value specified by
 
 (add two new rows to the BuiltIn table)
 
-[cols="1^.^,20,8^",options="header",width = "90%"]
+[cols="^.^1,20,^8",options="header",width = "90%"]
 |====
 2+^.^| BuiltIn| Enabling Capabilities
 | 5257 | *SecondaryPositionNV* +
@@ -170,7 +170,7 @@ Execution Model. See Vulkan or OpenGL API specifications for more detail.
 (Modify Section 3.31, Capability, add a new row to the Capability table) ::
 +
 --
-[cols="1^.^,10,8^,15",options="header",width = "80%"]
+[cols="^.^1,10,^8,15",options="header",width = "80%"]
 |====
 2+^.^| Capability | Depends On | Enabled by Extension
 | 5259 | *ShaderStereoViewNV* | *ShaderViewportMaskNV*
