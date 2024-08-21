@@ -1,5 +1,5 @@
 SPV_NV_shader_invocation_reorder
-===============================
+================================
 
 Name Strings
 ------------
@@ -160,18 +160,17 @@ of shader call instructions.
 (Modify Section 3.2, Decorations, adding a row to the Decoration table) ::
 +
 --
-[cols="1^.^,25,15",options="header",width = "100%"]
-:capability: ShaderInvocationReorderNV
+[cols="^.^1,25,15",options="header",width="100%"]
 |====
-2+^.^| Decoration | Requires | *ShaderInvocationReorderNV*
-| 5386 | *HitObjectShaderRecordBufferNV* +
+2+^.^| Decoration | Requires 
+| 5386 | *ShaderInvocationReorderNV* | *HitObjectShaderRecordBufferNV* +
 |====
 --
 
 (Modify Section 3.7, Storage Class, adding rows to the Storage Class table) ::
 +
 --
-[cols="1^,15,2*2",options="header",width = "100%"]
+[cols="^1,15,2*2",options="header",width = "100%"]
 |====
 2+^.^| Storage Class | <<Capability,Enabling Capabilities>> | Enabled by Extension
 | 5385 | *HitObjectAttributeNV* +
@@ -186,8 +185,7 @@ Only allowed in *RayGenerationKHR*, *ClosestHitKHR*, and *MissKHR* execution mod
 (Modify Section 3.31, Capability, adding a row to the Capability table) ::
 +
 --
-[cols="1^.^,25,15",options="header",width = "100%"]
-:capability: ShaderInvocationReorderNV
+[cols="^.^1,25,15",options="header",width = "100%"]
 |====
 2+^.^| Capability | Implicitly Declares
 | 5383 | *ShaderInvocationReorderNV* +
@@ -242,7 +240,7 @@ The 'Type' operand to the *OpTypePointer* used for 'Target' or 'Source' must not
 
 [cols="5*1"]
 |======
-4+|[[OpReorderThreadWithHintNV]]*OpReorderThreadWithHitObjectNV* +
+4+|[[OpReorderThreadWithHitObjectNV]]*OpReorderThreadWithHitObjectNV* +
  +
  Reorder threads based on hit object supplemented by 'Hint' and 'Bits' if they are optionally provided values. Behavior is implementation-defined. +
  +

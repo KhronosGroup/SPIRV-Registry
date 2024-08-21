@@ -151,7 +151,7 @@ intersections with triangle geometry.
 
 [cols="2,12,15",options="header",width = "100%"]
 |====
-Value^.^| Hit Kind | Enabling Capabilities
+2+^.^| Hit Kind | Enabling Capabilities
 | builtin | *HitKindFrontFacingMicroTriangleNV* +
 The intersection was with front-facing displacement micromap geometry.
 | *RayTracingDisplacementMicromapNV*
@@ -181,9 +181,9 @@ Uses either of *HitMicroTriangleVertexPositionsNV*, *HitMicroTriangleVertexBaryc
 (Modify Section 3.32.6, Type-Declaration Instructions, adding a new table) ::
 +
 --
-[cols="1,1,5*3",width="100%"]
+[cols="5,1,1*3",width="100%"]
 |=====
-6+|[[OpTypeAccelerationStructureKHR]]*OpTypeAccelerationStructureKHR* +
+2+|[[OpTypeAccelerationStructureKHR]]*OpTypeAccelerationStructureKHR* +
  +
 Declares an acceleration structure type which is an opaque reference to
 acceleration structure handle as defined in the client API

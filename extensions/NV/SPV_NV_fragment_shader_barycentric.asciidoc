@@ -74,7 +74,7 @@ Modifications to the SPIR-V Specification, Version 1.3
 (Modify Section 3.20, Decoration, add a new row to the Decoration table) ::
 +
 --
-[cols="1^,10,6^,2*2",options="header",width = "100%"]
+[cols="^1,10,^6,2*2",options="header",width = "100%"]
 |====
 2+^.^| Decoration | <<Capability,Enabling Capabilities>> 2+<.^| Extra Operands
 | 5285 | *PerVertexNV* +
@@ -91,7 +91,7 @@ Only valid for the *Input* and *Output* Storage Classes.
 
 (add new rows to the Builtin table)
 
-[cols="1^.^,20,8^",options="header",width = "90%"]
+[cols="^.^1,20,^8",options="header",width = "90%"]
 |====
 2+^.^| BuiltIn| Enabling Capabilities
 | 5286 | *BaryCoordNV* +
@@ -112,7 +112,7 @@ See the Vulkan API specification for more detail.
 (Modify Section 3.31, Capability, adding a new row to the Capability table) ::
 +
 --
-[cols="1^.^,10,8^,15",options="header",width = "80%"]
+[cols="^.^1,10,^8,15",options="header",width = "80%"]
 |====
 2+^.^| Capability | Depends On | Enabled by Extension
 | 5284 | *FragmentBarycentricNV* | *Shader*
