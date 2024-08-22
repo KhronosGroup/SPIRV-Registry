@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 2.0.16">
+<meta name="generator" content="Asciidoctor 2.0.23">
 <title>SPV_INTEL_subgroup_buffer_prefetch</title>
 <style>
 @import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
@@ -116,7 +116,7 @@ em, b, strong {
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2024-08-01</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2024-08-22</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Revision</p></td>
@@ -202,33 +202,39 @@ The functionality added by this extension can improve the performance of some ke
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 12.5%;">
-<col style="width: 12.5%;">
-<col style="width: 37.5%;">
-<col style="width: 37.5%;">
+<col style="width: 16.6666%;">
+<col style="width: 8.3333%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25.0001%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" colspan="3"><p class="tableblock"><a id="OpSubgroupBlockPrefetchINTEL"></a><strong>OpSubgroupBlockPrefetchINTEL</strong><br>
+<td class="tableblock halign-left valign-top" colspan="4"><p class="tableblock"><a id="OpSubgroupBlockPrefetchINTEL"></a><strong>OpSubgroupBlockPrefetchINTEL</strong><br>
 <br>
 Prefetches one or more bytes from <em>Ptr</em> for each invocation in the subgroup as a block operation, where the number of bytes to prefetch per invocation is specified by <em>NumBytes</em>.
 The total number of bytes that is collectively prefetched is therefore <em>NumBytes</em> times <em>SubgroupSize</em>.
 Prefetching does not affect the functionality of a module but may change its performance characteristics.<br>
 <br>
-<em>Ptr</em> must be a pointer to an <em>integer type</em> scalar in the <strong>CrossWorkgroup</strong> <em>Storage Class</em>.<br>
+<em>Ptr</em> must be a pointer.
+If it is an <strong>OpTypePointer</strong> pointer, it must point to an <em>integer type</em> scalar in the <strong>CrossWorkgroup</strong> <em>Storage Class</em>.<br>
 <br>
 <em>NumBytes</em> must be a 32-bit <em>integer type</em> scalar whose <em>Signedness</em> operand is 0, and must come from a constant instruction.
 The prefetch operation may be silently ignored unless <em>NumBytes</em> is a power of two between one and 64 bytes, inclusive.<br>
+<br>
+If present, any <em>Memory Operands</em> must begin with a memory operand literal.
+If not present, it is the same as specifying the memory operand <strong>None</strong>.<br>
 <br>
 Behavior is undefined unless <em>Ptr</em> and <em>NumBytes</em> are dynamically uniform for all invocations in the subgroup.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
 <strong>SubgroupBufferPrefetchINTEL</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3 + variable</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">6221</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Ptr</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>NumBytes</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional <em>Memory Operands</em></p></td>
 </tr>
 </tbody>
 </table>
@@ -247,7 +253,10 @@ Behavior is undefined unless <em>Ptr</em> and <em>NumBytes</em> are dynamically 
 <h2 id="_interactions_with_other_extensions">Interactions with Other Extensions</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>If the <strong>SPV_INTEL_cache_controls</strong> extension is supported then the <strong>CacheControlLoadINTEL</strong> decoration may be used control which cache levels the data will be prefetched into.</p>
+<p>If the <strong>SPV_INTEL_cache_controls</strong> extension is supported, the <strong>CacheControlLoadINTEL</strong> decoration may be used to control which cache levels the data will be prefetched into.</p>
+</div>
+<div class="paragraph">
+<p>If the <strong>SPV_KHR_untyped_pointers</strong> extension is supported, the <em>Ptr</em> operand to <strong>OpSubgroupBlockPrefetchINTEL</strong> may be an <strong>OpTypeUntypedPointerKHR</strong> pointer into the <strong>CrossWorkgroup</strong> <em>Storage Class</em>.</p>
 </div>
 </div>
 </div>
@@ -328,7 +337,7 @@ This is also consistent with the number of elements to prefetch for the <code>pr
 <div class="openblock">
 <div class="content">
 <div class="paragraph">
-<p><strong>RESOLVED</strong>: If the amount of data to prefetch is unexpected or otherwise unsupported it will silently be ignored.
+<p><strong>RESOLVED</strong>: If the amount of data to prefetch is unexpected or otherwise unsupported, it will silently be ignored.
 The expected amounts of data to prefetch will be: 1, 2, 4, 8, 16, 32, or 64 bytes per invocation.
 We do not expect to prefetch three-component vectors.
 We also do not expect to prefetch 16-component vectors, except for very small data types, so we do not expect to prefetch 128 bytes per invocation.</p>
@@ -383,7 +392,7 @@ Passing a pointer to a concrete type provides alignment information that would n
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-08-01 00:00:00 -0700
+Last updated 2024-08-22 21:53:38 UTC
 </div>
 </div>
 </body>
