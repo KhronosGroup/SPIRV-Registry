@@ -83,15 +83,19 @@ Prefetches one or more bytes from _Ptr_ for each invocation in the subgroup as a
 The total number of bytes that is collectively prefetched is therefore _NumBytes_ times _SubgroupSize_.
 Prefetching does not affect the functionality of a module but may change its performance characteristics. +
  +
-_Ptr_ must be a pointer to an _integer type_ scalar in the *CrossWorkgroup* _Storage Class_. +
+_Ptr_ must be a pointer.
+If it is an *OpTypePointer* pointer, it must point to an _integer type_ scalar in the *CrossWorkgroup* _Storage Class_. +
  +
 _NumBytes_ must be a 32-bit _integer type_ scalar whose _Signedness_ operand is 0, and must come from a constant instruction.
 The prefetch operation may be silently ignored unless _NumBytes_ is a power of two between one and 64 bytes, inclusive. +
  +
+If present, any _Memory Operands_ must begin with a memory operand literal.
+If not present, it is the same as specifying the memory operand *None*.
+ +
 Behavior is undefined unless _Ptr_ and _NumBytes_ are dynamically uniform for all invocations in the subgroup.
 1+|Capability: +
 *SubgroupBufferPrefetchINTEL*
-| 3 | 6221 | _<id>_ _Ptr_ | _<id>_ _NumBytes_
+| 3 + variable | 6221 | _<id>_ _Ptr_ | _<id>_ _NumBytes_ | Optional _Memory Operands_
 |=====
 
 == Validation Rules
@@ -100,7 +104,9 @@ None.
 
 == Interactions with Other Extensions
 
-If the *SPV_INTEL_cache_controls* extension is supported then the *CacheControlLoadINTEL* decoration may be used control which cache levels the data will be prefetched into.
+If the *SPV_INTEL_cache_controls* extension is supported, the *CacheControlLoadINTEL* decoration may be used to control which cache levels the data will be prefetched into.
+
+If the *SPV_KHR_untyped_pointers* extension is supported, the _Ptr_ operand to *OpSubgroupBlockPrefetchINTEL* may be an *OpTypeUntypedPointerKHR* pointer into the *CrossWorkgroup* _Storage Class_.
 
 == Issues
 
@@ -150,7 +156,7 @@ This is also consistent with the number of elements to prefetch for the `prefetc
 . What should the behavior be if the amount of data to prefetch is excessively large or some other unexpected value?
 +
 --
-*RESOLVED*: If the amount of data to prefetch is unexpected or otherwise unsupported it will silently be ignored.
+*RESOLVED*: If the amount of data to prefetch is unexpected or otherwise unsupported, it will silently be ignored.
 The expected amounts of data to prefetch will be: 1, 2, 4, 8, 16, 32, or 64 bytes per invocation.
 We do not expect to prefetch three-component vectors.
 We also do not expect to prefetch 16-component vectors, except for very small data types, so we do not expect to prefetch 128 bytes per invocation.
