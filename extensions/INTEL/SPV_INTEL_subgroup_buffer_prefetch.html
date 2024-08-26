@@ -116,7 +116,7 @@ em, b, strong {
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2024-08-22</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2024-08-26</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Revision</p></td>
@@ -136,7 +136,7 @@ em, b, strong {
 <p>This extension requires SPIR-V 1.0.</p>
 </div>
 <div class="paragraph">
-<p>This extension extends the <strong>SPV_INTEL_subgroups</strong> extension and interacts with the <strong>SPV_INTEL_cache_controls</strong> extension.</p>
+<p>This extension extends the <strong>SPV_INTEL_subgroups</strong> extension and interacts with the <strong>SPV_INTEL_cache_controls</strong> and <strong>SPV_KHR_untyped_pointers</strong> extensions.</p>
 </div>
 </div>
 </div>
@@ -216,8 +216,8 @@ Prefetches one or more bytes from <em>Ptr</em> for each invocation in the subgro
 The total number of bytes that is collectively prefetched is therefore <em>NumBytes</em> times <em>SubgroupSize</em>.
 Prefetching does not affect the functionality of a module but may change its performance characteristics.<br>
 <br>
-<em>Ptr</em> must be a pointer.
-If it is an <strong>OpTypePointer</strong> pointer, it must point to an <em>integer type</em> scalar in the <strong>CrossWorkgroup</strong> <em>Storage Class</em>.<br>
+<em>Ptr</em> must be a pointer in the <strong>CrossWorkgroup</strong> <em>Storage Class</em>.
+If it is an <strong>OpTypePointer</strong> pointer, it must point to an <em>integer type</em> scalar type.<br>
 <br>
 <em>NumBytes</em> must be a 32-bit <em>integer type</em> scalar whose <em>Signedness</em> operand is 0, and must come from a constant instruction.
 The prefetch operation may be silently ignored unless <em>NumBytes</em> is a power of two between one and 64 bytes, inclusive.<br>
@@ -388,11 +388,6 @@ Passing a pointer to a concrete type provides alignment information that would n
 </tbody>
 </table>
 </div>
-</div>
-</div>
-<div id="footer">
-<div id="footer-text">
-Last updated 2024-08-22 21:53:38 UTC
 </div>
 </div>
 </body>
