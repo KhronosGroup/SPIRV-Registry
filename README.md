@@ -55,6 +55,7 @@ Khronos SPIR-V Registry](https://www.khronos.org/registry/spir-v/).
 
 ### EXT Extensions (Multivendor)
 
+* [SPV_EXT_arithmetic_fence __             ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/EXT/SPV_EXT_arithmetic_fence.html)
 * [SPV_EXT_demote_to_helper_invocation     ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/EXT/SPV_EXT_demote_to_helper_invocation.html)
 * [SPV_EXT_descriptor_indexing             ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/EXT/SPV_EXT_descriptor_indexing.html)
 * [SPV_EXT_fragment_fully_covered          ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/EXT/SPV_EXT_fragment_fully_covered.html)
@@ -74,7 +75,6 @@ Khronos SPIR-V Registry](https://www.khronos.org/registry/spir-v/).
 * [SPV_EXT_shader_tile_image               ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/EXT/SPV_EXT_shader_tile_image.html)
 * [SPV_EXT_shader_viewport_index_layer     ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/EXT/SPV_EXT_shader_viewport_index_layer.html)
 * [SPV_EXT_ycbcr_attachments               ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/EXT/SPV_EXT_ycbcr_attachments.html)
-* [SPV_EXT_arithmetic_fence __             ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/EXT/SPV_EXT_arithmetic_fence.html)
 
 ### Vendor Extensions
 

@@ -144,18 +144,18 @@ In section 3.49.1. Miscellaneous Instructions, add a new instruction:
 
 [cols="5", width="100%"]
 |=====
-4+^|*OpArithmeticFenceEXT* +
-Return 'Target'. Indicates that the optimizer can not move or combine 'Target'
-with the expression that uses 'Result' of the instruction. +
+4+|*OpArithmeticFenceEXT* +
+Return _Target_. Indicates that the optimizer can not move or combine _Target_
+with the expression that uses _Result_ of the instruction. +
  +
-'Target' must be scalar or vector of _floating-point type_. +
+_Target_ must be scalar or vector of _floating-point type_. +
  +
-'Result Type' must be the same as the return type of the 'Target' instruction. +
+_Result Type_ must be the same as the return type of the _Target_ instruction. +
  +
 | Capability:
 *ArithmeticFenceEXT*
 
-| 4 | 6145 | 'Result Type' <id> | 'Result' <id> | 'Target' <id>
+| 4 | 6145 | _Result Type_ <id> | _Result_ <id> | _Target_ <id>
 |=====
 
 Issues
