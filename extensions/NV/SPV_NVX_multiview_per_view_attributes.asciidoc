@@ -122,7 +122,7 @@ Modifications to the SPIR-V Specification, Version 1.1
 
 (add two new rows to the BuiltIn table)
 
-[cols="1^.^,20,8^",options="header",width = "90%"]
+[cols="^.^1,20,^8",options="header",width = "90%"]
 |====
 2+^.^| BuiltIn| Enabling Capabilities
 | 5261 | *PositionPerViewNV* +
@@ -142,7 +142,7 @@ Execution Model. See Vulkan API specification for more detail.
 (Modify Section 3.31, Capability, add a new row to the Capability table) ::
 +
 --
-[cols="1^.^,10,8^,15",options="header",width = "80%"]
+[cols="^.^1,10,^8,15",options="header",width = "80%"]
 |====
 2+^.^| Capability | Depends On | Enabled by Extension
 | 5260 | *PerViewAttributesNV* | *MultiView*

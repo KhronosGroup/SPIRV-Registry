@@ -108,7 +108,7 @@ Modifications to the SPIR-V Specification, Version 1.1
 (Modify Section 3.20, Decoration, adding a row to the Decoration table) ::
 +
 --
-[cols="1^,10,6^,2*2",options="header",width = "100%"]
+[cols="^1,10,^6,2*2",options="header",width = "100%"]
 |====
 2+^.^| Decoration | <<Capability,Enabling Capabilities>> 2+<.^| Extra Operands
 | 5248 | *OverrideCoverageNV* +
@@ -122,7 +122,7 @@ by the original primitive, or that failed the early depth/stencil tests.
 (Modify Section 3.31, Capability, adding a row to the Capability table) ::
 +
 --
-[cols="1^.^,10,8^,15",options="header",width = "80%"]
+[cols="^.^1,10,^8,15",options="header",width = "80%"]
 |====
 2+^.^| Capability | Depends On | Enabled by Extension
 | 5249 | *SampleMaskOverrideCoverageNV* | *SampleRateShading* | *SPV_NV_sample_mask_override_coverage*
@@ -148,8 +148,7 @@ None.
 Revision History
 ----------------
 
-[cols="5%,10%,15%,70%"]
-[grid="rows"]
+[cols="5%,12%,13%,70%"]
 [options="header"]
 |========================================
 |Rev|Date|Author|Changes

@@ -192,7 +192,7 @@ Add *GroupNonUniformPartitionedNV* to the capability list.
 (Modify Section 3.31, Capability, adding new rows to the Capability table) ::
 +
 --
-[cols="1^.^,15,8^,30",options="header",width = "100%"]
+[cols="^.^1,15,^8,30",options="header",width = "100%"]
 |====
 2+^.^| Capability | Depends On | Enabled by Extension
 | 5301 | *GroupNonUniformPartitionedNV* +
