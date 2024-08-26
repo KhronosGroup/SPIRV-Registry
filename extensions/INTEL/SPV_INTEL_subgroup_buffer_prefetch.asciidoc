@@ -83,8 +83,8 @@ Prefetches one or more bytes from _Ptr_ for each invocation in the subgroup as a
 The total number of bytes that is collectively prefetched is therefore _NumBytes_ times _SubgroupSize_.
 Prefetching does not affect the functionality of a module but may change its performance characteristics. +
  +
-_Ptr_ must be a pointer.
-If it is an *OpTypePointer* pointer, it must point to an _integer type_ scalar in the *CrossWorkgroup* _Storage Class_. +
+_Ptr_ must be a pointer in the *CrossWorkgroup* _Storage Class_.
+If it is an *OpTypePointer* pointer, it must point to an _integer type_ scalar type. +
  +
 _NumBytes_ must be a 32-bit _integer type_ scalar whose _Signedness_ operand is 0, and must come from a constant instruction.
 The prefetch operation may be silently ignored unless _NumBytes_ is a power of two between one and 64 bytes, inclusive. +
