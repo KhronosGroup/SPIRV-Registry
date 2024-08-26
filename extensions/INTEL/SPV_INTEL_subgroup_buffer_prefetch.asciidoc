@@ -41,7 +41,7 @@ This extension is written against the SPIR-V Specification, Version 1.6 Revision
 
 This extension requires SPIR-V 1.0.
 
-This extension extends the *SPV_INTEL_subgroups* extension and interacts with the *SPV_INTEL_cache_controls* extension.
+This extension extends the *SPV_INTEL_subgroups* extension and interacts with the *SPV_INTEL_cache_controls* and *SPV_KHR_untyped_pointers* extensions.
 
 == Overview
 
