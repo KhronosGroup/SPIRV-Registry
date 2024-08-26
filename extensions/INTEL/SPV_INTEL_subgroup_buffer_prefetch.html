@@ -216,7 +216,7 @@ Prefetches one or more bytes from <em>Ptr</em> for each invocation in the subgro
 The total number of bytes that is collectively prefetched is therefore <em>NumBytes</em> times <em>SubgroupSize</em>.
 Prefetching does not affect the functionality of a module but may change its performance characteristics.<br>
 <br>
-<em>Ptr</em> must be a pointer in the <strong>CrossWorkgroup</strong> <em>Storage Class</em>.
+<em>Ptr</em> must be a pointer into the <strong>CrossWorkgroup</strong> <em>Storage Class</em>.
 If it is an <strong>OpTypePointer</strong> pointer, it must point to an <em>integer type</em> scalar type.<br>
 <br>
 <em>NumBytes</em> must be a 32-bit <em>integer type</em> scalar whose <em>Signedness</em> operand is 0, and must come from a constant instruction.
@@ -256,7 +256,7 @@ Behavior is undefined unless <em>Ptr</em> and <em>NumBytes</em> are dynamically 
 <p>If the <strong>SPV_INTEL_cache_controls</strong> extension is supported, the <strong>CacheControlLoadINTEL</strong> decoration may be used to control which cache levels the data will be prefetched into.</p>
 </div>
 <div class="paragraph">
-<p>If the <strong>SPV_KHR_untyped_pointers</strong> extension is supported, the <em>Ptr</em> operand to <strong>OpSubgroupBlockPrefetchINTEL</strong> may be an <strong>OpTypeUntypedPointerKHR</strong> pointer into the <strong>CrossWorkgroup</strong> <em>Storage Class</em>.</p>
+<p>If the <strong>SPV_KHR_untyped_pointers</strong> extension is supported, the <em>Ptr</em> operand to <strong>OpSubgroupBlockPrefetchINTEL</strong> may be an <strong>OpTypeUntypedPointerKHR</strong> pointer.</p>
 </div>
 </div>
 </div>

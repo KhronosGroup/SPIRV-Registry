@@ -83,7 +83,7 @@ Prefetches one or more bytes from _Ptr_ for each invocation in the subgroup as a
 The total number of bytes that is collectively prefetched is therefore _NumBytes_ times _SubgroupSize_.
 Prefetching does not affect the functionality of a module but may change its performance characteristics. +
  +
-_Ptr_ must be a pointer in the *CrossWorkgroup* _Storage Class_.
+_Ptr_ must be a pointer into the *CrossWorkgroup* _Storage Class_.
 If it is an *OpTypePointer* pointer, it must point to an _integer type_ scalar type. +
  +
 _NumBytes_ must be a 32-bit _integer type_ scalar whose _Signedness_ operand is 0, and must come from a constant instruction.
@@ -106,7 +106,7 @@ None.
 
 If the *SPV_INTEL_cache_controls* extension is supported, the *CacheControlLoadINTEL* decoration may be used to control which cache levels the data will be prefetched into.
 
-If the *SPV_KHR_untyped_pointers* extension is supported, the _Ptr_ operand to *OpSubgroupBlockPrefetchINTEL* may be an *OpTypeUntypedPointerKHR* pointer into the *CrossWorkgroup* _Storage Class_.
+If the *SPV_KHR_untyped_pointers* extension is supported, the _Ptr_ operand to *OpSubgroupBlockPrefetchINTEL* may be an *OpTypeUntypedPointerKHR* pointer.
 
 == Issues
 
