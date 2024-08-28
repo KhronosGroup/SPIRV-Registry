@@ -129,6 +129,7 @@ Khronos SPIR-V Registry](https://www.khronos.org/registry/spir-v/).
 * [SPV_INTEL_shader_integer_functions2     ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/INTEL/SPV_INTEL_shader_integer_functions2.html)
 * [SPV_INTEL_split_barrier                 ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/INTEL/SPV_INTEL_split_barrier.html)
 * [SPV_INTEL_subgroups                     ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/INTEL/SPV_INTEL_subgroups.html)
+* [SPV_INTEL_subgroup_buffer_prefetch      ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/INTEL/SPV_INTEL_subgroup_buffer_prefetch.html)
 * [SPV_INTEL_task_sequence                 ]( https://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/INTEL/SPV_INTEL_task_sequence.html)
 * [SPV_INTEL_unstructured_loop_controls    ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/INTEL/SPV_INTEL_unstructured_loop_controls.html)
 * [SPV_INTEL_usm_storage_classes           ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/INTEL/SPV_INTEL_usm_storage_classes.html)
