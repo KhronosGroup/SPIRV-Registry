@@ -56,6 +56,7 @@ Khronos SPIR-V Registry](https://www.khronos.org/registry/spir-v/).
 
 ### EXT Extensions (Multivendor)
 
+* [SPV_EXT_arithmetic_fence                ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/EXT/SPV_EXT_arithmetic_fence.html)
 * [SPV_EXT_demote_to_helper_invocation     ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/EXT/SPV_EXT_demote_to_helper_invocation.html)
 * [SPV_EXT_descriptor_indexing             ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/EXT/SPV_EXT_descriptor_indexing.html)
 * [SPV_EXT_fragment_fully_covered          ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/EXT/SPV_EXT_fragment_fully_covered.html)
