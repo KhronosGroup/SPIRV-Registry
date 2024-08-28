@@ -101,17 +101,17 @@ invocation.
 This is a performance hint only.
 If the specified number of registers is not supported then the compiler may
 choose the closest number of supported registers or may ignore the request.
-3+| 'Literal' +
-'Number of Registers'
+3+| _Literal_ +
+_Number of Registers_
 | *RegisterLimitsINTEL*
 
 | {maximum_registers_id_token} | *MaximumRegistersIdINTEL* +
-Same as the *MaximumRegistersINTEL* execution mode but using an '<id>'
+Same as the *MaximumRegistersINTEL* execution mode but using an _<id>_
 operand instead of a literal.
 The operand must be an integer type scalar and is interpreted as an unsigned
 value.
-3+| '<id>' +
-'Number of Registers'
+3+| _<id>_ +
+_Number of Registers_
 | *RegisterLimitsINTEL*
 
 | {named_maximum_registers_token} | *NamedMaximumRegistersINTEL* +
@@ -119,8 +119,8 @@ Specifies the maximum number of registers to be allocated to a single invocation
 using a named policy rather than a specific numeric number of registers.
 This is a performance hint only.
 If the named policy is not supported then the compiler may ignore the request.
-3+| <<NamedMaxNumberOfRegisters,'Named Maximum Number of Registers'>> +
-'Named Maximum Number of Registers'
+3+| <<NamedMaxNumberOfRegisters,_Named Maximum Number of Registers_>> +
+_Named Maximum Number of Registers_
 | *RegisterLimitsINTEL*
 |====
 
@@ -145,7 +145,7 @@ Choose the maximum number of registers automatically to minimize register spills
 
 == Issues
 
-. Do we need to support both the 'literal' and '<id>' execution modes?
+. Do we need to support both the _literal_ and _<id>_ execution modes?
 +
 --
 *RESOLVED*: Because different devices may support differently sized register

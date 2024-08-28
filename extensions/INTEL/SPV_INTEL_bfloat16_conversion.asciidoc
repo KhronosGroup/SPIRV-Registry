@@ -101,12 +101,12 @@ Add to Section 3.42.11, Conversion Instructions:
 Convert value numerically from 32-bit floating point to `bfloat16`, which is
 represented as a 16-bit unsigned integer. +
  +
-'Result Type' must be a scalar or vector of integer type.
+_Result Type_ must be a scalar or vector of integer type.
 The component width must be 16 bits.
-The bit pattern in the 'Result' represents a `bfloat16` value. +
+The bit pattern in the _Result_ represents a `bfloat16` value. +
  +
-'Float Value' must be a scalar or vector of floating-point type.
-It must have the same number of components as 'Result Type'.
+_Float Value_ must be a scalar or vector of floating-point type.
+It must have the same number of components as _Result Type_.
 The component width must be 32 bits. +
  +
 Results are computed per component. +
@@ -114,12 +114,11 @@ Results are computed per component. +
 1+|Capability: +
 *{capability_name}*
 1+| 4 | {FToBF16_token}
-| '<id>' +
-'Result Type'
-| 'Result <id>'
-| '<id>' +
-'Float Value'
-| '<id>' +
+| _<id>_ +
+_Result Type_
+| _Result <id>_
+| _<id>_ +
+_Float Value_
 |=====
 
 [cols="1,1,3*3",width="100%"]
@@ -129,12 +128,12 @@ Results are computed per component. +
 Interpret a 16-bit integer value as `bfloat16` and convert the value numerically
 to 32-bit floating point. +
  +
-'Result Type' must be a scalar or vector of floating-point type.
+_Result Type_ must be a scalar or vector of floating-point type.
 The component width must be 32 bits. +
  +
-'BFloat16 Value' must be a scalar or vector of integer type, which is
+_BFloat16 Value_ must be a scalar or vector of integer type, which is
 interpreted as a `bfloat16`.
-The type must have the same number of components as 'Result Type'.
+The type must have the same number of components as _Result Type_.
 The component width must be 16 bits. +
  +
 Results are computed per component. +
@@ -142,12 +141,11 @@ Results are computed per component. +
 1+|Capability: +
 *{capability_name}*
 1+| 4 | {BF16ToF_token}
-| '<id>' +
-'Result Type'
-| 'Result <id>'
-| '<id>' +
-'BFloat16 Value'
-| '<id>' +
+| _<id>_ +
+_Result Type_
+| _Result <id>_
+| _<id>_ +
+_BFloat16 Value_
 |=====
 
 

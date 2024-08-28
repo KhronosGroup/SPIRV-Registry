@@ -98,7 +98,7 @@ In section 3.32.23, Pipe Instructions, add two new instructions: *OpReadPipeBloc
 
 [cols="6", width="100%"]
 |=====
-5+^|*OpReadPipeBlockingINTEL* +
+5+|*OpReadPipeBlockingINTEL* +
 
 Read a packet from the pipe object specified by _Pipe_ into _Pointer_.  This instruction will not return until the read has completed successfully and thus if the pipe is empty it will block until there is data in the pipe. +
 
@@ -127,7 +127,7 @@ _Packet Alignment_
 
 [cols="6", width="100%"]
 |=====
-5+^|*OpWritePipeBlockingINTEL* +
+5+|*OpWritePipeBlockingINTEL* +
 
 Write a packet from _Pointer_ to the pipe object specified by _Pipe_. This instruction will not return until the write has completed successfully and thus if the pipe is full it will block until there is available capacity in the pipe. +
 

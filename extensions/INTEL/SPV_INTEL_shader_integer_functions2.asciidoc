@@ -129,13 +129,13 @@ Allow this new functionality... |
  +
 Returns the number of leading 0-bits, starting at the most significant bit, in the binary representation of value.  If value is zero, the size in bits of the type of value or component type of value (if value is a vector) will be returned. +
  +
-'Result Type' must be  a scalar or vector of <<Integer,'integer type'>>, whose 'Width' operand is 32 and whose 'Signedness' operand is 0. +
+_Result Type_ must be  a scalar or vector of <<Integer,_integer type_>>, whose _Width_ operand is 32 and whose _Signedness_ operand is 0. +
  +
-The type of 'Operand' must be the same as 'Result Type'.
+The type of _Operand_ must be the same as _Result Type_.
 
-| 4 | 5585 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> +
-Operand'
+| 4 | 5585 | _<id>_ +
+_Result Type_ | _Result <id>_ | _<id> +
+Operand_
 |======
 
 [cols="2*1,3*2"]
@@ -144,77 +144,77 @@ Operand'
  +
 Returns the number of trailing 0-bits, starting at the least significant bit, in the binary representation of value.  If value is zero, the size in bits of the type of value or component type of value (if value is a vector) will be returned. +
  +
-'Result Type' must be  a scalar or vector of <<Integer,'integer type'>>, whose 'Width' operand is 32 and whose 'Signedness' operand is 0. +
+_Result Type_ must be  a scalar or vector of <<Integer,_integer type_>>, whose _Width_ operand is 32 and whose _Signedness_ operand is 0. +
  +
-The type of 'Operand' must be the same as 'Result Type'.
+The type of _Operand_ must be the same as _Result Type_.
 
-| 4 | 5586 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> +
-Operand'
+| 4 | 5586 | _<id>_ +
+_Result Type_ | _Result <id>_ | _<id> +
+Operand_
 |======
 
 [cols="2*1,4*2"]
 |======
 6+|[[OpAbsISub]]*OpAbsISub* +
  +
-Returns \|x - y\| clamped to the range of 'Result Type' (instead of modulo overflowing). +
+Returns \|x - y\| clamped to the range of _Result Type_ (instead of modulo overflowing). +
  +
-'Result Type' must be  a scalar or vector of <<Integer,'integer type'>>, whose 'Signedness' operand is 0. +
+_Result Type_ must be  a scalar or vector of <<Integer,_integer type_>>, whose _Signedness_ operand is 0. +
  +
-The type of 'Operand 1' and 'Operand 2' must be a scalar or vector of <<Integer,'integer type'>>. They must have the same number of components as 'Result Type'. They must have the same component width as 'Result Type'.
+The type of _Operand 1_ and _Operand 2_ must be a scalar or vector of <<Integer,_integer type_>>. They must have the same number of components as _Result Type_. They must have the same component width as _Result Type_.
 
-| 5 | 5587 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> +
-Operand 1' | '<id> +
-Operand 2'
+| 5 | 5587 | _<id>_ +
+_Result Type_ | _Result <id>_ | _<id> +
+Operand 1_ | _<id> +
+Operand 2_
 |======
 
 [cols="2*1,4*2"]
 |======
 6+|[[OpAbsUSub]]*OpAbsUSub* +
  +
-Returns \|x - y\| clamped to the range of 'Result Type' (instead of modulo overflowing). +
+Returns \|x - y\| clamped to the range of _Result Type_ (instead of modulo overflowing). +
  +
-'Result Type' must be  a scalar or vector of <<Integer,'integer type'>>, whose 'Signedness' operand is 0. +
+_Result Type_ must be  a scalar or vector of <<Integer,_integer type_>>, whose _Signedness_ operand is 0. +
  +
-The type of 'Operand 1' and 'Operand 2' must be the same as 'Result Type'.
+The type of _Operand 1_ and _Operand 2_ must be the same as _Result Type_.
 
-| 5 | 5588 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> +
-Operand 1' | '<id> +
-Operand 2'
+| 5 | 5588 | _<id>_ +
+_Result Type_ | _Result <id>_ | _<id> +
+Operand 1_ | _<id> +
+Operand 2_
 |======
 
 [cols="2*1,4*2"]
 |======
 6+|[[OpIAddSat]]*OpIAddSat* +
  +
-Returns x + y clamped to the range of 'Result Type' (instead of modulo overflowing). +
+Returns x + y clamped to the range of _Result Type_ (instead of modulo overflowing). +
  +
-'Result Type' must be  a scalar or vector of <<Integer,'integer type'>>. +
+_Result Type_ must be  a scalar or vector of <<Integer,_integer type_>>. +
  +
-The type of 'Operand 1' and 'Operand 2' must be the same as 'Result Type'.
+The type of _Operand 1_ and _Operand 2_ must be the same as _Result Type_.
 
-| 5 | 5589 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> +
-Operand 1' | '<id> +
-Operand 2'
+| 5 | 5589 | _<id>_ +
+_Result Type_ | _Result <id>_ | _<id> +
+Operand 1_ | _<id> +
+Operand 2_
 |======
 
 [cols="2*1,4*2"]
 |======
 6+|[[OpUAddSat]]*OpUAddSat* +
  +
-Returns x + y clamped to the range of 'Result Type' (instead of modulo overflowing). +
+Returns x + y clamped to the range of _Result Type_ (instead of modulo overflowing). +
  +
-'Result Type' must be  a scalar or vector of <<Integer,'integer type'>>, whose 'Signedness' operand is 0. +
+_Result Type_ must be  a scalar or vector of <<Integer,_integer type_>>, whose _Signedness_ operand is 0. +
  +
-The type of 'Operand 1' and 'Operand 2' must be the same as 'Result Type'.
+The type of _Operand 1_ and _Operand 2_ must be the same as _Result Type_.
 
-| 5 | 5590 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> +
-Operand 1' | '<id> +
-Operand 2'
+| 5 | 5590 | _<id>_ +
+_Result Type_ | _Result <id>_ | _<id> +
+Operand 1_ | _<id> +
+Operand 2_
 |======
 
 [cols="2*1,4*2"]
@@ -223,14 +223,14 @@ Operand 2'
  +
 Returns (x+y) >> 1.  The intermediate sum does not modulo overflow. +
  +
-'Result Type' must be  a scalar or vector of <<Integer,'integer type'>>. +
+_Result Type_ must be  a scalar or vector of <<Integer,_integer type_>>. +
  +
-The type of 'Operand 1' and 'Operand 2' must be the same as 'Result Type'.
+The type of _Operand 1_ and _Operand 2_ must be the same as _Result Type_.
 
-| 5 | 5591 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> +
-Operand 1' | '<id> +
-Operand 2'
+| 5 | 5591 | _<id>_ +
+_Result Type_ | _Result <id>_ | _<id> +
+Operand 1_ | _<id> +
+Operand 2_
 |======
 
 [cols="2*1,4*2"]
@@ -239,14 +239,14 @@ Operand 2'
  +
 Returns (x+y) >> 1.  The intermediate sum does not modulo overflow. +
  +
-'Result Type' must be  a scalar or vector of <<Integer,'integer type'>>, whose 'Signedness' operand is 0. +
+_Result Type_ must be  a scalar or vector of <<Integer,_integer type_>>, whose _Signedness_ operand is 0. +
  +
-The type of 'Operand 1' and 'Operand 2' must be the same as 'Result Type'.
+The type of _Operand 1_ and _Operand 2_ must be the same as _Result Type_.
 
-| 5 | 5592 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> +
-Operand 1' | '<id> +
-Operand 2'
+| 5 | 5592 | _<id>_ +
+_Result Type_ | _Result <id>_ | _<id> +
+Operand 1_ | _<id> +
+Operand 2_
 |======
 
 [cols="2*1,4*2"]
@@ -255,14 +255,14 @@ Operand 2'
  +
 Returns (x+y+1) >> 1.  The intermediate sum does not modulo overflow. +
  +
-'Result Type' must be  a scalar or vector of <<Integer,'integer type'>>. +
+_Result Type_ must be  a scalar or vector of <<Integer,_integer type_>>. +
  +
-The type of 'Operand 1' and 'Operand 2' must be the same as 'Result Type'.
+The type of _Operand 1_ and _Operand 2_ must be the same as _Result Type_.
 
-| 5 | 5593 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> +
-Operand 1' | '<id> +
-Operand 2'
+| 5 | 5593 | _<id>_ +
+_Result Type_ | _Result <id>_ | _<id> +
+Operand 1_ | _<id> +
+Operand 2_
 |======
 
 [cols="2*1,4*2"]
@@ -271,78 +271,78 @@ Operand 2'
  +
 Returns (x+y+1) >> 1.  The intermediate sum does not modulo overflow. +
  +
-'Result Type' must be  a scalar or vector of <<Integer,'integer type'>>, whose 'Signedness' operand is 0. +
+_Result Type_ must be  a scalar or vector of <<Integer,_integer type_>>, whose _Signedness_ operand is 0. +
  +
-The type of 'Operand 1' and 'Operand 2' must be the same as 'Result Type'.
+The type of _Operand 1_ and _Operand 2_ must be the same as _Result Type_.
 
-| 5 | 5594 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> +
-Operand 1' | '<id> +
-Operand 2'
+| 5 | 5594 | _<id>_ +
+_Result Type_ | _Result <id>_ | _<id> +
+Operand 1_ | _<id> +
+Operand 2_
 |======
 
 [cols="2*1,4*2"]
 |======
 6+|[[OpISubSat]]*OpISubSat* +
  +
-Returns x - y clamped to the range of 'Result Type' (instead of modulo overflowing). +
+Returns x - y clamped to the range of _Result Type_ (instead of modulo overflowing). +
  +
-'Result Type' must be  a scalar or vector of <<Integer,'integer type'>>. +
+_Result Type_ must be  a scalar or vector of <<Integer,_integer type_>>. +
  +
-The type of 'Operand 1' and 'Operand 2' must be the same as 'Result Type'.
+The type of _Operand 1_ and _Operand 2_ must be the same as _Result Type_.
 
-| 5 | 5595 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> +
-Operand 1' | '<id> +
-Operand 2'
+| 5 | 5595 | _<id>_ +
+_Result Type_ | _Result <id>_ | _<id> +
+Operand 1_ | _<id> +
+Operand 2_
 |======
 
 [cols="2*1,4*2"]
 |======
 6+|[[OpUSubSat]]*OpUSubSat* +
  +
-Returns x - y clamped to the range of 'Result Type' (instead of modulo overflowing). +
+Returns x - y clamped to the range of _Result Type_ (instead of modulo overflowing). +
  +
-'Result Type' must be  a scalar or vector of <<Integer,'integer type'>>, whose 'Signedness' operand is 0. +
+_Result Type_ must be  a scalar or vector of <<Integer,_integer type_>>, whose _Signedness_ operand is 0. +
  +
-The type of 'Operand 1' and 'Operand 2' must be the same as 'Result Type'.
+The type of _Operand 1_ and _Operand 2_ must be the same as _Result Type_.
 
-| 5 | 5596 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> +
-Operand 1' | '<id> +
-Operand 2'
+| 5 | 5596 | _<id>_ +
+_Result Type_ | _Result <id>_ | _<id> +
+Operand 1_ | _<id> +
+Operand 2_
 |======
 
 [cols="2*1,4*2"]
 |======
 6+|[[OpIMul32x16]]*OpIMul32x16* +
  +
-Integer multiplication of 'Operand 1' and 'Operand 2'.  The low 16-bits of 'Operand 2' are sign extended to 32-bits before performing the multiplication. +
+Integer multiplication of _Operand 1_ and _Operand 2_.  The low 16-bits of _Operand 2_ are sign extended to 32-bits before performing the multiplication. +
  +
-'Result Type' must be  a scalar or vector of <<Integer,'integer type'>>, whose 'Width' operand is 32. +
+_Result Type_ must be  a scalar or vector of <<Integer,_integer type_>>, whose _Width_ operand is 32. +
  +
-The type of 'Operand 1' and 'Operand 2' must be the same type as 'Result Type'.
+The type of _Operand 1_ and _Operand 2_ must be the same type as _Result Type_.
 
-| 5 | 5597 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> +
-Operand 1' | '<id> +
-Operand 2'
+| 5 | 5597 | _<id>_ +
+_Result Type_ | _Result <id>_ | _<id> +
+Operand 1_ | _<id> +
+Operand 2_
 |======
 
 [cols="2*1,4*2"]
 |======
 6+|[[OpUMul32x16]]*OpUMul32x16* +
  +
-Integer multiplication of 'Operand 1' and 'Operand 2'.  The high 16-bits of 'Operand 2' are replaced with 0x0000 before performing the multiplication. +
+Integer multiplication of _Operand 1_ and _Operand 2_.  The high 16-bits of _Operand 2_ are replaced with 0x0000 before performing the multiplication. +
  +
-'Result Type' must be  a scalar or vector of <<Integer,'integer type'>>, whose 'Width' operand is 32 and whose 'Signedness' operand is 0. +
+_Result Type_ must be  a scalar or vector of <<Integer,_integer type_>>, whose _Width_ operand is 32 and whose _Signedness_ operand is 0. +
  +
-The type of 'Operand 1' and 'Operand 2' must be the same type as 'Result Type'.
+The type of _Operand 1_ and _Operand 2_ must be the same type as _Result Type_.
 
-| 5 | 5598 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> +
-Operand 1' | '<id> +
-Operand 2'
+| 5 | 5598 | _<id>_ +
+_Result Type_ | _Result <id>_ | _<id> +
+Operand 1_ | _<id> +
+Operand 2_
 |======
 
 
