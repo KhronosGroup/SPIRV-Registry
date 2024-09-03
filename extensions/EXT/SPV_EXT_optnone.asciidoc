@@ -98,7 +98,7 @@ with *Inline* _Function Control_ mask can be considered to be inlined into the
 function. +
 This function should never be inlined. +
 It must not be used together with *Inline* bit. +
-| *CapabilityOptNoneEXT*
+| *OptNoneEXT*
 |====
 
 
