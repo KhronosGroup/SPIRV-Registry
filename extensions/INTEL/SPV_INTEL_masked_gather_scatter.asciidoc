@@ -175,35 +175,35 @@ Add the following new entries:
 Reads values from a vector of pointers gathering them into one vector. Returns the gathered vector. Memory access
 is specified by a mask instruction parameter. +
  +
-'Result Type' is a type of the gathered vector. Its _Component Type_ must be the same as the base type of
-'PtrVector'.
+_Result Type_ is a type of the gathered vector. Its _Component Type_ must be the same as the base type of
+_PtrVector_.
  +
-'PtrVector' is a _vector_ with _physical pointer type_ _Component Type_, containing addresses from where the instruction reads. +
+_PtrVector_ is a _vector_ with _physical pointer type_ _Component Type_, containing addresses from where the instruction reads. +
  +
-'Alignment' is an unsigned 32-bit integer literal whose value is
+_Alignment_ is an unsigned 32-bit integer literal whose value is
 either 0 or a power of two. When the value is not 0, it is an assertion that
-each pointer value in 'PtrVector' has this alignment. The behavior is undefined if
-any pointer value in 'PtrVector' does not have this alignment. +
+each pointer value in _PtrVector_ has this alignment. The behavior is undefined if
+any pointer value in _PtrVector_ does not have this alignment. +
  +
-'Mask' is a vector of boolean values with the same number of elements as the _Result Type_. It specifies which elements of
-'PtrVector' should be gathered. +
+_Mask_ is a vector of boolean values with the same number of elements as the _Result Type_. It specifies which elements of
+_PtrVector_ should be gathered. +
  +
-'FillEmpty' is used to fill the masked-off lanes of the result. It must be of the same type as the _Component Type_ of _Result Type_. +
+_FillEmpty_ is used to fill the masked-off lanes of the result. It must be of the same type as the _Component Type_ of _Result Type_. +
 
 1+|Capability: +
 *{capability_name}*
 1+| 7 | {OpMaskedGatherINTEL_token}
-| '<id>' +
-'Result Type'
-|'Result <id>'
-| '<id>' +
-'PtrVector'
-| '<literal>' +
-'Alignment'
-| '<id>' +
-'Mask'
-| '<id>' +
-'FillEmpty'
+| _<id>_ +
+_Result Type_
+|_Result <id>_
+| _<id>_ +
+_PtrVector_
+| _<literal>_ +
+_Alignment_
+| _<id>_ +
+_Mask_
+| _<id>_ +
+_FillEmpty_
 |=====
 
 [cols="1,1,4*3",width="100%"]
@@ -213,29 +213,29 @@ any pointer value in 'PtrVector' does not have this alignment. +
 Writes values from a vector to the corresponding memory address of the given vector of pointers. Memory access
 is specified by a mask instruction parameter. +
  +
-'InputVector' is a _vector_ of values to scatter. +
+_InputVector_ is a _vector_ of values to scatter. +
  +
-'PtrVector' is a _vector_ with _physical pointer type_ _Component Type_, containing addresses where the instruction stores the scattered values. +
+_PtrVector_ is a _vector_ with _physical pointer type_ _Component Type_, containing addresses where the instruction stores the scattered values. +
  +
-'Alignment' is an unsigned 32-bit integer literal whose value is
+_Alignment_ is an unsigned 32-bit integer literal whose value is
 either 0 or a power of two. When the value is not 0, it is an assertion that
-each pointer value in 'PtrVector' has this alignment. The behavior is undefined if
-any pointer value in 'PtrVector' does not have this alignment. +
+each pointer value in _PtrVector_ has this alignment. The behavior is undefined if
+any pointer value in _PtrVector_ does not have this alignment. +
  +
-'Mask' is a vector of boolean values with the same number of elements as the _InputVector_. It specifies which elements of
-'InputVector' should be scattered. +
+_Mask_ is a vector of boolean values with the same number of elements as the _InputVector_. It specifies which elements of
+_InputVector_ should be scattered. +
 
 1+|Capability: +
 *{capability_name}*
 1+| 5 | {OpMaskedScatterINTEL_token}
-| '<id>' +
-'InputVector'
-| '<id>' +
-'PtrVector'
-| '<literal>' +
-'Alignment'
-| '<id>' +
-'Mask'
+| _<id>_ +
+_InputVector_
+| _<id>_ +
+_PtrVector_
+| _<literal>_ +
+_Alignment_
+| _<id>_ +
+_Mask_
 |=====
 
 

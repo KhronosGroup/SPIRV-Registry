@@ -528,7 +528,7 @@ _Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rou
 |=====
 9+<|*OpArbitraryFloatSqrtINTEL* +
 
-An *OpTypeInt* representing an arbitrary precision floating point number is passed in as _A_ and the square root of the value is returned in _Result.
+An *OpTypeInt* representing an arbitrary precision floating point number is passed in as _A_ and the square root of the value is returned in _Result_.
 
 _Result Type_ must be *OpTypeInt*.
 

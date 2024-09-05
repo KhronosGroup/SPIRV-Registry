@@ -28,6 +28,7 @@ ASCIIDOC_HTML_OPTIONS = --trace --failure-level ERROR \
   -a nofooter \
   -a stylesdir=$(SPIRV_DIR)/resources \
   -a stylesheet=spirv.css \
+  -a table-stripes=even \
   -a toc2 \
   -a toclevels=1
 

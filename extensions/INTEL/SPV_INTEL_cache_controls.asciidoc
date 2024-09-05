@@ -204,9 +204,9 @@ If some cache level does not exist, the decoration is ignored. +
 If the exact _Load Cache Control_ value is unsupported, the consumer may apply
 implementation-specific closest match, but only if it does not change the
 observable effect of the requested _Load Cache Control_.
-| <<Literal, 'Literal'>> +
+| <<Literal, _Literal_>> +
 _Cache Level_
-| <<Load_Cache_Control, 'Load_Cache_Control'>> +
+| <<Load_Cache_Control, _Load_Cache_Control_>> +
 _Cache Control_
 | *{capability_name}*
 | {store_control_decoration_token} | *{store_control_decoration}* +
@@ -226,9 +226,9 @@ some cache level does not exist, the decoration is ignored. +
 If the exact _Store Cache Control_ value is unsupported, the consumer may apply
 implementation-specific closest match, but only if it does not change the
 observable effect of the requested _Store Cache Control_.
-| <<Literal, 'Literal'>> +
+| <<Literal, _Literal_>> +
 _Cache Level_
-| <<Store_Cache_Control, 'Store_Cache_Control'>> +
+| <<Store_Cache_Control, _Store_Cache_Control_>> +
 _Cache Control_
 | *{capability_name}*
 |====

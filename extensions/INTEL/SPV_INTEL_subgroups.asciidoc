@@ -50,7 +50,7 @@ This extension builds upon "subgroups" functionality that is already in core SPI
 
 * Intel subgroups adds "block read and write" instructions to take advantage of specialized hardware to read or write blocks of data from or to buffers or images.
 
-This extension has a source language counterpart extension for the OpenCL-C kernel language, +cl_intel_subgroups+, which can be used for online compilation in an OpenCL environment.
+This extension has a source language counterpart extension for the OpenCL-C kernel language, `cl_intel_subgroups`, which can be used for online compilation in an OpenCL environment.
 
 == Extension Name
 
@@ -172,18 +172,18 @@ Modify Section 3.32.21, Group Instructions, adding to the end of the list of ins
 |=====
 5+|[[OpSubgroupShuffleINTEL]]*OpSubgroupShuffleINTEL* +
  +
-Allows data to be arbitrarily transferred between invocations in a subgroup.  The data that is returned for this invocation is the value of 'Data' for the invocation identified by 'InvocationId'.
+Allows data to be arbitrarily transferred between invocations in a subgroup.  The data that is returned for this invocation is the value of _Data_ for the invocation identified by _InvocationId_.
 
-'InvocationId' need not be the same value for all invocations in the subgroup.
+_InvocationId_ need not be the same value for all invocations in the subgroup.
 
-'Result Type' may be a scalar or vector type.
+_Result Type_ may be a scalar or vector type.
 
-The type of 'Data' must be the same as 'Result Type'.
+The type of _Data_ must be the same as _Result Type_.
 
-'InvocationId' must be a 32-bit 'integer type' scalar.
+_InvocationId_ must be a 32-bit _integer type_ scalar.
 1+|Capability: +
 *SubgroupShuffleINTEL*
-| 5 | 5571 | '<id>' 'Result Type' | '<id>' 'Result' |  '<id>' 'Data' | '<id>' 'InvocationId'
+| 5 | 5571 | _<id>_ _Result Type_ | _<id>_ _Result_ |  _<id>_ _Data_ | _<id>_ _InvocationId_
 |=====
 
 [cols="1,1,5*3",width="100%"]
@@ -192,24 +192,24 @@ The type of 'Data' must be the same as 'Result Type'.
  +
 Allows data to be transferred from an invocation in the subgroup with a higher *SubgroupLocalInvocationId* down to a invocation in the subgroup with a lower *SubgroupLocalInvocationId*.
 
-There are two data sources to this built-in function: 'Current' and 'Next'.  To determine the result of this built-in function, first let the unsigned shuffle index be equivalent to the sum of this invocation's *SubgroupLocalInvocationId* plus the specified 'Delta':
+There are two data sources to this built-in function: _Current_ and _Next_.  To determine the result of this built-in function, first let the unsigned shuffle index be equivalent to the sum of this invocation's *SubgroupLocalInvocationId* plus the specified _Delta_:
 
-If the shuffle index is less than the *SubgroupMaxSize*, the result of this built-in function is the value of the 'Current' data source for the invocation with *SubgroupLocalInvocationId* equal to the shuffle index.
+If the shuffle index is less than the *SubgroupMaxSize*, the result of this built-in function is the value of the _Current_ data source for the invocation with *SubgroupLocalInvocationId* equal to the shuffle index.
 
-If the shuffle index is greater than or equal to the *SubgroupMaxSize* but less than twice the *SubgroupMaxSize*, the result of this built-in function is the value of the 'Next' data source for the invocation with *SubgroupLocalInvocationId* equal to the shuffle index minus the *SubgroupMaxSize*.
+If the shuffle index is greater than or equal to the *SubgroupMaxSize* but less than twice the *SubgroupMaxSize*, the result of this built-in function is the value of the _Next_ data source for the invocation with *SubgroupLocalInvocationId* equal to the shuffle index minus the *SubgroupMaxSize*.
 
 All other values of the shuffle index are considered to be out-of-range.
 
-'Delta' need not be the same value for all invocations in the subgroup.
+_Delta_ need not be the same value for all invocations in the subgroup.
 
-'Result Type' may be a scalar or vector type.
+_Result Type_ may be a scalar or vector type.
 
-The type of 'Current' and 'Next' must be the same as 'Result Type'.
+The type of _Current_ and _Next_ must be the same as _Result Type_.
 
-'Delta' must be a 32-bit 'integer type' scalar.
+_Delta_ must be a 32-bit _integer type_ scalar.
 1+|Capability: +
 *SubgroupShuffleINTEL*
-| 6 | 5572 | '<id>' 'Result Type' | '<id>' 'Result' |  '<id>' 'Current' | '<id>' 'Next' | '<id>' 'Delta'
+| 6 | 5572 | _<id>_ _Result Type_ | _<id>_ _Result_ |  _<id>_ _Current_ | _<id>_ _Next_ | _<id>_ _Delta_
 |=====
 
 [cols="1,1,5*3",width="100%"]
@@ -218,126 +218,126 @@ The type of 'Current' and 'Next' must be the same as 'Result Type'.
  +
 Allows data to be transferred from an invocation in the subgroup with a lower *SubgroupLocalInvocationId* up to an invocation in the subgroup with a higher *SubgroupLocalInvocationId*.
 
-There are two data sources to this built-in function: 'Previous' and 'Current'.  To determine the result of this built-in function, first let the signed shuffle index be equivalent to this invocation's *SubgroupLocalInvocationId* minus the specified 'Delta':
+There are two data sources to this built-in function: _Previous_ and _Current_.  To determine the result of this built-in function, first let the signed shuffle index be equivalent to this invocation's *SubgroupLocalInvocationId* minus the specified _Delta_:
 
-If the shuffle index is greater than or equal to zero and less than the *SubgroupMaxSize*, the result of this built-in function is the value of the 'Current' data source for the invocation with *SubgroupLocalInvocationId* equal to the shuffle index.
+If the shuffle index is greater than or equal to zero and less than the *SubgroupMaxSize*, the result of this built-in function is the value of the _Current_ data source for the invocation with *SubgroupLocalInvocationId* equal to the shuffle index.
 
-If the shuffle index is less than zero but greater than or equal to the negative *SubgroupMaxSize*, the result of this built-in function is the value of the 'Previous' data source for the invocation with *SubgroupLocalInvocationId* equal to the shuffle index plus the *SubgroupMaxSize*.
+If the shuffle index is less than zero but greater than or equal to the negative *SubgroupMaxSize*, the result of this built-in function is the value of the _Previous_ data source for the invocation with *SubgroupLocalInvocationId* equal to the shuffle index plus the *SubgroupMaxSize*.
 
 All other values of the shuffle index are considered to be out-of-range.
 
-'Delta' need not be the same value for all invocations in the subgroup.
+_Delta_ need not be the same value for all invocations in the subgroup.
 
-'Result Type' may be a scalar or vector type.
+_Result Type_ may be a scalar or vector type.
 
-The type of 'Previous' and 'Current' must be the same as 'Result Type'.
+The type of _Previous_ and _Current_ must be the same as _Result Type_.
 
-'Delta' must be a 32-bit 'integer type' scalar.
+_Delta_ must be a 32-bit _integer type_ scalar.
 1+|Capability: +
 *SubgroupShuffleINTEL*
-| 6 | 5573 | '<id>' 'Result Type' | '<id>' 'Result' |  '<id>' 'Previous' | '<id>' 'Current' | '<id>' 'Delta'
+| 6 | 5573 | _<id>_ _Result Type_ | _<id>_ _Result_ |  _<id>_ _Previous_ | _<id>_ _Current_ | _<id>_ _Delta_
 |=====
 
 [cols="1,1,4*3",width="100%"]
 |=====
 5+|[[OpSubgroupShuffleXorINTEL]]*OpSubgroupShuffleXorINTEL* +
  +
-Allows data to be transferred between invocations in a subgroup as a function of the invocation's *SubgroupLocalInvocationId*.  The data that is returned for this invocation is the value of 'Data' for the invocation with *SubgroupLocalInvocationId* equal to this invocation's *SubgroupLocalInvocationId* XOR'd with the specified 'Value'.  If the result of the XOR is greater than *SubgroupMaxSize* then it is considered out-of-range.
+Allows data to be transferred between invocations in a subgroup as a function of the invocation_s *SubgroupLocalInvocationId*.  The data that is returned for this invocation is the value of _Data_ for the invocation with *SubgroupLocalInvocationId* equal to this invocation's *SubgroupLocalInvocationId* XOR_d with the specified _Value_.  If the result of the XOR is greater than *SubgroupMaxSize* then it is considered out-of-range.
 
-'Value' need not be the same for all invocations in the subgroup.
+_Value_ need not be the same for all invocations in the subgroup.
 
-'Result Type' may be a scalar or vector type.
+_Result Type_ may be a scalar or vector type.
 
-The type of 'Data' must be the same as 'Result Type'.
+The type of _Data_ must be the same as _Result Type_.
 
-'Value' must be a 32-bit 'integer type' scalar.
+_Value_ must be a 32-bit _integer type_ scalar.
 1+|Capability: +
 *SubgroupShuffleINTEL*
-| 5 | 5574 | '<id>' 'Result Type' | '<id>' 'Result' |  '<id>' 'Data' | '<id>' 'Value'
+| 5 | 5574 | _<id>_ _Result Type_ | _<id>_ _Result_ |  _<id>_ _Data_ | _<id>_ _Value_
 |=====
 
 [cols="1,1,3*3",width="100%"]
 |=====
 4+|[[OpSubgroupBlockReadINTEL]]*OpSubgroupBlockReadINTEL* +
  +
-Reads one or more components of 'Result' data for each invocation in the subgroup from the specified 'Ptr' as a block operation.
+Reads one or more components of _Result_ data for each invocation in the subgroup from the specified _Ptr_ as a block operation.
 
 The data is read strided, so the first value read is:
 
-+Ptr[ *SubgroupLocalInvocationId* ]+
+`Ptr[ *SubgroupLocalInvocationId* ]`
 
 and the second value read is:
 
-+Ptr[ *SubgroupLocalInvocationId* + *SubgroupMaxSize* ]+
+`Ptr[ *SubgroupLocalInvocationId* + *SubgroupMaxSize* ]`
 
 etc.
 
-'Result Type' may be a scalar or vector type, and its component type must be equal to the type pointed to by 'Ptr'.
+_Result Type_ may be a scalar or vector type, and its component type must be equal to the type pointed to by _Ptr_.
 
-The type of 'Ptr' must be a 'pointer type', and must point to a 'scalar type'.
+The type of _Ptr_ must be a _pointer type_, and must point to a _scalar type_.
 1+|Capability: +
 *SubgroupBufferBlockIOINTEL*
-| 4 | 5575 | '<id>' 'Result Type' | '<id>' 'Result' |  '<id>' 'Ptr'
+| 4 | 5575 | _<id>_ _Result Type_ | _<id>_ _Result_ |  _<id>_ _Ptr_
 |=====
 
 [cols="1,1,2*3",width="100%"]
 |=====
 3+|[[OpSubgroupBlockWriteINTEL]]*OpSubgroupBlockWriteINTEL* +
  +
-Writes one or more components of 'Data' for each invocation in the subgroup from the specified 'Ptr' as a block operation.
+Writes one or more components of _Data_ for each invocation in the subgroup from the specified _Ptr_ as a block operation.
 
 The data is written strided, so the first value is written to:
 
-+Ptr[ *SubgroupLocalInvocationId* ]+
+`Ptr[ *SubgroupLocalInvocationId* ]`
 
 and the second value written is:
 
-+Ptr[ *SubgroupLocalInvocationId* + *SubgroupMaxSize* ]+
+`Ptr[ *SubgroupLocalInvocationId* + *SubgroupMaxSize* ]`
 
 etc.
 
-The type of 'Ptr' must be a 'pointer type', and must point to a 'scalar type'.
+The type of _Ptr_ must be a _pointer type_, and must point to a _scalar type_.
 
-The component type of 'Data' must be equal to the type pointed to by 'Ptr'.
+The component type of _Data_ must be equal to the type pointed to by _Ptr_.
 1+|Capability: +
 *SubgroupBufferBlockIOINTEL*
-| 3 | 5576 | '<id>' 'Ptr' | '<id>' 'Data'
+| 3 | 5576 | _<id>_ _Ptr_ | _<id>_ _Data_
 |=====
 
 [cols="1,1,4*3",width="100%"]
 |=====
 5+|[[OpSubgroupImageBlockReadINTEL]]*OpSubgroupImageBlockReadINTEL* +
  +
-Reads one or more components of 'Result' data for each invocation in the subgroup from the specified 'Image' at the specified 'Coordinate' as a block operation.  Note that the 'Coordinate' is a byte coordinate, not a texel coordinate.  Also note that the image data is read without format conversion, so each invocation may read multiple image elements.
+Reads one or more components of _Result_ data for each invocation in the subgroup from the specified _Image_ at the specified _Coordinate_ as a block operation.  Note that the _Coordinate_ is a byte coordinate, not a texel coordinate.  Also note that the image data is read without format conversion, so each invocation may read multiple image elements.
 
-The data is read row-by-row, so the first value read is from the row specified by the y-component of the provided 'Coordinate', the second value is read from the row specified by the y-component of the provided 'Coordinate' plus one, etc.
+The data is read row-by-row, so the first value read is from the row specified by the y-component of the provided _Coordinate_, the second value is read from the row specified by the y-component of the provided _Coordinate_ plus one, etc.
 
-'Result Type' may be a scalar or vector type.
+_Result Type_ may be a scalar or vector type.
 
-'Image' must be an object whose type is *OpTypeImage* with a 'Sampled' operand of 0 or 2.  If the 'Sampled' operand is 2, then some dimensions require a capability.
+_Image_ must be an object whose type is *OpTypeImage* with a _Sampled_ operand of 0 or 2.  If the _Sampled_ operand is 2, then some dimensions require a capability.
 
-'Coordinate' is an integer scalar or vector.  The x-component is a byte coordinate into rows of the image and remaining coordinates are non-normalized texel coordinates.
+_Coordinate_ is an integer scalar or vector.  The x-component is a byte coordinate into rows of the image and remaining coordinates are non-normalized texel coordinates.
 1+|Capability: +
 *SubgroupImageBlockIOINTEL*
-| 5 | 5577 | '<id>' 'Result Type' | '<id>' 'Result' |  '<id>' 'Image' | '<id>' 'Coordinate'
+| 5 | 5577 | _<id>_ _Result Type_ | _<id>_ _Result_ |  _<id>_ _Image_ | _<id>_ _Coordinate_
 |=====
 
 [cols="1,1,3*3",width="100%"]
 |=====
 4+|[[OpSubgroupImageBlockWriteINTEL]]*OpSubgroupImageBlockWriteINTEL* +
  +
-Writes one or more components of 'Data' for each invocation in the subgroup to the specified 'Image' at the specified 'Coordinate' as a block operation.  Note that the 'Coordinate' is a byte coordinate, not a texel coordinate.  Also note that the image data is read without format conversion, so each invocation may write multiple image elements.
+Writes one or more components of _Data_ for each invocation in the subgroup to the specified _Image_ at the specified _Coordinate_ as a block operation.  Note that the _Coordinate_ is a byte coordinate, not a texel coordinate.  Also note that the image data is read without format conversion, so each invocation may write multiple image elements.
 
-The data is written row-by-row, so the first value is written to the row specified by the y-component of the provided 'Coordinate', the second value is written to the row specified by the y-component of the provided 'Coordinate' plus one, etc.
+The data is written row-by-row, so the first value is written to the row specified by the y-component of the provided _Coordinate_, the second value is written to the row specified by the y-component of the provided _Coordinate_ plus one, etc.
 
-'Image' must be an object whose type is *OpTypeImage* with a 'Sampled' operand of 0 or 2.  If the 'Sampled' operand is 2, then some dimensions require a capability.
+_Image_ must be an object whose type is *OpTypeImage* with a _Sampled_ operand of 0 or 2.  If the _Sampled_ operand is 2, then some dimensions require a capability.
 
-'Coordinate' is an integer scalar or vector.  The x-component is a byte coordinate into rows of the image and remaining coordinates are non-normalized texel coordinates.
+_Coordinate_ is an integer scalar or vector.  The x-component is a byte coordinate into rows of the image and remaining coordinates are non-normalized texel coordinates.
 
-'Result Type' may be a scalar or vector type.
+_Result Type_ may be a scalar or vector type.
 1+|Capability: +
 *SubgroupImageBlockIOINTEL*
-| 4 | 5578 |  '<id>' 'Image' | '<id>' 'Coordinate' | '<id>' 'Data'
+| 4 | 5578 |  _<id>_ _Image_ | _<id>_ _Coordinate_ | _<id>_ _Data_
 |=====
 
 == Validation Rules

@@ -129,7 +129,7 @@ Modifications to the SPIR-V Specification, Version 1.1
 (Modify Section 3.20, Decoration, adding a row to the Decoration table) ::
 +
 --
-[cols="1^,10,6^,2*2",options="header",width = "100%"]
+[cols="^1,10,^6,2*2",options="header",width = "100%"]
 |====
 2+^.^| Decoration | <<Capability,Enabling Capabilities>> 2+<.^| Extra Operands
 | 5252 | *ViewportRelativeNV* +
@@ -146,7 +146,7 @@ Storage Class.
 
 (add a new row to the Builtin table)
 
-[cols="1^.^,20,8^",options="header",width = "90%"]
+[cols="^.^1,20,^8",options="header",width = "90%"]
 |====
 2+^.^| BuiltIn| Enabling Capabilities
 | 5253 | *ViewportMaskNV* +
@@ -158,24 +158,24 @@ See Vulkan or OpenGL API specifications for more detail.
 (Modify the definition of *Layer* and *ViewportIndex* as follows, allowing
 them to be outputs from Vertex and Tessellation shaders)
 
-[cols="1^.^,20,8^",options="header",width = "90%"]
+[cols="^.^1,^20,^8",options="header",width = "90%"]
 |====
 2+^.^| BuiltIn| Enabling Capabilities
-.3+| 9 2+| *Layer* +
+.3+| 9 2+<| *Layer* +
 Layer selection for multi-layer framebuffer. See Vulkan or OpenGL API
 specification for more detail.
-| Layer output by a *Geometry* <<Execution_Model,Execution Model>>,
+<| Layer output by a *Geometry* <<Execution_Model,Execution Model>>,
 input to a *Fragment* Execution Model.
 |*Geometry*
-| Layer output by a *Vertex* or *Tessellation* <<Execution_Model,Execution Model>>.
+<| Layer output by a *Vertex* or *Tessellation* <<Execution_Model,Execution Model>>.
 |*ShaderViewportIndexLayerNV*
-.3+| 10 2+| *ViewportIndex* +
+.3+| 10 2+<| *ViewportIndex* +
 Viewport selection for viewport transformation when using multipe viewports.
 See Vulkan or OpenGL API specification for more detail.
-|Viewport Index output by a *Geometry* <<Execution_Model, Execution Model>>,
+<|Viewport Index output by a *Geometry* <<Execution_Model, Execution Model>>,
 input to a *Fragment* Execution Model.
 |*MultiViewport*
-| Viewport Index output by a *Vertex* or *Tessellation* <<Execution_Model,Execution Model>>.
+<| Viewport Index output by a *Vertex* or *Tessellation* <<Execution_Model,Execution Model>>.
 |*ShaderViewportIndexLayerNV*
 |====
 --
@@ -184,7 +184,7 @@ input to a *Fragment* Execution Model.
 (Modify Section 3.31, Capability, adding new rows to the Capability table) ::
 +
 --
-[cols="1^.^,10,8^,15",options="header",width = "80%"]
+[cols="^.^1,10,^8,15",options="header",width = "80%"]
 |====
 2+^.^| Capability | Depends On | Enabled by Extension
 | 5254 | *ShaderViewportIndexLayerNV* | *MultiViewport*

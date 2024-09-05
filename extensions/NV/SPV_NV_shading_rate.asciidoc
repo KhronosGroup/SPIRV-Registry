@@ -82,7 +82,7 @@ Modifications to the SPIR-V Specification, Version 1.3
 
 (add new rows to the Builtin table)
 
-[cols="1^.^,10,4^,10^",options="header",width = "100%"]
+[cols="^.^1,10,^4,^10",options="header",width = "100%"]
 |====
 2+^.^| BuiltIn| Enabling Capabilities | Enabled by Extension
 | 5292 | *FragmentSizeNV* +
@@ -104,7 +104,7 @@ See the API specification for more detail.
 (Modify Section 3.31, Capability, adding a new row to the Capability table) ::
 +
 --
-[cols="1^.^,25,8^,15",options="header",width = "80%"]
+[cols="^.^1,25,^8,15",options="header",width = "80%"]
 |====
 2+^.^| Capability | Depends On | Enabled by Extension
 | 5291 | *ShadingRateNV* +

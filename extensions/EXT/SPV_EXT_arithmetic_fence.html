@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 2.0.22">
-<title>SPV_QCOM_image_processing2</title>
+<meta name="generator" content="Asciidoctor 2.0.16">
+<title>SPV_EXT_arithmetic_fence</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -84,10 +84,10 @@ code{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;
 ul,ol,dl{line-height:1.6;margin-bottom:1.25em;list-style-position:outside;font-family:inherit}
 ul,ol{margin-left:1.5em}
 ul li ul,ul li ol{margin-left:1.25em;margin-bottom:0}
+ul.square li ul,ul.circle li ul,ul.disc li ul{list-style:inherit}
+ul.square{list-style-type:square}
 ul.circle{list-style-type:circle}
 ul.disc{list-style-type:disc}
-ul.square{list-style-type:square}
-ul.circle ul:not([class]),ul.disc ul:not([class]),ul.square ul:not([class]){list-style:inherit}
 ol li ul,ol li ol{margin-left:1.25em;margin-bottom:0}
 dl dt{margin-bottom:.3125em;font-weight:bold}
 dl dd{margin-bottom:1.25em}
@@ -140,7 +140,7 @@ p a>code:hover{color:rgba(0,0,0,.9)}
 #content::before{content:none}
 #header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
 #header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #dddddf}
-#header>h1:only-child{border-bottom:1px solid #dddddf;padding-bottom:8px}
+#header>h1:only-child,body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
 #header .details{border-bottom:1px solid #dddddf;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:flex;flex-flow:row wrap}
 #header .details span:first-child{margin-left:-.125em}
 #header .details span.email a{color:rgba(0,0,0,.85)}
@@ -162,7 +162,6 @@ p a>code:hover{color:rgba(0,0,0,.9)}
 #toctitle{color:#7a2518;font-size:1.2em}
 @media screen and (min-width:768px){#toctitle{font-size:1.375em}
 body.toc2{padding-left:15em;padding-right:0}
-body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
 #toc.toc2{margin-top:0!important;background:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #e7e7e9;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
 #toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
 #toc.toc2>ul{font-size:.9em;margin-bottom:0}
@@ -194,8 +193,7 @@ body.toc2.toc-right{padding-left:0;padding-right:20em}}
 #content h1>a.link:hover,h2>a.link:hover,h3>a.link:hover,#toctitle>a.link:hover,.sidebarblock>.content>.title>a.link:hover,h4>a.link:hover,h5>a.link:hover,h6>a.link:hover{color:#a53221}
 details,.audioblock,.imageblock,.literalblock,.listingblock,.stemblock,.videoblock{margin-bottom:1.25em}
 details{margin-left:1.25rem}
-details>summary{cursor:pointer;display:block;position:relative;line-height:1.6;margin-bottom:.625rem;outline:none;-webkit-tap-highlight-color:transparent}
-details>summary::-webkit-details-marker{display:none}
+details>summary{cursor:pointer;display:block;position:relative;line-height:1.6;margin-bottom:.625rem;-webkit-tap-highlight-color:transparent}
 details>summary::before{content:"";border:solid transparent;border-left:solid;border-width:.3em 0 .3em .5em;position:absolute;top:.5em;left:-1.25rem;transform:translateX(15%)}
 details[open]>summary::before{border:solid transparent;border-top:solid;border-width:.5em .3em 0;transform:translateY(15%)}
 details>summary::after{content:"";width:1.25rem;height:1em;position:absolute;top:.3em;left:-1.25rem}
@@ -209,10 +207,13 @@ table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
 .admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #dddddf;color:rgba(0,0,0,.6);word-wrap:anywhere}
 .admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
 .exampleblock>.content{border:1px solid #e6e6e6;margin-bottom:1.25em;padding:1.25em;background:#fff;border-radius:4px}
+.exampleblock>.content>:first-child{margin-top:0}
+.exampleblock>.content>:last-child{margin-bottom:0}
 .sidebarblock{border:1px solid #dbdbd6;margin-bottom:1.25em;padding:1.25em;background:#f3f3f2;border-radius:4px}
+.sidebarblock>:first-child{margin-top:0}
+.sidebarblock>:last-child{margin-bottom:0}
 .sidebarblock>.content>.title{color:#7a2518;margin-top:0;text-align:center}
-.exampleblock>.content>:first-child,.sidebarblock>.content>:first-child{margin-top:0}
-.exampleblock>.content>:last-child,.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
+.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
 .literalblock pre,.listingblock>.content>pre{border-radius:4px;overflow-x:auto;padding:1em;font-size:.8125em}
 @media screen and (min-width:768px){.literalblock pre,.listingblock>.content>pre{font-size:.90625em}}
 @media screen and (min-width:1280px){.literalblock pre,.listingblock>.content>pre{font-size:1em}}
@@ -234,8 +235,9 @@ pre.prettyprint li:not(:first-child) code[data-lang]::before{display:none}
 table.linenotable{border-collapse:separate;border:0;margin-bottom:0;background:none}
 table.linenotable td[class]{color:inherit;vertical-align:top;padding:0;line-height:inherit;white-space:normal}
 table.linenotable td.code{padding-left:.75em}
-table.linenotable td.linenos,pre.pygments .linenos{border-right:1px solid;opacity:.35;padding-right:.5em;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
-pre.pygments span.linenos{display:inline-block;margin-right:.75em}
+table.linenotable td.linenos{border-right:1px solid;opacity:.35;padding-right:.5em}
+pre.pygments .lineno{border-right:1px solid;opacity:.35;display:inline-block;margin-right:.75em}
+pre.pygments .lineno::before{content:"";margin-right:-.125em}
 .quoteblock{margin:0 1em 1.25em 1.5em;display:table}
 .quoteblock:not(.excerpt)>.title{margin-left:-1.5em;margin-bottom:.75em}
 .quoteblock blockquote,.quoteblock p{color:rgba(0,0,0,.85);font-size:1.15rem;line-height:1.75;word-spacing:.1em;letter-spacing:0;font-style:italic;text-align:justify}
@@ -272,7 +274,7 @@ table.frame-none>colgroup+*>:first-child>*,table.frame-sides>colgroup+*>:first-c
 table.frame-none>:last-child>:last-child>*,table.frame-sides>:last-child>:last-child>*{border-bottom-width:0}
 table.frame-none>*>tr>:first-child,table.frame-ends>*>tr>:first-child{border-left-width:0}
 table.frame-none>*>tr>:last-child,table.frame-ends>*>tr>:last-child{border-right-width:0}
-table.stripes-all>*>tr,table.stripes-odd>*>tr:nth-of-type(odd),table.stripes-even>*>tr:nth-of-type(even),table.stripes-hover>*>tr:hover{background:#f8f8f7}
+table.stripes-all tr,table.stripes-odd tr:nth-of-type(odd),table.stripes-even tr:nth-of-type(even),table.stripes-hover tr:hover{background:#f8f8f7}
 th.halign-left,td.halign-left{text-align:left}
 th.halign-right,td.halign-right{text-align:right}
 th.halign-center,td.halign-center{text-align:center}
@@ -288,11 +290,10 @@ ol{margin-left:1.75em}
 ul li ol{margin-left:1.5em}
 dl dd{margin-left:1.125em}
 dl dd:last-child,dl dd:last-child>:last-child{margin-bottom:0}
-li p,ul dd,ol dd,.olist .olist,.ulist .ulist,.ulist .olist,.olist .ulist{margin-bottom:.625em}
+ol>li p,ul>li p,ul dd,ol dd,.olist .olist,.ulist .ulist,.ulist .olist,.olist .ulist{margin-bottom:.625em}
 ul.checklist,ul.none,ol.none,ul.no-bullet,ol.no-bullet,ol.unnumbered,ul.unstyled,ol.unstyled{list-style-type:none}
 ul.no-bullet,ol.no-bullet,ol.unnumbered{margin-left:.625em}
 ul.unstyled,ol.unstyled{margin-left:0}
-li>p:empty:only-child::before{content:"";display:inline-block}
 ul.checklist>li>p:first-child{margin-left:-1em}
 ul.checklist>li>p:first-child>.fa-square-o:first-child,ul.checklist>li>p:first-child>.fa-check-square-o:first-child{width:1.25em;font-size:.8em;position:relative;bottom:.125em}
 ul.checklist>li>p:first-child>input[type=checkbox]:first-child{margin-right:.25em}
@@ -328,13 +329,15 @@ a.image{text-decoration:none;display:inline-block}
 a.image object{pointer-events:none}
 sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
 sup.footnote a,sup.footnoteref a{text-decoration:none}
-sup.footnote a:active,sup.footnoteref a:active,#footnotes .footnote a:first-of-type:active{text-decoration:underline}
+sup.footnote a:active,sup.footnoteref a:active{text-decoration:underline}
 #footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
 #footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em;border-width:1px 0 0}
 #footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;margin-bottom:.2em}
 #footnotes .footnote a:first-of-type{font-weight:bold;text-decoration:none;margin-left:-1.05em}
 #footnotes .footnote:last-of-type{margin-bottom:0}
 #content #footnotes{margin-top:-.625em;margin-bottom:0;padding:.75em 0}
+.gist .file-data>table{border:0;background:#fff;width:100%;margin-bottom:0}
+.gist .file-data>table td.line-data{width:99%}
 div.unbreakable{page-break-inside:avoid}
 .big{font-size:larger}
 .small{font-size:smaller}
@@ -391,7 +394,7 @@ b.conum *{color:inherit!important}
 dt,th.tableblock,td.content,div.footnote{text-rendering:optimizeLegibility}
 h1,h2,p,td.content,span.alt,summary{letter-spacing:-.01em}
 p strong,td.content strong,div.footnote strong{letter-spacing:-.005em}
-p,blockquote,dt,td.content,td.hdlist1,span.alt,summary{font-size:1.0625rem}
+p,blockquote,dt,td.content,span.alt,summary{font-size:1.0625rem}
 p{margin-bottom:1.25rem}
 .sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
 .exampleblock>.content{background:#fffef7;border-color:#e0e0dc;box-shadow:0 1px 4px #e0e0dc}
@@ -437,7 +440,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
-<h1>SPV_QCOM_image_processing2</h1>
+<h1>SPV_EXT_arithmetic_fence</h1>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
@@ -451,10 +454,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_overview">Overview</a></li>
 <li><a href="#_extension_name">Extension Name</a></li>
 <li><a href="#_new_capabilities">New Capabilities</a></li>
-<li><a href="#_new_decorations">New Decorations</a></li>
 <li><a href="#_new_instructions">New Instructions</a></li>
-<li><a href="#_modifications_to_the_spir_v_specification_version_1_6">Modifications to the SPIR-V Specification, Version 1.6</a></li>
-<li><a href="#_validation_rules">Validation Rules</a></li>
+<li><a href="#_token_number_assignments">Token Number Assignments</a></li>
+<li><a href="#_modifications_to_the_spir_v_specification_version_1_5">Modifications to the SPIR-V Specification, Version 1.5</a></li>
 <li><a href="#_issues">Issues</a></li>
 <li><a href="#_revision_history">Revision History</a></li>
 </ul>
@@ -465,7 +467,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="_name_strings">Name Strings</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>SPV_QCOM_image_processing2</p>
+<p>SPV_EXT_arithmetic_fence</p>
 </div>
 </div>
 </div>
@@ -486,13 +488,25 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist">
 <ul>
 <li>
-<p>Jeff Leger, Qualcomm</p>
+<p>Dmitry Sidorov, Intel</p>
 </li>
 <li>
-<p>Ruihao Zhang, Qualcomm</p>
+<p>Joe Garvey, Intel</p>
 </li>
 <li>
-<p>Wooyoung Kim, Qualcomm</p>
+<p>Arvind Sudarsanam, Intel</p>
+</li>
+<li>
+<p>Pawel Jurek, Intel</p>
+</li>
+<li>
+<p>Ben Ashbaugh, Intel</p>
+</li>
+<li>
+<p>Greg Lueck, Intel</p>
+</li>
+<li>
+<p>Kévin Petit, ARM</p>
 </li>
 </ul>
 </div>
@@ -502,8 +516,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="_notice">Notice</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Copyright (c) 2023 The Khronos Group Inc. Copyright terms at
-<a href="http://www.khronos.org/registry/speccopyright.html" class="bare">http://www.khronos.org/registry/speccopyright.html</a></p>
+<p>Copyright (c) 2024 The Khronos Group Inc. Copyright terms at <a href="http://www.khronos.org/registry/speccopyright.html" class="bare">http://www.khronos.org/registry/speccopyright.html</a></p>
 </div>
 </div>
 </div>
@@ -513,7 +526,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist">
 <ul>
 <li>
-<p>Final</p>
+<p>Complete</p>
 </li>
 </ul>
 </div>
@@ -530,11 +543,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2023-11-12</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2024-07-16</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
 </tr>
 </tbody>
 </table>
@@ -548,7 +561,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 Version 1.6 Revision 3.</p>
 </div>
 <div class="paragraph">
-<p>This extension requires SPIR-V 1.4.</p>
+<p>This extension requires SPIR-V 1.0.</p>
 </div>
 </div>
 </div>
@@ -556,8 +569,45 @@ Version 1.6 Revision 3.</p>
 <h2 id="_overview">Overview</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This extension introduces a new set of operations for image processing, along with
-a new capability and a new decoration.</p>
+<p>The extension adds <strong>OpArithmeticFenceEXT</strong> instruction that prevents fast-math
+optimizations between its argument and the expression that contains it.
+For example for fast FP model a compiler can perform reassociation:</p>
+</div>
+<div class="paragraph">
+<p>If all these <strong>OpFAdd</strong> instructions have the "Fast" FP fast math mode then:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-C" data-lang="C">%ab = OpFAdd %float %a %b
+%abc = OpFAdd %float %ab %c
+%abc_fence = OpArithmeticFenceEXT %float %abc
+%result = OpFAdd %float %abc_fence %d</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>can be transformed into:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-C" data-lang="C">%bc = OpFAdd %float %b %c
+%abc = OpFAdd %float %a %bc
+%abc_fence = OpArithmeticFenceEXT %float %abc
+%result = OpFAdd %float %abc_fence %d</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>but not into:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-C" data-lang="C">%ab = OpFAdd %float %a %b
+%ab_fence = OpArithmeticFenceEXT %float %ab
+%cd = OpFAdd %float %c %d
+%result = OpFAdd %float %ab_fence %cd</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This instruction is an equivalent of <a href="https://llvm.org/docs/LangRef.html#llvm-arithmetic-fence-intrinsic">llvm.arithmetic.fence</a> intrinsic function.</p>
 </div>
 </div>
 </div>
@@ -565,12 +615,12 @@ a new capability and a new decoration.</p>
 <h2 id="_extension_name">Extension Name</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>To use this extension within a SPIR-V module, the following
-<strong>OpExtension</strong> must be present in the module:</p>
+<p>To use this extension within a SPIR-V module, the following <strong>OpExtension</strong> must
+be present in the module:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>OpExtension "SPV_QCOM_image_processing2"</pre>
+<pre>OpExtension "SPV_EXT_arithmetic_fence"</pre>
 </div>
 </div>
 </div>
@@ -583,20 +633,7 @@ a new capability and a new decoration.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>TextureBlockMatch2QCOM</pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_new_decorations">New Decorations</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>The extension adds a new sampler decoration.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>BlockMatchSamplerQCOM</pre>
+<pre>ArithmeticFenceEXT</pre>
 </div>
 </div>
 </div>
@@ -605,25 +642,43 @@ a new capability and a new decoration.</p>
 <h2 id="_new_instructions">New Instructions</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Instructions added under the <strong>TextureBlockMatch2QCOM</strong> capability:</p>
+<p>Instructions added under the <strong>ArithmeticFenceEXT</strong> capability:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>OpImageBlockMatchWindowSADQCOM
-OpImageBlockMatchWindowSSDQCOM
-OpImageBlockMatchGatherSADQCOM
-OpImageBlockMatchGatherSSDQCOM</pre>
+<pre>OpArithmeticFenceEXT</pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_modifications_to_the_spir_v_specification_version_1_6">Modifications to the SPIR-V Specification, Version 1.6</h2>
+<h2 id="_token_number_assignments">Token Number Assignments</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all" style="width: 45%;">
+<colgroup>
+<col style="width: 66.6666%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ArithmeticFenceEXT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6144</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OpArithmeticFenceEXT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6145</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_modifications_to_the_spir_v_specification_version_1_5">Modifications to the SPIR-V Specification, Version 1.5</h2>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_capabilities">Capabilities</h3>
 <div class="paragraph">
-<p>Modify Section 3.31, "Capability", adding the following row to the Capability table:</p>
+<p>Modify Section 3.31, "Capability", adding these rows to the Capability table:</p>
 </div>
 <div class="openblock">
 <div class="content">
@@ -636,52 +691,15 @@ OpImageBlockMatchGatherSSDQCOM</pre>
 <thead>
 <tr>
 <th class="tableblock halign-center valign-top" colspan="2">Capability</th>
-<th class="tableblock halign-center valign-top">Implicitly declares</th>
+<th class="tableblock halign-center valign-top">Depends On</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4498</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>TextureBlockMatch2QCOM</strong><br>
-Add texture block match2 operations. This capability is required to use any of the
-OpImageBlockMatchWindow* or OpImageBlockMatchGather* instructions.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6144</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>ArithmeticFenceEXT</strong><br>
+Allow to use <strong>OpArithmeticFenceEXT</strong> instruction</p></td>
 <td class="tableblock halign-left valign-top"></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_decorations">Decorations</h3>
-<div class="paragraph">
-<p>Modify Section 3.20, "Decoration", adding the following row to the Decoration table:</p>
-</div>
-<div class="openblock">
-<div class="content">
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-center valign-top" colspan="2">Decoration</th>
-<th class="tableblock halign-center valign-top" colspan="2">Extra Operands</th>
-<th class="tableblock halign-center valign-top">Enabling Capabilities</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4499</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>BlockMatchSamplerQCOM</strong><br>
-Apply to samplers used to create Target Sampled Image and Reference Sampled Image in
-OpImageBlockMatchWindowSSDQCOM or OpImageBlockMatchWindowSADQCOM.  Behavior is defined by the runtime environment.</p></td>
-<td class="tableblock halign-left valign-top" colspan="2"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>TextureBlockMatch2QCOM</strong></p></td>
 </tr>
 </tbody>
 </table>
@@ -691,210 +709,38 @@ OpImageBlockMatchWindowSSDQCOM or OpImageBlockMatchWindowSADQCOM.  Behavior is d
 <div class="sect2">
 <h3 id="_instructions">Instructions</h3>
 <div class="paragraph">
-<p>Modify Section 3.49.10, "Image Instructions", adding before OpImageSampleFootprintNV:</p>
+<p>In section 3.49.1. Miscellaneous Instructions, add a new instruction:</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 4.3478%;">
-<col style="width: 4.3478%;">
-<col style="width: 13.0434%;">
-<col style="width: 13.0434%;">
-<col style="width: 13.0434%;">
-<col style="width: 13.0434%;">
-<col style="width: 13.0434%;">
-<col style="width: 13.0434%;">
-<col style="width: 13.044%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" colspan="7"><p class="tableblock"><strong>OpImageBlockMatchWindowSSDQCOM</strong><br>
+<td class="tableblock halign-left valign-top" colspan="4"><p class="tableblock"><strong>OpArithmeticFenceEXT</strong><br>
+Return <em>Target</em>. Indicates that the optimizer can not move or combine <em>Target</em>
+with the expression that uses <em>Result</em> of the instruction.<br>
 <br>
-Windowed image block match operation with sum of square differences.</p>
-<p class="tableblock"><em>Result Type</em> is the type of the result of windowed image block match sum of square differences</p>
-<p class="tableblock"><em>Target Sampled Image</em> must be an object whose type is OpTypeSampledImage.
-If the object is an interface object, it must be decorated with BlockMatchTextureQCOM and BlockMatchSamplerQCOM.
-Otherwise, a texture object which is used to construct the object must be decorated with BlockMatchTextureQCOM
-and the sampler object which is used to construct the object must be decorated with BlockMatchSamplerQCOM.
-The MS operand of the underlying OpTypeImage must be 0.</p>
-<p class="tableblock"><em>Target Coordinate</em> must be a vector of integer type, whose vector size is 2 and signedness is 0.</p>
-<p class="tableblock"><em>Reference Sampled Image</em> must be an object whose type is OpTypeSampledImage.
-If the object is an interface object, it must be decorated with BlockMatchTextureQCOM and BlockMatchSamplerQCOM.
-Otherwise, a texture object which is used to construct the object must be decorated with BlockMatchTextureQCOM
-and the sampler object which is used to construct the object must be decorated with BlockMatchSamplerQCOM.
-The MS operand of the underlying OpTypeImage must be 0.</p>
-<p class="tableblock"><em>Reference Coordinate</em> must be a vector of integer type, whose vector size is 2 and signedness is 0.</p>
-<p class="tableblock"><em>Block Size</em> must be a vector of integer type, whose vector size is 2 and signedness is 0.</p></td>
-<td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock"><a href="#Capability">Capability</a>:<br>
-<strong>TextureBlockMatch2QCOM</strong></p></td>
+<em>Target</em> must be scalar or vector of <em>floating-point type</em>.<br>
+<br>
+<em>Result Type</em> must be the same as the return type of the <em>Target</em> instruction.<br>
+<br></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:
+<strong>ArithmeticFenceEXT</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">8</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4500</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;id&gt; <em>Result Type</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#ResultId"><em>&lt;id&gt; Result</em> </a></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;id&gt; <em>Target Sampled Image</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;id&gt; <em>Target Coordinate</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;id&gt; <em>Reference Sampled Image</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;id&gt; <em>Reference Coordinate</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;id&gt; <em>Block Size</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6145</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Result Type</em> &lt;id&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Result</em> &lt;id&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Target</em> &lt;id&gt;</p></td>
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 4.3478%;">
-<col style="width: 4.3478%;">
-<col style="width: 13.0434%;">
-<col style="width: 13.0434%;">
-<col style="width: 13.0434%;">
-<col style="width: 13.0434%;">
-<col style="width: 13.0434%;">
-<col style="width: 13.0434%;">
-<col style="width: 13.044%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top" colspan="7"><p class="tableblock"><strong>OpImageBlockMatchWindowSADQCOM</strong><br>
-<br>
-Windowed image block match operation with sum of absolute differences.</p>
-<p class="tableblock"><em>Result Type</em> is the type of the result of windowed image block match sum of absolute differences</p>
-<p class="tableblock"><em>Target Sampled Image</em> must be an object whose type is OpTypeSampledImage.
-If the object is an interface object, it must be decorated with BlockMatchTextureQCOM and BlockMatchSamplerQCOM.
-Otherwise, a texture object which is used to construct the object must be decorated with BlockMatchTextureQCOM
-and the sampler object which is used to construct the object must be decorated with BlockMatchSamplerQCOM.
-The MS operand of the underlying OpTypeImage must be 0.</p>
-<p class="tableblock"><em>Target Coordinate</em> must be a vector of integer type, whose vector size is 2 and signedness is 0.</p>
-<p class="tableblock"><em>Reference Sampled Image</em> must be an object whose type is OpTypeSampledImage.
-If the object is an interface object, it must be decorated with BlockMatchTextureQCOM and BlockMatchSamplerQCOM.
-Otherwise, a texture object which is used to construct the object must be decorated with BlockMatchTextureQCOM
-and the sampler object which is used to construct the object must be decorated with BlockMatchSamplerQCOM.
-The MS operand of the underlying OpTypeImage must be 0.</p>
-<p class="tableblock"><em>Reference Coordinate</em> must be a vector of integer type, whose vector size is 2 and signedness is 0.</p>
-<p class="tableblock"><em>Block Size</em> must be a vector of integer type, whose vector size is 2 and signedness is 0.</p></td>
-<td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock"><a href="#Capability">Capability</a>:<br>
-<strong>TextureBlockMatch2QCOM</strong></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">8</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4501</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;id&gt; <em>Result Type</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#ResultId"><em>&lt;id&gt; Result</em> </a></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;id&gt; <em>Target Sampled Image</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;id&gt; <em>Target Coordinate</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;id&gt; <em>Reference Sampled Image</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;id&gt; <em>Reference Coordinate</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;id&gt; <em>Block Size</em></p></td>
-</tr>
-</tbody>
-</table>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 4.3478%;">
-<col style="width: 4.3478%;">
-<col style="width: 13.0434%;">
-<col style="width: 13.0434%;">
-<col style="width: 13.0434%;">
-<col style="width: 13.0434%;">
-<col style="width: 13.0434%;">
-<col style="width: 13.0434%;">
-<col style="width: 13.044%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top" colspan="7"><p class="tableblock"><strong>OpImageBlockMatchGatherSSDQCOM</strong><br>
-<br>
-Gathered image block match operation with sum of square differences.</p>
-<p class="tableblock"><em>Result Type</em> is the type of the result of gathered image block match sum of square differences</p>
-<p class="tableblock"><em>Target Sampled Image</em> must be an object whose type is OpTypeSampledImage.
-If the object is an interface object, it must be decorated with BlockMatchTextureQCOM.
-Otherwise, a texture object which is used to construct the object must be decorated with BlockMatchTextureQCOM.
-The MS operand of the underlying OpTypeImage must be 0.</p>
-<p class="tableblock"><em>Target Coordinate</em> must be a vector of integer type, whose vector size is 2 and signedness is 0.</p>
-<p class="tableblock"><em>Reference Sampled Image</em> must be an object whose type is OpTypeSampledImage.
-If the object is an interface object, it must be decorated with BlockMatchTextureQCOM.
-Otherwise, a texture object which is used to construct the object must be decorated with BlockMatchTextureQCOM.
-The MS operand of the underlying OpTypeImage must be 0.</p>
-<p class="tableblock"><em>Reference Coordinate</em> must be a vector of integer type, whose vector size is 2 and signedness is 0.</p>
-<p class="tableblock"><em>Block Size</em> must be a vector of integer type, whose vector size is 2 and signedness is 0.</p></td>
-<td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock"><a href="#Capability">Capability</a>:<br>
-<strong>TextureBlockMatch2QCOM</strong></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">8</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4502</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;id&gt; <em>Result Type</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#ResultId"><em>&lt;id&gt; Result</em> </a></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;id&gt; <em>Target Sampled Image</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;id&gt; <em>Target Coordinate</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;id&gt; <em>Reference Sampled Image</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;id&gt; <em>Reference Coordinate</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;id&gt; <em>Block Size</em></p></td>
-</tr>
-</tbody>
-</table>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 4.3478%;">
-<col style="width: 4.3478%;">
-<col style="width: 13.0434%;">
-<col style="width: 13.0434%;">
-<col style="width: 13.0434%;">
-<col style="width: 13.0434%;">
-<col style="width: 13.0434%;">
-<col style="width: 13.0434%;">
-<col style="width: 13.044%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top" colspan="7"><p class="tableblock"><strong>OpImageBlockMatchGatherSADQCOM</strong><br>
-<br>
-Gathered image block match operation with sum of absolute differences.</p>
-<p class="tableblock"><em>Result Type</em> is the type of the result of gathered image block match sum of absolute differences</p>
-<p class="tableblock"><em>Target Sampled Image</em> must be an object whose type is OpTypeSampledImage.
-If the object is an interface object, it must be decorated with BlockMatchTextureQCOM.
-Otherwise, a texture object which is used to construct the object must be decorated with BlockMatchTextureQCOM.
-The MS operand of the underlying OpTypeImage must be 0.</p>
-<p class="tableblock"><em>Target Coordinate</em> must be a vector of integer type, whose vector size is 2 and signedness is 0.</p>
-<p class="tableblock"><em>Reference Sampled Image</em> must be an object whose type is OpTypeSampledImage.
-If the object is an interface object, it must be decorated with BlockMatchTextureQCOM.
-Otherwise, a texture object which is used to construct the object must be decorated with BlockMatchTextureQCOM.
-The MS operand of the underlying OpTypeImage must be 0.</p>
-<p class="tableblock"><em>Reference Coordinate</em> must be a vector of integer type, whose vector size is 2 and signedness is 0.</p>
-<p class="tableblock"><em>Block Size</em> must be a vector of integer type, whose vector size is 2 and signedness is 0.</p></td>
-<td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock"><a href="#Capability">Capability</a>:<br>
-<strong>TextureBlockMatch2QCOM</strong></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">8</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4503</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;id&gt; <em>Result Type</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#ResultId"><em>&lt;id&gt; Result</em> </a></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;id&gt; <em>Target Sampled Image</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;id&gt; <em>Target Coordinate</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;id&gt; <em>Reference Sampled Image</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;id&gt; <em>Reference Coordinate</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;id&gt; <em>Block Size</em></p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_validation_rules">Validation Rules</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>An OpExtension must be added to the SPIR-V for validation layers to check
-legal use of this extension:</p>
-</div>
-<div class="paragraph">
-<p>An object decorated with BlockMatchSamplerQCOM must be used only with the
-corresponding built-in functions. Such an object must not be used with any other functions.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>OpExtension "SPV_QCOM_image_processing2"</pre>
-</div>
 </div>
 </div>
 </div>
@@ -925,9 +771,15 @@ corresponding built-in functions. Such an object must not be used with any other
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2023-11-12</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Wooyoung Kim</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Initial version</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2021-05-26</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Dmitry Sidorov</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Initial revision</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2024-07-16</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Dmitry Sidorov</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Prepare for publication</p></td>
 </tr>
 </tbody>
 </table>
@@ -936,7 +788,7 @@ corresponding built-in functions. Such an object must not be used with any other
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-08-14 16:57:20 -0700
+Last updated 2024-08-26 02:34:48 -0700
 </div>
 </div>
 </body>

@@ -1,0 +1,225 @@
+SPV_KHR_compute_shader_derivatives
+=================================
+
+Name Strings
+------------
+
+SPV_KHR_compute_shader_derivatives
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Jean-Noe Morissette, Epic Games
+- Daniel Koch, Nvidia
+- John Kessenich, Google
+- Tobias Hector, AMD
+- Alan Baker, Google
+- Stu Smith, AMD
+- Samuel (Sheng-Wen) Huang, MediaTek
+
+Status
+------
+
+- Approved by the SPIR-V Working Group: 2024-06-26
+- Approved by the Khronos Board of Promoters: 2024-08-16
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2024-06-26
+| Revision           | 2
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.3 Revision 2, Unified.
+
+This extension requires SPIR-V 1.0.
+
+Overview
+--------
+
+This extension provides a capability to enable derivatives in any 
+Execution Model that has defined workgroups. There are two new execution
+modes added which specify which four shader invocations are grouped together.
+
+The new *ComputeDerivativeGroupQuadsKHR* and *ComputeDerivativeGroupLinearKHR*
+capabilities enable the use of OpImageQueryLod, the *ImplicitLod* instructions,
+and the *Derivative* instructions in Execution Models with defined workgroups
+(GLCompute, Mesh, and Task at the time of writing).
+
+This SPIR-V extension provides support for the GLSL
+*GL_KHR_compute_shader_derivatives* extension.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_KHR_compute_shader_derivatives"
+----
+
+Modifications to the SPIR-V Specification, Version 1.3
+------------------------------------------------------
+
+(Modify Section 2.2.4, Control Flow) ::
+
+(Modify the definition of Derivative Group, to include more Execution Models)
++
+--
+_Derivative Group_: Defined only for the *Fragment* Execution Model and any Execution Model that has defined workgroups.
+In the *Fragment* execution model this is the set of invocations collectively
+processing a single point, line, or triangle, including any helper invocations.
+In other execution models, this is a single workgroup.
+--
+
+(Modify Section 2.19, Derivatives) ::
+
+(Replace the first sentence:)
++
+--
+Derivatives appear only in the *Fragment* Execution Model.
+--
++
+(with the following:)
++
+--
+Derivatives appear in the *Fragment* and any Execution Model that has defined workgroups.
+--
+
+
+(Modify Section 3.6, Execution Mode) ::
+
++
+--
+(add new rows to the Execution Mode table)
+
+[cols="^4,20,3*5,22",options="header",width = "100%"]
+|====
+2+^.^| Execution Mode 3+<.^| Extra Operands | Enabling Capabilities
+| 5289 | *DerivativeGroupQuadsKHR* +
+Specifies that shader derivatives are evaluated over 2x2
+groups of invocations.
+See the Vulkan or OpenGL API specifications for more detail.
+Valid with any Execution Model that has defined workgroups.
+3+|| *ComputeDerivativeGroupQuadsKHR*
+| 5290 | *DerivativeGroupLinearKHR* +
+Specifies that shader derivatives are evaluated over groups
+of four invocations with consecutive LocalInvocationIndex values.
+See the Vulkan or OpenGL API specifications for more detail.
+Valid with any Execution Model that has defined workgroups.
+3+|| *ComputeDerivativeGroupLinearKHR*
+|====
+--
+
+(Modify Section 3.31, Capability, adding a new row to the Capability table) ::
++
+--
+[cols="^.^4,20,15,22",options="header",width = "100%"]
+|====
+2+^.^| Capability | Implicitly Declares | Enabled by Extension
+| 5288 | *ComputeDerivativeGroupQuadsKHR*  +
+Uses the *DerivativeGroupQuadsKHR* execution mode. | *Shader*
+| *SPV_KHR_compute_shader_derivatives*
+| 5350 | *ComputeDerivativeGroupLinearKHR* +
+Uses the *DerivativeGroupLinearKHR* execution mode. | *Shader*
+| *SPV_KHR_compute_shader_derivatives*
+|====
+--
+
+(Modify Section 3.32.10, Image Instructions) ::
+
+(Modify the description of the following instructions to allow them in 
+any Execution Model that has defined workgroups in addition to the *Fragment* 
+Execution Model)
++
+--
+ * OpImageSampleImplicitLod
+ * OpImageSampleDrefImplicitLod
+ * OpImageSampleProjImplicitLod
+ * OpImageSampleProjDrefImplicitLod
+ * OpImageQueryLod
+ * OpImageSparseSampleImplicitLod
+ * OpImageSparseSampleDrefImplicitLod
+ ** This instruction is only valid in the *Fragment* and any Execution Model 
+ that has defined workgroups. In addition, it consumes an implicit derivative 
+ that can be affected by code motion.
+--
+
+(Modify Section 3.32.16, Derivative Instructions) ::
+
+(Modify the description of the following instructions to allow them in any
+ Execution Model that has defined workgroup in addition to the *Fragment* 
+ Execution Model)
++
+--
+* OpDPdx
+* OpDPdy
+* OpFwidth
+* OpDPdxFine
+* OpDPdyFine
+* OpFwidthFine
+* OpDPdxCoarse
+* OpDPdyCoarse
+* OpFwidthCoarse
+** This instruction is only valid in the *Fragment* and any Execution Model that 
+has defined workgroups.
+
+(Modify the existing descriptions of OpDPd{x,y}{Fine,Course}, prefacing the
+ existing language that talks about partial derivatives relative to the window
+ x or y coordinate with "In the *Fragment* Execution Model:")
+
+(Add the following to the descriptions of OpDPd{x,y}{Fine,Course}, describing
+ how partial derivatives work in any Execution Model that has defined workgroups)
+
+In any Execution Model that has defined workgroups: +
+_Result_ is the partial derivative of _P_ evaluated over groups of four invocations.
+Selection of the four invocations is determined by the *DerivativeGroup*KHR*
+execution mode that was specified for the entry point. For these instructions to be 
+used, one of the derivative group modes must be specified.
+--
+
+Validation Rules
+----------------
+
+An OpExtension must be added to the SPIR-V for validation layers to check
+legal use of this extension:
+
+----
+OpExtension "SPV_KHR_compute_shader_derivatives"
+----
+
+ * An entry point cannot have both the *DerivativeGroupQuadsKHR* and
+   *DerivativeGroupLinearKHR* execution modes specified.
+ * The *DerivativeGroupQuadsKHR* and *DerivativeGroupLinearKHR* execution modes
+   can be used on entry points with any Execution Model that has defined workgroups.
+
+Issues
+------
+
+None yet!
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1  |2023-02-28 |Jean-Noe Morissette|Internal revisions
+|2  |2024-06-26 |Daniel Koch| Update overview to clarify supported execution models
+|========================================

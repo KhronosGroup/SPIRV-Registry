@@ -107,7 +107,7 @@ Modifications to the SPIR-V Specification, Version 1.1
 (Modify Section 3.20, Decoration, adding a row to the Decoration table) ::
 +
 --
-[cols="1^,10,6^,2*2",options="header",width = "100%"]
+[cols="^1,10,^6,2*2",options="header",width = "100%"]
 |====
 2+^.^| Decoration | <<Capability,Enabling Capabilities>> 2+<.^| Extra Operands
 | 5250 | *PassthroughNV* +
@@ -121,7 +121,7 @@ Storage Class.
 (Modify Section 3.31, Capability, adding a row to the Capability table) ::
 +
 --
-[cols="1^.^,10,8^,15",options="header",width = "80%"]
+[cols="^.^1,10,^8,15",options="header",width = "80%"]
 |====
 2+^.^| Capability | Depends On | Enabled by Extension
 | 5251 | *GeometryShaderPassthroughNV* | *Geometry* | *SPV_NV_geometry_shader_passthrough*

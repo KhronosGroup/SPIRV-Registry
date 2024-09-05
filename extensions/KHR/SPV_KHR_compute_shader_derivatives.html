@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.23">
-<title>SPV_NV_compute_shader_derivatives</title>
+<title>SPV_KHR_compute_shader_derivatives</title>
 <style>
 @import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
 @import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
@@ -23,7 +23,7 @@ em, b, strong {
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
-<h1>SPV_NV_compute_shader_derivatives</h1>
+<h1>SPV_KHR_compute_shader_derivatives</h1>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
@@ -47,7 +47,7 @@ em, b, strong {
 <h2 id="_name_strings">Name Strings</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>SPV_NV_compute_shader_derivatives</p>
+<p>SPV_KHR_compute_shader_derivatives</p>
 </div>
 </div>
 </div>
@@ -58,7 +58,7 @@ em, b, strong {
 <p>To report problems with this extension, please open a new issue at:</p>
 </div>
 <div class="paragraph">
-<p><a href="https://github.com/KhronosGroup/SPIRV-Registry" class="bare">https://github.com/KhronosGroup/SPIRV-Registry</a></p>
+<p><a href="https://github.com/KhronosGroup/SPIRV-Headers" class="bare">https://github.com/KhronosGroup/SPIRV-Headers</a></p>
 </div>
 </div>
 </div>
@@ -68,10 +68,25 @@ em, b, strong {
 <div class="ulist">
 <ul>
 <li>
-<p>Daniel Koch, NVIDIA</p>
+<p>Jean-Noe Morissette, Epic Games</p>
+</li>
+<li>
+<p>Daniel Koch, Nvidia</p>
 </li>
 <li>
 <p>John Kessenich, Google</p>
+</li>
+<li>
+<p>Tobias Hector, AMD</p>
+</li>
+<li>
+<p>Alan Baker, Google</p>
+</li>
+<li>
+<p>Stu Smith, AMD</p>
+</li>
+<li>
+<p>Samuel (Sheng-Wen) Huang, MediaTek</p>
 </li>
 </ul>
 </div>
@@ -83,7 +98,10 @@ em, b, strong {
 <div class="ulist">
 <ul>
 <li>
-<p>Complete</p>
+<p>Approved by the SPIR-V Working Group: 2024-06-26</p>
+</li>
+<li>
+<p>Approved by the Khronos Board of Promoters: 2024-08-16</p>
 </li>
 </ul>
 </div>
@@ -92,7 +110,7 @@ em, b, strong {
 <div class="sect1">
 <h2 id="_version">Version</h2>
 <div class="sectionbody">
-<table class="tableblock frame-all grid-all" style="width: 40%;">
+<table class="tableblock frame-all grid-all stripes-even" style="width: 40%;">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -100,11 +118,11 @@ em, b, strong {
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2018-09-12</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2024-06-26</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
 </tr>
 </tbody>
 </table>
@@ -126,18 +144,19 @@ Version 1.3 Revision 2, Unified.</p>
 <h2 id="_overview">Overview</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This extension provides a capability to enable derivatives in the <strong>GLCompute</strong>
-Execution Model. There are two new execution modes added which specify
-which four compute shader invocations are grouped together.</p>
+<p>This extension provides a capability to enable derivatives in any
+Execution Model that has defined workgroups. There are two new execution
+modes added which specify which four shader invocations are grouped together.</p>
 </div>
 <div class="paragraph">
-<p>The new <strong>ComputeDerivativeGroupQuadsNV</strong> and <strong>ComputeDerivativeGroupLinearNV</strong>
+<p>The new <strong>ComputeDerivativeGroupQuadsKHR</strong> and <strong>ComputeDerivativeGroupLinearKHR</strong>
 capabilities enable the use of OpImageQueryLod, the <strong>ImplicitLod</strong> instructions,
-and the <strong>Derivative</strong> instructions in the <strong>GLCompute</strong> Execution Model.</p>
+and the <strong>Derivative</strong> instructions in Execution Models with defined workgroups
+(GLCompute, Mesh, and Task at the time of writing).</p>
 </div>
 <div class="paragraph">
 <p>This SPIR-V extension provides support for the GLSL
-<strong>GL_NV_compute_shader_derivatives</strong> extension.</p>
+<strong>GL_KHR_compute_shader_derivatives</strong> extension.</p>
 </div>
 </div>
 </div>
@@ -150,7 +169,7 @@ and the <strong>Derivative</strong> instructions in the <strong>GLCompute</stron
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>OpExtension "SPV_NV_compute_shader_derivatives"</pre>
+<pre>OpExtension "SPV_KHR_compute_shader_derivatives"</pre>
 </div>
 </div>
 </div>
@@ -162,14 +181,14 @@ and the <strong>Derivative</strong> instructions in the <strong>GLCompute</stron
 <dl>
 <dt class="hdlist1">(Modify Section 2.2.4, Control Flow) </dt>
 <dd>
-<p>(Modify the definition of Derivative Group, to include GLCompute)</p>
+<p>(Modify the definition of Derivative Group, to include more Execution Models)</p>
 <div class="openblock">
 <div class="content">
 <div class="paragraph">
-<p><em>Derivative Group</em>: Defined only for the <strong>Fragment</strong> and <strong>GLCompute</strong> Execution Models.
+<p><em>Derivative Group</em>: Defined only for the <strong>Fragment</strong> Execution Model and any Execution Model that has defined workgroups.
 In the <strong>Fragment</strong> execution model this is the set of invocations collectively
 processing a single point, line, or triangle, including any helper invocations.
-In the <strong>GLCompute</strong> execution model this is a single local workgroup.</p>
+In other execution models, this is a single workgroup.</p>
 </div>
 </div>
 </div>
@@ -190,7 +209,7 @@ In the <strong>GLCompute</strong> execution model this is a single local workgro
 <div class="openblock">
 <div class="content">
 <div class="paragraph">
-<p>Derivatives appear in the <strong>Fragment</strong> and <strong>GLCompute</strong> Execution Models.</p>
+<p>Derivatives appear in the <strong>Fragment</strong> and any Execution Model that has defined workgroups.</p>
 </div>
 </div>
 </div>
@@ -202,40 +221,42 @@ In the <strong>GLCompute</strong> execution model this is a single local workgro
 <div class="paragraph">
 <p>(add new rows to the Execution Mode table)</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all stripes-even stretch">
 <colgroup>
-<col style="width: 2.5641%;">
-<col style="width: 51.282%;">
-<col style="width: 25.641%;">
-<col style="width: 20.5129%;">
+<col style="width: 6.5573%;">
+<col style="width: 32.7868%;">
+<col style="width: 8.1967%;">
+<col style="width: 8.1967%;">
+<col style="width: 8.1967%;">
+<col style="width: 36.0658%;">
 </colgroup>
 <thead>
 <tr>
 <th class="tableblock halign-center valign-middle" colspan="2">Execution Mode</th>
+<th class="tableblock halign-left valign-middle" colspan="3">Extra Operands</th>
 <th class="tableblock halign-left valign-top">Enabling Capabilities</th>
-<th class="tableblock halign-center valign-top">Extra Operands</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">5289</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>DerivativeGroupQuadsNV</strong><br>
-Specifies that compute shader derivatives are evaluated over 2x2
+<td class="tableblock halign-center valign-top"><p class="tableblock">5289</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>DerivativeGroupQuadsKHR</strong><br>
+Specifies that shader derivatives are evaluated over 2x2
 groups of invocations.
 See the Vulkan or OpenGL API specifications for more detail.
-Only valid with the <strong>GLCompute</strong> Execution Model.</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>ComputeDerivativeGroupQuadsNV</strong></p></td>
-<td class="tableblock halign-left valign-top"></td>
+Valid with any Execution Model that has defined workgroups.</p></td>
+<td class="tableblock halign-left valign-top" colspan="3"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>ComputeDerivativeGroupQuadsKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">5290</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>DerivativeGroupLinearNV</strong><br>
-Specifies that compute shader derivatives are evaluated over groups
+<td class="tableblock halign-center valign-top"><p class="tableblock">5290</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>DerivativeGroupLinearKHR</strong><br>
+Specifies that shader derivatives are evaluated over groups
 of four invocations with consecutive LocalInvocationIndex values.
 See the Vulkan or OpenGL API specifications for more detail.
-Only valid with the <strong>Compute</strong> Execution Model.</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>ComputeDerivativeGroupLinearNV</strong></p></td>
-<td class="tableblock halign-left valign-top"></td>
+Valid with any Execution Model that has defined workgroups.</p></td>
+<td class="tableblock halign-left valign-top" colspan="3"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>ComputeDerivativeGroupLinearKHR</strong></p></td>
 </tr>
 </tbody>
 </table>
@@ -246,34 +267,34 @@ Only valid with the <strong>Compute</strong> Execution Model.</p></td>
 <dd>
 <div class="openblock">
 <div class="content">
-<table class="tableblock frame-all grid-all" style="width: 80%;">
+<table class="tableblock frame-all grid-all stripes-even stretch">
 <colgroup>
-<col style="width: 2.9411%;">
-<col style="width: 29.4117%;">
-<col style="width: 23.5294%;">
-<col style="width: 44.1178%;">
+<col style="width: 6.5573%;">
+<col style="width: 32.7868%;">
+<col style="width: 24.5901%;">
+<col style="width: 36.0658%;">
 </colgroup>
 <thead>
 <tr>
 <th class="tableblock halign-center valign-middle" colspan="2">Capability</th>
-<th class="tableblock halign-left valign-top">Depends On</th>
-<th class="tableblock halign-center valign-top">Enabled by Extension</th>
+<th class="tableblock halign-left valign-top">Implicitly Declares</th>
+<th class="tableblock halign-left valign-top">Enabled by Extension</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">5288</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>ComputeDerivativeGroupQuadsNV</strong> <br>
-Uses the <strong>DerivativeGroupQuadsNV</strong> execution mode.</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>Shader</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>SPV_NV_compute_shader_derivatives</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>ComputeDerivativeGroupQuadsKHR</strong> <br>
+Uses the <strong>DerivativeGroupQuadsKHR</strong> execution mode.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Shader</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>SPV_KHR_compute_shader_derivatives</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">5350</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>ComputeDerivativeGroupLinearNV</strong><br>
-Uses the <strong>DerivativeGroupLinearNV</strong> execution mode.</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>Shader</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>SPV_NV_compute_shader_derivatives</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>ComputeDerivativeGroupLinearKHR</strong><br>
+Uses the <strong>DerivativeGroupLinearKHR</strong> execution mode.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Shader</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>SPV_KHR_compute_shader_derivatives</strong></p></td>
 </tr>
 </tbody>
 </table>
@@ -282,8 +303,9 @@ Uses the <strong>DerivativeGroupLinearNV</strong> execution mode.</p></td>
 </dd>
 <dt class="hdlist1">(Modify Section 3.32.10, Image Instructions) </dt>
 <dd>
-<p>(Modify the description of the following instructions to allow them in the
- <strong>GLCompute</strong> Execution Model in addition to the <strong>Fragment</strong> Execution Model)</p>
+<p>(Modify the description of the following instructions to allow them in
+any Execution Model that has defined workgroups in addition to the <strong>Fragment</strong>
+Execution Model)</p>
 <div class="openblock">
 <div class="content">
 <div class="ulist">
@@ -311,8 +333,9 @@ Uses the <strong>DerivativeGroupLinearNV</strong> execution mode.</p></td>
 <div class="ulist">
 <ul>
 <li>
-<p>This instruction is only valid in the <strong>Fragment</strong> and <strong>GLCompute</strong> Execution Models.
-In addition, it consumes an implicit derivative that can be affected by code motion.</p>
+<p>This instruction is only valid in the <strong>Fragment</strong> and any Execution Model
+that has defined workgroups. In addition, it consumes an implicit derivative
+that can be affected by code motion.</p>
 </li>
 </ul>
 </div>
@@ -324,8 +347,9 @@ In addition, it consumes an implicit derivative that can be affected by code mot
 </dd>
 <dt class="hdlist1">(Modify Section 3.32.16, Derivative Instructions) </dt>
 <dd>
-<p>(Modify the description of the following instructions to allow them in the
- <strong>GLCompute</strong> Execution Model in addition to the <strong>Fragment</strong> Execution Model)</p>
+<p>(Modify the description of the following instructions to allow them in any
+ Execution Model that has defined workgroup in addition to the <strong>Fragment</strong>
+ Execution Model)</p>
 <div class="openblock">
 <div class="content">
 <div class="ulist">
@@ -359,7 +383,8 @@ In addition, it consumes an implicit derivative that can be affected by code mot
 <div class="ulist">
 <ul>
 <li>
-<p>This instruction is only valid in the <strong>Fragment</strong> and <strong>GLCompute</strong> Execution Models.</p>
+<p>This instruction is only valid in the <strong>Fragment</strong> and any Execution Model that
+has defined workgroups.</p>
 </li>
 </ul>
 </div>
@@ -373,14 +398,14 @@ In addition, it consumes an implicit derivative that can be affected by code mot
 </div>
 <div class="paragraph">
 <p>(Add the following to the descriptions of OpDPd{x,y}{Fine,Course}, describing
- how partial derivatives work in compute shaders)</p>
+ how partial derivatives work in any Execution Model that has defined workgroups)</p>
 </div>
 <div class="paragraph">
-<p>In the <strong>GLCompute</strong> Execution Model:<br>
+<p>In any Execution Model that has defined workgroups:<br>
 <em>Result</em> is the partial derivative of <em>P</em> evaluated over groups of four invocations.
-Selection of the four invocations is determined by the <strong>DerivativeGroup*NV</strong>
-execution mode that was specified for the entry point. If neither derivative group
-mode was specified, the derivatives return zero.</p>
+Selection of the four invocations is determined by the <strong>DerivativeGroup*KHR</strong>
+execution mode that was specified for the entry point. For these instructions to be
+used, one of the derivative group modes must be specified.</p>
 </div>
 </div>
 </div>
@@ -398,18 +423,18 @@ legal use of this extension:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>OpExtension "SPV_NV_compute_shader_derivatives"</pre>
+<pre>OpExtension "SPV_KHR_compute_shader_derivatives"</pre>
 </div>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>An entry point cannot have both the <strong>DerivativeGroupQuadsNV</strong> and
-<strong>DerivativeGroupLinearNV</strong> execution modes specified.</p>
+<p>An entry point cannot have both the <strong>DerivativeGroupQuadsKHR</strong> and
+<strong>DerivativeGroupLinearKHR</strong> execution modes specified.</p>
 </li>
 <li>
-<p>The <strong>DerivativeGroupQuadsNV</strong> and <strong>DerivativeGroupLinearNV</strong> execution modes
-can only be used on entry points with an execution model of <strong>GLCompute</strong></p>
+<p>The <strong>DerivativeGroupQuadsKHR</strong> and <strong>DerivativeGroupLinearKHR</strong> execution modes
+can be used on entry points with any Execution Model that has defined workgroups.</p>
 </li>
 </ul>
 </div>
@@ -426,7 +451,7 @@ can only be used on entry points with an execution model of <strong>GLCompute</s
 <div class="sect1">
 <h2 id="_revision_history">Revision History</h2>
 <div class="sectionbody">
-<table class="tableblock frame-all grid-rows stretch">
+<table class="tableblock frame-all grid-rows stripes-even stretch">
 <colgroup>
 <col style="width: 4.7619%;">
 <col style="width: 14.2857%;">
@@ -444,9 +469,15 @@ can only be used on entry points with an execution model of <strong>GLCompute</s
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2018-09-12</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Daniel Koch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2023-02-28</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jean-Noe Morissette</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Internal revisions</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2024-06-26</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Daniel Koch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Update overview to clarify supported execution models</p></td>
 </tr>
 </tbody>
 </table>

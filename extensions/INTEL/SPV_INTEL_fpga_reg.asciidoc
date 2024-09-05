@@ -94,7 +94,7 @@ Modify Section 3.31, Capability, adding a row to the Capability table:
 In section 3.32.1, Miscellaneous Instructions, add a new instruction, *OpFPGARegINTEL*, as follows:
 [cols="5", width="100%"]
 |=====
-4+^|*OpFPGARegINTEL* +
+4+|*OpFPGARegINTEL* +
 
 Used to indicate to FPGA backends that pipelining registers should be inserted between the definition of _Input_ and uses of _Result_.  The value passed in as _Input_ is returned in _Result_. This instruction is strictly an optimization hint and thus it would be functionally correct for a consumer to treat it as an assignment.  
 

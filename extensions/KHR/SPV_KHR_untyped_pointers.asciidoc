@@ -931,7 +931,7 @@ Has the same semantics as *OpAccessChain*, with the following additions: +
 5+| [[OpUntypedInBoundsAccessChainKHR]]*OpUntypedInBoundsAccessChainKHR* +
  +
 Has the same semantics as <<OpUntypedAccessChainKHR,*OpUntypedAccessChainKHR*>>, with the addition that the resulting pointer is known to point within the base object. 2+| Capability: +
-*OpUntypedPointersKHR*
+*UntypedPointersKHR*
 | 5 + variable | 4420 | '<id> Result Type' | 'Result <id>' | '<id> Base Type' | '<id> Base' | '<id>, <id>, ...' +
 'Indexes'
 |===
