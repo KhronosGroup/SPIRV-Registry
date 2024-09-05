@@ -152,14 +152,14 @@ so this capability will aim to expose exactly the same set of operations.
 *RESOLVED*: In early versions of SPIR-V (1.0.x for x < 11, and 1.1.y for y < 7)
 there was a universal validation rule which stated:
 
-----
+****
 The only instructions that can operate on a pointer to the *AtomicCounter*
 Storage Class are
 
 * *OpAtomicLoad*
 * *OpAtomicIIncrement*
 * *OpAtomicIDecrement*
-----
+****
 
 Starting with SPIR-V 1.0 version 11 (1.1 version 7) this was moved from a
 universal validation rule into the AtomicStorage capability.

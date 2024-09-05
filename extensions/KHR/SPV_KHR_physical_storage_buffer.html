@@ -241,96 +241,116 @@ results from one of the following instructions: &#8230;&#8203;</p>
 <div class="paragraph">
 <p>Change:</p>
 </div>
-<div class="literalblock">
+<div class="sidebarblock">
 <div class="content">
-<pre>"If the *Logical* &lt;&lt;Addressing_Model, addressing model&gt;&gt; is selected and the
-*VariablePointers* &lt;&lt;Capability,capability&gt;&gt; is not declared:"</pre>
+<div class="paragraph">
+<p>If the <strong>Logical</strong> <a href="#Addressing_Model">addressing model</a> is selected and the
+<strong>VariablePointers</strong> <a href="#Capability">capability</a> is not declared:</p>
+</div>
 </div>
 </div>
 <div class="paragraph">
 <p>to:</p>
 </div>
-<div class="literalblock">
+<div class="sidebarblock">
 <div class="content">
-<pre>"If the *VariablePointers* &lt;&lt;Capability,capability&gt;&gt; is not declared, the
-following rules apply to &lt;&lt;LogicalPointerType,logical pointer types&gt;&gt;:".</pre>
+<div class="paragraph">
+<p>If the <strong>VariablePointers</strong> <a href="#Capability">capability</a> is not declared, the
+following rules apply to <a href="#LogicalPointerType">logical pointer types</a>:</p>
+</div>
 </div>
 </div>
 <div class="paragraph">
 <p>Change:</p>
 </div>
-<div class="literalblock">
+<div class="sidebarblock">
 <div class="content">
-<pre>*OpVariable* cannot allocate an object whose type is a pointer type (that
+<div class="paragraph">
+<p><strong>OpVariable</strong> cannot allocate an object whose type is a pointer type (that
 is, it cannot create an object in memory that is itself a pointer and
-whose result would thus be a pointer to a pointer)</pre>
+whose result would thus be a pointer to a pointer)</p>
+</div>
 </div>
 </div>
 <div class="paragraph">
 <p>to:</p>
 </div>
-<div class="literalblock">
+<div class="sidebarblock">
 <div class="content">
-<pre>*OpVariable* cannot allocate an object whose type is a
-&lt;&lt;LogicalPointerType,logical pointer type&gt;&gt; (that is, it cannot create an
+<div class="paragraph">
+<p><strong>OpVariable</strong> cannot allocate an object whose type is a
+<a href="#LogicalPointerType">logical pointer type</a> (that is, it cannot create an
 object in memory that is itself a logical pointer and whose result would
-thus be a pointer to a logical pointer)</pre>
+thus be a pointer to a logical pointer)</p>
 </div>
-</div>
-<div class="paragraph">
-<p>Change:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>"If the *Logical *&lt;&lt;Addressing_Model, addressing model&gt;&gt; is selected and the
-*VariablePointers* or *VariablePointersStorageBuffer* &lt;&lt;Capability,capability&gt;&gt; is
-declared (in addition to what is allowed above by the *Logical* addressing model):"</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>to:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>"If the *VariablePointers* or *VariablePointersStorageBuffer* &lt;&lt;Capability,capability&gt;&gt;
-is declared, the following are allowed for &lt;&lt;LogicalPointerType,logical pointer types&gt;&gt;:".</pre>
 </div>
 </div>
 <div class="paragraph">
 <p>Change:</p>
 </div>
-<div class="literalblock">
+<div class="sidebarblock">
 <div class="content">
-<pre>*OpVariable* can allocate an object whose type is a pointer type, if the
-&lt;&lt;Storage_Class, Storage Class&gt;&gt; of the *OpVariable* is one of the
-following: ...</pre>
+<div class="paragraph">
+<p>"If the <strong>Logical *<a href="#Addressing_Model">addressing model</a> is selected and the
+*VariablePointers</strong> or <strong>VariablePointersStorageBuffer</strong> <a href="#Capability">capability</a> is
+declared (in addition to what is allowed above by the <strong>Logical</strong> addressing model):"</p>
+</div>
 </div>
 </div>
 <div class="paragraph">
 <p>to:</p>
 </div>
-<div class="literalblock">
+<div class="sidebarblock">
 <div class="content">
-<pre>*OpVariable* can allocate an object whose type is a
-&lt;&lt;LogicalPointerType,logical pointer type&gt;&gt;, if the
-&lt;&lt;Storage_Class, Storage Class&gt;&gt; of the *OpVariable* is one of the
-following: ...</pre>
+<div class="paragraph">
+<p>"If the <strong>VariablePointers</strong> or <strong>VariablePointersStorageBuffer</strong> <a href="#Capability">capability</a>
+is declared, the following are allowed for <a href="#LogicalPointerType">logical pointer types</a>:".</p>
+</div>
 </div>
 </div>
 <div class="paragraph">
 <p>Change:</p>
 </div>
-<div class="literalblock">
+<div class="sidebarblock">
 <div class="content">
-<pre>A &lt;&lt;VariablePointer,variable pointer&gt;&gt; with the Logical addressing model cannot ...</pre>
+<div class="paragraph">
+<p><strong>OpVariable</strong> can allocate an object whose type is a pointer type, if the
+<a href="#Storage_Class">Storage Class</a> of the <strong>OpVariable</strong> is one of the
+following: &#8230;&#8203;</p>
+</div>
 </div>
 </div>
 <div class="paragraph">
 <p>to:</p>
 </div>
-<div class="literalblock">
+<div class="sidebarblock">
 <div class="content">
-<pre>A &lt;&lt;VariablePointer,variable pointer&gt;&gt; cannot ...</pre>
+<div class="paragraph">
+<p><strong>OpVariable</strong> can allocate an object whose type is a
+<a href="#LogicalPointerType">logical pointer type</a>, if the
+<a href="#Storage_Class">Storage Class</a> of the <strong>OpVariable</strong> is one of the
+following: &#8230;&#8203;</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Change:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>A <a href="#VariablePointer">variable pointer</a> with the Logical addressing model cannot &#8230;&#8203;</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>to:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>A <a href="#VariablePointer">variable pointer</a> cannot &#8230;&#8203;</p>
+</div>
 </div>
 </div>
 <div class="paragraph">
@@ -607,20 +627,24 @@ physical pointer type.</p>
 <p>Modify <strong>OpBitcast</strong> to allow vector conversions to/from pointers, by changing
 this existing rule:</p>
 </div>
-<div class="literalblock">
+<div class="sidebarblock">
 <div class="content">
-<pre>"If 'Result Type' is a pointer, 'Operand' must be a pointer or integer
-scalar. If 'Operand' is a pointer, 'Result Type' must be a pointer or
-integer scalar."</pre>
+<div class="paragraph">
+<p>"If <em>Result Type</em> is a pointer, <em>Operand</em> must be a pointer or integer
+scalar. If <em>Operand</em> is a pointer, <em>Result Type</em> must be a pointer or
+integer scalar."</p>
+</div>
 </div>
 </div>
 <div class="paragraph">
 <p>to instead say:</p>
 </div>
-<div class="literalblock">
+<div class="sidebarblock">
 <div class="content">
-<pre>"If either 'Result Type' or 'Operand' is a pointer, the other must be a
-pointer, an integer scalar, or an integer vector."</pre>
+<div class="paragraph">
+<p>"If either <em>Result Type</em> or <em>Operand</em> is a pointer, the other must be a
+pointer, an integer scalar, or an integer vector."</p>
+</div>
 </div>
 </div>
 </div>

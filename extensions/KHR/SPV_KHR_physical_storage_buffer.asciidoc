@@ -127,62 +127,82 @@ Modify section 2.16.1. Universal Validation Rules:
 
 Change:
 
-    "If the *Logical* <<Addressing_Model, addressing model>> is selected and the
-    *VariablePointers* <<Capability,capability>> is not declared:"
+****
+If the *Logical* <<Addressing_Model, addressing model>> is selected and the
+*VariablePointers* <<Capability,capability>> is not declared:
+****
 
 to:
 
-    "If the *VariablePointers* <<Capability,capability>> is not declared, the
-    following rules apply to <<LogicalPointerType,logical pointer types>>:".
+****
+If the *VariablePointers* <<Capability,capability>> is not declared, the
+following rules apply to <<LogicalPointerType,logical pointer types>>:
+****
 
 
 Change:
 
-    *OpVariable* cannot allocate an object whose type is a pointer type (that
-    is, it cannot create an object in memory that is itself a pointer and
-    whose result would thus be a pointer to a pointer)
+****
+*OpVariable* cannot allocate an object whose type is a pointer type (that
+is, it cannot create an object in memory that is itself a pointer and
+whose result would thus be a pointer to a pointer)
+****
 
 to:
 
-    *OpVariable* cannot allocate an object whose type is a
-    <<LogicalPointerType,logical pointer type>> (that is, it cannot create an
-    object in memory that is itself a logical pointer and whose result would
-    thus be a pointer to a logical pointer)
+****
+*OpVariable* cannot allocate an object whose type is a
+<<LogicalPointerType,logical pointer type>> (that is, it cannot create an
+object in memory that is itself a logical pointer and whose result would
+thus be a pointer to a logical pointer)
+****
 
 
 Change:
 
-    "If the *Logical *<<Addressing_Model, addressing model>> is selected and the
-    *VariablePointers* or *VariablePointersStorageBuffer* <<Capability,capability>> is
-    declared (in addition to what is allowed above by the *Logical* addressing model):"
+****
+"If the *Logical *<<Addressing_Model, addressing model>> is selected and the
+*VariablePointers* or *VariablePointersStorageBuffer* <<Capability,capability>> is
+declared (in addition to what is allowed above by the *Logical* addressing model):"
+****
 
 to:
 
-    "If the *VariablePointers* or *VariablePointersStorageBuffer* <<Capability,capability>>
-    is declared, the following are allowed for <<LogicalPointerType,logical pointer types>>:".
+****
+"If the *VariablePointers* or *VariablePointersStorageBuffer* <<Capability,capability>>
+is declared, the following are allowed for <<LogicalPointerType,logical pointer types>>:".
+****
 
 
 Change:
 
-    *OpVariable* can allocate an object whose type is a pointer type, if the
-    <<Storage_Class, Storage Class>> of the *OpVariable* is one of the
-    following: ...
+****
+*OpVariable* can allocate an object whose type is a pointer type, if the
+<<Storage_Class, Storage Class>> of the *OpVariable* is one of the
+following: ...
+****
 
 to:
 
-    *OpVariable* can allocate an object whose type is a
-    <<LogicalPointerType,logical pointer type>>, if the
-    <<Storage_Class, Storage Class>> of the *OpVariable* is one of the
-    following: ...
+****
+*OpVariable* can allocate an object whose type is a
+<<LogicalPointerType,logical pointer type>>, if the
+<<Storage_Class, Storage Class>> of the *OpVariable* is one of the
+following: ...
+****
 
 
 Change:
 
-    A <<VariablePointer,variable pointer>> with the Logical addressing model cannot ...
+****
+A <<VariablePointer,variable pointer>> with the Logical addressing model cannot ...
+****
 
 to:
 
-    A <<VariablePointer,variable pointer>> cannot ...
+****
+A <<VariablePointer,variable pointer>> cannot ...
+****
 
 Add the following rules:
 
@@ -363,14 +383,18 @@ physical pointer type.
 Modify *OpBitcast* to allow vector conversions to/from pointers, by changing
 this existing rule:
 
-    "If 'Result Type' is a pointer, 'Operand' must be a pointer or integer
-    scalar. If 'Operand' is a pointer, 'Result Type' must be a pointer or
-    integer scalar."
+****
+"If 'Result Type' is a pointer, 'Operand' must be a pointer or integer
+scalar. If 'Operand' is a pointer, 'Result Type' must be a pointer or
+integer scalar."
+****
 
 to instead say:
 
-    "If either 'Result Type' or 'Operand' is a pointer, the other must be a
-    pointer, an integer scalar, or an integer vector."
+****
+"If either 'Result Type' or 'Operand' is a pointer, the other must be a
+pointer, an integer scalar, or an integer vector."
+****
 
 Universal Validation Rules
 ~~~~~~~~~~~~~~~~~~~~~~~~~~

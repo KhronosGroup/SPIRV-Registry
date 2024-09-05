@@ -307,14 +307,25 @@ so this capability will aim to expose exactly the same set of operations.</p>
 <p><strong>RESOLVED</strong>: In early versions of SPIR-V (1.0.x for x &lt; 11, and 1.1.y for y &lt; 7)
 there was a universal validation rule which stated:</p>
 </div>
-<div class="listingblock">
+<div class="sidebarblock">
 <div class="content">
-<pre>The only instructions that can operate on a pointer to the *AtomicCounter*
-Storage Class are
-
-* *OpAtomicLoad*
-* *OpAtomicIIncrement*
-* *OpAtomicIDecrement*</pre>
+<div class="paragraph">
+<p>The only instructions that can operate on a pointer to the <strong>AtomicCounter</strong>
+Storage Class are</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>OpAtomicLoad</strong></p>
+</li>
+<li>
+<p><strong>OpAtomicIIncrement</strong></p>
+</li>
+<li>
+<p><strong>OpAtomicIDecrement</strong></p>
+</li>
+</ul>
+</div>
 </div>
 </div>
 <div class="paragraph">
