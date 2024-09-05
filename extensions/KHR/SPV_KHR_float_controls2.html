@@ -115,7 +115,7 @@ em, b, strong {
 <div class="sect1">
 <h2 id="_version">Version</h2>
 <div class="sectionbody">
-<table class="tableblock frame-all grid-all" style="width: 40%;">
+<table class="tableblock frame-all grid-all stripes-even" style="width: 40%;">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -218,7 +218,7 @@ include the <strong>AllowContract</strong> and <strong>AllowReassoc</strong> bit
 <div class="paragraph">
 <p>In section 3.6 "Execution Mode" add the following row to the Execution Mode table:</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all stripes-even stretch">
 <colgroup>
 <col style="width: 6.4516%;">
 <col style="width: 32.258%;">
@@ -239,16 +239,16 @@ include the <strong>AllowContract</strong> and <strong>AllowReassoc</strong> bit
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPFastMathDefault</strong><br>
 Set the default fast math flags for instructions not themselves decorated with
 <strong>FPFastMathMode</strong>. This only affects instructions operating on or resulting in a
-type that is 'Target Type' or an <strong>OpTypeMatrix</strong> or <strong>OpTypeVector</strong> derived from it. 'Target
-Type' must be a scalar, floating-point type. 'Fast-Math Mode' must be the &lt;id&gt;
-of a <a href="#ConstantInstruction">'constant instruction'</a> of 32-bit integer type
-containing a valid <a href="#FP_Fast_Math_Mode">'FP Fast Math Mode'</a> bitmask.
-'Fast-Math Mode' must not be a specialization-constant instruction.
-May be applied at most once per 'Target Type' to any execution mode.</p></td>
+type that is <em>Target Type</em> or an <strong>OpTypeMatrix</strong> or <strong>OpTypeVector</strong> derived from it. <em>Target
+Type</em> must be a scalar, floating-point type. <em>Fast-Math Mode</em> must be the &lt;id&gt;
+of a <a href="#ConstantInstruction"><em>constant instruction</em></a> of 32-bit integer type
+containing a valid <a href="#FP_Fast_Math_Mode"><em>FP Fast Math Mode</em></a> bitmask.
+<em>Fast-Math Mode</em> must not be a specialization-constant instruction.
+May be applied at most once per <em>Target Type</em> to any execution mode.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">&lt;id&gt;<br>
-'Target Type'</p></td>
+<em>Target Type</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">&lt;id&gt;<br>
-'Fast-Math Mode'</p></td>
+<em>Fast-Math Mode</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FloatControls2</strong></p></td>
 </tr>
 </tbody>
@@ -344,7 +344,7 @@ large but finite values of <code>a</code>.</p>
 <div class="paragraph">
 <p>Add the following rows to the FP Fast Math Mode table:</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all stripes-even stretch">
 <colgroup>
 <col style="width: 11.4285%;">
 <col style="width: 45.7142%;">
@@ -395,7 +395,7 @@ require multiple instructions to be decorated.</p></td>
 <p>In section 3.20 "Decoration" modify row 40 of the Decoration table to add the enabling capability
 <strong>FloatControls2</strong>:</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all stripes-even stretch">
 <colgroup>
 <col style="width: 7.1428%;">
 <col style="width: 35.7142%;">
@@ -415,8 +415,8 @@ require multiple instructions to be decorated.</p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock">40</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FPFastMathMode</strong><br>
 Indicates a floating-point fast math flag.</p></td>
-<td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock"><a href="#FP_Fast_Math_Mode">'FP Fast Math Mode'</a><br>
-'Fast-Math Mode'</p></td>
+<td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock"><a href="#FP_Fast_Math_Mode"><em>FP Fast Math Mode</em></a><br>
+<em>Fast-Math Mode</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Kernel</strong>, <strong>FloatControls2</strong></p></td>
 </tr>
 </tbody>
@@ -427,7 +427,7 @@ Indicates a floating-point fast math flag.</p></td>
 <div class="paragraph">
 <p>In section 3.31 "Capability" add the following row to the capability table:</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all stripes-even stretch">
 <colgroup>
 <col style="width: 6.0606%;">
 <col style="width: 48.4848%;">
@@ -529,10 +529,10 @@ operation is affected by any FastMath flag where it was not affected in the inpu
 <div class="content">
 <div class="paragraph">
 <p><strong>RESOLVED</strong>: Not at the moment. The current set covers all gcc and LLVM relaxed
-modes except for gcc&#8217;s sign-dependent-rounding and LLVM&#8217;s 'afn' (approximate
+modes except for gcc&#8217;s sign-dependent-rounding and LLVM&#8217;s <em>afn</em> (approximate
 function). Most SPIR-V consumers do not support rounding that is sign-dependent
 so that flag is unlikely to be significant. It is envisaged that something like
-'afn' will be added in a future extension but the accuracy of builtin functions
+<em>afn</em> will be added in a future extension but the accuracy of builtin functions
 is outside the scope of this extension.</p>
 </div>
 </div>
@@ -545,7 +545,7 @@ is outside the scope of this extension.</p>
 <div class="sect1">
 <h2 id="_revision_history">Revision History</h2>
 <div class="sectionbody">
-<table class="tableblock frame-all grid-rows stretch">
+<table class="tableblock frame-all grid-rows stripes-even stretch">
 <colgroup>
 <col style="width: 4.7619%;">
 <col style="width: 14.2857%;">
@@ -607,7 +607,7 @@ is outside the scope of this extension.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">8</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2023-10-02</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Graeme Leese</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Update required SPIR-V version, clarify deprecation of 'fast'.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Update required SPIR-V version, clarify deprecation of <em>fast</em>.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">9</p></td>
