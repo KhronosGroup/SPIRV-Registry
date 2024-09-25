@@ -74,7 +74,7 @@ Modifications to the SPIR-V Specification, Version 1.1
 Modify Section 3.31, Capability, adding the following rows to the Capability table: ::
 +
 --
-[options="header"]
+[cols="^.^2,16,15", options="header"]
 |====
 2+^| Capability ^| Depends On
 | 4448 | *StorageBuffer8BitAccess* +

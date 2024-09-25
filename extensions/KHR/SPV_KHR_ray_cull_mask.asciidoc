@@ -85,7 +85,7 @@ Modifications to the SPIR-V Specification
 (Modify Section 3.21, Builtin, adding rows to the Builtin table) ::
 +
 --
-[cols="1^,10,6^",options="header",width = "100%"]
+[cols="^1,10,^6",options="header",width = "100%"]
 |======
 2+^.^| Decoration | <<Capability,Enabling Capabilities>>
 | 6021 | *CullMaskKHR* +
@@ -101,7 +101,7 @@ Refer to the Vulkan API specification for more details.
 (Modify Section 3.31, Capability, adding a row to the Capability table) ::
 +
 --
-[cols="1^.^,25,8^,15",options="header",width = "100%"]
+[cols="^.^1,25,^8,15",options="header",width = "100%"]
 |====
 2+^.^| Capability | Depends On | Enabled by Extension
 | 6020 | *RayCullMaskKHR* +

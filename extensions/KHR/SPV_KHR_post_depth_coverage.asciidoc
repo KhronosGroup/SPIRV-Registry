@@ -104,7 +104,6 @@ Token Number Assignments
 
 [width="40%"]
 [cols="70%,30%"]
-[grid="rows"]
 |====
 |PostDepthCoverage           |4446
 |SampleMaskPostDepthCoverage |4447
@@ -117,7 +116,7 @@ Modifications to the SPIR-V Specification, Version 1.1
 
 +
 --
-[cols="1^.^,20,10,8^",options="header",width = "100%"]
+[cols="^.^1,20,10,^8",options="header",width = "100%"]
 |====
   2+^.^| Execution Mode  | Enabling Capabilities | Extra Operands
 | 4446 | *PostDepthCoverage* +
@@ -131,7 +130,7 @@ the *EarlyFragmentTests*.  Only valid with the *Fragment* Execution Model.
 (Modify Section 3.31, Capability, adding a row to the Capability table) ::
 +
 --
-[cols="1^.^,15,10,8^",options="header",width = "100%"]
+[cols="^.^1,15,10,^8",options="header",width = "100%"]
 |====
   2+^.^| Capability         | Depends On      | Enabled by Extension
 | 4447 | *SampleMaskPostDepthCoverage* | 

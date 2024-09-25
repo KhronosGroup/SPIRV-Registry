@@ -93,7 +93,6 @@ Token Number Assignments
 
 [width="40%"]
 [cols="70%,30%"]
-[grid="rows"]
 |====
 |AtomicStorageOps|4445
 |====
@@ -104,7 +103,7 @@ Modifications to the SPIR-V Specification, Version 1.1
 (Modify Section 3.31, Capability, adding a row to the Capability table) ::
 +
 --
-[cols="1^.^,15,10,8^",options="header",width = "100%"]
+[cols="^.^1,15,10,^8",options="header",width = "100%"]
 |====
   2+^.^| Capability         | Depends On      | Enabled by Extension
 | 4445 | *AtomicStorageOps* +
@@ -153,14 +152,14 @@ so this capability will aim to expose exactly the same set of operations.
 *RESOLVED*: In early versions of SPIR-V (1.0.x for x < 11, and 1.1.y for y < 7)
 there was a universal validation rule which stated:
 
-----
+****
 The only instructions that can operate on a pointer to the *AtomicCounter*
 Storage Class are
 
 * *OpAtomicLoad*
 * *OpAtomicIIncrement*
 * *OpAtomicIDecrement*
-----
+****
 
 Starting with SPIR-V 1.0 version 11 (1.1 version 7) this was moved from a
 universal validation rule into the AtomicStorage capability.

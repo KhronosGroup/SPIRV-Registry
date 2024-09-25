@@ -113,7 +113,6 @@ Token Number Assignments
 
 [width="40%"]
 [cols="70%,30%"]
-[grid="rows"]
 |====
 |SubgroupEqMaskKHR|4416
 |SubgroupGeMaskKHR|4417
@@ -135,7 +134,7 @@ Modifications to the SPIR-V Specification, Version 1.1
 (add the following new builtins to the table) ::
 +
 --
-[cols="1^.^,20,8^",options="header",width = "90%"]
+[cols="^.^1,20,^8",options="header",width = "90%"]
 |====
 2+^.^| BuiltIn| Enabling Capabilities
 | 4416 | *SubgroupEqMaskKHR* +
@@ -188,10 +187,10 @@ component where the bit index is *less than SubgroupLocalInvocationId*.
 (Modify Section 3.31, Capability, adding a row to the Capability table) ::
 +
 --
-[cols="1^.^,10,8^",options="header",width = "80%"]
+[cols="^.^1,10,^8",options="header",width = "80%"]
 |====
 2+^.^| Capability| Depends On
-| 4423 | *SubgroupBallotKHR* |    |
+| 4423 | *SubgroupBallotKHR* |
 |====
 
 --

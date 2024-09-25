@@ -94,36 +94,36 @@ Add new instructions to Section 3.37.21, Group and Subgroup Instructions:
 |=====
 6+|[[OpGroupIMulKHR]]*OpGroupIMulKHR* +
  +
-An integer multiplication <<group operation,group operation>> specified for all values of 'X'
+An integer multiplication <<group operation,group operation>> specified for all values of _X_
 specified by <<invocations,invocations>> in the group. +
  +
-Behavior is undefined if not all <<invocations,invocations>> of this module within 'Execution'
+Behavior is undefined if not all <<invocations,invocations>> of this module within _Execution_
 reach this point of execution. +
  +
-Behavior is undefined unless all invocations within 'Execution' execute the
+Behavior is undefined unless all invocations within _Execution_ execute the
 same dynamic instance of this instruction. +
  +
-'Result Type' must be a scalar or vector of <<integer type,integer type>>. +
+_Result Type_ must be a scalar or vector of <<integer type,integer type>>. +
  +
-'Execution' is a <<Scope,Scope>>. It must be either *Workgroup* or *Subgroup*. +
+_Execution_ is a <<Scope,Scope>>. It must be either *Workgroup* or *Subgroup*. +
  +
-The identity _I_ for 'Operation' is 1. +
+The identity _I_ for _Operation_ is 1. +
  +
-The type of 'X' must be the same as 'Result Type'. +
+The type of _X_ must be the same as _Result Type_. +
 
 
 1+|Capability: +
 *{capability_name}*
 1+| 6 | {OpGroupIMulKHR_token}
-| '<id>' +
-'Result Type'
-| 'Result <id>'
-| 'Scope <id>' +
-'Execution'
-| '<Group Operation>' +
-'Operation'
-| '<id>' +
-'X'
+| _<id>_ +
+_Result Type_
+| _Result <id>_
+| _Scope <id>_ +
+_Execution_
+| _<Group Operation>_ +
+_Operation_
+| _<id>_ +
+_X_
 |=====
 
 
@@ -131,36 +131,36 @@ The type of 'X' must be the same as 'Result Type'. +
 |=====
 6+|[[OpGroupFMulKHR]]*OpGroupFMulKHR* +
  +
-A floating-point multiplication <<group operation,group operation>> specified for all values of 'X'
+A floating-point multiplication <<group operation,group operation>> specified for all values of _X_
 specified by <<invocations,invocations>> in the group. +
  +
-Behavior is undefined if not all <<invocations,invocations>> of this module within 'Execution'
+Behavior is undefined if not all <<invocations,invocations>> of this module within _Execution_
 reach this point of execution. +
  +
-Behavior is undefined unless all invocations within 'Execution' execute the
+Behavior is undefined unless all invocations within _Execution_ execute the
 same dynamic instance of this instruction. +
  +
-'Result Type' must be a scalar or vector of <<floating-point type,floating-point type>>. +
+_Result Type_ must be a scalar or vector of <<floating-point type,floating-point type>>. +
  +
-'Execution' is a <<Scope,Scope>>. It must be either *Workgroup* or *Subgroup*. +
+_Execution_ is a <<Scope,Scope>>. It must be either *Workgroup* or *Subgroup*. +
  +
-The identity _I_ for 'Operation' is 1. +
+The identity _I_ for _Operation_ is 1. +
  +
-The type of 'X' must be the same as 'Result Type'. +
+The type of _X_ must be the same as _Result Type_. +
 
 
 1+|Capability: +
 *{capability_name}*
 1+| 6 | {OpGroupFMulKHR_token}
-| '<id>' +
-'Result Type'
-| 'Result <id>'
-| 'Scope <id>' +
-'Execution'
-| '<Group Operation>' +
-'Operation'
-| '<id>' +
-'X'
+| _<id>_ +
+_Result Type_
+| _Result <id>_
+| _Scope <id>_ +
+_Execution_
+| _<Group Operation>_ +
+_Operation_
+| _<id>_ +
+_X_
 |=====
 
 
@@ -168,36 +168,36 @@ The type of 'X' must be the same as 'Result Type'. +
 |=====
 6+|[[OpGroupBitwiseAndKHR]]*OpGroupBitwiseAndKHR* +
  +
-A bitwise 'And' <<group operation,group operation>> specified for all values of 'X'
+A bitwise _And_ <<group operation,group operation>> specified for all values of _X_
 specified by <<invocations,invocations>> in the group. +
  +
-Behavior is undefined if not all <<invocations,invocations>> of this module within 'Execution'
+Behavior is undefined if not all <<invocations,invocations>> of this module within _Execution_
 reach this point of execution. +
  +
-Behavior is undefined unless all invocations within 'Execution' execute the
+Behavior is undefined unless all invocations within _Execution_ execute the
 same dynamic instance of this instruction. +
  +
-'Result Type' must be a scalar or vector of <<integer type,integer type>>. +
+_Result Type_ must be a scalar or vector of <<integer type,integer type>>. +
  +
-'Execution' is a <<Scope, Scope>>. It must be either *Workgroup* or *Subgroup*. +
+_Execution_ is a <<Scope, Scope>>. It must be either *Workgroup* or *Subgroup*. +
  +
-The identity _I_ for 'Operation' is ~0. +
+The identity _I_ for _Operation_ is ~0. +
  +
-The type of 'X' must be the same as 'Result Type'. +
+The type of _X_ must be the same as _Result Type_. +
 
 
 1+|Capability: +
 *{capability_name}*
 1+| 6 | {OpGroupBitwiseAndKHR_token}
-| '<id>' +
-'Result Type'
-| 'Result <id>'
-| 'Scope <id>' +
-'Execution'
-| '<Group Operation>' +
-'Operation'
-| '<id>' +
-'X'
+| _<id>_ +
+_Result Type_
+| _Result <id>_
+| _Scope <id>_ +
+_Execution_
+| _<Group Operation>_ +
+_Operation_
+| _<id>_ +
+_X_
 |=====
 
 
@@ -205,36 +205,36 @@ The type of 'X' must be the same as 'Result Type'. +
 |=====
 6+|[[OpGroupBitwiseOrKHR]]*OpGroupBitwiseOrKHR* +
  +
-A bitwise 'Or' <<group operation,group operation>> specified for all values of 'X'
+A bitwise _Or_ <<group operation,group operation>> specified for all values of _X_
 specified by <<invocations,invocations>> in the group. +
  +
-Behavior is undefined if not all <<invocations,invocations>> of this module within 'Execution'
+Behavior is undefined if not all <<invocations,invocations>> of this module within _Execution_
 reach this point of execution. +
  +
-Behavior is undefined unless all invocations within 'Execution' execute the
+Behavior is undefined unless all invocations within _Execution_ execute the
 same dynamic instance of this instruction. +
  +
-'Result Type' must be a scalar or vector of <<integer type,integer type>>. +
+_Result Type_ must be a scalar or vector of <<integer type,integer type>>. +
  +
-'Execution' is a <<Scope,Scope>>. It must be either *Workgroup* or *Subgroup*. +
+_Execution_ is a <<Scope,Scope>>. It must be either *Workgroup* or *Subgroup*. +
  +
-The identity _I_ for 'Operation' is 0. +
+The identity _I_ for _Operation_ is 0. +
  +
-The type of 'X' must be the same as 'Result Type'. +
+The type of _X_ must be the same as _Result Type_. +
 
 
 1+|Capability: +
 *{capability_name}*
 1+| 6 | {OpGroupBitwiseOrKHR_token}
-| '<id>' +
-'Result Type'
-| 'Result <id>'
-| 'Scope <id>' +
-'Execution'
-| '<Group Operation>' +
-'Operation'
-| '<id>' +
-'X'
+| _<id>_ +
+_Result Type_
+| _Result <id>_
+| _Scope <id>_ +
+_Execution_
+| _<Group Operation>_ +
+_Operation_
+| _<id>_ +
+_X_
 |=====
 
 
@@ -242,72 +242,72 @@ The type of 'X' must be the same as 'Result Type'. +
 |=====
 6+|[[OpGroupBitwiseXorKHR]]*OpGroupBitwiseXorKHR* +
  +
-A bitwise 'Xor' <<group operation,group operation>> specified for all values of 'X'
+A bitwise _Xor_ <<group operation,group operation>> specified for all values of _X_
 specified by <<invocations,invocations>> in the group. +
  +
-Behavior is undefined if not all <<invocations,invocations>> of this module within 'Execution'
+Behavior is undefined if not all <<invocations,invocations>> of this module within _Execution_
 reach this point of execution. +
  +
-Behavior is undefined unless all invocations within 'Execution' execute the
+Behavior is undefined unless all invocations within _Execution_ execute the
 same dynamic instance of this instruction. +
  +
-'Result Type' must be a scalar or vector of <<integer type,integer type>>. +
+_Result Type_ must be a scalar or vector of <<integer type,integer type>>. +
  +
-'Execution' is a <<Scope,Scope>>. It must be either *Workgroup* or *Subgroup*. +
+_Execution_ is a <<Scope,Scope>>. It must be either *Workgroup* or *Subgroup*. +
  +
-The identity _I_ for 'Operation' is 0. +
+The identity _I_ for _Operation_ is 0. +
  +
-The type of 'X' must be the same as 'Result Type'. +
+The type of _X_ must be the same as _Result Type_. +
 
 
 1+|Capability: +
 *{capability_name}*
 1+| 6 | {OpGroupBitwiseXorKHR_token}
-| '<id>' +
-'Result Type'
-| 'Result <id>'
-| 'Scope <id>' +
-'Execution'
-| '<Group Operation>' +
-'Operation'
-| '<id>' +
-'X'
+| _<id>_ +
+_Result Type_
+| _Result <id>_
+| _Scope <id>_ +
+_Execution_
+| _<Group Operation>_ +
+_Operation_
+| _<id>_ +
+_X_
 |=====
 
 [cols="1,1,5*3",width="100%"]
 |=====
 6+|[[OpGroupBitwiseLogicalAndKHR]]*OpGroupLogicalAndKHR* +
  +
-A logical 'And' <<group operation,group operation>> specified for all values of 'X'
+A logical _And_ <<group operation,group operation>> specified for all values of _X_
 specified by <<invocations,invocations>> in the group. +
  +
-Behavior is undefined if not all <<invocations,invocations>> of this module within 'Execution'
+Behavior is undefined if not all <<invocations,invocations>> of this module within _Execution_
 reach this point of execution. +
  +
-Behavior is undefined unless all invocations within 'Execution' execute the
+Behavior is undefined unless all invocations within _Execution_ execute the
 same dynamic instance of this instruction. +
  +
-'Result Type' must be a scalar or vector of <<Boolean type,Boolean type>>. +
+_Result Type_ must be a scalar or vector of <<Boolean type,Boolean type>>. +
  +
-'Execution' is a <<Scope, Scope>>. It must be either *Workgroup* or *Subgroup*. +
+_Execution_ is a <<Scope, Scope>>. It must be either *Workgroup* or *Subgroup*. +
  +
-The identity _I_ for 'Operation' is ~0. +
+The identity _I_ for _Operation_ is ~0. +
  +
-The type of 'X' must be the same as 'Result Type'. +
+The type of _X_ must be the same as _Result Type_. +
 
 
 1+|Capability: +
 *{capability_name}*
 1+| 6 | {OpGroupLogicalAndKHR_token}
-| '<id>' +
-'Result Type'
-| 'Result <id>'
-| 'Scope <id>' +
-'Execution'
-| '<Group Operation>' +
-'Operation'
-| '<id>' +
-'X'
+| _<id>_ +
+_Result Type_
+| _Result <id>_
+| _Scope <id>_ +
+_Execution_
+| _<Group Operation>_ +
+_Operation_
+| _<id>_ +
+_X_
 |=====
 
 
@@ -315,36 +315,36 @@ The type of 'X' must be the same as 'Result Type'. +
 |=====
 6+|[[OpGroupLogicalOrKHR]]*OpGroupLogicalOrKHR* +
  +
-A logical 'Or' <<group operation,group operation>> specified for all values of 'X'
+A logical _Or_ <<group operation,group operation>> specified for all values of _X_
 specified by <<invocations,invocations>> in the group. +
  +
-Behavior is undefined if not all <<invocations,invocations>> of this module within 'Execution'
+Behavior is undefined if not all <<invocations,invocations>> of this module within _Execution_
 reach this point of execution. +
  +
-Behavior is undefined unless all invocations within 'Execution' execute the
+Behavior is undefined unless all invocations within _Execution_ execute the
 same dynamic instance of this instruction. +
  +
-'Result Type' must be a scalar or vector of <<Boolean type,Boolean type>>. +
+_Result Type_ must be a scalar or vector of <<Boolean type,Boolean type>>. +
  +
-'Execution' is a <<Scope,Scope>>. It must be either *Workgroup* or *Subgroup*. +
+_Execution_ is a <<Scope,Scope>>. It must be either *Workgroup* or *Subgroup*. +
  +
-The identity _I_ for 'Operation' is 0. +
+The identity _I_ for _Operation_ is 0. +
  +
-The type of 'X' must be the same as 'Result Type'. +
+The type of _X_ must be the same as _Result Type_. +
 
 
 1+|Capability: +
 *{capability_name}*
 1+| 6 | {OpGroupLogicalOrKHR_token}
-| '<id>' +
-'Result Type'
-| 'Result <id>'
-| 'Scope <id>' +
-'Execution'
-| '<Group Operation>' +
-'Operation'
-| '<id>' +
-'X'
+| _<id>_ +
+_Result Type_
+| _Result <id>_
+| _Scope <id>_ +
+_Execution_
+| _<Group Operation>_ +
+_Operation_
+| _<id>_ +
+_X_
 |=====
 
 
@@ -352,36 +352,36 @@ The type of 'X' must be the same as 'Result Type'. +
 |=====
 6+|[[OpGroupLogicalXorKHR]]*OpGroupLogicalXorKHR* +
  +
-A logical 'Xor' <<group operation,group operation>> specified for all values of 'X'
+A logical _Xor_ <<group operation,group operation>> specified for all values of _X_
 specified by <<invocations,invocations>> in the group. +
  +
-Behavior is undefined if not all <<invocations,invocations>> of this module within 'Execution'
+Behavior is undefined if not all <<invocations,invocations>> of this module within _Execution_
 reach this point of execution. +
  +
-Behavior is undefined unless all invocations within 'Execution' execute the
+Behavior is undefined unless all invocations within _Execution_ execute the
 same dynamic instance of this instruction. +
  +
-'Result Type' must be a scalar or vector of <<Boolean type,Boolean type>>. +
+_Result Type_ must be a scalar or vector of <<Boolean type,Boolean type>>. +
  +
-'Execution' is a <<Scope,Scope>>. It must be either *Workgroup* or *Subgroup*. +
+_Execution_ is a <<Scope,Scope>>. It must be either *Workgroup* or *Subgroup*. +
  +
-The identity _I_ for 'Operation' is 0. +
+The identity _I_ for _Operation_ is 0. +
  +
-The type of 'X' must be the same as 'Result Type'. +
+The type of _X_ must be the same as _Result Type_. +
 
 
 1+|Capability: +
 *{capability_name}*
 1+| 6 | {OpGroupLogicalXorKHR_token}
-| '<id>' +
-'Result Type'
-| 'Result <id>'
-| 'Scope <id>' +
-'Execution'
-| '<Group Operation>' +
-'Operation'
-| '<id>' +
-'X'
+| _<id>_ +
+_Result Type_
+| _Result <id>_
+| _Scope <id>_ +
+_Execution_
+| _<Group Operation>_ +
+_Operation_
+| _<id>_ +
+_X_
 |=====
 
 

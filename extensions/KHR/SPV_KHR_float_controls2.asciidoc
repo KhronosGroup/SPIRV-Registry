@@ -90,16 +90,16 @@ In section 3.6 "Execution Mode" add the following row to the Execution Mode tabl
 | 6028 | *FPFastMathDefault* +
 Set the default fast math flags for instructions not themselves decorated with
 *FPFastMathMode*. This only affects instructions operating on or resulting in a
-type that is 'Target Type' or an *OpTypeMatrix* or *OpTypeVector* derived from it. 'Target
-Type' must be a scalar, floating-point type. 'Fast-Math Mode' must be the <id>
-of a <<ConstantInstruction,'constant instruction'>> of 32-bit integer type
-containing a valid <<FP_Fast_Math_Mode,'FP Fast Math Mode'>> bitmask.
-'Fast-Math Mode' must not be a specialization-constant instruction.
-May be applied at most once per 'Target Type' to any execution mode.
+type that is _Target Type_ or an *OpTypeMatrix* or *OpTypeVector* derived from it. _Target
+Type_ must be a scalar, floating-point type. _Fast-Math Mode_ must be the <id>
+of a <<ConstantInstruction,_constant instruction_>> of 32-bit integer type
+containing a valid <<FP_Fast_Math_Mode,_FP Fast Math Mode_>> bitmask.
+_Fast-Math Mode_ must not be a specialization-constant instruction.
+May be applied at most once per _Target Type_ to any execution mode.
 | <id> +
-'Target Type'
+_Target Type_
 | <id> +
-'Fast-Math Mode' | *FloatControls2*
+_Fast-Math Mode_ | *FloatControls2*
 
 |====
 
@@ -194,8 +194,8 @@ In section 3.20 "Decoration" modify row 40 of the Decoration table to add the en
 |====
 2+^.^| Decoration 2+<.^| Extra Operands | <<Capability,Enabling Capabilities>>
 | 40 | *FPFastMathMode* +
-Indicates a floating-point fast math flag. 2+| <<FP_Fast_Math_Mode,'FP Fast Math Mode'>> +
-'Fast-Math Mode'| *Kernel*, *FloatControls2*
+Indicates a floating-point fast math flag. 2+| <<FP_Fast_Math_Mode,_FP Fast Math Mode_>> +
+_Fast-Math Mode_| *Kernel*, *FloatControls2*
 |====
 
 === Capability
@@ -252,10 +252,10 @@ operation is affected by any FastMath flag where it was not affected in the inpu
 +
 --
 *RESOLVED*: Not at the moment. The current set covers all gcc and LLVM relaxed
-modes except for gcc's sign-dependent-rounding and LLVM's 'afn' (approximate
+modes except for gcc's sign-dependent-rounding and LLVM's _afn_ (approximate
 function). Most SPIR-V consumers do not support rounding that is sign-dependent
 so that flag is unlikely to be significant. It is envisaged that something like
-'afn' will be added in a future extension but the accuracy of builtin functions
+_afn_ will be added in a future extension but the accuracy of builtin functions
 is outside the scope of this extension.
 --
 
@@ -273,7 +273,7 @@ is outside the scope of this extension.
 | 5|2023-05-09|Graeme Leese|Resolve issues.
 | 6|2023-05-17|Graeme Leese|Clarify interaction of transforms with inf/nan.
 | 7|2023-06-08|Graeme Leese|Update deprecations, fix defaults to use IDs.
-| 8|2023-10-02|Graeme Leese|Update required SPIR-V version, clarify deprecation of 'fast'.
+| 8|2023-10-02|Graeme Leese|Update required SPIR-V version, clarify deprecation of _fast_.
 | 9|2024-03-15|Graeme Leese|Clarify rules for modules declaring no *FPFastMathDefault*.
 |10|2024-04-03|Graeme Leese|Fix some spellings and clarify multiple use of execution mode.
 |========================================

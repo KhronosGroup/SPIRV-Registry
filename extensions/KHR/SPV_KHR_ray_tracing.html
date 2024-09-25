@@ -1,887 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="generator" content="AsciiDoc 10.2.0">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.23">
 <title>SPV_KHR_ray_tracing</title>
-<style type="text/css">
-/* Shared CSS for AsciiDoc xhtml11 and html5 backends */
-
-/* Default font. */
-body {
-  font-family: Georgia,serif;
-}
-
-/* Title font. */
-h1, h2, h3, h4, h5, h6,
-div.title, caption.title,
-thead, p.table.header,
-#toctitle,
-#author, #revnumber, #revdate, #revremark,
-#footer {
-  font-family: Arial,Helvetica,sans-serif;
-}
-
-body {
-  margin: 1em 5% 1em 5%;
-}
-
-a {
-  color: blue;
-  text-decoration: underline;
-}
-a:visited {
-  color: fuchsia;
-}
-
-em {
-  font-style: italic;
-  color: navy;
-}
-
-strong {
-  font-weight: bold;
-  color: #083194;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  color: #527bbd;
-  margin-top: 1.2em;
-  margin-bottom: 0.5em;
-  line-height: 1.3;
-}
-
-h1, h2, h3 {
-  border-bottom: 2px solid silver;
-}
-h2 {
-  padding-top: 0.5em;
-}
-h3 {
-  float: left;
-}
-h3 + * {
-  clear: left;
-}
-h5 {
-  font-size: 1.0em;
-}
-
-div.sectionbody {
-  margin-left: 0;
-}
-
-hr {
-  border: 1px solid silver;
-}
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
 
 p {
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: normal;
+}
+em, b, strong {
+    color: darkblue;
 }
 
-ul, ol, li > p {
-  margin-top: 0;
-}
-ul > li     { color: #aaa; }
-ul > li > * { color: black; }
-
-.monospaced, code, pre {
-  font-family: "Courier New", Courier, monospace;
-  font-size: inherit;
-  color: navy;
-  padding: 0;
-  margin: 0;
-}
-pre {
-  white-space: pre-wrap;
-}
-
-#author {
-  color: #527bbd;
-  font-weight: bold;
-  font-size: 1.1em;
-}
-#email {
-}
-#revnumber, #revdate, #revremark {
-}
-
-#footer {
-  font-size: small;
-  border-top: 2px solid silver;
-  padding-top: 0.5em;
-  margin-top: 4.0em;
-}
-#footer-text {
-  float: left;
-  padding-bottom: 0.5em;
-}
-#footer-badges {
-  float: right;
-  padding-bottom: 0.5em;
-}
-
-#preamble {
-  margin-top: 1.5em;
-  margin-bottom: 1.5em;
-}
-div.imageblock, div.exampleblock, div.verseblock,
-div.quoteblock, div.literalblock, div.listingblock, div.sidebarblock,
-div.admonitionblock {
-  margin-top: 1.0em;
-  margin-bottom: 1.5em;
-}
-div.admonitionblock {
-  margin-top: 2.0em;
-  margin-bottom: 2.0em;
-  margin-right: 10%;
-  color: #606060;
-}
-
-div.content { /* Block element content. */
-  padding: 0;
-}
-
-/* Block element titles. */
-div.title, caption.title {
-  color: #527bbd;
-  font-weight: bold;
-  text-align: left;
-  margin-top: 1.0em;
-  margin-bottom: 0.5em;
-}
-div.title + * {
-  margin-top: 0;
-}
-
-td div.title:first-child {
-  margin-top: 0.0em;
-}
-div.content div.title:first-child {
-  margin-top: 0.0em;
-}
-div.content + div.title {
-  margin-top: 0.0em;
-}
-
-div.sidebarblock > div.content {
-  background: #ffffee;
-  border: 1px solid #dddddd;
-  border-left: 4px solid #f0f0f0;
-  padding: 0.5em;
-}
-
-div.listingblock > div.content {
-  border: 1px solid #dddddd;
-  border-left: 5px solid #f0f0f0;
-  background: #f8f8f8;
-  padding: 0.5em;
-}
-
-div.quoteblock, div.verseblock {
-  padding-left: 1.0em;
-  margin-left: 1.0em;
-  margin-right: 10%;
-  border-left: 5px solid #f0f0f0;
-  color: #888;
-}
-
-div.quoteblock > div.attribution {
-  padding-top: 0.5em;
-  text-align: right;
-}
-
-div.verseblock > pre.content {
-  font-family: inherit;
-  font-size: inherit;
-}
-div.verseblock > div.attribution {
-  padding-top: 0.75em;
-  text-align: left;
-}
-/* DEPRECATED: Pre version 8.2.7 verse style literal block. */
-div.verseblock + div.attribution {
-  text-align: left;
-}
-
-div.admonitionblock .icon {
-  vertical-align: top;
-  font-size: 1.1em;
-  font-weight: bold;
-  text-decoration: underline;
-  color: #527bbd;
-  padding-right: 0.5em;
-}
-div.admonitionblock td.content {
-  padding-left: 0.5em;
-  border-left: 3px solid #dddddd;
-}
-
-div.exampleblock > div.content {
-  border-left: 3px solid #dddddd;
-  padding-left: 0.5em;
-}
-
-div.imageblock div.content { padding-left: 0; }
-span.image img { border-style: none; vertical-align: text-bottom; }
-a.image:visited { color: white; }
-
-dl {
-  margin-top: 0.8em;
-  margin-bottom: 0.8em;
-}
-dt {
-  margin-top: 0.5em;
-  margin-bottom: 0;
-  font-style: normal;
-  color: navy;
-}
-dd > *:first-child {
-  margin-top: 0.1em;
-}
-
-ul, ol {
-    list-style-position: outside;
-}
-ol.arabic {
-  list-style-type: decimal;
-}
-ol.loweralpha {
-  list-style-type: lower-alpha;
-}
-ol.upperalpha {
-  list-style-type: upper-alpha;
-}
-ol.lowerroman {
-  list-style-type: lower-roman;
-}
-ol.upperroman {
-  list-style-type: upper-roman;
-}
-
-div.compact ul, div.compact ol,
-div.compact p, div.compact p,
-div.compact div, div.compact div {
-  margin-top: 0.1em;
-  margin-bottom: 0.1em;
-}
-
-tfoot {
-  font-weight: bold;
-}
-td > div.verse {
-  white-space: pre;
-}
-
-div.hdlist {
-  margin-top: 0.8em;
-  margin-bottom: 0.8em;
-}
-div.hdlist tr {
-  padding-bottom: 15px;
-}
-dt.hdlist1.strong, td.hdlist1.strong {
-  font-weight: bold;
-}
-td.hdlist1 {
-  vertical-align: top;
-  font-style: normal;
-  padding-right: 0.8em;
-  color: navy;
-}
-td.hdlist2 {
-  vertical-align: top;
-}
-div.hdlist.compact tr {
-  margin: 0;
-  padding-bottom: 0;
-}
-
-.comment {
-  background: yellow;
-}
-
-.footnote, .footnoteref {
-  font-size: 0.8em;
-}
-
-span.footnote, span.footnoteref {
-  vertical-align: super;
-}
-
-#footnotes {
-  margin: 20px 0 20px 0;
-  padding: 7px 0 0 0;
-}
-
-#footnotes div.footnote {
-  margin: 0 0 5px 0;
-}
-
-#footnotes hr {
-  border: none;
-  border-top: 1px solid silver;
-  height: 1px;
-  text-align: left;
-  margin-left: 0;
-  width: 20%;
-  min-width: 100px;
-}
-
-div.colist td {
-  padding-right: 0.5em;
-  padding-bottom: 0.3em;
-  vertical-align: top;
-}
-div.colist td img {
-  margin-top: 0.3em;
-}
-
-@media print {
-  #footer-badges { display: none; }
-}
-
-#toc {
-  margin-bottom: 2.5em;
-}
-
-#toctitle {
-  color: #527bbd;
-  font-size: 1.1em;
-  font-weight: bold;
-  margin-top: 1.0em;
-  margin-bottom: 0.1em;
-}
-
-div.toclevel0, div.toclevel1, div.toclevel2, div.toclevel3, div.toclevel4 {
-  margin-top: 0;
-  margin-bottom: 0;
-}
-div.toclevel2 {
-  margin-left: 2em;
-  font-size: 0.9em;
-}
-div.toclevel3 {
-  margin-left: 4em;
-  font-size: 0.9em;
-}
-div.toclevel4 {
-  margin-left: 6em;
-  font-size: 0.9em;
-}
-
-span.aqua { color: aqua; }
-span.black { color: black; }
-span.blue { color: blue; }
-span.fuchsia { color: fuchsia; }
-span.gray { color: gray; }
-span.green { color: green; }
-span.lime { color: lime; }
-span.maroon { color: maroon; }
-span.navy { color: navy; }
-span.olive { color: olive; }
-span.purple { color: purple; }
-span.red { color: red; }
-span.silver { color: silver; }
-span.teal { color: teal; }
-span.white { color: white; }
-span.yellow { color: yellow; }
-
-span.aqua-background { background: aqua; }
-span.black-background { background: black; }
-span.blue-background { background: blue; }
-span.fuchsia-background { background: fuchsia; }
-span.gray-background { background: gray; }
-span.green-background { background: green; }
-span.lime-background { background: lime; }
-span.maroon-background { background: maroon; }
-span.navy-background { background: navy; }
-span.olive-background { background: olive; }
-span.purple-background { background: purple; }
-span.red-background { background: red; }
-span.silver-background { background: silver; }
-span.teal-background { background: teal; }
-span.white-background { background: white; }
-span.yellow-background { background: yellow; }
-
-span.big { font-size: 2em; }
-span.small { font-size: 0.6em; }
-
-span.underline { text-decoration: underline; }
-span.overline { text-decoration: overline; }
-span.line-through { text-decoration: line-through; }
-
-div.unbreakable { page-break-inside: avoid; }
-
-
-/*
- * xhtml11 specific
- *
- * */
-
-div.tableblock {
-  margin-top: 1.0em;
-  margin-bottom: 1.5em;
-}
-div.tableblock > table {
-  border: 3px solid #527bbd;
-}
-thead, p.table.header {
-  font-weight: bold;
-  color: #527bbd;
-}
-p.table {
-  margin-top: 0;
-}
-/* Because the table frame attribute is overridden by CSS in most browsers. */
-div.tableblock > table[frame="void"] {
-  border-style: none;
-}
-div.tableblock > table[frame="hsides"] {
-  border-left-style: none;
-  border-right-style: none;
-}
-div.tableblock > table[frame="vsides"] {
-  border-top-style: none;
-  border-bottom-style: none;
-}
-
-
-/*
- * html5 specific
- *
- * */
-
-table.tableblock {
-  margin-top: 1.0em;
-  margin-bottom: 1.5em;
-}
-thead, p.tableblock.header {
-  font-weight: bold;
-  color: #527bbd;
-}
-p.tableblock {
-  margin-top: 0;
-}
-table.tableblock {
-  border-width: 3px;
-  border-spacing: 0px;
-  border-style: solid;
-  border-color: #527bbd;
-  border-collapse: collapse;
-}
-th.tableblock, td.tableblock {
-  border-width: 1px;
-  padding: 4px;
-  border-style: solid;
-  border-color: #527bbd;
-}
-
-table.tableblock.frame-topbot {
-  border-left-style: hidden;
-  border-right-style: hidden;
-}
-table.tableblock.frame-sides {
-  border-top-style: hidden;
-  border-bottom-style: hidden;
-}
-table.tableblock.frame-none {
-  border-style: hidden;
-}
-
-th.tableblock.halign-left, td.tableblock.halign-left {
-  text-align: left;
-}
-th.tableblock.halign-center, td.tableblock.halign-center {
-  text-align: center;
-}
-th.tableblock.halign-right, td.tableblock.halign-right {
-  text-align: right;
-}
-
-th.tableblock.valign-top, td.tableblock.valign-top {
-  vertical-align: top;
-}
-th.tableblock.valign-middle, td.tableblock.valign-middle {
-  vertical-align: middle;
-}
-th.tableblock.valign-bottom, td.tableblock.valign-bottom {
-  vertical-align: bottom;
-}
-
-
-/*
- * manpage specific
- *
- * */
-
-body.manpage h1 {
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
-  border-top: 2px solid silver;
-  border-bottom: 2px solid silver;
-}
-body.manpage h2 {
-  border-style: none;
-}
-body.manpage div.sectionbody {
-  margin-left: 3em;
-}
-
-@media print {
-  body.manpage div#toc { display: none; }
-}
-
-
-@media screen {
-  body {
-    max-width: 50em; /* approximately 80 characters wide */
-    margin-left: 16em;
-  }
-
-  #toc {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 13em;
-    padding: 0.5em;
-    padding-bottom: 1.5em;
-    margin: 0;
-    overflow: auto;
-    border-right: 3px solid #f8f8f8;
-    background-color: white;
-  }
-
-  #toc .toclevel1 {
-    margin-top: 0.5em;
-  }
-
-  #toc .toclevel2 {
-    margin-top: 0.25em;
-    display: list-item;
-    color: #aaaaaa;
-  }
-
-  #toctitle {
-    margin-top: 0.5em;
-  }
-}
 </style>
-<script type="text/javascript">
-/*<![CDATA[*/
-var asciidoc = {  // Namespace.
-
-/////////////////////////////////////////////////////////////////////
-// Table Of Contents generator
-/////////////////////////////////////////////////////////////////////
-
-/* Author: Mihai Bazon, September 2002
- * http://students.infoiasi.ro/~mishoo
- *
- * Table Of Content generator
- * Version: 0.4
- *
- * Feel free to use this script under the terms of the GNU General Public
- * License, as long as you do not remove or alter this notice.
- */
-
- /* modified by Troy D. Hanson, September 2006. License: GPL */
- /* modified by Stuart Rackham, 2006, 2009. License: GPL */
-
-// toclevels = 1..4.
-toc: function (toclevels) {
-
-  function getText(el) {
-    var text = "";
-    for (var i = el.firstChild; i != null; i = i.nextSibling) {
-      if (i.nodeType == 3 /* Node.TEXT_NODE */) // IE doesn't speak constants.
-        text += i.data;
-      else if (i.firstChild != null)
-        text += getText(i);
-    }
-    return text;
-  }
-
-  function TocEntry(el, text, toclevel) {
-    this.element = el;
-    this.text = text;
-    this.toclevel = toclevel;
-  }
-
-  function tocEntries(el, toclevels) {
-    var result = new Array;
-    var re = new RegExp('[hH]([1-'+(toclevels+1)+'])');
-    // Function that scans the DOM tree for header elements (the DOM2
-    // nodeIterator API would be a better technique but not supported by all
-    // browsers).
-    var iterate = function (el) {
-      for (var i = el.firstChild; i != null; i = i.nextSibling) {
-        if (i.nodeType == 1 /* Node.ELEMENT_NODE */) {
-          var mo = re.exec(i.tagName);
-          if (mo && (i.getAttribute("class") || i.getAttribute("className")) != "float") {
-            result[result.length] = new TocEntry(i, getText(i), mo[1]-1);
-          }
-          iterate(i);
-        }
-      }
-    }
-    iterate(el);
-    return result;
-  }
-
-  var toc = document.getElementById("toc");
-  if (!toc) {
-    return;
-  }
-
-  // Delete existing TOC entries in case we're reloading the TOC.
-  var tocEntriesToRemove = [];
-  var i;
-  for (i = 0; i < toc.childNodes.length; i++) {
-    var entry = toc.childNodes[i];
-    if (entry.nodeName.toLowerCase() == 'div'
-     && entry.getAttribute("class")
-     && entry.getAttribute("class").match(/^toclevel/))
-      tocEntriesToRemove.push(entry);
-  }
-  for (i = 0; i < tocEntriesToRemove.length; i++) {
-    toc.removeChild(tocEntriesToRemove[i]);
-  }
-
-  // Rebuild TOC entries.
-  var entries = tocEntries(document.getElementById("content"), toclevels);
-  for (var i = 0; i < entries.length; ++i) {
-    var entry = entries[i];
-    if (entry.element.id == "")
-      entry.element.id = "_toc_" + i;
-    var a = document.createElement("a");
-    a.href = "#" + entry.element.id;
-    a.appendChild(document.createTextNode(entry.text));
-    var div = document.createElement("div");
-    div.appendChild(a);
-    div.className = "toclevel" + entry.toclevel;
-    toc.appendChild(div);
-  }
-  if (entries.length == 0)
-    toc.parentNode.removeChild(toc);
-},
-
-
-/////////////////////////////////////////////////////////////////////
-// Footnotes generator
-/////////////////////////////////////////////////////////////////////
-
-/* Based on footnote generation code from:
- * http://www.brandspankingnew.net/archive/2005/07/format_footnote.html
- */
-
-footnotes: function () {
-  // Delete existing footnote entries in case we're reloading the footnodes.
-  var i;
-  var noteholder = document.getElementById("footnotes");
-  if (!noteholder) {
-    return;
-  }
-  var entriesToRemove = [];
-  for (i = 0; i < noteholder.childNodes.length; i++) {
-    var entry = noteholder.childNodes[i];
-    if (entry.nodeName.toLowerCase() == 'div' && entry.getAttribute("class") == "footnote")
-      entriesToRemove.push(entry);
-  }
-  for (i = 0; i < entriesToRemove.length; i++) {
-    noteholder.removeChild(entriesToRemove[i]);
-  }
-
-  // Rebuild footnote entries.
-  var cont = document.getElementById("content");
-  var spans = cont.getElementsByTagName("span");
-  var refs = {};
-  var n = 0;
-  for (i=0; i<spans.length; i++) {
-    if (spans[i].className == "footnote") {
-      n++;
-      var note = spans[i].getAttribute("data-note");
-      if (!note) {
-        // Use [\s\S] in place of . so multi-line matches work.
-        // Because JavaScript has no s (dotall) regex flag.
-        note = spans[i].innerHTML.match(/\s*\[([\s\S]*)]\s*/)[1];
-        spans[i].innerHTML =
-          "[<a id='_footnoteref_" + n + "' href='#_footnote_" + n +
-          "' title='View footnote' class='footnote'>" + n + "</a>]";
-        spans[i].setAttribute("data-note", note);
-      }
-      noteholder.innerHTML +=
-        "<div class='footnote' id='_footnote_" + n + "'>" +
-        "<a href='#_footnoteref_" + n + "' title='Return to text'>" +
-        n + "</a>. " + note + "</div>";
-      var id =spans[i].getAttribute("id");
-      if (id != null) refs["#"+id] = n;
-    }
-  }
-  if (n == 0)
-    noteholder.parentNode.removeChild(noteholder);
-  else {
-    // Process footnoterefs.
-    for (i=0; i<spans.length; i++) {
-      if (spans[i].className == "footnoteref") {
-        var href = spans[i].getElementsByTagName("a")[0].getAttribute("href");
-        href = href.match(/#.*/)[0];  // Because IE return full URL.
-        n = refs[href];
-        spans[i].innerHTML =
-          "[<a href='#_footnote_" + n +
-          "' title='View footnote' class='footnote'>" + n + "</a>]";
-      }
-    }
-  }
-},
-
-install: function(toclevels) {
-  var timerId;
-
-  function reinstall() {
-    asciidoc.footnotes();
-    if (toclevels) {
-      asciidoc.toc(toclevels);
-    }
-  }
-
-  function reinstallAndRemoveTimer() {
-    clearInterval(timerId);
-    reinstall();
-  }
-
-  timerId = setInterval(reinstall, 500);
-  if (document.addEventListener)
-    document.addEventListener("DOMContentLoaded", reinstallAndRemoveTimer, false);
-  else
-    window.onload = reinstallAndRemoveTimer;
-}
-
-}
-asciidoc.install(1);
-/*]]>*/
-</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-<body class="article">
+<body class="article toc2 toc-left">
 <div id="header">
 <h1>SPV_KHR_ray_tracing</h1>
-<div id="toc">
-  <div id="toctitle">Table of Contents</div>
-  <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_name_strings">Name Strings</a></li>
+<li><a href="#_contact">Contact</a></li>
+<li><a href="#_contributors">Contributors</a></li>
+<li><a href="#_status">Status</a></li>
+<li><a href="#_version">Version</a></li>
+<li><a href="#_dependencies">Dependencies</a></li>
+<li><a href="#_overview">Overview</a></li>
+<li><a href="#_extension_name">Extension Name</a></li>
+<li><a href="#_new_execution_models">New Execution Models</a></li>
+<li><a href="#_new_capabilities">New Capabilities</a></li>
+<li><a href="#_new_storage_classes">New Storage Classes</a></li>
+<li><a href="#_new_builtins">New Builtins</a></li>
+<li><a href="#_new_instructions">New Instructions</a></li>
+<li><a href="#_modifications_to_the_spir_v_specification">Modifications to the SPIR-V Specification</a></li>
+<li><a href="#_validation_rules">Validation Rules</a></li>
+<li><a href="#_interactions_with_spv_khr_ray_query">Interactions with SPV_KHR_ray_query</a></li>
+<li><a href="#_issues">Issues</a></li>
+<li><a href="#_revision_history">Revision History</a></li>
+</ul>
 </div>
 </div>
 <div id="content">
 <div class="sect1">
 <h2 id="_name_strings">Name Strings</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>SPV_KHR_ray_tracing</p></div>
+<div class="paragraph">
+<p>SPV_KHR_ray_tracing</p>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_contact">Contact</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>See <strong>Issues</strong> list in the Khronos SPIRV-Registry repository:
-<a href="https://github.com/KhronosGroup/SPIRV-Registry">https://github.com/KhronosGroup/SPIRV-Registry</a></p></div>
+<div class="paragraph">
+<p>See <strong>Issues</strong> list in the Khronos SPIRV-Registry repository:
+<a href="https://github.com/KhronosGroup/SPIRV-Registry" class="bare">https://github.com/KhronosGroup/SPIRV-Registry</a></p>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_contributors">Contributors</h2>
 <div class="sectionbody">
-<div class="ulist"><ul>
+<div class="ulist">
+<ul>
 <li>
-<p>
-Eric Werness, NVIDIA
-</p>
+<p>Eric Werness, NVIDIA</p>
 </li>
 <li>
-<p>
-Ashwin Lele, NVIDIA
-</p>
+<p>Ashwin Lele, NVIDIA</p>
 </li>
 <li>
-<p>
-Daniel Koch, NVIDIA
-</p>
+<p>Daniel Koch, NVIDIA</p>
 </li>
 <li>
-<p>
-Tobias Hector, AMD
-</p>
+<p>Tobias Hector, AMD</p>
 </li>
 <li>
-<p>
-Nicolai Haehnle, AMD
-</p>
+<p>Nicolai Haehnle, AMD</p>
 </li>
 <li>
-<p>
-David Neto, Google
-</p>
+<p>David Neto, Google</p>
 </li>
 <li>
-<p>
-Alan Baker, Google
-</p>
+<p>Alan Baker, Google</p>
 </li>
 <li>
-<p>
-John Kessenich, Google
-</p>
+<p>John Kessenich, Google</p>
 </li>
 <li>
-<p>
-Joshua Barczak, Intel
-</p>
+<p>Joshua Barczak, Intel</p>
 </li>
 <li>
-<p>
-Faith Ekstrand, Intel
-</p>
+<p>Faith Ekstrand, Intel</p>
 </li>
 <li>
-<p>
-Hans-Kristian Arntzen, Valve
-</p>
+<p>Hans-Kristian Arntzen, Valve</p>
 </li>
-</ul></div>
+</ul>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_status">Status</h2>
 <div class="sectionbody">
-<div class="ulist"><ul>
+<div class="ulist">
+<ul>
 <li>
-<p>
-Complete
-</p>
+<p>Complete</p>
 </li>
 <li>
-<p>
-Ratified by the Khronos Board 2020-11-20
-</p>
+<p>Ratified by the Khronos Board 2020-11-20</p>
 </li>
-</ul></div>
+</ul>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_version">Version</h2>
 <div class="sectionbody">
-<table class="tableblock frame-all grid-all"
-style="
-width:40%;
-">
-<col style="width:50%;">
-<col style="width:50%;">
+<table class="tableblock frame-all grid-all stripes-even" style="width: 40%;">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2022-08-17</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Last Modified Date</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2022-08-17</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">24</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Revision</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">24</p></td>
 </tr>
 </tbody>
 </table>
@@ -890,78 +147,102 @@ width:40%;
 <div class="sect1">
 <h2 id="_dependencies">Dependencies</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>This extension is written against the SPIR-V Specification,
-Version 1.5 Revision 1.</p></div>
-<div class="paragraph"><p>This extension requires SPIR-V 1.4.</p></div>
-<div class="paragraph"><p>This extension interacts with SPV_KHR_ray_query.</p></div>
+<div class="paragraph">
+<p>This extension is written against the SPIR-V Specification,
+Version 1.5 Revision 1.</p>
+</div>
+<div class="paragraph">
+<p>This extension requires SPIR-V 1.4.</p>
+</div>
+<div class="paragraph">
+<p>This extension interacts with SPV_KHR_ray_query.</p>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_overview">Overview</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>This extension adds new functionality to support the Vulkan
-VK_KHR_ray_tracing_pipeline extension in SPIR-V.</p></div>
+<div class="paragraph">
+<p>This extension adds new functionality to support the Vulkan
+VK_KHR_ray_tracing_pipeline extension in SPIR-V.</p>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_extension_name">Extension Name</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>To use this extension within a SPIR-V module, the following
-<strong>OpExtension</strong> must be present in the module:</p></div>
+<div class="paragraph">
+<p>To use this extension within a SPIR-V module, the following
+<strong>OpExtension</strong> must be present in the module:</p>
+</div>
 <div class="listingblock">
-<div class="content monospaced">
+<div class="content">
 <pre>OpExtension "SPV_KHR_ray_tracing"</pre>
-</div></div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_new_execution_models">New Execution Models</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>This extension introduces new execution models:</p></div>
+<div class="paragraph">
+<p>This extension introduces new execution models:</p>
+</div>
 <div class="listingblock">
-<div class="content monospaced">
+<div class="content">
 <pre>RayGenerationKHR
 IntersectionKHR
 AnyHitKHR
 ClosestHitKHR
 MissKHR
 CallableKHR</pre>
-</div></div>
-<div class="paragraph"><p>these depend on the <strong>RayTracingKHR</strong> capability.</p></div>
+</div>
+</div>
+<div class="paragraph">
+<p>these depend on the <strong>RayTracingKHR</strong> capability.</p>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_new_capabilities">New Capabilities</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>This extension introduces new capabilities:</p></div>
+<div class="paragraph">
+<p>This extension introduces new capabilities:</p>
+</div>
 <div class="listingblock">
-<div class="content monospaced">
+<div class="content">
 <pre>RayTracingKHR
 RayTraversalPrimitiveCullingKHR</pre>
-</div></div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_new_storage_classes">New Storage Classes</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Storage classes added under the <strong>RayTracingKHR</strong> capability</p></div>
+<div class="paragraph">
+<p>Storage classes added under the <strong>RayTracingKHR</strong> capability</p>
+</div>
 <div class="listingblock">
-<div class="content monospaced">
+<div class="content">
 <pre>RayPayloadKHR
 IncomingRayPayloadKHR
 HitAttributeKHR
 CallableDataKHR
 IncomingCallableDataKHR
 ShaderRecordBufferKHR</pre>
-</div></div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_new_builtins">New Builtins</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Builtins added under the <strong>RayTracingKHR</strong> capability</p></div>
+<div class="paragraph">
+<p>Builtins added under the <strong>RayTracingKHR</strong> capability</p>
+</div>
 <div class="listingblock">
-<div class="content monospaced">
+<div class="content">
 <pre>LaunchIdKHR
 LaunchSizeKHR
 InstanceCustomIndexKHR
@@ -976,15 +257,18 @@ ObjectToWorldKHR
 WorldToObjectKHR
 HitKindKHR
 IncomingRayFlagsKHR</pre>
-</div></div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_new_instructions">New Instructions</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Instructions added under the <strong>RayTracingKHR</strong> capability</p></div>
+<div class="paragraph">
+<p>Instructions added under the <strong>RayTracingKHR</strong> capability</p>
+</div>
 <div class="listingblock">
-<div class="content monospaced">
+<div class="content">
 <pre>OpReportIntersectionKHR
 OpIgnoreIntersectionKHR
 OpTerminateRayKHR
@@ -992,733 +276,760 @@ OpTraceRayKHR
 OpTypeAccelerationStructureKHR
 OpExecuteCallableKHR
 OpConvertUToAccelerationStructureKHR</pre>
-</div></div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_modifications_to_the_spir_v_specification">Modifications to the SPIR-V Specification</h2>
 <div class="sectionbody">
-<div class="dlist"><dl>
-<dt class="hdlist1">
-(Modify Section 2.2.1, Instructions ) 
-</dt>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">(Modify Section 2.2.1, Instructions ) </dt>
 <dd>
-<div class="paragraph"><p><em>Shader Call Instruction</em>: An instruction which may cause execution to
+<div class="paragraph">
+<p><em>Shader Call Instruction</em>: An instruction which may cause execution to
 continue elsewhere by creating one or more invocations that execute
 other shaders. The <a href="#OpTraceRayKHR"><strong>OpTraceRayKHR</strong></a>,
 <a href="#OpExecuteCallableKHR"><strong>OpExecuteCallableKHR</strong></a>, and
 <a href="#OpReportIntersectionKHR"><strong>OpReportIntersectionKHR</strong></a> instructions are
-shader call instructions.</p></div>
+shader call instructions.</p>
+</div>
 </dd>
-<dt class="hdlist1">
-(Modify Section 2.2.2, Types ) 
-</dt>
+<dt class="hdlist1">(Modify Section 2.2.2, Types ) </dt>
 <dd>
-<div class="paragraph"><p>add <strong>OpTypeAccelerationStructureKHR</strong> to list of opaque types</p></div>
+<div class="paragraph">
+<p>add <strong>OpTypeAccelerationStructureKHR</strong> to list of opaque types</p>
+</div>
 </dd>
-<dt class="hdlist1">
-(Modify Section 2.2.5, Control Flow) 
-</dt>
+<dt class="hdlist1">(Modify Section 2.2.5, Control Flow) </dt>
 <dd>
-<div class="paragraph"><p>Add <strong>OpIgnoreIntersectionKHR</strong> and <strong>OpTerminateRayKHR</strong> to the list of <em>Termination Instructions</em>.</p></div>
+<div class="paragraph">
+<p>Add <strong>OpIgnoreIntersectionKHR</strong> and <strong>OpTerminateRayKHR</strong> to the list of <em>Termination Instructions</em>.</p>
+</div>
 </dd>
-<dt class="hdlist1">
-(Modify Section 2.16.1, Universal Validation Rules) 
-</dt>
+<dt class="hdlist1">(Modify Section 2.16.1, Universal Validation Rules) </dt>
 <dd>
-<p>
-Modify the list following the statement:
-</p>
+<p>Modify the list following the statement:</p>
 <div class="exampleblock">
 <div class="content">
-<div class="paragraph"><p>A pointer operand to an <strong>OpFunctionCall</strong> must point into one of the following
-storage classes:</p></div>
-</div></div>
-<div class="paragraph"><p>to include <strong>ShaderRecordBufferKHR</strong>.</p></div>
+<div class="paragraph">
+<p>A pointer operand to an <strong>OpFunctionCall</strong> must point into one of the following
+storage classes:</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>to include <strong>ShaderRecordBufferKHR</strong>.</p>
+</div>
 <div class="openblock">
 <div class="content">
-<div class="paragraph"><p>Change the second bullet under "Any pointer operand to an <strong>OpFunctionCall</strong> must be"
-to include <strong>OpTypeAccelerationStructureKHR</strong>:</p></div>
-<div class="ulist"><ul>
+<div class="paragraph">
+<p>Change the second bullet under "Any pointer operand to an <strong>OpFunctionCall</strong> must be"
+to include <strong>OpTypeAccelerationStructureKHR</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
 <li>
-<p>
-a pointer to an element in an array that is a memory object declaration,
-   where the element type is <strong>OpTypeSampler</strong>, <strong>OpTypeImage</strong>, or
-   <strong>OpTypeAccelerationStructureKHR</strong>.
-</p>
+<p>a pointer to an element in an array that is a memory object declaration,
+where the element type is <strong>OpTypeSampler</strong>, <strong>OpTypeImage</strong>, or
+<strong>OpTypeAccelerationStructureKHR</strong>.</p>
 </li>
-</ul></div>
-<div class="paragraph"><p>Add a new bullet under "Data rules":</p></div>
-<div class="ulist"><ul>
+</ul>
+</div>
+<div class="paragraph">
+<p>Add a new bullet under "Data rules":</p>
+</div>
+<div class="ulist">
+<ul>
 <li>
-<p>
-Instructions accessing a scalar acceleration structure out of a composite
-   must only use <em>dynamically-uniform</em> indexes, unless the index is decorated with
-   <strong>NonUniformEXT</strong>. They must be in the same block in which their <em>Result &lt;id&gt;</em>
-   are consumed. Such <em>Result &lt;id&gt;</em> must not appear as operands to <strong>OpPhi</strong> or
-   <strong>OpSelect</strong> instructions, or any instructions other than the ray tracing
-   instructions specified to operate on them.
-</p>
+<p>Instructions accessing a scalar acceleration structure out of a composite
+must only use <em>dynamically-uniform</em> indexes, unless the index is decorated with
+<strong>NonUniformEXT</strong>. They must be in the same block in which their <em>Result &lt;id&gt;</em>
+are consumed. Such <em>Result &lt;id&gt;</em> must not appear as operands to <strong>OpPhi</strong> or
+<strong>OpSelect</strong> instructions, or any instructions other than the ray tracing
+instructions specified to operate on them.</p>
 </li>
-</ul></div>
-</div></div>
-<div class="paragraph"><p>Modify the item under "Memory model":</p></div>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Modify the item under "Memory model":</p>
+</div>
 <div class="exampleblock">
 <div class="content">
-<div class="paragraph"><p>Memory accesses that use <strong>NonPrivatePointer</strong> must use pointers in the
+<div class="paragraph">
+<p>Memory accesses that use <strong>NonPrivatePointer</strong> must use pointers in the
 <strong>Uniform</strong>, <strong>Workgroup</strong>, <strong>CrossWorkgroup</strong>, <strong>Generic</strong>, <strong>Image</strong>, or
-<strong>StorageBuffer</strong> storage classes.</p></div>
-</div></div>
-<div class="paragraph"><p>to include <strong>ShaderRecordBufferKHR</strong>.</p></div>
+<strong>StorageBuffer</strong> storage classes.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>to include <strong>ShaderRecordBufferKHR</strong>.</p>
+</div>
 </dd>
-<dt class="hdlist1">
-(Modify Section 2.16.2, Universal Rules for Shader Capabilities) 
-</dt>
+<dt class="hdlist1">(Modify Section 2.16.2, Universal Rules for Shader Capabilities) </dt>
 <dd>
-<p>
-Modify the item:
-</p>
+<p>Modify the item:</p>
 <div class="exampleblock">
 <div class="content">
-<div class="ulist"><ul>
+<div class="ulist">
+<ul>
 <li>
-<p>
-Composite objects in the <strong>StorageBuffer</strong>, <strong>PhysicalStorageBuffer</strong>, <strong>Uniform</strong>,
-and <strong>PushConstant</strong> Storage Classes must be explicitly laid out. &#8230;
-</p>
+<p>Composite objects in the <strong>StorageBuffer</strong>, <strong>PhysicalStorageBuffer</strong>, <strong>Uniform</strong>,
+and <strong>PushConstant</strong> Storage Classes must be explicitly laid out. &#8230;&#8203;</p>
 </li>
-</ul></div>
-</div></div>
-<div class="paragraph"><p>to include <strong>ShaderRecordBufferKHR</strong>.</p></div>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>to include <strong>ShaderRecordBufferKHR</strong>.</p>
+</div>
 </dd>
-<dt class="hdlist1">
-(Modify Section 3.3, Execution Model, adding rows to the Execution Model table) 
-</dt>
+<dt class="hdlist1">(Modify Section 3.3, Execution Model, adding rows to the Execution Model table) </dt>
 <dd>
 <div class="openblock">
 <div class="content">
-<table class="tableblock frame-all grid-all"
-style="
-width:80%;
-">
-<col style="width:3%;">
-<col style="width:42%;">
-<col style="width:53%;">
+<table class="tableblock frame-all grid-all stripes-even" style="width: 80%;">
+<colgroup>
+<col style="width: 3.5714%;">
+<col style="width: 42.8571%;">
+<col style="width: 53.5715%;">
+</colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-center valign-middle" colspan="2" > Execution Model </th>
-<th class="tableblock halign-left valign-top" > Enabling Capabilities</th>
+<th class="tableblock halign-center valign-middle" colspan="2">Execution Model</th>
+<th class="tableblock halign-left valign-top">Enabling Capabilities</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">5313</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayGenerationKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">5313</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayGenerationKHR</strong><br>
 Ray generation shading stage.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">5314</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>IntersectionKHR</strong> <br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">5314</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>IntersectionKHR</strong> <br>
 Intersection shading stage.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">5315</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>AnyHitKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">5315</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>AnyHitKHR</strong><br>
 Any hit shading stage.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">5316</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>ClosestHitKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">5316</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>ClosestHitKHR</strong><br>
 Closest hit shading stage.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">5317</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>MissKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">5317</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MissKHR</strong><br>
 Miss shading stage.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">5318</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>CallableKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">5318</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>CallableKHR</strong><br>
 Ray callable shading stage.<br></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
 </tr>
 </tbody>
 </table>
-</div></div>
+</div>
+</div>
 </dd>
-<dt class="hdlist1">
-(Modify Section 3.7, Storage Class, adding rows to the Storage Class table) 
-</dt>
+<dt class="hdlist1">(Modify Section 3.7, Storage Class, adding rows to the Storage Class table) </dt>
 <dd>
 <div class="openblock">
 <div class="content">
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:5%;">
-<col style="width:75%;">
-<col style="width:10%;">
-<col style="width:10%;">
+<table class="tableblock frame-all grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 5%;">
+<col style="width: 75%;">
+<col style="width: 10%;">
+<col style="width: 10%;">
+</colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-center valign-middle" colspan="2" > Storage Class </th>
-<th class="tableblock halign-left valign-top" > <a href="#Capability">Enabling Capabilities</a> </th>
-<th class="tableblock halign-left valign-top" > Enabled by Extension</th>
+<th class="tableblock halign-center valign-middle" colspan="2">Storage Class</th>
+<th class="tableblock halign-left valign-top"><a href="#Capability">Enabling Capabilities</a></th>
+<th class="tableblock halign-left valign-top">Enabled by Extension</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">5328</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>CallableDataKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">5328</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>CallableDataKHR</strong><br>
 Used for storing arbitrary data associated with a ray to pass to callables.
 Visible across all functions in the current invocation. Not shared externally. Variables declared
 with this storage class can be both read and written to, but cannot have initializers.
 Only allowed in <strong>RayGenerationKHR</strong>, <strong>ClosestHitKHR</strong>, <strong>CallableKHR</strong>, and <strong>MissKHR</strong> execution models.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">SPV_KHR_ray_tracing</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SPV_KHR_ray_tracing</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">5329</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>IncomingCallableDataKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">5329</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>IncomingCallableDataKHR</strong><br>
 Used for storing arbitrary data from parent sent to current callable stage invoked from
 <strong>OpExecuteCallable</strong>. Visible across all functions in current invocation. Not shared externally.
 Variables declared with the storage class are allowed only in <strong>CallableKHR</strong> execution models.
 Can be both read and written to in above execution models, but cannot have initializers.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">SPV_KHR_ray_tracing</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SPV_KHR_ray_tracing</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">5338</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayPayloadKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">5338</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayPayloadKHR</strong><br>
 Used for storing payload data associated with a ray. Visible across all functions in
 the current invocation. Not shared externally. Variables declared
 with this storage class can be both read and written to, but cannot have initializers.
 Only allowed in <strong>RayGenerationKHR</strong>, <strong>ClosestHitKHR</strong> and <strong>MissKHR</strong> execution models.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">SPV_KHR_ray_tracing</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SPV_KHR_ray_tracing</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">5339</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>HitAttributeKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">5339</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>HitAttributeKHR</strong><br>
 Used for storing attributes of geometry intersected by a ray. Visible across all
 functions in the current invocation. Not shared externally. Variables declared with this
 storage class are allowed only in <strong>IntersectionKHR</strong>, <strong>AnyHitKHR</strong> and <strong>ClosestHitKHR</strong> execution models.
 They can be written to only in <strong>IntersectionKHR</strong> execution model and read from only
 in <strong>AnyHitKHR</strong> and <strong>ClosestHitKHR</strong> execution models. They cannot have initializers.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">SPV_KHR_ray_tracing</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SPV_KHR_ray_tracing</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">5342</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>IncomingRayPayloadKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">5342</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>IncomingRayPayloadKHR</strong><br>
 Used for storing parent payload data associated with a ray in current stage invoked from
 a trace call. Visible across all functions in current invocation. Not shared externally.
 Variables declared with the storage class are allowed only in <strong>AnyHitKHR</strong>, <strong>ClosestHitKHR</strong> and
 <strong>MissKHR</strong> execution models. Can be both read and written to in above execution models, but
 cannot have initializers.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">SPV_KHR_ray_tracing</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SPV_KHR_ray_tracing</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">5343</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>ShaderRecordBufferKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">5343</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>ShaderRecordBufferKHR</strong><br>
 Used for storing data in shader record associated with each unique shader in ray_tracing
 pipeline. Visible across all functions in current invocation. Can be initialized externally via API.
 Variables declared with this storage class are allowed in <strong>RayGenerationKHR</strong>, <strong>IntersectionKHR</strong>,
 <strong>AnyHitKHR</strong>, <strong>ClosestHitKHR</strong>, <strong>MissKHR</strong> and <strong>CallableKHR</strong> execution models, are read-only,
 and cannot have initializers. Refer to the client API for details on shader records.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">SPV_KHR_ray_tracing</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SPV_KHR_ray_tracing</p></td>
 </tr>
 </tbody>
 </table>
-</div></div>
+</div>
+</div>
 </dd>
-<dt class="hdlist1">
-(Modify Section 3.21, Builtin, adding rows to the Builtin table) 
-</dt>
+<dt class="hdlist1">(Modify Section 3.21, Builtin, adding rows to the Builtin table) </dt>
 <dd>
 <div class="openblock">
 <div class="content">
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:5%;">
-<col style="width:58%;">
-<col style="width:35%;">
+<table class="tableblock frame-all grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 5.8823%;">
+<col style="width: 58.8235%;">
+<col style="width: 35.2942%;">
+</colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-center valign-middle" colspan="2" > Decoration </th>
-<th class="tableblock halign-center valign-top" > <a href="#Capability">Enabling Capabilities</a></th>
+<th class="tableblock halign-center valign-middle" colspan="2">Decoration</th>
+<th class="tableblock halign-left valign-top"><a href="#Capability">Enabling Capabilities</a></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">5319</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>LaunchIdKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">5319</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>LaunchIdKHR</strong><br>
 Index of work item being processed in current invocation of ray tracing shader stage.
-Allowed in all ray tracing execution models.</p>
-<p class="tableblock">Refer to the client API specification for more details.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
+Allowed in all ray tracing execution models.<br>
+ <br>
+Refer to the client API specification for more details.</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">5320</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>LaunchSizeKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">5320</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>LaunchSizeKHR</strong><br>
 Width and height dimensions passed to vkCmdTraceRaysKHR call which resulted in invocation of
-current ray tracing shader stage. Allowed in all ray tracing execution models.</p>
-<p class="tableblock">Refer to the client API specification for more details.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
+current ray tracing shader stage. Allowed in all ray tracing execution models.<br>
+ <br>
+Refer to the client API specification for more details.</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">5321</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>WorldRayOriginKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">5321</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>WorldRayOriginKHR</strong><br>
 World-space origin coordinates for the ray being traced in the <strong>IntersectionKHR</strong>,
-<strong>AnyHitKHR</strong>, <strong>ClosestHitKHR</strong>, or <strong>MissKHR</strong> execution models.</p>
-<p class="tableblock">Refer to the client API specification for more details.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
+<strong>AnyHitKHR</strong>, <strong>ClosestHitKHR</strong>, or <strong>MissKHR</strong> execution models.<br>
+ <br>
+Refer to the client API specification for more details.</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">5322</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>WorldRayDirectionKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">5322</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>WorldRayDirectionKHR</strong><br>
 World-space direction for the ray being traced in the <strong>IntersectionKHR</strong>,
-<strong>AnyHitKHR</strong>, <strong>ClosestHitKHR</strong>, or <strong>MissKHR</strong> execution models.</p>
-<p class="tableblock">Refer to the client API specification for more details.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
+<strong>AnyHitKHR</strong>, <strong>ClosestHitKHR</strong>, or <strong>MissKHR</strong> execution models.<br>
+ <br>
+Refer to the client API specification for more details.</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">5323</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>ObjectRayOriginKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">5323</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>ObjectRayOriginKHR</strong><br>
 Object-space origin coordinates for the ray being traced in the <strong>IntersectionKHR</strong>,
-<strong>AnyHitKHR</strong>, or <strong>ClosestHitKHR</strong> execution models.</p>
-<p class="tableblock">Refer to the client API specification for more details.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
+<strong>AnyHitKHR</strong>, or <strong>ClosestHitKHR</strong> execution models.<br>
+ <br>
+Refer to the client API specification for more details.</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">5324</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>ObjectRayDirectionKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">5324</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>ObjectRayDirectionKHR</strong><br>
 Object-space direction for the ray being traced in the <strong>IntersectionKHR</strong>,
-<strong>AnyHitKHR</strong>, or <strong>ClosestHitKHR</strong> execution models.</p>
-<p class="tableblock">Refer to the client API specification for more details.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
+<strong>AnyHitKHR</strong>, or <strong>ClosestHitKHR</strong> execution models.<br>
+ <br>
+Refer to the client API specification for more details.</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">5325</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTminKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">5325</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayTminKHR</strong><br>
 The current <strong>Tmin</strong> parametric value for the ray being traced in the <strong>IntersectionKHR</strong>,
-<strong>AnyHitKHR</strong>, <strong>ClosestHitKHR</strong>, or <strong>MissKHR</strong> execution models.</p>
-<p class="tableblock">Refer to the client API specification for more details.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
+<strong>AnyHitKHR</strong>, <strong>ClosestHitKHR</strong>, or <strong>MissKHR</strong> execution models.<br>
+ <br>
+Refer to the client API specification for more details.</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">5326</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTmaxKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">5326</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayTmaxKHR</strong><br>
 The current <strong>Tmax</strong> parametric value for the ray being traced in the <strong>IntersectionKHR</strong>,
-<strong>AnyHitKHR</strong>, <strong>ClosestHitKHR</strong>, or <strong>MissKHR</strong> execution models.</p>
-<p class="tableblock">Refer to the client API specification for more details.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
+<strong>AnyHitKHR</strong>, <strong>ClosestHitKHR</strong>, or <strong>MissKHR</strong> execution models.<br>
+ <br>
+Refer to the client API specification for more details.</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">5327</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>InstanceCustomIndexKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">5327</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>InstanceCustomIndexKHR</strong><br>
 Application specified value associated with the instance that was hit by the current ray in the <strong>IntersectionKHR</strong>,
-<strong>AnyHitKHR</strong>, <strong>ClosestHitKHR</strong> execution models.</p>
-<p class="tableblock">Refer to the client API specification for more details.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
+<strong>AnyHitKHR</strong>, <strong>ClosestHitKHR</strong> execution models.<br>
+ <br>
+Refer to the client API specification for more details.</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">5330</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>ObjectToWorldKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">5330</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>ObjectToWorldKHR</strong><br>
 The <em>4x3</em> object to world transformation matrix for the ray being traced in the <strong>IntersectionKHR</strong>,
-<strong>AnyHitKHR</strong>, or <strong>ClosestHitKHR</strong> execution models.</p>
-<p class="tableblock">Refer to the client API specification for more details.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
+<strong>AnyHitKHR</strong>, or <strong>ClosestHitKHR</strong> execution models.<br>
+ <br>
+Refer to the client API specification for more details.</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">5331</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>WorldToObjectKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">5331</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>WorldToObjectKHR</strong><br>
 The <em>4x3</em> world to object transformation matrix for the ray being traced in the <strong>IntersectionKHR</strong>,
-<strong>AnyHitKHR</strong>, or <strong>ClosestHitKHR</strong> execution models.</p>
-<p class="tableblock">Refer to the client API specification for more details.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
+<strong>AnyHitKHR</strong>, or <strong>ClosestHitKHR</strong> execution models.<br>
+ <br>
+Refer to the client API specification for more details.</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">5333</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>HitKindKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">5333</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>HitKindKHR</strong><br>
 The hit kind of the hit for the ray being traced in the <strong>AnyHitKHR</strong> or
-<strong>ClosestHitKHR</strong> execution models.</p>
-<p class="tableblock">Refer to the client API specification for more details.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
+<strong>ClosestHitKHR</strong> execution models.<br>
+ <br>
+Refer to the client API specification for more details.</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">5351</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>IncomingRayFlagsKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">5351</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>IncomingRayFlagsKHR</strong><br>
 The ray flags in current stage as passed in through trace call in parent. Available in <strong>AnyHitKHR</strong>,
-<strong>ClosestHitKHR</strong>, <strong>IntersectionKHR</strong>, and <strong>MissKHR</strong> stage</p>
-<p class="tableblock">Refer to the client API specification for more details.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
+<strong>ClosestHitKHR</strong>, <strong>IntersectionKHR</strong>, and <strong>MissKHR</strong> stage<br>
+ <br>
+Refer to the client API specification for more details.</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">5352</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayGeometryIndexKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">5352</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayGeometryIndexKHR</strong><br>
 Implementation defined index corresponding to the geometry that was hit by the current ray in the <strong>IntersectionKHR</strong>,
-<strong>AnyHitKHR</strong>, or <strong>ClosestHitKHR</strong> execution models.</p>
-<p class="tableblock">Refer to the client API specification for more details.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
+<strong>AnyHitKHR</strong>, or <strong>ClosestHitKHR</strong> execution models.<br>
+ <br>
+Refer to the client API specification for more details.</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
 </tr>
 </tbody>
 </table>
-</div></div>
+</div>
+</div>
 </dd>
-<dt class="hdlist1">
-(Modify the definition of following BuiltIns, allowing them to be used in <strong>IntersectionKHR</strong>, <strong>AnyHitKHR</strong>, or <strong>ClosestHitKHR</strong> Execution Models.)
-</dt>
+<dt class="hdlist1">(Modify the definition of following BuiltIns, allowing them to be used in <strong>IntersectionKHR</strong>, <strong>AnyHitKHR</strong>, or <strong>ClosestHitKHR</strong> Execution Models.)</dt>
 <dd>
 <div class="openblock">
 <div class="content">
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:4%;">
-<col style="width:40%;">
-<col style="width:16%;">
-<col style="width:40%;">
+<table class="tableblock frame-all grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 4%;">
+<col style="width: 40%;">
+<col style="width: 16%;">
+<col style="width: 40%;">
+</colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-center valign-middle" colspan="2" > BuiltIn</th>
-<th class="tableblock halign-center valign-top" > Enabling Capabilities </th>
-<th class="tableblock halign-center valign-top" > Enabled by Extension</th>
+<th class="tableblock halign-center valign-middle" colspan="2">BuiltIn</th>
+<th class="tableblock halign-left valign-top">Enabling Capabilities</th>
+<th class="tableblock halign-center valign-top">Enabled by Extension</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-middle" rowspan="3" ><p class="tableblock">6</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>InstanceId</strong><br>
+<td class="tableblock halign-left valign-middle" rowspan="3"><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>InstanceId</strong><br>
 Input Instance identifier. See the client API specifications
 for more detail.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"></p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"></p></td>
+<td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Instance ID in a <strong>Vertex</strong> Execution Model</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>Shader</strong></p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Instance ID in a <strong>Vertex</strong> Execution Model</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Shader</strong></p></td>
+<td class="tableblock halign-center valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Instance ID in an <strong>IntersectionKHR</strong>, <strong>AnyHitKHR</strong>, or <strong>ClosestHitKHR</strong> Execution Model</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>SPV_KHR_ray_tracing</strong></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Instance ID in an <strong>IntersectionKHR</strong>, <strong>AnyHitKHR</strong>, or <strong>ClosestHitKHR</strong> Execution Model</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>SPV_KHR_ray_tracing</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-middle" rowspan="4" ><p class="tableblock">7</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>PrimitiveId</strong><br>
+<td class="tableblock halign-left valign-middle" rowspan="4"><p class="tableblock">7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>PrimitiveId</strong><br>
 Primitive identifier. See the client API specifications for more detail.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"></p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"></p></td>
+<td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Primitive ID in a <strong>Geometry</strong> Execution Model</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>Geometry</strong></p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Primitive ID in a <strong>Geometry</strong> Execution Model</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Geometry</strong></p></td>
+<td class="tableblock halign-center valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Primitive ID in a <strong>Tessellation</strong> Execution Model</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>Tessellation</strong></p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Primitive ID in a <strong>Tessellation</strong> Execution Model</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Tessellation</strong></p></td>
+<td class="tableblock halign-center valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Primitive ID in an <strong>IntersectionKHR</strong>, <strong>AnyHitKHR</strong>, or <strong>ClosestHitKHR</strong> Execution Model</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>SPV_KHR_ray_tracing</strong></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Primitive ID in an <strong>IntersectionKHR</strong>, <strong>AnyHitKHR</strong>, or <strong>ClosestHitKHR</strong> Execution Model</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>SPV_KHR_ray_tracing</strong></p></td>
 </tr>
 </tbody>
 </table>
-</div></div>
+</div>
+</div>
 </dd>
-<dt class="hdlist1">
-(Modify Section 3.25, Memory Semantics &lt;id&gt;) 
-</dt>
+<dt class="hdlist1">(Modify Section 3.25, Memory Semantics &lt;id&gt;) </dt>
 <dd>
-<p>
-Modify the <strong>UniformMemory</strong> cell:
-</p>
+<p>Modify the <strong>UniformMemory</strong> cell:</p>
 <div class="exampleblock">
 <div class="content">
-<div class="paragraph"><p>Apply the memory-ordering constraints to <strong>StorageBuffer</strong>, <strong>PhysicalStorageBuffer</strong>,
-or <strong>Uniform</strong> Storage Class memory.</p></div>
-</div></div>
-<div class="paragraph"><p>to include <strong>ShaderRecordBufferKHR</strong>.</p></div>
+<div class="paragraph">
+<p>Apply the memory-ordering constraints to <strong>StorageBuffer</strong>, <strong>PhysicalStorageBuffer</strong>,
+or <strong>Uniform</strong> Storage Class memory.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>to include <strong>ShaderRecordBufferKHR</strong>.</p>
+</div>
 </dd>
-<dt class="hdlist1">
-(Modify Section 3.27, Scope &lt;id&gt;, adding a new row to the Scope table) 
-</dt>
+<dt class="hdlist1">(Modify Section 3.27, Scope &lt;id&gt;, adding a new row to the Scope table) </dt>
 <dd>
 <div class="openblock">
 <div class="content">
-<table class="tableblock frame-all grid-all"
-style="
-width:80%;
-">
-<col style="width:4%;">
-<col style="width:90%;">
-<col style="width:4%;">
+<table class="tableblock frame-all grid-all stripes-even" style="width: 80%;">
+<colgroup>
+<col style="width: 4.5454%;">
+<col style="width: 90.909%;">
+<col style="width: 4.5456%;">
+</colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-center valign-middle" colspan="2" > Scope </th>
-<th class="tableblock halign-left valign-top" > Enabling Capabilities</th>
+<th class="tableblock halign-center valign-middle" colspan="2">Scope</th>
+<th class="tableblock halign-left valign-top">Enabling Capabilities</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">6</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>ShaderCallKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>ShaderCallKHR</strong><br>
 Scope is the set of invocations that are <em>shader-call-related</em> in a ray tracing
 Execution Model. Set the client API specification for details.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
 </tr>
 </tbody>
 </table>
-</div></div>
+</div>
+</div>
 </dd>
-</dl></div>
-<div class="dlist"><dl>
-<dt class="hdlist1">
-(Add a new sub-section 3.RF, Ray Flags, adding a new table) 
-</dt>
+</dl>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">(Add a new sub-section 3.RF, Ray Flags, adding a new table) </dt>
 <dd>
 <div class="openblock">
 <div class="content">
-<div class="paragraph" id="ray_flags"><p><strong>3.RF, Ray Flags</strong></p></div>
-<div class="paragraph"><p>Flags controlling the properties of an <strong>OpTraceRayKHR</strong> instruction
+<div id="ray_flags" class="paragraph">
+<p><strong>3.RF, Ray Flags</strong></p>
+</div>
+<div class="paragraph">
+<p>Flags controlling the properties of an <strong>OpTraceRayKHR</strong> instruction
 or for comparing against the <strong>IncomingRayFlagsKHR</strong> builtin.
-See the client API specification for more details.</p></div>
-<div class="paragraph"><p>Despite being a mask and allowing multiple bits to be combined,
-the following combinations are invalid:</p></div>
-<div class="ulist"><ul>
+See the client API specification for more details.</p>
+</div>
+<div class="paragraph">
+<p>Despite being a mask and allowing multiple bits to be combined,
+the following combinations are invalid:</p>
+</div>
+<div class="ulist">
+<ul>
 <li>
-<p>
-if more than one of these four bits are set:
-    <strong>OpaqueKHR</strong>, <strong>NoOpaqueKHR</strong>, <strong>CullOpaqueKHR</strong>, <strong>CullNoOpaqueKHR</strong>.
-</p>
+<p>if more than one of these four bits are set:
+<strong>OpaqueKHR</strong>, <strong>NoOpaqueKHR</strong>, <strong>CullOpaqueKHR</strong>, <strong>CullNoOpaqueKHR</strong>.</p>
 </li>
 <li>
-<p>
-if more than one of these three bits are set: <strong>SkipTrianglesKHR</strong>,
-    <strong>CullBackFacingTrianglesKHR</strong>, <strong>CullFrontFacingTrianglesKHR</strong>.
-</p>
+<p>if more than one of these three bits are set: <strong>SkipTrianglesKHR</strong>,
+<strong>CullBackFacingTrianglesKHR</strong>, <strong>CullFrontFacingTrianglesKHR</strong>.</p>
 </li>
 <li>
-<p>
-if more than one of these two bits are set: <strong>SkipTrianglesKHR</strong>,
-    <strong>SkipAABBsKHR</strong>.
-</p>
+<p>if more than one of these two bits are set: <strong>SkipTrianglesKHR</strong>,
+<strong>SkipAABBsKHR</strong>.</p>
 </li>
-</ul></div>
-<table class="tableblock frame-all grid-all"
-style="
-width:80%;
-">
-<col style="width:4%;">
-<col style="width:71%;">
-<col style="width:23%;">
+</ul>
+</div>
+<table class="tableblock frame-all grid-all stripes-even" style="width: 80%;">
+<colgroup>
+<col style="width: 4.7619%;">
+<col style="width: 71.4285%;">
+<col style="width: 23.8096%;">
+</colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-center valign-middle" colspan="2" > Ray Flags </th>
-<th class="tableblock halign-left valign-top" > Enabling Capabilities</th>
+<th class="tableblock halign-center valign-middle" colspan="2">Ray Flags</th>
+<th class="tableblock halign-left valign-top">Enabling Capabilities</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>NoneKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>NoneKHR</strong><br>
 No flags specified.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>OpaqueKHR</strong> <br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>OpaqueKHR</strong> <br>
 Force all intersections with the trace to be opaque.<br>
 See the Ray Opacity Culling section in the Vulkan API specification.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>NoOpaqueKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>NoOpaqueKHR</strong><br>
 Force all intersections with the trace to be non-opaque.<br>
 See the Ray Opacity Culling section in the Vulkan API specification.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>TerminateOnFirstHitKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>TerminateOnFirstHitKHR</strong><br>
 Accept the first hit discovered.<br>
 See the Ray Closest Hit Determination section in the Vulkan API specification.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">8</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>SkipClosestHitShaderKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">8</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>SkipClosestHitShaderKHR</strong><br>
 Do not execute a closest hit shader.<br>
 See the Ray Result Determination section in the Vulkan API specification.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">16</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>CullBackFacingTrianglesKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">16</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>CullBackFacingTrianglesKHR</strong><br>
 Do not intersect with the back face of triangles.<br>
 See the Ray Face Culling section in the Vulkan API specification.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">32</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>CullFrontFacingTrianglesKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">32</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>CullFrontFacingTrianglesKHR</strong><br>
 Do not intersect with the front face of triangles.<br>
 See the Ray Face Culling section in the Vulkan API specification.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">64</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>CullOpaqueKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">64</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>CullOpaqueKHR</strong><br>
 Do not intersect with opaque geometry.<br>
 See the Ray Opacity Culling section in the Vulkan API specification.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">128</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>CullNoOpaqueKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">128</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>CullNoOpaqueKHR</strong><br>
 Do not intersect with non-opaque geometry.<br>
 See the Ray Opacity Culling section in the Vulkan API specification.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">256</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>SkipTrianglesKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">256</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>SkipTrianglesKHR</strong><br>
 Do not intersect with any triangle geometries.
 See the Ray Primitive Culling section in the Vulkan API specification.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTraversalPrimitiveCullingKHR</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayTraversalPrimitiveCullingKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">512</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>SkipAABBsKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">512</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>SkipAABBsKHR</strong><br>
 Do not intersect with any aabb geometries.
 See the Ray Primitive Culling section in the Vulkan API specification.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTraversalPrimitiveCullingKHR</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayTraversalPrimitiveCullingKHR</strong></p></td>
 </tr>
 </tbody>
 </table>
-</div></div>
+</div>
+</div>
 </dd>
-<dt class="hdlist1">
-(Add a new sub-section 3.HK, Hit Kinds, adding a new table) 
-</dt>
+<dt class="hdlist1">(Add a new sub-section 3.HK, Hit Kinds, adding a new table) </dt>
 <dd>
 <div class="openblock">
 <div class="content">
-<div class="paragraph" id="hit_kinds"><p><strong>3.HK, Hit Kinds</strong></p></div>
-<div class="paragraph"><p>Values returned in the variable decorated as <strong>HitKindKHR</strong> from built-in
+<div id="hit_kinds" class="paragraph">
+<p><strong>3.HK, Hit Kinds</strong></p>
+</div>
+<div class="paragraph">
+<p>Values returned in the variable decorated as <strong>HitKindKHR</strong> from built-in
 intersections with triangle geometry.
-See the Ray Face Culling section in the Vulkan API specification.</p></div>
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:3%;">
-<col style="width:42%;">
-<col style="width:53%;">
+See the Ray Face Culling section in the Vulkan API specification.</p>
+</div>
+<table class="tableblock frame-all grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 3.5714%;">
+<col style="width: 42.8571%;">
+<col style="width: 53.5715%;">
+</colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-center valign-middle" colspan="2" > Hit Kind </th>
-<th class="tableblock halign-left valign-top" > Enabling Capabilities</th>
+<th class="tableblock halign-center valign-middle" colspan="2">Hit Kind</th>
+<th class="tableblock halign-left valign-top">Enabling Capabilities</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">0xFE</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>HitKindFrontFacingTriangleKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">0xFE</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>HitKindFrontFacingTriangleKHR</strong><br>
 The intersection was with front-facing geometry.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">0xFF</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>HitKindBackFacingTriangleKHR</strong><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">0xFF</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>HitKindBackFacingTriangleKHR</strong><br>
 The intersection was with back-facing geometry.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
 </tr>
 </tbody>
 </table>
-</div></div>
+</div>
+</div>
 </dd>
-<dt class="hdlist1">
-(Modify Section 3.31, Capability, adding a row to the Capability table) 
-</dt>
+<dt class="hdlist1">(Modify Section 3.31, Capability, adding a row to the Capability table) </dt>
 <dd>
 <div class="openblock">
 <div class="content">
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:2%;">
-<col style="width:60%;">
-<col style="width:36%;">
+<table class="tableblock frame-all grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 2.439%;">
+<col style="width: 60.9756%;">
+<col style="width: 36.5854%;">
+</colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-center valign-middle" colspan="2" > Capability </th>
-<th class="tableblock halign-left valign-top" > Implicitly Declares</th>
+<th class="tableblock halign-center valign-middle" colspan="2">Capability</th>
+<th class="tableblock halign-left valign-top">Implicitly Declares</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-middle" ><p class="tableblock">4479</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTracingKHR</strong><br>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">4479</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayTracingKHR</strong><br>
 Uses the <strong>RayGenerationKHR</strong>, <strong>IntersectionKHR</strong>, <strong>AnyHitKHR</strong>, <strong>ClosestHitKHR</strong>,
 <strong>MissKHR</strong>, or <strong>CallableKHR</strong> Execution Models</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Shader</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Shader</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-middle" ><p class="tableblock">4478</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTraversalPrimitiveCullingKHR</strong><br>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">4478</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayTraversalPrimitiveCullingKHR</strong><br>
 Uses <strong>SkipAABBsKHR</strong> or <strong>SkipTrianglesKHR</strong></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RayTracingKHR</strong></p></td>
 </tr>
 </tbody>
 </table>
-</div></div>
+</div>
+</div>
 <div class="openblock">
 <div class="content">
-<div class="paragraph"><p>Modify the <strong>StorageBuffer16BitAccess</strong> cell
-to include <strong>ShaderRecordBufferKHR</strong>.</p></div>
-<div class="paragraph"><p>Modify the <strong>UniformAndStorageBuffer16BitAccess</strong> cell
-to include <strong>ShaderRecordBufferKHR</strong>.</p></div>
-<div class="paragraph"><p>Modify the <strong>StorageBuffer8BitAccess</strong> cell
-to include <strong>ShaderRecordBufferKHR</strong>.</p></div>
-<div class="paragraph"><p>Modify the <strong>UniformAndStorageBuffer8BitAccess</strong> cell
-to include <strong>ShaderRecordBufferKHR</strong>.</p></div>
-</div></div>
+<div class="paragraph">
+<p>Modify the <strong>StorageBuffer16BitAccess</strong> cell
+to include <strong>ShaderRecordBufferKHR</strong>.</p>
+</div>
+<div class="paragraph">
+<p>Modify the <strong>UniformAndStorageBuffer16BitAccess</strong> cell
+to include <strong>ShaderRecordBufferKHR</strong>.</p>
+</div>
+<div class="paragraph">
+<p>Modify the <strong>StorageBuffer8BitAccess</strong> cell
+to include <strong>ShaderRecordBufferKHR</strong>.</p>
+</div>
+<div class="paragraph">
+<p>Modify the <strong>UniformAndStorageBuffer8BitAccess</strong> cell
+to include <strong>ShaderRecordBufferKHR</strong>.</p>
+</div>
+</div>
+</div>
 </dd>
-<dt class="hdlist1">
-(Modify Section 3.36.6, Type-Declaration Instructions, adding a new table) 
-</dt>
+<dt class="hdlist1">(Modify Section 3.36.6, Type-Declaration Instructions, adding a new table) </dt>
 <dd>
 <div class="openblock">
 <div class="content">
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:55%;">
-<col style="width:11%;">
-<col style="width:33%;">
+<table class="tableblock frame-all grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 55.5555%;">
+<col style="width: 11.1111%;">
+<col style="width: 33.3334%;">
+</colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" colspan="2" ><p class="tableblock"><a id="OpTypeAccelerationStructureKHR"></a><strong>OpTypeAccelerationStructureKHR</strong><br>
+<td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock"><a id="OpTypeAccelerationStructureKHR"></a><strong>OpTypeAccelerationStructureKHR</strong><br>
 <br>
 Declares an acceleration structure type which is an opaque reference to
 acceleration structure handle as defined in the client API
@@ -1727,52 +1038,51 @@ specification.</p>
 <a href="#OpTraceRayKHR"><strong>OpTraceRayKHR</strong></a></p>
 <p class="tableblock">This type is opaque: values of this type have no defined physical size or
 bit pattern.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
 <strong>RayTracingKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">5341</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5341</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Result</em></p></td>
 </tr>
 </tbody>
 </table>
-</div></div>
+</div>
+</div>
 </dd>
-<dt class="hdlist1">
-(Modify Section 3.36.8, Memory Instructions) 
-</dt>
+<dt class="hdlist1">(Modify Section 3.36.8, Memory Instructions) </dt>
 <dd>
-<p>
-Modify the following sentence in the description of <strong>OpPtrAccessChain</strong>
-</p>
+<p>Modify the following sentence in the description of <strong>OpPtrAccessChain</strong></p>
 <div class="exampleblock">
 <div class="content">
-<div class="paragraph"><p>For objects in the <strong>Uniform</strong>, <strong>StorageBuffer</strong>, or <strong>PushConstant</strong> storage
+<div class="paragraph">
+<p>For objects in the <strong>Uniform</strong>, <strong>StorageBuffer</strong>, or <strong>PushConstant</strong> storage
 classes, the element’s address or location is calculated using a stride,
 which will be the <em>Base</em>-type’s <em>Array Stride</em> when the <em>Base</em> type is
-decorated with <strong>ArrayStride</strong>.</p></div>
-</div></div>
-<div class="paragraph"><p>to include <strong>ShaderRecordBufferKHR</strong>.</p></div>
+decorated with <strong>ArrayStride</strong>.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>to include <strong>ShaderRecordBufferKHR</strong>.</p>
+</div>
 </dd>
-<dt class="hdlist1">
-(Modify Section 3.36.11, Conversion Instructions, adding a new table) 
-</dt>
+<dt class="hdlist1">(Modify Section 3.36.11, Conversion Instructions, adding a new table) </dt>
 <dd>
 <div class="openblock">
 <div class="content">
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:9%;">
-<col style="width:9%;">
-<col style="width:27%;">
-<col style="width:27%;">
-<col style="width:27%;">
+<table class="tableblock frame-all grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 9.0909%;">
+<col style="width: 9.0909%;">
+<col style="width: 27.2727%;">
+<col style="width: 27.2727%;">
+<col style="width: 27.2728%;">
+</colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" colspan="4" ><p class="tableblock"><a id="OpConvertUToAccelerationStructureKHR"></a><strong>OpConvertUToAccelerationStructureKHR</strong><br>
+<td class="tableblock halign-left valign-top" colspan="4"><p class="tableblock"><a id="OpConvertUToAccelerationStructureKHR"></a><strong>OpConvertUToAccelerationStructureKHR</strong><br>
 <br>
  Converts a 64-bit integer into an <strong>OpTypeAccelerationStructureKHR</strong>.<br>
 <br>
@@ -1783,46 +1093,44 @@ width:100%;
 <br>
 <em>Result Type</em> must be an <em>OpTypeAccelerationStructureKHR</em>.
 <br></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
 <strong>RayTracingKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">4447</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Result Type</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Result</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Acceleration Structure</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4447</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Result Type</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Result</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Acceleration Structure</em></p></td>
 </tr>
 </tbody>
 </table>
-</div></div>
+</div>
+</div>
 </dd>
-<dt class="hdlist1">
-(Add a new sub section 3.36.RT, Ray Tracing Instructions, adding to end of list of instructions) 
-</dt>
+<dt class="hdlist1">(Add a new sub section 3.36.RT, Ray Tracing Instructions, adding to end of list of instructions) </dt>
 <dd>
 <div class="openblock">
 <div class="content">
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:2%;">
-<col style="width:2%;">
-<col style="width:8%;">
-<col style="width:8%;">
-<col style="width:8%;">
-<col style="width:8%;">
-<col style="width:8%;">
-<col style="width:8%;">
-<col style="width:8%;">
-<col style="width:8%;">
-<col style="width:8%;">
-<col style="width:8%;">
-<col style="width:8%;">
+<table class="tableblock frame-all grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 2.8571%;">
+<col style="width: 2.8571%;">
+<col style="width: 8.5714%;">
+<col style="width: 8.5714%;">
+<col style="width: 8.5714%;">
+<col style="width: 8.5714%;">
+<col style="width: 8.5714%;">
+<col style="width: 8.5714%;">
+<col style="width: 8.5714%;">
+<col style="width: 8.5714%;">
+<col style="width: 8.5714%;">
+<col style="width: 8.5714%;">
+<col style="width: 8.5718%;">
+</colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" colspan="12" ><p class="tableblock"><a id="OpTraceRayKHR"></a><strong>OpTraceRayKHR</strong><br>
+<td class="tableblock halign-left valign-top" colspan="12"><p class="tableblock"><a id="OpTraceRayKHR"></a><strong>OpTraceRayKHR</strong><br>
 <br>
  Trace a ray into the acceleration structure.<br>
 <br>
@@ -1858,39 +1166,38 @@ width:100%;
  This instruction is a <em>shader call instruction</em> which may invoke shaders with the <strong>IntersectionKHR</strong>, <strong>AnyHitKHR</strong>,
 <strong>ClosestHitKHR</strong>, and <strong>MissKHR</strong> execution models.<br>
 <br></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
 <strong>RayTracingKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">12</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">4445</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Acceleration Structure</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt; Ray Flags</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Cull Mask</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>SBT Offset</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>SBT Stride</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Miss Index</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray Origin</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray Tmin</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray Direction</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray Tmax</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Payload</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">12</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4445</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Acceleration Structure</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Ray Flags</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Cull Mask</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>SBT Offset</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>SBT Stride</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Miss Index</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray Origin</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray Tmin</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray Direction</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Ray Tmax</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Payload</em></p></td>
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:7%;">
-<col style="width:7%;">
-<col style="width:21%;">
-<col style="width:21%;">
-<col style="width:21%;">
-<col style="width:21%;">
+<table class="tableblock frame-all grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 7.1428%;">
+<col style="width: 7.1428%;">
+<col style="width: 21.4285%;">
+<col style="width: 21.4285%;">
+<col style="width: 21.4285%;">
+<col style="width: 21.4289%;">
+</colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" colspan="5" ><p class="tableblock"><a id="OpReportIntersectionKHR"></a><strong>OpReportIntersectionKHR</strong><br>
+<td class="tableblock halign-left valign-top" colspan="5"><p class="tableblock"><a id="OpReportIntersectionKHR"></a><strong>OpReportIntersectionKHR</strong><br>
 <br>
 Reports an intersection back to the traversal infrastructure.</p>
 <p class="tableblock">If the intersection occurred within the current ray interval, the intersection confirmation is
@@ -1906,76 +1213,73 @@ Returns <strong>False</strong> otherwise.</p>
 <p class="tableblock">This instruction is allowed only in <strong>IntersectionKHR</strong> execution model.</p>
 <p class="tableblock">This instruction is a <em>shader call instruction</em> which may invoke shaders with the
 <strong>AnyHitKHR</strong> execution model.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
 <strong>RayTracingKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">5334</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Result</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Hit</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Hit Kind</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5334</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Result</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Hit</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Hit Kind</em></p></td>
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:50%;">
-<col style="width:50%;">
+<table class="tableblock frame-all grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><a id="OpIgnoreIntersectionKHR"></a><strong>OpIgnoreIntersectionKHR</strong><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a id="OpIgnoreIntersectionKHR"></a><strong>OpIgnoreIntersectionKHR</strong><br>
 <br>
 Ignores the current potential intersection, terminating the invocation that executes it, and
 continues the ray traversal.</p>
 <p class="tableblock">This instruction must be the last instruction in a block.</p>
 <p class="tableblock">This instruction is allowed only in <strong>AnyHitKHR</strong> execution model.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
 <strong>RayTracingKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">4448</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4448</p></td>
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:50%;">
-<col style="width:50%;">
+<table class="tableblock frame-all grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><a id="OpTerminateRayKHR"></a><strong>OpTerminateRayKHR</strong><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a id="OpTerminateRayKHR"></a><strong>OpTerminateRayKHR</strong><br>
 <br>
 Terminates the invocation that executes it, stops the ray traversal, accepts the current hit,
 and invokes the <strong>ClosestHitKHR</strong> execution model (if active).</p>
 <p class="tableblock">This instruction must be the last instruction in a block.</p>
 <p class="tableblock">This instruction is allowed only in <strong>AnyHitKHR</strong> execution model.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
 <strong>RayTracingKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">4449</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4449</p></td>
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:16%;">
-<col style="width:16%;">
-<col style="width:33%;">
-<col style="width:33%;">
+<table class="tableblock frame-all grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3335%;">
+</colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" colspan="3" ><p class="tableblock"><a id="OpExecuteCallableKHR"></a><strong>OpExecuteCallableKHR</strong><br>
+<td class="tableblock halign-left valign-top" colspan="3"><p class="tableblock"><a id="OpExecuteCallableKHR"></a><strong>OpExecuteCallableKHR</strong><br>
 <br>
 Invoke a callable shader</p>
 <p class="tableblock"><em>SBT Index</em> is the index into the SBT table to select callable shader to execute</p>
@@ -1984,278 +1288,285 @@ Invoke a callable shader</p>
 <p class="tableblock">This instruction is allowed only in <strong>RayGenerationKHR</strong>, <strong>ClosestHitKHR</strong>, <strong>MissKHR</strong> and <strong>CallableKHR</strong> execution models.</p>
 <p class="tableblock">This instruction is a <em>shader call instruction</em> which will invoke a shader with the
 <strong>CallableKHR</strong> execution model.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Capability:<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
 <strong>RayTracingKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">3</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">4446</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>SBT Index</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em> <em>Callable Data</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4446</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>SBT Index</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Callable Data</em></p></td>
 </tr>
 </tbody>
 </table>
-</div></div>
+</div>
+</div>
 </dd>
-</dl></div>
+</dl>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_validation_rules">Validation Rules</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>An OpExtension must be added to the SPIR-V for validation layers to check
-legal use of this extension:</p></div>
+<div class="paragraph">
+<p>An OpExtension must be added to the SPIR-V for validation layers to check
+legal use of this extension:</p>
+</div>
 <div class="listingblock">
-<div class="content monospaced">
+<div class="content">
 <pre>OpExtension "SPV_KHR_ray_tracing"</pre>
-</div></div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_interactions_with_spv_khr_ray_query">Interactions with SPV_KHR_ray_query</h2>
 <div class="sectionbody">
-<div class="paragraph"><p><strong>OpTypeAccelerationStructureKHR</strong>, <strong>RayTraversalPrimitiveCullingKHR</strong>,
-<strong>OpConvertUToAccelerationStructureKHR</strong> and the <span class="monospaced">Ray Flags</span> are added by both
-this extension and <span class="monospaced">SPV_KHR_ray_query</span>; they
+<div class="paragraph">
+<p><strong>OpTypeAccelerationStructureKHR</strong>, <strong>RayTraversalPrimitiveCullingKHR</strong>,
+<strong>OpConvertUToAccelerationStructureKHR</strong> and the <code>Ray Flags</code> are added by both
+this extension and <code>SPV_KHR_ray_query</code>; they
 are intended to have identical definitions, and can be enabled by either
 extension&#8217;s capability, for use with the instructions under that same
 capability.
-If <span class="monospaced">SPV_KHR_ray_query</span> is not supported, ignore any references to
-<strong>OpRayQueryInitializeKHR</strong>.</p></div>
+If <code>SPV_KHR_ray_query</code> is not supported, ignore any references to
+<strong>OpRayQueryInitializeKHR</strong>.</p>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_issues">Issues</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>1) Should the global variables be listed in the entrypoint interface?</p></div>
-<div class="paragraph"><p>Discussion: This makes the consumer lives easier in the presence of multiple
+<div class="paragraph">
+<p>1) Should the global variables be listed in the entrypoint interface?</p>
+</div>
+<div class="paragraph">
+<p>Discussion: This makes the consumer lives easier in the presence of multiple
 entry points.  This is already required in SPIR-V 1.4, but if using an earlier
-version of SPIR-V it is actually <strong>illegal</strong>.</p></div>
-<div class="paragraph"><p>Resolved: Require SPIR-V 1.4 to make it simpler for consumers.
+version of SPIR-V it is actually <strong>illegal</strong>.</p>
+</div>
+<div class="paragraph">
+<p>Resolved: Require SPIR-V 1.4 to make it simpler for consumers.
 SPV_NV_ray_tracing needs to work both ways since it pre-dates SPIR-V 1.4, but
 implementations which only support SPV_KHR_ray_tracing will benefit from
-this requirement.</p></div>
-<div class="paragraph"><p>2) What are the differences between provisional and final?</p></div>
-<div class="paragraph"><p>Discussion:</p></div>
-<div class="ulist"><ul>
+this requirement.</p>
+</div>
+<div class="paragraph">
+<p>2) What are the differences between provisional and final?</p>
+</div>
+<div class="paragraph">
+<p>Discussion:</p>
+</div>
+<div class="ulist">
+<ul>
 <li>
-<p>
-change RayTracingProvisionalKHR to RayTracingKHR and assign new
-    token (4479)
-</p>
+<p>change RayTracingProvisionalKHR to RayTracingKHR and assign new
+token (4479)</p>
 </li>
 <li>
-<p>
-change ray payloads and callable data to pointers rather than integer
-    locations (this resulted in new opcodes for OpTraceRayKHR (4445) and
-    OpExecuteCallableKHR (4446))
-</p>
+<p>change ray payloads and callable data to pointers rather than integer
+locations (this resulted in new opcodes for OpTraceRayKHR (4445) and
+OpExecuteCallableKHR (4446))</p>
 </li>
 <li>
-<p>
-added OpConvertUToAccelerationStructureKHR (4447) instruction to convert
-    from a 64-bit acceleration structure pointer to an
-    OpTypeAccelerationStructureKHR to enable tracing by handle
-</p>
+<p>added OpConvertUToAccelerationStructureKHR (4447) instruction to convert
+from a 64-bit acceleration structure pointer to an
+OpTypeAccelerationStructureKHR to enable tracing by handle</p>
 </li>
 <li>
-<p>
-Assign new opcodes for OpIgnoreIntersectionKHR (4448) and
-    OpTerminateRayKHR (4449) and specify that they are termination
-    instructions.
-</p>
+<p>Assign new opcodes for OpIgnoreIntersectionKHR (4448) and
+OpTerminateRayKHR (4449) and specify that they are termination
+instructions.</p>
 </li>
-</ul></div>
-<div class="paragraph"><p>3) Are OpReportIntersectionKHR and OpIgnoreIntersectionKHR terminators like
-   OpTerminateInvocation or just OpKill?</p></div>
-<div class="paragraph"><p>Resolved: They are meant to unambiguously end execution similarly to
-OpTerminateInvocation. We are trying to avoid the mess caused by OpKill.</p></div>
+</ul>
+</div>
+<div class="paragraph">
+<p>3) Are OpReportIntersectionKHR and OpIgnoreIntersectionKHR terminators like
+   OpTerminateInvocation or just OpKill?</p>
+</div>
+<div class="paragraph">
+<p>Resolved: They are meant to unambiguously end execution similarly to
+OpTerminateInvocation. We are trying to avoid the mess caused by OpKill.</p>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_revision_history">Revision History</h2>
 <div class="sectionbody">
-<table class="tableblock frame-all grid-rows"
-style="
-width:100%;
-">
-<col style="width:4%;">
-<col style="width:14%;">
-<col style="width:14%;">
-<col style="width:66%;">
+<table class="tableblock frame-all grid-rows stripes-even stretch">
+<colgroup>
+<col style="width: 4.7619%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 66.6667%;">
+</colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top" >Rev</th>
-<th class="tableblock halign-left valign-top" >Date</th>
-<th class="tableblock halign-left valign-top" >Author</th>
-<th class="tableblock halign-left valign-top" >Changes</th>
+<th class="tableblock halign-left valign-top">Rev</th>
+<th class="tableblock halign-left valign-top">Date</th>
+<th class="tableblock halign-left valign-top">Author</th>
+<th class="tableblock halign-left valign-top">Changes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2019-04-30</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Daniel Koch</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Fork from SPV_NV_ray_tracing rev 4.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2019-04-30</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Daniel Koch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fork from SPV_NV_ray_tracing rev 4.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2019-04-30</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Daniel Koch</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Add Ray Flags documentation.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2019-04-30</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Daniel Koch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Add Ray Flags documentation.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">3</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2019-06-20</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Tobias Hector</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Add RayGeometryIndexKHR.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2019-06-20</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tobias Hector</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Add RayGeometryIndexKHR.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2019-10-25</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Tobias Hector</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Add description to ray flags.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2019-10-25</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tobias Hector</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Add description to ray flags.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2019-11-20</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Daniel Koch</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">OpTraceKHR &#8594; OpTraceRayKHR.
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2019-11-20</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Daniel Koch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OpTraceKHR &#8594; OpTraceRayKHR.
                                         Add references to API spec for ray flags.
                                         Add Hit Kind documentation.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">6</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2019-11-25</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Daniel Koch</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Add ShaderCallKHR scope.
+<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2019-11-25</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Daniel Koch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Add ShaderCallKHR scope.
                                         Document payload for OpTraceRayKHR.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">7</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2019-11-27</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Daniel Koch</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Disallow initializers on all new storage classes.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2019-11-27</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Daniel Koch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Disallow initializers on all new storage classes.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">8</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2019-12-03</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Tobias Hector</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Add interactions with SPV_KHR_ray_query.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2019-12-03</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tobias Hector</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Add interactions with SPV_KHR_ray_query.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">9</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2019-12-05</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Tobias Hector</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Add RayTraversalPrimitiveCullingKHR capability
+<td class="tableblock halign-left valign-top"><p class="tableblock">9</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2019-12-05</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tobias Hector</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Add RayTraversalPrimitiveCullingKHR capability
                                         and the SkipAABBsKHR/SkipTrianglesKHR ray flags.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">10</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2019-12-05</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Daniel Koch</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Base on SPIR-V 1.5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2019-12-05</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Daniel Koch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Base on SPIR-V 1.5</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">11</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2019-12-11</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Daniel Koch</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">add Provisional string to capabilities, and reassign token
+<td class="tableblock halign-left valign-top"><p class="tableblock">11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2019-12-11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Daniel Koch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">add Provisional string to capabilities, and reassign token
                                         for RayTracingProvisionalKHR.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">12</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2020-02-20</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Eric Werness</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Miss does not have object parameters.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">12</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2020-02-20</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Eric Werness</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Miss does not have object parameters.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">13</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2020-02-22</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Tobias Hector</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Removed HitTKHR alias of RayTmaxKHR</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">13</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2020-02-22</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tobias Hector</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Removed HitTKHR alias of RayTmaxKHR</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">14</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2020-04-22</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Daniel Koch</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Require SPIR-V 1.4.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">14</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2020-04-22</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Daniel Koch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Require SPIR-V 1.4.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">15</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2020-06-03</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Daniel Koch</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Update capabilities tables to match SPIR-V 1.5.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">15</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2020-06-03</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Daniel Koch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Update capabilities tables to match SPIR-V 1.5.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">16</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2020-06-04</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Faith Ekstrand</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Make ray payloads and callable data pointers rather than
+<td class="tableblock halign-left valign-top"><p class="tableblock">16</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2020-06-04</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Faith Ekstrand</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Make ray payloads and callable data pointers rather than
                                         integer locations</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">17</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2020-06-05</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Hans-Kristian Arntzen</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Add conversion from 64-bit acceleration structure pointer
+<td class="tableblock halign-left valign-top"><p class="tableblock">17</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2020-06-05</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Hans-Kristian Arntzen</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Add conversion from 64-bit acceleration structure pointer
                                         to OpTypeAccelerationStructureKHR</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">18</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2020-07-03</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Daniel Koch</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Remove provisional notices and update capabilities</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">18</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2020-07-03</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Daniel Koch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Remove provisional notices and update capabilities</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">19</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2020-07-10</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Tobias Hector</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Clarify that subset of bits are used for trace operation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">19</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2020-07-10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tobias Hector</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Clarify that subset of bits are used for trace operation</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">20</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2020-09-25</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Daniel Koch</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Require explicit layouts for ShaderRecordBufferKHR and
+<td class="tableblock halign-left valign-top"><p class="tableblock">20</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2020-09-25</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Daniel Koch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Require explicit layouts for ShaderRecordBufferKHR and
                                         otherwise just generally treat it as the StorageBuffer storage class.
                                         Clarify OpReportIntersection behavior if out of range Hit (vulkan#2359).</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">21</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2020-10-01</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Daniel Koch</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Update OpIgnoreIntersectionKHR and OpTerminateRayKHR behavior
+<td class="tableblock halign-left valign-top"><p class="tableblock">21</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2020-10-01</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Daniel Koch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Update OpIgnoreIntersectionKHR and OpTerminateRayKHR behavior
                                         (they are terminators) and assign new opcodes (vulkan#2374).</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">22</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2021-05-13</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Eric Werness</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Fix ray payload allowed execution models to exclude any hit.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">22</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2021-05-13</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Eric Werness</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fix ray payload allowed execution models to exclude any hit.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">23</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2022-05-27</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Daniel Koch</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">disallow more combinations of ray flags (vk-gl-cts#3647)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">23</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2022-05-27</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Daniel Koch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">disallow more combinations of ray flags (vk-gl-cts#3647)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">24</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2022-08-17</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Daniel Koch</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">OpExecuteCallableKHR <span class="monospaced">SBT Index</span> must be 32-bit unsigned integer (#156)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">24</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2022-08-17</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Daniel Koch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OpExecuteCallableKHR <code>SBT Index</code> must be 32-bit unsigned integer (#156)</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-</div>
-</div>
-<div id="footnotes"><hr></div>
-<div id="footer">
-<div id="footer-text">
-Last updated
- 2022-08-17 23:59:32 EDT
 </div>
 </div>
 </body>

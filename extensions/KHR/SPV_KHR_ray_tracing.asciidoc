@@ -203,7 +203,7 @@ to include *ShaderRecordBufferKHR*.
 (Modify Section 3.3, Execution Model, adding rows to the Execution Model table) ::
 +
 --
-[cols="1^,12,15",options="header",width = "80%"]
+[cols="^1,12,15",options="header",width = "80%"]
 |====
 2+^.^| Execution Model | Enabling Capabilities
 | 5313 | *RayGenerationKHR* +
@@ -230,7 +230,7 @@ Ray callable shading stage. +
 (Modify Section 3.7, Storage Class, adding rows to the Storage Class table) ::
 +
 --
-[cols="1^,15,2*2",options="header",width = "100%"]
+[cols="^1,15,2*2",options="header",width = "100%"]
 |====
 2+^.^| Storage Class | <<Capability,Enabling Capabilities>> | Enabled by Extension
 | 5328 | *CallableDataKHR* +
@@ -278,101 +278,100 @@ and cannot have initializers. Refer to the client API for details on shader reco
 (Modify Section 3.21, Builtin, adding rows to the Builtin table) ::
 +
 --
-[cols="1^,10,6^",options="header",width = "100%"]
+[cols="^1,10,^6",options="header",width = "100%"]
 |====
 2+^.^| Decoration | <<Capability,Enabling Capabilities>>
 | 5319 | *LaunchIdKHR* +
 Index of work item being processed in current invocation of ray tracing shader stage.
-Allowed in all ray tracing execution models.
-
+Allowed in all ray tracing execution models. +
+  +
 Refer to the client API specification for more details.
 |*RayTracingKHR*
 | 5320 | *LaunchSizeKHR* +
 Width and height dimensions passed to vkCmdTraceRaysKHR call which resulted in invocation of
-current ray tracing shader stage. Allowed in all ray tracing execution models.
-
+current ray tracing shader stage. Allowed in all ray tracing execution models. +
+  +
 Refer to the client API specification for more details.
 |*RayTracingKHR*
 | 5321 | *WorldRayOriginKHR* +
 World-space origin coordinates for the ray being traced in the *IntersectionKHR*,
-*AnyHitKHR*, *ClosestHitKHR*, or *MissKHR* execution models.
-
+*AnyHitKHR*, *ClosestHitKHR*, or *MissKHR* execution models. +
+  +
 Refer to the client API specification for more details.
 |*RayTracingKHR*
 | 5322 | *WorldRayDirectionKHR* +
 World-space direction for the ray being traced in the *IntersectionKHR*,
-*AnyHitKHR*, *ClosestHitKHR*, or *MissKHR* execution models.
-
+*AnyHitKHR*, *ClosestHitKHR*, or *MissKHR* execution models. +
+  +
 Refer to the client API specification for more details.
 |*RayTracingKHR*
 | 5323 | *ObjectRayOriginKHR* +
 Object-space origin coordinates for the ray being traced in the *IntersectionKHR*,
-*AnyHitKHR*, or *ClosestHitKHR* execution models.
-
+*AnyHitKHR*, or *ClosestHitKHR* execution models. +
+  +
 Refer to the client API specification for more details.
 |*RayTracingKHR*
 | 5324 | *ObjectRayDirectionKHR* +
 Object-space direction for the ray being traced in the *IntersectionKHR*,
-*AnyHitKHR*, or *ClosestHitKHR* execution models.
-
+*AnyHitKHR*, or *ClosestHitKHR* execution models. +
+  +
 Refer to the client API specification for more details.
 |*RayTracingKHR*
 | 5325 | *RayTminKHR* +
 The current *Tmin* parametric value for the ray being traced in the *IntersectionKHR*,
-*AnyHitKHR*, *ClosestHitKHR*, or *MissKHR* execution models.
-
+*AnyHitKHR*, *ClosestHitKHR*, or *MissKHR* execution models. +
+  +
 Refer to the client API specification for more details.
 |*RayTracingKHR*
 | 5326 | *RayTmaxKHR* +
 The current *Tmax* parametric value for the ray being traced in the *IntersectionKHR*,
-*AnyHitKHR*, *ClosestHitKHR*, or *MissKHR* execution models.
-
+*AnyHitKHR*, *ClosestHitKHR*, or *MissKHR* execution models. +
+  +
 Refer to the client API specification for more details.
 |*RayTracingKHR*
 | 5327 | *InstanceCustomIndexKHR* +
 Application specified value associated with the instance that was hit by the current ray in the *IntersectionKHR*,
-*AnyHitKHR*, *ClosestHitKHR* execution models.
-
+*AnyHitKHR*, *ClosestHitKHR* execution models. +
+  +
 Refer to the client API specification for more details.
 |*RayTracingKHR*
 | 5330 | *ObjectToWorldKHR* +
 The _4x3_ object to world transformation matrix for the ray being traced in the *IntersectionKHR*,
-*AnyHitKHR*, or *ClosestHitKHR* execution models.
-
+*AnyHitKHR*, or *ClosestHitKHR* execution models. +
+  +
 Refer to the client API specification for more details.
 |*RayTracingKHR*
 | 5331 | *WorldToObjectKHR* +
 The _4x3_ world to object transformation matrix for the ray being traced in the *IntersectionKHR*,
-*AnyHitKHR*, or *ClosestHitKHR* execution models.
-
+*AnyHitKHR*, or *ClosestHitKHR* execution models. +
+  +
 Refer to the client API specification for more details.
 |*RayTracingKHR*
 | 5333 | *HitKindKHR* +
 The hit kind of the hit for the ray being traced in the *AnyHitKHR* or
-*ClosestHitKHR* execution models.
-
+*ClosestHitKHR* execution models. +
+  +
 Refer to the client API specification for more details.
 |*RayTracingKHR*
 | 5351 | *IncomingRayFlagsKHR* +
 The ray flags in current stage as passed in through trace call in parent. Available in *AnyHitKHR*,
-*ClosestHitKHR*, *IntersectionKHR*, and *MissKHR* stage
-
+*ClosestHitKHR*, *IntersectionKHR*, and *MissKHR* stage +
+  +
 Refer to the client API specification for more details.
 |*RayTracingKHR*
 | 5352 | *RayGeometryIndexKHR* +
 Implementation defined index corresponding to the geometry that was hit by the current ray in the *IntersectionKHR*,
-*AnyHitKHR*, or *ClosestHitKHR* execution models.
-
+*AnyHitKHR*, or *ClosestHitKHR* execution models. +
+  +
 Refer to the client API specification for more details.
 |*RayTracingKHR*
-
 |====
 --
 
 (Modify the definition of following BuiltIns, allowing them to be used in *IntersectionKHR*, *AnyHitKHR*, or *ClosestHitKHR* Execution Models.)::
 +
 --
-[cols="1^.^,10,4^,10^",options="header",width = "100%"]
+[cols=".^1,10,^4,^10",options="header",width = "100%"]
 |====
 2+^.^| BuiltIn| Enabling Capabilities | Enabled by Extension
 .3+| 6 | *InstanceId* +
@@ -407,7 +406,7 @@ to include *ShaderRecordBufferKHR*.
 (Modify Section 3.27, Scope <id>, adding a new row to the Scope table) ::
 +
 --
-[cols="1^,20,1",options="header",width = "80%"]
+[cols="^1,20,1",options="header",width = "80%"]
 |====
 2+^.^| Scope | Enabling Capabilities
 | 6 | *ShaderCallKHR* +
@@ -433,7 +432,7 @@ Values returned in the variable decorated as *HitKindKHR* from built-in
 intersections with triangle geometry.
 See the Ray Face Culling section in the Vulkan API specification.
 
-[cols="1^,12,15",options="header",width = "100%"]
+[cols="^1,12,15",options="header",width = "100%"]
 |====
 2+^.^| Hit Kind | Enabling Capabilities
 | 0xFE | *HitKindFrontFacingTriangleKHR* +
@@ -449,7 +448,7 @@ The intersection was with back-facing geometry.
 (Modify Section 3.31, Capability, adding a row to the Capability table) ::
 +
 --
-[cols="1^.^,25,15",options="header",width = "100%"]
+[cols="^.^1,25,15",options="header",width = "100%"]
 :capability: RayTracingKHR
 |====
 2+^.^| Capability | Implicitly Declares

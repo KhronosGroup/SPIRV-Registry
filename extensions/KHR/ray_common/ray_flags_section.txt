@@ -19,7 +19,7 @@ the following combinations are invalid:
   * if more than one of these two bits are set: *SkipTrianglesKHR*,
     *SkipAABBsKHR*.
 
-[cols="1^,15,5",options="header",width = "80%"]
+[cols="^1,15,5",options="header",width="80%"]
 |====
 2+^.^| Ray Flags | Enabling Capabilities
 | 0 | *NoneKHR* +

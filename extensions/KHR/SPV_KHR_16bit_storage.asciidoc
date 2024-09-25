@@ -121,7 +121,6 @@ Token Number Assignments
 
 [width="40%"]
 [cols="70%,30%"]
-[grid="rows"]
 |====
 |StorageUniformBufferBlock16        | 4433
 |StorageBuffer16BitAccess           | 4433
@@ -147,7 +146,7 @@ Any of *Kernel*, *StorageUniformBufferBlock16*, *StorageUniform16*,
 Modify Section 3.31, Capability, adding the following rows to the Capability table: ::
 +
 --
-[options="header"]
+[cols="^.^2,16,15", options="header"]
 |====
 2+^| Capability ^| Depends On
 | 4433 | *StorageUniformBufferBlock16* +
@@ -228,7 +227,7 @@ The object can also be in the *StorageBuffer* <<Storage_Class,Storage Class>> an
 
 Modify Section 3.31, Capability, adding the following rows to the Capability table: ::
 
-[options="header"]
+[cols="^.^2,16,15", options="header"]
 |====
 2+^| Capability ^| Depends On
 | 4433 | *StorageBuffer16BitAccess* +
