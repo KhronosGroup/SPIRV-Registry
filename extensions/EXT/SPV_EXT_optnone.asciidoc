@@ -64,7 +64,7 @@ To use this extension within a SPIR-V module, the following
 *OpExtension* must be present in the module:
 
 ----
-OpExtension "SPV_EXT_optnone*
+OpExtension "SPV_EXT_optnone"
 ----
 
 Modifications to the SPIR-V Specification, Version 1.6, Revision 3, Unified
