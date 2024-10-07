@@ -1309,7 +1309,8 @@ Describe a pointer or reference data type.<br>
 <em>Result Type</em> must be <strong>OpTypeVoid</strong>. <br>
 <br>
 <em>Base Type</em> is the <em>&lt;id&gt;</em> of a debugging instruction that represents the pointee
- type.<br>
+type. If the the <em>Base Type</em> is not specified or not available in source program, this operand must refer to
+ <a href="#DebugInfoNone"><strong>DebugInfoNone</strong></a>.<br>
 <br>
 <em>Storage Class</em> is a 32-bit integer <strong>OpConstant</strong> containing the class of the memory where
  the object pointed to is allocated.  Possible values of this operand are described in the

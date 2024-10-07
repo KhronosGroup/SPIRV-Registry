@@ -614,7 +614,8 @@ Describe a pointer or reference data type. +
 {result_type}  +
  +
 'Base Type' is the '<id>' of a debugging instruction that represents the pointee
- type. +
+ type. If the 'Base Type' is not defined or not available in source program,
+ this operand must refer to <<DebugInfoNone,*DebugInfoNone*>>. + 
  +
 'Storage Class' is a 32-bit integer *OpConstant* containing the class of the memory where
  the object pointed to is allocated.  Possible values of this operand are described in the
