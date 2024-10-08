@@ -34,6 +34,7 @@ Contributors to original *OpenCL.DebugInfo.100* specification.
  - Neil Henning, Codeplay
  - Kerch Holt, Nvidia
  - Jaebaek Seo, Google
+ - Spencer Fricke, LunarG
 
 Notice
 ------
@@ -54,8 +55,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2024-08-07
-| Revision           | 10
+| Last Modified Date | 2024-10-08
+| Revision           | 11
 |========================================
 
 Dependencies
@@ -95,7 +96,7 @@ This is a non-normative list of changes to the OpenCL.DebugInfo.100 specificatio
   instructions).
 * Forward references in any instruction are disallowed.
 * As the result of the above:
-  - <<DebugTypeMember,*DebugTypeMember*>> no longer has a parent `Scope <id>`, this is
+  - <<DebugTypeMember,*DebugTypeMember*>> no longer has a parent `Parent <id>`, this is
     implicit from which <<DebugTypeComposite,*DebugTypeComposite*>> lists it as a member.
   - <<DebugTypeInheritance,*DebugTypeInheritance*>> has no `Child <id>`. This is also
     implicit based on which <<DebugTypeComposite,*DebugTypeComposite*>> lists it as a
@@ -754,7 +755,7 @@ Describe a C/C++ 'typedef declaration'. +
 'Column' is the '<id>' of a 32-bit integer *OpConstant* denoting the column number at
  which the first character of the declaration appears. +
  +
-'Scope' is the '<id>' of a debug instruction that represents the
+'Parent' is the '<id>' of a debug instruction that represents the
  <<LexicalScope,lexical scope>> that contains the typedef declaration. +
 
 | 11 | 12 | '<id>' +
@@ -764,7 +765,7 @@ Describe a C/C++ 'typedef declaration'. +
 | '<id> Source'
 | '<id> Line'
 | '<id> Column'
-| '<id> Scope'
+| '<id> Parent'
 |======
 
 
@@ -817,7 +818,7 @@ Describe an enumeration type. +
 'Column' is the '<id>' of a 32-bit integer *OpConstant* denoting the column number at
  which the first character of the enumeration declaration appears. +
  +
-'Scope' is the '<id>' of a debug instruction that represents the
+'Parent' is the '<id>' of a debug instruction that represents the
  <<LexicalScope,lexical scope>> that contains the enumeration type. +
  +
 'Size' is an *OpConstant* with 32-bit or 64-bit integer type and its value is
@@ -836,7 +837,7 @@ type. 'Name' must be the '<id>' of an *OpString* instruction. +
 | '<id> Source'
 | '<id> Line'
 | '<id> Column'
-| '<id> Scope'
+| '<id> Parent'
 | '<id>' 'Size'
 | '<id>' 'Flags'
 | '<id>' 'Value', +
@@ -869,7 +870,7 @@ Describe a 'structure', 'class', or 'union' data type. The 'Result <id>' of this
 'Column' is the '<id>' of a 32-bit integer *OpConstant* denoting the column number at
  which the first character of the type declaration appears. +
  +
-'Scope' is the '<id>' of a debug instruction that represents the
+'Parent' is the '<id>' of a debug instruction that represents the
  <<LexicalScope,lexical scope>> that contains the composite type. It must be
  one of the following: <<DebugCompilationUnit,*DebugCompilationUnit*>>,
  <<DebugFunction,*DebugFunction*>>,
@@ -907,7 +908,7 @@ Describe a 'structure', 'class', or 'union' data type. The 'Result <id>' of this
 | '<id> Source'
 | '<id> Line'
 | '<id> Column'
-| '<id> Scope'
+| '<id> Parent'
 | '<id> Linkage Name'
 | '<id> Size'
 | '<id> Flags'
@@ -1164,7 +1165,7 @@ Global Variables
 'Column' is the '<id>' of a 32-bit integer *OpConstant* denoting the column number at
  which the first character of the source global variable declaration appears. +
  +
-'Scope' is the '<id>' of a debug instruction that represents the
+'Parent' is the '<id>' of a debug instruction that represents the
  <<LexicalScope,lexical scope>> that contains the source global variable
  declaration. It must be one of the following:
  <<DebugCompilationUnit,*DebugCompilationUnit*>>,
@@ -1195,7 +1196,7 @@ If the source global variable represents a defining declaration
 | '<id> Source'
 | '<id> Line'
 | '<id> Column'
-| '<id> Scope'
+| '<id> Parent'
 | '<id> Linkage Name'
 | '<id> Variable'
 | '<id>' <<DebugFlags,'Flags'>> +
@@ -1227,7 +1228,7 @@ Describe a function or method declaration. +
 'Column' is the '<id>' of a 32-bit integer *OpConstant* denoting the column number at
  which the first character of the function declaration appears. +
  +
-'Scope' is the '<id>' of a debug instruction that represents the
+'Parent' is the '<id>' of a debug instruction that represents the
  <<LexicalScope,lexical scope>> that contains the function declaration. +
  +
 'Linkage Name' is an *OpString*, holding the linkage name of the function. +
@@ -1242,7 +1243,7 @@ Describe a function or method declaration. +
 | '<id> Source'
 | '<id> Line'
 | '<id> Column'
-| '<id> Scope'
+| '<id> Parent'
 | '<id> Linkage Name'
 | '<id>' <<DebugFlags,'Flags'>> +
 |======
@@ -1271,7 +1272,7 @@ Describe a function or method definition. The 'Result <id>' of this instruction
 'Column' is the '<id>' of a 32-bit integer *OpConstant* denoting the column number at
  which the first character of the function declaration appears. +
  +
-'Scope' is the '<id>' of a debug instruction that represents the
+'Parent' is the '<id>' of a debug instruction that represents the
  <<LexicalScope,lexical scope>> that contains the function definition. +
  +
 'Linkage Name' is an *OpString*, holding the linkage name of the function. +
@@ -1291,7 +1292,7 @@ Describe a function or method definition. The 'Result <id>' of this instruction
 | '<id> Source'
 | '<id> Line'
 | '<id> Column'
-| '<id> Scope'
+| '<id> Parent'
 | '<id> Linkage Name'
 | '<id>' <<DebugFlags,'Flags'>> +
 | '<id> Scope Line'
@@ -1342,9 +1343,9 @@ Describe a lexical block in the source program. The 'Result <id>' of this
 'Column' is the '<id>' of a 32-bit integer *OpConstant* denoting the column number at
  which the lexical block begins. +
  +
-'Scope' is the '<id>' of a debug instruction that represents the
+'Parent' is the '<id>' of a debug instruction that represents the
  <<LexicalScope,lexical scope>> containing the lexical block. Entities
- in the global lexical scope should have 'Scope' referring to a
+ in the global lexical scope should have 'Parent' referring to a
  <<DebugCompilationUnit,*DebugCompilationUnit*>>. +
  +
  The presence of the 'Name' operand indicates that this instruction represents a
@@ -1356,7 +1357,7 @@ Describe a lexical block in the source program. The 'Result <id>' of this
 | '<id>' 'Source'
 | '<id> Line'
 | '<id> Column'
-| '<id>' 'Scope'
+| '<id>' 'Parent'
 | Optional '<id>' 'Name'
 |======
 
@@ -1371,7 +1372,7 @@ Distinguish lexical blocks on a single line in the source program. +
  +
 {source} containing the lexical block. +
  +
-'Scope' is the '<id>' of a debug instruction that represents the
+'Parent' is the '<id>' of a debug instruction that represents the
  <<LexicalScope,lexical scope>> containing the lexical block. +
  +
 'Discriminator' is the '<id>' of a 32-bit integer *OpConstant* denoting a DWARF
@@ -1381,7 +1382,7 @@ Distinguish lexical blocks on a single line in the source program. +
 'Result Type' | 'Result <id>' | '<id> Set'| 22
 | '<id>' 'Source'
 | '<id>' 'Discriminator'
-| '<id>' 'Scope'
+| '<id>' 'Parent'
 |======
 
 
@@ -1539,7 +1540,7 @@ Local Variables
 'Column' is the '<id>' of a 32-bit integer *OpConstant* denoting the column number at
  which the first character of the <<LocalVariable,local variable>> declaration appears. +
  +
-'Scope' is the '<id>' of a debug instruction that represents the
+'Parent' is the '<id>' of a debug instruction that represents the
  <<LexicalScope,lexical scope>> that contains the the
  <<LocalVariable,local variable>> declaration. +
  +
@@ -1555,7 +1556,7 @@ If 'ArgNumber' operand is present, this instruction represents a function formal
 | '<id> Source'
 | '<id> Line'
 | '<id> Column'
-| '<id> Scope'
+| '<id> Parent'
 | '<id> Flags'
 | Optional +
   '<id> ArgNumber'
@@ -1764,7 +1765,7 @@ Imported Entities
  'Column' is the '<id>' of a 32-bit integer *OpConstant* denoting the column number at
  which the first character of the 'using' declaration appears. +
  +
- 'Scope' is the '<id>' of a debug instruction that represents the
+ 'Parent' is the '<id>' of a debug instruction that represents the
  <<LexicalScope,lexical scope>> that contains the namespace or declaration. +
 
 | 12 | 12 | '<id>' +
@@ -1775,7 +1776,7 @@ Imported Entities
 | '<id> Entity'
 | '<id> Line'
 | '<id> Column'
-| '<id> Scope'
+| '<id> Parent'
 |======
 
 
@@ -1843,5 +1844,6 @@ Revision History
                                              *DebugFunction*, not an *OpEntryPoint*.
 |1.00 Rev 10 |2024-08-07|Victor Lomüller    |Fix that in *DebugLine* the 'Column end' operand
                                              can be equal to 'Column start' operand.
+|1.00 Rev 11 |2024-10-08|Spencer Fricke     |Fix using 'Scope' instead of 'Parent' operand name.
 |========================================================
 

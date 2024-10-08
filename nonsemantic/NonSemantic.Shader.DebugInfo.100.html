@@ -109,6 +109,9 @@ em, b, strong {
 <li>
 <p>Jaebaek Seo, Google</p>
 </li>
+<li>
+<p>Spencer Fricke, LunarG</p>
+</li>
 </ul>
 </div>
 </div>
@@ -152,11 +155,11 @@ em, b, strong {
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2024-08-07</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2024-10-08</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">11</p></td>
 </tr>
 </tbody>
 </table>
@@ -228,7 +231,7 @@ instructions).</p>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="#DebugTypeMember"><strong>DebugTypeMember</strong></a> no longer has a parent <code>Scope &lt;id&gt;</code>, this is
+<p><a href="#DebugTypeMember"><strong>DebugTypeMember</strong></a> no longer has a parent <code>Parent &lt;id&gt;</code>, this is
 implicit from which <a href="#DebugTypeComposite"><strong>DebugTypeComposite</strong></a> lists it as a member.</p>
 </li>
 <li>
@@ -1539,7 +1542,7 @@ Describe a C/C++ <em>typedef declaration</em>.<br>
 <em>Column</em> is the <em>&lt;id&gt;</em> of a 32-bit integer <strong>OpConstant</strong> denoting the column number at
  which the first character of the declaration appears.<br>
 <br>
-<em>Scope</em> is the <em>&lt;id&gt;</em> of a debug instruction that represents the
+<em>Parent</em> is the <em>&lt;id&gt;</em> of a debug instruction that represents the
  <a href="#LexicalScope">lexical scope</a> that contains the typedef declaration.<br></p></td>
 </tr>
 <tr>
@@ -1555,7 +1558,7 @@ Describe a C/C++ <em>typedef declaration</em>.<br>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Source</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Line</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Column</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Scope</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Parent</em></p></td>
 </tr>
 </tbody>
 </table>
@@ -1644,7 +1647,7 @@ Describe an enumeration type.<br>
 <em>Column</em> is the <em>&lt;id&gt;</em> of a 32-bit integer <strong>OpConstant</strong> denoting the column number at
  which the first character of the enumeration declaration appears.<br>
 <br>
-<em>Scope</em> is the <em>&lt;id&gt;</em> of a debug instruction that represents the
+<em>Parent</em> is the <em>&lt;id&gt;</em> of a debug instruction that represents the
  <a href="#LexicalScope">lexical scope</a> that contains the enumeration type.<br>
 <br>
 <em>Size</em> is an <strong>OpConstant</strong> with 32-bit or 64-bit integer type and its value is
@@ -1669,7 +1672,7 @@ type. <em>Name</em> must be the <em>&lt;id&gt;</em> of an <strong>OpString</stro
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Source</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Line</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Column</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Scope</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Parent</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Size</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Flags</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Value</em>,<br>
@@ -1721,7 +1724,7 @@ Describe a <em>structure</em>, <em>class</em>, or <em>union</em> data type. The 
 <em>Column</em> is the <em>&lt;id&gt;</em> of a 32-bit integer <strong>OpConstant</strong> denoting the column number at
  which the first character of the type declaration appears.<br>
 <br>
-<em>Scope</em> is the <em>&lt;id&gt;</em> of a debug instruction that represents the
+<em>Parent</em> is the <em>&lt;id&gt;</em> of a debug instruction that represents the
  <a href="#LexicalScope">lexical scope</a> that contains the composite type. It must be
  one of the following: <a href="#DebugCompilationUnit"><strong>DebugCompilationUnit</strong></a>,
  <a href="#DebugFunction"><strong>DebugFunction</strong></a>,
@@ -1765,7 +1768,7 @@ Describe a <em>structure</em>, <em>class</em>, or <em>union</em> data type. The 
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Source</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Line</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Column</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Scope</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Parent</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Linkage Name</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Size</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Flags</em></p></td>
@@ -2180,7 +2183,7 @@ Describe the expanded template parameter pack in a variadic template instantiati
 <em>Column</em> is the <em>&lt;id&gt;</em> of a 32-bit integer <strong>OpConstant</strong> denoting the column number at
  which the first character of the source global variable declaration appears.<br>
 <br>
-<em>Scope</em> is the <em>&lt;id&gt;</em> of a debug instruction that represents the
+<em>Parent</em> is the <em>&lt;id&gt;</em> of a debug instruction that represents the
  <a href="#LexicalScope">lexical scope</a> that contains the source global variable
  declaration. It must be one of the following:
  <a href="#DebugCompilationUnit"><strong>DebugCompilationUnit</strong></a>,
@@ -2217,7 +2220,7 @@ If the source global variable represents a defining declaration
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Source</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Line</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Column</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Scope</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Parent</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Linkage Name</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Variable</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <a href="#DebugFlags"><em>Flags</em></a><br></p></td>
@@ -2267,7 +2270,7 @@ Describe a function or method declaration.<br>
 <em>Column</em> is the <em>&lt;id&gt;</em> of a 32-bit integer <strong>OpConstant</strong> denoting the column number at
  which the first character of the function declaration appears.<br>
 <br>
-<em>Scope</em> is the <em>&lt;id&gt;</em> of a debug instruction that represents the
+<em>Parent</em> is the <em>&lt;id&gt;</em> of a debug instruction that represents the
  <a href="#LexicalScope">lexical scope</a> that contains the function declaration.<br>
 <br>
 <em>Linkage Name</em> is an <strong>OpString</strong>, holding the linkage name of the function.<br>
@@ -2288,7 +2291,7 @@ Describe a function or method declaration.<br>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Source</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Line</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Column</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Scope</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Parent</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Linkage Name</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <a href="#DebugFlags"><em>Flags</em></a><br></p></td>
 </tr>
@@ -2336,7 +2339,7 @@ Describe a function or method definition. The <em>Result &lt;id&gt;</em> of this
 <em>Column</em> is the <em>&lt;id&gt;</em> of a 32-bit integer <strong>OpConstant</strong> denoting the column number at
  which the first character of the function declaration appears.<br>
 <br>
-<em>Scope</em> is the <em>&lt;id&gt;</em> of a debug instruction that represents the
+<em>Parent</em> is the <em>&lt;id&gt;</em> of a debug instruction that represents the
  <a href="#LexicalScope">lexical scope</a> that contains the function definition.<br>
 <br>
 <em>Linkage Name</em> is an <strong>OpString</strong>, holding the linkage name of the function.<br>
@@ -2362,7 +2365,7 @@ Describe a function or method definition. The <em>Result &lt;id&gt;</em> of this
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Source</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Line</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Column</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Scope</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Parent</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Linkage Name</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <a href="#DebugFlags"><em>Flags</em></a><br></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Scope Line</em></p></td>
@@ -2444,7 +2447,7 @@ Describe a lexical block in the source program. The <em>Result &lt;id&gt;</em> o
 <em>Column</em> is the <em>&lt;id&gt;</em> of a 32-bit integer <strong>OpConstant</strong> denoting the column number at
  which the lexical block begins.<br>
 <br>
-<em>Scope</em> is the <em>&lt;id&gt;</em> of a debug instruction that represents the
+<em>Parent</em> is the <em>&lt;id&gt;</em> of a debug instruction that represents the
  <a href="#LexicalScope">lexical scope</a> containing the lexical block. Entities
  in the global lexical scope should have <em>Scope</em> referring to a
  <a href="#DebugCompilationUnit"><strong>DebugCompilationUnit</strong></a>.<br>
@@ -2464,7 +2467,7 @@ Describe a lexical block in the source program. The <em>Result &lt;id&gt;</em> o
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Source</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Line</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Column</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Scope</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Parent</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Optional <em>&lt;id&gt;</em> <em>Name</em></p></td>
 </tr>
 </tbody>
@@ -2491,7 +2494,7 @@ Distinguish lexical blocks on a single line in the source program.<br>
 <br>
 <em>Source</em> is a <strong>DebugSource</strong> instruction representing the text of the source program containing the lexical block.<br>
 <br>
-<em>Scope</em> is the <em>&lt;id&gt;</em> of a debug instruction that represents the
+<em>Parent</em> is the <em>&lt;id&gt;</em> of a debug instruction that represents the
  <a href="#LexicalScope">lexical scope</a> containing the lexical block.<br>
 <br>
 <em>Discriminator</em> is the <em>&lt;id&gt;</em> of a 32-bit integer <strong>OpConstant</strong> denoting a DWARF
@@ -2507,7 +2510,7 @@ Distinguish lexical blocks on a single line in the source program.<br>
 <td class="tableblock halign-left valign-top"><p class="tableblock">22</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Source</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Discriminator</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Scope</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em> <em>Parent</em></p></td>
 </tr>
 </tbody>
 </table>
@@ -2767,7 +2770,7 @@ Discontinue any source-level line and column information specified by any previo
 <em>Column</em> is the <em>&lt;id&gt;</em> of a 32-bit integer <strong>OpConstant</strong> denoting the column number at
  which the first character of the <a href="#LocalVariable">local variable</a> declaration appears.<br>
 <br>
-<em>Scope</em> is the <em>&lt;id&gt;</em> of a debug instruction that represents the
+<em>Parent</em> is the <em>&lt;id&gt;</em> of a debug instruction that represents the
  <a href="#LexicalScope">lexical scope</a> that contains the the
  <a href="#LocalVariable">local variable</a> declaration.<br>
 <br>
@@ -2789,7 +2792,7 @@ If <em>ArgNumber</em> operand is present, this instruction represents a function
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Source</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Line</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Column</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Scope</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Parent</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Flags</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Optional<br>
   <em>&lt;id&gt; ArgNumber</em></p></td>
@@ -3141,7 +3144,7 @@ Represent a DWARF operation that operates on a stack of values.<br>
  <em>Column</em> is the <em>&lt;id&gt;</em> of a 32-bit integer <strong>OpConstant</strong> denoting the column number at
  which the first character of the <em>using</em> declaration appears.<br>
 <br>
- <em>Scope</em> is the <em>&lt;id&gt;</em> of a debug instruction that represents the
+ <em>Parent</em> is the <em>&lt;id&gt;</em> of a debug instruction that represents the
  <a href="#LexicalScope">lexical scope</a> that contains the namespace or declaration.<br></p></td>
 </tr>
 <tr>
@@ -3158,7 +3161,7 @@ Represent a DWARF operation that operates on a stack of values.<br>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Entity</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Line</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Column</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Scope</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt; Parent</em></p></td>
 </tr>
 </tbody>
 </table>
