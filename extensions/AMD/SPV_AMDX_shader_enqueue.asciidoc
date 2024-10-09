@@ -335,7 +335,7 @@ A payload array can be allocated by either *OpAllocateNodePayloadsAMDX* to be en
  +
 Can be dereferenced using an access chain in the same way as *OpTypeRuntimeArray* or *OpTypeArray*.
 1+|<<Capability,Capability>>: +
-*Shader*
+*ShaderEnqueueAMDX*
 | 3 | 5076
 | _Result <id>_
 | _<id>_ +
@@ -406,7 +406,7 @@ _Result Type_ must be an *OpTypeInt* with 32-bit _Width_ and 0 _Signedness_. +
  +
 _Payload Array_ is a pointer to a payload array previously allocated by *OpAllocateNodePayloadsAMDX*, or declared via *OpVariable* in the *NodePayloadAMDX* storage class as an input.
 1+|<<Capability,Capability>>: +
-*Shader*
+*ShaderEnqueueAMDX*
 | 4 | 5090
 | _<id>_ +
 _Result Type_
