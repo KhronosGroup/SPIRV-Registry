@@ -101,7 +101,7 @@ Cluster Culling shading stage. | *ClusterCullingShadingHUAWEI*
 |====
 1+^.^| OpDispatchClusterHUAWEI | Capabilities:
 ClusterCulingShadingHUAWEI
-| 6282 | 6273 |
+| 6282 | 6273
 |====
 
 == Issues
