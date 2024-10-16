@@ -295,7 +295,7 @@ addressing.
 ~~~~~~~~~~~~~~~~
 
 --
-[cols="1^,10,6^,2*2",options="header",width = "100%"]
+[cols="1,10,6,2*2",options="header",width = "100%"]
 |====
 2+^.^| Decoration | Enabling Capabilities 2+<.^| Extra Operands
 | 5355 | *RestrictPointerEXT* +

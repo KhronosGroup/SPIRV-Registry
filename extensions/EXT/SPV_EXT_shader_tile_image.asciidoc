@@ -126,10 +126,9 @@ Validation Rules
 In section 2.16.1 Universal Validation Rules, add *TileImageEXT* to the list of
 storage classes following this sentence:
 
-===
-Any pointer operand to an OpFunctionCall must point into one of the following
-storage classes:
-===
+    Any pointer operand to an OpFunctionCall must point into one of the following
+    storage classes:
+
 
 In 2.16.2. Validation Rules for Shader Capabilities, add the following
 under Decorations:
