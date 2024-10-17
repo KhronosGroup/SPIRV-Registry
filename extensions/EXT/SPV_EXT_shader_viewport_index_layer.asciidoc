@@ -114,7 +114,7 @@ Modifications to the SPIR-V Specification, Version 1.2
 (Modify the definition of *Layer* and *ViewportIndex* as follows, allowing
 them to be outputs from Vertex and Tessellation shaders)
 
-[cols="1^.^,20,8^",options="header",width = "90%"]
+[cols="1,20,8",options="header",width = "90%"]
 |====
 2+^.^| BuiltIn| Enabling Capabilities
 .3+| 9 2+| *Layer* +
@@ -140,7 +140,7 @@ input to a *Fragment* Execution Model.
 (Modify Section 3.31, Capability, adding a new row to the Capability table) ::
 +
 --
-[cols="1^.^,10,8^,15",options="header",width = "80%"]
+[cols="1,10,8,15",options="header",width = "80%"]
 |====
 2+^.^| Capability | Depends On | Enabled by Extension
 | 5254 | *ShaderViewportIndexLayerEXT* | *MultiViewport*

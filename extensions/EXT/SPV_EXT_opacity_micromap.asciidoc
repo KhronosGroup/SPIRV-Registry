@@ -67,7 +67,7 @@ Modifications to the SPIR-V Specification
 [[ray_flags]]
 *3.RF, Ray Flags*
 
-[cols="1^,30,5",options="header",width = "100%"]
+[cols="1,30,5",options="header",width = "100%"]
 |====
 2+^.^| Ray Flags | Enabling Capabilities
 | 1024 | *ForceOpacityMicromap2StateEXT* +
@@ -81,7 +81,7 @@ See the Ray Opacity Micromap in the Vulkan API specification.
 (Modify Section 3.31, Capability, adding a row to the Capability table) ::
 +
 --
-[cols="1^.^,25,15",options="header",width = "100%"]
+[cols="1,25,15",options="header",width = "100%"]
 |====
 2+^.^| Capability | Implicitly Declares
 | 5381 | *RayTracingOpacityMicromapEXT* +

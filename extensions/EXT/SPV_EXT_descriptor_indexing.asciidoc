@@ -191,7 +191,7 @@ scope but not dynamically uniform.
 (Modify Section 3.20, Decoration, adding a row to the Decoration table) ::
 +
 --
-[cols="1^,10,6^,2*2",options="header",width = "100%"]
+[cols="1,10,6,2*2",options="header",width = "100%"]
 |====
 2+^.^| Decoration | <<Capability,Enabling Capabilities>> 2+<.^| Extra Operands
 | 5300 | *NonUniformEXT* +
@@ -205,7 +205,7 @@ See the API specification for more information.
 (Modify Section 3.31, Capability, adding new rows to the Capability table) ::
 +
 --
-[cols="1^.^,15,8^,30",options="header",width = "100%"]
+[cols="1,15,8,30",options="header",width = "100%"]
 |====
 2+^.^| Capability | Depends On | Enabled by Extension
 | 5301 | *ShaderNonUniformEXT* +

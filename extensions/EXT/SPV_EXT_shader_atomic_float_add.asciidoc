@@ -80,7 +80,7 @@ Modifications to the SPIR-V Specification, Version 1.5
 Modify Section 3.31, "Capability", adding this row to the Capability table:
 
 --
-[cols="1^.^,15,15",options="header"]
+[cols="1,15,15",options="header"]
 |====
 2+^| Capability ^| Implicitly Declares
 | 6033 | *AtomicFloat32AddEXT* +
