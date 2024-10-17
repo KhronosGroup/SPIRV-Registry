@@ -109,7 +109,7 @@ following instructions: ...
 
 to:
 
-[[VariablePointer]]'Variable pointer:' A pointer of logical pointer type that
+'Variable pointer:' A pointer of logical pointer type that
 results from one of the following instructions: ...
 
 2.16 Validation Rules
