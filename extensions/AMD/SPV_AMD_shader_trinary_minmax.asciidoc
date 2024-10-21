@@ -34,13 +34,8 @@ Released.
 Version
 -------
 
-Modified Date: May 30, 2016
-Revision:      3
-
-Number
-------
-
-Extension #2
+Modified Date: October 13, 2016
+Revision:      4
 
 Dependencies
 ------------
@@ -76,15 +71,15 @@ New Instructions
 This extension adds the following extended instructions:
 
 ----
-FMin3AMD
-UMin3AMD
-SMin3AMD
-FMax3AMD
-UMax3AMD
-SMax3AMD
-FMid3AMD
-UMid3AMD
-SMid3AMD
+FMin3AMD = 1
+UMin3AMD = 2
+SMin3AMD = 3
+FMax3AMD = 4
+UMax3AMD = 5
+SMax3AMD = 6
+FMid3AMD = 7
+UMid3AMD = 8
+SMid3AMD = 9
 ----
 
 To use these extended instructions, declare:
@@ -247,4 +242,5 @@ Revision History
 |1|April 21, 2016|Quentin Lin|Initial revision based on AMD_shader_trinary_minmax.
 |2|May 20, 2016|Dominik Witczak|Document refactoring
 |3|May 30, 2016|Dominik Witczak|*Minor corrections*
+|4|October 13, 2016|Dominik Witczak|Added missing numerical value assignments, removed extension number
 |========================================

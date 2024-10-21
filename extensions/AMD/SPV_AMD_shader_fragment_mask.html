@@ -35,6 +35,8 @@ em, b, strong {
 <li><a href="#_version">Version</a></li>
 <li><a href="#_dependencies">Dependencies</a></li>
 <li><a href="#_overview">Overview</a></li>
+<li><a href="#_extension_name">Extension Name</a></li>
+<li><a href="#_new_capabilities">New Capabilities</a></li>
 <li><a href="#_new_instructions">New Instructions</a></li>
 <li><a href="#_modifications_to_the_spir_v_specification_version_1_1">Modifications to the SPIR-V Specification, Version 1.1</a></li>
 <li><a href="#_validation_rules">Validation Rules</a></li>
@@ -133,21 +135,25 @@ for SPIR-V.</p>
 the fragment mask of compressed multisampled color surfaces, and an instruction
 for sampling the surface with the fragment mask.</p>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_extension_name">Extension Name</h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>Extension Name</p>
+<p>To use this extension within a SPIR-V module, the following OpExtension must be
+present in the module:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>To use this extension within a SPIR-V module, the following OpExtension must be
-present in the module:
-
-----
-OpExtension "SPV_AMD_shader_fragment_mask"
-----
-
-New Capabilities</pre>
+<pre>OpExtension "SPV_AMD_shader_fragment_mask"</pre>
 </div>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_new_capabilities">New Capabilities</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>This extension introduces a new capability:</p>
 </div>
