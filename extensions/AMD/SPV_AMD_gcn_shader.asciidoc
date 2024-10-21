@@ -170,5 +170,5 @@ Revision History
 |========================================
 |Rev|Date|Author|Changes
 |1|May 31, 2016|Dominik Witczak|Initial revision based on AMD_gcn_shader.
-|1|October 13, 2016|Dominik Witczak|Added missing numerical value assignments, removed extension numbe
+|1|October 13, 2016|Dominik Witczak|Added missing numerical value assignments, removed extension number.
 |========================================
