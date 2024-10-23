@@ -195,7 +195,7 @@ pointers taken by atomic operation instructions can point to.
 (Modify Section 3.3, Execution Model, adding rows to the Execution Model table) ::
 +
 --
-[cols="1^.^,10,8^",options="header",width = "80%"]
+[cols="1,10,8",options="header",width = "80%"]
 |====
 2+^.^| Execution Model | Enabling Capabilities
 | 5364 | *TaskEXT* +
@@ -210,7 +210,7 @@ Mesh shading stage.
 (Modify Section 3.6, Execution Mode, adding rows to the Execution Mode table) ::
 +
 --
-[cols="1^.^,20,10^,8<.<",options="header",width = "100%"]
+[cols="1,20,10,8",options="header",width = "100%"]
 |====
 2+^.^| Execution Mode  | Enabling Capabilities | Extra Operands
 | 5269 | *OutputLinesEXT* +
@@ -233,7 +233,7 @@ Only valid with the *MeshEXT* Execution Model.
 (Modify the definition of following Execution Modes, allowing them to be used in *TaskEXT* or *MeshEXT* Execution Models) ::
 +
 --
-[cols="1^,10,6^,3*2",options="header",width = "100%"]
+[cols="1,10,6,3*2",options="header",width = "100%"]
 |====
 2+^.^| Execution Mode | Enabling Capabilities 3+<.^| Extra Operands
 | 17 | *LocalSize* +
@@ -277,7 +277,7 @@ Models.
 (Modify Section 3.7, Storage Class, adding a new row to the Storage Class table) ::
 +
 --
-[cols="1^.^,20,10^",options="header",width = "100%"]
+[cols="1,20,10",options="header",width = "100%"]
 |====
 2+^.^| Storage Class | Enabling Capabilities
 | 5402 | *TaskPayloadWorkgroupEXT* +
@@ -294,7 +294,7 @@ both read and written to in *TaskEXT* Execution Model, but are read-only in
 (Modify Section 3.20, Decoration, adding a new row to the Decoration table) ::
 +
 --
-[cols="1^,10,6^,2*2",options="header",width = "100%"]
+[cols="1,10,6,2*2",options="header",width = "100%"]
 |====
 2+^.^| Decoration | Enabling Capabilities 2+<.^| Extra Operands
 | 5271 | *PerPrimitiveEXT* +
@@ -311,7 +311,7 @@ Only valid for variables of *Input* Storage Class in *Fragment* Execution Model 
 (Modify Section 3.21, BuiltIn, adding rows to the BuiltIn table) ::
 +
 --
-[cols="1^.^,20,10^",options="header",width = "100%"]
+[cols="1,20,10",options="header",width = "100%"]
 |====
 2+^.^| BuiltIn | Enabling Capabilities
 | 5299 | *CullPrimitiveEXT* +
@@ -336,7 +336,7 @@ See the Vulkan API specification for more detail.
 (Modify the definition of following BuiltIns, allowing them to be used in *TaskEXT* or *MeshEXT* Execution Models) ::
 +
 --
-[cols="1^.^,20,10^",options="header",width = "100%"]
+[cols="1,20,10",options="header",width = "100%"]
 |====
 2+^.^| BuiltIn | Enabling Capabilities
 .1+| 0 | *Position* +
@@ -448,7 +448,7 @@ See the client API specification for more detail.
 (Modify the definition of following Memory Semantics, changing *WorkgroupMemory* to include the new *TaskPayloadWorkgroupEXT* Storage Class) ::
 +
 --
-[cols="1^.^,20,10^",options="header",width = "100%"]
+[cols="1,20,10",options="header",width = "100%"]
 |====
 2+^.^| Memory Semantics | Enabling Capabilities
 .1+| 0x100 | *WorkgroupMemory* +
@@ -461,7 +461,7 @@ Apply the memory-ordering constraints to *Workgroup* or
 (Modify Section 3.31, Capability, adding a new row to the Capability table) ::
 +
 --
-[cols="1^.^,25,15",options="header",width = "80%"]
+[cols="1,25,15",options="header",width = "80%"]
 :capability: MeshShadingEXT
 |====
 2+^.^| Capability | Implicitly Declares
@@ -515,6 +515,7 @@ This instruction is only valid in the *TaskEXT* Execution Model.
 '<id>' +
 'Payload'
 |=====
+
 [cols="1,1,2*3",width="100%"]
 |=====
 3+|[[OpSetMeshOutputsEXT]]*OpSetMeshOutputsEXT* +

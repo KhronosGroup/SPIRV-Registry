@@ -28,18 +28,13 @@ Copyright (c) 2016 AMD.
 Status
 ------
 
-Proposed. 
+Released. 
 
 Version
 -------
 
-Modified Date: May 31, 2016
-Revision:      1
-
-Number
-------
-
-## Extension #NNN _TBD_
+Modified Date: October 13, 2016
+Revision:      2
 
 Dependencies
 ------------
@@ -51,10 +46,10 @@ Overview
 --------
 
 This extension is written to provide the functionality of the
-GL_AMD_gcn_shader, OpenGL Shading Language Specification extension, for SPIR-V.
+GL_AMD_gcn_shader OpenGL Shading Language Specification extension for SPIR-V.
 
 This extension exposes miscellaneous features of the AMD "Graphics Core Next"
-shader architecture. This includes cube map query functions and a functionality
+shader architecture. This includes cube map query functions and functionality
 to query the elapsed shader core time.
 
 Extension Name
@@ -70,9 +65,9 @@ New Instructions
 This extension adds the following extended instructions
 
 ----
-CubeFaceCoordAMD
-CubeFaceIndexAMD
-TimeAMD
+CubeFaceCoordAMD = 2
+CubeFaceIndexAMD = 1
+TimeAMD = 3
 ----
 
 To use the extended instructions described below, declare:
@@ -135,7 +130,7 @@ Result Type must be a 32-bit floating-point scalar.
 TimeAMD
 ~~~~~~~
 
-The timeAMD function returns a 64-bit value representing the current execution clock
+The _TimeAMD_ instruction returns a 64-bit value representing the current execution clock
 as seen by the shader processor. Time monotonically increments as the processor
 executes instructions. The returned time will wrap after it exceeds the maximum
 value representable in 64 bits. The units of time are not defined and need not be
@@ -175,4 +170,5 @@ Revision History
 |========================================
 |Rev|Date|Author|Changes
 |1|May 31, 2016|Dominik Witczak|Initial revision based on AMD_gcn_shader.
+|1|October 13, 2016|Dominik Witczak|Added missing numerical value assignments, removed extension number.
 |========================================

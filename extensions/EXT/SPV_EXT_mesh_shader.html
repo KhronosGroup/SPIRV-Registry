@@ -1,872 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="generator" content="AsciiDoc 10.2.0">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
 <title>SPV_EXT_mesh_shader</title>
-<style type="text/css">
-/* Shared CSS for AsciiDoc xhtml11 and html5 backends */
-
-/* Default font. */
-body {
-  font-family: Georgia,serif;
-}
-
-/* Title font. */
-h1, h2, h3, h4, h5, h6,
-div.title, caption.title,
-thead, p.table.header,
-#toctitle,
-#author, #revnumber, #revdate, #revremark,
-#footer {
-  font-family: Arial,Helvetica,sans-serif;
-}
-
-body {
-  margin: 1em 5% 1em 5%;
-}
-
-a {
-  color: blue;
-  text-decoration: underline;
-}
-a:visited {
-  color: fuchsia;
-}
-
-em {
-  font-style: italic;
-  color: navy;
-}
-
-strong {
-  font-weight: bold;
-  color: #083194;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  color: #527bbd;
-  margin-top: 1.2em;
-  margin-bottom: 0.5em;
-  line-height: 1.3;
-}
-
-h1, h2, h3 {
-  border-bottom: 2px solid silver;
-}
-h2 {
-  padding-top: 0.5em;
-}
-h3 {
-  float: left;
-}
-h3 + * {
-  clear: left;
-}
-h5 {
-  font-size: 1.0em;
-}
-
-div.sectionbody {
-  margin-left: 0;
-}
-
-hr {
-  border: 1px solid silver;
-}
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
 
 p {
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: normal;
+}
+em, b, strong {
+    color: darkblue;
 }
 
-ul, ol, li > p {
-  margin-top: 0;
-}
-ul > li     { color: #aaa; }
-ul > li > * { color: black; }
-
-.monospaced, code, pre {
-  font-family: "Courier New", Courier, monospace;
-  font-size: inherit;
-  color: navy;
-  padding: 0;
-  margin: 0;
-}
-pre {
-  white-space: pre-wrap;
-}
-
-#author {
-  color: #527bbd;
-  font-weight: bold;
-  font-size: 1.1em;
-}
-#email {
-}
-#revnumber, #revdate, #revremark {
-}
-
-#footer {
-  font-size: small;
-  border-top: 2px solid silver;
-  padding-top: 0.5em;
-  margin-top: 4.0em;
-}
-#footer-text {
-  float: left;
-  padding-bottom: 0.5em;
-}
-#footer-badges {
-  float: right;
-  padding-bottom: 0.5em;
-}
-
-#preamble {
-  margin-top: 1.5em;
-  margin-bottom: 1.5em;
-}
-div.imageblock, div.exampleblock, div.verseblock,
-div.quoteblock, div.literalblock, div.listingblock, div.sidebarblock,
-div.admonitionblock {
-  margin-top: 1.0em;
-  margin-bottom: 1.5em;
-}
-div.admonitionblock {
-  margin-top: 2.0em;
-  margin-bottom: 2.0em;
-  margin-right: 10%;
-  color: #606060;
-}
-
-div.content { /* Block element content. */
-  padding: 0;
-}
-
-/* Block element titles. */
-div.title, caption.title {
-  color: #527bbd;
-  font-weight: bold;
-  text-align: left;
-  margin-top: 1.0em;
-  margin-bottom: 0.5em;
-}
-div.title + * {
-  margin-top: 0;
-}
-
-td div.title:first-child {
-  margin-top: 0.0em;
-}
-div.content div.title:first-child {
-  margin-top: 0.0em;
-}
-div.content + div.title {
-  margin-top: 0.0em;
-}
-
-div.sidebarblock > div.content {
-  background: #ffffee;
-  border: 1px solid #dddddd;
-  border-left: 4px solid #f0f0f0;
-  padding: 0.5em;
-}
-
-div.listingblock > div.content {
-  border: 1px solid #dddddd;
-  border-left: 5px solid #f0f0f0;
-  background: #f8f8f8;
-  padding: 0.5em;
-}
-
-div.quoteblock, div.verseblock {
-  padding-left: 1.0em;
-  margin-left: 1.0em;
-  margin-right: 10%;
-  border-left: 5px solid #f0f0f0;
-  color: #888;
-}
-
-div.quoteblock > div.attribution {
-  padding-top: 0.5em;
-  text-align: right;
-}
-
-div.verseblock > pre.content {
-  font-family: inherit;
-  font-size: inherit;
-}
-div.verseblock > div.attribution {
-  padding-top: 0.75em;
-  text-align: left;
-}
-/* DEPRECATED: Pre version 8.2.7 verse style literal block. */
-div.verseblock + div.attribution {
-  text-align: left;
-}
-
-div.admonitionblock .icon {
-  vertical-align: top;
-  font-size: 1.1em;
-  font-weight: bold;
-  text-decoration: underline;
-  color: #527bbd;
-  padding-right: 0.5em;
-}
-div.admonitionblock td.content {
-  padding-left: 0.5em;
-  border-left: 3px solid #dddddd;
-}
-
-div.exampleblock > div.content {
-  border-left: 3px solid #dddddd;
-  padding-left: 0.5em;
-}
-
-div.imageblock div.content { padding-left: 0; }
-span.image img { border-style: none; vertical-align: text-bottom; }
-a.image:visited { color: white; }
-
-dl {
-  margin-top: 0.8em;
-  margin-bottom: 0.8em;
-}
-dt {
-  margin-top: 0.5em;
-  margin-bottom: 0;
-  font-style: normal;
-  color: navy;
-}
-dd > *:first-child {
-  margin-top: 0.1em;
-}
-
-ul, ol {
-    list-style-position: outside;
-}
-ol.arabic {
-  list-style-type: decimal;
-}
-ol.loweralpha {
-  list-style-type: lower-alpha;
-}
-ol.upperalpha {
-  list-style-type: upper-alpha;
-}
-ol.lowerroman {
-  list-style-type: lower-roman;
-}
-ol.upperroman {
-  list-style-type: upper-roman;
-}
-
-div.compact ul, div.compact ol,
-div.compact p, div.compact p,
-div.compact div, div.compact div {
-  margin-top: 0.1em;
-  margin-bottom: 0.1em;
-}
-
-tfoot {
-  font-weight: bold;
-}
-td > div.verse {
-  white-space: pre;
-}
-
-div.hdlist {
-  margin-top: 0.8em;
-  margin-bottom: 0.8em;
-}
-div.hdlist tr {
-  padding-bottom: 15px;
-}
-dt.hdlist1.strong, td.hdlist1.strong {
-  font-weight: bold;
-}
-td.hdlist1 {
-  vertical-align: top;
-  font-style: normal;
-  padding-right: 0.8em;
-  color: navy;
-}
-td.hdlist2 {
-  vertical-align: top;
-}
-div.hdlist.compact tr {
-  margin: 0;
-  padding-bottom: 0;
-}
-
-.comment {
-  background: yellow;
-}
-
-.footnote, .footnoteref {
-  font-size: 0.8em;
-}
-
-span.footnote, span.footnoteref {
-  vertical-align: super;
-}
-
-#footnotes {
-  margin: 20px 0 20px 0;
-  padding: 7px 0 0 0;
-}
-
-#footnotes div.footnote {
-  margin: 0 0 5px 0;
-}
-
-#footnotes hr {
-  border: none;
-  border-top: 1px solid silver;
-  height: 1px;
-  text-align: left;
-  margin-left: 0;
-  width: 20%;
-  min-width: 100px;
-}
-
-div.colist td {
-  padding-right: 0.5em;
-  padding-bottom: 0.3em;
-  vertical-align: top;
-}
-div.colist td img {
-  margin-top: 0.3em;
-}
-
-@media print {
-  #footer-badges { display: none; }
-}
-
-#toc {
-  margin-bottom: 2.5em;
-}
-
-#toctitle {
-  color: #527bbd;
-  font-size: 1.1em;
-  font-weight: bold;
-  margin-top: 1.0em;
-  margin-bottom: 0.1em;
-}
-
-div.toclevel0, div.toclevel1, div.toclevel2, div.toclevel3, div.toclevel4 {
-  margin-top: 0;
-  margin-bottom: 0;
-}
-div.toclevel2 {
-  margin-left: 2em;
-  font-size: 0.9em;
-}
-div.toclevel3 {
-  margin-left: 4em;
-  font-size: 0.9em;
-}
-div.toclevel4 {
-  margin-left: 6em;
-  font-size: 0.9em;
-}
-
-span.aqua { color: aqua; }
-span.black { color: black; }
-span.blue { color: blue; }
-span.fuchsia { color: fuchsia; }
-span.gray { color: gray; }
-span.green { color: green; }
-span.lime { color: lime; }
-span.maroon { color: maroon; }
-span.navy { color: navy; }
-span.olive { color: olive; }
-span.purple { color: purple; }
-span.red { color: red; }
-span.silver { color: silver; }
-span.teal { color: teal; }
-span.white { color: white; }
-span.yellow { color: yellow; }
-
-span.aqua-background { background: aqua; }
-span.black-background { background: black; }
-span.blue-background { background: blue; }
-span.fuchsia-background { background: fuchsia; }
-span.gray-background { background: gray; }
-span.green-background { background: green; }
-span.lime-background { background: lime; }
-span.maroon-background { background: maroon; }
-span.navy-background { background: navy; }
-span.olive-background { background: olive; }
-span.purple-background { background: purple; }
-span.red-background { background: red; }
-span.silver-background { background: silver; }
-span.teal-background { background: teal; }
-span.white-background { background: white; }
-span.yellow-background { background: yellow; }
-
-span.big { font-size: 2em; }
-span.small { font-size: 0.6em; }
-
-span.underline { text-decoration: underline; }
-span.overline { text-decoration: overline; }
-span.line-through { text-decoration: line-through; }
-
-div.unbreakable { page-break-inside: avoid; }
-
-
-/*
- * xhtml11 specific
- *
- * */
-
-div.tableblock {
-  margin-top: 1.0em;
-  margin-bottom: 1.5em;
-}
-div.tableblock > table {
-  border: 3px solid #527bbd;
-}
-thead, p.table.header {
-  font-weight: bold;
-  color: #527bbd;
-}
-p.table {
-  margin-top: 0;
-}
-/* Because the table frame attribute is overridden by CSS in most browsers. */
-div.tableblock > table[frame="void"] {
-  border-style: none;
-}
-div.tableblock > table[frame="hsides"] {
-  border-left-style: none;
-  border-right-style: none;
-}
-div.tableblock > table[frame="vsides"] {
-  border-top-style: none;
-  border-bottom-style: none;
-}
-
-
-/*
- * html5 specific
- *
- * */
-
-table.tableblock {
-  margin-top: 1.0em;
-  margin-bottom: 1.5em;
-}
-thead, p.tableblock.header {
-  font-weight: bold;
-  color: #527bbd;
-}
-p.tableblock {
-  margin-top: 0;
-}
-table.tableblock {
-  border-width: 3px;
-  border-spacing: 0px;
-  border-style: solid;
-  border-color: #527bbd;
-  border-collapse: collapse;
-}
-th.tableblock, td.tableblock {
-  border-width: 1px;
-  padding: 4px;
-  border-style: solid;
-  border-color: #527bbd;
-}
-
-table.tableblock.frame-topbot {
-  border-left-style: hidden;
-  border-right-style: hidden;
-}
-table.tableblock.frame-sides {
-  border-top-style: hidden;
-  border-bottom-style: hidden;
-}
-table.tableblock.frame-none {
-  border-style: hidden;
-}
-
-th.tableblock.halign-left, td.tableblock.halign-left {
-  text-align: left;
-}
-th.tableblock.halign-center, td.tableblock.halign-center {
-  text-align: center;
-}
-th.tableblock.halign-right, td.tableblock.halign-right {
-  text-align: right;
-}
-
-th.tableblock.valign-top, td.tableblock.valign-top {
-  vertical-align: top;
-}
-th.tableblock.valign-middle, td.tableblock.valign-middle {
-  vertical-align: middle;
-}
-th.tableblock.valign-bottom, td.tableblock.valign-bottom {
-  vertical-align: bottom;
-}
-
-
-/*
- * manpage specific
- *
- * */
-
-body.manpage h1 {
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
-  border-top: 2px solid silver;
-  border-bottom: 2px solid silver;
-}
-body.manpage h2 {
-  border-style: none;
-}
-body.manpage div.sectionbody {
-  margin-left: 3em;
-}
-
-@media print {
-  body.manpage div#toc { display: none; }
-}
-
-
-@media screen {
-  body {
-    max-width: 50em; /* approximately 80 characters wide */
-    margin-left: 16em;
-  }
-
-  #toc {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 13em;
-    padding: 0.5em;
-    padding-bottom: 1.5em;
-    margin: 0;
-    overflow: auto;
-    border-right: 3px solid #f8f8f8;
-    background-color: white;
-  }
-
-  #toc .toclevel1 {
-    margin-top: 0.5em;
-  }
-
-  #toc .toclevel2 {
-    margin-top: 0.25em;
-    display: list-item;
-    color: #aaaaaa;
-  }
-
-  #toctitle {
-    margin-top: 0.5em;
-  }
-}
 </style>
-<script type="text/javascript">
-/*<![CDATA[*/
-var asciidoc = {  // Namespace.
-
-/////////////////////////////////////////////////////////////////////
-// Table Of Contents generator
-/////////////////////////////////////////////////////////////////////
-
-/* Author: Mihai Bazon, September 2002
- * http://students.infoiasi.ro/~mishoo
- *
- * Table Of Content generator
- * Version: 0.4
- *
- * Feel free to use this script under the terms of the GNU General Public
- * License, as long as you do not remove or alter this notice.
- */
-
- /* modified by Troy D. Hanson, September 2006. License: GPL */
- /* modified by Stuart Rackham, 2006, 2009. License: GPL */
-
-// toclevels = 1..4.
-toc: function (toclevels) {
-
-  function getText(el) {
-    var text = "";
-    for (var i = el.firstChild; i != null; i = i.nextSibling) {
-      if (i.nodeType == 3 /* Node.TEXT_NODE */) // IE doesn't speak constants.
-        text += i.data;
-      else if (i.firstChild != null)
-        text += getText(i);
-    }
-    return text;
-  }
-
-  function TocEntry(el, text, toclevel) {
-    this.element = el;
-    this.text = text;
-    this.toclevel = toclevel;
-  }
-
-  function tocEntries(el, toclevels) {
-    var result = new Array;
-    var re = new RegExp('[hH]([1-'+(toclevels+1)+'])');
-    // Function that scans the DOM tree for header elements (the DOM2
-    // nodeIterator API would be a better technique but not supported by all
-    // browsers).
-    var iterate = function (el) {
-      for (var i = el.firstChild; i != null; i = i.nextSibling) {
-        if (i.nodeType == 1 /* Node.ELEMENT_NODE */) {
-          var mo = re.exec(i.tagName);
-          if (mo && (i.getAttribute("class") || i.getAttribute("className")) != "float") {
-            result[result.length] = new TocEntry(i, getText(i), mo[1]-1);
-          }
-          iterate(i);
-        }
-      }
-    }
-    iterate(el);
-    return result;
-  }
-
-  var toc = document.getElementById("toc");
-  if (!toc) {
-    return;
-  }
-
-  // Delete existing TOC entries in case we're reloading the TOC.
-  var tocEntriesToRemove = [];
-  var i;
-  for (i = 0; i < toc.childNodes.length; i++) {
-    var entry = toc.childNodes[i];
-    if (entry.nodeName.toLowerCase() == 'div'
-     && entry.getAttribute("class")
-     && entry.getAttribute("class").match(/^toclevel/))
-      tocEntriesToRemove.push(entry);
-  }
-  for (i = 0; i < tocEntriesToRemove.length; i++) {
-    toc.removeChild(tocEntriesToRemove[i]);
-  }
-
-  // Rebuild TOC entries.
-  var entries = tocEntries(document.getElementById("content"), toclevels);
-  for (var i = 0; i < entries.length; ++i) {
-    var entry = entries[i];
-    if (entry.element.id == "")
-      entry.element.id = "_toc_" + i;
-    var a = document.createElement("a");
-    a.href = "#" + entry.element.id;
-    a.appendChild(document.createTextNode(entry.text));
-    var div = document.createElement("div");
-    div.appendChild(a);
-    div.className = "toclevel" + entry.toclevel;
-    toc.appendChild(div);
-  }
-  if (entries.length == 0)
-    toc.parentNode.removeChild(toc);
-},
-
-
-/////////////////////////////////////////////////////////////////////
-// Footnotes generator
-/////////////////////////////////////////////////////////////////////
-
-/* Based on footnote generation code from:
- * http://www.brandspankingnew.net/archive/2005/07/format_footnote.html
- */
-
-footnotes: function () {
-  // Delete existing footnote entries in case we're reloading the footnodes.
-  var i;
-  var noteholder = document.getElementById("footnotes");
-  if (!noteholder) {
-    return;
-  }
-  var entriesToRemove = [];
-  for (i = 0; i < noteholder.childNodes.length; i++) {
-    var entry = noteholder.childNodes[i];
-    if (entry.nodeName.toLowerCase() == 'div' && entry.getAttribute("class") == "footnote")
-      entriesToRemove.push(entry);
-  }
-  for (i = 0; i < entriesToRemove.length; i++) {
-    noteholder.removeChild(entriesToRemove[i]);
-  }
-
-  // Rebuild footnote entries.
-  var cont = document.getElementById("content");
-  var spans = cont.getElementsByTagName("span");
-  var refs = {};
-  var n = 0;
-  for (i=0; i<spans.length; i++) {
-    if (spans[i].className == "footnote") {
-      n++;
-      var note = spans[i].getAttribute("data-note");
-      if (!note) {
-        // Use [\s\S] in place of . so multi-line matches work.
-        // Because JavaScript has no s (dotall) regex flag.
-        note = spans[i].innerHTML.match(/\s*\[([\s\S]*)]\s*/)[1];
-        spans[i].innerHTML =
-          "[<a id='_footnoteref_" + n + "' href='#_footnote_" + n +
-          "' title='View footnote' class='footnote'>" + n + "</a>]";
-        spans[i].setAttribute("data-note", note);
-      }
-      noteholder.innerHTML +=
-        "<div class='footnote' id='_footnote_" + n + "'>" +
-        "<a href='#_footnoteref_" + n + "' title='Return to text'>" +
-        n + "</a>. " + note + "</div>";
-      var id =spans[i].getAttribute("id");
-      if (id != null) refs["#"+id] = n;
-    }
-  }
-  if (n == 0)
-    noteholder.parentNode.removeChild(noteholder);
-  else {
-    // Process footnoterefs.
-    for (i=0; i<spans.length; i++) {
-      if (spans[i].className == "footnoteref") {
-        var href = spans[i].getElementsByTagName("a")[0].getAttribute("href");
-        href = href.match(/#.*/)[0];  // Because IE return full URL.
-        n = refs[href];
-        spans[i].innerHTML =
-          "[<a href='#_footnote_" + n +
-          "' title='View footnote' class='footnote'>" + n + "</a>]";
-      }
-    }
-  }
-},
-
-install: function(toclevels) {
-  var timerId;
-
-  function reinstall() {
-    asciidoc.footnotes();
-    if (toclevels) {
-      asciidoc.toc(toclevels);
-    }
-  }
-
-  function reinstallAndRemoveTimer() {
-    clearInterval(timerId);
-    reinstall();
-  }
-
-  timerId = setInterval(reinstall, 500);
-  if (document.addEventListener)
-    document.addEventListener("DOMContentLoaded", reinstallAndRemoveTimer, false);
-  else
-    window.onload = reinstallAndRemoveTimer;
-}
-
-}
-asciidoc.install(1);
-/*]]>*/
-</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-<body class="article">
+<body class="article toc2 toc-left">
 <div id="header">
 <h1>SPV_EXT_mesh_shader</h1>
-<div id="toc">
-  <div id="toctitle">Table of Contents</div>
-  <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_name_strings">Name Strings</a></li>
+<li><a href="#_contact">Contact</a></li>
+<li><a href="#_contributors">Contributors</a></li>
+<li><a href="#_status">Status</a></li>
+<li><a href="#_version">Version</a></li>
+<li><a href="#_dependencies">Dependencies</a></li>
+<li><a href="#_overview">Overview</a></li>
+<li><a href="#_extension_name">Extension Name</a></li>
+<li><a href="#_new_execution_models">New Execution Models</a></li>
+<li><a href="#_new_capabilities">New Capabilities</a></li>
+<li><a href="#_new_execution_modes">New Execution Modes</a></li>
+<li><a href="#_new_storage_classes">New Storage Classes</a></li>
+<li><a href="#_new_decorations">New Decorations</a></li>
+<li><a href="#_new_builtins">New BuiltIns</a></li>
+<li><a href="#_new_instructions">New Instructions</a></li>
+<li><a href="#_modifications_to_the_spir_v_specification">Modifications to the SPIR-V Specification</a></li>
+<li><a href="#_validation_rules">Validation Rules</a></li>
+<li><a href="#_issues">Issues</a></li>
+<li><a href="#_revision_history">Revision History</a></li>
+</ul>
 </div>
 </div>
 <div id="content">
 <div class="sect1">
 <h2 id="_name_strings">Name Strings</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>SPV_EXT_mesh_shader</p></div>
+<div class="paragraph">
+<p>SPV_EXT_mesh_shader</p>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_contact">Contact</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>See <strong>Issues</strong> list in the Khronos SPIRV-Registry repository:
-<a href="https://github.com/KhronosGroup/SPIRV-Registry">https://github.com/KhronosGroup/SPIRV-Registry</a></p></div>
+<div class="paragraph">
+<p>See <strong>Issues</strong> list in the Khronos SPIRV-Registry repository:
+<a href="https://github.com/KhronosGroup/SPIRV-Registry" class="bare">https://github.com/KhronosGroup/SPIRV-Registry</a></p>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_contributors">Contributors</h2>
 <div class="sectionbody">
-<div class="ulist"><ul>
+<div class="ulist">
+<ul>
 <li>
-<p>
-Daniel Koch, NVIDIA
-</p>
+<p>Daniel Koch, NVIDIA</p>
 </li>
 <li>
-<p>
-Christoph Kubisch, NVIDIA
-</p>
+<p>Christoph Kubisch, NVIDIA</p>
 </li>
 <li>
-<p>
-Jeff Bolz, NVIDIA
-</p>
+<p>Jeff Bolz, NVIDIA</p>
 </li>
 <li>
-<p>
-John Kessenich, Google
-</p>
+<p>John Kessenich, Google</p>
 </li>
 <li>
-<p>
-Sahil Parmar, NVIDIA
-</p>
+<p>Sahil Parmar, NVIDIA</p>
 </li>
 <li>
-<p>
-Patrick Mours, NVIDIA
-</p>
+<p>Patrick Mours, NVIDIA</p>
 </li>
 <li>
-<p>
-Slawomir Grajewski, Intel
-</p>
+<p>Slawomir Grajewski, Intel</p>
 </li>
 <li>
-<p>
-Timur Kristóf, Valve
-</p>
+<p>Timur Kristóf, Valve</p>
 </li>
 <li>
-<p>
-Pankaj Mistry, NVIDIA
-</p>
+<p>Pankaj Mistry, NVIDIA</p>
 </li>
-</ul></div>
+</ul>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_status">Status</h2>
 <div class="sectionbody">
-<div class="ulist"><ul>
+<div class="ulist">
+<ul>
 <li>
-<p>
-Complete
-</p>
+<p>Complete</p>
 </li>
-</ul></div>
+</ul>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_version">Version</h2>
 <div class="sectionbody">
-<table class="tableblock frame-all grid-all"
-style="
-width:40%;
-">
-<col style="width:50%;">
-<col style="width:50%;">
+<table class="tableblock frame-all grid-all stripes-even" style="width: 40%;">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Last Modified Date</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2022-09-16</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Last Modified Date</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2022-09-16</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Revision</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Revision</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7</p></td>
 </tr>
 </tbody>
 </table>
@@ -875,818 +139,819 @@ width:40%;
 <div class="sect1">
 <h2 id="_dependencies">Dependencies</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>This extension is written against the SPIR-V Specification,
-Version 1.5 Revision 5.</p></div>
-<div class="paragraph"><p>This extension requires SPIR-V 1.4.</p></div>
-<div class="paragraph"><p>This extension interacts with SPV_EXT_viewport_array2.</p></div>
-<div class="paragraph"><p>This extension interacts with SPV_EXT_shader_viewport_index_layer.</p></div>
-<div class="paragraph"><p>This extension interacts with SPV_KHR_fragment_shading_rate.</p></div>
-<div class="paragraph"><p>This extension interacts with SPV_KHR_multiview.</p></div>
-<div class="paragraph"><p>This extension interacts with SPIR-V 1.2 (LocalSizeId).</p></div>
-<div class="paragraph"><p>This extension interacts with SPIR-V 1.3 and
-SPV_KHR_shader_draw_parameters (DrawIndex).</p></div>
+<div class="paragraph">
+<p>This extension is written against the SPIR-V Specification,
+Version 1.5 Revision 5.</p>
+</div>
+<div class="paragraph">
+<p>This extension requires SPIR-V 1.4.</p>
+</div>
+<div class="paragraph">
+<p>This extension interacts with SPV_EXT_viewport_array2.</p>
+</div>
+<div class="paragraph">
+<p>This extension interacts with SPV_EXT_shader_viewport_index_layer.</p>
+</div>
+<div class="paragraph">
+<p>This extension interacts with SPV_KHR_fragment_shading_rate.</p>
+</div>
+<div class="paragraph">
+<p>This extension interacts with SPV_KHR_multiview.</p>
+</div>
+<div class="paragraph">
+<p>This extension interacts with SPIR-V 1.2 (LocalSizeId).</p>
+</div>
+<div class="paragraph">
+<p>This extension interacts with SPIR-V 1.3 and
+SPV_KHR_shader_draw_parameters (DrawIndex).</p>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_overview">Overview</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>This extension adds new functionality to support the Vulkan
+<div class="paragraph">
+<p>This extension adds new functionality to support the Vulkan
 VK_EXT_mesh_shader extension in SPIR-V. It adds two new programmable shader
 types, task and mesh shaders, which are used instead of the standard
 programmable vertex processing pipeline. Both new shader types have execution
-environments similar to that of compute shaders.</p></div>
+environments similar to that of compute shaders.</p>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_extension_name">Extension Name</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>To use this extension within a SPIR-V module, the following
-<strong>OpExtension</strong> must be present in the module:</p></div>
+<div class="paragraph">
+<p>To use this extension within a SPIR-V module, the following
+<strong>OpExtension</strong> must be present in the module:</p>
+</div>
 <div class="listingblock">
-<div class="content monospaced">
+<div class="content">
 <pre>OpExtension "SPV_EXT_mesh_shader"</pre>
-</div></div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_new_execution_models">New Execution Models</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>This extension introduces new execution models:</p></div>
+<div class="paragraph">
+<p>This extension introduces new execution models:</p>
+</div>
 <div class="listingblock">
-<div class="content monospaced">
+<div class="content">
 <pre>TaskEXT
 MeshEXT</pre>
-</div></div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_new_capabilities">New Capabilities</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>This extension introduces a new capability:</p></div>
+<div class="paragraph">
+<p>This extension introduces a new capability:</p>
+</div>
 <div class="listingblock">
-<div class="content monospaced">
+<div class="content">
 <pre>MeshShadingEXT</pre>
-</div></div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_new_execution_modes">New Execution Modes</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Execution Modes added under the <strong>MeshShadingEXT</strong> capability:</p></div>
+<div class="paragraph">
+<p>Execution Modes added under the <strong>MeshShadingEXT</strong> capability:</p>
+</div>
 <div class="listingblock">
-<div class="content monospaced">
+<div class="content">
 <pre>OutputLinesEXT
 OutputTrianglesEXT
 OutputPrimitivesEXT</pre>
-</div></div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_new_storage_classes">New Storage Classes</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Storage Classes added under the <strong>MeshShadingEXT</strong> capability:</p></div>
+<div class="paragraph">
+<p>Storage Classes added under the <strong>MeshShadingEXT</strong> capability:</p>
+</div>
 <div class="listingblock">
-<div class="content monospaced">
+<div class="content">
 <pre>TaskPayloadWorkgroupEXT</pre>
-</div></div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_new_decorations">New Decorations</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Decorations added under the <strong>MeshShadingEXT</strong> capability:</p></div>
+<div class="paragraph">
+<p>Decorations added under the <strong>MeshShadingEXT</strong> capability:</p>
+</div>
 <div class="listingblock">
-<div class="content monospaced">
+<div class="content">
 <pre>PerPrimitiveEXT</pre>
-</div></div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_new_builtins">New BuiltIns</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>BuiltIns added under the <strong>MeshShadingEXT</strong> capability:</p></div>
+<div class="paragraph">
+<p>BuiltIns added under the <strong>MeshShadingEXT</strong> capability:</p>
+</div>
 <div class="listingblock">
-<div class="content monospaced">
+<div class="content">
 <pre>PrimitivePointIndicesEXT
 PrimitiveLineIndicesEXT
 PrimitiveTriangleIndicesEXT
 CullPrimitiveEXT</pre>
-</div></div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_new_instructions">New Instructions</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Instructions added under the <strong>MeshShadingEXT</strong> capability:</p></div>
+<div class="paragraph">
+<p>Instructions added under the <strong>MeshShadingEXT</strong> capability:</p>
+</div>
 <div class="listingblock">
-<div class="content monospaced">
+<div class="content">
 <pre>OpEmitMeshTasksEXT
 OpSetMeshOutputsEXT</pre>
-</div></div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_modifications_to_the_spir_v_specification">Modifications to the SPIR-V Specification</h2>
 <div class="sectionbody">
-<div class="dlist"><dl>
-<dt class="hdlist1">
-(Modify Section 2.2.5, Control Flow)
-</dt>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">(Modify Section 2.2.5, Control Flow)</dt>
 <dd>
-<p>
-Add <strong>OpEmitMeshTasksEXT</strong> to the list of Termination Instructions.
-</p>
+<p>Add <strong>OpEmitMeshTasksEXT</strong> to the list of Termination Instructions.</p>
 </dd>
-<dt class="hdlist1">
-(Modify Section 2.16.1, Universal Validation Rules) 
-</dt>
+<dt class="hdlist1">(Modify Section 2.16.1, Universal Validation Rules) </dt>
 <dd>
-<div class="ulist"><ul>
+<div class="ulist">
+<ul>
 <li>
-<p>
-<strong>OpSetMeshOutputsEXT</strong> must be called before any variable from <strong>Output</strong> storage class
-  is written to.  Behavior is undefined if any invocation executes this instruction
-  more than once or under non-uniform control flow. The arguments for the instruction
-  is taken from first invocation in each workgroup.
-</p>
+<p><strong>OpSetMeshOutputsEXT</strong> must be called before any variable from <strong>Output</strong> storage class
+is written to.  Behavior is undefined if any invocation executes this instruction
+more than once or under non-uniform control flow. The arguments for the instruction
+is taken from first invocation in each workgroup.</p>
 </li>
 <li>
-<p>
-<strong>OpEmitMeshTasksEXT</strong> must be the last instruction in a block. Only instructions
-  executed before <strong>OpEmitMeshTasksEXT</strong> have observable side effects. Behavior is undefined
-  if any invocation terminates without executing this instruction, or if any invocation
-  executes this instruction in non-uniform control flow. The arguments for the instruction
-  is taken from first invocation in each workgroup.
-</p>
+<p><strong>OpEmitMeshTasksEXT</strong> must be the last instruction in a block. Only instructions
+executed before <strong>OpEmitMeshTasksEXT</strong> have observable side effects. Behavior is undefined
+if any invocation terminates without executing this instruction, or if any invocation
+executes this instruction in non-uniform control flow. The arguments for the instruction
+is taken from first invocation in each workgroup.</p>
 </li>
 <li>
-<p>
-Update <strong>Atomic access rule</strong>
-</p>
-<div class="ulist"><ul>
+<p>Update <strong>Atomic access rule</strong></p>
+<div class="ulist">
+<ul>
 <li>
-<p>
-Add Storage Class <strong>TaskPayloadWorkgroupEXT</strong> to the list of storage classes where
-pointers taken by atomic operation instructions can point to.
-</p>
+<p>Add Storage Class <strong>TaskPayloadWorkgroupEXT</strong> to the list of storage classes where
+pointers taken by atomic operation instructions can point to.</p>
 </li>
-</ul></div>
+</ul>
+</div>
 </li>
-</ul></div>
+</ul>
+</div>
 </dd>
-<dt class="hdlist1">
-(Modify Section 2.16.2, Validation Rules for Shader Capabilities) 
-</dt>
+<dt class="hdlist1">(Modify Section 2.16.2, Validation Rules for Shader Capabilities) </dt>
 <dd>
 <div class="openblock">
 <div class="content">
-<div class="dlist"><dl>
-<dt class="hdlist1">
-(Add new items under "Entry point and execution model") 
-</dt>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">(Add new items under "Entry point and execution model") </dt>
 <dd>
-<div class="ulist"><ul>
+<div class="ulist">
+<ul>
 <li>
-<p>
-Each <strong>OpEntryPoint</strong> with the <strong>MeshEXT</strong> Execution Model must have an
-  <strong>OpExecutionMode</strong> with exactly one of <strong>OutputPoints</strong>, <strong>OutputLinesEXT</strong>, or
-  <strong>OutputTrianglesEXT</strong> Execution Modes.
-</p>
+<p>Each <strong>OpEntryPoint</strong> with the <strong>MeshEXT</strong> Execution Model must have an
+<strong>OpExecutionMode</strong> with exactly one of <strong>OutputPoints</strong>, <strong>OutputLinesEXT</strong>, or
+<strong>OutputTrianglesEXT</strong> Execution Modes.</p>
 </li>
 <li>
-<p>
-Each <strong>OpEntryPoint</strong> with the <strong>MeshEXT</strong> Execution Model must specify both the
-  <strong>OutputPrimitivesEXT</strong> and <strong>OutputVertices</strong> Execution Modes.
-</p>
+<p>Each <strong>OpEntryPoint</strong> with the <strong>MeshEXT</strong> Execution Model must specify both the
+<strong>OutputPrimitivesEXT</strong> and <strong>OutputVertices</strong> Execution Modes.</p>
 </li>
 <li>
-<p>
-Each <strong>OpEntryPoint</strong> with the <strong>MeshEXT</strong> or <strong>TaskEXT</strong> Execution Models can have
-  at most one global OpVariable of storage class <strong>TaskPayloadWorkgroupEXT</strong>.
-</p>
+<p>Each <strong>OpEntryPoint</strong> with the <strong>MeshEXT</strong> or <strong>TaskEXT</strong> Execution Models can have
+at most one global OpVariable of storage class <strong>TaskPayloadWorkgroupEXT</strong>.</p>
 </li>
 <li>
-<p>
-OpSetMeshOutputsEXT is only valid in MeshEXT execution model.
-</p>
+<p>OpSetMeshOutputsEXT is only valid in MeshEXT execution model.</p>
 </li>
 <li>
-<p>
-OpEmitMeshTasksEXT is only valid in TaskEXT Execution model.
-</p>
+<p>OpEmitMeshTasksEXT is only valid in TaskEXT Execution model.</p>
 </li>
-</ul></div>
+</ul>
+</div>
 </dd>
-<dt class="hdlist1">
-(Add new items under "Decorations") 
-</dt>
+<dt class="hdlist1">(Add new items under "Decorations") </dt>
 <dd>
-<div class="ulist"><ul>
+<div class="ulist">
+<ul>
 <li>
-<p>
-The <strong>PerPrimitiveEXT</strong> decoration must be applied only to variables in the
-  <strong>Output</strong> Storage Class in the <strong>MeshEXT</strong> Execution Model or variables in the
-  <strong>Input</strong> Storage Class in the <strong>Fragment</strong> Execution Model.
-</p>
+<p>The <strong>PerPrimitiveEXT</strong> decoration must be applied only to variables in the
+<strong>Output</strong> Storage Class in the <strong>MeshEXT</strong> Execution Model or variables in the
+<strong>Input</strong> Storage Class in the <strong>Fragment</strong> Execution Model.</p>
 </li>
-</ul></div>
+</ul>
+</div>
 </dd>
-</dl></div>
-</div></div>
+</dl>
+</div>
+</div>
+</div>
 </dd>
-<dt class="hdlist1">
-(Modify Section 3.3, Execution Model, adding rows to the Execution Model table) 
-</dt>
+<dt class="hdlist1">(Modify Section 3.3, Execution Model, adding rows to the Execution Model table) </dt>
 <dd>
 <div class="openblock">
 <div class="content">
-<table class="tableblock frame-all grid-all"
-style="
-width:80%;
-">
-<col style="width:5%;">
-<col style="width:52%;">
-<col style="width:42%;">
+<table class="tableblock frame-all grid-all stripes-even" style="width: 80%;">
+<colgroup>
+<col style="width: 5.2631%;">
+<col style="width: 52.6315%;">
+<col style="width: 42.1054%;">
+</colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-center valign-middle" colspan="2" > Execution Model </th>
-<th class="tableblock halign-center valign-top" > Enabling Capabilities</th>
+<th class="tableblock halign-center valign-middle" colspan="2">Execution Model</th>
+<th class="tableblock halign-left valign-top">Enabling Capabilities</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-middle" ><p class="tableblock">5364</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>TaskEXT</strong><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5364</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>TaskEXT</strong><br>
 Task shading stage.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>MeshShadingEXT</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MeshShadingEXT</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-middle" ><p class="tableblock">5365</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>MeshEXT</strong><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5365</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MeshEXT</strong><br>
 Mesh shading stage.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>MeshShadingEXT</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MeshShadingEXT</strong></p></td>
 </tr>
 </tbody>
 </table>
-</div></div>
+</div>
+</div>
 </dd>
-<dt class="hdlist1">
-(Modify Section 3.6, Execution Mode, adding rows to the Execution Mode table) 
-</dt>
+<dt class="hdlist1">(Modify Section 3.6, Execution Mode, adding rows to the Execution Mode table) </dt>
 <dd>
 <div class="openblock">
 <div class="content">
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:2%;">
-<col style="width:51%;">
-<col style="width:25%;">
-<col style="width:20%;">
+<table class="tableblock frame-all grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 2.5641%;">
+<col style="width: 51.282%;">
+<col style="width: 25.641%;">
+<col style="width: 20.5129%;">
+</colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-center valign-middle" colspan="2" > Execution Mode  </th>
-<th class="tableblock halign-center valign-top" > Enabling Capabilities </th>
-<th class="tableblock halign-left valign-top" > Extra Operands</th>
+<th class="tableblock halign-center valign-middle" colspan="2">Execution Mode</th>
+<th class="tableblock halign-left valign-top">Enabling Capabilities</th>
+<th class="tableblock halign-left valign-top">Extra Operands</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-middle" ><p class="tableblock">5269</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>OutputLinesEXT</strong><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5269</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>OutputLinesEXT</strong><br>
 Stage output primitive is <em>lines</em>.
 Only valid with the <strong>MeshEXT</strong> Execution Model.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>MeshShadingEXT</strong></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MeshShadingEXT</strong></p></td>
+<td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-middle" ><p class="tableblock">5298</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>OutputTrianglesEXT</strong><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5298</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>OutputTrianglesEXT</strong><br>
 Stage output primitive is <em>triangles</em>.
 Only valid with the <strong>MeshEXT</strong> Execution Model.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>MeshShadingEXT</strong></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MeshShadingEXT</strong></p></td>
+<td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-middle" ><p class="tableblock">5270</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>OutputPrimitivesEXT</strong><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5270</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>OutputPrimitivesEXT</strong><br>
 For the mesh stage, the maximum number of primitives the shader will ever emit
 for the invocation group.
 Only valid with the <strong>MeshEXT</strong> Execution Model.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>MeshShadingEXT</strong></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><a href="#Literal_Number"><em>Literal Number</em></a><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MeshShadingEXT</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#Literal_Number"><em>Literal Number</em></a><br>
 <em>Primitive count</em></p></td>
 </tr>
 </tbody>
 </table>
-</div></div>
+</div>
+</div>
 </dd>
-<dt class="hdlist1">
-(Modify the definition of following Execution Modes, allowing them to be used in <strong>TaskEXT</strong> or <strong>MeshEXT</strong> Execution Models) 
-</dt>
+<dt class="hdlist1">(Modify the definition of following Execution Modes, allowing them to be used in <strong>TaskEXT</strong> or <strong>MeshEXT</strong> Execution Models) </dt>
 <dd>
 <div class="openblock">
 <div class="content">
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:4%;">
-<col style="width:43%;">
-<col style="width:26%;">
-<col style="width:8%;">
-<col style="width:8%;">
-<col style="width:8%;">
+<table class="tableblock frame-all grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 4.3478%;">
+<col style="width: 43.4782%;">
+<col style="width: 26.0869%;">
+<col style="width: 8.6956%;">
+<col style="width: 8.6956%;">
+<col style="width: 8.6959%;">
+</colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-center valign-middle" colspan="2" > Execution Mode </th>
-<th class="tableblock halign-center valign-top" > Enabling Capabilities </th>
-<th class="tableblock halign-left valign-middle" colspan="3" > Extra Operands</th>
+<th class="tableblock halign-center valign-middle" colspan="2">Execution Mode</th>
+<th class="tableblock halign-left valign-top">Enabling Capabilities</th>
+<th class="tableblock halign-left valign-middle" colspan="3">Extra Operands</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">17</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>LocalSize</strong><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">17</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>LocalSize</strong><br>
 Indicates the workgroup size in the <em>x</em>, <em>y</em>, and <em>z</em> dimensions.
 Only valid with the <strong>GLCompute</strong>, <strong>TaskEXT</strong>, <strong>MeshEXT</strong> or <strong>Kernel</strong> Execution
 Models.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><a href="#Literal_Number"><em>Literal Number</em></a><br>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#Literal_Number"><em>Literal Number</em></a><br>
 <em>x size</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><a href="#Literal_Number"><em>Literal Number</em></a><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#Literal_Number"><em>Literal Number</em></a><br>
 <em>y size</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><a href="#Literal_Number"><em>Literal Number</em></a><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#Literal_Number"><em>Literal Number</em></a><br>
 <em>z size</em></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" rowspan="4" ><p class="tableblock">26</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>OutputVertices</strong><br>
+<td class="tableblock halign-left valign-top" rowspan="4"><p class="tableblock">26</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>OutputVertices</strong><br>
 Only valid with the <strong>Geometry</strong>, <strong>TessellationControl</strong>,
 <strong>TessellationEvaluation</strong>, or <strong>MeshEXT</strong> Execution Models.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"></p></td>
-<td class="tableblock halign-left valign-top" colspan="3" ><p class="tableblock"><a href="#Literal_Number"><em>Literal Number</em></a><br>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top" colspan="3"><p class="tableblock"><a href="#Literal_Number"><em>Literal Number</em></a><br>
 <em>Vertex count</em></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">For a geometry stage, the maximum number of vertices the shader will
+<td class="tableblock halign-left valign-top"><p class="tableblock">For a geometry stage, the maximum number of vertices the shader will
 ever emit in a single <a href="#Invocation">invocation</a>.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>Geometry</strong></p></td>
-<td class="tableblock halign-left valign-top" colspan="3" ><p class="tableblock"></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Geometry</strong></p></td>
+<td class="tableblock halign-left valign-top" colspan="3"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">For a tessellation-control stage, the number of vertices in the output
+<td class="tableblock halign-left valign-top"><p class="tableblock">For a tessellation-control stage, the number of vertices in the output
 patch produced by the tessellation control shader, which also specifies
 the number of times the tessellation control shader is invoked.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>Tessellation</strong></p></td>
-<td class="tableblock halign-left valign-top" colspan="3" ><p class="tableblock"></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Tessellation</strong></p></td>
+<td class="tableblock halign-left valign-top" colspan="3"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">For a mesh stage, the maximum number of vertices the shader will ever emit
+<td class="tableblock halign-left valign-top"><p class="tableblock">For a mesh stage, the maximum number of vertices the shader will ever emit
 for the invocation group.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>MeshShadingEXT</strong></p></td>
-<td class="tableblock halign-left valign-top" colspan="3" ><p class="tableblock"></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MeshShadingEXT</strong></p></td>
+<td class="tableblock halign-left valign-top" colspan="3"></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">27</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>OutputPoints</strong><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">27</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>OutputPoints</strong><br>
 Stage output primitive is <em>points</em>.
 Only valid with the <strong>Geometry</strong> and <strong>MeshEXT</strong> Execution Models.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>Geometry</strong>, <strong>MeshShadingEXT</strong></p></td>
-<td class="tableblock halign-left valign-top" colspan="3" ><p class="tableblock"></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Geometry</strong>, <strong>MeshShadingEXT</strong></p></td>
+<td class="tableblock halign-left valign-top" colspan="3"></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">38</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>LocalSizeId</strong><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">38</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>LocalSizeId</strong><br>
 Same as <strong>LocalSize</strong>, but using &lt;id&gt; operands instead of literals.
 Only valid with the <strong>GLCompute</strong>, <strong>TaskEXT</strong>, <strong>MeshEXT</strong> or <strong>Kernel</strong> Execution
 Models.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><a href="#Unified">Missing before</a> <strong>version 1.2</strong>.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#Unified">Missing before</a> <strong>version 1.2</strong>.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em><br>
 <em>x size</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em><br>
 <em>y size</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em><br>
 <em>z size</em></p></td>
 </tr>
 </tbody>
 </table>
-</div></div>
+</div>
+</div>
 </dd>
-<dt class="hdlist1">
-(Modify Section 3.7, Storage Class, adding a new row to the Storage Class table) 
-</dt>
+<dt class="hdlist1">(Modify Section 3.7, Storage Class, adding a new row to the Storage Class table) </dt>
 <dd>
 <div class="openblock">
 <div class="content">
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:3%;">
-<col style="width:64%;">
-<col style="width:32%;">
+<table class="tableblock frame-all grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 3.2258%;">
+<col style="width: 64.5161%;">
+<col style="width: 32.2581%;">
+</colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-center valign-middle" colspan="2" > Storage Class </th>
-<th class="tableblock halign-center valign-top" > Enabling Capabilities</th>
+<th class="tableblock halign-center valign-middle" colspan="2">Storage Class</th>
+<th class="tableblock halign-left valign-top">Enabling Capabilities</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-middle" ><p class="tableblock">5402</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>TaskPayloadWorkgroupEXT</strong><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5402</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>TaskPayloadWorkgroupEXT</strong><br>
 Used for storing payload data associated with a task shader invocation group.
 Shared across all invocations within a workgroup. Visible across all functions.
 Only valid with the <strong>TaskEXT</strong> and <strong>MeshEXT</strong> Execution Models.
 Variables declared with this storage class must not have initializers, can be
 both read and written to in <strong>TaskEXT</strong> Execution Model, but are read-only in
 <strong>MeshEXT</strong> Execution Model.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>MeshShadingEXT</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MeshShadingEXT</strong></p></td>
 </tr>
 </tbody>
 </table>
-</div></div>
+</div>
+</div>
 </dd>
-<dt class="hdlist1">
-(Modify Section 3.20, Decoration, adding a new row to the Decoration table) 
-</dt>
+<dt class="hdlist1">(Modify Section 3.20, Decoration, adding a new row to the Decoration table) </dt>
 <dd>
 <div class="openblock">
 <div class="content">
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:4%;">
-<col style="width:47%;">
-<col style="width:28%;">
-<col style="width:9%;">
-<col style="width:9%;">
+<table class="tableblock frame-all grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 4.7619%;">
+<col style="width: 47.619%;">
+<col style="width: 28.5714%;">
+<col style="width: 9.5238%;">
+<col style="width: 9.5239%;">
+</colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-center valign-middle" colspan="2" > Decoration </th>
-<th class="tableblock halign-center valign-top" > Enabling Capabilities </th>
-<th class="tableblock halign-left valign-middle" colspan="2" > Extra Operands</th>
+<th class="tableblock halign-center valign-middle" colspan="2">Decoration</th>
+<th class="tableblock halign-left valign-top">Enabling Capabilities</th>
+<th class="tableblock halign-left valign-middle" colspan="2">Extra Operands</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-top" ><p class="tableblock">5271</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>PerPrimitiveEXT</strong><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5271</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>PerPrimitiveEXT</strong><br>
 Must only be used on a memory object declaration or a member of a structure
 type. Indicates that the variable has separate instances for each primitive
 in the output.</p>
 <p class="tableblock">Only valid for variables of <strong>Input</strong> Storage Class in <strong>Fragment</strong> Execution Model and
 <strong>Output</strong> Storage Class in <strong>MeshEXT</strong> Execution Model.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>MeshShadingEXT</strong></p></td>
-<td class="tableblock halign-left valign-top" colspan="2" ><p class="tableblock"></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MeshShadingEXT</strong></p></td>
+<td class="tableblock halign-left valign-top" colspan="2"></td>
 </tr>
 </tbody>
 </table>
-</div></div>
+</div>
+</div>
 </dd>
-<dt class="hdlist1">
-(Modify Section 3.21, BuiltIn, adding rows to the BuiltIn table) 
-</dt>
+<dt class="hdlist1">(Modify Section 3.21, BuiltIn, adding rows to the BuiltIn table) </dt>
 <dd>
 <div class="openblock">
 <div class="content">
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:3%;">
-<col style="width:64%;">
-<col style="width:32%;">
+<table class="tableblock frame-all grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 3.2258%;">
+<col style="width: 64.5161%;">
+<col style="width: 32.2581%;">
+</colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-center valign-middle" colspan="2" > BuiltIn </th>
-<th class="tableblock halign-center valign-top" > Enabling Capabilities</th>
+<th class="tableblock halign-center valign-middle" colspan="2">BuiltIn</th>
+<th class="tableblock halign-left valign-top">Enabling Capabilities</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-middle" ><p class="tableblock">5299</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>CullPrimitiveEXT</strong><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5299</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>CullPrimitiveEXT</strong><br>
 Primitive cull state in the <strong>MeshEXT</strong> Execution Model.
 See the Vulkan API specification for more detail.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>MeshShadingEXT</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MeshShadingEXT</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-middle" ><p class="tableblock">5294</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>PrimitivePointIndicesEXT</strong><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5294</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>PrimitivePointIndicesEXT</strong><br>
 Output array of vertex index values in the <strong>MeshEXT</strong> Execution Model.
 See the Vulkan API specification for more detail.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>MeshShadingEXT</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MeshShadingEXT</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-middle" ><p class="tableblock">5295</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>PrimitiveLineIndicesEXT</strong><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5295</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>PrimitiveLineIndicesEXT</strong><br>
 Output array of vertex index values in the <strong>MeshEXT</strong> Execution Model.
 See the Vulkan API specification for more detail.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>MeshShadingEXT</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MeshShadingEXT</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-middle" ><p class="tableblock">5296</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>PrimitiveTriangleIndicesEXT</strong><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5296</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>PrimitiveTriangleIndicesEXT</strong><br>
 Output array of vertex index values in the <strong>MeshEXT</strong> Execution Model.
 See the Vulkan API specification for more detail.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>MeshShadingEXT</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MeshShadingEXT</strong></p></td>
 </tr>
 </tbody>
 </table>
-</div></div>
+</div>
+</div>
 </dd>
-<dt class="hdlist1">
-(Modify the definition of following BuiltIns, allowing them to be used in <strong>TaskEXT</strong> or <strong>MeshEXT</strong> Execution Models) 
-</dt>
+<dt class="hdlist1">(Modify the definition of following BuiltIns, allowing them to be used in <strong>TaskEXT</strong> or <strong>MeshEXT</strong> Execution Models) </dt>
 <dd>
 <div class="openblock">
 <div class="content">
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:3%;">
-<col style="width:64%;">
-<col style="width:32%;">
+<table class="tableblock frame-all grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 3.2258%;">
+<col style="width: 64.5161%;">
+<col style="width: 32.2581%;">
+</colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-center valign-middle" colspan="2" > BuiltIn </th>
-<th class="tableblock halign-center valign-top" > Enabling Capabilities</th>
+<th class="tableblock halign-center valign-middle" colspan="2">BuiltIn</th>
+<th class="tableblock halign-left valign-top">Enabling Capabilities</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-middle" ><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Position</strong><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Position</strong><br>
 Output vertex position from a <a href="#VertexProcessor">vertex processing</a> or
 <strong>MeshEXT</strong> Execution Model.
 See the client API specification for more detail.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>Shader</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Shader</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-middle" ><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>PointSize</strong><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>PointSize</strong><br>
 Output point size from a <a href="#VertexProcessor">vertex processing</a> or
 <strong>MeshEXT</strong> Execution Model.
 See the client API specification for more detail.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>Shader</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Shader</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-middle" ><p class="tableblock">3</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>ClipDistance</strong><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>ClipDistance</strong><br>
 Array of clip distances output from a <a href="#VertexProcessor">vertex processing</a> or
 <strong>MeshEXT</strong> Execution Model.
 See the client API specification for more detail.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>ClipDistance</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>ClipDistance</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-middle" ><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>CullDistance</strong><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>CullDistance</strong><br>
 Array of cull distances output from a <a href="#VertexProcessor">vertex processing</a> or
 <strong>MeshEXT</strong> Execution Model.
 See the client API specifications for more detail.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>CullDistance</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>CullDistance</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-middle" rowspan="4" ><p class="tableblock">7</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>PrimitiveId</strong><br>
+<td class="tableblock halign-left valign-top" rowspan="4"><p class="tableblock">7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>PrimitiveId</strong><br>
 See the client API specifications for more detail.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"></p></td>
+<td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Primitive ID in a <strong>Geometry</strong> Execution Model</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>Geometry</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Primitive ID in a <strong>Geometry</strong> Execution Model</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Geometry</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Primitive ID in a <strong>Tessellation</strong> Execution Model</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>Tessellation</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Primitive ID in a <strong>Tessellation</strong> Execution Model</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Tessellation</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Primitive ID output in a <strong>MeshEXT</strong> Execution Model</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>MeshShadingEXT</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Primitive ID output in a <strong>MeshEXT</strong> Execution Model</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MeshShadingEXT</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-middle" rowspan="4" ><p class="tableblock">9</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Layer</strong><br>
+<td class="tableblock halign-left valign-top" rowspan="4"><p class="tableblock">9</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Layer</strong><br>
 Layer selection for multi-layer framebuffer.
 See the client API specification for more detail.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"></p></td>
+<td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Layer output by a <strong>Geometry</strong> Execution Model, input to a <strong>Fragment</strong>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Layer output by a <strong>Geometry</strong> Execution Model, input to a <strong>Fragment</strong>
 Execution Model.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>Geometry</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Geometry</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Layer output by a <strong>Vertex</strong> or <strong>Tessellation</strong> Execution Model.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>ShaderViewportIndexLayerEXT</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Layer output by a <strong>Vertex</strong> or <strong>Tessellation</strong> Execution Model.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>ShaderViewportIndexLayerEXT</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Layer output by a <strong>MeshEXT</strong> Execution Model.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>ShaderViewportIndexLayerEXT</strong>, <strong>MeshShadingEXT</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Layer output by a <strong>MeshEXT</strong> Execution Model.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>ShaderViewportIndexLayerEXT</strong>, <strong>MeshShadingEXT</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-middle" rowspan="4" ><p class="tableblock">10</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>ViewportIndex</strong><br>
+<td class="tableblock halign-left valign-top" rowspan="4"><p class="tableblock">10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>ViewportIndex</strong><br>
 Viewport selection for viewport transformation when using multiple viewports.
 See the client API specification for more detail.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"></p></td>
+<td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Viewport index output by a <strong>Geometry</strong> Execution Model, input to a <strong>Fragment</strong>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Viewport index output by a <strong>Geometry</strong> Execution Model, input to a <strong>Fragment</strong>
 Execution Model.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>MultiViewport</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MultiViewport</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Viewport index output by a <strong>Vertex</strong> or <strong>Tessellation</strong> Execution Model.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>ShaderViewportIndexLayerEXT</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Viewport index output by a <strong>Vertex</strong> or <strong>Tessellation</strong> Execution Model.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>ShaderViewportIndexLayerEXT</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Viewport index output by a <strong>MeshEXT</strong> Execution Model</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>ShaderViewportIndexLayerEXT</strong>, <strong>MeshShadingEXT</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Viewport index output by a <strong>MeshEXT</strong> Execution Model</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>ShaderViewportIndexLayerEXT</strong>, <strong>MeshShadingEXT</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-middle" ><p class="tableblock">24</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>NumWorkgroups</strong><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">24</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>NumWorkgroups</strong><br>
 Number of workgroups in <strong>GLCompute</strong>, <strong>TaskEXT</strong>, <strong>MeshEXT</strong> or <strong>Kernel</strong>
 Execution Models.
 See the client API specifications for more detail.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"></p></td>
+<td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-middle" ><p class="tableblock">25</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>WorkgroupSize</strong><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">25</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>WorkgroupSize</strong><br>
 Workgroup size in <strong>GLCompute</strong>, <strong>TaskEXT</strong>, <strong>MeshEXT</strong> or <strong>Kernel</strong>
 Execution Models.
 See the client API specifications for more detail.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"></p></td>
+<td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-middle" ><p class="tableblock">26</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>WorkgroupId</strong><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">26</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>WorkgroupId</strong><br>
 Workgroup ID in <strong>GLCompute</strong>, <strong>TaskEXT</strong>, <strong>MeshEXT</strong> or <strong>Kernel</strong>
 Execution Models.
 See the client API API specifications for more detail.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"></p></td>
+<td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-middle" ><p class="tableblock">27</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>LocalInvocationId</strong><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">27</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>LocalInvocationId</strong><br>
 Local invocation ID in <strong>GLCompute</strong>, <strong>TaskEXT</strong>, <strong>MeshEXT</strong> or <strong>Kernel</strong>
 Execution Models.
 See the client API API specifications for more detail.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"></p></td>
+<td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-middle" ><p class="tableblock">28</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>GlobalInvocationId</strong><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">28</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>GlobalInvocationId</strong><br>
 Global invocation ID in <strong>GLCompute</strong>, <strong>TaskEXT</strong>, <strong>MeshEXT</strong> or <strong>Kernel</strong>
 Execution Models.
 See the client API API specifications for more detail.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"></p></td>
+<td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-middle" ><p class="tableblock">29</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>LocalInvocationIndex</strong><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">29</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>LocalInvocationIndex</strong><br>
 Local invocation index in <strong>GLCompute</strong>, <strong>TaskEXT</strong> or <strong>MeshEXT</strong> Execution Models.
 See Vulkan or OpenGL API specifications for more detail. <br>
 <br>
 Workgroup Linear ID in a <strong>Kernel</strong> Execution Model.
 See OpenCL API specification for more detail.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"></p></td>
+<td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-middle" ><p class="tableblock">38</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>NumSubgroups</strong><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">38</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>NumSubgroups</strong><br>
 Number of subgroups in <strong>GLCompute</strong>, <strong>TaskEXT</strong>, <strong>MeshEXT</strong> or <strong>Kernel</strong>
 Execution Models.<br>
 See the client API specification for more detail.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>Kernel</strong>, <strong>GroupNonUniform</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Kernel</strong>, <strong>GroupNonUniform</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-middle" ><p class="tableblock">40</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>SubgroupID</strong><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">40</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>SubgroupID</strong><br>
 Subgroup ID in <strong>GLCompute</strong>, <strong>TaskEXT</strong>, <strong>MeshEXT</strong> or <strong>Kernel</strong>
 Execution Models.<br>
 See the client API specification for more detail.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>Kernel</strong>, <strong>GroupNonUniform</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Kernel</strong>, <strong>GroupNonUniform</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-middle" ><p class="tableblock">4426</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>DrawIndex</strong><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4426</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>DrawIndex</strong><br>
 Contains the index of the draw currently being processed.
 Only valid in <a href="#VertexProcessor">vertex processing</a>, <strong>MeshEXT</strong> or <strong>Fragment</strong>
 Execution Models.
 See the Vulkan 1.1 or OpenGL 4.6 specifications for more details.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>DrawParameters</strong><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>DrawParameters</strong><br>
 <br>
 <a href="#Unified">Missing before</a> <strong>version 1.3</strong>.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-middle" ><p class="tableblock">4432</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>PrimitiveShadingRateKHR</strong><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4432</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>PrimitiveShadingRateKHR</strong><br>
 Output primitive <a href="#fragment_shading_rate">fragment shading rate</a>.
 Only valid in the <strong>Vertex</strong>, <strong>Geometry</strong> or <strong>MeshEXT</strong> Execution Models.
 See the client API specification for more detail.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>FragmentShadingRateKHR</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FragmentShadingRateKHR</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-middle" ><p class="tableblock">4440</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>ViewIndex</strong><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4440</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>ViewIndex</strong><br>
 Input view index of the view currently being rendered to.
 Only valid in the <a href="#VertexProcessor">vertex processing</a>, <strong>MeshEXT</strong> or
 <strong>Fragment</strong> Execution Models.
 See the client API specification for more detail.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"><strong>ViewIndex</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>ViewIndex</strong></p></td>
 </tr>
 </tbody>
 </table>
-</div></div>
+</div>
+</div>
 </dd>
-<dt class="hdlist1">
-(Modify the definition of following Memory Semantics, changing <strong>WorkgroupMemory</strong> to include the new <strong>TaskPayloadWorkgroupEXT</strong> Storage Class) 
-</dt>
+<dt class="hdlist1">(Modify the definition of following Memory Semantics, changing <strong>WorkgroupMemory</strong> to include the new <strong>TaskPayloadWorkgroupEXT</strong> Storage Class) </dt>
 <dd>
 <div class="openblock">
 <div class="content">
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:3%;">
-<col style="width:64%;">
-<col style="width:32%;">
+<table class="tableblock frame-all grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 3.2258%;">
+<col style="width: 64.5161%;">
+<col style="width: 32.2581%;">
+</colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-center valign-middle" colspan="2" > Memory Semantics </th>
-<th class="tableblock halign-center valign-top" > Enabling Capabilities</th>
+<th class="tableblock halign-center valign-middle" colspan="2">Memory Semantics</th>
+<th class="tableblock halign-left valign-top">Enabling Capabilities</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-middle" ><p class="tableblock">0x100</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>WorkgroupMemory</strong><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0x100</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>WorkgroupMemory</strong><br>
 Apply the memory-ordering constraints to <strong>Workgroup</strong> or
 <strong>TaskPayloadWorkgroupEXT</strong> Storage Class memory.</p></td>
-<td class="tableblock halign-center valign-top" ><p class="tableblock"></p></td>
+<td class="tableblock halign-left valign-top"></td>
 </tr>
 </tbody>
 </table>
-</div></div>
+</div>
+</div>
 </dd>
-<dt class="hdlist1">
-(Modify Section 3.31, Capability, adding a new row to the Capability table) 
-</dt>
+<dt class="hdlist1">(Modify Section 3.31, Capability, adding a new row to the Capability table) </dt>
 <dd>
 <div class="openblock">
 <div class="content">
-<table class="tableblock frame-all grid-all"
-style="
-width:80%;
-">
-<col style="width:2%;">
-<col style="width:60%;">
-<col style="width:36%;">
+<table class="tableblock frame-all grid-all stripes-even" style="width: 80%;">
+<colgroup>
+<col style="width: 2.439%;">
+<col style="width: 60.9756%;">
+<col style="width: 36.5854%;">
+</colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-center valign-middle" colspan="2" > Capability </th>
-<th class="tableblock halign-left valign-top" > Implicitly Declares</th>
+<th class="tableblock halign-center valign-middle" colspan="2">Capability</th>
+<th class="tableblock halign-left valign-top">Implicitly Declares</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-middle" ><p class="tableblock">5283</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>MeshShadingEXT</strong><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5283</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MeshShadingEXT</strong><br>
 Uses the <strong>TaskEXT</strong> or <strong>MeshEXT</strong> Execution Models.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><strong>Shader</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Shader</strong></p></td>
 </tr>
 </tbody>
 </table>
-</div></div>
+</div>
+</div>
 </dd>
-<dt class="hdlist1">
-(Modify Section 3.37.1, Miscellaneous Instructions, adding rows to the Miscellaneous Instructions table) 
-</dt>
+<dt class="hdlist1">(Modify Section 3.37.1, Miscellaneous Instructions, adding rows to the Miscellaneous Instructions table) </dt>
 <dd>
 <div class="openblock">
 <div class="content">
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:10%;">
-<col style="width:10%;">
-<col style="width:20%;">
-<col style="width:20%;">
-<col style="width:20%;">
-<col style="width:20%;">
+<table class="tableblock frame-all grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 10%;">
+<col style="width: 10%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" colspan="5" ><p class="tableblock"><a id="OpEmitMeshTasksEXT"></a><strong>OpEmitMeshTasksEXT</strong><br>
+<td class="tableblock halign-left valign-top" colspan="5"><p class="tableblock"><a id="OpEmitMeshTasksEXT"></a><strong>OpEmitMeshTasksEXT</strong><br>
 <br>
 Defines the grid size of subsequent mesh shader workgroups to generate
 upon completion of the task shader workgroup.<br>
@@ -1712,35 +977,34 @@ the <em>Semantics</em> operand set to a combination of <strong>WorkgroupMemory</
 This instruction must be the last instruction in a block.<br>
 <br>
 This instruction is only valid in the <strong>TaskEXT</strong> Execution Model.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><a href="#Capability">Capability</a>:<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#Capability">Capability</a>:<br>
 <strong>MeshShadingEXT</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">4 + variable</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">5294</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4 + variable</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5294</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em><br>
 <em>Group Count X</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em><br>
 <em>Group Count Y</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em><br>
 <em>Group Count Z</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Optional<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional<br>
 <em>&lt;id&gt;</em><br>
 <em>Payload</em></p></td>
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-all grid-all"
-style="
-width:100%;
-">
-<col style="width:12%;">
-<col style="width:12%;">
-<col style="width:37%;">
-<col style="width:37%;">
+<table class="tableblock frame-all grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 37.5%;">
+<col style="width: 37.5%;">
+</colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" colspan="3" ><p class="tableblock"><a id="OpSetMeshOutputsEXT"></a><strong>OpSetMeshOutputsEXT</strong><br>
+<td class="tableblock halign-left valign-top" colspan="3"><p class="tableblock"><a id="OpSetMeshOutputsEXT"></a><strong>OpSetMeshOutputsEXT</strong><br>
 <br>
 Sets the actual output size of the primitives and vertices that the mesh shader
 workgroup will emit upon completion.<br>
@@ -1758,124 +1022,131 @@ Behavior is undefined if there is any control flow path to an output write that 
 by this instruction.<br>
 <br>
 This instruction is only valid in the <strong>MeshEXT</strong> Execution Model.</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><a href="#Capability">Capability</a>:<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#Capability">Capability</a>:<br>
 <strong>MeshShadingEXT</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">3</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">5295</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5295</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em><br>
 <em>Vertex Count</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock"><em>&lt;id&gt;</em><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em><br>
 <em>Primitive Count</em></p></td>
 </tr>
 </tbody>
 </table>
-</div></div>
+</div>
+</div>
 </dd>
-</dl></div>
+</dl>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_validation_rules">Validation Rules</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>An OpExtension must be added to the SPIR-V for validation layers to check
-legal use of this extension:</p></div>
+<div class="paragraph">
+<p>An OpExtension must be added to the SPIR-V for validation layers to check
+legal use of this extension:</p>
+</div>
 <div class="listingblock">
-<div class="content monospaced">
+<div class="content">
 <pre>OpExtension "SPV_EXT_mesh_shader"</pre>
-</div></div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_issues">Issues</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>1) Can there be more then one OpVariable with storage class TaskPayloadWorkgroupEXT?</p></div>
-<div class="paragraph"><p><strong>Answer</strong>: OpEmitMeshTasksEXT has a optional operand "payload". There can be at most
+<div class="paragraph">
+<p>1) Can there be more then one OpVariable with storage class TaskPayloadWorkgroupEXT?</p>
+</div>
+<div class="paragraph">
+<p><strong>Answer</strong>: OpEmitMeshTasksEXT has a optional operand "payload". There can be at most
 one &lt;id&gt; of type OpVariable with storage class TaskPayloadWorkgroupEXT associated with
-an OpEntryPoint. This OpVariable should be a global OpVariable.</p></div>
-<div class="paragraph"><p>Hence for a SPIRV with single OpEntryPoint there can at most be one such OpVariable.
-For multiple entry points, refer to answer about issue#2.</p></div>
-<div class="paragraph"><p>2) For SPIRV with multiple entry points how are payloads represented?</p></div>
-<div class="paragraph"><p><strong>Answer</strong> : In a multiple entry point SPIR-V each OpEntryPoint should be associated with at most
+an OpEntryPoint. This OpVariable should be a global OpVariable.</p>
+</div>
+<div class="paragraph">
+<p>Hence for a SPIRV with single OpEntryPoint there can at most be one such OpVariable.
+For multiple entry points, refer to answer about issue#2.</p>
+</div>
+<div class="paragraph">
+<p>2) For SPIRV with multiple entry points how are payloads represented?</p>
+</div>
+<div class="paragraph">
+<p><strong>Answer</strong> : In a multiple entry point SPIR-V each OpEntryPoint should be associated with at most
 one global OpVariable of storage class TaskPayloadWorkgroupEXT. Thus more than one
 such OpVariable can be present in the SPIR-V. But only one OpVariable of type TaskPayloadWorkgroupEXT
 is allowed as part of interface of a OpEntryPoint.
-To support this requirement in OpEntryPoint, SPIR-V version has to 1.4 or above.</p></div>
+To support this requirement in OpEntryPoint, SPIR-V version has to 1.4 or above.</p>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_revision_history">Revision History</h2>
 <div class="sectionbody">
-<table class="tableblock frame-all grid-rows"
-style="
-width:100%;
-">
-<col style="width:4%;">
-<col style="width:14%;">
-<col style="width:14%;">
-<col style="width:66%;">
+<table class="tableblock frame-all grid-rows stripes-even stretch">
+<colgroup>
+<col style="width: 4.7619%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 66.6667%;">
+</colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top" >Rev</th>
-<th class="tableblock halign-left valign-top" >Date</th>
-<th class="tableblock halign-left valign-top" >Author</th>
-<th class="tableblock halign-left valign-top" >Changes</th>
+<th class="tableblock halign-left valign-top">Rev</th>
+<th class="tableblock halign-left valign-top">Date</th>
+<th class="tableblock halign-left valign-top">Author</th>
+<th class="tableblock halign-left valign-top">Changes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2021-03-25</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Christoph Kubisch</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Initial revision</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2021-03-25</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Christoph Kubisch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Initial revision</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2021-08-30</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Patrick Mours</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Add modifications to NumWorkGroups, NumSubgroups and SubgroupID</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2021-08-30</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Patrick Mours</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Add modifications to NumWorkGroups, NumSubgroups and SubgroupID</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">3</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2021-11-26</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Patrick Mours</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Add TaskPayloadWorkgroupEXT storage class and payload argument to OpEmitMeshTasksEXT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2021-11-26</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Patrick Mours</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Add TaskPayloadWorkgroupEXT storage class and payload argument to OpEmitMeshTasksEXT</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2022-04-11</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Pankaj Mistry</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Require SPIR-V 1.4 and add validation rules for TaskPayloadWorkgroupEXT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2022-04-11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pankaj Mistry</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Require SPIR-V 1.4 and add validation rules for TaskPayloadWorkgroupEXT</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">5</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2022-08-31</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Pankaj Mistry</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Added validation rules for OpSetMeshOutputsEXT and OpEmitMeshTasksEXT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2022-08-31</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pankaj Mistry</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Added validation rules for OpSetMeshOutputsEXT and OpEmitMeshTasksEXT</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">6</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2022-09-06</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Pankaj Mistry</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Added OpEmitMeshTasksEXT as a termination instruction and added atomic access validation rule for TaskPayloadWorkgroupEXT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2022-09-06</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pankaj Mistry</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Added OpEmitMeshTasksEXT as a termination instruction and added atomic access validation rule for TaskPayloadWorkgroupEXT</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">7</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">2022-09-16</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Ricardo Garcia</p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Forbid more than one TaskPayloadWorkgroupEXT variable in each TaskEXT entry point</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2022-09-16</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ricardo Garcia</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Forbid more than one TaskPayloadWorkgroupEXT variable in each TaskEXT entry point</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-</div>
-</div>
-<div id="footnotes"><hr></div>
-<div id="footer">
-<div id="footer-text">
-Last updated
- 2022-09-16 16:44:54 CEST
 </div>
 </div>
 </body>

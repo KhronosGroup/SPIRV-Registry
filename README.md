@@ -86,6 +86,8 @@ Khronos SPIR-V Registry](https://www.khronos.org/registry/spir-v/).
 * [SPV_AMD_gpu_shader_half_float_fetch     ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/AMD/SPV_AMD_gpu_shader_half_float_fetch.html)
 * [SPV_AMD_gpu_shader_int16                ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/AMD/SPV_AMD_gpu_shader_int16.html)
 * [SPV_AMD_shader_ballot                   ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/AMD/SPV_AMD_shader_ballot.html)
+* [SPV_AMD_shader_early_and_late_fragment_tests]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/AMD/SPV_AMD_shader_early_and_late_fragment_tests.html)
+* [SPV_AMDX_shader_enqueue                 ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/AMD/SPV_AMDX_shader_enqueue.html)
 * [SPV_AMD_shader_explicit_vertex_parameter]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/AMD/SPV_AMD_shader_explicit_vertex_parameter.html)
 * [SPV_AMD_shader_fragment_mask            ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/AMD/SPV_AMD_shader_fragment_mask.html)
 * [SPV_AMD_shader_image_load_store_lod     ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/AMD/SPV_AMD_shader_image_load_store_lod.html)

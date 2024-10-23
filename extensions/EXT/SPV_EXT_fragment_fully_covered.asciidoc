@@ -100,9 +100,9 @@ Modifications to the SPIR-V Specification, Version 1.2
 (Modify Section 3.21, *BuiltIn* to include new builtins) ::
 +
 --
-[cols="1^.^,20,8^",options="header",width = "80%"]
+[cols="1,20,8",options="header",width = "80%"]
 |====
-2+^.^| BuiltIn| Required Capability
+2+^.^| BuiltIn ^| Required Capability
 | 5264 | *FullyCoveredEXT* +
 Rasterized fragment is fully covered by the generating primitive.
 Input to the *Fragment* Execution Model.
@@ -114,9 +114,9 @@ See Vulkan EXT_conservative_rasterization extension for more detail.
 (Modify Section 3.31, *Capability*, adding a row to the Capability table) ::
 +
 --
-[cols="1^.^,10,12,8^",options="header",width = "80%"]
+[cols="1,10,12,8",options="header",width = "80%"]
 |====
-2+^.^| Capability| Depends On | Enabled by Extension
+2+^.^| Capability | Depends On | Enabled by Extension
 | 5265 | *FragmentFullyCoveredEXT* |  *Shader*  | SPV_EXT_fragment_fully_covered
 |====
 

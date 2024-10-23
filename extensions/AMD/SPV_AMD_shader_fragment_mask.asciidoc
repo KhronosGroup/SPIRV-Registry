@@ -58,7 +58,7 @@ the fragment mask of compressed multisampled color surfaces, and an instruction
 for sampling the surface with the fragment mask.
 
 Extension Name
-----------------
+--------------
 To use this extension within a SPIR-V module, the following OpExtension must be
 present in the module:
 

@@ -365,8 +365,9 @@ flow within <Execution>.
 
 The type of <X> must be the same as <Result Type>.
 
+----
 6 | 5007 | <id> Result Type | <id> Result | <id> Scope Execution | Group Operation | <id> X
-
+----
 
 SwizzleInvocationsAMD
 ~~~~~~~~~~~~~~~~~~~~
