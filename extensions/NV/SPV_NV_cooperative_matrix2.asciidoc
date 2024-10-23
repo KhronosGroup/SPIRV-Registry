@@ -540,7 +540,7 @@ instance of the 'Scope' of the cooperative matrix.
  +
 1+|Capability: +
 *CooperativeMatrixTensorAddressingNV*
-1+| 6+variable | 5367 | '<id>' +
+1+| 8+variable | 5367 | '<id>' +
 'Result Type' |'Result <id>' | '<id>' +
 'Pointer' | '<id>' +
 'Object' | '<id>' +
@@ -578,7 +578,7 @@ instance of the 'Scope' of the cooperative matrix.
  +
 1+|Capability: +
 *CooperativeMatrixTensorAddressingNV*
-1+| 4+variable | 5368 | '<id>' +
+1+| 6+variable | 5368 | '<id>' +
 'Pointer' | '<id>' +
 'Object' | '<id>' +
 'TensorLayout'| Literal +
