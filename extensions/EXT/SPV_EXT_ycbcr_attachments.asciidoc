@@ -88,13 +88,13 @@ Modifications to the SPIR-V Specification, Version 1.6
 (Modify Section 3.20, Decoration, adding a row to the Decoration table) ::
 +
 --
-[cols="1^,10,6^,2*2",options="header",width = "100%"]
+[cols="^1,10,^6,2*2",options="header",width = "100%"]
 |====
 2+^.^| Decoration | <<Capability,Enabling Capabilities>> 2+<.^| Extra Operands
 | 5632 | *YCbCrAttachmentEXT* +
 Apply to an OpVariable in the Output storage class. Specifies that the corresponding color attachment will be YCbCr.
 Only valid with the *Fragment* Execution Model. See the API specification for more information. 
-|*YCbCrAttachmentsEXT* 2+|
+| *YCbCrAttachmentsEXT* 2+|
 |====
 --
 
