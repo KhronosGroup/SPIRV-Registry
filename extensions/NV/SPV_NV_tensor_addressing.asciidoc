@@ -326,7 +326,7 @@ The type of 'TensorLayout' must be 'Result Type'. +
  +
 1+|Capability: +
 *TensorAddressingNV*
-1+| 5+variable | 5374 | '<id>' +
+1+| 5+variable | 5373 | '<id>' +
 'Result Type' |'Result <id>' | '<id>' +
 'TensorLayout' | '<id>', '<id>', ... +
 'Dim0', +
