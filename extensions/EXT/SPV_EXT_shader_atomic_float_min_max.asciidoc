@@ -125,7 +125,7 @@ The type of _Value_ must be the same as _Result Type_. The type of the value poi
 _Memory_ must be a valid memory _Scope_.
 1+|Capability: +
 *AtomicFloat16MinMaxEXT* *AtomicFloat32MinMaxEXT* *AtomicFloat64MinMaxEXT*
-| 7 | 5614 | _<id> Result type_ | _Result <id>_ | _<id>_ Pointer  | _Scope <id> Memory_ | Memory Semantics <id> Semantics | <id> Value |
+| 7 | 5614 | _<id> Result type_ | _Result <id>_ | _<id>_ Pointer  | _Scope <id> Memory_ | Memory Semantics <id> Semantics | <id> Value
 |======
 
 [width="100%",cols="1,1,6*4"]
@@ -166,7 +166,7 @@ The type of _Value_ must be the same as _Result Type_. The type of the value poi
 _Memory_ must be a valid memory _Scope_.
 1+|Capability: +
 *AtomicFloat16MinMaxEXT* *AtomicFloat32MinMaxEXT* *AtomicFloat64MinMaxEXT*
-| 7 | 5615 | _<id> Result type_ | _Result <id>_ | _<id>_ Pointer  | _Scope <id> Memory_ | Memory Semantics <id> Semantics | <id> Value |
+| 7 | 5615 | _<id> Result type_ | _Result <id>_ | _<id>_ Pointer  | _Scope <id> Memory_ | Memory Semantics <id> Semantics | <id> Value
 |======
 
 

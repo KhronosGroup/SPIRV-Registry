@@ -98,7 +98,7 @@ Add the *AtomicFloat16AddEXT* capability to the *OpAtomicFAddEXT* instruction ad
 
 1+|Capability: +
 *AtomicFloat32AddEXT* *AtomicFloat64AddEXT* *AtomicFloat16AddEXT*
-| 7 | 6035 | _<id> Result type_ | _Result <id>_ | _<id>_ Pointer  | _Scope <id> Memory_ | Memory Semantics <id> Semantics | <id> Value |
+| 7 | 6035 | _<id> Result type_ | _Result <id>_ | _<id>_ Pointer  | _Scope <id> Memory_ | Memory Semantics <id> Semantics | <id> Value
 |======
 
 Validation Rules
