@@ -1,0 +1,751 @@
+SPV_NV_cooperative_matrix2
+==========================
+
+Name Strings
+------------
+
+SPV_NV_cooperative_matrix2
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Jeff Bolz, NVIDIA
+- Karthik Vaidyanathan, NVIDIA
+
+Notice
+------
+
+Copyright (c) 2024 NVIDIA Corp.
+
+Status
+------
+
+- Draft
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2024-09-18
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.6, Revision 3, Unified.
+
+This extension requires SPIR-V 1.6.
+
+This extension requires SPV_KHR_cooperative_matrix.
+
+If *CooperativeMatrixTensorAddressingNV* is used, SPV_NV_tensor_addressing is
+required.
+
+Overview
+--------
+
+This extension adds several new features building on the cooperative matrix
+types added in SPV_KHR_cooperative_matrix. The goal is to add and accelerate
+features beyond just simple GEMM kernels, including adding support for type/use
+conversions, reductions, per-element operations, and tensor addressing, and
+also to improve usability and out-of-the-box performance by adding support
+for more flexible matrix sizes, and workgroup scope matrices with
+compiler-managed staging through shared memory.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_NV_cooperative_matrix2"
+----
+
+Modifications to the SPIR-V Specification, Version 1.6
+------------------------------------------------------
+
+2.16 Validation Rules
+~~~~~~~~~~~~~~~~~~~~~
+
+==== Modify section 2.16.1. Universal Validation Rules:
+
+* Add *OpCooperativeMatrixLoadTensorNV* and *OpCooperativeMatrixStoreTensorNV* to the list
+of instructions under "It is invalid for a pointer to be an operand to any
+instruction other than:", when the *Logical* addressing model is selected and
+neither the *VariablePointers* nor *VariablePointersStorageBuffer* capability
+are declared.
+
+* If an *OpTypeCooperativeMatrixKHR* instruction uses a 'Scope' of 'Workgroup',
+then the workgroup size must have already been specified in the module,
+including any constant instructions used by *LocalSizeId*.
+
+* In any function used as a *DecodeFunc* parameter to *OpCooperativeMatrixLoadTensorNV*
+or as a *Func* parameter to *OpCooperativeMatrixPerElementOpNV* or as a *CombineFunc*
+parameter to *OpCooperativeMatrixReduceNV*, and any function called directly or
+indirectly by those functions, tangled instructions are not allowed.
+
+3.26 Memory Operands
+~~~~~~~~~~~~~~~~~~~~
+
+Modify Section 3.26, "Memory Operands":
+
+In the description of *MakePointerAvailable*, change "Not valid with *OpLoad*"
+to "Not valid with *OpLoad* or *OpCooperativeMatrixLoadKHR* or *OpCooperativeMatrixLoadTensorNV*".
+
+In the description of *MakePointerVisible*, change "Not valid with *OpStore*"
+to "Not valid with *OpStore* or *OpCooperativeMatrixStoreKHR* or *OpCooperativeMatrixStoreTensorNV*".
+
+3.31 Capabilities
+~~~~~~~~~~~~~~~~~
+
+Modify Section 3.31, "Capability", adding these rows to the Capability table:
+
+--
+[options="header"]
+|====
+2+^| Capability ^| Enabling Capabilities
+| 5430 | *CooperativeMatrixReductionsNV* +
+Enables cooperative matrix reduction instructions. |
+| 5431 | *CooperativeMatrixConversionsNV* +
+Enables cooperative matrix conversion/transpose instructions. |
+| 5432 | *CooperativeMatrixPerElementOperationsNV* +
+Enables cooperative matrix per-element operations. |
+| 5433 | *CooperativeMatrixTensorAddressingNV* +
+Enables cooperative matrix load/store instruction using tensor addressing
+(*OpCooperativeMatrixLoadTensorNV* and *OpCooperativeMatrixStoreTensorNV*). |
+| 5434 | *CooperativeMatrixBlockLoadsNV* +
+Enables the *DecodeFunc* parameter for *OpCooperativeMatrixLoadTensorNV*. |
+|====
+--
+
+3.X Tensor Layout and View
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Tensor layout and tensor view types are representations of the mapping
+between matrix coordinates and tensor memory layout. They each have a
+number of dimensions in the range [1,5], with dimension 0 being the
+outermost dimension and the last dimension being the innermost. These types
+have the following logical state:
+
+[source,c]
+----
+    struct tensorLayoutNV<uint32_t Dim,
+                          TensorClampMode Mode = TensorClampModeUndefined>
+    {
+      static constexpr uint32_t LDim = Dim;
+      static constexpr TensorClampMode clampMode = Mode;
+
+      uint32_t blockSize[LDim];
+      uint32_t layoutDimension[LDim];
+      uint32_t stride[LDim];
+      int32_t offset[LDim];
+      uint32_t span[LDim];
+      uint32_t clampValue;
+    };
+
+    struct tensorViewNV<uint Dim, bool hasDimensions, uint32_t p0, ..., uint32_t p<Dim-1>>
+    {
+      static constexpr uint32_t VDim = Dim;
+      static constexpr bool hasDim = hasDimensions;
+      static constexpr uint32_t permutation[VDim] = {p0, ..., p<Dim-1>};
+
+      uint32_t viewDimension[VDim];
+      uint32_t viewStride[VDim];
+      uint32_t clipRowOffset, clipRowSpan, clipColOffset, clipColSpan;
+    };
+----
+
+A tensor layout represents the layout of values in memory (number of
+dimensions and size), along with a region being accessed (offset and span).
+
+[source,c]
+----
+    ---------------------------------------------------------------------------
+    |                           layoutDimension1                              |
+    |                                                                         |
+    |                                                                         |
+    |                                                                         |
+    |                                                                         |
+    |                                                                         |
+    |                                                                         |
+    |                                                                         |
+    |                        span1                                            |
+    |                  -----------------                                      |
+    |                  |               |                                      |
+    |                  |               |                                      |
+    |                  |     slice     | span0                                |
+    |                  |               |                      layoutDimension0|
+    |                  |               |                                      |
+    |      offset1     |               |                                      |
+    | ---------------> -----------------                                      |
+    |                                                                         |
+    |                  ^                                                      |
+    |                  |                                                      |
+    |                  |                                                      |
+    |                  | offset0                                              |
+    |                  |                                                      |
+    |                  |                                                      |
+    |                  |                                                      |
+    |                  |                                                      |
+    ---------------------------------------------------------------------------
+    Figure: A 2D tensor layout, and a slice selecting a region within it.
+----
+
+A tensor view allows reinterpreting the dimensions of the region being
+accessed, including changing the number of dimensions, reordering the
+dimensions as they are loaded or stored, and clipping the region of the
+matrix that is loaded or stored. Often the span will have the
+same number of elements as the matrix, but in some more advanced uses
+that may not be the case.
+
+Loads and stores can either use just a tensor layout, or a tensor layout and
+tensor view. The addressing starts by treating the matrix itself as a 2D
+"view" and mapping the (row,col) coordinate to a 1D index. If there is only a
+tensor layout parameter, then that 1D index is mapped to an N-D coordinate
+within the slice. If there is both a tensor layout and a tensor view, then
+the 1D index is first mapped to a coordinate within the view, the
+coordinate components can be permuted, and then is converted back to a 1D
+index which is then run through the tensor layout addressing calculation.
+
+The tensor view dimensions and stride can be used to do more complex
+addressing calculations. If the tensor view type has "hasDimensions" false,
+then the dimensions of the tensor layout span are used instead.
+
+The tensor view "clip" region restricts which elements of the matrix are
+loaded or stored, and also affects the shape of the implicit 2D "view".
+
+Unlike some other ML APIs, tensor layouts and views only describe
+addressing calculations and never involve making copies of tensors. For
+this reason, the functionality is slightly more limited (e.g. there's no
+way to slice, then permute, then slice again).
+
+While these calculations may look expensive in their full generality,
+certain calculations can be skipped when they're not needed, and the
+common cases should be quite efficient.
+
+*OpTensorLayout* and *OpTensorView* instructions operate by copying
+existing object state and updating the requested state and returning
+that as a new result. Some of these instructions initialize multiple
+related pieces of state, setting some to common default values, so
+the order of the operations matters.
+
+For load and store functions with no 'TensorView' parameter, an element index
+is computed according to the matrixCoordToTensorElement function for each
+(row,col) of the matrix, which has M rows and N columns. This converts the (row,col) into a row-major index,
+converts that index into an N-dimensional coord relative to the span,
+and uses the span coordinate to compute a location within the tensor.
+
+[source,c]
+----
+    constexpr uint32_t MAX_DIM = 5;
+    using Coord = array<uint32_t, MAX_DIM>;
+
+    uint32_t matrixCoordToLinear(tensorLayoutNV t, uint32_t row, uint32_t col, uint32_t N)
+    {
+        uint32_t index = row * N + col;
+        return index;
+    }
+
+    Coord linearToSpanCoord(tensorLayoutNV t, uint32_t index)
+    {
+        Coord spanCoord {};
+        for (int32_t dim = t.LDim-1; dim >= 0; --dim) {
+            spanCoord[dim] = index % t.span[dim];
+            index /= t.span[dim];
+        }
+        return spanCoord;
+    }
+
+    auto spanCoordToTensorCoord(tensorLayoutNV t, Coord spanCoord)
+    {
+        Coord blockCoord {};
+        Coord coordInBlock {};
+
+        for (uint32_t dim = 0; dim <= t.LDim-1; ++dim) {
+            int32_t c = spanCoord[dim] + t.offset[dim];
+
+            if (c < 0 || c >= t.layoutDimension[dim]) {
+
+                ClampMode clampMode = t.clampMode;
+                // For stores, other than Undefined, everything is treated as "discard"
+                if (operation is a store && clampMode != Undefined) {
+                    clampMode = Constant;
+                }
+
+                // remainders are computed as defined in OpSMod
+                switch (clampMode) {
+                case Undefined:
+                    undefined behavior;
+                case Constant:
+                    For load, set result value to t.clampValue;
+                    For store, discard the store;
+                    terminate index calculation;
+                case ClampToEdge:
+                    c = min(max(c, 0), t.layoutDimension[dim]-1);
+                    break;
+                case Repeat:
+                    c = c % t.layoutDimension[dim];
+                    break;
+                case MirrorRepeat:
+                    c = c % (2*t.layoutDimension[dim]-2);
+                    c = (c >= dim) ? (2*dim-2-c) : c;
+                    break;
+                }
+            }
+
+            coordInBlock[dim] = c % t.blockSize[dim];
+            blockCoord[dim] = c / t.blockSize[dim];
+        }
+
+        return tuple(blockCoord, coordInBlock);
+    }
+
+    uint32_t tensorCoordToLinear(tensorLayoutNV t, Coord blockCoord)
+    {
+        uint32_t index = 0;
+
+        for (uint32_t dim = 0; dim <= t.LDim-1; ++dim) {
+            index += blockCoord[dim] * t.stride[dim];
+        }
+        return index;
+    }
+
+    // map (row,col) -> linear index in span -> span coordinate -> tensor coordinate -> linear index in tensor
+    uint32_t matrixCoordToTensorElement(tensorLayoutNV t, uint32_t row, uint32_t col, uint32_t N)
+    {
+        uint32_t index = matrixCoordToLinear(t, row, col, N);
+
+        Coord spanCoord = linearToSpanCoord(t, index);
+
+        Coord blockCoord;
+        Coord coordInBlock;
+
+        tie(blockCoord, coordInBlock) = spanCoordToTensorCoord(t, spanCoord);
+
+        index = tensorCoordToLinear(t, blockCoord);
+
+        return index;
+    }
+----
+
+This index is then multiplied by the size of the component type of the matrix and
+treated as a byte offset from the 'Pointer' operand. The matrix element is
+loaded from or stored to this location. The 'Pointer' must be a multiple of 16B,
+but the region of elements selected by the span need not be so aligned. If the
+*OpCooperativeMatrixLoadTensorNV* instruction has a decode parameter,
+then the blockCoord and coordInBlock arrays are passed to it as parameters.
+
+For load and store functions with a 'TensorView' parameter, an element index
+is computed according to the matrixCoordToTensorElementWithView function
+for each (row,col) of the matrix, where has M rows and N columns.
+This computes a row-major index relative to the clip region, converts that to
+an N-dimensional coordinate relative to the permuted view dimensions, and
+computes a linear index from the view coordinate, then runs through the tensor
+layout calculation.
+
+[source,c]
+----
+    uint32_t matrixCoordToLinear(tensorLayoutNV t, tensorViewNV v, uint32_t row, uint32_t col, uint32_t N)
+    {
+        if (row < v.clipRowOffset ||
+            row >= v.clipRowOffset + v.clipRowSpan ||
+            col < v.clipColOffset ||
+            col >= v.clipColOffset + v.clipColSpan) {
+
+            Load or store is skipped. For load, the matrix element is unmodified.
+            terminate index calculation;
+        }
+        row -= v.clipRowOffset;
+        col -= v.clipColOffset;
+        uint32_t width = min(N, v.clipColSpan);
+        uint32_t index = row * width + col;
+        return index;
+    }
+
+    Coord linearToViewCoord(tensorLayoutNV t, tensorViewNV v, uint32_t index)
+    {
+        auto &dimensions = v.hasDimensions ? v.viewDimension : t.span;
+
+        Coord viewCoord {};
+
+        for (int32_t dim = v.VDim-1; dim >= 0; --dim) {
+            uint32_t i = v.permutation[dim];
+
+            viewCoord[i] = index % dimensions[i];
+            index /= dimensions[i];
+        }
+
+        return viewCoord;
+    }
+
+    uint32_t viewCoordToLinear(tensorLayoutNV t, tensorViewNV v, Coord viewCoord)
+    {
+        Coord stride {};
+        if (v.hasDimensions) {
+            stride = v.viewStride;
+        } else {
+            // set stride to match t.span
+            stride[v.VDim-1] = 1;
+            for (int32_t dim = v.VDim-2; dim >= 0; --dim) {
+                stride[dim] = stride[dim+1] * t.span[dim+1];
+            }
+        }
+
+        uint32_t index = 0;
+        for (int32_t dim = v.VDim-1; dim >= 0; --dim) {
+            index += viewCoord[dim] * stride[dim];
+        }
+
+        return index;
+    }
+
+    // map (row,col) -> linear index in view -> view coordinate -> linear index in span -> span coordinate -> tensor coordinate -> linear index in tensor
+    uint32_t matrixCoordToTensorElementWithView(tensorLayoutNV t, uint32_t row, uint32_t col, uint32_t N)
+    {
+        uint32_t index = matrixCoordToLinear(t, v, row, col, N);
+
+        Coord viewCoord = linearToViewCoord(t, v, index);
+
+        index = viewCoordToLinear(t, v, viewCoord);
+
+        Coord spanCoord = linearToSpanCoord(t, index);
+
+        Coord blockCoord;
+        Coord coordInBlock;
+
+        tie(blockCoord, coordInBlock) = spanCoordToTensorCoord(t, spanCoord);
+
+        index = tensorCoordToLinear(t, blockCoord);
+
+        return index;
+    }
+----
+
+The final result is then multiplied by the size of the component type of
+the matrix and treated as a byte offset from 'Pointer'. The matrix
+element is loaded from or stored to this location.
+
+For *OpCooperativeMatrixLoadTensorNV* instructions with a *DecodeFunc* operand,
+rather than loading a value, the function operand is invoked for each matrix
+element at least once. The function's return type must match the component
+type of the result matrix type. The first parameter must be a pointer type
+with storage class *PhysicalStorageBuffer*,
+and the parameter is filled a pointer computed by multiplying the index
+returned by matrixCoordToTensorElement(WithView) by the size of the pointee type. The second and third
+parameters must each be an array of 32-bit integers whose dimension matches the
+tensor dimension. The second parameter is filled with the blockCoord, and the
+third parameter with the coordInBlock, for the matrix element being decoded.
+The return value is stored in the corresponding element of the result matrix.
+
+*DecodeFunc* is not allowed with *OpCooperativeMatrixStoreTensorNV*. Similarly,
+a block size larger than 1 must not be used with *OpCooperativeMatrixStoreTensorNV*
+because it will lead to data races.
+
+3.X Cooperative Matrix Reduce Mode
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New section in 3 "Binary Form".
+
+--
+[options="header"]
+|====
+2+^| Cooperative Matrix Reduce Mode | Enabling Capabilities
+| 0x1 | *Row* +
+Elements within each row of a matrix are reduced. |
+| 0x2 | *Column* +
+Elements within each column of a matrix are reduced. |
+| 0x4 | *2x2* +
+Elements within an aligned 2x2 neighborhood are reduced. |
+|====
+--
+
+It is invalid to combine *2x2* with *Row* or *Column*.
+*Row* and *Column* can be used together.
+
+3.X Tensor Addressing Operands
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New section in 3 "Binary Form".
+
+This is a literal mask; it can be formed by combining the bits from multiple
+rows in the table below.
+
+Provides additional operands to the listed memory instructions. Bits that are
+set indicate whether an additional operand follows, as described by the table.
+If there are multiple following operands indicated, they are ordered: Those
+indicated by smaller-numbered bits appear first. An instruction needing two
+masks must first provide the first mask followed by the first mask's additional
+operands, and then provide the second mask followed by the second mask's
+additional operands.
+
+Used by:
+
+ - *OpCooperativeMatrixLoadTensorNV*
+ - *OpCooperativeMatrixStoreTensorNV*
+
+--
+[options="header"]
+|====
+2+^| Tensor Addressing Operands | Enabling Capabilities
+| 0x0 | *None* |
+| 0x1 | *TensorView* +
+Addressing calculations use a Tensor View. The <id> of a tensor view is
+specified in a subsequent operand. | *CooperativeMatrixTensorAddressingNV*
+| 0x2 | *DecodeFunc* +
+Addressing calculations use a decode function. The <id> of a function is
+specified in a subsequent operand. | *CooperativeMatrixBlockLoadsNV*
+|====
+--
+3.49.8 Memory Instructions
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[cols="1,1,7*3",width="100%"]
+|=====
+8+|[[OpCooperativeMatrixLoadTensorNV]]*OpCooperativeMatrixLoadTensorNV* +
+ +
+Load a cooperative matrix through a pointer. +
+ +
+'Result Type' is the type of the loaded object. It must be a cooperative matrix
+type. +
+ +
+'Pointer' is a pointer from which the matrix will be loaded. If the *Shader* capability was declared, 'Pointer'
+must point into an array and any *ArrayStride* decoration on 'Pointer' is ignored.
+Addressing calculations are performed as described in the Tensor Layout and View
+section. +
+ +
+'Object' is a cooperative matrix object whose values are used for clipped loads.
+It must have the same type as 'Result Type'. +
+ +
+'TensorLayout' is a tensor layout that affects addressing calculations. +
+ +
+'Memory Operand' must begin with a +Memory Operand+ literal. +
+ +
+'Tensor Addressing Operands' must begin with a +Tensor Addressing Operands+
+literal. If the operands include *DecodeFunc*, then 'Pointer' must point to
+*PhysicalStorageBuffer* or *StorageBuffer* storage class. +
+ +
+All the operands to this instruction must be dynamically uniform within every
+instance of the 'Scope' of the cooperative matrix.
+ +
+1+|Capability: +
+*CooperativeMatrixTensorAddressingNV*
+1+| 8+variable | 5367 | '<id>' +
+'Result Type' |'Result <id>' | '<id>' +
+'Pointer' | '<id>' +
+'Object' | '<id>' +
+'TensorLayout'| Literal +
+'Memory Operand' +
+... +
+optional literals and '<ids>' | Literal +
+'Tensor Addressing Operands' +
+... +
+optional literals and '<ids>'
+|=====
+
+[cols="1,1,5*3",width="100%"]
+|=====
+6+|[[OpCooperativeMatrixStoreTensorNV]]*OpCooperativeMatrixStoreTensorNV* +
+ +
+Store a cooperative matrix through a pointer. +
+ +
+'Pointer' is a pointer to which the matrix will be stored. If the *Shader* capability was declared, 'Pointer'
+must point into an array and any *ArrayStride* decoration on 'Pointer' is ignored. +
+Addressing calculations are performed as described in the Tensor Layout and View
+section. +
+ +
+'Object' is the object to store. Its type must be an
+*OpTypeCooperativeMatrixKHR*. +
+ +
+'TensorLayout' is a tensor layout that affects addressing calculations. +
+ +
+'Memory Operand' must begin with a +Memory Operand+ literal. +
+ +
+'Tensor Addressing Operands' is a literal mask of +Memory Operands+. +
+ +
+All the operands to this instruction must be dynamically uniform within every
+instance of the 'Scope' of the cooperative matrix.
+ +
+1+|Capability: +
+*CooperativeMatrixTensorAddressingNV*
+1+| 6+variable | 5368 | '<id>' +
+'Pointer' | '<id>' +
+'Object' | '<id>' +
+'TensorLayout'| Literal +
+'Memory Operand' +
+... +
+optional literals and '<ids>' | Literal +
+'Tensor Addressing Operands' +
+... +
+optional literals and '<ids>'
+|=====
+
+
+3.49.13. Arithmetic Instructions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[cols="1,1,5*3",width="100%"]
+|=====
+6+|[[OpCooperativeMatrixReduceNV]]*OpCooperativeMatrixReduceNV* +
+ +
+Computes a matrix where each element of the result matrix is computed from a
+row, column, or neighborhood of the source matrix. +
+ +
+'Result Type' must be an *OpTypeCooperativeMatrixKHR* type'. +
+ +
+The type of 'Matrix' must be an *OpTypeCooperativeMatrixKHR* with the same
+'Component Type' as 'Result Type'. +
+ +
+The type of 'Matrix' and 'Result Type' must each have 'Use' of *MatrixAccumulatorKHR*
+and must have matching 'Scope'. +
+ +
+If 'Reduce' includes *2x2*, the dimensions of 'ResultType' must be half of
+the dimensions of 'Matrix'. If 'Reduce' equals *Row*, then 'Result Type' must
+have the same number of rows as 'Matrix'. If 'Reduce' equals *Column*, then
+'Result Type' must have the same number of columns as 'Matrix'. If 'Reduce'
+includes *Row* and *Column*, 'Result Type' can have any number of rows and
+columns. +
+ +
+'CombineFunc' must be an *OpFunction* with two parameters whose types and result
+type all match the component type of 'Matrix'. This function is called to combine
+pairs of elements (or intermediate results) when computing the reduction. This
+function should be mathematically commutative and associative (though in practice, with floating
+point numbers, may not be exactly commutative/associative). +
+ +
+1+|Capability: +
+*CooperativeMatrixReductionsNV*
+1+| 5 | 5366 | '<id>' +
+'Result Type' |'Result <id>' | '<id>' +
+'Matrix' | Literal +
+'Reduce' | '<id>' +
+'CombineFunc'
+|=====
+
+
+3.49.11 Conversion Instructions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Relax the restrictions on *Op{F,S,U,etc.}Convert* from SPV_KHR_cooperative_matrix
+if *CooperativeMatrixConversionsNV* is enabled to allow 'Use' to mismatch,
+where the 'Use' of the operand can be *MatrixAccumulatorKHR* and the 'Use'
+of the result type can be *MatrixAKHR* or *MatrixBKHR*. The restriction on
+*OpBitcast* is not relaxed.
+
+[cols="1,1,3*3",width="100%"]
+|=====
+4+|[[OpCooperativeMatrixConvertNV]]*OpCooperativeMatrixConvertNV* +
+ +
+Converts a cooperative matrix to another cooperative matrix with different
+'Use'. +
+ +
+'Result Type' must be an *OpTypeCooperativeMatrixKHR*. +
+ +
+The type of 'Matrix' must be an *OpTypeCooperativeMatrixKHR* with the same
+'Component Type', 'Scope', 'Rows', and 'Columns' as 'Result Type'.The 'Use'
+of 'Result Type' must be *MatrixAKHR* or *MatrixBKHR* and the 'Use' of
+'Matrix' must be *MatrixAccumulatorKHR*. For conversions that change both
+'Component Type' and 'Use', use *Op{F,S,U,etc.}Convert*. +
+ +
+1+|Capability: +
+*CooperativeMatrixConversionsNV*
+1+| 3 | 5293 | '<id>' +
+'Result Type' |'Result <id>' | '<id>' +
+'Matrix'
+|=====
+
+[cols="1,1,3*3",width="100%"]
+|=====
+4+|[[OpCooperativeMatrixTransposeNV]]*OpCooperativeMatrixTransposeNV* +
+ +
+Converts a cooperative matrix to from *MatrixAccumulatorKHR* to *MatrixBKHR*
+and transposes the matrix. +
+ +
+'Result Type' must be an *OpTypeCooperativeMatrixKHR*. +
+ +
+The type of 'Matrix' must be an *OpTypeCooperativeMatrixKHR* with the same
+'Scope' as 'Result Type', and with 'Rows', and 'Columns' swapped relative to
+'Result Type'. The 'Use' of 'Result Type' must be *MatrixBKHR* and the 'Use' of
+'Matrix' must be *MatrixAccumulatorKHR*. +
+ +
+1+|Capability: +
+*CooperativeMatrixConversionsNV*
+1+| 3 | 5390 | '<id>' +
+'Result Type' |'Result <id>' | '<id>' +
+'Matrix'
+|=====
+
+3.49.9 Function Instructions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[cols="1,1,5*3",width="100%"]
+|=====
+6+|[[OpCooperativeMatrixPerElementOpNV]]*OpCooperativeMatrixPerElementOpNV* +
+ +
+Applies an operation to each element of a cooperative matrix. +
+ +
+The type of 'Matrix' must be an *OpTypeCooperativeMatrixKHR*. +
+ +
+'Result Type' must match the type of 'Matrix'. +
+ +
+'Func' must be an *OpFunction* whose return type must match the component type
+of 'Matrix', whose first two parameters must be 32-bit integer types, whose
+third parameter type must match the component type of 'Matrix', and which may
+have additional parameters. The function is called for each element of the
+matrix where the element is passed as the third parameter to the function,
+the row and column number of the matrix are passed as the first and second
+parameters, and any optional operands are passed in order as the remaining
+parameters. Any additional cooperative matrix elements have the corresponding
+component passed to the function. The return value of that function is the
+corresponding element of 'Result'. The calls are considered unordered against
+each other, and calls may occur more than once.
+ +
+1+|Capability: +
+*CooperativeMatrixPerElementOperationsNV*
+1+| 5+variable | 5369 | '<id>' +
+'Result Type' |'Result <id>' | '<id>' +
+'Matrix' | '<id>' +
+'Func' | Optional +
+'<id>', '<id>', ...
+|=====
+
+
+Issues
+------
+
+. How are matrix type conversions with 'Use' change handled?
++
+--
+Discussion: RESOLVED. We need to support conversions that change both
+'Component Type' and 'Use' at the same time, because there is often not a
+supported intermediate type that matches one but not the other. For example,
+if converting from f32 *MatrixAccumulatorKHR* to u8 *MatrixAKHR*, there may
+not be support for u8 *MatrixAccumulatorKHR* or f32 *MatrixAKHR*. Conversions
+that change the 'Component Type' should use *Op{F,S,U,etc.}Convert* even if the
+'Use' changes.
+
+We also need to support conversions that only change the 'Use', for example
+converting from f16 *MatrixAccumulatorKHR* to f16 *MatrixAKHR*. For this,
+*OpFConvert* could be confusing/misleading so we add a new
+*OpCooperativeMatrixConvertNV* instruction for this case.
+--
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2024-09-18|Jeff Bolz|Initial revision of SPV_NV_cooperative_matrix2
+|========================================

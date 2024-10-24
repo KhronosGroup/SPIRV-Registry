@@ -156,6 +156,8 @@ Khronos SPIR-V Registry](https://www.khronos.org/registry/spir-v/).
 * [SPV_NV_shading_rate                     ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/NV/SPV_NV_shading_rate.html)
 * [SPV_NV_stereo_view_rendering            ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/NV/SPV_NV_stereo_view_rendering.html)
 * [SPV_NV_viewport_array2                  ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/NV/SPV_NV_viewport_array2.html)
+* [SPV_NV_tensor_addressing                ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/NV/SPV_NV_tensor_addressing.html)
+* [SPV_NV_cooperative_matrix2              ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/NV/SPV_NV_cooperative_matrix2.html)
 * [SPV_NVX_multiview_per_view_attributes   ]( http://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/NV/SPV_NVX_multiview_per_view_attributes.html)
 * [SPV_QCOM_image_processing               ]( https://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/QCOM/SPV_QCOM_image_processing.html)
 * [SPV_QCOM_image_processing2              ]( https://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/QCOM/SPV_QCOM_image_processing2.html)
