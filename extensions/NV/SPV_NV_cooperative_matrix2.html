@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>SPV_NV_cooperative_matrix2</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+p {
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: normal;
+}
+em, b, strong {
+    color: darkblue;
+}
+
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>SPV_NV_cooperative_matrix2</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_name_strings">Name Strings</a></li>
+<li><a href="#_contact">Contact</a></li>
+<li><a href="#_contributors">Contributors</a></li>
+<li><a href="#_notice">Notice</a></li>
+<li><a href="#_status">Status</a></li>
+<li><a href="#_version">Version</a></li>
+<li><a href="#_dependencies">Dependencies</a></li>
+<li><a href="#_overview">Overview</a></li>
+<li><a href="#_extension_name">Extension Name</a></li>
+<li><a href="#_modifications_to_the_spir_v_specification_version_1_6">Modifications to the SPIR-V Specification, Version 1.6</a></li>
+<li><a href="#_issues">Issues</a></li>
+<li><a href="#_revision_history">Revision History</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_name_strings">Name Strings</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>SPV_NV_cooperative_matrix2</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_contact">Contact</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To report problems with this extension, please open a new issue at:</p>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/KhronosGroup/SPIRV-Headers" class="bare">https://github.com/KhronosGroup/SPIRV-Headers</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_contributors">Contributors</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Jeff Bolz, NVIDIA</p>
+</li>
+<li>
+<p>Karthik Vaidyanathan, NVIDIA</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_notice">Notice</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Copyright (c) 2024 NVIDIA Corp.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_status">Status</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Draft</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_version">Version</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stripes-even" style="width: 40%;">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Last Modified Date</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2024-09-18</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Revision</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_dependencies">Dependencies</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This extension is written against the SPIR-V Specification,
+Version 1.6, Revision 3, Unified.</p>
+</div>
+<div class="paragraph">
+<p>This extension requires SPIR-V 1.6.</p>
+</div>
+<div class="paragraph">
+<p>This extension requires SPV_KHR_cooperative_matrix.</p>
+</div>
+<div class="paragraph">
+<p>If <strong>CooperativeMatrixTensorAddressingNV</strong> is used, SPV_NV_tensor_addressing is
+required.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_overview">Overview</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This extension adds several new features building on the cooperative matrix
+types added in SPV_KHR_cooperative_matrix. The goal is to add and accelerate
+features beyond just simple GEMM kernels, including adding support for type/use
+conversions, reductions, per-element operations, and tensor addressing, and
+also to improve usability and out-of-the-box performance by adding support
+for more flexible matrix sizes, and workgroup scope matrices with
+compiler-managed staging through shared memory.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_extension_name">Extension Name</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To use this extension within a SPIR-V module, the following
+<strong>OpExtension</strong> must be present in the module:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>OpExtension "SPV_NV_cooperative_matrix2"</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_modifications_to_the_spir_v_specification_version_1_6">Modifications to the SPIR-V Specification, Version 1.6</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_2_16_validation_rules">2.16 Validation Rules</h3>
+<div class="sect3">
+<h4 id="_modify_section_2_16_1_universal_validation_rules">Modify section 2.16.1. Universal Validation Rules:</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Add <strong>OpCooperativeMatrixLoadTensorNV</strong> and <strong>OpCooperativeMatrixStoreTensorNV</strong> to the list
+of instructions under "It is invalid for a pointer to be an operand to any
+instruction other than:", when the <strong>Logical</strong> addressing model is selected and
+neither the <strong>VariablePointers</strong> nor <strong>VariablePointersStorageBuffer</strong> capability
+are declared.</p>
+</li>
+<li>
+<p>If an <strong>OpTypeCooperativeMatrixKHR</strong> instruction uses a <em>Scope</em> of <em>Workgroup</em>,
+then the workgroup size must have already been specified in the module,
+including any constant instructions used by <strong>LocalSizeId</strong>.</p>
+</li>
+<li>
+<p>In any function used as a <strong>DecodeFunc</strong> parameter to <strong>OpCooperativeMatrixLoadTensorNV</strong>
+or as a <strong>Func</strong> parameter to <strong>OpCooperativeMatrixPerElementOpNV</strong> or as a <strong>CombineFunc</strong>
+parameter to <strong>OpCooperativeMatrixReduceNV</strong>, and any function called directly or
+indirectly by those functions, tangled instructions are not allowed.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_3_26_memory_operands">3.26 Memory Operands</h3>
+<div class="paragraph">
+<p>Modify Section 3.26, "Memory Operands":</p>
+</div>
+<div class="paragraph">
+<p>In the description of <strong>MakePointerAvailable</strong>, change "Not valid with <strong>OpLoad</strong>"
+to "Not valid with <strong>OpLoad</strong> or <strong>OpCooperativeMatrixLoadKHR</strong> or <strong>OpCooperativeMatrixLoadTensorNV</strong>".</p>
+</div>
+<div class="paragraph">
+<p>In the description of <strong>MakePointerVisible</strong>, change "Not valid with <strong>OpStore</strong>"
+to "Not valid with <strong>OpStore</strong> or <strong>OpCooperativeMatrixStoreKHR</strong> or <strong>OpCooperativeMatrixStoreTensorNV</strong>".</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_3_31_capabilities">3.31 Capabilities</h3>
+<div class="paragraph">
+<p>Modify Section 3.31, "Capability", adding these rows to the Capability table:</p>
+</div>
+<div class="openblock">
+<div class="content">
+<table class="tableblock frame-all grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top" colspan="2">Capability</th>
+<th class="tableblock halign-center valign-top">Enabling Capabilities</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5430</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>CooperativeMatrixReductionsNV</strong><br>
+Enables cooperative matrix reduction instructions.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5431</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>CooperativeMatrixConversionsNV</strong><br>
+Enables cooperative matrix conversion/transpose instructions.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5432</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>CooperativeMatrixPerElementOperationsNV</strong><br>
+Enables cooperative matrix per-element operations.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5433</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>CooperativeMatrixTensorAddressingNV</strong><br>
+Enables cooperative matrix load/store instruction using tensor addressing
+(<strong>OpCooperativeMatrixLoadTensorNV</strong> and <strong>OpCooperativeMatrixStoreTensorNV</strong>).</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5434</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>CooperativeMatrixBlockLoadsNV</strong><br>
+Enables the <strong>DecodeFunc</strong> parameter for <strong>OpCooperativeMatrixLoadTensorNV</strong>.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_3_x_tensor_layout_and_view">3.X Tensor Layout and View</h3>
+<div class="paragraph">
+<p>Tensor layout and tensor view types are representations of the mapping
+between matrix coordinates and tensor memory layout. They each have a
+number of dimensions in the range [1,5], with dimension 0 being the
+outermost dimension and the last dimension being the innermost. These types
+have the following logical state:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-c" data-lang="c">    struct tensorLayoutNV&lt;uint32_t Dim,
+                          TensorClampMode Mode = TensorClampModeUndefined&gt;
+    {
+      static constexpr uint32_t LDim = Dim;
+      static constexpr TensorClampMode clampMode = Mode;
+
+      uint32_t blockSize[LDim];
+      uint32_t layoutDimension[LDim];
+      uint32_t stride[LDim];
+      int32_t offset[LDim];
+      uint32_t span[LDim];
+      uint32_t clampValue;
+    };
+
+    struct tensorViewNV&lt;uint Dim, bool hasDimensions, uint32_t p0, ..., uint32_t p&lt;Dim-1&gt;&gt;
+    {
+      static constexpr uint32_t VDim = Dim;
+      static constexpr bool hasDim = hasDimensions;
+      static constexpr uint32_t permutation[VDim] = {p0, ..., p&lt;Dim-1&gt;};
+
+      uint32_t viewDimension[VDim];
+      uint32_t viewStride[VDim];
+      uint32_t clipRowOffset, clipRowSpan, clipColOffset, clipColSpan;
+    };</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A tensor layout represents the layout of values in memory (number of
+dimensions and size), along with a region being accessed (offset and span).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-c" data-lang="c">    ---------------------------------------------------------------------------
+    |                           layoutDimension1                              |
+    |                                                                         |
+    |                                                                         |
+    |                                                                         |
+    |                                                                         |
+    |                                                                         |
+    |                                                                         |
+    |                                                                         |
+    |                        span1                                            |
+    |                  -----------------                                      |
+    |                  |               |                                      |
+    |                  |               |                                      |
+    |                  |     slice     | span0                                |
+    |                  |               |                      layoutDimension0|
+    |                  |               |                                      |
+    |      offset1     |               |                                      |
+    | ---------------&gt; -----------------                                      |
+    |                                                                         |
+    |                  ^                                                      |
+    |                  |                                                      |
+    |                  |                                                      |
+    |                  | offset0                                              |
+    |                  |                                                      |
+    |                  |                                                      |
+    |                  |                                                      |
+    |                  |                                                      |
+    ---------------------------------------------------------------------------
+    Figure: A 2D tensor layout, and a slice selecting a region within it.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A tensor view allows reinterpreting the dimensions of the region being
+accessed, including changing the number of dimensions, reordering the
+dimensions as they are loaded or stored, and clipping the region of the
+matrix that is loaded or stored. Often the span will have the
+same number of elements as the matrix, but in some more advanced uses
+that may not be the case.</p>
+</div>
+<div class="paragraph">
+<p>Loads and stores can either use just a tensor layout, or a tensor layout and
+tensor view. The addressing starts by treating the matrix itself as a 2D
+"view" and mapping the (row,col) coordinate to a 1D index. If there is only a
+tensor layout parameter, then that 1D index is mapped to an N-D coordinate
+within the slice. If there is both a tensor layout and a tensor view, then
+the 1D index is first mapped to a coordinate within the view, the
+coordinate components can be permuted, and then is converted back to a 1D
+index which is then run through the tensor layout addressing calculation.</p>
+</div>
+<div class="paragraph">
+<p>The tensor view dimensions and stride can be used to do more complex
+addressing calculations. If the tensor view type has "hasDimensions" false,
+then the dimensions of the tensor layout span are used instead.</p>
+</div>
+<div class="paragraph">
+<p>The tensor view "clip" region restricts which elements of the matrix are
+loaded or stored, and also affects the shape of the implicit 2D "view".</p>
+</div>
+<div class="paragraph">
+<p>Unlike some other ML APIs, tensor layouts and views only describe
+addressing calculations and never involve making copies of tensors. For
+this reason, the functionality is slightly more limited (e.g. there&#8217;s no
+way to slice, then permute, then slice again).</p>
+</div>
+<div class="paragraph">
+<p>While these calculations may look expensive in their full generality,
+certain calculations can be skipped when they&#8217;re not needed, and the
+common cases should be quite efficient.</p>
+</div>
+<div class="paragraph">
+<p><strong>OpTensorLayout</strong> and <strong>OpTensorView</strong> instructions operate by copying
+existing object state and updating the requested state and returning
+that as a new result. Some of these instructions initialize multiple
+related pieces of state, setting some to common default values, so
+the order of the operations matters.</p>
+</div>
+<div class="paragraph">
+<p>For load and store functions with no <em>TensorView</em> parameter, an element index
+is computed according to the matrixCoordToTensorElement function for each
+(row,col) of the matrix, which has M rows and N columns. This converts the (row,col) into a row-major index,
+converts that index into an N-dimensional coord relative to the span,
+and uses the span coordinate to compute a location within the tensor.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-c" data-lang="c">    constexpr uint32_t MAX_DIM = 5;
+    using Coord = array&lt;uint32_t, MAX_DIM&gt;;
+
+    uint32_t matrixCoordToLinear(tensorLayoutNV t, uint32_t row, uint32_t col, uint32_t N)
+    {
+        uint32_t index = row * N + col;
+        return index;
+    }
+
+    Coord linearToSpanCoord(tensorLayoutNV t, uint32_t index)
+    {
+        Coord spanCoord {};
+        for (int32_t dim = t.LDim-1; dim &gt;= 0; --dim) {
+            spanCoord[dim] = index % t.span[dim];
+            index /= t.span[dim];
+        }
+        return spanCoord;
+    }
+
+    auto spanCoordToTensorCoord(tensorLayoutNV t, Coord spanCoord)
+    {
+        Coord blockCoord {};
+        Coord coordInBlock {};
+
+        for (uint32_t dim = 0; dim &lt;= t.LDim-1; ++dim) {
+            int32_t c = spanCoord[dim] + t.offset[dim];
+
+            if (c &lt; 0 || c &gt;= t.layoutDimension[dim]) {
+
+                ClampMode clampMode = t.clampMode;
+                // For stores, other than Undefined, everything is treated as "discard"
+                if (operation is a store &amp;&amp; clampMode != Undefined) {
+                    clampMode = Constant;
+                }
+
+                // remainders are computed as defined in OpSMod
+                switch (clampMode) {
+                case Undefined:
+                    undefined behavior;
+                case Constant:
+                    For load, set result value to t.clampValue;
+                    For store, discard the store;
+                    terminate index calculation;
+                case ClampToEdge:
+                    c = min(max(c, 0), t.layoutDimension[dim]-1);
+                    break;
+                case Repeat:
+                    c = c % t.layoutDimension[dim];
+                    break;
+                case MirrorRepeat:
+                    c = c % (2*t.layoutDimension[dim]-2);
+                    c = (c &gt;= dim) ? (2*dim-2-c) : c;
+                    break;
+                }
+            }
+
+            coordInBlock[dim] = c % t.blockSize[dim];
+            blockCoord[dim] = c / t.blockSize[dim];
+        }
+
+        return tuple(blockCoord, coordInBlock);
+    }
+
+    uint32_t tensorCoordToLinear(tensorLayoutNV t, Coord blockCoord)
+    {
+        uint32_t index = 0;
+
+        for (uint32_t dim = 0; dim &lt;= t.LDim-1; ++dim) {
+            index += blockCoord[dim] * t.stride[dim];
+        }
+        return index;
+    }
+
+    // map (row,col) -&gt; linear index in span -&gt; span coordinate -&gt; tensor coordinate -&gt; linear index in tensor
+    uint32_t matrixCoordToTensorElement(tensorLayoutNV t, uint32_t row, uint32_t col, uint32_t N)
+    {
+        uint32_t index = matrixCoordToLinear(t, row, col, N);
+
+        Coord spanCoord = linearToSpanCoord(t, index);
+
+        Coord blockCoord;
+        Coord coordInBlock;
+
+        tie(blockCoord, coordInBlock) = spanCoordToTensorCoord(t, spanCoord);
+
+        index = tensorCoordToLinear(t, blockCoord);
+
+        return index;
+    }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This index is then multiplied by the size of the component type of the matrix and
+treated as a byte offset from the <em>Pointer</em> operand. The matrix element is
+loaded from or stored to this location. The <em>Pointer</em> must be a multiple of 16B,
+but the region of elements selected by the span need not be so aligned. If the
+<strong>OpCooperativeMatrixLoadTensorNV</strong> instruction has a decode parameter,
+then the blockCoord and coordInBlock arrays are passed to it as parameters.</p>
+</div>
+<div class="paragraph">
+<p>For load and store functions with a <em>TensorView</em> parameter, an element index
+is computed according to the matrixCoordToTensorElementWithView function
+for each (row,col) of the matrix, where has M rows and N columns.
+This computes a row-major index relative to the clip region, converts that to
+an N-dimensional coordinate relative to the permuted view dimensions, and
+computes a linear index from the view coordinate, then runs through the tensor
+layout calculation.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-c" data-lang="c">    uint32_t matrixCoordToLinear(tensorLayoutNV t, tensorViewNV v, uint32_t row, uint32_t col, uint32_t N)
+    {
+        if (row &lt; v.clipRowOffset ||
+            row &gt;= v.clipRowOffset + v.clipRowSpan ||
+            col &lt; v.clipColOffset ||
+            col &gt;= v.clipColOffset + v.clipColSpan) {
+
+            Load or store is skipped. For load, the matrix element is unmodified.
+            terminate index calculation;
+        }
+        row -= v.clipRowOffset;
+        col -= v.clipColOffset;
+        uint32_t width = min(N, v.clipColSpan);
+        uint32_t index = row * width + col;
+        return index;
+    }
+
+    Coord linearToViewCoord(tensorLayoutNV t, tensorViewNV v, uint32_t index)
+    {
+        auto &amp;dimensions = v.hasDimensions ? v.viewDimension : t.span;
+
+        Coord viewCoord {};
+
+        for (int32_t dim = v.VDim-1; dim &gt;= 0; --dim) {
+            uint32_t i = v.permutation[dim];
+
+            viewCoord[i] = index % dimensions[i];
+            index /= dimensions[i];
+        }
+
+        return viewCoord;
+    }
+
+    uint32_t viewCoordToLinear(tensorLayoutNV t, tensorViewNV v, Coord viewCoord)
+    {
+        Coord stride {};
+        if (v.hasDimensions) {
+            stride = v.viewStride;
+        } else {
+            // set stride to match t.span
+            stride[v.VDim-1] = 1;
+            for (int32_t dim = v.VDim-2; dim &gt;= 0; --dim) {
+                stride[dim] = stride[dim+1] * t.span[dim+1];
+            }
+        }
+
+        uint32_t index = 0;
+        for (int32_t dim = v.VDim-1; dim &gt;= 0; --dim) {
+            index += viewCoord[dim] * stride[dim];
+        }
+
+        return index;
+    }
+
+    // map (row,col) -&gt; linear index in view -&gt; view coordinate -&gt; linear index in span -&gt; span coordinate -&gt; tensor coordinate -&gt; linear index in tensor
+    uint32_t matrixCoordToTensorElementWithView(tensorLayoutNV t, uint32_t row, uint32_t col, uint32_t N)
+    {
+        uint32_t index = matrixCoordToLinear(t, v, row, col, N);
+
+        Coord viewCoord = linearToViewCoord(t, v, index);
+
+        index = viewCoordToLinear(t, v, viewCoord);
+
+        Coord spanCoord = linearToSpanCoord(t, index);
+
+        Coord blockCoord;
+        Coord coordInBlock;
+
+        tie(blockCoord, coordInBlock) = spanCoordToTensorCoord(t, spanCoord);
+
+        index = tensorCoordToLinear(t, blockCoord);
+
+        return index;
+    }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The final result is then multiplied by the size of the component type of
+the matrix and treated as a byte offset from <em>Pointer</em>. The matrix
+element is loaded from or stored to this location.</p>
+</div>
+<div class="paragraph">
+<p>For <strong>OpCooperativeMatrixLoadTensorNV</strong> instructions with a <strong>DecodeFunc</strong> operand,
+rather than loading a value, the function operand is invoked for each matrix
+element at least once. The function&#8217;s return type must match the component
+type of the result matrix type. The first parameter must be a pointer type
+with storage class <strong>PhysicalStorageBuffer</strong>,
+and the parameter is filled a pointer computed by multiplying the index
+returned by matrixCoordToTensorElement(WithView) by the size of the pointee type. The second and third
+parameters must each be an array of 32-bit integers whose dimension matches the
+tensor dimension. The second parameter is filled with the blockCoord, and the
+third parameter with the coordInBlock, for the matrix element being decoded.
+The return value is stored in the corresponding element of the result matrix.</p>
+</div>
+<div class="paragraph">
+<p><strong>DecodeFunc</strong> is not allowed with <strong>OpCooperativeMatrixStoreTensorNV</strong>. Similarly,
+a block size larger than 1 must not be used with <strong>OpCooperativeMatrixStoreTensorNV</strong>
+because it will lead to data races.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_3_x_cooperative_matrix_reduce_mode">3.X Cooperative Matrix Reduce Mode</h3>
+<div class="paragraph">
+<p>New section in 3 "Binary Form".</p>
+</div>
+<div class="openblock">
+<div class="content">
+<table class="tableblock frame-all grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top" colspan="2">Cooperative Matrix Reduce Mode</th>
+<th class="tableblock halign-left valign-top">Enabling Capabilities</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0x1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Row</strong><br>
+Elements within each row of a matrix are reduced.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0x2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Column</strong><br>
+Elements within each column of a matrix are reduced.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0x4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>2x2</strong><br>
+Elements within an aligned 2x2 neighborhood are reduced.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="paragraph">
+<p>It is invalid to combine <strong>2x2</strong> with <strong>Row</strong> or <strong>Column</strong>.
+<strong>Row</strong> and <strong>Column</strong> can be used together.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_3_x_tensor_addressing_operands">3.X Tensor Addressing Operands</h3>
+<div class="paragraph">
+<p>New section in 3 "Binary Form".</p>
+</div>
+<div class="paragraph">
+<p>This is a literal mask; it can be formed by combining the bits from multiple
+rows in the table below.</p>
+</div>
+<div class="paragraph">
+<p>Provides additional operands to the listed memory instructions. Bits that are
+set indicate whether an additional operand follows, as described by the table.
+If there are multiple following operands indicated, they are ordered: Those
+indicated by smaller-numbered bits appear first. An instruction needing two
+masks must first provide the first mask followed by the first mask&#8217;s additional
+operands, and then provide the second mask followed by the second mask&#8217;s
+additional operands.</p>
+</div>
+<div class="paragraph">
+<p>Used by:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>OpCooperativeMatrixLoadTensorNV</strong></p>
+</li>
+<li>
+<p><strong>OpCooperativeMatrixStoreTensorNV</strong></p>
+</li>
+</ul>
+</div>
+<div class="openblock">
+<div class="content">
+<table class="tableblock frame-all grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top" colspan="2">Tensor Addressing Operands</th>
+<th class="tableblock halign-left valign-top">Enabling Capabilities</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0x0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>None</strong></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0x1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>TensorView</strong><br>
+Addressing calculations use a Tensor View. The &lt;id&gt; of a tensor view is
+specified in a subsequent operand.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>CooperativeMatrixTensorAddressingNV</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0x2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>DecodeFunc</strong><br>
+Addressing calculations use a decode function. The &lt;id&gt; of a function is
+specified in a subsequent operand.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>CooperativeMatrixBlockLoadsNV</strong></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_3_49_8_memory_instructions">3.49.8 Memory Instructions</h3>
+<table class="tableblock frame-all grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 4.3478%;">
+<col style="width: 4.3478%;">
+<col style="width: 13.0434%;">
+<col style="width: 13.0434%;">
+<col style="width: 13.0434%;">
+<col style="width: 13.0434%;">
+<col style="width: 13.0434%;">
+<col style="width: 13.0434%;">
+<col style="width: 13.044%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="8"><p class="tableblock"><a id="OpCooperativeMatrixLoadTensorNV"></a><strong>OpCooperativeMatrixLoadTensorNV</strong><br>
+<br>
+Load a cooperative matrix through a pointer.<br>
+<br>
+<em>Result Type</em> is the type of the loaded object. It must be a cooperative matrix
+type.<br>
+<br>
+<em>Pointer</em> is a pointer from which the matrix will be loaded. If the <strong>Shader</strong> capability was declared, <em>Pointer</em>
+must point into an array and any <strong>ArrayStride</strong> decoration on <em>Pointer</em> is ignored.
+Addressing calculations are performed as described in the Tensor Layout and View
+section.<br>
+<br>
+<em>Object</em> is a cooperative matrix object whose values are used for clipped loads.
+It must have the same type as <em>Result Type</em>.<br>
+<br>
+<em>TensorLayout</em> is a tensor layout that affects addressing calculations.<br>
+<br>
+<em>Memory Operand</em> must begin with a <code>Memory Operand</code> literal.<br>
+<br>
+<em>Tensor Addressing Operands</em> must begin with a <code>Tensor Addressing Operands</code>
+literal. If the operands include <strong>DecodeFunc</strong>, then <em>Pointer</em> must point to
+<strong>PhysicalStorageBuffer</strong> or <strong>StorageBuffer</strong> storage class.<br>
+<br>
+All the operands to this instruction must be dynamically uniform within every
+instance of the <em>Scope</em> of the cooperative matrix.
+<br></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
+<strong>CooperativeMatrixTensorAddressingNV</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8+variable</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5367</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Result &lt;id&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>Pointer</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>Object</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>TensorLayout</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Literal<br>
+<em>Memory Operand</em><br>
+&#8230;&#8203;<br>
+optional literals and <em>&lt;ids&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Literal<br>
+<em>Tensor Addressing Operands</em><br>
+&#8230;&#8203;<br>
+optional literals and <em>&lt;ids&gt;</em></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 5.8823%;">
+<col style="width: 5.8823%;">
+<col style="width: 17.647%;">
+<col style="width: 17.647%;">
+<col style="width: 17.647%;">
+<col style="width: 17.647%;">
+<col style="width: 17.6474%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="6"><p class="tableblock"><a id="OpCooperativeMatrixStoreTensorNV"></a><strong>OpCooperativeMatrixStoreTensorNV</strong><br>
+<br>
+Store a cooperative matrix through a pointer.<br>
+<br>
+<em>Pointer</em> is a pointer to which the matrix will be stored. If the <strong>Shader</strong> capability was declared, <em>Pointer</em>
+must point into an array and any <strong>ArrayStride</strong> decoration on <em>Pointer</em> is ignored.<br>
+Addressing calculations are performed as described in the Tensor Layout and View
+section.<br>
+<br>
+<em>Object</em> is the object to store. Its type must be an
+<strong>OpTypeCooperativeMatrixKHR</strong>.<br>
+<br>
+<em>TensorLayout</em> is a tensor layout that affects addressing calculations.<br>
+<br>
+<em>Memory Operand</em> must begin with a <code>Memory Operand</code> literal.<br>
+<br>
+<em>Tensor Addressing Operands</em> is a literal mask of <code>Memory Operands</code>.<br>
+<br>
+All the operands to this instruction must be dynamically uniform within every
+instance of the <em>Scope</em> of the cooperative matrix.
+<br></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
+<strong>CooperativeMatrixTensorAddressingNV</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6+variable</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5368</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>Pointer</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>Object</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>TensorLayout</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Literal<br>
+<em>Memory Operand</em><br>
+&#8230;&#8203;<br>
+optional literals and <em>&lt;ids&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Literal<br>
+<em>Tensor Addressing Operands</em><br>
+&#8230;&#8203;<br>
+optional literals and <em>&lt;ids&gt;</em></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_3_49_13_arithmetic_instructions">3.49.13. Arithmetic Instructions</h3>
+<table class="tableblock frame-all grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 5.8823%;">
+<col style="width: 5.8823%;">
+<col style="width: 17.647%;">
+<col style="width: 17.647%;">
+<col style="width: 17.647%;">
+<col style="width: 17.647%;">
+<col style="width: 17.6474%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="6"><p class="tableblock"><a id="OpCooperativeMatrixReduceNV"></a><strong>OpCooperativeMatrixReduceNV</strong><br>
+<br>
+Computes a matrix where each element of the result matrix is computed from a
+row, column, or neighborhood of the source matrix.<br>
+<br>
+<em>Result Type</em> must be an <strong>OpTypeCooperativeMatrixKHR</strong> type'.<br>
+<br>
+The type of <em>Matrix</em> must be an <strong>OpTypeCooperativeMatrixKHR</strong> with the same
+<em>Component Type</em> as <em>Result Type</em>.<br>
+<br>
+The type of <em>Matrix</em> and <em>Result Type</em> must each have <em>Use</em> of <strong>MatrixAccumulatorKHR</strong>
+and must have matching <em>Scope</em>.<br>
+<br>
+If <em>Reduce</em> includes <strong>2x2</strong>, the dimensions of <em>ResultType</em> must be half of
+the dimensions of <em>Matrix</em>. If <em>Reduce</em> equals <strong>Row</strong>, then <em>Result Type</em> must
+have the same number of rows as <em>Matrix</em>. If <em>Reduce</em> equals <strong>Column</strong>, then
+<em>Result Type</em> must have the same number of columns as <em>Matrix</em>. If <em>Reduce</em>
+includes <strong>Row</strong> and <strong>Column</strong>, <em>Result Type</em> can have any number of rows and
+columns.<br>
+<br>
+<em>CombineFunc</em> must be an <strong>OpFunction</strong> with two parameters whose types and result
+type all match the component type of <em>Matrix</em>. This function is called to combine
+pairs of elements (or intermediate results) when computing the reduction. This
+function should be mathematically commutative and associative (though in practice, with floating
+point numbers, may not be exactly commutative/associative).<br>
+<br></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
+<strong>CooperativeMatrixReductionsNV</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5366</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Result &lt;id&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>Matrix</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Literal<br>
+<em>Reduce</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>CombineFunc</em></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_3_49_11_conversion_instructions">3.49.11 Conversion Instructions</h3>
+<div class="paragraph">
+<p>Relax the restrictions on <strong>Op{F,S,U,etc.}Convert</strong> from SPV_KHR_cooperative_matrix
+if <strong>CooperativeMatrixConversionsNV</strong> is enabled to allow <em>Use</em> to mismatch,
+where the <em>Use</em> of the operand can be <strong>MatrixAccumulatorKHR</strong> and the <em>Use</em>
+of the result type can be <strong>MatrixAKHR</strong> or <strong>MatrixBKHR</strong>. The restriction on
+<strong>OpBitcast</strong> is not relaxed.</p>
+</div>
+<table class="tableblock frame-all grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 9.0909%;">
+<col style="width: 9.0909%;">
+<col style="width: 27.2727%;">
+<col style="width: 27.2727%;">
+<col style="width: 27.2728%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="4"><p class="tableblock"><a id="OpCooperativeMatrixConvertNV"></a><strong>OpCooperativeMatrixConvertNV</strong><br>
+<br>
+Converts a cooperative matrix to another cooperative matrix with different
+<em>Use</em>.<br>
+<br>
+<em>Result Type</em> must be an <strong>OpTypeCooperativeMatrixKHR</strong>.<br>
+<br>
+The type of <em>Matrix</em> must be an <strong>OpTypeCooperativeMatrixKHR</strong> with the same
+<em>Component Type</em>, <em>Scope</em>, <em>Rows</em>, and <em>Columns</em> as <em>Result Type</em>.The <em>Use</em>
+of <em>Result Type</em> must be <strong>MatrixAKHR</strong> or <strong>MatrixBKHR</strong> and the <em>Use</em> of
+<em>Matrix</em> must be <strong>MatrixAccumulatorKHR</strong>. For conversions that change both
+<em>Component Type</em> and <em>Use</em>, use <strong>Op{F,S,U,etc.}Convert</strong>.<br>
+<br></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
+<strong>CooperativeMatrixConversionsNV</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5293</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Result &lt;id&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>Matrix</em></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 9.0909%;">
+<col style="width: 9.0909%;">
+<col style="width: 27.2727%;">
+<col style="width: 27.2727%;">
+<col style="width: 27.2728%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="4"><p class="tableblock"><a id="OpCooperativeMatrixTransposeNV"></a><strong>OpCooperativeMatrixTransposeNV</strong><br>
+<br>
+Converts a cooperative matrix to from <strong>MatrixAccumulatorKHR</strong> to <strong>MatrixBKHR</strong>
+and transposes the matrix.<br>
+<br>
+<em>Result Type</em> must be an <strong>OpTypeCooperativeMatrixKHR</strong>.<br>
+<br>
+The type of <em>Matrix</em> must be an <strong>OpTypeCooperativeMatrixKHR</strong> with the same
+<em>Scope</em> as <em>Result Type</em>, and with <em>Rows</em>, and <em>Columns</em> swapped relative to
+<em>Result Type</em>. The <em>Use</em> of <em>Result Type</em> must be <strong>MatrixBKHR</strong> and the <em>Use</em> of
+<em>Matrix</em> must be <strong>MatrixAccumulatorKHR</strong>.<br>
+<br></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
+<strong>CooperativeMatrixConversionsNV</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5390</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Result &lt;id&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>Matrix</em></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_3_49_9_function_instructions">3.49.9 Function Instructions</h3>
+<table class="tableblock frame-all grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 5.8823%;">
+<col style="width: 5.8823%;">
+<col style="width: 17.647%;">
+<col style="width: 17.647%;">
+<col style="width: 17.647%;">
+<col style="width: 17.647%;">
+<col style="width: 17.6474%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="6"><p class="tableblock"><a id="OpCooperativeMatrixPerElementOpNV"></a><strong>OpCooperativeMatrixPerElementOpNV</strong><br>
+<br>
+Applies an operation to each element of a cooperative matrix.<br>
+<br>
+The type of <em>Matrix</em> must be an <strong>OpTypeCooperativeMatrixKHR</strong>.<br>
+<br>
+<em>Result Type</em> must match the type of <em>Matrix</em>.<br>
+<br>
+<em>Func</em> must be an <strong>OpFunction</strong> whose return type must match the component type
+of <em>Matrix</em>, whose first two parameters must be 32-bit integer types, whose
+third parameter type must match the component type of <em>Matrix</em>, and which may
+have additional parameters. The function is called for each element of the
+matrix where the element is passed as the third parameter to the function,
+the row and column number of the matrix are passed as the first and second
+parameters, and any optional operands are passed in order as the remaining
+parameters. Any additional cooperative matrix elements have the corresponding
+component passed to the function. The return value of that function is the
+corresponding element of <em>Result</em>. The calls are considered unordered against
+each other, and calls may occur more than once.
+<br></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
+<strong>CooperativeMatrixPerElementOperationsNV</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5+variable</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5369</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Result &lt;id&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>Matrix</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>Func</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional<br>
+<em>&lt;id&gt;</em>, <em>&lt;id&gt;</em>, &#8230;&#8203;</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_issues">Issues</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>How are matrix type conversions with <em>Use</em> change handled?</p>
+<div class="openblock">
+<div class="content">
+<div class="paragraph">
+<p>Discussion: RESOLVED. We need to support conversions that change both
+<em>Component Type</em> and <em>Use</em> at the same time, because there is often not a
+supported intermediate type that matches one but not the other. For example,
+if converting from f32 <strong>MatrixAccumulatorKHR</strong> to u8 <strong>MatrixAKHR</strong>, there may
+not be support for u8 <strong>MatrixAccumulatorKHR</strong> or f32 <strong>MatrixAKHR</strong>. Conversions
+that change the <em>Component Type</em> should use <strong>Op{F,S,U,etc.}Convert</strong> even if the
+<em>Use</em> changes.</p>
+</div>
+<div class="paragraph">
+<p>We also need to support conversions that only change the <em>Use</em>, for example
+converting from f16 <strong>MatrixAccumulatorKHR</strong> to f16 <strong>MatrixAKHR</strong>. For this,
+<strong>OpFConvert</strong> could be confusing/misleading so we add a new
+<strong>OpCooperativeMatrixConvertNV</strong> instruction for this case.</p>
+</div>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_revision_history">Revision History</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-rows stripes-even stretch">
+<colgroup>
+<col style="width: 4.7619%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Rev</th>
+<th class="tableblock halign-left valign-top">Date</th>
+<th class="tableblock halign-left valign-top">Author</th>
+<th class="tableblock halign-left valign-top">Changes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2024-09-18</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jeff Bolz</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Initial revision of SPV_NV_cooperative_matrix2</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</body>
+</html>
