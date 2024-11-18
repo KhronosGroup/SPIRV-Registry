@@ -178,7 +178,7 @@ zero-based counting. +
 'Binding' |
 Optional +
 '<id>' +
-'ArgInfo' |
+'ArgInfo'
 |=====
 
 [cols="6"]
@@ -208,7 +208,7 @@ zero-based counting. +
 'Binding' |
 Optional +
 '<id>' +
-'ArgInfo' |
+'ArgInfo'
 |=====
 
 [cols="8"]
@@ -247,7 +247,7 @@ zero-based counting. +
 'Size' |
 Optional +
 '<id>' +
-'ArgInfo' |
+'ArgInfo'
 |=====
 
 [cols="8"]
@@ -286,7 +286,7 @@ zero-based counting. +
 'Size' |
 Optional +
 '<id>' +
-'ArgInfo' |
+'ArgInfo'
 |=====
 
 [cols="6"]
@@ -317,7 +317,7 @@ zero-based counting. +
 'Size' |
 Optional +
 '<id>' +
-'ArgInfo' |
+'ArgInfo'
 |=====
 
 [cols="6"]
@@ -347,7 +347,7 @@ zero-based counting. +
 'Binding' |
 Optional +
 '<id>' +
-'ArgInfo' |
+'ArgInfo'
 |=====
 
 [cols="6"]
@@ -377,7 +377,7 @@ zero-based counting. +
 'Binding' |
 Optional +
 '<id>' +
-'ArgInfo' |
+'ArgInfo'
 |=====
 
 [cols="6"]
@@ -406,7 +406,7 @@ zero-based counting. +
 'Binding' |
 Optional +
 '<id>' +
-'ArgInfo' |
+'ArgInfo'
 |=====
 
 [cols="6"]
@@ -439,7 +439,7 @@ the argument in bytes. +
 'ElemSize' |
 Optional +
 '<id>' +
-'ArgInfo' |
+'ArgInfo'
 |=====
 
 [cols="4"]
@@ -738,7 +738,7 @@ zero-based counting. +
 'Size' |
 Optional +
 '<id>' +
-'ArgInfo' |
+'ArgInfo'
 |=====
 
 [cols="8"]
@@ -779,7 +779,7 @@ zero-based counting. +
 'Size' |
 Optional +
 '<id>' +
-'ArgInfo' |
+'ArgInfo'
 |=====
 
 [cols="4"]
@@ -858,7 +858,7 @@ argument ordinal using zero-based counting. +
 '<id>' +
 'Offset' |
 '<id>' +
-'Size' |
+'Size'
 |=====
 
 [cols="5"]
@@ -888,7 +888,7 @@ argument ordinal using zero-based counting. +
 '<id>' +
 'Offset' |
 '<id>' +
-'Size' |
+'Size'
 |=====
 
 [cols="7"]
@@ -926,7 +926,7 @@ zero-based counting. +
 '<id>' +
 'Offset' |
 '<id>' +
-'Size' |
+'Size'
 |=====
 
 [cols="7"]
@@ -964,7 +964,7 @@ zero-based counting. +
 '<id>' +
 'Offset' |
 '<id>' +
-'Size' |
+'Size'
 |=====
 
 [cols="6"]
@@ -997,7 +997,7 @@ zero-based counting. +
 'Binding' |
 Optional +
 '<id>' +
-'ArgInfo' |
+'ArgInfo'
 |=====
 
 [cols="6"]
@@ -1030,7 +1030,7 @@ zero-based counting. +
 'Binding' |
 Optional +
 '<id>' +
-'ArgInfo' |
+'ArgInfo'
 |=====
 
 [cols="4"]
@@ -1055,7 +1055,7 @@ push constant in bytes. +
 '<id>' +
 'Size' |
 '<id>' +
-'Data' |
+'Data'
 |=====
 
 [cols="4"]
@@ -1083,7 +1083,7 @@ data.
 '<id>' +
 'Size' |
 '<id>' +
-'Data' |
+'Data'
 |=====
 
 [cols="4"]
@@ -1126,7 +1126,7 @@ the N+1th argument to *printf*). +
 'FormatString' |
 Optional +
 '<id>', ...  +
-'ArgumentSizes' |
+'ArgumentSizes'
 |=====
 
 [cols="4"]
@@ -1162,7 +1162,7 @@ in bytes. +
 '<id>' +
 'Binding' |
 '<id>'  +
-'Size' |
+'Size'
 |=====
 
 [cols="4"]
@@ -1193,7 +1193,7 @@ buffer size in bytes. +
 '<id>' +
 'Size' |
 '<id>'  +
-'BufferSize' |
+'BufferSize'
 |=====
 
 [cols="5"]
@@ -1229,7 +1229,7 @@ push constant in bytes. +
 '<id>'  +
 'Offset' |
 '<id>'  +
-'Size' |
+'Size'
 |=====
 
 
