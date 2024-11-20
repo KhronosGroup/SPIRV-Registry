@@ -32,7 +32,7 @@ ASCIIDOC_HTML_OPTIONS = --trace --failure-level ERROR \
   -a toc2 \
   -a toclevels=1
 
-SRC_ASCIIDOC = $(wildcard extensions/*/*.asciidoc)
+SRC_ASCIIDOC = $(wildcard extensions/*/*.asciidoc) $(wildcard nonsemantic/*.asciidoc)
 DST_HTML = $(SRC_ASCIIDOC:.asciidoc=.html)
 
 all: $(DST_HTML)
