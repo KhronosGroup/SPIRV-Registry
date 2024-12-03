@@ -32,7 +32,7 @@ Final draft
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | {docdate}
+| Last Modified Date | 2023-10-03
 | Revision           | I
 |========================================
 

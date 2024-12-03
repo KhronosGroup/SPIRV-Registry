@@ -44,7 +44,7 @@ http://www.khronos.org/registry/speccopyright.html
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | {docdate}
+| Last Modified Date | 2021-11-08
 | Revision           | 1
 |========================================
 

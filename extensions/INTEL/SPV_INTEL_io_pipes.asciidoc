@@ -28,7 +28,7 @@ Draft
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | {docdate}
+| Last Modified Date | 2020-02-25
 | Revision           | 1
 |========================================
 

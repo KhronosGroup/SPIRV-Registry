@@ -27,7 +27,7 @@ Final draft
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | {docdate}
+| Last Modified Date | 2020-03-27
 | Revision           | 1
 |========================================
 

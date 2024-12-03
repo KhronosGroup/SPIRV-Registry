@@ -29,7 +29,7 @@ Final draft
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | {docdate}
+| Last Modified Date | 2023-03-21
 | Revision           | 1
 |========================================
 
@@ -483,5 +483,5 @@ None.
 [cols="^,<,<,<",options="header",]
 |========================================================
 |Rev|Date|Author|Changes
-|1|{docdate}|Ajaykumar Kannan|*Initial Public Release*
+|1|2023-03-21|Ajaykumar Kannan|*Initial Public Release*
 |========================================================
