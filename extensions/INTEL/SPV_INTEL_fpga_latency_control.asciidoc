@@ -27,7 +27,7 @@ Final Draft
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | {docdate}
+| Last Modified Date | 2022-11-28
 | Revision           | 1
 |========================================
 

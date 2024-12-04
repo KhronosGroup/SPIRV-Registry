@@ -21,7 +21,8 @@ Complete.
 == Version
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | {docdate}
+| Last Modified Date | 2023-12-04
+| Revision           | 2
 |========================================
 
 Dependencies
@@ -114,7 +115,7 @@ None.
 |========================================================
 |Rev|Date|Author|Changes
 |1|2022-11-16|Yu-Chang Wang|*Initial Public Release*
-|2|{docdate}|Yu-Chang Wang|*add cluster shading rate*
+|2|2023-12-04|Yu-Chang Wang|*add cluster shading rate*
 |========================================================
 
 

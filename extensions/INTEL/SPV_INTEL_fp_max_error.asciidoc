@@ -28,7 +28,7 @@ Final draft
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | {docdate}
+| Last Modified Date | 2023-03-29
 | Revision           | 1
 |========================================
 
@@ -131,5 +131,5 @@ None.
 [options="header"]
 |========================================
 |Rev|Date|Author|Changes
-|1|{docdate}|Shuo Niu|*Initial public release*
+|1|2023-03-29|Shuo Niu|*Initial public release*
 |========================================

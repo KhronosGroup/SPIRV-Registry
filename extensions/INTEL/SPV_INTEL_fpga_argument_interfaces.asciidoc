@@ -45,8 +45,10 @@ Final draft
 
 == Version
 
-Built On: {docdate} +
-Revision: 1
+|========================================
+| Last Modified Date | 2022-12-04
+| Revision           | 1
+|========================================
 
 == Dependencies
 

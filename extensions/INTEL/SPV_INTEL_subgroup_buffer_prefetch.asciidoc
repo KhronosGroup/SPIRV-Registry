@@ -31,7 +31,7 @@ Copyright (c) 2024 Intel Corporation.  All rights reserved.
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | {docdate}
+| Last Modified Date | 2024-05-30
 | Revision           | 1
 |========================================
 
