@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 2.0.23">
+<meta name="generator" content="Asciidoctor 2.0.18">
 <title>SPIR-V NonSemantic Shader DebugInfo Instructions</title>
 <style>
 @import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
@@ -2672,14 +2672,14 @@ instruction.<br>
  line number where the location begins.<br>
 <br>
  <em>Line End</em> is the <em>&lt;id&gt;</em> of a 32-bit integer <strong>OpConstant</strong> denoting the source
- line number where the location ends. This may be the same as <em>Line Start</em> if
- the location doesn&#8217;t cover multiple lines.<br>
+ line number where the location ends. This must be greater than or equal to <em>Line End</em>.<br>
 <br>
  <em>Column Start</em> is the <em>&lt;id&gt;</em> of a 32-bit integer <strong>OpConstant</strong> denoting the source
  column number where the location begins.<br>
 <br>
  <em>Column End</em> is the <em>&lt;id&gt;</em> of a 32-bit integer <strong>OpConstant</strong> denoting the source
- column number where the location ends. This must be greater than or equal to <em>Column Start</em>.<br></p></td>
+ column number where the location ends. This must be greater than or equal to <em>Column Start</em>
+ if <em>Line Start</em> equals <em>Line End</em>.<br></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>

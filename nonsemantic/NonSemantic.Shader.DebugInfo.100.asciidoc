@@ -1480,14 +1480,14 @@ instruction. +
  line number where the location begins. +
  +
  'Line End' is the '<id>' of a 32-bit integer *OpConstant* denoting the source
- line number where the location ends. This may be the same as 'Line Start' if
- the location doesn't cover multiple lines. +
+ line number where the location ends. This must be greater than or equal to 'Line End'. +
  +
  'Column Start' is the '<id>' of a 32-bit integer *OpConstant* denoting the source
  column number where the location begins. +
  +
  'Column End' is the '<id>' of a 32-bit integer *OpConstant* denoting the source
- column number where the location ends. This must be greater than or equal to 'Column Start'. +
+ column number where the location ends. This must be greater than or equal to 'Column Start'
+ if 'Line Start' equals 'Line End'. +
 
 | 10 | 12 | '<id>' +
 'Result Type' | 'Result <id>' | '<id> Set'| 103
