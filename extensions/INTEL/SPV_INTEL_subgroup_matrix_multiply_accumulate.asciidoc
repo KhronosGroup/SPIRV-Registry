@@ -1,0 +1,457 @@
+:extension_name: SPV_INTEL_subgroup_matrix_multiply_accumulate
+:capability_name: SubgroupMatrixMultiplyAccumulateINTEL
+:capability_token: 6236
+:op_name_mma: OpSubgroupMatrixMultiplyAccumulateINTEL
+:op_token_mma: 6237
+
+{extension_name}
+================
+
+== Name Strings
+
+{extension_name}
+
+== Contact
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/intel/llvm
+
+== Contributors
+
+// spell-checker: disable
+* Ben Ashbaugh, Intel
+* Pekka Jääskeläinen, Intel
+* Jianhui Li, Intel
+* Victor Mustya, Intel
+* Yury Plyakhin, Intel
+* Dmitry Sidorov, Intel
+// spell-checker: enable
+
+== Notice
+
+Copyright (c) 2025 Intel Corporation. All rights reserved.
+
+== Status
+
+* Complete
+
+== Version
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2025-01-07
+| Revision           | 1
+|========================================
+
+== Dependencies
+
+This extension is written against the SPIR-V Specification,
+Version 1.6, Revision 4.
+
+This extension requires SPIR-V 1.0.
+
+== Overview
+
+The goal of this extension is to allow programmers to access specialized hardware to compute the matrix product of an M x K matrix (referred to as _Matrix A_ in this extension) with a K x N matrix (_Matrix B_) and then add an M x N matrix (_Matrix C_).
+This is a commonly used building block to compute the product of two large matrices.
+All invocations in the subgroup cooperate to perform this operation.
+
+The *{op_name_mma}* matrix multiply accumulate instruction added by this extension also includes an optional _Matrix Multiply Accumulate Operands_ literal operand to specify additional information about the matrix operands, such as ways to reinterpret the bits passed as the matrix operands.
+This allows performing the operation on different data types that may or may not have a direct SPIR-V representation.
+
+Many devices will only support a limited set of matrix dimensions and types.
+Related client API specifications will describe the required set of matrix dimensions and types, or how to query the set of supported matrix dimensions and types for a device.
+
+== Extension Name
+
+To use this extension within a SPIR-V module, the appropriate *OpExtension* must
+be present in the module:
+
+[subs="attributes"]
+----
+OpExtension "{extension_name}"
+----
+
+== Modifications to the SPIR-V Specification, Version 1.6
+
+=== Capabilities
+
+Modify Section 3.31, Capability, adding rows to the Capability table:
+--
+[cols="^.^2,16,15",options="header",width = "100%"]
+|====
+2+^.^| Capability | Implicitly Declares
+| {capability_token} | *{capability_name}* |
+|====
+--
+
+=== Matrix Multiply Accumulate Operands
+
+Add a new section to Section 3, Binary Form:
+
+[cols="^.^4,16,15",options="header",width = "100%"]
+|====
+2+^.^| Matrix Multiply Accumulate Operands | Enabling Capabilities
+| 0x0 | *None* |
+
+// Only valid for integer operand types:
+| 0x1 | *MatrixASignedComponentsINTEL* +
+The components of matrix A are interpreted as signed. |
+| 0x2 | *MatrixBSignedComponentsINTEL* +
+The components of matrix B are interpreted as signed. |
+
+// Only needed if we do not have a bfloat16 type:
+| 0x4 | *MatrixCBFloat16INTEL* +
+The components of matrix C are interpreted as bf16 data. |
+| 0x8 | *MatrixResultBFloat16INTEL* +
+The components of the result matrix are written as bf16 data. |
+
+// Only valid for integer operand types:
+| 0x10 | *MatrixAPackedInt8INTEL* +
+The components of matrix A are interpreted as packed 8-bit integer data. |
+| 0x20 | *MatrixBPackedInt8INTEL* +
+The components of matrix B are interpreted as packed 8-bit integer data. |
+
+// Only valid for integer operand types:
+| 0x40 | *MatrixAPackedInt4INTEL* +
+The components of matrix A are interpreted as packed 4-bit integer data. |
+| 0x80 | *MatrixBPackedInt4INTEL* +
+The components of matrix B are interpreted as packed 4-bit integer data. |
+
+// Only valid for 32-bit float operand types:
+| 0x100 | *MatrixATF32INTEL* +
+The components of matrix A are interpreted as tf32 data. |
+| 0x200 | *MatrixBTF32INTEL* +
+The components of matrix B are interpreted as tf32 data. |
+
+// Only valid for integer operand types:
+| 0x400 | *MatrixAPackedFloat16INTEL* +
+The components of matrix A are interpreted as packed fp16 (half-precision) data. |
+| 0x800 | *MatrixBPackedFloat16INTEL* +
+The components of matrix B are interpreted as packed fp16 (half-precision) data. |
+
+// Only valid for integer operand types:
+| 0x1000 | *MatrixAPackedBFloat16INTEL* +
+The components of matrix A are interpreted as packed bf16 data. |
+| 0x2000 | *MatrixBPackedBFloat16INTEL* +
+The components of matrix B are interpreted as packed bf16 data. |
+
+|====
+
+=== Instructions
+
+Modify Section 3.42.21, Group Instructions, adding to the end of the list of instructions:
+
+[cols="1,1,7*3",width="100%"]
+|=====
+8+a|[[{op_name_mma}]]*{op_name_mma}*
+
+Computes the matrix product of two matrix operands and adds a third matrix operand.
+All invocations in the subgroup cooperate to perform this operation.
+
+_Result Type_ defines the result of the matrix multiply accumulate operation.
+It must be a scalar or vector of floating-point or integer type.
+The number of components in _Result Type_ defines the _M_ dimension of the matrix multiply accumulate operation.
+If _Result Type_ is a scalar type, the _M_ dimension is one.
+
+_K Dim_ defines the _K_ dimension of the matrix multiply accumulate operation.
+It must come from a constant instruction with scalar 32-bit integer type.
+
+The _N_ dimension of the matrix multiply accumulate operation is implicitly the number of invocations in the subgroup.
+
+_Matrix A_ is the first matrix operand and has _M_ rows and _K_ columns.
+The type of _Matrix A_ must be a scalar or vector of floating-point or integer type.
+Multiple invocations in the subgroup may contribute part of the _Matrix A_ operand, depending on the matrix operand size and the subgroup size.
+
+_Matrix B_ is the second matrix operand and has _K_ rows and _N_ columns.
+It must be a scalar or vector of floating-point or integer type.
+Each of the invocations in the subgroup contributes part of the _Matrix B_ operand.
+
+_Matrix C_ is the third matrix operand and has _M_ rows and _N_ columns.
+It must be a scalar or vector of floating-point or integer type.
+Each of the invocations in the subgroup contributes part of the _Matrix C_ operand.
+
+The multiplication step of the matrix multiply accumulate operation computes the matrix product of _Matrix A_ and _Matrix B_.
+The product is a matrix with _M_ rows and _N_ columns.
+The order of operations to compute the elements of the matrix product is implementation-dependent.
+
+For integer matrices, the operations used for the multiplication of _Matrix A_ and _Matrix B_ and the addition of _Matrix C_ are performed at the precision of the _Result Type_.
+The resulting value will equal the low-order N bits of the correct result R, where N is the result width and R is computed with enough precision to avoid overflow and underflow.
+
+For floating-point matrices, the precision and the order of operations are implementation-defined.
+
+The accumulation step of the matrix multiply accumulate operation computes the element-wise addition of the matrix product of _Matrix A_ and _Matrix B_ with _Matrix C_.
+The final result is a matrix with _M_ rows and _N_ columns, which is assigned to _Result_.
+
+_Matrix Multiply Accumulate Operands_ is an optional literal that specifies additional information about the matrix operands, such as ways to reinterpret the bits passed as the matrix operands.
+If _Matrix Multiply Accumulate Operands_ is not present, it is the same as specifying the _Matrix Multiply Accumulate Operand_ *None*.
+
+Behavior is undefined unless all invocations within the subgroup execute the same dynamic instance of this instruction.
+
+|Capability: +
+*{capability_name}*
+| 7 + variable | {op_token_mma}
+| _<id>_ +
+_Result Type_
+| _<id>_ +
+_Result_
+| _<id>_ +
+_K Dim_
+| _<id>_ +
+_Matrix A_
+| _<id>_ +
+_Matrix B_
+| _<id>_ +
+_Matrix C_
+| Optional +
+_Matrix Multiply Accumulate Operands_
+|=====
+
+== Mapping Matrix Data to Invocations
+
+This section describes how each invocation passes its contribution to the per-subgroup _Matrix A_, _Matrix B_, and _Matrix C_ operands, and how the per-subgroup _Result_ matrix is assigned to each invocation.
+
+Recall that the _M_ dimension of the matrix multiply accumulate operation is defined by the number of components in the _Result Type_, the _N_ dimension is defined implicitly by the number of invocations in the subgroup, and the _K_ dimension is defined by the _K Dim_ operand.
+
+The _Matrix A_ operand has _M_ rows and _K_ columns.
+The _K_ columns of data are passed by the _N_ invocations in the subgroup, with the lower-numbered invocations (invocations where *SubgroupLocalInvocationId* is a smaller value) passing the lower-numbered columns.
+This is the only matrix operand that is not dependent on _N_, the number of invocations in the subgroup, so there are three scenarios to consider:
+
+1. If _N_ is equal to _K_, then each invocation contributes a single column of _Matrix A_.
+The complete contribution for an invocation is passed as a vector of _M_ values, with each component representing one row of the contribution, and the lower-numbered components representing the lower-numbered rows.
+2. If _N_ is less than _K_, then each invocation contributes multiple columns of _Matrix A_.
+The multiple columns are packed into a single value per row, with data from the lower-numbered columns in the lower bits of the value.
+The complete contribution for an invocation is passed as a vector of _M_ values, with each component representing one row of the contribution, and the lower-numbered components representing the lower-numbered rows.
+3. If _N_ is greater than _K_, then each invocation contributes a fraction of the rows representing a single column of _Matrix A_.
+The complete contribution for an invocation is passed as a vector of values, with each component representing one row of the contribution, and the lower-numbered components representing the lower-numbered rows.
+For example, if _N_ is twice as big as _K_, then each invocation contributes every other row of a single column of _Matrix A_, with the lower-numbered invocations contributing the first row and higher-numbered invocations contributing the second row.
+If the data from the higher-numbered invocations is not needed, such as when there is only one row _M_, then the data passed by the higher-numbered invocations is ignored.
+
+The _Matrix B_ operand has _K_ rows and _N_ columns.
+Each invocation in the subgroup contributes a single column of _Matrix B_, with the lower-numbered invocations (invocations where *SubgroupLocalInvocationId* is a smaller value) passing the lower-numbered columns.
+For matrix elements that are larger than 16 bits, the column of _Matrix B_ is passed as a vector, with the lower-numbered rows of _Matrix B_ passed as the lower-numbered components of the vector.
+For matrix elements that are 16 bits or smaller, the column of _Matrix B_ is passed as a vector of 32-bit values, with the lower-numbered rows of _Matrix B_ passed as the lower-numbered components of the vector, and lowered-numbered rows passed as the lower-numbered bits of each value.
+This is sometimes referred to as a _packed_ or _VNNI_ layout.
+
+The _Matrix C_ operand has _M_ rows and _N_ columns.
+Each invocation in the subgroup contributes a single column of _Matrix C_, with the lower-numbered invocations passing the lower-numbered columns.
+The column of _Matrix C_ is passed as a vector of values, with the lower-numbered components representing lower-numbered rows.
+
+The _Result_ matrix has _M_ rows and _N_ columns, and is assigned to invocations the same as the _Matrix C_ operand.
+Each invocation of the subgroup is assigned a single column of the _Result_ matrix, with the lower-numbered invocations assigned the lower-numbered columns.
+The column of the _Result_ matrix is returned as a vector of values, with the lower-numbered components representing lower-numbered rows.
+
+=== Examples
+
+. Passing _Matrix A_ with _M_ equal to two, _K_ equal to four, and _N_ equal to four:
++
+--
+[cols="4*^", width="1%"]
+|=====
+| `0,0` | `0,1` | `0,2` | `0,3`
+| `1,0` | `1,1` | `1,2` | `1,3`
+|=====
+
+This is the first _Matrix A_ case, where _N_ is equal to _K_.
+Therefore, each invocation contributes a vector representing a single column of _Matrix A_:
+
+* Invocation 0 passes a vector consisting of the two values `0,0` and `1,0`.
+* Invocation 1 passes a vector consisting of the two values `0,1` and `1,1`.
+* Invocation 2 passes a vector consisting of the two values `0,2` and `1,2`.
+* Invocation 3 passes a vector consisting of the two values `0,3` and `1,3`.
+--
+
+. Passing _Matrix A_ with _M_ equal to two, _K_ equal to eight, and _N_ equal to four:
++
+--
+[cols="8*^", width="1%"]
+|=====
+| `0,0` | `0,1` | `0,2` | `0,3` | `0,4` | `0,5` | `0,6` | `0,7`
+| `1,0` | `1,1` | `1,2` | `1,3` | `1,4` | `1,5` | `1,6` | `1,7`
+|=====
+
+This is the second _Matrix A_ case, where _N_ is less than _K_.
+In this case _N_ is two times less than _K_.
+Therefore, each invocation contributes a vector representing two columns of _Matrix A_; the first column in the lower bits of each vector component and the second column in the upper bits:
+
+* Invocation 0 passes a vector consisting of the two values `0,1 | 0,0` and `1,1 | 1,0`.
+* Invocation 1 passes a vector consisting of the two values `0,3 | 0,2` and `1,3 | 1,2`.
+* Invocation 2 passes a vector consisting of the two values `0,5 | 0,4` and `1,5 | 1,4`.
+* Invocation 3 passes a vector consisting of the two values `0,7 | 0,6` and `1.7 | 1,6`.
+--
+
+. Passing _Matrix A_ with _M_ equal to four, _K_ equal to two, and _N_ equal to four:
++
+--
+[cols="2*^", width="1%"]
+|=====
+| `0,0` | `0,1`
+| `1,0` | `1,1`
+| `2,0` | `2,1`
+| `3,0` | `3,1`
+|=====
+
+This is the third _Matrix A_ case, where _N_ is greater than _K_.
+In this case, _N_ is two times greater than _K_.
+Therefore, each invocation contributes a vector representing every other row of each column of _Matrix A_:
+
+* Invocation 0 passes a vector consisting of the two values `0,0` and `2,0`.
+* Invocation 1 passes a vector consisting of the two values `0,1` and `2,1`.
+* Invocation 2 passes a vector consisting of the two values `1,0` and `3,0`.
+* Invocation 3 passes a vector consisting of the two values `1,1` and `3,1`.
+--
+
+. Passing _Matrix A_ with _M_ equal to one, _K_ equal to two, and _N_ equal to four:
++
+--
+[cols="2*^", width="1%"]
+|=====
+| `0,0` | `0,1`
+|=====
+
+This is a special-case of the third _Matrix A_ case.
+In this case, _N_ is greater than _K_, and there is only one row.
+Therefore, the data contributed by some invocations is ignored:
+
+* Invocation 0 passes the value `0,0`.
+* Invocation 1 passes the value `0,1`.
+* The data from Invocation 2 and Invocation 3 is ignored.
+--
+
+. Passing _Matrix B_ with _K_ equal to eight, _N_ equal to four, and 8-bit data:
++
+--
+[cols="4*^", width="1%"]
+|=====
+| `0,0` | `0,1` | `0,2` | `0,3`
+| `1,0` | `1,1` | `1,2` | `1,3`
+| `2,0` | `2,1` | `2,2` | `2,3`
+| `3,0` | `3,1` | `3,2` | `3,3`
+| `4,0` | `4,1` | `4,2` | `4,3`
+| `5,0` | `5,1` | `5,2` | `5,3`
+| `6,0` | `6,1` | `6,2` | `6,3`
+| `7,0` | `7,1` | `7,2` | `7,3`
+|=====
+
+Each invocation contributes a vector of two 32-bit values, where each value consists of 8-bit data from four rows of the invocation's column data:
+
+* Invocation 0 passes a vector consisting of the two 32-bit values `3,0 | 2,0 | 1,0 | 0,0` and `7,0 | 6,0 | 5,0 | 4,0`.
+* Invocation 1 passes a vector consisting of the two 32-bit values `3,1 | 2,1 | 1,1 | 0,1` and `7,1 | 6,1 | 5,1 | 4,1`.
+* Invocation 2 passes a vector consisting of the two 32-bit values `3,2 | 2,2 | 1,2 | 0,2` and `7,2 | 6,2 | 5,2 | 4,2`.
+* Invocation 3 passes a vector consisting of the two 32-bit values `3,3 | 2,3 | 1,3 | 0,3` and `7,3 | 6,3 | 5,3 | 4,3`.
+--
+
+. Passing _Matrix B_ with _K_ equal to four, _N_ equal to four, and 16-bit data:
++
+--
+[cols="4*^", width="1%"]
+|=====
+| `0,0` | `0,1` | `0,2` | `0,3`
+| `1,0` | `1,1` | `1,2` | `1,3`
+| `2,0` | `2,1` | `2,2` | `2,3`
+| `3,0` | `3,1` | `3,2` | `3,3`
+|=====
+
+Each invocation contributes a vector of two 32-bit values, where each value consists of 16-bit data from two rows of the invocation's column data:
+
+* Invocation 0 passes a vector consisting of the two 32-bit values `1,0 | 0,0` and `3,0 | 2,0`.
+* Invocation 1 passes a vector consisting of the two 32-bit values `1,1 | 0,1` and `3,1 | 2,1`.
+* Invocation 2 passes a vector consisting of the two 32-bit values `1,2 | 0,2` and `3,2 | 2,2`.
+* Invocation 3 passes a vector consisting of the two 32-bit values `1,3 | 0,3` and `3,3 | 2,3`.
+--
+
+. Passing _Matrix B_ with _K_ equal to two, _N_ equal to four, and 32-bit data:
++
+--
+[cols="4*^", width="1%"]
+|=====
+| `0,0` | `0,1` | `0,2` | `0,3`
+| `1,0` | `1,1` | `1,2` | `1,3`
+|=====
+
+Each invocation contributes a vector of two 32-bit values representing the rows of the invocation's column data:
+
+* Invocation 0 passes a vector consisting of the two 32-bit values `0,0` and `1,0`.
+* Invocation 1 passes a vector consisting of the two 32-bit values `0,1` and `1,1`.
+* Invocation 2 passes a vector consisting of the two 32-bit values `0,2` and `1,2`.
+* Invocation 3 passes a vector consisting of the two 32-bit values `0,3` and `1,3`.
+--
+
+. Passing _Matrix C_ with _M_ equal to two and _N_ equal to four:
++
+--
+[cols="4*^", width="1%"]
+|=====
+| `0,0` | `0,1` | `0,2` | `0,3`
+| `1,0` | `1,1` | `1,2` | `1,3`
+|=====
+
+Each invocation contributes a vector of values representing the rows of the invocation's column data:
+
+* Invocation 0 passes a vector consisting of the two values `0,0` and `1,0`.
+* Invocation 1 passes a vector consisting of the two values `0,1` and `1,1`.
+* Invocation 2 passes a vector consisting of the two values `0,2` and `1,2`.
+* Invocation 3 passes a vector consisting of the two values `0,3` and `1,3`.
+--
+
+. Assigning _Result_ with _M_ equal to two and _N_ equal to four:
++
+--
+[cols="4*^", width="1%"]
+|=====
+| `0,0` | `0,1` | `0,2` | `0,3`
+| `1,0` | `1,1` | `1,2` | `1,3`
+|=====
+
+Each invocation is assigned a vector of values representing the rows of the invocation's column data:
+
+* Invocation 0 is assigned a vector consisting of the two values `0,0` and `1,0`.
+* Invocation 1 is assigned a vector consisting of the two values `0,1` and `1,1`.
+* Invocation 2 is assigned a vector consisting of the two values `0,2` and `1,2`.
+* Invocation 3 is assigned a vector consisting of the two values `0,3` and `1,3`.
+--
+
+== Issues
+
+. What should this extension be called?
++
+--
+*RESOLVED*: The name of the extension will be SPV_INTEL_subgroup_matrix_multiply_accumulate, which aligns with the name of the related OpenCL extension https://registry.khronos.org/OpenCL/extensions/intel/cl_intel_subgroup_matrix_multiply_accumulate.html[cl_intel_subgroup_matrix_multiply_accumulate].
+--
+
+. Do we need bits to indicate whether integer matrix C or result matrices are signed vs. unsigned?
++
+--
+*RESOLVED*: No, we do not currently have a use-case for unsigned interpretations for the matrix C and result matrices, even though in theory there could be a use-case in the future.
+
+Additionally, because we do not support saturating accumulation, the same operation should work for both signed and unsigned integers due to the behavior of twos-complement arithmetic.
+Note that there are not separate instructions for signed vs. unsigned integer arithmetic, for example, without integer saturation.
+--
+
+. Should the default interpretation be signed or unsigned?
++
+--
+*RESOLVED*: The default interpretation is signed.
+If needed, we could add interpretations for interpreting matrix C or the result matrix as unsigned in an updated version of this extension or in a layered extension.
+
+Note though, the similar type interpretations for cooperative matrices are signed, or said another way, the default interpretation is unsigned.
+--
+
+. Do we need different capabilities to gate each of the type interpretations?
++
+--
+*RESOLVED*: No, we do not need different capabilities to gate each of the type interpretations, and it is OK to only have the top-level *{capability_name}* capability.
+
+It will always be undefined behavior to use an unsupported matrix dimension or type, therefore adding additional capabilities for each type interpretation is not necessary.
+--
+
+== Revision History
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2025-01-07|Ben Ashbaugh|Initial revision for publication
+|========================================
