@@ -101,6 +101,7 @@ Khronos SPIR-V Registry](https://www.khronos.org/registry/spir-v/).
 * [SPV_GOOGLE_user_type                    ]( https://github.khronos.org/SPIRV-Registry/extensions/GOOGLE/SPV_GOOGLE_user_type.html)
 * [SPV_HUAWEI_cluster_culling_shader       ]( https://github.khronos.org/SPIRV-Registry/extensions/HUAWEI/SPV_HUAWEI_cluster_culling_shader.html)
 * [SPV_HUAWEI_subpass_shading              ]( https://github.khronos.org/SPIRV-Registry/extensions/HUAWEI/SPV_HUAWEI_subpass_shading.html)
+* [SPV_INTEL_2d_block_io                   ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_2d_block_io.html)
 * [SPV_INTEL_arbitrary_precision_fixed_point]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_arbitrary_precision_fixed_point.html)
 * [SPV_INTEL_arbitrary_precision_floating_point]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_arbitrary_precision_floating_point.html)
 * [SPV_INTEL_arbitrary_precision_integers  ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_arbitrary_precision_integers.html)
