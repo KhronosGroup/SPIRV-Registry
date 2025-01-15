@@ -135,6 +135,7 @@ Khronos SPIR-V Registry](https://www.khronos.org/registry/spir-v/).
 * [SPV_INTEL_split_barrier                 ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_split_barrier.html)
 * [SPV_INTEL_subgroups                     ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_subgroups.html)
 * [SPV_INTEL_subgroup_buffer_prefetch      ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_subgroup_buffer_prefetch.html)
+* [SPV_INTEL_subgroup_matrix_multiply_accumulate]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_subgroup_matrix_multiply_accumulate.html)
 * [SPV_INTEL_task_sequence                 ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_task_sequence.html)
 * [SPV_INTEL_unstructured_loop_controls    ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_unstructured_loop_controls.html)
 * [SPV_INTEL_usm_storage_classes           ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_usm_storage_classes.html)
