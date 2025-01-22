@@ -11,6 +11,26 @@ Khronos SPIR-V Registry](https://www.khronos.org/registry/spir-v/).
 - Issue tracking for all SPIR-V specifications
 - Pull requests to add new SPIR-V extensions
 
+## Publishing new extension
+
+To publish a new extension, please create a pull request which includes:
+
+- The extension document in the asciidoc format named following
+  the `SPV_<vendor>_<name>.asciidoc` pattern. The document should be placed
+  in the `extension/<vendor>` folder.
+- README.md update with the link to the new extension once published
+
+To publish a non-semantic extended instruction set,
+
+- The instruction set in the asciidoc format named following
+  the `NonSemantic.<name>.asciidoc` pattern. The document should be placed
+  in the `nonsemantic` folder.
+- README.md update with the link to the new extension once published
+
+Please see [BUILD.md](BUILD.md) for instructions to create an HTML specification for this repo.
+
+Note: we no longer push the HTML along side the extension.
+
 ## Extension Specifications
 
 ### KHR Extensions (Khronos)
@@ -170,7 +190,3 @@ Khronos SPIR-V Registry](https://www.khronos.org/registry/spir-v/).
 * [NonSemantic.DebugBreak                  ]( https://github.khronos.org/SPIRV-Registry/nonsemantic/NonSemantic.DebugBreak.html)
 * [NonSemantic.DebugPrintf                 ]( https://github.khronos.org/SPIRV-Registry/nonsemantic/NonSemantic.DebugPrintf.html)
 * [NonSemantic.Shader.DebugInfo.100        ]( https://github.khronos.org/SPIRV-Registry/nonsemantic/NonSemantic.Shader.DebugInfo.100.html)
-
-## Building HTML Specifications
-
-Please see [BUILD.md](BUILD.md) for instructions to create an HTML specification for this repo.
