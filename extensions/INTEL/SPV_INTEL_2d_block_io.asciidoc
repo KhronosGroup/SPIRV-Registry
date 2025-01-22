@@ -1,0 +1,753 @@
+:extension_name: SPV_INTEL_2d_block_io
+:capability_name: Subgroup2DBlockIOINTEL
+:capability_token: 6228
+:capability_transform_name: Subgroup2DBlockTransformINTEL
+:capability_transform_token: 6229
+:capability_transpose_name: Subgroup2DBlockTransposeINTEL
+:capability_transpose_token: 6230
+:op_load: OpSubgroup2DBlockLoadINTEL
+:op_load_token: 6231
+:op_load_transform: OpSubgroup2DBlockLoadTransformINTEL
+:op_load_transform_token: 6232
+:op_load_transpose: OpSubgroup2DBlockLoadTransposeINTEL
+:op_load_transpose_token: 6233
+:op_prefetch: OpSubgroup2DBlockPrefetchINTEL
+:op_prefetch_token: 6234
+:op_store: OpSubgroup2DBlockStoreINTEL
+:op_store_token: 6235
+
+{extension_name}
+================
+
+== Name Strings
+
+{extension_name}
+
+== Contact
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/intel/llvm
+
+== Contributors
+
+// spell-checker: disable
+* Ben Ashbaugh, Intel
+* Pekka Jääskeläinen, Intel
+* Victor Mustya, Intel
+* Yury Plyakhin, Intel
+// spell-checker: enable
+
+== Notice
+
+Copyright (c) 2025 Intel Corporation. All rights reserved.
+
+== Status
+
+* Complete
+
+== Version
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2025-01-07
+| Revision           | 1
+|========================================
+
+== Dependencies
+
+This extension is written against the SPIR-V Specification,
+Version 1.6, Revision 4.
+
+This extension requires SPIR-V 1.0.
+
+This extension interacts with the *SPV_KHR_untyped_pointers* extension, by accepting untyped pointers as pointer operands.
+
+This extension interacts with the *SPV_INTEL_cache_controls* extension, by supporting cache control decorations on the pointer operands.
+
+== Overview
+
+This extension adds additional subgroup block load and store instructions to read two-dimensional blocks of data from a two-dimensional region of memory, or to write two-dimensional blocks of data to a two dimensional region of memory.
+This is an important operation for many machine learning algorithms, which operate on two-dimensional matrix data as part of a matrix multiplication algorithm.
+
+The block sizes that are supported are device-specific.
+A companion client API specification will describe the block sizes that are supported for a device.
+
+This extension additionally adds support for two pre-processing operations that may be performed when loading a two-dimensional block of data:
+
+1. The two-dimensional block may be _transposed_ after loading and before it is written to the instruction's destination.
+2. The two-dimensional block may be _transformed_ after loading and before it is written to the instruction's destination.
+The _transform_ operation converts the two-dimensional block from a _row-major_ layout to a _packed_ layout by combining data elements from multiple block rows into 32-bit values.
+This layout is used by some matrix multiplication instructions.
+
+== Extension Name
+
+To use this extension within a SPIR-V module, the appropriate *OpExtension* must
+be present in the module:
+
+[subs="attributes"]
+----
+OpExtension "{extension_name}"
+----
+
+== Modifications to the SPIR-V Specification, Version 1.6
+
+=== Capabilities
+
+Modify Section 3.31, Capability, adding rows to the Capability table:
+--
+[options="header"]
+|====
+2+^| Capability ^| Implicitly Declares
+| {capability_token} | *{capability_name}*
+|
+| {capability_transform_token} | *{capability_transform_name}*
+| *{capability_name}*
+| {capability_transpose_token} | *{capability_transpose_name}*
+| *{capability_name}*
+|====
+--
+
+=== Instructions
+
+Modify Section 3.42.21, Group Instructions, adding to the end of the list of instructions:
+
+[cols="1,1,10*3",width="100%"]
+|=====
+11+a|[[{op_load}]]*{op_load}*
+
+Loads one or more 2D blocks of data from a 2D row-major region of memory.
+The 2D blocks of data are loaded collectively, as a subgroup operation.
+
+The _Element Size_ operand specifies the size of one block element, in bytes.
+The _Block Width_, _Block Height_, and _Block Count_ operands specify the total number of elements to load.
+These operands must be constant instructions with scalar 32-bit integer type.
+
+The _Block Width_ specifies the number of elements in each block row.
+The _Block Height_ specifies the number of rows in each block.
+The _Block Count_ specifies the number of blocks to load.
+If _Block Count_ is greater than one, the blocks are loaded in row-major order, with the next block beginning immediately after the previous block.
+
+_Src Base Pointer_ is a pointer to the base of the 2D region of memory to load from.
+It must be a pointer to the *CrossWorkgroup* storage class.
+
+The _Memory Width_, _Memory Height_, and _Memory Pitch_ operands specify the 2D region of memory to load from.
+These operands must be integer type scalars.
+
+The _Memory Width_ specifies the width of the 2D region of memory, in bytes.
+The _Memory Height_ specifies the number of rows in the 2D region of memory.
+The _Memory Pitch_ specifies the number of bytes between each row in the 2D region of memory.
+
+The _Coordinate_ operand specifies the starting location in the 2D region of memory to load from.
+It must be a vector of two integer type components.
+
+The first component of _Coordinate_ specifies the number of elements to skip, from the start of a row.
+The second component of _Coordinate_ specifies the number of rows to skip, from the base of the 2D region of memory.
+
+_Dst Pointer_ is a pointer to per-invocation storage that will hold the results of the 2D block load.
+It must be a pointer to the *Function* storage class.
+
+Behavior is undefined unless all invocations within the subgroup execute the same dynamic instance of this instruction.
+
+Behavior is undefined unless _Block Width_, _Block Height_, _Block Count_, _Src Base Pointer_, _Memory Width_, _Memory Height_, _Memory Pitch_, and _Coordinate_ are dynamically uniform for all invocations within the subgroup.
+
+[NOTE]
+====
+Follows the templated function:
+
+[source]
+----
+template <typename T, int ElementSize,
+          int BlockWidth, int BlockHeight, int BlockCount>
+void OpSubgroup2DBlockLoadINTEL(
+    const T* srcBasePointer,
+    int memoryWidth,
+    int memoryHeight,
+    int memoryPitch,
+    int2 coordinate,
+    T* dstPointer);
+----
+====
+
+|Capability: +
+*{capability_name}*
+| 11 | {op_load_token}
+| _<id>_ +
+_Element Size_
+| _<id>_ +
+_Block Width_
+| _<id>_ +
+_Block Height_
+| _<id>_ +
+_Block Count_
+| _<id>_ +
+_Src Base Pointer_
+| _<id>_ +
+_Memory Width_
+| _<id>_ +
+_Memory Height_
+| _<id>_ +
+_Memory Pitch_
+| _<id>_ +
+_Coordinate_
+| _<id>_ +
+_Dst Pointer_
+|=====
+
+[cols="1,1,10*3",width="100%"]
+|=====
+11+a|[[{op_load_transpose}]]*{op_load_transpose}*
+
+Loads and transposes one or more 2D blocks of data from a 2D row-major region of memory.
+The 2D blocks of data are loaded collectively, as a subgroup operation.
+
+The _Element Size_ operand specifies the size of one block element, in bytes.
+The _Block Width_, _Block Height_, and _Block Count_ operands specify the total number of elements to load.
+These operands must be constant instructions with scalar 32-bit integer type.
+
+The _Block Width_ specifies the number of elements in each block row, pre-transpose.
+The _Block Height_ specifies the number of rows in each block, pre-transpose.
+The _Block Count_ specifies the number of blocks to load.
+If _Block Count_ is greater than one, the blocks are loaded in row-major order, with the next block beginning immediately after the previous block.
+
+_Src Base Pointer_ is a pointer to the base of the 2D region of memory to load from.
+It must be a pointer to the *CrossWorkgroup* storage class.
+
+The _Memory Width_, _Memory Height_, and _Memory Pitch_ operands specify the 2D region of memory to load from.
+These operands must be integer type scalars.
+
+The _Memory Width_ specifies the width of the 2D region of memory, in bytes.
+The _Memory Height_ specifies the number of rows in the 2D region of memory.
+The _Memory Pitch_ specifies the number of bytes between each row in the 2D region of memory.
+
+The _Coordinate_ operand specifies the starting location in the 2D region of memory to load from.
+It must be a vector of two integer type components.
+
+The first component of _Coordinate_ specifies the number of elements to skip, from the start of a row.
+The second component of _Coordinate_ specifies the number of rows to skip, from the base of the 2D region of memory.
+
+_Dst Pointer_ is a pointer to per-invocation storage that will hold the results of the transposed 2D block load.
+It must be a pointer to the *Function* storage class.
+
+Behavior is undefined unless all invocations within the subgroup execute the same dynamic instance of this instruction.
+
+Behavior is undefined unless _Block Width_, _Block Height_, _Block Count_, _Src Base Pointer_, _Memory Width_, _Memory Height_, _Memory Pitch_, and _Coordinate_ are dynamically uniform for all invocations within the subgroup.
+
+[NOTE]
+====
+Follows the templated function:
+
+[source]
+----
+template <typename T, int ElementSize,
+          int BlockWidth, int BlockHeight, int BlockCount>
+void OpSubgroup2DBlockLoadTransposeINTEL(
+    const T* srcBasePointer,
+    int memoryWidth,
+    int memoryHeight,
+    int memoryPitch,
+    int2 coordinate,
+    T* dstPointer);
+----
+====
+
+|Capability: +
+*{capability_transpose_name}*
+| 11 | {op_load_transpose_token}
+| _<id>_ +
+_Element Size_
+| _<id>_ +
+_Block Width_
+| _<id>_ +
+_Block Height_
+| _<id>_ +
+_Block Count_
+| _<id>_ +
+_Src Base Pointer_
+| _<id>_ +
+_Memory Width_
+| _<id>_ +
+_Memory Height_
+| _<id>_ +
+_Memory Pitch_
+| _<id>_ +
+_Coordinate_
+| _<id>_ +
+_Dst Pointer_
+|=====
+
+[cols="1,1,10*3",width="100%"]
+|=====
+11+a|[[{op_load_transform}]]*{op_load_transform}*
+
+Loads and transforms one or more 2D blocks of data into a packed format from a 2D row-major region of memory.
+The transformation combines elements from multiple rows of the 2D region into packed 32-bit values.
+The 2D blocks of data are loaded and transformed collectively, as a subgroup operation.
+
+The _Element Size_ operand specifies the size of one block element, in bytes.
+The _Block Width_, _Block Height_, and _Block Count_ operands specify the total number of elements to load.
+These operands must be constant instructions with scalar 32-bit integer type.
+
+The _Block Width_ specifies the number of elements in each block row.
+The _Block Height_ specifies the number of rows in each block.
+The _Block Count_ specifies the number of blocks to load.
+If _Block Count_ is greater than one, the blocks are loaded in row-major order, with the next block beginning immediately after the previous block.
+
+_Src Base Pointer_ is a pointer to the base of the 2D region of memory to load from.
+It must be a pointer to the *CrossWorkgroup* storage class.
+
+The _Memory Width_, _Memory Height_, and _Memory Pitch_ operands specify the 2D region of memory to load from.
+These operands must be integer type scalars.
+
+The _Memory Width_ specifies the width of the 2D region of memory, in bytes.
+The _Memory Height_ specifies the number of rows in the 2D region of memory.
+The _Memory Pitch_ specifies the number of bytes between each row in the 2D region of memory.
+
+The _Coordinate_ operand specifies the starting location in the 2D region of memory to load from.
+It must be a vector of two integer type components.
+
+The first component of _Coordinate_ specifies the number of elements to skip, from the start of a row.
+The second component of _Coordinate_ specifies the number of rows to skip, from the base of the 2D region of memory.
+
+_Dst Pointer_ is a pointer to per-invocation storage that will hold the results of the transformed 2D block load.
+It must be a pointer to the *Function* storage class.
+If it is an *OpTypePointer* pointer, it must point to a scalar 32-bit integer type.
+
+Behavior is undefined unless all invocations within the subgroup execute the same dynamic instance of this instruction.
+
+Behavior is undefined unless _Block Width_, _Block Height_, _Block Count_, _Src Base Pointer_, _Memory Width_, _Memory Height_, _Memory Pitch_, and _Coordinate_ are dynamically uniform for all invocations within the subgroup.
+
+[NOTE]
+====
+Follows the templated function:
+
+[source]
+----
+template <typename T, int ElementSize,
+          int BlockWidth, int BlockHeight, int BlockCount>
+void OpSubgroup2DBlockLoadTransformINTEL(
+    const T* srcBasePointer,
+    int memoryWidth,
+    int memoryHeight,
+    int memoryPitch,
+    int2 coordinate,
+    uint* dstPointer);
+----
+====
+
+|Capability: +
+*{capability_transform_name}*
+| 11 | {op_load_transform_token}
+| _<id>_ +
+_Element Size_
+| _<id>_ +
+_Block Width_
+| _<id>_ +
+_Block Height_
+| _<id>_ +
+_Block Count_
+| _<id>_ +
+_Src Base Pointer_
+| _<id>_ +
+_Memory Width_
+| _<id>_ +
+_Memory Height_
+| _<id>_ +
+_Memory Pitch_
+| _<id>_ +
+_Coordinate_
+| _<id>_ +
+_Dst Pointer_
+|=====
+
+[cols="1,1,9*3",width="100%"]
+|=====
+10+a|[[{op_prefetch}]]*{op_prefetch}*
+
+Prefetches one or more blocks of data from a 2D row-major region of memory into a cache.
+Prefetching does not affect the functionality of a module but may change its performance characteristics.
+The 2D blocks of data are prefetched collectively, as a subgroup operation.
+
+The _Element Size_ operand specifies the size of one block element, in bytes.
+The _Block Width_, _Block Height_, and _Block Count_ operands specify the total number of elements to prefetch.
+These operands must be constant instructions with scalar 32-bit integer type.
+
+The _Block Width_ specifies the number of elements in each block row.
+The _Block Height_ specifies the number of rows in each block.
+The _Block Count_ specifies the number of blocks to prefetch.
+If _Block Count_ is greater than one, the blocks are prefetched in row-major order, with the next block beginning immediately after the previous block.
+
+_Src Base Pointer_ is a pointer to the base of the 2D region of memory to prefetch from.
+It must be a pointer to the *CrossWorkgroup* storage class.
+
+The _Memory Width_, _Memory Height_, and _Memory Pitch_ operands specify the 2D region of memory to prefetch.
+These operands must be integer type scalars.
+
+The _Memory Width_ specifies the width of the 2D region of memory, in bytes.
+The _Memory Height_ specifies the number of rows in the 2D region of memory.
+The _Memory Pitch_ specifies the number of bytes between each row in the 2D region of memory.
+
+The _Coordinate_ operand specifies the starting location in the 2D region of memory to prefetch from.
+It must be a vector of two integer type components.
+
+The first component of _Coordinate_ specifies the number of elements to skip, from the start of a row.
+The second component of _Coordinate_ specifies the number of rows to skip, from the base of the 2D region of memory.
+
+Behavior is undefined unless all invocations within the subgroup execute the same dynamic instance of this instruction.
+
+Behavior is undefined unless _Block Width_, _Block Height_, _Block Count_, _Src Base Pointer_, _Memory Width_, _Memory Height_, _Memory Pitch_, and _Coordinate_ are dynamically uniform for all invocations within the subgroup.
+
+[NOTE]
+====
+Follows the templated function:
+
+[source]
+----
+template <typename T, int BlockWidth, int BlockHeight, int BlockPitch>
+void OpSubgroup2DBlockPrefetchINTEL(
+    const T* srcBasePointer,
+    int memoryWidth,
+    int memoryHeight,
+    int memoryPitch,
+    int2 coordinate);
+----
+====
+
+|Capability: +
+*{capability_name}*
+| 10 | {op_prefetch_token}
+| _<id>_ +
+_Element Size_
+| _<id>_ +
+_Block Width_
+| _<id>_ +
+_Block Height_
+| _<id>_ +
+_Block Count_
+| _<id>_ +
+_Src Pointer_
+| _<id>_ +
+_Memory Width_
+| _<id>_ +
+_Memory Height_
+| _<id>_ +
+_Memory Pitch_
+| _<id>_ +
+_Coordinate_
+|=====
+
+[cols="1,1,10*3",width="100%"]
+|=====
+11+a|[[{op_store}]]*{op_store}*
+
+Stores one or more 2D blocks of data to a 2D region of memory.
+The 2D blocks of data are stored collectively, as a subgroup operation.
+
+The _Element Size_ operand specifies the size of one block element, in bytes.
+The _Block Width_, _Block Height_, and _Block Count_ operands specify the total number of elements to store.
+These operands must be constant instructions with scalar 32-bit integer type.
+
+The _Block Width_ specifies the number of elements in each block row.
+The _Block Height_ specifies the number of rows in each block.
+The _Block Count_ specifies the number of blocks to store.
+If _Block Count_ is greater than one, the blocks are stored in row-major order, with the next block beginning immediately after the previous block.
+
+_Src Pointer_ is a pointer to per-invocation storage that holds the data to store.
+It must be a pointer to the *Function* storage class.
+
+_Dst Base Pointer_ is a pointer to the base of the 2D region of memory to store to.
+It must be a pointer to the *CrossWorkgroup* storage class.
+
+The _Memory Width_, _Memory Height_, and _Memory Pitch_ operands specify the 2D region of memory to store to.
+These operands must be integer type scalars.
+
+The _Memory Width_ specifies the width of the 2D region of memory, in bytes.
+The _Memory Height_ specifies the number of rows in the 2D region of memory.
+The _Memory Pitch_ specifies the number of bytes between each row in the 2D region of memory.
+
+The _Coordinate_ operand specifies the starting location in the 2D region of memory to store to.
+It must be a vector of two integer type components.
+
+The first component of _Coordinate_ specifies the number of elements to skip, from the start of a row.
+The second component of _Coordinate_ specifies the number of rows to skip, from the base of the 2D region of memory.
+
+Behavior is undefined unless all invocations within the subgroup execute the same dynamic instance of this instruction.
+
+Behavior is undefined unless _Block Width_, _Block Height_, _Block Count_, _Src Base Pointer_, _Memory Width_, _Memory Height_, _Memory Pitch_, and _Coordinate_ are dynamically uniform for all invocations within the subgroup.
+
+[NOTE]
+====
+Follows the templated function:
+
+[source]
+----
+template <typename T, int BlockWidth, int BlockHeight, int BlockPitch>
+void OpSubgroup2DBlockStoreINTEL(
+    const T* srcPointer,
+    T* dstBasePointer,
+    int memoryWidth,
+    int memoryHeight,
+    int memoryPitch,
+    int2 coordinate);
+----
+====
+
+|Capability: +
+*{capability_name}*
+| 11 | {op_store_token}
+| _<id>_ +
+_Element Size_
+| _<id>_ +
+_Block Width_
+| _<id>_ +
+_Block Height_
+| _<id>_ +
+_Block Count_
+| _<id>_ +
+_Src Pointer_
+| _<id>_ +
+_Dst Base Pointer_
+| _<id>_ +
+_Memory Width_
+| _<id>_ +
+_Memory Height_
+| _<id>_ +
+_Memory Pitch_
+| _<id>_ +
+_Coordinate_
+|=====
+
+== Diagram
+
+The diagram below shows the meaning of the 2D block load and store operands.
+
+image::images/SPV_INTEL_2d_block_io-diagram.png[align="center"]
+
+== Mapping Block Data to Invocations
+
+This section describes the mapping between the 2D block of data that is loaded or stored and the invocations in the subgroup.
+
+First, the _Block Width_ and _Block Height_ are padded, if necessary.
+For *{op_load}*, *{op_load_transform}*, and *{op_store}*, the _Block Width_ is padded to the next power-of-two.
+For *{op_load_transpose}*, the _Block Height_ is padded to the next power-of-two.
+For *{op_load_transform}*, the _Block Height_ is padded to a multiple of four for 1-byte elements, and a multiple of two for 2-byte elements.
+For loads, the value of any padded elements is zero.
+For stores, the value of any padded elements is ignored.
+
+For *{op_load_transform}*, the loaded block data is then transformed, by combining elements from multiple rows of a single column of the 2D region and packing them into 32-bit values.
+For 2-byte elements, every two rows are combined into a 32-bit value, with the lower-numbered rows in the lower bits and the higher-numbered rows in the higher bits.
+For 1-byte elements, every four rows are are combined into a 32-bit value, with the lower-numbered rows in the lower bits and the higher-numbered rows in the higher bits.
+This packed layout is sometimes referred to as a _VNNI_ layout.
+
+For *{op_load_transpose}*, the loaded block data is then transposed, by assigning the first column of the 2D block to the first row of the transposed 2D block, and so on.
+
+Next, the rows of the 2D block are assigned to invocations in the subgroup.
+Because the padded block width and the subgroup size are both powers of two, there are three scenarios to consider:
+
+1. If the padded block width is equal to the subgroup size, each invocation is assigned one element of the block row.
+2. If the padded block width is less than the subgroup size, multiple rows are assigned to the subgroup.
+The first row is assigned to the first set of invocations, then the next row is assigned to the next set of invocations, and so on.
+3. If the padded block width is greater than the subgroup size, multiple elements of each block row are assigned to each invocation.
+The first set of elements are assigned to the first invocation, then the next set of elements are assigned to the next invocation, and so on.
+
+In all cases, the lower numbered columns are assigned to the lower numbered invocations.
+
+=== Examples
+
+1. Loading a two row by four column block of elements (_Block Width_ equals four, _Block Height_ equals two), with a subgroup size of four, using *{op_load}*:
++
+--
+Block data:
+
+[cols="4*^", width="1%"]
+|=====
+| `0,0` | `0,1` | `0,2` | `0,3`
+| `1,0` | `1,1` | `1,2` | `1,3`
+|=====
+
+This is the case where the padded block width is equal to the subgroup size.  In this case, each invocation is assigned one element of the block row.  Therefore, because there are two rows:
+
+* Invocation 0 is assigned the values `0,0` and `1,0`.
+* Invocation 1 is assigned the values `0,1` and `1,1`.
+* Invocation 2 is assigned the values `0,2` and `1,2`.
+* Invocation 3 is assigned the values `0,3` and `1,3`.
+--
+
+2. Loading a four row by two column block of elements (_Block Width_ equals two, _Block Height_ equals four), with a subgroup size of four, using *{op_load}*:
++
+--
+Block data:
+
+[cols="2*^", width="1%"]
+|=====
+| `0,0` | `0,1`
+| `1,0` | `1,1`
+| `2,0` | `2,1`
+| `3,0` | `3,1`
+|=====
+
+This is the case where the padded block width is less than the subgroup size.  In this case, the first row is assigned to Invocation 0 and Invocation 1, and the second row is assigned to Invocation 2 and Invocation 3, and so on.  Therefore:
+
+* Invocation 0 is assigned the values `0,0` and `2,0`.
+* Invocation 1 is assigned the values `0,1` and `2,1`.
+* Invocation 2 is assigned the values `1,0` and `3,0`.
+* Invocation 3 is assigned the values `1,1` and `3,1`.
+--
+
+3. Loading a two row by eight column block of elements (_Block Width_ equals eight, _Block Height_ equals two), with a subgroup size of four, using *{op_load}*:
++
+--
+Block data:
+
+[cols="8*^", width="1%"]
+|=====
+| `0,0` | `0,1` | `0,2` | `0,3` | `0,4` | `0,5` | `0,6` | `0,7`
+| `1,0` | `1,1` | `1,2` | `1,3` | `1,4` | `1,5` | `1,6` | `1,7`
+|=====
+
+This is the case where the padded block width is greater than the subgroup size.  In this case, the first set of elements of each block row is assigned to Invocation 0, the next set of elements are assigned to Invocation 1, and so on.  Therefore:
+
+* Invocation 0 is assigned the values `0,0`, `0,1`, `1,0`, and `1,1`.
+* Invocation 1 is assigned the values `0,2`, `0,3`, `1,2`, and `1,3`.
+* Invocation 2 is assigned the values `0,4`, `0,5`, `1,4`, and `1,5`.
+* Invocation 3 is assigned the values `0,6`, `0,7`, `1,6`, and `1,7`.
+--
+
+4. Loading a four row by two column block of elements (_Block Width_ equals two, _Block Height_ equals four), with a subgroup size of four, using *{op_load_transpose}*:
++
+--
+Block data (pre-transpose):
+
+[cols="2*^", width="1%"]
+|=====
+| `0,0` | `0,1`
+| `1,0` | `1,1`
+| `2,0` | `2,1`
+| `3,0` | `3,1`
+|=====
+
+After transposition, this is the same as the first example, so:
+
+* Invocation 0 is assigned the values `0,0` and `0,1`.
+* Invocation 1 is assigned the values `1,0` and `1,1`.
+* Invocation 2 is assigned the values `2,0` and `2,1`.
+* Invocation 3 is assigned the values `3,0` and `3,1`.
+--
+
+5. Loading a two row by four column block of two-byte elements (_Block Width_ equals four, _Block Height_ equals two), with a subgroup size of four, using *{op_load_transform}*:
++
+--
+Block data:
+
+[cols="4*^", width="1%"]
+|=====
+| `0,0` | `0,1` | `0,2` | `0,3`
+| `1,0` | `1,1` | `1,2` | `1,3`
+|=====
+
+For two-byte elements, the transform operation combines every two rows together to form a 32-bit value.  Therefore:
+
+* Invocation 0 is assigned the 32-bit value `1,0 | 0,0`.
+* Invocation 1 is assigned the 32-bit value `1,1 | 0,1`.
+* Invocation 2 is assigned the 32-bit value `1,2 | 0,2`.
+* Invocation 3 is assigned the 32-bit value `1,3 | 0,3`.
+--
+
+6. Loading a four row by four column block of one-byte elements (_Block Width_ equals four, _Block Height_ equals two), with a subgroup size of four, using *{op_load_transform}*:
++
+--
+Block data:
+
+[cols="4*^", width="1%"]
+|=====
+| `0,0` | `0,1` | `0,2` | `0,3`
+| `1,0` | `1,1` | `1,2` | `1,3`
+| `2,0` | `2,1` | `2,2` | `2,3`
+| `3,0` | `3,1` | `3,2` | `3,3`
+|=====
+
+For one-byte elements, the transform operation combines every four rows together to form a 32-bit value.  Therefore:
+
+* Invocation 0 is assigned the 32-bit value `3,0 | 2,0 | 1,0 | 0,0`.
+* Invocation 1 is assigned the 32-bit value `3,1 | 2,1 | 1,1 | 0,1`.
+* Invocation 2 is assigned the 32-bit value `3,2 | 2,2 | 1,2 | 0,2`.
+* Invocation 3 is assigned the 32-bit value `3,3 | 2,3 | 1,3 | 0,3`.
+--
+
+== Out-of-Bounds Behavior
+
+If some or all of the 2D block is out-of-bounds, where the bounds are defined by the _Memory Width_ and _Memory Height_, the behavior is as follows:
+
+* For loads, any out-of-bounds elements are assigned the value zero.
+* For prefetches and stores, any out-of-bounds elements are ignored.
+
+== Restrictions
+
+The following restrictions apply to the 2D block load, store and prefetch instructions added by this extension:
+
+* The _Element Size_ must be 1, 2, 4, or 8 bytes.
+* The _Block Width_ must be a multiple of four for 1-byte elements, or a multiple of two for 2-byte elements.
+* Behavior is undefined unless:
+    ** the first component of _Coordinate_ is a multiple of four for 1-byte elements, or a multiple of two for 2-byte elements.
+    ** the per-subgroup source or destination base address is cache-line aligned (64 bytes).
+    ** the per-invocation source or destination address is aligned to a multiple of the _Element Size_.
+    ** the _Memory Width_ is greater than or equal to 64 bytes and less than or equal to 2^24^ bytes.
+    ** the _Memory Height_ is greater than zero and less than or equal to 2^24^ rows.
+    ** the _Memory Pitch_ is greater than or equal to the _Memory Width_ and a multiple of 8 bytes.
+    ** the *SubgroupMaxSize* is a power of two.
+    ** the *SubgroupSize* is equal to the *SubgroupMaxSize*; in other words, this is a full subgroup.
+
+== Issues
+
+. How should this functionality work with untyped pointers (AKA opaque pointers)?
++
+--
+*RESOLVED*: Added an _Element Size_ operand to explicitly specify the amount of data to load or store vs. inferring the element size from typed pointers.
+Note, this extension does not currently includes optional _Memory Operands_ to specify pointer alignment, because the pointer must already be aligned due to hardware restrictions..
+--
+
+. Can we use a 32-bit integer-type scalar to represent the memory width, height, and pitch, or should we allow for 64-bit integers for very large matrices?
++
+--
+*RESOLVED*: We will use 32-bit integer-type scalars to represent the block width, height, and count, but we will allow for 64-bit integers to represent the memory width, height, and pitch, and for the block start coordinates.
+
+The client API environment specs will restrict all of these operands to 32-bit integers initially, however.
+--
+
+. Terminology-wise, should we use "width" and "height", or "rows" and "columns"?
++
+--
+*RESOLVED*: We will use "width" and "height" to describe both the block dimensions and the memory dimensions.
+--
+
+. Terminology-wise, how should we describe the coordinate to read?
++
+--
+*RESOLVED*: The operand will simply be described as a vector coordinate.
+This avoids needing to describe "X" or "Y" or "Row" or "Column" in the operand names.
+The first coordinate will be the "X" or "Column" coordinate, and the second coordinate will be the "Y" or "Row" coordinate.
+--
+
+. Terminology-wise, should we use "load" and "store", or "read" and "write"?
++
+--
+*RESOLVED*: We will use "load" and "store" for consistency with the rest of the SPIR-V specification.
+--
+
+. What should the behavior be if some or all of the 2D block is out-of-bounds?
++
+--
+*RESOLVED*: The behavior is well-defined.
+Specifically, out-of-bounds reads are assigned the value zero, and out-of-bounds prefetches and stores are ignored.
+--
+
+
+== Revision History
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2025-01-07|Ben Ashbaugh|Initial revision for publication
+|========================================

@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.23">
+<title>SPV_INTEL_subgroup_matrix_multiply_accumulate</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+p {
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: normal;
+}
+em, b, strong {
+    color: darkblue;
+}
+
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>SPV_INTEL_subgroup_matrix_multiply_accumulate</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_name_strings">Name Strings</a></li>
+<li><a href="#_contact">Contact</a></li>
+<li><a href="#_contributors">Contributors</a></li>
+<li><a href="#_notice">Notice</a></li>
+<li><a href="#_status">Status</a></li>
+<li><a href="#_version">Version</a></li>
+<li><a href="#_dependencies">Dependencies</a></li>
+<li><a href="#_overview">Overview</a></li>
+<li><a href="#_extension_name">Extension Name</a></li>
+<li><a href="#_modifications_to_the_spir_v_specification_version_1_6">Modifications to the SPIR-V Specification, Version 1.6</a></li>
+<li><a href="#_mapping_matrix_data_to_invocations">Mapping Matrix Data to Invocations</a></li>
+<li><a href="#_issues">Issues</a></li>
+<li><a href="#_revision_history">Revision History</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_name_strings">Name Strings</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>SPV_INTEL_subgroup_matrix_multiply_accumulate</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_contact">Contact</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To report problems with this extension, please open a new issue at:</p>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/intel/llvm" class="bare">https://github.com/intel/llvm</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_contributors">Contributors</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Ben Ashbaugh, Intel</p>
+</li>
+<li>
+<p>Pekka Jääskeläinen, Intel</p>
+</li>
+<li>
+<p>Jianhui Li, Intel</p>
+</li>
+<li>
+<p>Victor Mustya, Intel</p>
+</li>
+<li>
+<p>Yury Plyakhin, Intel</p>
+</li>
+<li>
+<p>Dmitry Sidorov, Intel</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_notice">Notice</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Copyright (c) 2025 Intel Corporation. All rights reserved.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_status">Status</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Complete</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_version">Version</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stripes-even" style="width: 40%;">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Last Modified Date</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2025-01-07</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Revision</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_dependencies">Dependencies</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This extension is written against the SPIR-V Specification,
+Version 1.6, Revision 4.</p>
+</div>
+<div class="paragraph">
+<p>This extension requires SPIR-V 1.0.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_overview">Overview</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The goal of this extension is to allow programmers to access specialized hardware to compute the matrix product of an M x K matrix (referred to as <em>Matrix A</em> in this extension) with a K x N matrix (<em>Matrix B</em>) and then add an M x N matrix (<em>Matrix C</em>).
+This is a commonly used building block to compute the product of two large matrices.
+All invocations in the subgroup cooperate to perform this operation.</p>
+</div>
+<div class="paragraph">
+<p>The <strong>OpSubgroupMatrixMultiplyAccumulateINTEL</strong> matrix multiply accumulate instruction added by this extension also includes an optional <em>Matrix Multiply Accumulate Operands</em> literal operand to specify additional information about the matrix operands, such as ways to reinterpret the bits passed as the matrix operands.
+This allows performing the operation on different data types that may or may not have a direct SPIR-V representation.</p>
+</div>
+<div class="paragraph">
+<p>Many devices will only support a limited set of matrix dimensions and types.
+Related client API specifications will describe the required set of matrix dimensions and types, or how to query the set of supported matrix dimensions and types for a device.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_extension_name">Extension Name</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To use this extension within a SPIR-V module, the appropriate <strong>OpExtension</strong> must
+be present in the module:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>OpExtension "SPV_INTEL_subgroup_matrix_multiply_accumulate"</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_modifications_to_the_spir_v_specification_version_1_6">Modifications to the SPIR-V Specification, Version 1.6</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_capabilities">Capabilities</h3>
+<div class="paragraph">
+<p>Modify Section 3.31, Capability, adding rows to the Capability table:</p>
+</div>
+<div class="openblock">
+<div class="content">
+<table class="tableblock frame-all grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 6.0606%;">
+<col style="width: 48.4848%;">
+<col style="width: 45.4546%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-middle" colspan="2">Capability</th>
+<th class="tableblock halign-left valign-top">Implicitly Declares</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">6236</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>SubgroupMatrixMultiplyAccumulateINTEL</strong></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_matrix_multiply_accumulate_operands">Matrix Multiply Accumulate Operands</h3>
+<div class="paragraph">
+<p>Add a new section to Section 3, Binary Form:</p>
+</div>
+<table class="tableblock frame-all grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 11.4285%;">
+<col style="width: 45.7142%;">
+<col style="width: 42.8573%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-middle" colspan="2">Matrix Multiply Accumulate Operands</th>
+<th class="tableblock halign-left valign-top">Enabling Capabilities</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">0x0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>None</strong></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">0x1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MatrixASignedComponentsINTEL</strong><br>
+The components of matrix A are interpreted as signed.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">0x2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MatrixBSignedComponentsINTEL</strong><br>
+The components of matrix B are interpreted as signed.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">0x4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MatrixCBFloat16INTEL</strong><br>
+The components of matrix C are interpreted as bf16 data.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">0x8</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MatrixResultBFloat16INTEL</strong><br>
+The components of the result matrix are written as bf16 data.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">0x10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MatrixAPackedInt8INTEL</strong><br>
+The components of matrix A are interpreted as packed 8-bit integer data.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">0x20</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MatrixBPackedInt8INTEL</strong><br>
+The components of matrix B are interpreted as packed 8-bit integer data.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">0x40</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MatrixAPackedInt4INTEL</strong><br>
+The components of matrix A are interpreted as packed 4-bit integer data.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">0x80</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MatrixBPackedInt4INTEL</strong><br>
+The components of matrix B are interpreted as packed 4-bit integer data.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">0x100</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MatrixATF32INTEL</strong><br>
+The components of matrix A are interpreted as tf32 data.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">0x200</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MatrixBTF32INTEL</strong><br>
+The components of matrix B are interpreted as tf32 data.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">0x400</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MatrixAPackedFloat16INTEL</strong><br>
+The components of matrix A are interpreted as packed fp16 (half-precision) data.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">0x800</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MatrixBPackedFloat16INTEL</strong><br>
+The components of matrix B are interpreted as packed fp16 (half-precision) data.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">0x1000</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MatrixAPackedBFloat16INTEL</strong><br>
+The components of matrix A are interpreted as packed bf16 data.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">0x2000</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MatrixBPackedBFloat16INTEL</strong><br>
+The components of matrix B are interpreted as packed bf16 data.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_instructions">Instructions</h3>
+<div class="paragraph">
+<p>Modify Section 3.42.21, Group Instructions, adding to the end of the list of instructions:</p>
+</div>
+<table class="tableblock frame-all grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 4.3478%;">
+<col style="width: 4.3478%;">
+<col style="width: 13.0434%;">
+<col style="width: 13.0434%;">
+<col style="width: 13.0434%;">
+<col style="width: 13.0434%;">
+<col style="width: 13.0434%;">
+<col style="width: 13.0434%;">
+<col style="width: 13.044%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="8"><div class="content"><div class="paragraph">
+<p><a id="OpSubgroupMatrixMultiplyAccumulateINTEL"></a><strong>OpSubgroupMatrixMultiplyAccumulateINTEL</strong></p>
+</div>
+<div class="paragraph">
+<p>Computes the matrix product of two matrix operands and adds a third matrix operand.
+All invocations in the subgroup cooperate to perform this operation.</p>
+</div>
+<div class="paragraph">
+<p><em>Result Type</em> defines the result of the matrix multiply accumulate operation.
+It must be a scalar or vector of floating-point or integer type.
+The number of components in <em>Result Type</em> defines the <em>M</em> dimension of the matrix multiply accumulate operation.
+If <em>Result Type</em> is a scalar type, the <em>M</em> dimension is one.</p>
+</div>
+<div class="paragraph">
+<p><em>K Dim</em> defines the <em>K</em> dimension of the matrix multiply accumulate operation.
+It must come from a constant instruction with scalar 32-bit integer type.</p>
+</div>
+<div class="paragraph">
+<p>The <em>N</em> dimension of the matrix multiply accumulate operation is implicitly the number of invocations in the subgroup.</p>
+</div>
+<div class="paragraph">
+<p><em>Matrix A</em> is the first matrix operand and has <em>M</em> rows and <em>K</em> columns.
+The type of <em>Matrix A</em> must be a scalar or vector of floating-point or integer type.
+Multiple invocations in the subgroup may contribute part of the <em>Matrix A</em> operand, depending on the matrix operand size and the subgroup size.</p>
+</div>
+<div class="paragraph">
+<p><em>Matrix B</em> is the second matrix operand and has <em>K</em> rows and <em>N</em> columns.
+It must be a scalar or vector of floating-point or integer type.
+Each of the invocations in the subgroup contributes part of the <em>Matrix B</em> operand.</p>
+</div>
+<div class="paragraph">
+<p><em>Matrix C</em> is the third matrix operand and has <em>M</em> rows and <em>N</em> columns.
+It must be a scalar or vector of floating-point or integer type.
+Each of the invocations in the subgroup contributes part of the <em>Matrix C</em> operand.</p>
+</div>
+<div class="paragraph">
+<p>The multiplication step of the matrix multiply accumulate operation computes the matrix product of <em>Matrix A</em> and <em>Matrix B</em>.
+The product is a matrix with <em>M</em> rows and <em>N</em> columns.
+The order of operations to compute the elements of the matrix product is implementation-dependent.</p>
+</div>
+<div class="paragraph">
+<p>For integer matrices, the operations used for the multiplication of <em>Matrix A</em> and <em>Matrix B</em> and the addition of <em>Matrix C</em> are performed at the precision of the <em>Result Type</em>.
+The resulting value will equal the low-order N bits of the correct result R, where N is the result width and R is computed with enough precision to avoid overflow and underflow.</p>
+</div>
+<div class="paragraph">
+<p>For floating-point matrices, the precision and the order of operations are implementation-defined.</p>
+</div>
+<div class="paragraph">
+<p>The accumulation step of the matrix multiply accumulate operation computes the element-wise addition of the matrix product of <em>Matrix A</em> and <em>Matrix B</em> with <em>Matrix C</em>.
+The final result is a matrix with <em>M</em> rows and <em>N</em> columns, which is assigned to <em>Result</em>.</p>
+</div>
+<div class="paragraph">
+<p><em>Matrix Multiply Accumulate Operands</em> is an optional literal that specifies additional information about the matrix operands, such as ways to reinterpret the bits passed as the matrix operands.
+If <em>Matrix Multiply Accumulate Operands</em> is not present, it is the same as specifying the <em>Matrix Multiply Accumulate Operand</em> <strong>None</strong>.</p>
+</div>
+<div class="paragraph">
+<p>Behavior is undefined unless all invocations within the subgroup execute the same dynamic instance of this instruction.</p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capability:<br>
+<strong>SubgroupMatrixMultiplyAccumulateINTEL</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7 + variable</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6237</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>Result Type</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>Result</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>K Dim</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>Matrix A</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>Matrix B</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;id&gt;</em><br>
+<em>Matrix C</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional<br>
+<em>Matrix Multiply Accumulate Operands</em></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_mapping_matrix_data_to_invocations">Mapping Matrix Data to Invocations</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This section describes how each invocation passes its contribution to the per-subgroup <em>Matrix A</em>, <em>Matrix B</em>, and <em>Matrix C</em> operands, and how the per-subgroup <em>Result</em> matrix is assigned to each invocation.</p>
+</div>
+<div class="paragraph">
+<p>Recall that the <em>M</em> dimension of the matrix multiply accumulate operation is defined by the number of components in the <em>Result Type</em>, the <em>N</em> dimension is defined implicitly by the number of invocations in the subgroup, and the <em>K</em> dimension is defined by the <em>K Dim</em> operand.</p>
+</div>
+<div class="paragraph">
+<p>The <em>Matrix A</em> operand has <em>M</em> rows and <em>K</em> columns.
+The <em>K</em> columns of data are passed by the <em>N</em> invocations in the subgroup, with the lower-numbered invocations (invocations where <strong>SubgroupLocalInvocationId</strong> is a smaller value) passing the lower-numbered columns.
+This is the only matrix operand that is not dependent on <em>N</em>, the number of invocations in the subgroup, so there are three scenarios to consider:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>If <em>N</em> is equal to <em>K</em>, then each invocation contributes a single column of <em>Matrix A</em>.
+The complete contribution for an invocation is passed as a vector of <em>M</em> values, with each component representing one row of the contribution, and the lower-numbered components representing the lower-numbered rows.</p>
+</li>
+<li>
+<p>If <em>N</em> is less than <em>K</em>, then each invocation contributes multiple columns of <em>Matrix A</em>.
+The multiple columns are packed into a single value per row, with data from the lower-numbered columns in the lower bits of the value.
+The complete contribution for an invocation is passed as a vector of <em>M</em> values, with each component representing one row of the contribution, and the lower-numbered components representing the lower-numbered rows.</p>
+</li>
+<li>
+<p>If <em>N</em> is greater than <em>K</em>, then each invocation contributes a fraction of the rows representing a single column of <em>Matrix A</em>.
+The complete contribution for an invocation is passed as a vector of values, with each component representing one row of the contribution, and the lower-numbered components representing the lower-numbered rows.
+For example, if <em>N</em> is twice as big as <em>K</em>, then each invocation contributes every other row of a single column of <em>Matrix A</em>, with the lower-numbered invocations contributing the first row and higher-numbered invocations contributing the second row.
+If the data from the higher-numbered invocations is not needed, such as when there is only one row <em>M</em>, then the data passed by the higher-numbered invocations is ignored.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The <em>Matrix B</em> operand has <em>K</em> rows and <em>N</em> columns.
+Each invocation in the subgroup contributes a single column of <em>Matrix B</em>, with the lower-numbered invocations (invocations where <strong>SubgroupLocalInvocationId</strong> is a smaller value) passing the lower-numbered columns.
+For matrix elements that are larger than 16 bits, the column of <em>Matrix B</em> is passed as a vector, with the lower-numbered rows of <em>Matrix B</em> passed as the lower-numbered components of the vector.
+For matrix elements that are 16 bits or smaller, the column of <em>Matrix B</em> is passed as a vector of 32-bit values, with the lower-numbered rows of <em>Matrix B</em> passed as the lower-numbered components of the vector, and lowered-numbered rows passed as the lower-numbered bits of each value.
+This is sometimes referred to as a <em>packed</em> or <em>VNNI</em> layout.</p>
+</div>
+<div class="paragraph">
+<p>The <em>Matrix C</em> operand has <em>M</em> rows and <em>N</em> columns.
+Each invocation in the subgroup contributes a single column of <em>Matrix C</em>, with the lower-numbered invocations passing the lower-numbered columns.
+The column of <em>Matrix C</em> is passed as a vector of values, with the lower-numbered components representing lower-numbered rows.</p>
+</div>
+<div class="paragraph">
+<p>The <em>Result</em> matrix has <em>M</em> rows and <em>N</em> columns, and is assigned to invocations the same as the <em>Matrix C</em> operand.
+Each invocation of the subgroup is assigned a single column of the <em>Result</em> matrix, with the lower-numbered invocations assigned the lower-numbered columns.
+The column of the <em>Result</em> matrix is returned as a vector of values, with the lower-numbered components representing lower-numbered rows.</p>
+</div>
+<div class="sect2">
+<h3 id="_examples">Examples</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Passing <em>Matrix A</em> with <em>M</em> equal to two, <em>K</em> equal to four, and <em>N</em> equal to four:</p>
+<div class="openblock">
+<div class="content">
+<table class="tableblock frame-all grid-all stripes-even" style="width: 1%;">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>0,0</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>0,1</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>0,2</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>0,3</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>1,0</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>1,1</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>1,2</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>1,3</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>This is the first <em>Matrix A</em> case, where <em>N</em> is equal to <em>K</em>.
+Therefore, each invocation contributes a vector representing a single column of <em>Matrix A</em>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Invocation 0 passes a vector consisting of the two values <code>0,0</code> and <code>1,0</code>.</p>
+</li>
+<li>
+<p>Invocation 1 passes a vector consisting of the two values <code>0,1</code> and <code>1,1</code>.</p>
+</li>
+<li>
+<p>Invocation 2 passes a vector consisting of the two values <code>0,2</code> and <code>1,2</code>.</p>
+</li>
+<li>
+<p>Invocation 3 passes a vector consisting of the two values <code>0,3</code> and <code>1,3</code>.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p>Passing <em>Matrix A</em> with <em>M</em> equal to two, <em>K</em> equal to eight, and <em>N</em> equal to four:</p>
+<div class="openblock">
+<div class="content">
+<table class="tableblock frame-all grid-all stripes-even" style="width: 1%;">
+<colgroup>
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>0,0</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>0,1</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>0,2</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>0,3</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>0,4</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>0,5</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>0,6</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>0,7</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>1,0</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>1,1</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>1,2</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>1,3</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>1,4</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>1,5</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>1,6</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>1,7</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>This is the second <em>Matrix A</em> case, where <em>N</em> is less than <em>K</em>.
+In this case <em>N</em> is two times less than <em>K</em>.
+Therefore, each invocation contributes a vector representing two columns of <em>Matrix A</em>; the first column in the lower bits of each vector component and the second column in the upper bits:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Invocation 0 passes a vector consisting of the two values <code>0,1 | 0,0</code> and <code>1,1 | 1,0</code>.</p>
+</li>
+<li>
+<p>Invocation 1 passes a vector consisting of the two values <code>0,3 | 0,2</code> and <code>1,3 | 1,2</code>.</p>
+</li>
+<li>
+<p>Invocation 2 passes a vector consisting of the two values <code>0,5 | 0,4</code> and <code>1,5 | 1,4</code>.</p>
+</li>
+<li>
+<p>Invocation 3 passes a vector consisting of the two values <code>0,7 | 0,6</code> and <code>1.7 | 1,6</code>.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p>Passing <em>Matrix A</em> with <em>M</em> equal to four, <em>K</em> equal to two, and <em>N</em> equal to four:</p>
+<div class="openblock">
+<div class="content">
+<table class="tableblock frame-all grid-all stripes-even" style="width: 1%;">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>0,0</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>0,1</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>1,0</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>1,1</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>2,0</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>2,1</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>3,0</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>3,1</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>This is the third <em>Matrix A</em> case, where <em>N</em> is greater than <em>K</em>.
+In this case, <em>N</em> is two times greater than <em>K</em>.
+Therefore, each invocation contributes a vector representing every other row of each column of <em>Matrix A</em>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Invocation 0 passes a vector consisting of the two values <code>0,0</code> and <code>2,0</code>.</p>
+</li>
+<li>
+<p>Invocation 1 passes a vector consisting of the two values <code>0,1</code> and <code>2,1</code>.</p>
+</li>
+<li>
+<p>Invocation 2 passes a vector consisting of the two values <code>1,0</code> and <code>3,0</code>.</p>
+</li>
+<li>
+<p>Invocation 3 passes a vector consisting of the two values <code>1,1</code> and <code>3,1</code>.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p>Passing <em>Matrix A</em> with <em>M</em> equal to one, <em>K</em> equal to two, and <em>N</em> equal to four:</p>
+<div class="openblock">
+<div class="content">
+<table class="tableblock frame-all grid-all stripes-even" style="width: 1%;">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>0,0</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>0,1</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>This is a special-case of the third <em>Matrix A</em> case.
+In this case, <em>N</em> is greater than <em>K</em>, and there is only one row.
+Therefore, the data contributed by some invocations is ignored:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Invocation 0 passes the value <code>0,0</code>.</p>
+</li>
+<li>
+<p>Invocation 1 passes the value <code>0,1</code>.</p>
+</li>
+<li>
+<p>The data from Invocation 2 and Invocation 3 is ignored.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p>Passing <em>Matrix B</em> with <em>K</em> equal to eight, <em>N</em> equal to four, and 8-bit data:</p>
+<div class="openblock">
+<div class="content">
+<table class="tableblock frame-all grid-all stripes-even" style="width: 1%;">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>0,0</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>0,1</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>0,2</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>0,3</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>1,0</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>1,1</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>1,2</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>1,3</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>2,0</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>2,1</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>2,2</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>2,3</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>3,0</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>3,1</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>3,2</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>3,3</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>4,0</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>4,1</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>4,2</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>4,3</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>5,0</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>5,1</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>5,2</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>5,3</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>6,0</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>6,1</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>6,2</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>6,3</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>7,0</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>7,1</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>7,2</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>7,3</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Each invocation contributes a vector of two 32-bit values, where each value consists of 8-bit data from four rows of the invocation&#8217;s column data:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Invocation 0 passes a vector consisting of the two 32-bit values <code>3,0 | 2,0 | 1,0 | 0,0</code> and <code>7,0 | 6,0 | 5,0 | 4,0</code>.</p>
+</li>
+<li>
+<p>Invocation 1 passes a vector consisting of the two 32-bit values <code>3,1 | 2,1 | 1,1 | 0,1</code> and <code>7,1 | 6,1 | 5,1 | 4,1</code>.</p>
+</li>
+<li>
+<p>Invocation 2 passes a vector consisting of the two 32-bit values <code>3,2 | 2,2 | 1,2 | 0,2</code> and <code>7,2 | 6,2 | 5,2 | 4,2</code>.</p>
+</li>
+<li>
+<p>Invocation 3 passes a vector consisting of the two 32-bit values <code>3,3 | 2,3 | 1,3 | 0,3</code> and <code>7,3 | 6,3 | 5,3 | 4,3</code>.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p>Passing <em>Matrix B</em> with <em>K</em> equal to four, <em>N</em> equal to four, and 16-bit data:</p>
+<div class="openblock">
+<div class="content">
+<table class="tableblock frame-all grid-all stripes-even" style="width: 1%;">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>0,0</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>0,1</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>0,2</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>0,3</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>1,0</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>1,1</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>1,2</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>1,3</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>2,0</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>2,1</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>2,2</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>2,3</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>3,0</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>3,1</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>3,2</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>3,3</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Each invocation contributes a vector of two 32-bit values, where each value consists of 16-bit data from two rows of the invocation&#8217;s column data:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Invocation 0 passes a vector consisting of the two 32-bit values <code>1,0 | 0,0</code> and <code>3,0 | 2,0</code>.</p>
+</li>
+<li>
+<p>Invocation 1 passes a vector consisting of the two 32-bit values <code>1,1 | 0,1</code> and <code>3,1 | 2,1</code>.</p>
+</li>
+<li>
+<p>Invocation 2 passes a vector consisting of the two 32-bit values <code>1,2 | 0,2</code> and <code>3,2 | 2,2</code>.</p>
+</li>
+<li>
+<p>Invocation 3 passes a vector consisting of the two 32-bit values <code>1,3 | 0,3</code> and <code>3,3 | 2,3</code>.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p>Passing <em>Matrix B</em> with <em>K</em> equal to two, <em>N</em> equal to four, and 32-bit data:</p>
+<div class="openblock">
+<div class="content">
+<table class="tableblock frame-all grid-all stripes-even" style="width: 1%;">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>0,0</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>0,1</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>0,2</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>0,3</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>1,0</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>1,1</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>1,2</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>1,3</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Each invocation contributes a vector of two 32-bit values representing the rows of the invocation&#8217;s column data:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Invocation 0 passes a vector consisting of the two 32-bit values <code>0,0</code> and <code>1,0</code>.</p>
+</li>
+<li>
+<p>Invocation 1 passes a vector consisting of the two 32-bit values <code>0,1</code> and <code>1,1</code>.</p>
+</li>
+<li>
+<p>Invocation 2 passes a vector consisting of the two 32-bit values <code>0,2</code> and <code>1,2</code>.</p>
+</li>
+<li>
+<p>Invocation 3 passes a vector consisting of the two 32-bit values <code>0,3</code> and <code>1,3</code>.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p>Passing <em>Matrix C</em> with <em>M</em> equal to two and <em>N</em> equal to four:</p>
+<div class="openblock">
+<div class="content">
+<table class="tableblock frame-all grid-all stripes-even" style="width: 1%;">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>0,0</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>0,1</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>0,2</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>0,3</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>1,0</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>1,1</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>1,2</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>1,3</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Each invocation contributes a vector of values representing the rows of the invocation&#8217;s column data:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Invocation 0 passes a vector consisting of the two values <code>0,0</code> and <code>1,0</code>.</p>
+</li>
+<li>
+<p>Invocation 1 passes a vector consisting of the two values <code>0,1</code> and <code>1,1</code>.</p>
+</li>
+<li>
+<p>Invocation 2 passes a vector consisting of the two values <code>0,2</code> and <code>1,2</code>.</p>
+</li>
+<li>
+<p>Invocation 3 passes a vector consisting of the two values <code>0,3</code> and <code>1,3</code>.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p>Assigning <em>Result</em> with <em>M</em> equal to two and <em>N</em> equal to four:</p>
+<div class="openblock">
+<div class="content">
+<table class="tableblock frame-all grid-all stripes-even" style="width: 1%;">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>0,0</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>0,1</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>0,2</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>0,3</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>1,0</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>1,1</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>1,2</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>1,3</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Each invocation is assigned a vector of values representing the rows of the invocation&#8217;s column data:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Invocation 0 is assigned a vector consisting of the two values <code>0,0</code> and <code>1,0</code>.</p>
+</li>
+<li>
+<p>Invocation 1 is assigned a vector consisting of the two values <code>0,1</code> and <code>1,1</code>.</p>
+</li>
+<li>
+<p>Invocation 2 is assigned a vector consisting of the two values <code>0,2</code> and <code>1,2</code>.</p>
+</li>
+<li>
+<p>Invocation 3 is assigned a vector consisting of the two values <code>0,3</code> and <code>1,3</code>.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_issues">Issues</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>What should this extension be called?</p>
+<div class="openblock">
+<div class="content">
+<div class="paragraph">
+<p><strong>RESOLVED</strong>: The name of the extension will be SPV_INTEL_subgroup_matrix_multiply_accumulate, which aligns with the name of the related OpenCL extension <a href="https://registry.khronos.org/OpenCL/extensions/intel/cl_intel_subgroup_matrix_multiply_accumulate.html">cl_intel_subgroup_matrix_multiply_accumulate</a>.</p>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p>Do we need bits to indicate whether integer matrix C or result matrices are signed vs. unsigned?</p>
+<div class="openblock">
+<div class="content">
+<div class="paragraph">
+<p><strong>RESOLVED</strong>: No, we do not currently have a use-case for unsigned interpretations for the matrix C and result matrices, even though in theory there could be a use-case in the future.</p>
+</div>
+<div class="paragraph">
+<p>Additionally, because we do not support saturating accumulation, the same operation should work for both signed and unsigned integers due to the behavior of twos-complement arithmetic.
+Note that there are not separate instructions for signed vs. unsigned integer arithmetic, for example, without integer saturation.</p>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p>Should the default interpretation be signed or unsigned?</p>
+<div class="openblock">
+<div class="content">
+<div class="paragraph">
+<p><strong>RESOLVED</strong>: The default interpretation is signed.
+If needed, we could add interpretations for interpreting matrix C or the result matrix as unsigned in an updated version of this extension or in a layered extension.</p>
+</div>
+<div class="paragraph">
+<p>Note though, the similar type interpretations for cooperative matrices are signed, or said another way, the default interpretation is unsigned.</p>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p>Do we need different capabilities to gate each of the type interpretations?</p>
+<div class="openblock">
+<div class="content">
+<div class="paragraph">
+<p><strong>RESOLVED</strong>: No, we do not need different capabilities to gate each of the type interpretations, and it is OK to only have the top-level <strong>SubgroupMatrixMultiplyAccumulateINTEL</strong> capability.</p>
+</div>
+<div class="paragraph">
+<p>It will always be undefined behavior to use an unsupported matrix dimension or type, therefore adding additional capabilities for each type interpretation is not necessary.</p>
+</div>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_revision_history">Revision History</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-rows stripes-even stretch">
+<colgroup>
+<col style="width: 4.7619%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Rev</th>
+<th class="tableblock halign-left valign-top">Date</th>
+<th class="tableblock halign-left valign-top">Author</th>
+<th class="tableblock halign-left valign-top">Changes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2025-01-07</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ben Ashbaugh</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Initial revision for publication</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</body>
+</html>
