@@ -1,0 +1,599 @@
+SPV_NV_linear_swept_spheres
+===========================
+
+Name Strings
+------------
+
+SPV_NV_linear_swept_spheres
+
+Contact
+-------
+
+See *Issues* list in the Khronos SPIRV-Registry repository:
+https://github.com/KhronosGroup/SPIRV-Registry
+
+Contributors
+------------
+
+- Ashwin Lele, NVIDIA
+- Eric Werness, NVIDIA
+- Vikram Kushwaha, NVIDIA
+
+Status
+------
+
+- Complete
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2025-01-01
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.6 Revision 1.
+
+This extension requires SPIR-V 1.4.
+
+This extension interacts with SPV_KHR_ray_tracing.
+
+This extension interacts with SPV_KHR_ray_query.
+
+This extension interacts with SPV_NV_shader_invocation_reorder.
+
+Overview
+--------
+
+This extension adds new functionality to support the Vulkan
+VK_NV_ray_tracing_linear_swept_spheres extension in SPIR-V.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_NV_linear_swept_spheres"
+----
+
+
+New Capabilities
+----------------
+
+This extension introduces new capabilities:
+
+----
+RayTracingSpheresGeometryNV
+RayTracingLinearSweptSpheresGeometryNV
+----
+
+
+New Builtins
+------------
+
+Builtins added under the *RayTracingLinearSweptSpheresGeometryNV* capability
+
+----
+HitIsLSSNV
+HitLSSPositionsNV
+HitLSSRadiiNV
+----
+
+Builtins added under the *RayTracingSpheresGeometryNV* capability
+
+----
+HitIsSphereNV
+HitSpherePositionNV
+HitSphereRadiusNV
+----
+
+New Instructions
+----------------
+
+Instructions added under the *RayTracingSpheresGeometryNV* capability
+
+----
+OpHitObjectGetSpherePositionNV
+OpHitObjectGetSphereRadiusNV
+OpHitObjectIsSphereHitNV
+OpRayQueryGetIntersectionSpherePositionNV
+OpRayQueryGetIntersectionSphereRadiusNV
+OpRayQueryIsSphereHitNV
+----
+
+Instructions added under the *RayTracingLinearSweptSpheresGeometryNV* capability
+
+----
+OpHitObjectGetLSSPositionsNV
+OpHitObjectGetLSSRadiiNV
+OpHitObjectIsLSSHitNV
+OpRayQueryGetIntersectionLSSPositionsNV
+OpRayQueryGetIntersectionLSSRadiiNV
+OpRayQueryGetIntersectionLSSHitValueNV 
+OpRayQueryIsLSSHitNV 
+----
+
+Modifications to the SPIR-V Specification
+-----------------------------------------
+
+(Modify Section 3.21, Builtin, adding rows to the Builtin table) ::
++
+--
+[cols="^1,10,^6",options="header",width = "100%"]
+|====
+2+^.^| Decoration | <<Capability,Enabling Capabilities>>
+| 5359 | *HitIsSphereNV* +
+Indicates if current ray hit a sphere primitive. *OpConstantTrue* if hit is with a sphere primitive , *OpConstantFalse* otherwise. +
+Allowed in *AnyHitKHR* and *ClosestHitKHR* ray tracing execution models.
+|*RayTracingSpheresGeometryNV*
+| 5360 | *HitIsLSSNV* +
+Indicates if current ray hit a LSS primitive, *OpConstantTrue* if hit is with a
+LSS primitive , *OpConstantFalse* otherwise. +
+Allowed in *AnyHitKHR* and *ClosestHitKHR* ray tracing execution models.
+|*RayTracingLinearSweptSpheresGeometryNV*
+| 5361 | *HitSpherePositionNV* +
+The position of sphere primitive intersected by current ray. +
+Allowed in *AnyHitKHR* and *ClosestHitKHR* ray tracing execution models.
+|*RayTracingSpheresGeometryNV*
+| 5396 | *HitLSSPositionsNV* +
+The positions of two endcaps of LSS primitive intersected by current ray. +
+Allowed in *AnyHitKHR* and *ClosestHitKHR* ray tracing execution models.
+|*RayTracingLinearSweptSpheresGeometryNV*
+| 5420 | *HitSphereRadiusNV* +
+The radius of sphere primitive intersected by current ray. +
+Allowed in *AnyHitKHR* and *ClosestHitKHR* ray tracing execution models.
+|*RayTracingSpheresGeometryNV*
+| 5421 | *HitLSSRadiiNV* +
+The radii of two endcaps of LSS primitive intersected by current ray. +
+Allowed in *AnyHitKHR* and *ClosestHitKHR* ray tracing execution models.
+|*RayTracingLinearSweptSpheresGeometryNV*
+|====
+--
+
+(Modify Section 3.31, Capability, adding a row to the Capability table) ::
++
+--
+[cols="^.^5,25,15",options="header",width = "100%"]
+|====
+2+^.^| Capability | Implicitly Declares
+| 5418 | *RayTracingSpheresGeometryNV* +
+|
+| 5419 | *RayTracingLinearSweptSpheresGeometryNV* +
+|
+|====
+--
++
+
+
+(Modify sub-section 3.RF, Ray Flags, add a new row) ::
++
+--
+*3.RF, Ray Flags*
+[cols="^1,15,5",options="header",width="80%"]
+|====
+2+^.^| Ray Flags | Enabling Capabilities
+| 256 | *SkipBuiltinPrimitivesNV* +
+Alias for *SkipTrianglesKHR*.
+See the Ray Primitive Culling section in the Vulkan API specification.
+| *RayTracingSpheresGeometryNV* or *RayTracingLinearSweptSpheresGeometryNV*
+|====
+
+--
+
+(Add a new sub section 3.36.Hit Object Instructions) ::
++
+--
+
+[cols="5*1"]
+|======
+4+|[[OpHitObjectGetSpherePositionNV]]*OpHitObjectGetSpherePositionNV* +
+ +
+ Returns object space position of sphere primitive as encoded in the hit object. +
+ +
+ 'Result' is object space position of sphere primitive. +
+ +
+ 'Result Type' must be a 32-bit 'floating-point type' 3-component vector. +
+ +
+ 'Hit Object' is a pointer to the hit object. +
+ +
+ This instruction is allowed only in *RayGenerationKHR*, *ClosestHitKHR* and *MissKHR* execution models. +
+1+|Capability: +
+*RayTracingSpheresGeometryNV*
+| 4 | 5432
+| '<id>' 'Result Type'
+| '<id>' 'Result' 
+| '<id>' 'Hit Object'
+|======
+
+[cols="5*1"]
+|======
+4+|[[OpHitObjectGetSphereRadiusNV]]*OpHitObjectGetSphereRadiusNV* +
+ +
+ Returns sphere radius of sphere primitive as encoded in the hit object. +
+ +
+ 'Result' is radius of sphere primitive. +
+ +
+ 'Result Type' must be a 32-bit 'floating-point type' scalar. +
+ +
+ 'Hit Object' is a pointer to the hit object. +
+ +
+ This instruction is allowed only in *RayGenerationKHR*, *ClosestHitKHR* and *MissKHR* execution models. +
+1+|Capability: +
+*RayTracingSpheresGeometryNV*
+| 4 | 5433
+| '<id>' 'Result Type'
+| '<id>' 'Result' 
+| '<id>' 'Hit Object'
+|======
+
+[cols="5*1"]
+|======
+4+|[[OpHitObjectGetLSSPositionsNV]]*OpHitObjectGetLSSPositionsNV* +
+ +
+ Returns object space positions of endcaps of LSS primitive as encoded in the hit object. +
+ +
+ 'Result' is object space positions of LSS primitive. +
+ +
+ 'Result Type' must be an array with a Length of 2, and an Element Type that is a vector type with a Component Type that is a 
+ '32-bit floating-point' type and a Component Count of 3. +
+ +
+ 'Hit Object' is a pointer to the hit object. +
+ +
+ This instruction is allowed only in *RayGenerationKHR*, *ClosestHitKHR* and *MissKHR* execution models. +
+1+|Capability: +
+*RayTracingLinearSweptSpheresGeometryNV*
+| 4 | 5434
+| '<id>' 'Result Type'
+| '<id>' 'Result' 
+| '<id>' 'Hit Object'
+|======
+
+[cols="5*1"]
+|======
+4+|[[OpHitObjectGetLSSRadiiNV]]*OpHitObjectGetLSSRadiiNV* +
+ +
+ Returns radii of endcaps of LSS primitive as encoded in the hit object. +
+ +
+ 'Result' is radii of endcaps of LSS primitive. +
+ +
+ 'Result Type' must be an array with a Length of 2, and an Element Type that is a '32-bit floating-point' type scalar. +
+ +
+ 'Hit Object' is a pointer to the hit object. +
+ +
+ This instruction is allowed only in *RayGenerationKHR*, *ClosestHitKHR* and *MissKHR* execution models. +
+1+|Capability: +
+*RayTracingLinearSweptSpheresGeometryNV*
+| 4 | 5435
+| '<id>' 'Result Type'
+| '<id>' 'Result' 
+| '<id>' 'Hit Object'
+|======
+
+[cols="5*1"]
+|======
+4+|[[OpHitObjectIsSphereHitNV]]*OpHitObjectIsSphereHitNV* +
+ +
+ Returns a boolean indicating if hit is with sphere primitive as encoded in the hit object. +
+ +
+ 'Result' is 'true' if hit is with sphere primitive, 'false' otherwise. +
+ +
+ 'Result Type' must be a 'boolean' type scalar. +
+ +
+ 'Hit Object' is a pointer to the hit object. +
+ +
+ This instruction is allowed only in *RayGenerationKHR*, *ClosestHitKHR* and *MissKHR* execution models. +
+1+|Capability: +
+*RayTracingSpheresGeometryNV*
+| 4 | 5436
+| '<id>' 'Result Type'
+| '<id>' 'Result' 
+| '<id>' 'Hit Object'
+|======
+
+[cols="5*1"]
+|======
+4+|[[OpHitObjectIsLSSHitNV]]*OpHitObjectIsLSSHitNV* +
+ +
+ Returns a boolean indicating if hit is with LSS primitive as encoded in the hit object. +
+ +
+ 'Result' is 'true' if hit is with LSS primitive, 'false' otherwise. +
+ +
+ 'Result Type' must be a 'boolean' type scalar. +
+ +
+ 'Hit Object' is a pointer to the hit object. +
+ +
+ This instruction is allowed only in *RayGenerationKHR*, *ClosestHitKHR* and *MissKHR* execution models. +
+1+|Capability: +
+*RayTracingLinearSweptSpheresGeometryNV*
+| 4 | 5437
+| '<id>' 'Result Type'
+| '<id>' 'Result' 
+| '<id>' 'Hit Object'
+|======
+
+:RayQueryUrl: https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/KHR/SPV_KHR_ray_query.asciidoc
+
+(Add a new sub section 3.36.RQInstructions, Ray Query Instructions) ::
++
+--
+[cols="6*1"]
+|======
+5+|[[OpRayQueryGetIntersectionSpherePositionNV]]*OpRayQueryGetIntersectionSpherePositionNV* +
+ +
+ Returns the object space position of sphere primitive at the current intersection. +
+ +
+ 'Result' is the returned sphere position. +
+ +
+ 'Result Type' must be a 32-bit 'floating-point type' 3-component vector. +
+ +
+ 'Intersection' must be the <id> of a 'constant instruction' with a 32-bit scalar 'integer type'. +
+ +
+ 'Intersection' identifies which intersection values should be returned for, either the current candidate or the
+ closest recorded hit so far; see {RayQueryUrl}#ray_query_intersection[Ray Query Intersection]. +
+ +
+ 'Ray Query' is a pointer to the ray query object. +
+ +
+ If 'Intersection' is *RayQueryCandidateIntersectionKHR*, behavior is undefined if *OpRayQueryProceedKHR*
+ was not executed on the same ray query object, or if the last value returned by such an execution of *OpRayQueryProceedKHR* was not true.
+ +
+ +
+ If 'Intersection' is *RayQueryCommittedIntersectionKHR*, behavior is undefined if there is no current committed
+ intersection (see *OpRayQueryCommittedTypeKHR*).
+1+|Capability: +
+*RayTracingSpheresGeometryNV*
+| 5 | 5427
+| '<id>' 'Result Type'
+| '<id>' 'Result'
+| '<id>' 'Ray Query'
+| '<id>' 'Intersection'
+|======
+
+[cols="6*1"]
+|======
+5+|[[OpRayQueryGetIntersectionSphereRadiusNV]]*OpRayQueryGetIntersectionSphereRadiusNV* +
+ +
+ Returns the radius of the sphere primitive at the current intersection. +
+ +
+ 'Result' is the returned sphere radius. +
+ +
+ 'Result Type' must be a 32-bit 'floating-point type' scalar. +  
+ +
+ 'Intersection' must be the <id> of a 'constant instruction' with a 32-bit scalar 'integer type'. +
+ +
+ 'Intersection' identifies which intersection values should be returned for, either the current candidate or the
+ closest recorded hit so far; see {RayQueryUrl}#ray_query_intersection[Ray Query Intersection]. +
+ +
+ 'Ray Query' is a pointer to the ray query object. +
+ +
+ If 'Intersection' is *RayQueryCandidateIntersectionKHR*, behavior is undefined if *OpRayQueryProceedKHR*
+ was not executed on the same ray query object, or if the last value returned by such an execution of *OpRayQueryProceedKHR* was not true.
+ +
+ +
+ If 'Intersection' is *RayQueryCommittedIntersectionKHR*, behavior is undefined if there is no current committed
+ intersection (see *OpRayQueryCommittedTypeKHR*).
+1+|Capability: +
+*RayTracingSpheresGeometryNV*
+| 5 | 5428
+| '<id>' 'Result Type'
+| '<id>' 'Result'
+| '<id>' 'Ray Query'
+| '<id>' 'Intersection'
+|======
+
+[cols="6*1"]
+|======
+5+|[[OpRayQueryGetIntersectionLSSPositionsNV]]*OpRayQueryGetIntersectionLSSPositionsNV* +
+ +
+ Returns the positions of encaps of the LSS primitive at the current intersection. +
+ +
+ 'Result' is the returned LSS primitive endcap positions. +
+ +
+ 'Result Type' must be an array with a 'Length' of 2, and an 'Element Type' that is a vector type with a 'Component Type' that is a 32-bit 'floating-point type' and a 'Component Count' of 3. +
+ +
+ 'Intersection' must be the <id> of a 'constant instruction' with a 32-bit scalar 'integer type'. +
+ +
+ 'Intersection' identifies which intersection values should be returned for, either the current candidate or the
+ closest recorded hit so far; see {RayQueryUrl}#ray_query_intersection[Ray Query Intersection]. +
+ +
+ 'Ray Query' is a pointer to the ray query object. +
+ +
+ If 'Intersection' is *RayQueryCandidateIntersectionKHR*, behavior is undefined if *OpRayQueryProceedKHR*
+ was not executed on the same ray query object, or if the last value returned by such an execution of *OpRayQueryProceedKHR* was not true.
+ +
+ +
+ If 'Intersection' is *RayQueryCommittedIntersectionKHR*, behavior is undefined if there is no current committed
+ intersection (see *OpRayQueryCommittedTypeKHR*).
+1+|Capability: +
+*RayTracingLinearSweptSpheresGeometryNV*
+| 5 | 5429
+| '<id>' 'Result Type'
+| '<id>' 'Result'
+| '<id>' 'Ray Query'
+| '<id>' 'Intersection'
+|======
+
+[cols="6*1"]
+|======
+5+|[[OpRayQueryGetIntersectionLSSRadiiNV]]*OpRayQueryGetIntersectionLSSRadiiNV* +
+ +
+ Returns the radii of endcaps of the LSS primitive at the current intersection. +
+ +
+ 'Result' is the returned LSS primitive endcap radii. +
+ +
+ 'Result Type' must be an array with a 'Length' of 2, and an 'Element Type' that is a 32-bit 'floating-point type' scalar. +
+ +
+ 'Intersection' must be the <id> of a 'constant instruction' with a 32-bit scalar 'integer type'. +
+ +
+ 'Intersection' identifies which intersection values should be returned for, either the current candidate or the
+ closest recorded hit so far; see {RayQueryUrl}#ray_query_intersection[Ray Query Intersection]. +
+ +
+ 'Ray Query' is a pointer to the ray query object. +
+ +
+ If 'Intersection' is *RayQueryCandidateIntersectionKHR*, behavior is undefined if *OpRayQueryProceedKHR*
+ was not executed on the same ray query object, or if the last value returned by such an execution of *OpRayQueryProceedKHR* was not true.
+ +
+ +
+ If 'Intersection' is *RayQueryCommittedIntersectionKHR*, behavior is undefined if there is no current committed
+ intersection (see *OpRayQueryCommittedTypeKHR*).
+1+|Capability: +
+*RayTracingLinearSweptSpheresGeometryNV*
+| 5 | 5430
+| '<id>' 'Result Type'
+| '<id>' 'Result'
+| '<id>' 'Ray Query'
+| '<id>' 'Intersection'
+|======
+
+[cols="6*1"]
+|======
+5+|[[OpRayQueryGetIntersectionLSSHitValueNV]]*OpRayQueryGetIntersectionLSSHitValueNV* +
+ +
+ Returns the floating point parametric value at hit for LSS primitive at the current intersection. +
+ +
+ 'Result' is the returned floating point value.
+ +
+ 'Result Type' must be a 32-bit 'floating-point type' scalar. +
+ +
+ 'Intersection' must be the <id> of a 'constant instruction' with a 32-bit scalar 'integer type'. +
+ +
+ 'Intersection' identifies which intersection values should be returned for, either the current candidate or the
+ closest recorded hit so far; see {RayQueryUrl}#ray_query_intersection[Ray Query Intersection]. +
+ +
+ 'Ray Query' is a pointer to the ray query object. +
+ +
+ If 'Intersection' is *RayQueryCandidateIntersectionKHR*, behavior is undefined if *OpRayQueryProceedKHR*
+ was not executed on the same ray query object, or if the last value returned by such an execution of *OpRayQueryProceedKHR* was not true.
+ +
+ +
+ If 'Intersection' is *RayQueryCommittedIntersectionKHR*, behavior is undefined if there is no current committed
+ intersection (see *OpRayQueryCommittedTypeKHR*).
+1+|Capability: +
+*RayTracingLinearSweptSpheresGeometryNV*
+| 5 | 5431
+| '<id>' 'Result Type'
+| '<id>' 'Result'
+| '<id>' 'Ray Query'
+| '<id>' 'Intersection'
+|======
+
+[cols="6*1"]
+|======
+5+|[[OpRayQueryIsSphereHitNV]]*OpRayQueryIsSphereHitNV* +
+ +
+ Returns a boolean indicating hit with a sphere primitive at the current intersection. +
+ +
+ 'Result' is the 'true' if hit is with sphere primitive, 'false' otherwise +
+ +
+ 'Result Type' must be a 'boolean' type scalar. +
+ +
+ 'Intersection' must be the <id> of a 'constant instruction' with a 32-bit scalar 'integer type'. +
+ +
+ 'Intersection' identifies which intersection values should be returned for, either the current candidate or the
+ closest recorded hit so far; see <<ray_query_intersection, Ray Query Intersection>>. +
+ +
+ 'Ray Query' is a pointer to the ray query object. +
+ +
+ If 'Intersection' is *RayQueryCandidateIntersectionKHR*, behavior is undefined if *OpRayQueryProceedKHR*
+ was not executed on the same ray query object, or if the last value returned by such an execution of *OpRayQueryProceedKHR* was not true.
+ +
+ +
+ If 'Intersection' is *RayQueryCommittedIntersectionKHR*, behavior is undefined if there is no current committed
+ intersection (see *OpRayQueryCommittedTypeKHR*).
+1+|Capability: +
+*RayTracingSpheresGeometryNV*
+| 5 | 5438
+| '<id>' 'Result Type'
+| '<id>' 'Result'
+| '<id>' 'Ray Query'
+| '<id>' 'Intersection'
+|======
+
+[cols="6*1"]
+|======
+5+|[[OpRayQueryIsLSSHitNV]]*OpRayQueryIsLSSHitNV* +
+ +
+ Returns a boolean indicating hit with a LSS primitive at the current intersection. +
+ +
+ 'Result' is the 'true' if hit is with LSS primitive, 'false' otherwise. +
+ +
+ 'Result Type' must be a 'boolean' type scalar. +
+ +
+ 'Intersection' must be the <id> of a 'constant instruction' with a 32-bit scalar 'integer type'. +
+ +
+ 'Intersection' identifies which intersection values should be returned for, either the current candidate or the
+ closest recorded hit so far; see {RayQueryUrl}#ray_query_intersection[Ray Query Intersection]. +
+ +
+ 'Ray Query' is a pointer to the ray query object. +
+ +
+ If 'Intersection' is *RayQueryCandidateIntersectionKHR*, behavior is undefined if *OpRayQueryProceedKHR*
+ was not executed on the same ray query object, or if the last value returned by such an execution of *OpRayQueryProceedKHR* was not true.
+ +
+ +
+ If 'Intersection' is *RayQueryCommittedIntersectionKHR*, behavior is undefined if there is no current committed
+ intersection (see *OpRayQueryCommittedTypeKHR*).
+1+|Capability: +
+*RayTracingLinearSweptSpheresGeometryNV*
+| 5 | 5439
+| '<id>' 'Result Type'
+| '<id>' 'Result'
+| '<id>' 'Ray Query'
+| '<id>' 'Intersection'
+|======
+
+Validation Rules
+----------------
+
+An OpExtension must be added to the SPIR-V for validation layers to check
+legal use of this extension:
+
+----
+OpExtension "SPV_NV_linear_swept_spheres"
+----
+
+Interactions with SPV_KHR_ray_tracing
+-------------------------------------
+
+Builtins *HitIsSphereNV*, *HitIsLSSNV*, *HitSpherePositionNV*
+*HitSphereRadiusNV*, *HitLSSPositionsNV*,
+*HitLSSRadiiNV* are supported only if SPV_KHR_ray_tracing is supported.
+
+Interactions with SPV_KHR_ray_query
+-----------------------------------
+
+*OpRayQueryGetIntersectionSpherePositionNV*, *OpRayQueryGetIntersectionSphereRadiusNV*,
+*OpRayQueryGetIntersectionLSSPositionsNV*, *OpRayQueryGetIntersectionLSSRadiiNV*,
+*OpRayQueryGetIntersectionLSSHitValueNV*,*OpRayQueryIsSphereHitNV*,
+*OpRayQueryIsLSSHitNV* are supported only if SPV_KHR_ray_query is supported.
+
+
+Interactions with SPV_NV_shader_invocation_reorder
+--------------------------------------------------
+
+*OpHitObjectGetSpherePositionNV*, *OpHitObjectGetSphereRadiusNV*,*OpHitObjectGetLSSPositionsNV*,
+*OpHitObjectGetLSSRadiiNV*, *OpHitObjectIsSphereHitNV*,
+*OpHitObjectIsLSSHitNV* are supported only if SPV_NV_shader_invocation_reorder is supported.
+
+
+Issues
+------
+
+None
+
+Revision History
+----------------
+
+[cols="5,15,15,20"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1 |2025-01-01  |Ashwin Lele           | Internal revisions.
+|========================================
+

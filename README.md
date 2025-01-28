@@ -166,6 +166,7 @@ Note: we no longer push the HTML along side the extension.
 * [SPV_NV_displacement_micromap            ]( https://github.khronos.org/SPIRV-Registry/extensions/NV/SPV_NV_displacement_micromap.html)
 * [SPV_NV_fragment_shader_barycentric      ]( https://github.khronos.org/SPIRV-Registry/extensions/NV/SPV_NV_fragment_shader_barycentric.html)
 * [SPV_NV_geometry_shader_passthrough      ]( https://github.khronos.org/SPIRV-Registry/extensions/NV/SPV_NV_geometry_shader_passthrough.html)
+* [SPV_NV_linear_swept_spheres             ]( https://github.khronos.org/SPIRV-Registry/extensions/NV/SPV_NV_linear_swept_spheres.html)
 * [SPV_NV_mesh_shader                      ]( https://github.khronos.org/SPIRV-Registry/extensions/NV/SPV_NV_mesh_shader.html)
 * [SPV_NV_raw_access_chains                ]( https://github.khronos.org/SPIRV-Registry/extensions/NV/SPV_NV_raw_access_chains.html)
 * [SPV_NV_ray_tracing                      ]( https://github.khronos.org/SPIRV-Registry/extensions/NV/SPV_NV_ray_tracing.html)
