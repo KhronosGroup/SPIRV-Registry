@@ -123,6 +123,8 @@ Allowed in *AnyHitKHR* and *ClosestHitKHR* ray tracing execution models.
 |====
 --
 
+:RayQueryUrl: https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/KHR/SPV_KHR_ray_query.asciidoc
+
 (Add a new sub section 3.36.RQInstructions, Ray Query Instructions) ::
 +
 --
@@ -153,8 +155,8 @@ Allowed in *AnyHitKHR* and *ClosestHitKHR* ray tracing execution models.
 | 5 | 5345
 | '<id>' 'Result Type'
 | '<id>' 'Result'
-| '<id>'' Ray Query'
-| '<id>'' Intersection'
+| '<id>' 'Ray Query'
+| '<id>' 'Intersection'
 |======
 --
 
@@ -179,7 +181,7 @@ Allowed in *AnyHitKHR* and *ClosestHitKHR* ray tracing execution models.
 | 4 | 5346
 | '<id>' 'Result Type'
 | '<id>' 'Result'
-| '<id'> 'Hit Object'
+| '<id>' 'Hit Object'
 |======
 --
 
