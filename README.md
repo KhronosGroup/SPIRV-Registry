@@ -163,6 +163,7 @@ Note: we no longer push the HTML along side the extension.
 * [SPV_NV_compute_shader_derivatives       ]( https://github.khronos.org/SPIRV-Registry/extensions/NV/SPV_NV_compute_shader_derivatives.html)
 * [SPV_NV_cooperative_matrix               ]( https://github.khronos.org/SPIRV-Registry/extensions/NV/SPV_NV_cooperative_matrix.html)
 * [SPV_NV_cooperative_matrix2              ]( https://github.khronos.org/SPIRV-Registry/extensions/NV/SPV_NV_cooperative_matrix2.html)
+* [SPV_NV_cooperative_vector               ]( https://github.khronos.org/SPIRV-Registry/extensions/NV/SPV_NV_cooperative_vector.html)
 * [SPV_NV_displacement_micromap            ]( https://github.khronos.org/SPIRV-Registry/extensions/NV/SPV_NV_displacement_micromap.html)
 * [SPV_NV_fragment_shader_barycentric      ]( https://github.khronos.org/SPIRV-Registry/extensions/NV/SPV_NV_fragment_shader_barycentric.html)
 * [SPV_NV_geometry_shader_passthrough      ]( https://github.khronos.org/SPIRV-Registry/extensions/NV/SPV_NV_geometry_shader_passthrough.html)

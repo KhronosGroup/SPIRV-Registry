@@ -1,0 +1,596 @@
+SPV_NV_cooperative_vector
+=========================
+
+Name Strings
+------------
+
+SPV_NV_cooperative_vector
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Jeff Bolz, NVIDIA
+- Karthik Vaidyanathan, NVIDIA
+- Yury Uralsky, NVIDIA
+- Sean Treichler, NVIDIA
+- Eric Werness, NVIDIA
+
+Notice
+------
+
+Copyright (c) 2023-2025 NVIDIA Corporation
+
+Status
+------
+
+- Complete
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2024-07-25
+| Revision           | 2
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.6, Revision 2, Unified.
+
+This extension requires SPIR-V 1.6.
+
+This extension interacts with SPV_KHR_physical_storage_buffer.
+
+Overview
+--------
+
+This extension adds a new set of types known as "cooperative vector" types.
+Unlike cooperative matrix types, a variable with a cooperative vector type
+is logically stored in the invocation it belongs to, but they can opportunistically cooperate
+behind the scenes when performing matrix-vector multiplies. Cooperative
+vectors don't require a fully occupied subgroup or uniform control flow like
+cooperative matrices, although these do increase the likelihood of being on
+the fast path. And unlike normal vector types, they have arbitrary length
+and support a relatively limited set of operations. These types are intended
+to help accelerate the evaluation of small neural networks, where each
+invocation is performing its own independent evaluation of the network.
+
+This extension introduces the types and instructions, but does not specify
+rules about what types are supported. This is left to the client API
+specifications, and it is expected that different implementations may
+support different types.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_NV_cooperative_vector"
+----
+
+Modifications to the SPIR-V Specification, Version 1.6
+------------------------------------------------------
+
+2.2 Terms
+~~~~~~~~~
+
+Add new terms to section 2.2.2 Types:
+
+[[CooperativeVector]]'Cooperative Vector:' An ordered homogeneous collection of
+one or more scalars. The number of components is not as limited as normal vector
+types. Cooperative Vectors are optimized for matrix-vector multiplies. The set of
+supported component types is defined by the client API.
+
+Add 'Cooperative Vector' to the definition of 'Abstract Type'.
+
+Add 'Cooperative Vector' to the definition of 'Composite'. A cooperative vector
+is a composite with a number of components equal to the component count declared
+in its type. It can be used as a composite for all operations that act on
+composite types. It can be used for *OpVectorExtractDynamic* and
+*OpVectorInsertDynamic*, but not *OpVectorShuffle*.
+
+2.16 Validation Rules
+~~~~~~~~~~~~~~~~~~~~~
+
+==== Modify section 2.16.1. Universal Validation Rules:
+
+* Add *OpCooperativeVectorMatrixMulNV*, *OpCooperativeVectorMatrixMulAddNV*,
+*OpCooperativeVectorLoadNV*, *OpCooperativeVectorStoreNV*,
+*OpCooperativeVectorOuterProductAccumulateNV*, and
+*OpCooperativeVectorReduceSumAccumulateNV* to the list of instructions under
+"It is invalid for a pointer to be an operand to any instruction other than:",
+when the *Logical* addressing model is selected and neither the
+*VariablePointers* nor *VariablePointersStorageBuffer* capability are declared.
+
+* Cooperative vector types (or types containing them) can only be allocated
+in *Function* or *Private* storage classes.
+
+==== Modify section 2.16.2. Validation Rules for Shader Capabilities:
+
+Add:
+
+* If the *CooperativeVectorNV* capability is declared then the *VulkanMemoryModel*
+  capability must be declared as well.
+
+
+3.26 Memory Operands
+~~~~~~~~~~~~~~~~~~~~
+
+Modify Section 3.26, "Memory Operands":
+
+In the description of *MakePointerAvailable*, change "Not valid with *OpLoad*"
+to "Not valid with *OpLoad* or *OpCooperativeVectorLoadNV*".
+
+In the description of *MakePointerVisible*, change "Not valid with *OpStore*"
+to "Not valid with *OpStore* or *OpCooperativeVectorStoreNV*".
+
+3.31 Capabilities
+~~~~~~~~~~~~~~~~~
+
+Modify Section 3.31, "Capability", adding these rows to the Capability table:
+
+--
+[options="header"]
+|====
+2+^| Capability ^| Enabling Capabilities
+| 5394 | *CooperativeVectorNV* +
+Enables cooperative vector types and instructions operating on them.
+|
+| 5435 | *CooperativeVectorTrainingNV* +
+Enables cooperative vector training instructions *OpCooperativeVectorOuterProductAccumulateNV*
+and *OpCooperativeVectorReduceSumAccumulateNV*.
+|
+|====
+--
+
+3.X Cooperative Vector Matrix Layout
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New section in 3 "Binary Form".
+
+--
+[options="header"]
+|====
+2+^| Cooperative Vector Matrix Layout | Enabling Capabilities
+| 0 | *RowMajorNV* +
+Contiguous elements in memory form the rows of the matrix. |
+| 1 | *ColumnMajorNV* +
+Contiguous elements in memory form the columns of the matrix. |
+| 2 | *InferencingOptimalNV* +
+Optimized for inferencing operations. |
+| 3 | *TrainingOptimalNV* +
+Optimized for training operations. |
+|====
+--
+
+--
+[options="header"]
+|====
+2+^| Component Type | Enabling Capabilities
+| 0 | *Float16NV* |
+| 1 | *Float32NV* |
+| 2 | *Float64NV* |
+| 3 | *SignedInt8NV* |
+| 4 | *SignedInt16NV* |
+| 5 | *SignedInt32NV* |
+| 6 | *SignedInt64NV* |
+| 7 | *UnsignedInt8NV* |
+| 8 | *UnsignedInt16NV* |
+| 9 | *UnsignedInt32NV* |
+| 10| *UnsignedInt64NV* |
+| 1000491000| *SignedInt8PackedNV* |
+| 1000491001| *UnsignedInt8PackedNV* |
+| 1000491002| *FloatE4M3NV* |
+| 1000491003| *FloatE5M2NV* |
+|====
+--
+
+3.42.6 Type-Declaration Instructions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[cols="1,1,3*3",width="100%"]
+|=====
+4+|[[OpTypeCooperativeVectorNV]]*OpTypeCooperativeVectorNV* +
+ +
+Declare a new cooperative vector type with 'Component Count' components of the requested scalar type. +
+ +
+'Component Type' must be a scalar 'numerical type'. +
+ +
+'Component Count' must be a 'constant instruction' with scalar 32-bit 'integer type'. +
+ +
+1+|Capability: +
+*CooperativeVectorNV*
+1+| 4 | 5288 | 'Result <id>' | '<id>' +
+'Component Type' | '<id>' +
+'Component Count'
+|=====
+
+3.42.8 Memory Instructions
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[cols="1,1,5*3",width="100%"]
+|=====
+6+|[[OpCooperativeVectorLoadNV]]*OpCooperativeVectorLoadNV* +
+ +
+Load a cooperative vector through a pointer. +
+ +
+'Result Type' is the type of the loaded object. It must be a cooperative vector
+type. +
+ +
+'Pointer' is a pointer. Its type must be an *OpTypePointer* whose whose 'Type'
+operand is an array type with a scalar or vector 'Element Type'. The storage class of
+'Pointer' must be *CrossWorkgroup*, *Workgroup*, *StorageBuffer* or
+*PhysicalStorageBuffer*. Any *ArrayStride* decoration on 'Pointer' is ignored. +
+ +
+'Offset' is a byte offset relative to the start of 'Pointer', where the vector is
+loaded from. 'Offset' must be a 32-bit integer. +
+ +
+'Memory Operand' must be a +Memory Operand+ literal. If not present, it is the
+same as specifying *None*. +
+1+|Capability: +
+*CooperativeVectorNV*
+1+| 5+variable | 5302 | '<id>' +
+'Result Type' |'Result <id>' | '<id>' +
+'Pointer' | '<id>' +
+'Offset' | Optional +
+'Memory Operand'
+|=====
+
+[cols="1,1,4*3",width="100%"]
+|=====
+5+|[[OpCooperativeVectorStoreNV]]*OpCooperativeVectorStoreNV* +
+ +
+Store a cooperative vector through a pointer. +
+ +
+'Pointer' is a pointer. Its type must be an *OpTypePointer* whose whose 'Type'
+operand is an array type with a scalar or vector 'Element Type'. The storage class of
+'Pointer' must be *CrossWorkgroup*, *Workgroup*, *StorageBuffer* or
+*PhysicalStorageBuffer*. Any *ArrayStride* decoration on 'Pointer' is ignored. +
+ +
+'Offset' is a byte offset relative to the start of 'Pointer', where the vector is
+stored to. 'Offset' must be a 32-bit integer. +
+ +
+'Object' is the object to store. Its type must be an *OpTypeCooperativeVectorNV*. +
+ +
+'Memory Operand' must be a +Memory Operand+ literal. If not present, it is the
+same as specifying *None*. +
+1+|Capability: +
+*CooperativeVectorNV*
+1+| 4+variable | 5303 | '<id>' +
+'Pointer' | '<id>' +
+'Offset' | '<id>' +
+'Object' | Optional +
+'Memory Operand'
+|=====
+
+3.42.11 Conversion Instructions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Allow cooperative vector types for the following conversion instructions (if
+the component types are appropriate): *OpConvertFToU*, *OpConvertFToS*,
+*OpConvertSToF*, *OpConvertUToF*, *OpUConvert*, *OpSConvert*, *OpFConvert*.
+The result type and value type must have the same 'Component Count'.
+
+Allow cooperative vector types for *OpBitcast*. The result type and value type
+must have the same number of components and same number of bits per component.
+
+3.42.13 Arithmetic Instructions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Allow cooperative vector types for the following arithmetic instructions:
+
+* *OpSNegate* and *OpFNegate*
+* *OpIAdd*, *OpFAdd*, *OpISub*, *OpFSub*, *OpFMul*, *OpIMul*,
+  *OpFDiv*, *OpSDiv*, and *OpUDiv*.
+
+if their 'Component Type' is appropriate:
+
+* *OpF* instructions can be used with cooperative vector types whose
+  'Component Type' is a floating-point type.
+* *OpI*, *OpS*, and *OpU* instructions can be used with cooperative
+  vector types whose 'Component Type' is an integer type.
+
+Unary arithmetic instructions operate on the individual elements of the cooperative
+vector.
+
+Binary arithmetic instructions operate on the individual elements of a pair
+of cooperative vectors whose type must match.
+
+Allow floating point cooperative vector types for *OpVectorTimesScalar*.
+
+Allow cooperative vector types for the following GLSL.std.450 extended
+instruction set instructions:
+
+* *FMin*, *UMin*, *SMin*, *NMin*, *FMax*, *UMax*, *SMax*, *NMax*, *FClamp*, *UClamp*, *SClamp*, *NClamp*,
+  *Step*, *Exp*, *Log*, *Tanh*, *Atan*, and *Fma*
+
+if their 'Component Type' is appropriate.
+
+3.42.14 Bit Instructions
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Allow cooperative vector types for the following bit instructions:
+
+* *OpShiftRightLogical*, *OpShiftRightArithmetic*, *OpShiftLeftLogical*,
+  *OpBitwiseOr*, *OpBitwiseXor*, *OpBitwiseAnd*, and *OpNot*.
+
+3.42.X Cooperative Vector Instructions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[cols="1,1,16*3",width="100%"]
+|=====
+17+|[[OpCooperativeVectorMatrixMulAddNV]]*OpCooperativeVectorMatrixMulAddNV* +
+ +
+Linear-algebraic matrix-vector multiply of a cooperative vector by a matrix
+loaded from memory, with a bias loaded from memory added to the result. The
+vector is treated as a column vector and is left-multiplied by the matrix. +
+ +
+'Input', 'Matrix', and 'Bias' each have a declared type (the type
+of 'Input' and the pointed-to element type of 'Matrix' and 'Bias') and an
+"interpretation" operand ('InputInterpretation', 'MatrixInterpretation',
+'BiasInterpretation') that specifies how the values are interpreted. The
+interpretation parameters take _Component Type_ values, and the behavior and
+interactions between physical types and interpretations is as specified below. +
+ +
+'Result Type' is the actual type of the result (no reinterpretation), and must
+be a cooperative vector type whose component type is a 32-bit scalar integer or
+a 16- or 32-bit float. The number of components
+of 'Result Type' must equal 'M'. If the 'Result Type' an integer type, then its
+components are treated as signed if the *MatrixResultSignedComponents*
+_Cooperative Matrix Operand_ is present and are treated as unsigned otherwise. +
+ +
+'Input' is converted to the type indicated by 'InputInterpretation'.
+This conversion step allows the input type to be converted to a smaller type
+that the shading language may not natively support. Non-"Packed" types are
+used to request arithmetic conversions. "Packed" types are used to request
+a bitcast conversion, e.g. if the shader wants to convert to the smaller
+type manually. +
+ +
+If 'InputInterpretation' is not a Packed enum value, then the conversion
+is an arithmetic conversion, and 'Input' must have 'K' components. The
+supported conversions are specified by the client API.
+Integer to integer conversion saturates. Float to float conversion is
+implementation-dependent but preserves the value as accurately as reasonably
+possible. Float to integer conversion is round-to-nearest-even and saturating.
+Integer to float conversion is round-to-nearest-even. If 'Input' is an integer
+type, then its components are treated as signed if the
+*MatrixBSignedComponents* _Cooperative Matrix Operand_ is present and are
+treated as unsigned otherwise. +
+ +
+If 'InputInterpretation' is a Packed enum value, then the conversion is a
+bitcast where element(s) of 'Input' are bitcast to element(s) of the type
+described by the enum. The component type of 'Input' must be uint32_t.
+The input vector must have enough components to hold 'K' values of the packed
+type. If the packed type is not a power of two number of bits, then the
+extension that introduces the enum defines how bits are packed. Packed types
+with a power of two number of bits are tightly packed with lower numbered
+components stored in lower bits. +
+ +
+The pointed-to element type of 'Matrix' can be any scalar type, and is ignored.
+The matrix is loaded starting from a byte offset of 'MatrixOffset' from the
+start of 'Matrix', and raw data is loaded according to 'MatrixInterpretation'.
+No conversion is performed. +
+ +
+The pointed-to element type of 'Bias' can be any scalar type, and is ignored.
+The bias is loaded starting from a byte offset of 'BiasOffset' from the start
+of the array, and raw data is loaded according to 'BiasInterpretation'. 'M'
+consecutive elements are loaded. No conversion is performed. +
+ +
+If the 'MemoryLayout' is *RowMajorNV* or *ColumnMajorNV*, then 'MatrixStride'
+is the number of bytes to add to the pointer to go from one row or column to
+the next. For optimal layouts, 'MatrixStride' is ignored unless otherwise
+specified. +
+ +
+The client API advertises supported combinations of types,
+'InputInterpretation', 'MatrixInterpretation', and 'BiasInterpretation'. +
+ +
+'M' is the output vector size and 'K' is the logical input vector size. The
+matrix is MxK if 'Transpose' is false and KxM (before transposing) if
+'Transpose' is true. +
+ +
+The 'Transpose' parameter indicates that the matrix is transposed before
+performing the multiply. Transposing is not supported for the
+*RowMajorNV*/*ColumnMajorNV* layouts. Not all component types support
+transposing. It is left to the client API to define which types support
+transposing. 'Transpose' must have a scalar boolean type. +
+ +
+The 'InputInterpretation', 'MatrixInterpretation', 'BiasInterpretation', 'M',
+'K', 'MemoryLayout', and 'Transpose' parameters must be 'constant
+instructions'. +
+ +
+Memory loads performed by these functions are performed as if the Memory
+Operands were *None*, and the memory object were *NonWritable* and
+*Restrict*. This means the matrix and bias values must not be modified while
+a shader might be using them. +
+ +
+The order of the arithmetic operations is implementation-dependent. The
+internal precision of floating-point operations is defined by the client
+API. Integer operations used in the multiplication are performed at the
+precision of the 'Result Type' and are exact (with the usual wrapping rules). +
+ +
+'Result Type' must be a cooperative vector type. +
+ +
+'Input' must be a cooperative vector. +
+ +
+'Matrix' is a pointer value. Its type must be an *OpTypePointer* whose 'Type'
+operand is an array type with a scalar 'Element Type'. The storage class of
+'Matrix' must be *CrossWorkgroup*, *StorageBuffer* or
+*PhysicalStorageBuffer*. +
+ +
+'MatrixOffset' must be a 32 bit integer. +
+ +
+'Bias' is a pointer value. Its type must be an *OpTypePointer* whose 'Type'
+operand is an array type with a scalar 'Element Type'. The storage class of
+'Bias' must be *CrossWorkgroup*, *StorageBuffer* or
+*PhysicalStorageBuffer*. +
+ +
+'BiasOffset' must be a 32 bit integer. +
+ +
+'InputInterpretation', 'MatrixInterpretation', 'BiasInterpretation', 'M', and
+'K' must be 32-bit integers. +
+ +
+'MemoryLayout' specifies how matrix elements are laid out in memory. It must
+come from a 32-bit integer 'constant instruction' whose value corresponds to a
+'Cooperative Vector Matrix Layout'. See the _Cooperative Vector Matrix Layout_
+table for a description of the layouts and detailed layout-specific rules. +
+ +
+'Cooperative Matrix Operands' is an optional _Cooperative Matrix Operand_ literal. If
+not present, it is the same as specifying the _Cooperative Matrix Operand_ *None*. +
+ +
+1+|Capability: +
+*CooperativeVectorNV*
+1+| 15+variable | 5292 | '<id>' +
+'Result Type' |'Result <id>' | '<id>' +
+'Input' | '<id>' +
+'InputInterpretation' | '<id>' +
+'Matrix' | '<id>' +
+'MatrixOffset' | '<id>' +
+'MatrixInterpretation' | '<id>' +
+'Bias' | '<id>' +
+'BiasOffset' | '<id>' +
+'BiasInterpretation' | '<id>' +
+'M' | '<id>' +
+'K' | '<id>' +
+'MemoryLayout' | '<id>' +
+'Transpose' | Optional '<id>' +
+'MatrixStride' | Optional +
+'Cooperative Matrix Operands'
+|=====
+
+[cols="1,1,13*3",width="100%"]
+|=====
+14+|[[OpCooperativeVectorMatrixMulNV]]*OpCooperativeVectorMatrixMulNV* +
+ +
+*OpCooperativeVectorMatrixMulNV* is equivalent to *OpCooperativeVectorMatrixMulAddNV*
+with no bias added to the result of the matrix-vector multiply.
+ +
+1+|Capability: +
+*CooperativeVectorNV*
+1+| 12+variable | 5289 | '<id>' +
+'Result Type' |'Result <id>' | '<id>' +
+'Input' | '<id>' +
+'InputInterpretation' | '<id>' +
+'Matrix' | '<id>' +
+'MatrixOffset' | '<id>' +
+'MatrixInterpretation' | '<id>' +
+'M' | '<id>' +
+'K' | '<id>' +
+'MemoryLayout' | '<id>' +
+'Transpose' | Optional '<id>' +
+'MatrixStride' | Optional +
+'Cooperative Matrix Operands'
+|=====
+
+[cols="1,1,7*3",width="100%"]
+|=====
+8+|[[OpCooperativeVectorOuterProductAccumulateNV]]*OpCooperativeVectorOuterProductAccumulateNV* +
+ +
+Linear-algebraic outer product of two vectors, with the result atomically
+accumulated in memory. +
+ +
+Let M be the number of components in the vector 'A' and let N be the number
+of components in the vector 'B'. This instruction computes the outer product
+of 'A' and 'B' and atomically accumulates the result into the MxN matrix from
+memory starting at the byte offset selected by 'Offset' in the 'Pointer' array,
+with precision selected by 'MatrixInterpretation', and with memory layout
+determined by 'MemoryLayout' and optionally 'MatrixStride'. The accumulation
+into memory behaves as if it were a *Relaxed* atomic add with *Device* 'scope'.
+Valid types are determined by the client API. +
+ +
+'A' and 'B' must have cooperative vector types with the same 'Component Type'. +
+ +
+'Pointer' is a pointer value. Its type must be an *OpTypePointer* whose 'Type'
+is an array type with a scalar of vector 'Element Type'. The storage class of
+'Pointer' must be *Workgroup*, *CrossWorkgroup*, *StorageBuffer* or
+*PhysicalStorageBuffer*. The matrix is treated as if it has the type selected
+by 'MatrixInterpretation'. +
+ +
+'Offset' must be a 32 bit integer. +
+ +
+'MemoryLayout' specifies how matrix elements are laid out in memory. It must
+come from a 32-bit integer 'constant instruction' whose value corresponds to a
+'Cooperative Vector Matrix Layout'. See the _Cooperative Vector Matrix Layout_
+table for a description of the layouts and detailed layout-specific rules. +
+ +
+'MatrixStride' further qualifies how matrix elements are laid out in memory. It
+must be a scalar 32 bit integer and its exact semantics depend on
+'MemoryLayout'. +
+ +
+'MatrixInterpretation' controls the type used for accumulation and must be a 32
+bit integer. +
+ +
+1+|Capability: +
+*CooperativeVectorTrainingNV*
+1+| 7+variable | 5290 | '<id>' +
+'Pointer' | '<id>' +
+'Offset' | '<id>' +
+'A' | '<id>' +
+'B' | '<id>' +
+'MemoryLayout' | '<id>' +
+'MatrixInterpretation' | Optional '<id>' +
+'MatrixStride'
+|=====
+
+
+[cols="1,1,3*3",width="100%"]
+|=====
+4+|[[OpCooperativeVectorReduceSumAccumulateNV]]*OpCooperativeVectorReduceSumAccumulateNV* +
+ +
+Component-wise atomically add the components of a vector into an array in
+memory. Element 'i' of the vector is atomically added to the memory at the
+i'th element after byte offset 'Offset' in the 'Pointer' array, interpreted as
+an array with the component type of 'V', with the atomic operation occurring
+with *Device* 'scope'. Valid types are determined by the client API. +
+ +
+'V' must have a cooperative vector type. +
+ +
+'Pointer' is a pointer value. Its type must be an *OpTypePointer* whose 'Type'
+operand is an array type whose 'Element Type' is a scalar or vector type.
+The storage class of 'Pointer' must be *Workgroup*, *CrossWorkgroup*,
+*StorageBuffer* or *PhysicalStorageBuffer*. +
+ +
+'Offset' must be a 32 bit integer. +
+ +
+1+|Capability: +
+*CooperativeVectorTrainingNV*
+1+| 4 | 5291 | '<id>' +
+'Pointer' | '<id>' +
+'Offset' | '<id>' +
+'V'
+|=====
+
+Issues
+------
+
+. How can a shader construct a vector with number of components defined by
+a specialization constant?
++
+--
+*RESOLVED*: Use the instructions in SPV_EXT_replicated_composites to construct
+a vector with the same value replicated for all components.
+--
+
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2024-05-21|Jeff Bolz|Initial revision of SPV_NV_cooperative_vector
+|2|2024-07-25|Jeff Bolz|Remove special cases for constructing composites
+|========================================
