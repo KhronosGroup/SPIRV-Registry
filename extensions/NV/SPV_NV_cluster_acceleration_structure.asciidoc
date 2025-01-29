@@ -1,0 +1,228 @@
+SPV_NV_cluster_acceleration_structure
+=====================================
+
+Name Strings
+------------
+
+SPV_NV_cluster_acceleration_structure
+
+Contact
+-------
+
+See *Issues* list in the Khronos SPIRV-Registry repository:
+https://github.com/KhronosGroup/SPIRV-Registry
+
+Contributors
+------------
+
+- Pyarelal Knowles, NVIDIA
+- Ashwin Lele, NVIDIA
+- Eric Werness, NVIDIA
+- Vikram Kushwaha, NVIDIA
+
+Status
+------
+
+- Complete
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2025-01-01
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.6 Revision 1.
+
+This extension requires SPIR-V 1.4.
+
+This extension interacts with SPV_KHR_ray_tracing and SPV_KHR_ray_query.
+
+
+Overview
+--------
+
+This extension adds new functionality to support the Vulkan
+VK_NV_cluster_acceleration_structure extension in SPIR-V.
+
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_NV_cluster_acceleration_structure"
+----
+
+
+
+New Capabilities
+----------------
+
+This extension introduces new capabilities:
+
+----
+RayTracingClusterAccelerationStructureNV
+----
+
+
+New Builtins
+------------
+
+Builtins added under the *RayTracingClusterAccelerationStructureNV* capability
+
+----
+ClusterIDNV
+----
+
+New Instructions
+----------------
+
+Instructions added under the *RayTracingClusterAccelerationStructureNV* capability
+
+----
+OpRayQueryGetIntersectionClusterIdNV
+OpHitObjectGetClusterIdNV
+----
+
+Modifications to the SPIR-V Specification, Version 1.1
+------------------------------------------------------
+
+(Modify Section 3.21, Builtin, adding rows to the Builtin table) ::
++
+--
+[cols="^1,10,^6",options="header",width = "100%"]
+|====
+2+^.^| Decoration | <<Capability,Enabling Capabilities>>
+| 5436 | *ClusterIDNV* +
+Provides triangle cluster ID of a hit with a triangle for the ray being traced, or -1
+if the hit object is not a cluster object. +
+Allowed in *AnyHitKHR* and *ClosestHitKHR* ray tracing execution models.
+|*RayTracingClusterAccelerationStructureNV*
+|====
+--
+
+
+(Modify Section 3.31, Capability, adding a row to the Capability table) ::
++
+--
+[cols="^.^5,25,15",options="header",width = "100%"]
+:capability: RayTracingKHR
+|====
+2+^.^| Capability | Implicitly Declares
+| 5437 | *RayTracingClusterAccelerationStructureNV* +
+| *RayTracingKHR*
+|====
+--
+
+:RayQueryUrl: https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/KHR/SPV_KHR_ray_query.asciidoc
+
+(Add a new sub section 3.36.RQInstructions, Ray Query Instructions) ::
++
+--
+[cols="6*2"]
+|======
+5+|[[OpRayQueryGetIntersectionClusterIdNV]]*OpRayQueryGetIntersectionClusterIdNV* +
+ +
+ Returns the triangle cluster ID corresponding to the current intersection of the ray if the intersection is with a cluster object. Returns -1 otherwise. +
+ +
+ 'Result' is the returned cluster ID. +
+ +
+ 'Result Type' must be a 32-bit 'integer type' scalar. +
+ +
+ 'Intersection' must be the <id> of a 'constant instruction' with a 32-bit scalar 'integer type'. +
+ +
+ 'Intersection' identifies which intersection values should be returned for, either the current candidate or the
+ closest recorded hit so far; see {RayQueryUrl}#ray_query_intersection[Ray Query Intersection]. +
+ +
+ 'Ray Query' is a pointer to the ray query object. +
+ +
+ If 'Intersection' is *RayQueryCandidateIntersectionKHR*, behavior is undefined if *OpRayQueryProceedKHR*
+ was not executed on the same ray query object, or if the last value returned by such an execution of *OpRayQueryProceedKHR* was not true.
+ +
+ If 'Intersection' is *RayQueryCommittedIntersectionKHR*, behavior is undefined if there is no current committed
+ intersection (see *OpRayQueryCommittedTypeKHR*).
+1+|Capability: +
+*RayTracingClusterAccelerationStructureNV*
+| 5 | 5345
+| '<id>' 'Result Type'
+| '<id>' 'Result'
+| '<id>' 'Ray Query'
+| '<id>' 'Intersection'
+|======
+--
+
+(Modify sub section 3.36.Hit Object Instructions, adding) ::
++
+--
+[cols="5*2"]
+|======
+4+|[[OpHitObjectGetClusterIdNV]]*OpHitObjectGetClusterIdNV* +
+ +
+ Returns the cluster id encoded in the hit object, or -1 if the encoded hit is not with a cluster acceleration structure. +
+ +
+ 'Result' is the returned cluster ID or -1. +
+ +
+ 'Result Type' must be a 32-bit 'integer type' scalar. +
+ +
+ 'Hit Object' is a pointer to the hit object. +
+ +
+ This instruction is allowed only in *RayGenerationKHR*, *ClosestHitKHR* and *MissKHR* execution models.
+1+|Capability: +
+*RayTracingClusterAccelerationStructureNV*
+| 4 | 5346
+| '<id>' 'Result Type'
+| '<id>' 'Result'
+| '<id>' 'Hit Object'
+|======
+--
+
+
+Validation Rules
+----------------
+
+An OpExtension must be added to the SPIR-V for validation layers to check
+legal use of this extension:
+
+----
+OpExtension "SPV_NV_cluster_acceleration_structure"
+----
+
+Interactions with SPV_KHR_ray_tracing
+-------------------------------------
+
+Builtin *ClusterIDNV* is supported only if SPV_KHR_ray_tracing is supported.
+
+Interactions with SPV_KHR_ray_query
+-----------------------------------
+
+*OpRayQueryGetIntersectionClusterIdNV* is supported only if SPV_KHR_ray_query is supported.
+
+Interactions with SPV_NV_shader_invocation_reorder
+--------------------------------------------------
+
+*OpHitObjectGetClusterIdNV* is supported only if SPV_NV_shader_invocation_reorder is supported.
+
+Issues
+------
+
+None
+
+Revision History
+----------------
+
+[cols="6,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1 |2025-01-01 |Pyarelal Knowles|*Internal revisions*
+|========================================
