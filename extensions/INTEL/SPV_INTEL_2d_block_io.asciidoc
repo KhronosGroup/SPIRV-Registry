@@ -50,8 +50,8 @@ Copyright (c) 2025 Intel Corporation. All rights reserved.
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2025-01-07
-| Revision           | 1
+| Last Modified Date | 2025-02-28
+| Revision           | 2
 |========================================
 
 == Dependencies
@@ -692,8 +692,9 @@ The following restrictions apply to the 2D block load, store and prefetch instru
     ** the per-subgroup source or destination base address is cache-line aligned (64 bytes).
     ** the per-invocation source or destination address is aligned to a multiple of the _Element Size_.
     ** the _Memory Width_ is greater than or equal to 64 bytes and less than or equal to 2^24^ bytes.
+    ** the _Memory Width_ is a multiple of four for 1-byte or 2-byte elements, or a multiple of the element size otherwise.
     ** the _Memory Height_ is greater than zero and less than or equal to 2^24^ rows.
-    ** the _Memory Pitch_ is greater than or equal to the _Memory Width_ and a multiple of 8 bytes.
+    ** the _Memory Pitch_ is greater than or equal to the _Memory Width_ and a multiple of 16 bytes.
     ** the *SubgroupMaxSize* is a power of two.
     ** the *SubgroupSize* is equal to the *SubgroupMaxSize*; in other words, this is a full subgroup.
 
@@ -750,4 +751,5 @@ Specifically, out-of-bounds reads are assigned the value zero, and out-of-bounds
 |========================================
 |Rev|Date|Author|Changes
 |1|2025-01-07|Ben Ashbaugh|Initial revision for publication
+|2|2025-02-28|Ben Ashbaugh|Updated restrictions
 |========================================
