@@ -1,7 +1,7 @@
 SPIR-V Non-Semantic Clspv Reflection Instructions
 =================================================
 
-Version 6
+Version 7
 
 Contact
 -------
@@ -35,8 +35,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2023-10-11
-| Revision           | 6
+| Last Modified Date | 2025-03-05
+| Revision           | 7
 |========================================
 
 Dependencies
@@ -1229,6 +1229,25 @@ push constant in bytes. +
 '<id>'  +
 'Offset' |
 '<id>'  +
+'Size'
+|=====
+
+[cols="3"]
+|=====
+3+|[[WorkgroupVariableSize]]*WorkgroupVariableSize* +
+ +
+ Missing before *version 7*. +
+ +
+Declare a Workgroup Variable size.
+It is needed to allow the driver to report the local memory size needed by a kernel.
+ +
+'Variable' must be a *OpVariable* using the *Workgroup* storage class. +
+ +
+'Size' must be a 32-bit unsigned integer *OpConstant* specifying size of the variable. +
+
+1+| 42 | '<id>' +
+'Variable' |
+'<id>' +
 'Size'
 |=====
 
