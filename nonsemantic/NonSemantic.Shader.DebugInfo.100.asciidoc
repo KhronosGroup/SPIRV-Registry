@@ -55,8 +55,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2024-10-08
-| Revision           | 11
+| Last Modified Date | 2025-02-04
+| Revision           | 12
 |========================================
 
 Dependencies
@@ -191,6 +191,17 @@ Forward references
 ~~~~~~~~~~~~~~~~~~
 
 Forward references are not allowed, to be compliant with *SPV_KHR_non_semantic_info*.
+
+Line and Columns index
+~~~~~~~~~~~~~~~~~~
+
+The 'Line' is an unsigned integer indicating a source line number.
+'Lines' are numbered beginning at 1.
+The value of 0 may be emitted in cases where an instruction cannot be attributed to any source line.
+
+The 'Column' is an unsigned integer indicating a column number within a source line.
+Columns are numbered beginning at 1.
+The value 0 is reserved to indicate that a statement begins at the “left edge” of the line.
 
 Enumerations
 ------------
@@ -1845,5 +1856,6 @@ Revision History
 |1.00 Rev 10 |2024-08-07|Victor Lomüller    |Fix that in *DebugLine* the 'Column end' operand
                                              can be equal to 'Column start' operand.
 |1.00 Rev 11 |2024-10-08|Spencer Fricke     |Fix using 'Scope' instead of 'Parent' operand name.
+|1.00 Rev 12 |2025-02-04|Spencer Fricke     |Clarify Line and Column operand should start at 1.
 |========================================================
 
