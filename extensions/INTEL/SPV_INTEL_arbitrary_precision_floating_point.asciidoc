@@ -122,11 +122,9 @@ OpArbitraryFloatATan2INTEL
 OpArbitraryFloatPowINTEL
 OpArbitraryFloatPowRINTEL
 OpArbitraryFloatPowNINTEL
-OpArbitraryFloatConvertINTEL
-OpArbitraryFloatConvertFromUIntINTEL
-OpArbitraryFloatConvertFromSIntINTEL
-OpArbitraryFloatConvertToUIntINTEL
-OpArbitraryFloatConvertToSIntINTEL
+OpArbitraryFloatCastINTEL
+OpArbitraryFloatCastFromIntINTEL
+OpArbitraryFloatCastToIntINTEL
 ----
 
 == Token Number Assignments
@@ -173,11 +171,9 @@ OpArbitraryFloatConvertToSIntINTEL
 |`OpArbitraryFloatPowINTEL`               | 5880
 |`OpArbitraryFloatPowRINTEL`              | 5881
 |`OpArbitraryFloatPowNINTEL`              | 5882
-|`OpArbitraryFloatConvertINTEL`           | 5841
-|`OpArbitraryFloatConvertFromUIntINTEL`   | 5842
-|`OpArbitraryFloatConvertFromSIntINTEL`   | 5838
-|`OpArbitraryFloatConvertToUIntINTEL`     | 5843
-|`OpArbitraryFloatConvertToSIntINTEL`     | 5839
+|`OpArbitraryFloatCastINTEL`              | 5841
+|`OpArbitraryFloatCastFromIntINTEL`       | 5842
+|`OpArbitraryFloatCastToIntINTEL`         | 5843
 |====
 
 == Modifications to the SPIR-V Specification Version 1.6
@@ -1126,7 +1122,7 @@ _Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rou
 
 [cols="9", width="100%"]
 |=====
-8+<|*OpArbitraryFloatConvertINTEL* +
+8+<|*OpArbitraryFloatCastINTEL* +
 
 An *OpTypeInt* representing an arbitrary precision floating point number is passed in as _A_.
 It is type converted into an arbitrary precision floating point number with the new specification (Eresult, Mresult) and returned as _Result_.
@@ -1148,30 +1144,10 @@ _Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding
 
 [cols="7", width="100%"]
 |=====
-6+<|*OpArbitraryFloatConvertFromUIntINTEL* +
+6+<|*OpArbitraryFloatCastFromIntINTEL* +
 
-An *OpTypeInt* representing an unsigned integer passed in as _A_.
-It is type converted into an arbitrary precision floating point number with the specification (Eresult, Mresult). The result of the convert operation is returned in _Result_.
-
-_Result Type_ must be *OpTypeInt*.
-
-_Result_ is the <id> of the operation's result, which is an arbitrary precision floating point number.
-
-_Mresult_ is a 32-bit unsigned integer that defines the mantissa width of the floating point value in _Result_. Note that the exponent value (Eresult) is inferred from the width of the *OpTypeInt*.
-
-_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result.
-
-| Capability:
-*ArbitraryPrecisionFloatingPointINTEL*
-| 6 | 5842 | <id> Result Type | Result <id> | A <id> | _Literal_ Mresult | _RoundingMode_ Rounding
-|=====
-
-[cols="7", width="100%"]
-|=====
-6+<|*OpArbitraryFloatConvertFromSIntINTEL* +
-
-An *OpTypeInt* representing a signed integer passed in as _A_.
-It is type converted into an arbitrary precision floating point number with the new specification (Eresult, Mresult). The result of the convert operation is returned in _Result_.
+An *OpTypeInt* representing an integer of signedness _FromSign_ is passed in as _A_.
+It is type converted into an arbitrary precision floating point number with the specification (Eresult, Mresult) and sign _FromSign_. The result of the convert operation is returned in _Result_.
 
 _Result Type_ must be *OpTypeInt*.
 
@@ -1183,17 +1159,17 @@ _Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding
 
 | Capability:
 *ArbitraryPrecisionFloatingPointINTEL*
-| 6 | 5838 | <id> Result Type | Result <id> | A <id> | _Literal_ Mresult | _RoundingMode_ Rounding
+| 6 | 5842 | <id> Result Type | Result <id> | A <id> | _Literal_ Mresult | _Literal_ FromSign | _RoundingMode_ Rounding
 |=====
 
 [cols="7", width="100%"]
 |=====
-6+<|*OpArbitraryFloatConvertToUIntINTEL* +
+6+<|*OpArbitraryFloatConvertToIntINTEL* +
 
 An *OpTypeInt* representing an arbitrary precision floating point number is passed in as _A_.
-It is type converted into an unsigned integer and returned as _Result_.
+It is type converted into an integer with signedness _ToSign_ and returned as _Result_.
 
-_Result Type_ must be *OpTypeInt*, whose _Signedness_ operand is 0. Behaviour is undefined if _Result Type_ is not wide enough to hold the converted value.
+_Result Type_ must be *OpTypeInt*, whose _Signedness_ operand is _ToSign_. Behaviour is undefined if _Result Type_ is not wide enough to hold the converted value.
 
 _Result_ is the <id> of the operation's result, which is an arbitrary precision integer.
 
@@ -1203,27 +1179,7 @@ _Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding
 
 | Capability:
 *ArbitraryPrecisionFloatingPointINTEL*
-| 6 | 5843 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | _RoundingMode_ Rounding
-|=====
-
-[cols="7", width="100%"]
-|=====
-6+<|*OpArbitraryFloatConvertToSIntINTEL* +
-
-An *OpTypeInt* representing an arbitrary precision floating point number is passed in as _A_.
-It is type converted into a signed integer and returned as _Result_.
-
-_Result Type_ must be *OpTypeInt*. Behaviour is undefined if _Result Type_ is not wide enough to hold the converted value.
-
-_Result_ is the <id> of the operation's result, which is an arbitrary precision integer.
-
-_Ma_ is a 32-bit unsigned integer that defines the mantissa width of the floating point value in _A_. Note that the exponent value (Ea) is inferred from the width of the *OpTypeInt*.
-
-_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result.
-
-| Capability:
-*ArbitraryPrecisionFloatingPointINTEL*
-| 6 | 5839 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | _RoundingMode_ Rounding
+| 6 | 5843 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | _Literal_ ToSign | _RoundingMode_ Rounding
 |=====
 
 === Validation Rules
@@ -1239,5 +1195,6 @@ None.
 [cols="^,<,<,<",options="header",]
 |===================================================================
 |Rev|Date|Author|Changes
+|2|2025-03-05|Jessica Davies|Fix for https://github.com/KhronosGroup/SPIRV-Registry/issues/315
 |1|2023-03-29|Ajaykumar Kannan|*Initial Public Release*
 |===================================================================
