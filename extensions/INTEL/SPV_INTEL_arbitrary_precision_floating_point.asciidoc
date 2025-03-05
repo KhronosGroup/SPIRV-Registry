@@ -1120,7 +1120,7 @@ _Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rou
 | 11 | 5882 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | B <id> | _Literal_ SignOfB | _Literal_ Mresult | _SubnormalMode_ Subnormal | _RoundingMode_ Rounding | _RoundingAccuracy_ Accuracy
 |=====
 
-[cols="9", width="100%"]
+[cols="10", width="100%"]
 |=====
 9+<|*OpArbitraryFloatCastINTEL* +
 
@@ -1144,7 +1144,7 @@ _Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rou
 | 9 | 5841 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | _Literal_ Mresult | _SubnormalMode_ Subnormal | _RoundingMode_ Rounding | _RoundingAccuracy_ Accuracy
 |=====
 
-[cols="7", width="100%"]
+[cols="10", width="100%"]
 |=====
 9+<|*OpArbitraryFloatCastFromIntINTEL* +
 
@@ -1168,7 +1168,7 @@ _Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rou
 | 9 | 5842 | <id> Result Type | Result <id> | A <id> | _Literal_ Mresult | _Literal_ FromSign | _SubnormalMode_ Subnormal |  _RoundingMode_ Rounding | _RoundingAccurcy_ Accuracy
 |=====
 
-[cols="7", width="100%"]
+[cols="10", width="100%"]
 |=====
 9+<|*OpArbitraryFloatCastToIntINTEL* +
 
