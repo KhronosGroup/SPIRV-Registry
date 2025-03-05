@@ -19,7 +19,7 @@ https://github.com/KhronosGroup/SPIRV-Headers
 
 == Notice
 
-Copyright (c) 2023 Intel Corporation
+Copyright (c) 2023,2025 Intel Corporation
 
 == Status
 
@@ -29,8 +29,8 @@ Supported
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2023-03-29
-| Revision           | 1
+| Last Modified Date | 2025-03-05
+| Revision           | 2
 |========================================
 
 == Dependencies
@@ -53,7 +53,7 @@ The total width of the *OpTypeInt* container is `E+M+1` where the extra bit is u
 Note that the signedness capabilities of *OpTypeInt* are not used for any of the operations.
 The data layout is shown below:
 
-`[ S (sign bit) ][ E (Exponent) ][ M (Mantissa) ]  
+`[ S (sign bit) ][ E (Exponent) ][ M (Mantissa) ]
 ^--MSB                                    LSB--^`
 
 The width of the data `(E+M+1)` is encoded with the width of the *OpTypeInt*.
@@ -204,7 +204,7 @@ Controls whether rounding operations can be relaxed to trade correctness for imp
 [cols="15%,20%,65%"]
 |====
 | Value ^| Mode           ^| Behavior
-| 0      | CORRECT_INTEL   | Conform to the rounding mode specified by the instruction's rounding mode operand.  
+| 0      | CORRECT_INTEL   | Conform to the rounding mode specified by the instruction's rounding mode operand.
 | 1      | FAITHFUL_INTEL  | Allow some tolerance for error (within 1ULP of the infinitely precise result) for rounding. +
 The returned result is one of the two floating point values closest to the mathematical result.
 
@@ -1137,9 +1137,11 @@ _Subnormal_ is a SubnormalMode chosen from _Table 3.16a_ that specifies whether 
 
 _Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result.
 
+_Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rounding accuracy of the result.
+
 | Capability:
 *ArbitraryPrecisionFloatingPointINTEL*
-| 8 | 5841 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | _Literal_ Mresult | _SubnormalMode_ Subnormal | _RoundingMode_ Rounding
+| 9 | 5841 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | _Literal_ Mresult | _SubnormalMode_ Subnormal | _RoundingMode_ Rounding | _RoundingAccuracy_ Accuracy
 |=====
 
 [cols="7", width="100%"]
@@ -1155,11 +1157,15 @@ _Result_ is the <id> of the operation's result, which is an arbitrary precision 
 
 _Mresult_ is a 32-bit unsigned integer that defines the mantissa width of the floating point value in _Result_. Note that the exponent value (Eresult) is inferred from the width of the *OpTypeInt*.
 
+_Subnormal_ is a SubnormalMode chosen from _Table 3.16a_ that specifies whether subnormal numbers should be supported or flushed to zero before and after the operation.
+
 _Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result.
+
+_Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rounding accuracy of the result.
 
 | Capability:
 *ArbitraryPrecisionFloatingPointINTEL*
-| 6 | 5842 | <id> Result Type | Result <id> | A <id> | _Literal_ Mresult | _Literal_ FromSign | _RoundingMode_ Rounding
+| 9 | 5842 | <id> Result Type | Result <id> | A <id> | _Literal_ Mresult | _Literal_ FromSign | _SubnormalMode_ Subnormal |  _RoundingMode_ Rounding | _RoundingAccurcy_ Accuracy
 |=====
 
 [cols="7", width="100%"]
@@ -1175,11 +1181,15 @@ _Result_ is the <id> of the operation's result, which is an arbitrary precision 
 
 _Ma_ is a 32-bit unsigned integer that defines the mantissa width of the floating point value in _A_. Note that the exponent value (Ea) is inferred from the width of the *OpTypeInt*.
 
+_Subnormal_ is a SubnormalMode chosen from _Table 3.16a_ that specifies whether subnormal numbers should be supported or flushed to zero before and after the operation.
+
 _Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result.
+
+_Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rounding accuracy of the result.
 
 | Capability:
 *ArbitraryPrecisionFloatingPointINTEL*
-| 6 | 5843 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | _Literal_ ToSign | _RoundingMode_ Rounding
+| 9 | 5843 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | _Literal_ ToSign | _SubnormalMode_ Subnormal |  _RoundingMode_ Rounding | _RoundingAccuracy_ Accuracy
 |=====
 
 === Validation Rules
