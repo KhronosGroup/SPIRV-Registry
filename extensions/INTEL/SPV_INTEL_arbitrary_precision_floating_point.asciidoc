@@ -1122,7 +1122,7 @@ _Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rou
 
 [cols="9", width="100%"]
 |=====
-8+<|*OpArbitraryFloatCastINTEL* +
+9+<|*OpArbitraryFloatCastINTEL* +
 
 An *OpTypeInt* representing an arbitrary precision floating point number is passed in as _A_.
 It is type converted into an arbitrary precision floating point number with the new specification (Eresult, Mresult) and returned as _Result_.
@@ -1146,7 +1146,7 @@ _Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rou
 
 [cols="7", width="100%"]
 |=====
-6+<|*OpArbitraryFloatCastFromIntINTEL* +
+9+<|*OpArbitraryFloatCastFromIntINTEL* +
 
 An *OpTypeInt* representing an integer of signedness _FromSign_ is passed in as _A_.
 It is type converted into an arbitrary precision floating point number with the specification (Eresult, Mresult) and sign _FromSign_. The result of the convert operation is returned in _Result_.
@@ -1170,7 +1170,7 @@ _Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rou
 
 [cols="7", width="100%"]
 |=====
-6+<|*OpArbitraryFloatCastToIntINTEL* +
+9+<|*OpArbitraryFloatCastToIntINTEL* +
 
 An *OpTypeInt* representing an arbitrary precision floating point number is passed in as _A_.
 It is type converted into an integer with signedness _ToSign_ and returned as _Result_.
