@@ -19,7 +19,7 @@ https://github.com/KhronosGroup/SPIRV-Headers
 
 == Notice
 
-Copyright (c) 2023 Intel Corporation
+Copyright (c) 2023,2025 Intel Corporation
 
 == Status
 
@@ -29,8 +29,8 @@ Supported
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2023-03-29
-| Revision           | 1
+| Last Modified Date | 2025-03-05
+| Revision           | 2
 |========================================
 
 == Dependencies
@@ -53,7 +53,7 @@ The total width of the *OpTypeInt* container is `E+M+1` where the extra bit is u
 Note that the signedness capabilities of *OpTypeInt* are not used for any of the operations.
 The data layout is shown below:
 
-`[ S (sign bit) ][ E (Exponent) ][ M (Mantissa) ]  
+`[ S (sign bit) ][ E (Exponent) ][ M (Mantissa) ]
 ^--MSB                                    LSB--^`
 
 The width of the data `(E+M+1)` is encoded with the width of the *OpTypeInt*.
@@ -122,11 +122,9 @@ OpArbitraryFloatATan2INTEL
 OpArbitraryFloatPowINTEL
 OpArbitraryFloatPowRINTEL
 OpArbitraryFloatPowNINTEL
-OpArbitraryFloatConvertINTEL
-OpArbitraryFloatConvertFromUIntINTEL
-OpArbitraryFloatConvertFromSIntINTEL
-OpArbitraryFloatConvertToUIntINTEL
-OpArbitraryFloatConvertToSIntINTEL
+OpArbitraryFloatCastINTEL
+OpArbitraryFloatCastFromIntINTEL
+OpArbitraryFloatCastToIntINTEL
 ----
 
 == Token Number Assignments
@@ -173,11 +171,9 @@ OpArbitraryFloatConvertToSIntINTEL
 |`OpArbitraryFloatPowINTEL`               | 5880
 |`OpArbitraryFloatPowRINTEL`              | 5881
 |`OpArbitraryFloatPowNINTEL`              | 5882
-|`OpArbitraryFloatConvertINTEL`           | 5841
-|`OpArbitraryFloatConvertFromUIntINTEL`   | 5842
-|`OpArbitraryFloatConvertFromSIntINTEL`   | 5838
-|`OpArbitraryFloatConvertToUIntINTEL`     | 5843
-|`OpArbitraryFloatConvertToSIntINTEL`     | 5839
+|`OpArbitraryFloatCastINTEL`              | 5841
+|`OpArbitraryFloatCastFromIntINTEL`       | 5842
+|`OpArbitraryFloatCastToIntINTEL`         | 5843
 |====
 
 == Modifications to the SPIR-V Specification Version 1.6
@@ -208,7 +204,7 @@ Controls whether rounding operations can be relaxed to trade correctness for imp
 [cols="15%,20%,65%"]
 |====
 | Value ^| Mode           ^| Behavior
-| 0      | CORRECT_INTEL   | Conform to the rounding mode specified by the instruction's rounding mode operand.  
+| 0      | CORRECT_INTEL   | Conform to the rounding mode specified by the instruction's rounding mode operand.
 | 1      | FAITHFUL_INTEL  | Allow some tolerance for error (within 1ULP of the infinitely precise result) for rounding. +
 The returned result is one of the two floating point values closest to the mathematical result.
 
@@ -1124,9 +1120,9 @@ _Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rou
 | 11 | 5882 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | B <id> | _Literal_ SignOfB | _Literal_ Mresult | _SubnormalMode_ Subnormal | _RoundingMode_ Rounding | _RoundingAccuracy_ Accuracy
 |=====
 
-[cols="9", width="100%"]
+[cols="10", width="100%"]
 |=====
-8+<|*OpArbitraryFloatConvertINTEL* +
+9+<|*OpArbitraryFloatCastINTEL* +
 
 An *OpTypeInt* representing an arbitrary precision floating point number is passed in as _A_.
 It is type converted into an arbitrary precision floating point number with the new specification (Eresult, Mresult) and returned as _Result_.
@@ -1141,17 +1137,19 @@ _Subnormal_ is a SubnormalMode chosen from _Table 3.16a_ that specifies whether 
 
 _Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result.
 
+_Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rounding accuracy of the result.
+
 | Capability:
 *ArbitraryPrecisionFloatingPointINTEL*
-| 8 | 5841 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | _Literal_ Mresult | _SubnormalMode_ Subnormal | _RoundingMode_ Rounding
+| 9 | 5841 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | _Literal_ Mresult | _SubnormalMode_ Subnormal | _RoundingMode_ Rounding | _RoundingAccuracy_ Accuracy
 |=====
 
-[cols="7", width="100%"]
+[cols="10", width="100%"]
 |=====
-6+<|*OpArbitraryFloatConvertFromUIntINTEL* +
+9+<|*OpArbitraryFloatCastFromIntINTEL* +
 
-An *OpTypeInt* representing an unsigned integer passed in as _A_.
-It is type converted into an arbitrary precision floating point number with the specification (Eresult, Mresult). The result of the convert operation is returned in _Result_.
+An *OpTypeInt* representing an integer of signedness _FromSign_ is passed in as _A_.
+It is type converted into an arbitrary precision floating point number with the specification (Eresult, Mresult) and sign _FromSign_. The result of the convert operation is returned in _Result_.
 
 _Result Type_ must be *OpTypeInt*.
 
@@ -1159,71 +1157,39 @@ _Result_ is the <id> of the operation's result, which is an arbitrary precision 
 
 _Mresult_ is a 32-bit unsigned integer that defines the mantissa width of the floating point value in _Result_. Note that the exponent value (Eresult) is inferred from the width of the *OpTypeInt*.
 
-_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result.
-
-| Capability:
-*ArbitraryPrecisionFloatingPointINTEL*
-| 6 | 5842 | <id> Result Type | Result <id> | A <id> | _Literal_ Mresult | _RoundingMode_ Rounding
-|=====
-
-[cols="7", width="100%"]
-|=====
-6+<|*OpArbitraryFloatConvertFromSIntINTEL* +
-
-An *OpTypeInt* representing a signed integer passed in as _A_.
-It is type converted into an arbitrary precision floating point number with the new specification (Eresult, Mresult). The result of the convert operation is returned in _Result_.
-
-_Result Type_ must be *OpTypeInt*.
-
-_Result_ is the <id> of the operation's result, which is an arbitrary precision floating point number.
-
-_Mresult_ is a 32-bit unsigned integer that defines the mantissa width of the floating point value in _Result_. Note that the exponent value (Eresult) is inferred from the width of the *OpTypeInt*.
+_Subnormal_ is a SubnormalMode chosen from _Table 3.16a_ that specifies whether subnormal numbers should be supported or flushed to zero before and after the operation.
 
 _Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result.
 
+_Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rounding accuracy of the result.
+
 | Capability:
 *ArbitraryPrecisionFloatingPointINTEL*
-| 6 | 5838 | <id> Result Type | Result <id> | A <id> | _Literal_ Mresult | _RoundingMode_ Rounding
+| 9 | 5842 | <id> Result Type | Result <id> | A <id> | _Literal_ Mresult | _Literal_ FromSign | _SubnormalMode_ Subnormal |  _RoundingMode_ Rounding | _RoundingAccurcy_ Accuracy
 |=====
 
-[cols="7", width="100%"]
+[cols="10", width="100%"]
 |=====
-6+<|*OpArbitraryFloatConvertToUIntINTEL* +
+9+<|*OpArbitraryFloatCastToIntINTEL* +
 
 An *OpTypeInt* representing an arbitrary precision floating point number is passed in as _A_.
-It is type converted into an unsigned integer and returned as _Result_.
+It is type converted into an integer with signedness _ToSign_ and returned as _Result_.
 
-_Result Type_ must be *OpTypeInt*, whose _Signedness_ operand is 0. Behaviour is undefined if _Result Type_ is not wide enough to hold the converted value.
+_Result Type_ must be *OpTypeInt*, whose _Signedness_ operand is _ToSign_. Behaviour is undefined if _Result Type_ is not wide enough to hold the converted value.
 
 _Result_ is the <id> of the operation's result, which is an arbitrary precision integer.
 
 _Ma_ is a 32-bit unsigned integer that defines the mantissa width of the floating point value in _A_. Note that the exponent value (Ea) is inferred from the width of the *OpTypeInt*.
 
-_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result.
-
-| Capability:
-*ArbitraryPrecisionFloatingPointINTEL*
-| 6 | 5843 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | _RoundingMode_ Rounding
-|=====
-
-[cols="7", width="100%"]
-|=====
-6+<|*OpArbitraryFloatConvertToSIntINTEL* +
-
-An *OpTypeInt* representing an arbitrary precision floating point number is passed in as _A_.
-It is type converted into a signed integer and returned as _Result_.
-
-_Result Type_ must be *OpTypeInt*. Behaviour is undefined if _Result Type_ is not wide enough to hold the converted value.
-
-_Result_ is the <id> of the operation's result, which is an arbitrary precision integer.
-
-_Ma_ is a 32-bit unsigned integer that defines the mantissa width of the floating point value in _A_. Note that the exponent value (Ea) is inferred from the width of the *OpTypeInt*.
+_Subnormal_ is a SubnormalMode chosen from _Table 3.16a_ that specifies whether subnormal numbers should be supported or flushed to zero before and after the operation.
 
 _Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result.
 
+_Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rounding accuracy of the result.
+
 | Capability:
 *ArbitraryPrecisionFloatingPointINTEL*
-| 6 | 5839 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | _RoundingMode_ Rounding
+| 9 | 5843 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | _Literal_ ToSign | _SubnormalMode_ Subnormal |  _RoundingMode_ Rounding | _RoundingAccuracy_ Accuracy
 |=====
 
 === Validation Rules
@@ -1239,5 +1205,6 @@ None.
 [cols="^,<,<,<",options="header",]
 |===================================================================
 |Rev|Date|Author|Changes
+|2|2025-03-05|Jessica Davies|Fix for https://github.com/KhronosGroup/SPIRV-Registry/issues/315
 |1|2023-03-29|Ajaykumar Kannan|*Initial Public Release*
 |===================================================================
