@@ -1241,7 +1241,7 @@ push constant in bytes. +
 Declare a Workgroup Variable size.
 It is needed to allow the driver to report the local memory size needed by a kernel.
  +
-'Variable' must be a *OpVariable* using the *Workgroup* storage class. +
+'Variable' must be an *OpVariable* using the *Workgroup* storage class. +
  +
 'Size' must be a 32-bit unsigned integer *OpConstant* specifying size of the variable. +
 
