@@ -1164,7 +1164,7 @@ _Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding
 
 [cols="7", width="100%"]
 |=====
-6+<|*OpArbitraryFloatConvertToIntINTEL* +
+6+<|*OpArbitraryFloatCastToIntINTEL* +
 
 An *OpTypeInt* representing an arbitrary precision floating point number is passed in as _A_.
 It is type converted into an integer with signedness _ToSign_ and returned as _Result_.
