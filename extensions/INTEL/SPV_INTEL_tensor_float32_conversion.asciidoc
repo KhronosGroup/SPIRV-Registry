@@ -1,0 +1,135 @@
+:extension_name: SPV_INTEL_tensor_float32_conversion
+:capability_tf32_rounding_name: TensorFloat32RoundingINTEL
+:capability_tf32_rounding_token: 6425
+:RoundFToTF32_name: OpRoundFToTF32INTEL
+:RoundFToTF32_token: 6426
+
+{extension_name}
+================
+
+== Name Strings
+
+{extension_name}
+
+== Contact
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/intel/llvm
+
+== Contributors
+
+- Dmitry Sidorov, Intel +
+- Victor Mustya, Intel +
+- Kacper Kasper, Intel +
+- Ben Ashbaugh, Intel +
+
+== Notice
+
+Copyright (c) 2025 Intel Corporation.  All rights reserved.
+
+== Status
+
+* Complete
+
+== Version
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2025-03-14
+| Revision           | 3
+|========================================
+
+== Dependencies
+
+This extension is written against the SPIR-V Specification,
+Version 1.6 Revision 5.
+
+This extension requires SPIR-V 1.0.
+
+== Overview
+
+This extension adds rounding instruction from float to tensor float (TF32)
+data format. TF32 uses 1 bit for a sign, 8 bits for an exponent and 10 bits for a
+fraction. This extension doesn’t introduce TF32 type in SPIR-V, instead
+instruction below uses 32-bit float type to represent TF32 value.
+
+== Extension Name
+
+To use this extension within a SPIR-V module, the appropriate *OpExtension* must
+be present in the module:
+
+[subs="attributes"]
+----
+OpExtension "{extension_name}"
+----
+
+== Modifications to the SPIR-V Specification, Version 1.6
+
+=== Capabilities
+
+Modify Section 3.31, Capability, adding rows to the Capability table:
+
+--
+[options="header"]
+|====
+2+^| Capability ^| Implicitly Declares 
+| {capability_tf32_rounding_token} | *{capability_tf32_rounding_name}*
+| Enables a rounding instruction from float to tf32 data format +
+ +
+See also extension: *{extension_name}*
+|====
+--
+
+=== Instructions
+
+==== 3.56.11. Conversion Instructions
+
+[cols="1,1,3*3",width="100%"]
+|=====
+4+|[[OpRoundFToTF32]]*{RoundFToTF32_name}* +
+ +
+Convert value numerically from a 32-bit floating point type to *TF32* with rounding
+to the nearest even. +
+ +
+'Result Type' must be a scalar or vector of 32-bit floating-point type. +
+ +
+'Float Value' must have the same type as 'Result Type'. +
+ +
+If 'Float Value' is an infinity, the result is the same infinity. If 'Float Value'
+is a NaN, the result is a NaN, but not necessarily the same NaN. +
+ +
+The *RelaxedPrecision* <<Decoration,Decoration>> has no effect on this instruction. +
+ +
+Results are computed per component. +
+ +
+1+|Capability: +
+*{capability_tf32_rounding_name}*
+1+| 4 | {RoundFToTF32_token}
+| '<id>' +
+'Result Type'
+| 'Result <id>'
+| '<id>' +
+'Float Value'
+| '<id>' +
+|=====
+
+== Issues
+
+// . first issue
+// +
+// --
+// *RESOLVED*:
+// --
+
+== Revision History
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2022-08-22|Dmitry Sidorov| Initial revision
+|2|2023-02-09|Dmitry Sidorov| Rename the instruction and the extension
+|3|2025-03-14|Dmitry Sidorov| Clarify rounding mode
+|========================================
