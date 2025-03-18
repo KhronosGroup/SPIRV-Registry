@@ -97,7 +97,6 @@ Note: we no longer push the HTML along side the extension.
 * [SPV_EXT_shader_stencil_export           ]( https://github.khronos.org/SPIRV-Registry/extensions/EXT/SPV_EXT_shader_stencil_export.html)
 * [SPV_EXT_shader_tile_image               ]( https://github.khronos.org/SPIRV-Registry/extensions/EXT/SPV_EXT_shader_tile_image.html)
 * [SPV_EXT_shader_viewport_index_layer     ]( https://github.khronos.org/SPIRV-Registry/extensions/EXT/SPV_EXT_shader_viewport_index_layer.html)
-* [SPV_EXT_ycbcr_attachments               ]( https://github.khronos.org/SPIRV-Registry/extensions/EXT/SPV_EXT_ycbcr_attachments.html)
 
 ### Vendor Extensions
 
