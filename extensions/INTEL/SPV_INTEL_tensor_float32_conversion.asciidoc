@@ -74,10 +74,10 @@ Modify Section 3.31, Capability, adding rows to the Capability table:
 [options="header"]
 |====
 2+^| Capability ^| Implicitly Declares 
-| {capability_tf32_rounding_token} | *{capability_tf32_rounding_name}*
-| Enables a rounding instruction from float to tf32 data format +
+| {capability_tf32_rounding_token} | *{capability_tf32_rounding_name}* +
+  Enables a rounding instruction from float to tf32 data format +
  +
-See also extension: *{extension_name}*
+See also extension: *{extension_name}* |
 |====
 --
 
