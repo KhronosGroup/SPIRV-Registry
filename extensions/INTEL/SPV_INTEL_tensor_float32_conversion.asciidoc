@@ -111,7 +111,6 @@ Results are computed per component. +
 | 'Result <id>'
 | '<id>' +
 'Float Value'
-| '<id>' +
 |=====
 
 == Issues
