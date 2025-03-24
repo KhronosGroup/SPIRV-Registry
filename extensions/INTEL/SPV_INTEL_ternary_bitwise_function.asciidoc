@@ -1,0 +1,143 @@
+:extension_name: SPV_INTEL_ternary_bitwise_function
+:capability_name: TernaryBitwiseFunctionINTEL
+:capability_token: 6241
+:op_name_bfn: OpBitwiseFunctionINTEL
+:op_token_bfn: 6242
+
+= {extension_name}
+
+== Name Strings
+
+{extension_name}
+
+== Contact
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Registry
+
+== Contributors
+
+// spell-checker: disable
+* Ben Ashbaugh, Intel
+* Victor Mustya, Intel
+// spell-checker: enable
+
+== Notice
+
+Copyright (c) 2025 Intel Corporation. All rights reserved.
+
+== Status
+
+* Complete
+
+== Version
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2025-03-24
+| Revision           | 1
+|========================================
+
+== Dependencies
+
+This extension is written against the SPIR-V Specification,
+Version 1.6, Revision 5.
+
+This extension requires SPIR-V 1.0.
+
+== Overview
+
+This extension adds an instruction to efficiently compute a _bitwise function_ of three input operands.
+The _bitwise function_ that is performed is described by a lookup table index.
+This instruction can be used to accelerate the bitwise operations used in cryptography, hash computation, and many other algorithms.
+
+_Bitwise functions_ may also be known as _Boolean functions_ or _logical functions_, because they perform logical operations on the bits of the input operands.
+
+== Extension Name
+
+To use this extension within a SPIR-V module, the appropriate *OpExtension* must
+be present in the module:
+
+[subs="attributes"]
+----
+OpExtension "{extension_name}"
+----
+
+== Modifications to the SPIR-V Specification, Version 1.6
+
+=== Capabilities
+
+Modify Section 3.31, Capability, adding rows to the Capability table:
+--
+[cols="^.^2,16,15",options="header",width = "100%"]
+|====
+2+^.^| Capability | Implicitly Declares
+| {capability_token} | *{capability_name}* |
+|====
+--
+
+=== Instructions
+
+Modify Section 3.56.14, Bit Instructions, adding to the end of the list of instructions:
+
+[cols="1,1,6*3",width="100%"]
+|=====
+7+a|[[{op_name_bfn}]]*{op_name_bfn}*
+
+Computes a bitwise function of three input operands _A_, _B_, and _C_.
+
+_Result Type_ must be a scalar or vector of integer type.
+
+The types of _A_, _B_, and _C_ must be the same as _Result Type_.
+
+The _LUTIndex_ operand is a lookup table index that describes the bitwise function that is computed.
+It must be a constant instruction with scalar 32-bit integer type.
+Only the low eight bits of _LUTIndex_ are used.
+If any of the upper 24 bits of _LUTIndex_ are nonzero, then behavior is undefined.
+
+To compute the lookup table index for a bitwise function, let _sA_ equal to `0xAA` represent the first source operand _A_, _sB_ equal to `0xCC` represent the second source operand _B_, and _sC_ equal to `0xF0` represent the third source operand _C_.
+Then, perform the same bitwise operations on _sA_, _sB_, and _sC_ that are desired to be performed on _A_, _B_, and _C_.
+The resulting value is the lookup table index.
+
+For example, a `bitselect` operation that picks a bit from the first source operand _A_ when the corresponding bit in the third source operand _C_ is zero, otherwise the bit from the second source operand _B_, may be computed as: `(A & ~C) \| (B & C)`.
+The 8-bit lookup table for this operation is therefore: `(sA & ~sC) \| (sB & sC)`, or `(0xAA & ~0xF0) \| (0xCC & 0xF0)`, or `(0xAA & 0x0F) \| 0xC0`, or `0x0A \| 0xC0`, or `0xCA`.
+
+Results are computed per component.
+
+|Capability: +
+*{capability_name}*
+| 7 | {op_token_bfn}
+| _<id>_ +
+_Result Type_
+| _<id>_ +
+_Result_
+| _<id>_ +
+_A_
+| _<id>_ +
+_B_
+| _<id>_ +
+_C_
+| _<id>_ +
+_LUTIndex_
+|=====
+
+== Issues
+
+. What should this extension be called?
++
+--
+*RESOLVED*: The name of the extension will be SPV_INTEL_ternary_bitwise_function.
+This name is chosen to be consistent with terminology used elsewhere in SPIR-V, such as the *OpBitwiseAnd* instruction.
+It is also consistent with the "bitwise ternary logic" terminology used by the Intel CPU instructions that may be used to implement this extension.
+--
+
+== Revision History
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2025-03-24|Ben Ashbaugh|Initial version for publication
+|========================================

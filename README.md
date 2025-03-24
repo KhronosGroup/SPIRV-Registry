@@ -157,6 +157,7 @@ Note: we no longer push the HTML along side the extension.
 * [SPV_INTEL_subgroup_matrix_multiply_accumulate]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_subgroup_matrix_multiply_accumulate.html)
 * [SPV_INTEL_task_sequence                 ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_task_sequence.html)
 * [SPV_INTEL_tensor_float32_conversion     ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_tensor_float32_conversion.html)
+* [SPV_INTEL_ternary_bitwise_function      ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_ternary_bitwise_function.html)
 * [SPV_INTEL_unstructured_loop_controls    ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_unstructured_loop_controls.html)
 * [SPV_INTEL_usm_storage_classes           ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_usm_storage_classes.html)
 * [SPV_NV_bindless_texture                 ]( https://github.khronos.org/SPIRV-Registry/extensions/NV/SPV_NV_bindless_texture.html)
