@@ -165,7 +165,7 @@ Validation Rules
 
 Add the following bullets to section 2.16.1, Universal Validation Rules:
 
-  * Variables with a type that is or includes a floating-point type with the *BFloat16KHR* encoding must only be used with the following instructions:
+  * Objects with a type that is or includes a floating-point type with the *BFloat16KHR* encoding must only be used with the following instructions:
   ** https://registry.khronos.org/SPIR-V/specs/unified1/SPIRV.html#_constant_creation_instructions[Constant Creation Instructions]
   ** https://registry.khronos.org/SPIR-V/specs/unified1/SPIRV.html#_memory_instructions[Memory Instructions]
   ** https://registry.khronos.org/SPIR-V/specs/unified1/SPIRV.html#_function_instructions[Function Instructions]
