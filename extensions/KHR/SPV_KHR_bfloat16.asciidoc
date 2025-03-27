@@ -176,6 +176,7 @@ Add the following bullets to section 2.16.1, Universal Validation Rules:
   ** https://registry.khronos.org/SPIR-V/specs/unified1/SPIRV.html#_debug_instructions[Debug Instructions]
   ** https://registry.khronos.org/SPIR-V/specs/unified1/SPIRV.html#_miscellaneous_instructions[Miscellaneous Instructions]
   ** https://registry.khronos.org/SPIR-V/specs/unified1/SPIRV.html#_extension_instructions[Extension Instructions]
+  ** https://registry.khronos.org/SPIR-V/specs/unified1/SPIRV.html#_mode_setting_instructions[Mode Setting Instructions]
   ** OpDot
   ** OpCooperativeMatrixMulAddKHR
   ** OpCooperativeMatrixLengthKHR
