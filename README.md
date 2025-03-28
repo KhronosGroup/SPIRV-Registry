@@ -37,6 +37,7 @@ Note: we no longer push the HTML along side the extension.
 
 * [SPV_KHR_16bit_storage                   ]( https://github.khronos.org/SPIRV-Registry/extensions/KHR/SPV_KHR_16bit_storage.html)
 * [SPV_KHR_8bit_storage                    ]( https://github.khronos.org/SPIRV-Registry/extensions/KHR/SPV_KHR_8bit_storage.html)
+* [SPV_KHR_bfloat16                        ]( https://github.khronos.org/SPIRV-Registry/extensions/KHR/SPV_KHR_bfloat16.html)
 * [SPV_KHR_bit_instructions                ]( https://github.khronos.org/SPIRV-Registry/extensions/KHR/SPV_KHR_bit_instructions.html)
 * [SPV_KHR_compute_shader_derivatives      ]( https://github.khronos.org/SPIRV-Registry/extensions/KHR/SPV_KHR_compute_shader_derivatives.html)
 * [SPV_KHR_cooperative_matrix              ]( https://github.khronos.org/SPIRV-Registry/extensions/KHR/SPV_KHR_cooperative_matrix.html)
