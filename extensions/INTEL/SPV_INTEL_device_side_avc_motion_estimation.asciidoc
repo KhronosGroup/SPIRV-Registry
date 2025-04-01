@@ -3198,7 +3198,7 @@ Distortion =
 
 | Capability: + 
 *SubgroupAvcMotionEstimationINTEL, SubgroupAvcMotionEstimationChromaINTEL* +
-| 7 | 5799 | <id> Result Type | Result <id> | <id> Chroma Mode Base Penalty | <id> Payload
+| 5 | 5799 | <id> Result Type | Result <id> | <id> Chroma Mode Base Penalty | <id> Payload
 |=====
 
 ===== Miscellaneous property configuration instructions
