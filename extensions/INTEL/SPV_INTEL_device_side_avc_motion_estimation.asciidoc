@@ -149,8 +149,8 @@ OpSubgroupAvcImeEvaluateWithDualReferenceStreaminoutINTEL
 OpSubgroupAvcImeConvertToMceResultINTEL
 OpSubgroupAvcImeGetSingleReferenceStreaminINTEL
 OpSubgroupAvcImeGetDualReferenceStreaminINTEL
-SubgroupAvcImeStripSingleReferenceStreamoutINTEL
-SubgroupAvcImeStripDualReferenceStreamoutINTEL
+OpSubgroupAvcImeStripSingleReferenceStreamoutINTEL
+OpSubgroupAvcImeStripDualReferenceStreamoutINTEL
 OpSubgroupAvcImeGetStreamoutSingleReferenceMajorShapeMotionVectorsINTEL
 OpSubgroupAvcImeGetStreamoutSingleReferenceMajorShapeDistortionsINTEL
 OpSubgroupAvcImeGetStreamoutSingleReferenceMajorShapeReferenceIdsINTEL
@@ -3290,7 +3290,7 @@ These instructions perform the evaluation of the SIC operation configured in the
 
 [cols="1,1,1,1,1,1",width="100%"]
 |=====
-5+|*OpSubgroupAvcSicEvaluateIPEINTEL* +
+5+|*OpSubgroupAvcSicEvaluateIpeINTEL* +
  +
 Evaluate the SIC IPE operation and return its results. 
 
