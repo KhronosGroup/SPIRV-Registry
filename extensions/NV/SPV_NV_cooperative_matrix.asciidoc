@@ -23,7 +23,7 @@ Contributors
 Notice
 ------
 
-Copyright (c) 2018-2019 NVIDIA Corp.
+Copyright (c) 2018-2025 NVIDIA Corp.
 
 Status
 ------
@@ -35,8 +35,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2019-07-12
-| Revision           | 2
+| Last Modified Date | 2025-04-10
+| Revision           | 3
 |========================================
 
 Dependencies
@@ -176,7 +176,8 @@ cooperate to compute and store the matrix. +
 
 Modify *OpConstantComposite* to make an exception for cooperative matrix types:
 "If the 'Result Type' is a cooperative matrix type, then there must be only one
-'Constituent' and it is used to initialize all members."
+'Constituent', with scalar type matching the cooperative matrix 'Component Type',
+and all components of the matrix are initialized to that value."
 
 Modify *OpSpecConstantOp* to add:
 If the *CooperativeMatrixNV* capability was declared, the following opcode is
@@ -309,7 +310,8 @@ number of columns.
 
 Modify *OpCompositeConstruct* to make an exception for cooperative matrix types:
 "If the 'Result Type' is a cooperative matrix type, then there must be only one
-'Constituent' and it is used to initialize all members."
+'Constituent', with scalar type matching the cooperative matrix 'Component Type',
+and all components of the matrix are initialized to that value."
 
 3.32.13 Arithmetic Instructions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -451,4 +453,5 @@ Revision History
 |Rev|Date|Author|Changes
 |1|2019-01-30|Jeff Bolz|Initial revision
 |2|2019-07-12|Jeff Bolz|Added details for integer operations
+|3|2025-04-10|Jeff Bolz|Clarify composite creation behavior
 |========================================
