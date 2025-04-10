@@ -34,8 +34,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2024-09-18
-| Revision           | 1
+| Last Modified Date | 2025-04-10
+| Revision           | 2
 |========================================
 
 Dependencies
@@ -74,6 +74,15 @@ OpExtension "SPV_NV_cooperative_matrix2"
 
 Modifications to the SPIR-V Specification, Version 1.6
 ------------------------------------------------------
+
+2.2 Terms
+~~~~~~~~~
+
+Add to the list of Tangled Instructions in section 2.2.5 Control Flow:
+
+* *OpCooperativeMatrixLoadTensorNV*, *OpCooperativeMatrixStoreTensorNV*,
+  *OpCooperativeMatrixReduceNV*, *OpCooperativeMatrixConvertNV*,
+  *OpCooperativeMatrixTransposeNV*, and *OpCooperativeMatrixPerElementOpNV*.
 
 2.16 Validation Rules
 ~~~~~~~~~~~~~~~~~~~~~
@@ -747,5 +756,6 @@ Revision History
 [options="header"]
 |========================================
 |Rev|Date|Author|Changes
+|2|2025-04-10|Jeff Bolz|Specify which instructions are tangled
 |1|2024-09-18|Jeff Bolz|Initial revision of SPV_NV_cooperative_matrix2
 |========================================
