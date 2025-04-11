@@ -41,7 +41,7 @@ Contributors
 Notice
 ------
 
-Copyright (c) 2020-2024 The Khronos Group Inc. Copyright terms at
+Copyright (c) 2020-2025 The Khronos Group Inc. Copyright terms at
 http://www.khronos.org/registry/speccopyright.html
 
 Status
@@ -55,8 +55,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2025-03-05
-| Revision           | 7
+| Last Modified Date | 2025-04-10
+| Revision           | 9
 |========================================
 
 Dependencies
@@ -114,6 +114,11 @@ is a composite with an implementation-dependent number of components
 (which can be queried with *OpCooperativeMatrixLengthKHR*). It can be used as a
 composite for all operations that act on composite types. The mapping
 of components to invocations and indexes is implementation-dependent.
+
+Add to the list of Tangled Instructions in section 2.2.5 Control Flow:
+
+* *OpCooperativeMatrixLoadKHR*, *OpCooperativeMatrixStoreKHR*,
+  *OpCooperativeMatrixMulAddKHR*, and type conversion instructions when the input is a cooperative matrix.
 
 2.16 Validation Rules
 ~~~~~~~~~~~~~~~~~~~~~
@@ -307,7 +312,8 @@ object of this type must be executed such that all the invocations in the
 
 Modify *OpConstantComposite* to make an exception for cooperative matrix types:
 "If the 'Result Type' is a cooperative matrix type, then there must be only one
-'Constituent' and it is used to initialize all members."
+'Constituent', with scalar type matching the cooperative matrix 'Component Type',
+and all components of the matrix are initialized to that value."
 
 3.42.8 Memory Instructions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -405,7 +411,8 @@ instance of the 'Scope' of the cooperative matrix.
 
 Modify *OpCompositeConstruct* to make an exception for cooperative matrix types:
 "If the 'Result Type' is a cooperative matrix type, then there must be only one
-'Constituent' and it is used to initialize all members. The 'Constituent' must
+'Constituent', with scalar type matching the cooperative matrix 'Component Type',
+and all components of the matrix are initialized to that value. The 'Constituent' must
 be dynamically uniform within the 'Scope' of the cooperative matrix type.
 
 3.42.13 Arithmetic Instructions
@@ -633,6 +640,8 @@ Revision History
 [options="header"]
 |========================================
 |Rev|Date|Author|Changes
+|9|2025-04-10|Jeff Bolz|Specify which instructions are tangled
+|8|2025-04-10|Jeff Bolz|Clarify composite creation behavior
 |7|2025-03-05|Kevin Petit|Fix OpCooperativeMatrixLengthKHR instruction section
 |6|2024-08-07|Jeff Bolz|Clarify sign/zero-extension behavior
 |5|2023-12-06|Kevin Petit|Clarifications, mostly of uniformity rules
