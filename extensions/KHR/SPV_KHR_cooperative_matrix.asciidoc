@@ -118,7 +118,7 @@ of components to invocations and indexes is implementation-dependent.
 Add to the list of Tangled Instructions in section 2.2.5 Control Flow:
 
 * *OpCooperativeMatrixLoadKHR*, *OpCooperativeMatrixStoreKHR*,
-  *OpCooperativeMatrixMulAddKHR*, and type conversion instructions.
+  *OpCooperativeMatrixMulAddKHR*, and type conversion instructions when the input is a cooperative matrix.
 
 2.16 Validation Rules
 ~~~~~~~~~~~~~~~~~~~~~
