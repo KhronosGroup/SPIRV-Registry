@@ -188,6 +188,7 @@ Note: we no longer push the HTML along side the extension.
 * [SPV_NVX_multiview_per_view_attributes   ]( https://github.khronos.org/SPIRV-Registry/extensions/NV/SPV_NVX_multiview_per_view_attributes.html)
 * [SPV_QCOM_image_processing               ]( https://github.khronos.org/SPIRV-Registry/extensions/QCOM/SPV_QCOM_image_processing.html)
 * [SPV_QCOM_image_processing2              ]( https://github.khronos.org/SPIRV-Registry/extensions/QCOM/SPV_QCOM_image_processing2.html)
+* [SPV_QCOM_tile_shading                   ]( https://github.khronos.org/SPIRV-Registry/extensions/QCOM/SPV_QCOM_tile_shading.html)
 
 ## Non-Semantic Extended Instruction Set Specifications
 
