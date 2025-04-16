@@ -1,0 +1,225 @@
+SPV_QCOM_tile_shading
+=====================
+
+Name Strings
+------------
+
+SPV_QCOM_tile_shading
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Jeff Leger, Qualcomm
+- Ruihao Zhang, Qualcomm
+- Wooyoung Kim, Qualcomm
+
+Notice
+------
+
+Copyright (c) 2025 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+Status
+------
+
+- Final
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2025-04-15
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the Unified SPIR-V Specification,
+Version 1.6 Revision 2.
+
+This extension requires SPIR-V 1.0.
+
+Overview
+--------
+
+This extension adds a new storage class and two new execution modes
+along with a new capability to support the Vulkan tile shading extension
+described in VK_QCOM_tile_shading.  It also adds
+three new built-in variables to facilitate use of the tile shading
+extension.
+
+With the new storage class, operations on 2D image/sampled image variables
+(i.e. tile image attachment variables) may execute per-tile while the
+framebuffer content is still cached in high-bandwidth on-die tile memory.
+
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following *OpExtension* must
+be present in the module:
+
+----
+OpExtension "SPV_QCOM_tile_shading"
+----
+
+New Capabilities
+----------------
+
+This extension introduces a new capability:
+
+----
+TileShadingQCOM
+----
+
+New Storage Classes
+-------------------
+
+Storage class added under the *TileShadingQCOM* capability:
+
+----
+TileAttachmentQCOM
+----
+
+New BuiltIns
+------------
+
+BuiltIn variables added under the *TileShadingQCOM* capability:
+
+----
+TileOffsetQCOM
+TileDimensionQCOM
+TileApronSizeQCOM
+----
+
+New Execution Mode
+------------------
+
+Execution mode added under the *TileShadingQCOM* capability:
+
+----
+NonCoherentTileAttachmentReadQCOM
+TileShadingRateQCOM
+----
+
+Modifications to the SPIR-V Specification, Version 1.6
+------------------------------------------------------
+
+Execution Mode
+~~~~~~~~~~~~~~
+
+Modify Section 3.6, "Execution Mode", adding the following row before EarlyAndLateFragmentTestsAMD
+
+[cols="1,15,4*2",options="header",width = "100%"]
+|====
+2+^.^| Execution Mode	3+| Extra Operands | <<Capability,Enabling Capabilities>>
+| 4489 | *NonCoherentTileAttachmentReadQCOM* +
+When enabled, the mode indicates that load operations on tile image
+attachment variables of the TileAttachmentQCOM storage class are not guaranteed
+to be in rasterization order. Only valid with the *Fragment*
+<<Execution_Model,Execution Model>>.
+3+|
+| *TileShadingQCOM*
+| 4490 | *TileShadingRateQCOM* +
+Indicates the shading rate in the _x_,_y_, and _z_ dimensions for 
+QCOM tile shading. _x rate_, _y rate_ and _z rate_ are unsigned 32-bit
+integers. _x rate_ and _y rate_ are a power of 2.  Only valid with the *GLCompute*
+<<Execution_Model,Execution Model>>.
+| <<Literal,Literal>> _x rate_ 
+| <<Literal,Literal>> _y rate_ 
+| <<Literal,Literal>> _z rate_ 
+| *TileShadingQCOM*
+|====
+
+Storage Class
+~~~~~~~~~~~~~
+
+Modify Section 3.7, "Storage Class", adding the following row before CallableDataNV:
+
+[cols="1,15,2*2",options="header",width = "100%"]
+|====
+2+^.^| Storage Class | <<Capability,Enabling Capabilities>> | Enabled by Extension
+| 4491 | *TileAttachmentQCOM* +
+Used to specify tile image attachment variables compatible with the *TileShadingQCOM* capability
+| *TileShadingQCOM* | SPV_QCOM_tile_shading
+|====
+
+Builtin
+~~~~~~~
+
+Modify Section 3.21, "BuiltIn", adding the following rows to the Builtin table before BaryCoordNoPerspAMD:
+
+[cols="1,2*3",options="header",width = "100%"]
+|====
+2+^| BuiltIn ^| Enabling Capabilities
+| 4492 | *TileOffsetQCOM* +
+Framebuffer coordinates (x,y) of the top-left texel of the active tile.
+Available only in fragment and compute shaders.
+| *TileShadingQCOM* +
+Also see extension: SPV_QCOM_tile_shading
+| 4493 | *TileDimensionQCOM* +
+Reports the tile dimension (width, height, z).
+(width, height) represents the tile size in pixels for the active tile
+and z is the number of tile layers.
+Available only in fragment and compute shaders.
+| *TileShadingQCOM* +
+Also see extension: SPV_QCOM_tile_shading
+| 4494 | *TileApronSizeQCOM* +
+Size (horizontal, vertical) of the apron for the active tile.
+Available only in fragment and compute shaders.
+| *TileShadingQCOM* +
+Also see extension: SPV_QCOM_tile_shading
+|====
+
+Capabilities
+~~~~~~~~~~~~
+
+Modify Section 3.31, "Capability", adding the following rows to the Capability table after RayTracingKHR:
+
+[cols="1,5,1",options="header",width = "100%"]
+|====
+2+^| Capability ^| Implicitly Declares
+| 4495 | *TileShadingQCOM* +
+To read from tile image variables, to write to tile image variables and
+to sample tile image variables at the specified coordinates.  
+Makes the *TileAttachmentQCOM* storage
+class, the *TileOffsetQCOM*/*TileDimensionQCOM*/*TileApronSizeQCOM* built-in variables,
+and the *NonCoherentTileAttachmentReadQCOM* and *TileShadingRateQCOM* execution modes
+available to the shader.
+| *Shader*
+|====
+
+Validation Rules
+----------------
+
+An OpExtension must be added to the SPIR-V for validation layers
+to check legal use of this extension:
+
+----
+OpExtension "SPV_QCOM_tile_shading"
+----
+
+ * The _x_ and _y_ rate values of the TileShadingRateQCOM execution mode must be powers of 2.
+
+Issues
+------
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|===========================================================
+|Rev|Date|Author|Changes
+|1|2025-04-15|Wooyoung Kim|Initial version
+|===========================================================
