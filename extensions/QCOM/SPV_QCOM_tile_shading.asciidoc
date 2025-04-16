@@ -58,7 +58,7 @@ three new built-in variables to facilitate use of the tile shading
 extension.
 
 With the new storage class, operations on 2D image/sampled image variables
-(i.e. tile image attachment variables) may execute per-tile while the 
+(i.e. tile image attachment variables) may execute per-tile while the
 framebuffer content is still cached in high-bandwidth on-die tile memory.
 
 
