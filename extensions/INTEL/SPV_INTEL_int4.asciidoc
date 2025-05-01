@@ -1,0 +1,121 @@
+= SPV_INTEL_int4
+
+== Name Strings
+
+SPV_INTEL_int4
+
+== Contact
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Registry
+
+== Contributors
+
+- Ben Ashbaugh, Intel
+- Tobias Hector, AMD
+- Stu Smith, AMD
+- Alan Baker, Google
+- Graeme Leese, Broadcom
+- Kévin Petit, Arm
+- Jeff Bolz, Nvidia
+- Ruihao Zhang, Qualcomm
+
+== Notice
+
+Copyright (c) 2023-2025 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+== Status
+
+- Approved by the SPIR-V Working Group: 2025-03-12
+- Approved by the Khronos Board of Promoters: 2025-04-25
+
+== Version
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2025-05-01
+| Revision           | 1
+|========================================
+
+== Dependencies
+
+This extension is written against the SPIR-V Specification,
+Version 1.6 Revision 3.
+
+This extension interacts with SPV_KHR_cooperative_matrix.
+
+== Overview
+
+Implementations may support small types that are not naturally aligned to the granularity of the implementation's memory addressing.
+These types can sometimes still be supported for some operations, but require conversion or packing into larger types to load or store data in memory.
+This extension adds a new capability to declare a 4-bit integer type, and capabilities to allow this type to be used in cooperative matrices.
+4-bit integer types can be declared in external memory only as part of a larger type that is aligned to a supported size.
+
+== Extension Name
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_INTEL_int4"
+----
+
+== Modifications to the SPIR-V Specification, Version 1.6
+
+=== Capabilities
+
+Modify Section 3.31, Capability, adding this row to the table:
+
+--
+[cols="^.^2,16,15",options="header",width = "100%"]
+|====
+2+^.^| Capability | Implicitly Declares
+| 5112 | *Int4TypeINTEL* +
+Uses *OpTypeInt* to specify integer types with a 'Width' of 4 and the use of conversion functions for those types.
+|
+| 5114 | *Int4CooperativeMatrixINTEL* +
+Uses cooperative matrices with a *Component Type* of *OpTypeInt* with a 'Width' of 4.
+| *Int4TypeINTEL*, *CooperativeMatrixKHR* +
+ +
+Also see extension: https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/KHR/SPV_KHR_cooperative_matrix.asciidoc[SPV_KHR_cooperative_matrix]
+|====
+--
+
+=== Memory Layout
+
+Add to Section 2.18.1. Memory Layout, Int 4 layout:
+
+Scalar integer variables with a `Width` of 4 can only be declared in the `Private` or `Function` storage classes.
+In other storage classes, they must be included in an `OpTypeVector` with an even `Component Count`, where the first component in every pair is in bits 0-3 of the corresponding byte, and the second component is in bits 4-7.
+
+=== Validation Rules
+
+Add the following bullets to section 2.16.1, Universal Validation Rules:
+
+  * If *Int4TypeINTEL* is declared then the 'Width' operand of *OpTypeInt* may be 4.
+  * If *Int4CooperativeMatrixINTEL* is declared then the 'Component Type' operand of *OpTypeCooperativeMatrixKHR* may be an *OpTypeInt* with a 'Width' of 4.
+  * Types that are or include an integer type with a 'Width' of 4, or <<Object,objects>> with such a type, must only be used with the following instructions:
+  ** https://registry.khronos.org/SPIR-V/specs/unified1/SPIRV.html#_constant_creation_instructions[Constant Creation Instructions]
+  ** https://registry.khronos.org/SPIR-V/specs/unified1/SPIRV.html#_memory_instructions[Memory Instructions]
+  ** https://registry.khronos.org/SPIR-V/specs/unified1/SPIRV.html#_function_instructions[Function Instructions]
+  ** https://registry.khronos.org/SPIR-V/specs/unified1/SPIRV.html#_conversion_instructions[Conversion Instructions]
+  ** https://registry.khronos.org/SPIR-V/specs/unified1/SPIRV.html#_composite_instructions[Composite Instructions]
+  ** OpCooperativeMatrixMulAddKHR (requires *Int4CooperativeMatrixINTEL*)
+  ** OpCooperativeMatrixLengthKHR (requires *Int4CooperativeMatrixINTEL*)
+  ** OpSelect
+  ** OpPhi
+  ** OpReturnValue
+  ** OpLifetimeStart
+  ** OpLifetimeStop
+
+== Revision History
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|==============================================
+| Rev |    Date    | Author   | Changes
+|  1  | 2025-05-01 | bashbaug | Initial revision for publication
+|==============================================
