@@ -22,6 +22,8 @@ Status
 ------
 
 - Complete
+- Approved by the SPIR-V Working Group: 2025-03-12
+- Approved by the Khronos Board of Promoters: 2025-04-25
 
 Version
 -------
