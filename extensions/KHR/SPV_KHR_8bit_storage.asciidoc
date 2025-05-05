@@ -30,6 +30,7 @@ Status
 
 - Complete
 - Approved by the SPIR Working Group: 2018-03-28
+- Approved by the Khronos Board of Promoters: 2018-05-18
 
 Version
 -------
