@@ -44,6 +44,8 @@ http://www.khronos.org/registry/speccopyright.html
 This extension is written against the SPIR-V Specification,
 Version 1.6 Revision 3.
 
+This extension requires SPIR-V 1.0.
+
 This extension interacts with SPV_KHR_cooperative_matrix.
 
 == Overview
