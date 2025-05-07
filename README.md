@@ -143,6 +143,7 @@ Note: we no longer push the HTML along side the extension.
 * [SPV_INTEL_fpga_reg                      ]( https://github.khronos.org/SPIRV-Registry/extensions/ALTERA/SPV_INTEL_fpga_reg.html)
 * [SPV_INTEL_global_variable_fpga_decorations]( https://github.khronos.org/SPIRV-Registry/extensions/ALTERA/SPV_INTEL_global_variable_fpga_decorations.html)
 * [SPV_INTEL_global_variable_host_access   ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_global_variable_host_access.html)
+* [SPV_INTEL_int4                          ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_int4.html)
 * [SPV_INTEL_io_pipes                      ]( https://github.khronos.org/SPIRV-Registry/extensions/ALTERA/SPV_INTEL_io_pipes.html)
 * [SPV_INTEL_kernel_attributes             ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_kernel_attributes.html)
 * [SPV_INTEL_long_composites               ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_long_composites.html)
