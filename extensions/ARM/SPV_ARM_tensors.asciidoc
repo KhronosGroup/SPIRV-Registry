@@ -1,0 +1,326 @@
+SPV_ARM_tensors
+===============
+
+Name Strings
+------------
+
+SPV_ARM_tensors
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Kevin Petit, Arm Ltd. +
+- Sven van Haastregt, Arm Ltd. +
+- Neil Hickey, Arm Ltd. +
+- Pedro Olsen Ferreira, Arm Ltd. +
+
+Notice
+------
+
+Copyright (c) 2022-2025 Arm Ltd.
+
+Status
+------
+
+Complete.
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2025-05-07
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.6 Revision 2.
+
+This extension requires SPIR-V 1.0.
+
+Overview
+--------
+
+This extension adds basic support for tensors. It provides a type system to
+describe tensors, support for defining constants with tensor types, as well as
+accessors to read or write one or multiple elements from resources with a tensor
+type in shaders.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_ARM_tensors"
+----
+
+Modifications to the SPIR-V Specification, Version 1.6
+------------------------------------------------------
+
+Terms
+~~~~~
+
+Add a new term to section 2.2.2 Types:
+
+[[TensorTerm]]'Tensor': a multidimensional array of objects of scalar type.
+
+[[RankedTensorTerm]]'Ranked Tensor': an *OpTypeTensorARM* whose _Rank_ is present.
+
+[[ShapedTensorTerm]]'Shaped Tensor': an *OpTypeTensorARM* whose _Shape_ is present.
+
+Modify the definition of the following terms in 2.2.2 Types:
+
+'Opaque Type': Add **OpTypeTensorARM** whose 'Shape' operand is absent to the list of opaque types.
+
+'Composite Type': Add **OpTypeTensorARM** whose 'Shape' operand is present to the list of composite types.
+
+Capabilities
+~~~~~~~~~~~~
+
+Modify Section 3.31, "Capability", adding these rows to the Capability table:
+
+--
+[options="header"]
+|====
+2+^| Capability ^| Depends On
+| 4174 | *TensorsARM* +
+Uses **OpTypeTensorARM** |
+| 4175 | *StorageTensorArrayDynamicIndexingARM* +
+Arrays of storage tensors use dynamically uniform indexing | **TensorsARM**, **Shader**
+| 4176 | *StorageTensorArrayNonUniformIndexingARM* +
+Arrays of storage tensors use non-uniform indexing | **TensorsARM**, **ShaderNonUniform**
+|====
+--
+
+Add a new 3.x section under 3 Binary Form:
+
+Tensor Operands
+~~~~~~~~~~~~~~~
+
+[options="header"]
+[cols="1,4,4"]
+|======
+2+^| Tensor Operands | Enabling Capabilities
+| 0x0 | *NoneARM* |
+| 0x1 | *NontemporalARM* +
+Hints that the accessed elements are not likely to be accessed again in the near future |
+| 0x2 | *OutOfBoundsValueARM* +
+A following operand is the value returned when reading elements outside of the
+bounds of a tensor. It must be a constant instruction of the same type as the
+'Element Type' of the accessed tensor. Only valid with *OpTensorReadARM*. |
+| 0x4 | *MakeElementAvailableARM* +
+Perform an availability operation on the tensor element locations after the
+store. A following operand is the memory <<Scope_-id-,scope>> that controls the
+availability operation. Requires *NonPrivateElementARM* to also be set. Only
+valid with *OpTensorWriteARM*.
+| *VulkanMemoryModel*
+| 0x8 | *MakeElementVisibleARM*  +
+Perform a visibility operation on the tensor element locations before the load.
+A following operand is the memory <<Scope_-id-,scope>> that controls the
+visibility operation. Requires *NonPrivateElementARM* to also be set. Only valid
+with *OpTensorReadARM*.
+| *VulkanMemoryModel*
+| 0x10 | *NonPrivateElementARM* +
+The tensor access obeys inter-thread ordering, as specified by the client API.
+| *VulkanMemoryModel*
+|======
+
+
+Instructions
+~~~~~~~~~~~~
+
+[cols="1,1,4*3"]
+|======
+5+|[[OpTypeTensorARM]]*OpTypeTensorARM* +
+ +
+Declare a new tensor type. +
+ +
+'Element Type' is the type of the individual elements of the tensor. It must be
+a 'scalar type'. +
+ +
+'Rank' is the optional rank (i.e. number of dimensions) of the tensor. 'Rank' must come
+from a constant instruction of scalar 'integer type' and is interpreted as unsigned. +
+ +
+'Shape' is the optional shape of the tensor. 'Shape' must be a constant instruction
+of type *OpTypeArray* whose 'Element Type' is an integer, interpreted as unsigned, and
+whose 'Length' is equal to 'Rank'. +
+ +
+1+|Capability: +
+*TensorsARM*
+| 3+Variable | 4163
+| 'Result <id>'
+| '<id> Element Type'
+| Optional +
+'<id>' 'Rank'
+| Optional +
+'<id>' 'Shape'
+|======
+
+[cols="1,1,6*3"]
+|======
+7+|[[OpTensorReadARM]]*OpTensorReadARM* +
+ +
+Read one or more elements from 'Tensor'. When 'Result Type' is a scalar type,
+a single element is read. When 'Result Type' is an array of scalar type, one
+element is read from 'Tensor' for each element of the array. Elements are read
+consecutively starting from 'Coordinates' along the innermost dimension of
+the tensor. +
+ +
+When the **OutOfBoundsValueARM** 'Tensor Operand' is not present, the behavior
+when reading elements outside of the tensor is specified by the client API. +
+ +
+'Result Type' must be a scalar type or array of scalar type. The
+scalar type must be the same as the 'Element Type' of 'Tensor'. +
+ +
+'Tensor' must be a 'Ranked Tensor'. +
+ +
+'Coordinates' is an array whose 'Element Type' must be an integer type and whose
+'Length' must be equal to the 'Rank' of 'Tensor'. It contains the coordinates of
+the first element being read. The first element of the array corresponds to the
+outermost dimension of the tensor. +
+ +
+'Tensor Operands' encodes what operands follow, as per Tensor Operands.
+ +
+1+|Capability: +
+*TensorsARM*
+| 5+Variable | 4164
+| '<id> Result Type'
+| 'Result <id>'
+| '<id> Tensor'
+| '<id> Coordinates'
+| Optional 'Tensor Operands'
+| Optional '<id>, <id>, ...'
+|======
+
+[cols="1,1,5*3"]
+|======
+6+|[[OpTensorWriteARM]]*OpTensorWriteARM* +
+ +
+Write one or more elements to 'Tensor'. When 'Object' is a scalar type, a single
+element is written. When 'Object' is an array of scalar type, one element is
+written to 'Tensor' for each element of the array. Elements are written
+consecutively starting from 'Coordinates' along the innermost dimension of
+the tensor. +
+ +
+The behavior when writing elements outside of the tensor is specified by the
+client API. +
+ +
+'Tensor' must be a 'Ranked Tensor'. +
+ +
+'Coordinates' is an array whose 'Element Type' must be an integer type and whose
+'Length' must be equal to the 'Rank' of 'Tensor'. It contains the coordinates of
+the first element being written. The first element of the array corresponds to
+the outermost dimension of the tensor. +
+ +
+'Object' must be an object of scalar type or array of scalar type. The
+scalar type must be the same as the 'Element Type' of 'Tensor'. +
+ +
+'Tensor Operands' encodes what operands follow, as per Tensor Operands. +
+ +
+1+|Capability: +
+*TensorsARM*
+| 4+Variable | 4165
+| '<id> Tensor'
+| '<id> Coordinates'
+| '<id> Object'
+| Optional 'Tensor Operands'
+| Optional '<id>, <id>, ...'
+|======
+
+[cols="1,1,4*3"]
+|======
+5+|[[OpTensorQuerySizeARM]]*OpTensorQuerySizeARM* +
+ +
+Query the size of 'Tensor' along 'Dimension'. +
+ +
+'Result Type' must be an 'integer type' scalar. +
+ +
+'Tensor' must be a 'Ranked Tensor'. +
+ +
+'Dimension' is a 'constant instruction' of scalar 'integer type' that is used to
+specify the dimension being queried. 'Dimension' is interpreted as unsigned and
+must be less than the 'Rank' of 'Tensor'.
+ +
+1+|Capability: +
+*TensorsARM*
+| 5 | 4166
+| '<id> Result Type'
+| 'Result <id>'
+| '<id> Tensor'
+| '<id> Dimension'
+|======
+
+Issues
+------
+
+1) What type should be used to represent tensor coordinates?
+
+*RESOLVED*: Vectors have been considered and are a very natural fit for tensors
+whose rank is less than or equal to 4. However, vectors of more than 4
+components are not currently allowed in Vulkan and tensors of rank 5 are useful
+in some applications. Both using multiple 4-component vectors or allowing
+vectors with more than 4 components were considered as options and discarded.
+Using multiple 4-component vectors didn't scale well to tensors of arbitrary
+rank and longer vectors led to an increase in the testing surface that was
+deemed too large. In the end the solution retained is to use arrays of scalars.
+
+2) Should coordinates be the last required argument to **OpTensorWriteARM** to
+align with **OpCompositeInsert** for example?
+
+*RESOLVED*: **OpTensorWriteARM** is a lot closer in spirit and functionality to
+**OpImageWrite** so aligning to the operand order used by **OpImageWrite**
+was preferred.
+
+3) Do we need separate capabilities for dynamic and non-uniform indexing into
+arrays of storage tensors?
+
+*RESOLVED*: Yes, both dynamic and non-uniform indexing might be unsupported on
+some hardware and can have significant performance implications. Furthermore,
+most existing resource types have capabilities defined for dynamic and
+non-uniform indexing into resource arrays and symmetry is desirable.
+
+4) Should specialization constants be allowed as the 'Rank' operand to
+**OpTypeTensorARM** or 'Dimension' operand to **OpTensorQuerySizeARM**?
+
+*RESOLVED*: Yes, no reason to forbid them.
+
+5) What type should be used to represent the values read from or written to
+tensors using **OpTensorReadARM** or **OpTensorWriteARM**?
+
+*RESOLVED*: Either scalars or arrays. Arrays have been chosen instead of vectors
+as they can be of arbitrary length.
+
+6) How to represent tensors of complex numbers? Should non-scalar elements be
+allowed?
+
+*RESOLVED*: Complex numbers can be represented by adding one dimension to the
+tensor and using it to represent the parts of complex number. As an example a
+4x3 mathematical tensor of complex numbers whose parts are FP32 numbers can be
+represented using a 4x3x2 SPIR-V tensor of FP32 numbers. Alternatively,
+applications that do not want to add dimensions may use integer tensor elements
+to pack both parts of a complex number. The aforementioned example tensor could
+be represented with a 4x3 tensor of 64-bit integer values packing the real and
+imaginary parts of the complex numbers.
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2025-05-07|Kevin Petit|Initial revision
+|========================================

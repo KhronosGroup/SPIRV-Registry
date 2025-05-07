@@ -116,6 +116,7 @@ Note: we no longer push the HTML along side the extension.
 * [SPV_AMDX_shader_enqueue                 ]( https://github.khronos.org/SPIRV-Registry/extensions/AMD/SPV_AMDX_shader_enqueue.html)
 * [SPV_ARM_cooperative_matrix_layouts      ]( https://github.khronos.org/SPIRV-Registry/extensions/ARM/SPV_ARM_cooperative_matrix_layouts.html)
 * [SPV_ARM_core_builtins                   ]( https://github.khronos.org/SPIRV-Registry/extensions/ARM/SPV_ARM_core_builtins.html)
+* [SPV_ARM_tensors                         ]( https://github.khronos.org/SPIRV-Registry/extensions/ARM/SPV_ARM_tensors.html)
 * [SPV_GOOGLE_decorate_string              ]( https://github.khronos.org/SPIRV-Registry/extensions/GOOGLE/SPV_GOOGLE_decorate_string.html)
 * [SPV_GOOGLE_hlsl_functionality1          ]( https://github.khronos.org/SPIRV-Registry/extensions/GOOGLE/SPV_GOOGLE_hlsl_functionality1.html)
 * [SPV_GOOGLE_user_type                    ]( https://github.khronos.org/SPIRV-Registry/extensions/GOOGLE/SPV_GOOGLE_user_type.html)
