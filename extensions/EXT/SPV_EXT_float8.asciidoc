@@ -1,0 +1,218 @@
+SPV_EXT_float8
+==============
+
+Name Strings
+------------
+
+SPV_EXT_float8
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Kevin Petit, Arm Ltd.
+- Jeff Bolz, NVIDIA
+- Stu Smith, AMD
+- Tobiad Hector, AMD
+- Victor Lomuller, Codeplay
+- Alan Baker, Google
+- Alexander Galazin, Imagination
+- Ben Ashbaugh, Intel
+- Vikram Tarikere, Imagination
+- Dmitry Sidorov, Intel
+- Grame Leese, Broadcom
+- Samuel Huang, Mediatek
+
+Notice
+------
+
+Copyright (c) 2024-2025 The Khronos Group Inc.
+
+Status
+------
+
+- Complete
+- Approved by the SPIR Working Group: 2025-04-16
+- Approved by the Khronos Board of Promoters: 2025-05-30
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2025-04-16
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.6 Revision 4.
+
+This extension requires SPIR-V 1.0.
+
+This extension interacts with SPV_KHR_cooperative_matrix.
+
+Overview
+--------
+
+This extension extends the *OpTypeFloat* instruction to enable the use of float8
+E4M3 and E5M2 types with cooperative matrices as well as conversions between
+them and other floating-point or integer types.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_EXT_float8"
+----
+
+Modifications to the SPIR-V Specification, Version 1.6
+------------------------------------------------------
+
+Validation Rules
+~~~~~~~~~~~~~~~~
+
+Add the following bullets to section 2.16.11, "Universal Validation Rules":
+
+* Objects with a type that is or includes a floating-point type with the
+*Float8E4M3EXT* or *Float8E5M2EXT* FP Encoding must only be used with the following
+instructions:
+** Constant Creation Instructions
+** Memory Instructions
+** Function Instructions
+** Conversion Instructions
+** Composite Instructions
+** Annotation Instructions
+** Debug Instructions
+** Miscellaneous Instructions
+** Extension Instructions
+** Mode-Setting Instructions
+** *OpSelect*
+** *OpPhi*
+** *OpReturnValue*
+** *OpLifetimeStart*
+** *OpLifetimeStop*
+** *OpCooperativeMatrixMulAddKHR*
+
+FP Encoding
+~~~~~~~~~~~
+
+Modify Section 3.51, adding these rows to the table of alternative floating
+point encodings:
+
+[cols="1,3,1,1",options="header",width = "100%"]
+|===
+2+^.^| FP Encoding | Width(s) | Enabling Capabilities
+
+| 4214 | *Float8E4M3EXT* +
+The floating point type is encoded as an FP8 E4M3 type, as specified in the
+"FP8 Formats For Deep Learning" whitepaper (https://arxiv.org/abs/2209.05433). | 8 | *Float8EXT*
+| 4215 | *Float8E5M2EXT* +
+The floating point type is encoded as an FP8 E5M2 type, as specified in the
+"FP8 Formats For Deep Learning" whitepaper (https://arxiv.org/abs/2209.05433). | 8 | *Float8EXT*
+|===
+
+Decoration
+~~~~~~~~~~
+
+Modify Section 3.20, "Decoration", adding these rows to the Decoration table:
+
+[cols="1,2,1,1",options="header"]
+|====
+2+^a| Decoration ^| Extra Operands | Enabling Capabilities
+| 4216 | *SaturatedToLargestFloat8NormalConversionEXT* +
+Indicates that a conversion to a floating-point type with FP Encoding
+*Float8E4M3EXT* or *Float8E5M2EXT* of a value which is outside of the
+representable range of _Result Type_, or infinite, results in the largest
+representable normal (i.e. non-infinite) value with a matching sign. +
+ +
+This decoration must only be applied to the **OpFConvert**, **OpConvertSToF**,
+or **OpConvertUToF** instructions with a _Result Type_ that uses an
+*Float8E4M3EXT* or *Float8E5M2EXT* FP Encoding.
+
+| | *Float8EXT*
+|====
+
+
+Capability
+~~~~~~~~~~
+
+Modify Section 3.31, "Capability", adding these rows to the Capability table:
+
+--
+[options="header"]
+|====
+2+^| Capability ^| Depends On
+| 4212 | *Float8EXT* +
+Uses *OpTypeFloat* to specify types with the *Float8E4M3EXT* or *Float8E5M2EXT* FP Encoding and values of this type with a few instructions.
+|
+
+| 4213 | *Float8CooperativeMatrixEXT* +
+Uses cooperative matrix with a *Component Type* of *OpTypeFloat* with the *Float8E4M3EXT* or *Float8E5M2EXT* encoding.
+| *Float8EXT*, *CooperativeMatrixKHR*
+|====
+--
+
+Instructions
+~~~~~~~~~~~~
+
+Type-Declaration Instructions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Add the following requirement to *OpTypeCooperativeMatrixKHR*:
+
+If 'Component Type' has a *Float8E4M3EXT* or *Float8E5M2EXT* encoding then
+*Float8CooperativeMatrixEXT* must be declared.
+
+Conversion Instructions
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Modify section 3.42.11, "Conversion Instructions" to add the following text to
+the description of the *OpFConvert*, *OpConvertSToF*, and **OpConvertUToF**
+instructions:
+
+When converting to floating-point values with the *Float8E4M3EXT* or
+*Float8E5M2EXT* encoding, out-of-range values and infinity are converted to
+largest representable finite value with a matching sign if the conversion is
+decorated with *SaturatedToLargestFloat8NormalConversionEXT*, otherwise they are
+converted to NaN if the destination type uses the *Float8E4M3EXT* FP encoding or
+infinity with a matching sign if the destination type uses the *Float8E5M2EXT*
+FP encoding.
+
+Issues
+------
+
+1) Should this extension add support for *OpDot*, likely enabled by a separate
+capability?
+--
+*PROPOSED*: No. *OpDot* currently only supports operations for which the
+input and output data types are the same and those are not typically useful
+with types like FP8 that can only represent a very small set of values. Adding
+support for mixed-precision dot product operations _could_ be done but
+none of the vendors participating in the creation of this extension currently
+think they could accelerate these operations that can otherwise be expressed
+with existing dot product operations on existing floating point types and
+the conversion operations introduced in this extension.
+--
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2025-04-16|Kévin Petit|Initial revision
+|========================================
