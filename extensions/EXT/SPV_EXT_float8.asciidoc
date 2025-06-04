@@ -19,14 +19,14 @@ Contributors
 - Kevin Petit, Arm Ltd.
 - Jeff Bolz, NVIDIA
 - Stu Smith, AMD
-- Tobiad Hector, AMD
+- Tobias Hector, AMD
 - Victor Lomuller, Codeplay
 - Alan Baker, Google
 - Alexander Galazin, Imagination
 - Ben Ashbaugh, Intel
 - Vikram Tarikere, Imagination
 - Dmitry Sidorov, Intel
-- Grame Leese, Broadcom
+- Graeme Leese, Broadcom
 - Samuel Huang, Mediatek
 
 Notice
