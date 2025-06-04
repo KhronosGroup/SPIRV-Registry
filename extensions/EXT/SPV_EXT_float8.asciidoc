@@ -179,7 +179,7 @@ Conversion Instructions
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 Modify section 3.42.11, "Conversion Instructions" to add the following text to
-the description of the *OpFConvert*, *OpConvertSToF*, and **OpConvertUToF**
+the description of the *OpFConvert*, *OpConvertSToF*, and *OpConvertUToF*
 instructions:
 
 When converting to floating-point values with the *Float8E4M3EXT* or
