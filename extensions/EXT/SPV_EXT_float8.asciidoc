@@ -196,7 +196,7 @@ Issues
 1) Should this extension add support for *OpDot*, likely enabled by a separate
 capability?
 --
-*PROPOSED*: No. *OpDot* currently only supports operations for which the
+*RESOLVED*: No. *OpDot* currently only supports operations for which the
 input and output data types are the same and those are not typically useful
 with types like FP8 that can only represent a very small set of values. Adding
 support for mixed-precision dot product operations _could_ be done but
