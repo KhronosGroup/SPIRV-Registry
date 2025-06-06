@@ -153,7 +153,7 @@ Modify Section 3.31, "Capability", adding these rows to the Capability table:
 --
 [options="header"]
 |====
-2+^| Capability ^| Depends On
+2+^| Capability ^| Implicitly Declares
 | 4212 | *Float8EXT* +
 Uses *OpTypeFloat* to specify types with the *Float8E4M3EXT* or *Float8E5M2EXT* FP Encoding and values of this type with a few instructions.
 |

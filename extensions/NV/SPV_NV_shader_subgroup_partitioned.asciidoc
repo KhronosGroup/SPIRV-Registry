@@ -194,7 +194,7 @@ Add *GroupNonUniformPartitionedNV* to the capability list.
 --
 [cols="^.^1,15,^8,30",options="header",width = "100%"]
 |====
-2+^.^| Capability | Depends On | Enabled by Extension
+2+^.^| Capability | Implicitly Declares | Enabled by Extension
 | 5301 | *GroupNonUniformPartitionedNV* +
 Uses partitioned subgroup operations.
 | *Shader* | *SPV_NV_shader_subgroup_partitioned*

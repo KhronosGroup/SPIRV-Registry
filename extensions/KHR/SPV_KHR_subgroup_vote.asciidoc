@@ -160,7 +160,7 @@ value returned by *OpSubgroupAllKHR*, *OpSubgroupAnyKHR*, and
 --
 [cols="^.^1,10,^8",options="header",width = "80%"]
 |====
-2+^.^| Capability | Depends On
+2+^.^| Capability | Implicitly Declares
 | 4431 | *SubgroupVoteKHR* |
 |====
 --

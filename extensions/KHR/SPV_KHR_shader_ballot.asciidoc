@@ -189,7 +189,7 @@ component where the bit index is *less than SubgroupLocalInvocationId*.
 --
 [cols="^.^1,10,^8",options="header",width = "80%"]
 |====
-2+^.^| Capability| Depends On
+2+^.^| Capability| Implicitly Declares
 | 4423 | *SubgroupBallotKHR* |
 |====
 

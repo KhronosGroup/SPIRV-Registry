@@ -132,7 +132,7 @@ the *EarlyFragmentTests*.  Only valid with the *Fragment* Execution Model.
 --
 [cols="^.^1,15,10,^8",options="header",width = "100%"]
 |====
-  2+^.^| Capability         | Depends On      | Enabled by Extension
+  2+^.^| Capability         | Implicitly Declares      | Enabled by Extension
 | 4447 | *SampleMaskPostDepthCoverage* | 
 | *SPV_KHR_post_depth_coverage*
 |====

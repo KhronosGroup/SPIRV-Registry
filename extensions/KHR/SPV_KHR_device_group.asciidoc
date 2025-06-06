@@ -122,7 +122,7 @@ Input device index of the logical device. See VK_KHX_device_group for more detai
 --
 [cols="^.^1,10,^8,15",options="header",width = "80%"]
 |====
-2+^.^| Capability | Depends On | Enabled by Extension
+2+^.^| Capability | Implicitly Declares | Enabled by Extension
 | 4437    | *DeviceGroup* |
 | *SPV_KHR_device_group*
 |====

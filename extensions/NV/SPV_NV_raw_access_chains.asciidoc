@@ -124,7 +124,7 @@ Modify Section 3.31, "Capability", adding these rows to the Capability table:
 --
 [options="header"]
 |====
-2+^| Capability ^| Depends On
+2+^| Capability ^| Implicitly Declares
 | 5414 | *RawAccessChainNV* +
 Allow the instruction <<OpRawAccessChainNV,*OpRawAccessChainNV*>>, and raw access chain operands *RawAccessChainRobustnessPerComponentNV* and *RawAccessChainRobustnessPerElementNV*. | *Shader*
 |====
