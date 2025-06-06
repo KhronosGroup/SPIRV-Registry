@@ -123,7 +123,7 @@ Storage Class.
 --
 [cols="^.^1,10,^8,15",options="header",width = "80%"]
 |====
-2+^.^| Capability | Depends On | Enabled by Extension
+2+^.^| Capability | Implicitly Declares | Enabled by Extension
 | 5251 | *GeometryShaderPassthroughNV* | *Geometry* | *SPV_NV_geometry_shader_passthrough*
 |====
 --

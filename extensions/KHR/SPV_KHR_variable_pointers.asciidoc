@@ -209,7 +209,7 @@ Modify Section 3.31, Capability, adding these rows to the Capability table:
 --
 [options="header"]
 |====
-2+^| Capability ^| Depends On
+2+^| Capability ^| Implicitly Declares
 | 4441 | *VariablePointersStorageBuffer* +
 Allow <<VariablePointer, 'variable pointers'>>, each confined to a single *Block*-decorated struct in the *StorageBuffer* storage class. | *Shader*
 | 4442 | *VariablePointers* +

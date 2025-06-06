@@ -131,7 +131,7 @@ Modify Section 3.31, "Capability", adding these rows to the Capability table:
 --
 [options="header"]
 |====
-2+^| Capability ^| Depends On
+2+^| Capability ^| Implicitly Declares
 | 6144 | *ArithmeticFenceEXT* +
 Allow to use *OpArithmeticFenceEXT* instruction |
 |====

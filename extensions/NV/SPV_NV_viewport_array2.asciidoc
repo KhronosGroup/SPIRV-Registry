@@ -186,7 +186,7 @@ input to a *Fragment* Execution Model.
 --
 [cols="^.^1,10,^8,15",options="header",width = "80%"]
 |====
-2+^.^| Capability | Depends On | Enabled by Extension
+2+^.^| Capability | Implicitly Declares | Enabled by Extension
 | 5254 | *ShaderViewportIndexLayerNV* | *MultiViewport*
 | *SPV_NV_viewport_array2*
 | 5255 | *ShaderViewportMaskNV* | *ShaderViewportIndexLayerNV*

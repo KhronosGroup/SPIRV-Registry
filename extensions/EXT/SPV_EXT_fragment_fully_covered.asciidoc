@@ -116,7 +116,7 @@ See Vulkan EXT_conservative_rasterization extension for more detail.
 --
 [cols="1,10,12,8",options="header",width = "80%"]
 |====
-2+^.^| Capability | Depends On | Enabled by Extension
+2+^.^| Capability | Implicitly Declares | Enabled by Extension
 | 5265 | *FragmentFullyCoveredEXT* |  *Shader*  | SPV_EXT_fragment_fully_covered
 |====
 

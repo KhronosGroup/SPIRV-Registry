@@ -144,7 +144,7 @@ Execution Model. See Vulkan API specification for more detail.
 --
 [cols="^.^1,10,^8,15",options="header",width = "80%"]
 |====
-2+^.^| Capability | Depends On | Enabled by Extension
+2+^.^| Capability | Implicitly Declares | Enabled by Extension
 | 5260 | *PerViewAttributesNV* | *MultiView*
 | *SPV_NVX_multiview_per_view_attributes*
 |====

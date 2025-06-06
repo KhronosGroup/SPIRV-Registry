@@ -117,7 +117,7 @@ Refer to the Ray Tracing chapter of Vulkan API specification for more details.
 --
 [cols="^.^1,25,^8,15",options="header",width = "100%"]
 |====
-2+^.^| Capability | Depends On | Enabled by Extension
+2+^.^| Capability | Implicitly Declares | Enabled by Extension
 | 5341 | *RayTracingMotionBlurNV* +
 Allows the use of *OpTraceMotionNV* or *OpTraceRayMotionNV*.
 |  | *SPV_NV_ray_tracing_motion_blur*

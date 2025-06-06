@@ -113,7 +113,7 @@ Modify Section 3.31, "Capability", adding these rows to the Capability table:
 --
 [cols="^1,10,^6",options="header"]
 |====
-2+^| Capability ^| Depends On
+2+^| Capability ^| Implicitly Declares
 | 5373 | *ShaderSMBuiltinsNV* +
 Enables the *WarpsPerSMNV*, *SMCountNV*, *WarpIDNV*, and *SMIDNV* builtin decorations. | *Shader*
 |====

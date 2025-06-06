@@ -123,7 +123,7 @@ Only valid with the *Compute* Execution Model.
 --
 [cols="^.^1,10,^8,15",options="header",width = "80%"]
 |====
-2+^.^| Capability | Depends On | Enabled by Extension
+2+^.^| Capability | Implicitly Declares | Enabled by Extension
 | 5288 | *ComputeDerivativeGroupQuadsNV*  +
 Uses the *DerivativeGroupQuadsNV* execution mode. | *Shader*
 | *SPV_NV_compute_shader_derivatives*

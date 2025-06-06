@@ -148,7 +148,7 @@ Modify Section 3.31, Capability, adding the following rows to the Capability tab
 --
 [cols="^.^2,16,15", options="header"]
 |====
-2+^| Capability ^| Depends On
+2+^| Capability ^| Implicitly Declares
 | 4433 | *StorageUniformBufferBlock16* +
 Allows 16-bit <<OpTypeFloat, *OpTypeFloat*>> and <<OpTypeInt, *OpTypeInt*>>
 instructions for creating scalar, vector, and composite types that become members of a block
@@ -229,7 +229,7 @@ Modify Section 3.31, Capability, adding the following rows to the Capability tab
 
 [cols="^.^2,16,15", options="header"]
 |====
-2+^| Capability ^| Depends On
+2+^| Capability ^| Implicitly Declares
 | 4433 | *StorageBuffer16BitAccess* +
 Same as *StorageUniformBufferBlock16* |
 | 4434 | *UniformAndStorageBuffer16BitAccess* +

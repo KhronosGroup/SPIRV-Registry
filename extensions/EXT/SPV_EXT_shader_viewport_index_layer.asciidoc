@@ -142,7 +142,7 @@ input to a *Fragment* Execution Model.
 --
 [cols="1,10,8,15",options="header",width = "80%"]
 |====
-2+^.^| Capability | Depends On | Enabled by Extension
+2+^.^| Capability | Implicitly Declares | Enabled by Extension
 | 5254 | *ShaderViewportIndexLayerEXT* | *MultiViewport*
 | *SPV_EXT_shader_viewport_index_layer*
 |====

@@ -112,7 +112,7 @@ See the API specification for more detail.
 --
 [options="header"]
 |====
-2+| Capability | Depends On | Enabled by Extension
+2+| Capability | Implicitly Declares | Enabled by Extension
 | 5291 | *FragmentDensityEXT* +
 Uses the *FragSizeEXT* or *FragInvocationCountEXT* Builtins. | *Shader*
 | *SPV_EXT_fragment_invocation_density*

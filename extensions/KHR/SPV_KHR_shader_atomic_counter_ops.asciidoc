@@ -105,7 +105,7 @@ Modifications to the SPIR-V Specification, Version 1.1
 --
 [cols="^.^1,15,10,^8",options="header",width = "100%"]
 |====
-  2+^.^| Capability         | Depends On      | Enabled by Extension
+  2+^.^| Capability         | Implicitly Declares      | Enabled by Extension
 | 4445 | *AtomicStorageOps* +
 Uses atomic instructions: *OpAtomicIAdd*, *OpAtomicISub*, *OpAtomicUMin,*
 *OpAtomicUMax*, *OpAtomicAnd*, *OpAtomicOr*, *OpAtomicXor*,

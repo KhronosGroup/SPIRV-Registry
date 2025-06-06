@@ -124,7 +124,7 @@ by the original primitive, or that failed the early depth/stencil tests.
 --
 [cols="^.^1,10,^8,15",options="header",width = "80%"]
 |====
-2+^.^| Capability | Depends On | Enabled by Extension
+2+^.^| Capability | Implicitly Declares | Enabled by Extension
 | 5249 | *SampleMaskOverrideCoverageNV* | *SampleRateShading* | *SPV_NV_sample_mask_override_coverage*
 |====
 --

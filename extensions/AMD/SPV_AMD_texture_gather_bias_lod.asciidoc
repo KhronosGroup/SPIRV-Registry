@@ -112,7 +112,7 @@ Append the following Capability to the table:
 
 [options="header"]
 |========================================
-|Capability|Depends On|Enabled by Extension
+|Capability|Implicitly Declares|Enabled by Extension
 |*ImageGatherBiasLodAMD* 
  
 Uses texture gather with either bias added to the implicit level-of-detail or explicit level-of-detail.|Shader|SPV_AMD_texture_gather_bias_lod

@@ -135,7 +135,7 @@ Append the following Capability to the table:
 
 [options="header"]
 |========================================
-|Capability|Depends On|Enabled by Extension
+|Capability|Implicitly Declares|Enabled by Extension
 |*Float16ImageAMD*
 
 Expands image type declaration instruction and image instructions to allow them to use 16-bit type in image declaration/sampling/read/write/sparse read operations.|*Shader*|SPV_AMD_gpu_shader_half_float_fetch

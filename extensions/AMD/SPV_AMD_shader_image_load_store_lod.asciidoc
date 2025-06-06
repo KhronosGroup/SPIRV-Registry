@@ -90,7 +90,7 @@ Append the following Capability to the table:
 
 [options="header"]
 |========================================
-|Capability|Depends On|Enabled by Extension
+|Capability|Implicitly Declares|Enabled by Extension
 |*CapabilityImageReadWriteLodAMD*
  
 Expands *Lod* image operand definition to support image read/write/sparse read operations.|*CapabilityShader*|SPV_AMD_shader_image_load_store_lod
