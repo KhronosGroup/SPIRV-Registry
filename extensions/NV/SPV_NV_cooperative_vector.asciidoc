@@ -144,7 +144,7 @@ Modify Section 3.31, "Capability", adding these rows to the Capability table:
 --
 [options="header"]
 |====
-2+^| Capability ^| Enabling Capabilities
+2+^| Capability ^| Implicitly Declares
 | 5394 | *CooperativeVectorNV* +
 Enables cooperative vector types and instructions operating on them.
 |
