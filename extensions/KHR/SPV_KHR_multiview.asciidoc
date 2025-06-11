@@ -119,7 +119,7 @@ Input view index of the view currently being rendered to. See VK_KHX_multiview f
 --
 [cols="^.^1,10,^8,15",options="header",width = "80%"]
 |====
-2+^.^| Capability | Depends On | Enabled by Extension
+2+^.^| Capability | Implicitly Declares | Enabled by Extension
 | 4439    | *MultiView* | Shader
 | *SPV_KHR_multiview*
 |====

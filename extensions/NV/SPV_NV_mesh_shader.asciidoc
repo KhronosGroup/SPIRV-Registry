@@ -407,7 +407,7 @@ See Vulkan API specification for more detail. | *PerViewAttributesNV* *MeshShadi
 --
 [cols="^.^1,20,^8,15",options="header",width = "80%"]
 |====
-2+^.^| Capability | Depends On | Enabled by Extension
+2+^.^| Capability | Implicitly Declares | Enabled by Extension
 | 5266 | *MeshShadingNV* +
 Uses the *TaskNV* or *MeshNV* Execution Models. | *Shader*
 | *SPV_NV_mesh_shader*

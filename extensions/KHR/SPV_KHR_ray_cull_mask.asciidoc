@@ -103,7 +103,7 @@ Refer to the Vulkan API specification for more details.
 --
 [cols="^.^1,25,^8,15",options="header",width = "100%"]
 |====
-2+^.^| Capability | Depends On | Enabled by Extension
+2+^.^| Capability | Implicitly Declares | Enabled by Extension
 | 6020 | *RayCullMaskKHR* +
 Allows the use of *CullMaskKHR* builtin.
 |  | *SPV_KHR_ray_cull_mask*

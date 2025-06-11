@@ -207,7 +207,7 @@ See the API specification for more information.
 --
 [cols="1,15,8,30",options="header",width = "100%"]
 |====
-2+^.^| Capability | Depends On | Enabled by Extension
+2+^.^| Capability | Implicitly Declares | Enabled by Extension
 | 5301 | *ShaderNonUniformEXT* +
 Uses the *NonUniformEXT* decoration on a variable or instruction.
 | *Shader* | *SPV_EXT_descriptor_indexing*

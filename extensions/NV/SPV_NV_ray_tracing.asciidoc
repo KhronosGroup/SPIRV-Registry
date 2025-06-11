@@ -354,7 +354,7 @@ Primitive identifier. See the client API specifications for more detail. | |
 --
 [cols="^.^1,25,^8,15",options="header",width = "100%"]
 |====
-2+^.^| Capability | Depends On | Enabled by Extension
+2+^.^| Capability | Implicitly Declares | Enabled by Extension
 | 5340 | *RayTracingNV* +
 Uses the *RayGenerationNV*, *IntersectionNV*, *AnyHitNV*, *ClosestHitNV*,
 *MissNV*, or *CallableNV* Execution Models
