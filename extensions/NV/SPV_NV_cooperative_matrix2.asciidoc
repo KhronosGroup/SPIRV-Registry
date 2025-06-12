@@ -123,7 +123,7 @@ Modify Section 3.31, "Capability", adding these rows to the Capability table:
 --
 [options="header"]
 |====
-2+^| Capability ^| Enabling Capabilities
+2+^| Capability ^| Implicitly Declares
 | 5430 | *CooperativeMatrixReductionsNV* +
 Enables cooperative matrix reduction instructions. |
 | 5431 | *CooperativeMatrixConversionsNV* +

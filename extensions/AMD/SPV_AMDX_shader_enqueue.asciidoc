@@ -80,7 +80,7 @@ Modify Section 3.31, "Capability", adding this row to the table:
 
 [cols="1,10,8",options="header"]
 |====
-2+^.^| Capability | Enabling Capabilities
+2+^.^| Capability | Implicitly Declares
 | 5067 | *ShaderEnqueueAMDX* +
 Uses shader enqueue capabilities | *Shader*
 |====
