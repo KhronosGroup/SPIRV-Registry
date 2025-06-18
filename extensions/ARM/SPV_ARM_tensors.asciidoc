@@ -36,8 +36,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2025-05-07
-| Revision           | 1
+| Last Modified Date | 2025-06-18
+| Revision           | 2
 |========================================
 
 Dependencies
@@ -86,8 +86,18 @@ Modify the definition of the following terms in 2.2.2 Types:
 
 'Composite Type': Add **OpTypeTensorARM** whose 'Shape' operand is present to the list of composite types.
 
-Capabilities
-~~~~~~~~~~~~
+Decoration
+~~~~~~~~~~
+
+Modify Section 3.20, "Decoration", adding
+
+"A tensor variable in the *UniformConstant* storage class (see **OpTypeTensorARM**)"
+
+to the list of types for which a memory object declaration may be decorated with
+*NonWritable* or *NonReadable*.
+
+Capability
+~~~~~~~~~~
 
 Modify Section 3.31, "Capability", adding these rows to the Capability table:
 
@@ -322,5 +332,6 @@ Revision History
 [options="header"]
 |========================================
 |Rev|Date|Author|Changes
+|2|2025-06-18|Kevin Petit|Allow NonReadable/NonWritable decorations on some tensor variables
 |1|2025-05-07|Kevin Petit|Initial revision
 |========================================
