@@ -33,7 +33,7 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2025-06-11
+| Last Modified Date | 2025-06-18
 | Revision           | 1
 |========================================
 
@@ -43,7 +43,7 @@ Dependencies
 This extension is written against the SPIR-V Specification,
 Version 1.6 Revision 2.
 
-This extension requires SPIR-V 1.6.
+This extension requires SPIR-V 1.0.
 
 This extension requires SPV_ARM_tensors.
 
@@ -85,7 +85,14 @@ Logical Layout of a Module
 
 This extension changes the logical layout of modules as follows:
 
-- Add a new section after 11 Function definitions where graph definitions and entry points reside.
+Add a new section after 11 Function definitions where graph definitions and
+entry points reside. A graph definition is as follows:
+
+1. Graph definition, using *OpGraphARM*.
+2. Graph input values are defined using *OpGraphInputARM* instructions.
+3. Body instructions.
+4. Graph output values are set using *OpGraphSetOutputARM* instructions.
+5. Graph end, using *OpGraphEndARM*.
 
 Validation Rules
 ~~~~~~~~~~~~~~~~
@@ -341,5 +348,5 @@ Revision History
 [options="header"]
 |========================================
 |Rev|Date|Author|Changes
-|1|2025-06-11|Kevin Petit|Initial revision
+|1|2025-06-18|Kevin Petit|Initial revision
 |========================================
