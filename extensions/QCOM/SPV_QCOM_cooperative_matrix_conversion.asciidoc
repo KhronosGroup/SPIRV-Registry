@@ -1,0 +1,326 @@
+SPV_QCOM_cooperative_matrix_conversion
+======================================
+
+Name Strings
+------------
+
+SPV_QCOM_cooperative_matrix_conversion
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Alex Bourd, Qualcomm (abourd 'at' qti.qualcomm.com)
+- Elina Kamenetskaya, Qualcomm (elinak 'at' qti.qualcomm.com)
+- Wooyoung Kim, Qualcomm (wooykim 'at' qti.qualcomm.com)
+
+
+Notice
+------
+
+Copyright (c) 2025 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+Status
+------
+
+- Final
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2025-05-23
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the Unified SPIR-V Specification,
+Version 1.6 Revision 5.
+
+This extension requires SPIR-V 1.3.
+This extension requires SPV_KHR_cooperative_matrix.
+
+Overview
+--------
+
+This extension adds support for three conversion operations:
+
+1. bitcast conversion between compatible one-dimensional arrays
+
+2. (cooperative) construction of a cooperative matrix using one-dimensional
+    arrays from invocations in a subgroup
+
+3. concurrent extraction of rows or columns of a cooperative matrix
+   into invocations in a subgroup
+
+In addition, it adds a utility instruction that extracts a subarray from
+the source array.
+
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following *OpExtension* must
+be present in the module:
+
+----
+OpExtension "SPV_QCOM_cooperative_matrix_conversion"
+----
+
+New Capabilities
+----------------
+
+This extension introduces a new capability:
+
+----
+CooperativeMatrixConversionQCOM
+----
+
+
+New Instructions
+----------------
+
+Instructions added under the *CooperativeMatrixConversionQCOM* capability:
+
+----
+OpBitCastArrayQCOM
+OpCompositeConstructCoopMatQCOM
+OpCompositeExtractCoopMatQCOM
+OpExtractSubArrayQCOM
+----
+
+
+Modifications to the SPIR-V Specification, Version 1.6
+------------------------------------------------------
+
+Capabilities
+~~~~~~~~~~~~
+
+Modify Section 3.31, "Capability", adding the following row to the Capability table after TextureBlockMatchQCOM:
+
+[cols="1,5,1",options="header",width = "100%"]
+|====
+2+^| Capability ^| Implicitly Declares
+| 4496 | *CooperativeMatrixConversionQCOM* +
+
+To do bitcast conversion between compatible one-dimensional arrays,
+to construct (cooperatively) a cooperative matrix using one-dimensional
+arrays, to extract rows/columns of a cooperative matrix, and to
+extract a sub-array from a larger array.
+| *CooperativeMatrixKHR*
+|====
+
+
+Instructions
+~~~~~~~~~~~~
+
+Modify Section 3.56.11. "Conversion Instructions" adding the following row before OpCooperativeMatrixConvertNV:
+
+[cols="1,1,3*3",width="100%"]
+|====
+4+|*OpBitCastArrayQCOM*
+
+Array conversion operation
+
+_Result Type_ is the type of a result of the array conversion operation and it must be
+a one-dimensional array type whose element type is either a 32-bit OpTypeInt (unsigned/signed)
+or an OpTypeFloat with the default IEEE 754 encoding (32-bit or 16-bit).
+
+_Source Array_ must be a one-dimensional array whose element type is either a 32-bit OpTypeInt
+(unsigned/signed) or an OpTypeFloat with the default IEEE 754 encoding (32-bit or 16-bit).
+
+The size of _Result Type_ must be equal to the size of the _Source Array_'s type. 
+
+1+|<<Capability,Capability>>: +
+*CooperativeMatrixConversionQCOM*
+| 4 | 4497 | <id> _Result Type_ | <<ResultId,'Result <id>' >> | <id> _Source Array_
+|====
+
+
+Modify Section 3.56.12. "Composite Instructions" adding the following row after OpCompositeConstruct:
+
+[cols="1,1,3*3",width="100%"]
+|====
+4+a|*OpCompositeConstructCoopMatQCOM*
+
+Cooperatively construct a cooperative matrix object from array objects from invocations in a subgroup.
+
+SubgroupSize must be a power of 2. For non power of two SubgroupSize, the behaviors are undefined.
+
+_Result Type_ is the type of a cooperative matrix being constructed whose _Scope_ is Subgroup
+and _Source Array_ is the one-dimensional array that is used to construct the cooperative matrix.
+The _Source Array_'s _Element Type_ must be either the same as the _Result Type_'s _Component Type_ or
+unsigned 32-bit OpTypeInt.
+
+The array from invocation with SubgroupLocalInvocationID _i_ goes to the _i_-th row of the resulting cooperative matrix
+if the cooperative matrix object's _Use_ is MatrixAKHR or MatrixAccumulatorKHR and to the _i_-th column if MatrixBKHR.
+If the _Result Type_'s number of rows (for MatrixAKHR or MatrixAccumulatorKHR) or columns (for MatrixBKHR) is less than
+SubgroupSize, the value from any invocation whose SubgroupLocalInvocationID is greater than or equal to the number 
+are ignored.
+
+
+* When the cooperative matrix object's _Use_ is MatrixAKHR
+
+Its _Component Type_ is one of a 8-bit OpTypeInt (unsigned/signed), or an OpTypeFloat with the default
+IEEE 754 encoding (32-bit or 16-bit), its _Rows_ must be one of the supported cooperative matrix row sizes
+that are less than or equal to SubgroupSize, and _Columns_ must be 8, 16, 32 and 32 when its Component Type
+is the 32-bit OpTypeFloat, the 16-bit OpTypeFloat, the signed 8-bit OpTypeInt, and the unsigned 8-bit
+OpTypeInt, respectively.
+
+The _Source Array_'s _Length_ must be 8 if its _Element Type_ is unsigned 32-bit OpTypeInt and
+must match the _Result Type_'s _Columns_ otherwise.
+
+
+* When the cooperative matrix object's _Use_ is MatrixBKHR
+
+Its _Component Type_ is one of a 8-bit OpTypeInt (unsigned/signed), or an OpTypeFloat with the default
+IEEE 754 encoding (32-bit or 16-bit), its _Rows_ must be 8, 16, 32 and 32 when its Component Type is
+the 32-bit OpTypeFloat, the 16-bit OpTypeFloat, the signed 8-bit OpTypeInt, and the unsigned 8-bit OpTypeInt,
+respectively, and its _Columns_ must be one of the supported cooperative matrix column sizes that are 
+less than or equal to SubgroupSize.
+
+The _Source Array_'s _Length_ must be 8 if its _Element Type_ is unsigned 32-bit OpTypeInt and
+must match the _Result Type_'s _Rows_ otherwise.
+
+
+* When the cooperative matrix object's _Use_ is MatrixAccumulatorKHR
+
+Its _Component Type_ is one of a 32-bit OpTypeInt (unsigned/signed), or an OpTypeFloat with the default
+IEEE 754 encoding (32-bit or 16-bit), its _Rows_ and _Columns_ must be one of the supported cooperative
+matrix row and column sizes, respectively, that are less than or equal to SubgroupSize.
+
+The _Source Array_'s _Length_ must be (_Result Type_'s _Columns_/2) if its _Element Type_ is unsigned 32-bit
+OpTypeInt and _Result Type_'s _Component Type_ is the 16-bit OpTypeFloat or  _Result Type_'s _Columns_ if its
+_Element Type_ is unsigned 32-bit OpTypeInt and _Result Type_'s _Component Type_ is the 32-bit OpTypeFloat, and
+must match the _Result Type_'s _Columns_ otherwise.
+
+
+1+|<<Capability,Capability>>: +
+*CooperativeMatrixConversionQCOM*
+| 4 | 4540 | <id> _Result Type_ | <<ResultId,'Result <id>' >> | <id> _Source Array_
+|====
+
+Modify Section 3.56.12. "Composite Instructions" adding the following row after OpCompositeExtract:
+
+
+[cols="1,1,3*3",width="100%"]
+|====
+4+a|*OpCompositeExtractCoopMatQCOM*
+
+Cooperatively extract rows or columns from a cooperative matrix object and
+distribute them among invocations in a subgroup.
+
+SubgroupSize must be a power of 2. For non power of two SubgroupSize, the behaviors are undefined.
+
+_Result Type_ is an OpTypeArray and _Source CoopMat_ is a cooperative matrix from which arrays
+for invocations in a subgroup are extracted.
+
+Invocation with SubgroupLocalInvocationID _i_ gets the _i_-th row of the cooperative matrix
+if the cooperative matrix object's _Use_ is MatrixAKHR or MatrixAccumulatorKHR and the _i_-th column if MatrixBKHR.
+If the _Source CoopMat_'s number of rows (for MatrixAKHR or MatrixAccumulatorKHR) or columns (for MatrixBKHR) is less than
+SubgroupSize, any invocation whose SubgroupLocalInvocationID is greater than or equal to the number 
+gets an OpUndef value of the _Result Type_. 
+
+* When the cooperative matrix object's _Use_ is MatrixAKHR
+
+Either _Result Type_'s _Element Type_ must be the same as
+_Source CoopMat_'s _Component Type_ and its _Length_ must be _Source CoopMat_'s _Columns_,
+or the _Element Type_ must be unsigned 32-bit OpTypeInt and the _Length_ must be 8.
+
+_Source CoopMat_'s _Component Type_ must be a 8-bit OpTypeInt (unsigned/signed) or an OpTypeFloat
+with the default IEEE 754 encoding (32-bit or 16-bit), its _Rows_ must be one of the supported cooperative
+matrix row sizes that are less than or equal to SubgroupSize, and _Columns_ must be 8, 16, 32 and 32 when
+its Component Type is the 32-bit OpTypeFloat, the 16-bit OpTypeFloat, the signed 8-bit OpTypeInt, and the
+unsigned 8-bit OpTypeInt, respectively.
+
+
+* When the cooperative matrix object's _Use_ is MatrixBKHR
+
+Either _Result Type_'s _Element Type_ must be the same as
+_Source CoopMat_'s _Component Type_ and its _Length_ must be _Source CoopMat_'s _Rows_,
+or the _Element Type_ must be unsigned 32-bit OpTypeInt and the _Length_ must be 8.
+
+_Source CoopMat_'s _Component Type_ must be a 8-bit OpTypeInt (unsigned/signed) or an OpTypeFloat
+with the default IEEE 754 encoding (32-bit or 16-bit), its _Rows_ must be 8, 16, 32 and 32 when its Component Type is
+the 32-bit OpTypeFloat, the 16-bit OpTypeFloat, the signed 8-bit OpTypeInt, and the unsigned 8-bit OpTypeInt,
+respectively, and its _Columns_ must be one of the supported cooperative matrix column sizes that are 
+less than or equal to SubgroupSize.
+
+
+* When the cooperative matrix object's _Use_ is MatrixAccumulatorKHR
+
+Either _Result Type_'s _Element Type_ must be the same as
+_Source CoopMat_'s _Component Type_ and its _Length_ must be _Source CoopMat_'s _Columns_,
+or the _Element Type_ must be unsigned 32-bit OpTypeInt and the _Length_ must be 
+_Source CoopMat_'s _Columns_ if _Source CoopMat_'s _Component Type_ is 32-bit OpTypeFloat and
+_Source CoopMat_'s _Columns_ / 2 if the _Component Type_ is 16-bit OpTypeFloat.
+
+_Source CoopMat_'s _Component Type_ must be a 32-bit OpTypeInt (unsigned/signed) or an OpTypeFloat
+with the default IEEE 754 encoding (32-bit or 16-bit), its _Rows_ and _Columns_ must be one of the supported
+cooperative matrix row and column sizes, respectively, that are less than or equal to SubgroupSize.
+
+
+1+|<<Capability,Capability>>: +
+*CooperativeMatrixConversionQCOM*
+| 4 | 4541 | <id> _Result Type_ | <<ResultId,'Result <id>' >> | <id> _Source CoopMat_
+|====
+
+[cols="1,1,4*3",width="100%"]
+|====
+5+|*OpExtractSubArrayQCOM*
+
+Extracts a sub-array from a larger source array.
+
+_Result Type_ must be a one-dimensional array type whose element type is
+the same as the element type of _Source Array_.
+
+_Source Array_ must be a one-dimensional array whose element type is either a 32-bit OpTypeInt
+(unsigned/signed) or an OpTypeFloat with the default IEEE 754 encoding (32-bit or 16-bit).
+
+_Start Index_ is a signed 32-bit OpTypeInt value.
+
+(_Start Index_ + _Result Type_'s _Length_) must not be greater than _Source Array_'s _Length_.
+Otherwise, the behaviors are undefined.
+
+If the result is to be used as inputs to any subsequent cooperative matrix operations,
+_Start Index_ must be a multiple of one of the lengths supported for MatrixUseA cooperative matrices' columns 
+or MatrixUseB cooperative matrices' rows (i.e., input channel K).
+
+1+|<<Capability,Capability>>: +
+*CooperativeMatrixConversionQCOM*
+| 5 | 4542 | <id> _Result Type_ | <<ResultId,'Result <id>' >> | <id> _Source Array_ | <id> _Start Index_
+|====
+
+Validation Rules
+----------------
+
+An OpExtension must be added to the SPIR-V for validation layers
+to check legal use of this extension:
+
+----
+OpExtension "SPV_QCOM_cooperative_matrix_conversion"
+----
+
+Issues
+------
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|===========================================================
+|Rev|Date|Author|Changes
+|1|2025-05-23|Wooyoung Kim|Initial version
+|===========================================================
