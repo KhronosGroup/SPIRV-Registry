@@ -1,0 +1,352 @@
+SPV_ARM_graph
+=============
+
+Name Strings
+------------
+
+SPV_ARM_graph
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Kevin Petit, Arm Ltd. +
+
+Notice
+------
+
+Copyright (c) 2022-2025 Arm Ltd.
+
+Status
+------
+
+Complete.
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2025-06-18
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.6 Revision 2.
+
+This extension requires SPIR-V 1.0.
+
+This extension requires SPV_ARM_tensors.
+
+Overview
+--------
+
+This extension adds support for graphs to SPIR-V. Graphs provide a
+construct to express dataflow computations operating on full resources (only
+tensors are supported with this extension but graphs could also be used with
+images). This extension does not define any operations for use within graphs.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_ARM_graph"
+----
+
+Modifications to the SPIR-V Specification, Version 1.6
+------------------------------------------------------
+
+Terms
+~~~~~
+
+'Graph': A dataflow graph defined by an *OpGraphARM*. A graph may consume inputs
+and produces at least one output.
+
+'Graph entry point': An *OpGraphARM* exposed to the execution environment using
+a *OpGraphEntryPointARM* instruction.
+
+'Graph Interface Type': An *OpTypeTensorARM*, *OpTypeArray* of *OpTypeTensorARM*, or
+*OpTypeRuntimeArray* of *OpTypeTensorARM*.
+
+Logical Layout of a Module
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This extension changes the logical layout of modules as follows:
+
+Add a new section after 11 Function definitions where graph definitions and
+entry points reside. A graph definition is as follows:
+
+1. Graph definition, using *OpGraphARM*.
+2. Graph input values are defined using *OpGraphInputARM* instructions.
+3. Body instructions.
+4. Graph output values are set using *OpGraphSetOutputARM* instructions.
+5. Graph end, using *OpGraphEndARM*.
+
+Validation Rules
+~~~~~~~~~~~~~~~~
+
+Modify Section 2.16.1 Universal Validation Rules:
+
+Change:
+
+    "There is at least one OpEntryPoint instruction, unless the Linkage
+     capability is being used."
+
+to:
+
+    "There is at least one OpEntryPoint instruction, unless the *Linkage*
+     or *GraphARM* capability is declared."
+
+Add the following rules:
+
+* The value of the _GraphConstantID_ operand of *OpGraphConstantARM* must be
+unique within a given module, i.e. no two graph constants are allowed to have
+the same _GraphConstantID_.
+
+* If the *GraphARM* capability is declared, there must be at least one
+*OpGraphEntryPointARM* instruction.
+
+* Two *OpGraphInputARM* instructions with the same 'InputIndex'
+must not be part of the same graph definition unless 'ElementIndex'
+is present in both with different values.
+
+* Two *OpGraphSetOutputARM* instructions with the same 'OutputIndex'
+must not be part of the same graph definition unless 'ElementIndex'
+is present in both with different values.
+
+* A graph definition must contain at least one *OpGraphSetOutputARM*.
+
+* A graph definition may only contain one of the following instructions:
+** *OpGraphInputARM*
+** *OpGraphSetOutputARM*
+** *OpExtInst*
+** *OpCompositeExtract*
+
+Capabilities
+~~~~~~~~~~~~
+
+Modify Section 3.31, "Capability", adding these rows to the Capability table:
+
+--
+[options="header"]
+|====
+2+^| Capability ^| Implicitly Declares
+| 4191 | *GraphARM* +
+Uses graphs. |
+|====
+--
+
+Instructions
+~~~~~~~~~~~~
+
+Add the following new instructions:
+
+[cols="1,1,1,1,1",width="100%"]
+|====
+4+|*OpTypeGraphARM* +
+ +
+Declare a new graph type. +
+ +
+_NumInputs_ is the number of inputs to the graph.
+_NumInputs_ is an unsigned 32-bit integer. +
+ +
+_InOut N Type_ is the type '<id>' for input or output _N_. Types for the
+_NumInputs_ inputs must appear first, followed by types for all the outputs.
+A graph type must have at least one output. All inputs and outputs
+must all be of 'Graph Interface Type'.
+
+1+|<<Capability,Capability>>: +
+*GraphARM*
+| 4+ variable | 4190 | 'Result <id>' | Literal +
+_NumInputs_
+| '<id>' +
+_InOut 0 Type_, +
+_InOut 1 Type_, +
+...
+|====
+
+[cols="1,1,1,1,1",width="100%"]
+|====
+4+|*OpGraphConstantARM* +
+ +
+Declare a graph constant. +
+ +
+_Result Type_ must be an *OpTypeTensorARM*. +
+ +
+_GraphConstantID_ is a 32-bit integer. +
+ +
+
+1+|<<Capability,Capability>>: +
+*GraphARM*
+| 4 | 4181 | <id> +
+_Result Type_ | 'Result <id>' | Literal +
+_GraphConstantID_
+|====
+
+[cols="1,1,1,1,1",width="100%"]
+|====
+4+|*OpGraphEntryPointARM* +
+ +
+Declare a graph entry point. +
+ +
+_Graph_ must be an *OpGraphARM*. +
+ +
+_Name_ is the name of the graph entry point being declared. It must be a string literal. +
+ +
+_Interface_ is a list of '<id>' of global variables that are connected to a
+graph instantiation. All the graph inputs are listed first, then the graph
+outputs. All the IDs must come from *OpVariable* with *UniformConstant* _Storage Class_.
+
+1+|<<Capability,Capability>>: +
+*GraphARM*
+| 4+ variable | 4182 | <id> +
+_Graph_ | Literal +
+_Name_ | <id>,<id>,... +
+Interface
+|====
+
+[cols="1,1,1,1",width="100%"]
+|====
+3+|*OpGraphARM* +
+ +
+Define a graph. +
+ +
+_Result Type_ must be an *OpTypeGraphARM*. +
+ +
+
+1+|<<Capability,Capability>>: +
+*GraphARM*
+| 3 | 4183 | <id> +
+_Result Type_ | 'Result <id>'
+|====
+
+[cols="1,1,1,1,1,1",width="100%"]
+|====
+5+|*OpGraphInputARM* +
+ +
+Define a graph input. +
+ +
+_Result Type_ must be the same as that of the corresponding input,
+selected by 'InputIndex', or element of the input, selected by 'InputIndex'
+and 'ElementIndex', if 'ElementIndex' is present, in the
+*OpTypeGraphARM* of the graph definition this instruction is part of. +
+ +
+_InputIndex_ is the index of the graph input being defined, among all graph
+inputs. It must be a 32-bit integer. +
+ +
+_ElementIndex_, when present, is the index into a graph input of tensor array
+type. It must be a 32-bit integer. If 'ElementIndex' is present, then the type
+of the graph input selected by 'InputIndex' must be an *OpTypeArray* or
+*OpTypeRuntimeArray* whose 'Element Type' is *OpTypeTensorARM*. +
+ +
+This instruction must immediately follow an *OpGraphARM* or *OpGraphInputARM*
+instruction.
+ +
+
+1+|<<Capability,Capability>>: +
+*GraphARM*
+| 4+ | 4184 | <id> +
+_Result Type_ | 'Result <id>'
+|_InputIndex_ '<id>' | Optional _ElementIndex_ '<id>'
+|====
+
+[cols="1,1,1,1,1",width="100%"]
+|====
+4+|*OpGraphSetOutputARM* +
+ +
+Assign the value of a graph output. +
+ +
+_Value_ is the '<id>' that defines the value to assign to the graph output.
+The type of 'Value' must be the same as that of the corresponding output,
+selected by 'OutputIndex', or element of the output, selected by
+'OutputIndex' and 'ElementIndex', if 'ElementIndex' is present, in the
+*OpTypeGraphARM* of the graph definition this instruction is part of. +
+ +
+_OutputIndex_ is the index of the graph output being assigned. It must be a
+32-bit integer. +
+ +
+_ElementIndex_, when present, is the index into a graph output of tensor array
+type. It must be a 32-bit integer. If 'ElementIndex' is present, then the type
+of the graph output selected by 'OutputIndex' must be an *OpTypeArray* or
+*OpTypeRuntimeArray* whose 'Element Type' is *OpTypeTensorARM*. +
+ +
+This instruction must immediately precede an *OpGraphEndARM* or *OpGraphSetOutputARM*
+instruction.
+
+1+|<<Capability,Capability>>: +
+*GraphARM*
+| 4+ | 4185 | '<id>' +
+_Value_ | '<id>' +
+_OutputIndex_ | Optional '<id>' +
+_ElementIndex_
+
+|====
+
+[cols="1,1",width="100%"]
+|====
+1+|*OpGraphEndARM* +
+ +
+Last instruction of a graph. +
+
+1+|<<Capability,Capability>>: +
+*GraphARM*
+| 3 | 4186
+|====
+
+Issues
+------
+
+1) What should the type of graphs represent? Should it carry the type
+of the graph constants used by a graph?
+
+*RESOLVED*: The type of graphs carries the number of inputs and outputs as well
+as their type. Inputs and outputs of tensor type _may_ themselves encode the
+rank and shape of the tensors. The types of the graph constants used is not
+part of the type of a graph.
+
+2) What types of resources should be supported as graph inputs, outputs and
+constants?
+
+*RESOLVED*: This extension only adds support for *OpTypeTensorARM* and arrays of
+*OpTypeTensorARM*.
+
+3) How should graph outputs be handled?
+
+*RESOLVED*: *OpGraphSetOutputARM* instructions are used to assign values to
+individual graph outputs or elements of graph outputs of array type.
+
+Previous drafts have used the following mechanisms:
+
+- A single per graph *OpGraphSetOutputsARM* return-style instruction to set
+  all outputs, e.g. `OpGraphSetOutputsARM %out1 %out1`. This did not extend
+  well to outputs of array type.
+
+- *OpGraphOutputARM* instructions to forward-declare the ID for individual
+  outputs. These were required to appear after all *OpGraphInputARM*
+  instructions and IDs for outputs were then assigned by an intruction as part
+  of the graph body. This former approach was abandonned to allow defining
+  graphs that have one or more outputs directly connected to an input and
+  because forward declarations are generally best avoided.
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2025-06-18|Kevin Petit|Initial revision
+|========================================
