@@ -93,7 +93,7 @@ Modify Section 3.20, "Decoration", adding
 
 "A tensor variable in the *UniformConstant* storage class (see **OpTypeTensorARM**)"
 
-to the list of types for which a memory object declaration may be decorated with
+to the list of cases in which a memory object declaration may be decorated with
 *NonWritable* or *NonReadable*.
 
 Capability
