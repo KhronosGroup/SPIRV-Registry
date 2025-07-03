@@ -17,6 +17,7 @@ Contributors
 ------------
 
 - Kevin Petit, Arm Ltd. +
+- Alan Baker, Google +
 
 Notice
 ------
@@ -33,8 +34,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2025-06-18
-| Revision           | 1
+| Last Modified Date | 2025-07-03
+| Revision           | 2
 |========================================
 
 Dependencies
@@ -79,6 +80,9 @@ a *OpGraphEntryPointARM* instruction.
 
 'Graph Interface Type': An *OpTypeTensorARM*, *OpTypeArray* of *OpTypeTensorARM*, or
 *OpTypeRuntimeArray* of *OpTypeTensorARM*.
+
+Modify the definition of 'Constant Instruction' to add *OpGraphConstantARM* to
+the list of instructions.
 
 Logical Layout of a Module
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -348,5 +352,6 @@ Revision History
 [options="header"]
 |========================================
 |Rev|Date|Author|Changes
+|2|2025-07-03|Kevin Petit|Clarify that *OpGraphConstantARM* is a constant instruction
 |1|2025-06-18|Kevin Petit|Initial revision
 |========================================
