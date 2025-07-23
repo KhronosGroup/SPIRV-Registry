@@ -28,6 +28,7 @@ Contributors
 - Victor Lomuller, Codeplay
 - Kevin Petit, Arm
 - Ben Ashbaugh, Intel
+- Viktoria Maksimova, Intel
 
 Notice
 ------
@@ -43,26 +44,34 @@ Provisional
 - Approved by the SPIR-V Working Group: 2024-05-29
 - Approved by the Khronos Board of Promoters: 2024-07-12
 
+Final
+
+- Approved by the SPIR-V Working Group: 2025-05-13
+- Approved by the Khronos Board of Promoters: 2025-06-27
+
 Version
 -------
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2024-08-08
-| Revision           | 2
+| Last Modified Date | 2025-01-16
+| Revision           | 3
 |========================================
 
 Dependencies
 ------------
 
 This extension is written against the SPIR-V Specification, Version 1.6
-Revision 3.
+Revision 5.
 
-This extension modifies SPV_KHR_workgroup_memory_explicit_layout.
+This extension modifies the following extensions:
 
-This extension modifies SPV_KHR_cooperative_matrix.
+* https://github.khronos.org/SPIRV-Registry/extensions/KHR/SPV_KHR_workgroup_memory_explicit_layout.html[SPV_KHR_workgroup_memory_explicit_layout]
+* https://github.khronos.org/SPIRV-Registry/extensions/KHR/SPV_KHR_cooperative_matrix.html[SPV_KHR_cooperative_matrix]
+* https://github.khronos.org/SPIRV-Registry/extensions/EXT/SPV_EXT_shader_atomic_float_add.html[SPV_EXT_shader_atomic_float_add]
+* https://github.khronos.org/SPIRV-Registry/extensions/EXT/SPV_EXT_shader_atomic_float_min_max.html[SPV_EXT_shader_atomic_float_min_max]
 
-This extension modifies the OpenCL.std extended instruction set.
+This extension modifies the https://registry.khronos.org/SPIR-V/specs/unified1/OpenCL.ExtendedInstructionSet.100.html[OpenCL.std extended instruction set].
 
 Overview
 --------
@@ -85,6 +94,7 @@ This extension adds the following new instructions:
 * <<OpUntypedInBoundsPtrAccessChainKHR,*OpUntypedInBoundsPtrAccessChainKHR*>>
 * <<OpUntypedArrayLengthKHR,*OpUntypedArrayLengthKHR*>>
 * <<OpUntypedPrefetchKHR,*OpUntypedPrefetchKHR*>>
+* <<OpUntypedGroupAsyncCopyKHR,*OpUntypedGroupAsyncCopyKHR*>>
 
 Extension Name
 --------------
@@ -417,17 +427,24 @@ To:
 Change:
 
 ****
-If the type an *OpVariable* points to is a pointer (or array of pointers) in the
-*PhysicalStorageBuffer* storage class, the *OpVariable* must be decorated with
-exactly one of *AliasedPointer* or *RestrictPointer*.
+Any pointer value whose storage class is *PhysicalStorageBuffer* and that points
+to a matrix, an array of matrices, or a row or element of a matrix must be the
+result of an *OpAccessChain* or *OpPtrAccessChain* instruction whose 'Base' operand
+is a structure type (or recursively must be the result of a sequence of only
+access chains from a structure to the final value).
+Such a pointer must only be used as the 'Pointer' operand to *OpLoad* or *OpStore*.
 ****
 
 To:
 
 ****
-If the type a <<Variable,variable>> points to is a pointer (or array of pointers) in the
-*PhysicalStorageBuffer* storage class, the variable must be decorated with
-exactly one of *AliasedPointer* or *RestrictPointer*.
+Any pointer value whose storage class is *PhysicalStorageBuffer* and that
+points to a matrix, an array of matrices, or a row or element of a matrix must
+be the result of an access chain instruction whose 'Base' (or 'Base Type' for
+untyped pointers) operand is a structure type (or recursively must be the
+result of a sequence of only access chains from a structure to the final
+value).
+Such a pointer must only be used as the 'Pointer' operand to *OpLoad* or *OpStore*.
 ****
 
 Modify the list items under the following list item:
@@ -519,36 +536,17 @@ scalar, a 8-bit vector, or a composite containing 8-bit members.
 
 Modify Section *2.16.2 Validation Rules for Shader Capabilities*:
 
-Modify the list items under the following list item:
+Add the following:
 
 ****
-Composite objects in the *StorageBuffer*, *PhysicalStorageBuffer*, *Uniform*, and
-*PushConstant* Storage Classes must be explicitly laid out. The following apply
-to all the aggregate and matrix types describing such an object, recursively
-through their nested types:
-****
-
-Add the following list items:
-
-****
-* Each <<OpUntypedPtrAccessChainKHR,*OpUntypedPtrAccessChainKHR*>> must have a
-'Base' whose type is decorated with *ArrayStride*.
-* Any 'Data Type' in <<OpUntypedVariableKHR,*OpUntypedVariableKHR*>>, or the
-'Base Type' in <<OpUntypedAccessChainKHR,*OpUntypedAccessChainKHR*>>,
-<<OpUntypedInBoundsAccessChainKHR,*OpUntypedInBoundsAccessChainKHR*>> or
-<<OpUntypedPtrAccessChainKHR,*OpUntypedPtrAccessChainKHR*>> must not be a
-matrix type.
-* Any 'Data Type' in <<OpUntypedVariableKHR,*OpUntypedVariableKHR*>>, or 'Base
-Type' in <<OpUntypedAccessChainKHR,*OpUntypedAccessChainKHR*>>,
-<<OpUntypedInBoundsAccessChainKHR,*OpUntypedInBoundsAccessChainKHR*>> or
-<<OpUntypedPtrAccessChainKHR,*OpUntypedPtrAccessChainKHR*>> must be a type that
-is explicitly laid out according the preceding rules.
-* The 'Result Type' of *OpLoad* must be explicitly laid out according to the
-preceding rules if the 'Pointer' operand is an <<UntypedPointer,untyped pointer>>.
-* The type of the 'Object' operand of *OpStore* must be explicitly laid out according
-to the preceding rules if the 'Pointer' operand is an <<UntypedPointer,untyped pointer>>.
-* The 'Structure' operand of <<OpUntypedArrayLengthKHR,*OpUntypedArrayLengthKHR*>> must be
-explicitly laid out according to the preceding rules.
+* Untyped pointers
+** The 'Data Type' in <<OpUntypedVariableKHR,*OpUntypedVariableKHR*>>, or the
+   'Base Type' in <<OpUntypedAccessChainKHR,*OpUntypedAccessChainKHR*>>,
+   <<OpUntypedInBoundsAccessChainKHR,*OpUntypedInBoundsAccessChainKHR*>> or
+   <<OpUntypedPtrAccessChainKHR,*OpUntypedPtrAccessChainKHR*>> must not be a
+   matrix type if the 'Storage Class' is required to be explicitly laid out.
+** *Workgroup* 'Storage Class' must be explcitly laid out when used with
+   <<UntypedPointers,untyped pointers>>.
 ****
 
 Modify the list items under the following list item:
@@ -688,6 +686,14 @@ In the following instructions, change references to *OpVariable* to <<Variable,v
 * *OpDecorateId*
 * *OpEntryPoint*
 * *OpTypeBool*
+* *OpSpecConstantOp*
+
+Add the following opcodes that are valid with the *Kernel* capability in *OpSpecConstantOp*:
+
+* <<OpUntypedAccessChainKHR,*OpUntypedAccessChainKHR*>>
+* <<OpUntypedInBoundsAccessChainKHR,*OpUntypedInBoundsAccessChainKHR*>>
+* <<OpUntypedPtrAccessChainKHR,*OpUntypedPtrAccessChainKHR*>>
+* <<OpUntypedInBoundsPtrAccessChainKHR,*OpUntypedInBoundsPtrAccessChainKHR*>>
 
 Change the description of 'Result Type' in *OpImageTexelPointer* to:
 
@@ -696,19 +702,43 @@ Change the description of 'Result Type' in *OpImageTexelPointer* to:
 *OpTypePointer* type, its 'Type' operand must be a numerical scalar type or *OpTypeVoid*.
 ****
 
+Change the description of 'Image' in *OpImageTexelPointer* to:
+****
+The type of 'Image' must be a <<PointerType, pointer type>>.
+If the type of 'Image' is *OpTypePointer*:
+
+* It must point to an *OpTypeImage*.
+* The 'Sampled Type' of the type of 'Image' must be the same as the 'Type' pointed to by 'Result Type'.
+* The 'Dim' operand of 'Type' must not be *SubpassData*.
+****
+
+Change the description of 'Result Type' in *OpLoad* to:
+****
+'Result Type' is the type of the loaded object.
+It must be a type with fixed size; i.e., it must not be, nor include, any OpTypeRuntimeArray types.
+If 'Pointer' is required to be accessed with explicitly laid out types, then 'Result Type' must also be explicitly laid out.
+****
+
 Change the description of 'Pointer' in *OpLoad* to:
 
 ****
-'Pointer' is the pointer to load through. It must be a <<PointerType,pointer type>>. If it is an
-*OpTypePointer* type, its 'Type' operand must be the same as 'Result Type'.
+'Pointer' is the pointer to load through.
+Its type must be a <<PointerType,pointer type>>.
+If its type is *OpTypePointer*, the 'Type' operand must be the same as 'Result Type'.
 ****
 
 Change the description of 'Pointer' in *OpStore* to:
 
 ****
-'Pointer' is the pointer to store through. It must be a <<PointerType,pointer
-type>>. If it is an *OpTypePointer* type, its 'Type' operand must be the same
-as the type of 'Object'.
+'Pointer' is the pointer to store through.
+Its type must be a <<PointerType,pointer type>>.
+If its type is *OpTypePointer*, the 'Type' operand must be the same as the type
+of 'Object'.
+****
+
+Change the description of 'Object' in *OpStore* to:
+****
+'Object' is the object to store. If 'Pointer' is required to be accessed with explicitly laid out types, then the type of 'Object' must be explicitly laid out.
 ****
 
 Change the description of *OpCopyMemory* to:
@@ -807,13 +837,19 @@ Bit pattern-preserving type conversion.
 
 'Result Type' must be a <<PointerType,pointer type>>, or a scalar or vector of numerical-type.
 
-'Operand' must be a <<PointerType,pointer type>>, or a scalar or vector of
-numerical-type. It must be a different type than 'Result Type'.
+The type of 'Operand' must be a <<PointerType,pointer type>>, or a scalar or vector of
+numerical-type.
+It must be a different type than 'Result Type'.
 
 Before *version 1.5*: If either 'Result Type' or 'Operand' is a pointer, the other
 must be a pointer or an integer scalar. 
 Starting with *version 1.5*: If either 'Result Type' or 'Operand' is a pointer, the
 other must be a pointer, an integer scalar, or an integer vector.
+
+If both 'Result Type' and the type of 'Operand' are pointers, they both must point into the same storage class.
+
+Behaviour is undefined if the storage class of 'Result Type' does not match the
+used by the operation that produced the value of 'Operand'.
 
 If 'Result Type' has the same number of components as 'Operand', they must also
 have the same component width, and results are computed per component.
@@ -833,40 +869,44 @@ its lower-ordered bits to the lower-numbered components of 'L'.
 Change the description of 'Pointer' in *OpLifetimeStart* and *OpLifetimeStop* to:
 
 ****
-'Pointer' is a pointer to the object whose lifetime is starting/ending. Its type must be
-a <<PointerType,pointer type>> with Storage Class *Function*.
+'Pointer' is a pointer to the object whose lifetime is starting/ending.
+Its type must be a <<PointerType,pointer type>> with Storage Class *Function*.
 ****
 
 Change the description of 'Pointer' in *OpAtomicLoad* to:
 
 ****
-'Pointer' is the pointer to the memory to read. It must be a
-<<PointerType,pointer type>>. If its type is *OpTypePointer*, the type of the
-value pointed to by Pointer must be the same as 'Result Type'.
+'Pointer' is the pointer to the memory to read.
+Its type must be a <<PointerType,pointer type>>.
+If its type is *OpTypePointer*, the type of the value pointed to by Pointer
+must be the same as 'Result Type'.
 ****
 
 Change the description of 'Pointer' in *OpAtomicStore* to:
 
 ****
-'Pointer' is the pointer to the memory to write. It must be a
-<<PointerType,pointer type>>. If its type is *OpTypePointer*, the type it
-points to must be a scalar of integer type or floating-point type.
+'Pointer' is the pointer to the memory to write.
+Its type must be a <<PointerType,pointer type>>.
+If its type is *OpTypePointer*, the type it points to must be a scalar of
+integer type or floating-point type.
 ****
 
 Change the description of 'Value' in *OpAtomicExchange* to:
 
 ****
-The type of 'Value' must be the same as 'Result Type'. 'Pointer' must be a
-<<PointerType,pointer type>>. If the type of 'Pointer' is *OpTypePointer*,  the
-type of the value pointed to by 'Pointer' must be the same as 'Result Type'.
+The type of 'Value' must be the same as 'Result Type'.
+The type of 'Pointer' must be a <<PointerType,pointer type>>.
+If it is *OpTypePointer*,  the type of the value pointed to by 'Pointer' must
+be the same as 'Result Type'.
 ****
 
 Change the description of 'Value' in *OpAtomicCompareExchange* to:
 
 ****
-The type of 'Value' must be the same as 'Result Type'. 'Pointer' must be a
-<<PointerType,pointer type>>. If the type of 'Pointer' is *OpTypePointer*, the
-type of the value pointed to by 'Pointer' must be the same as 'Result Type'.
+The type of 'Value' must be the same as 'Result Type'.
+The type of 'Pointer' must be a <<PointerType,pointer type>>.
+If its type is *OpTypePointer*, the type of the value pointed to by 'Pointer'
+must be the same as 'Result Type'.
 This type must also match the type of 'Comparator'.
 ****
 
@@ -875,9 +915,16 @@ Change the description of 'Value' in *OpAtomicIIncrement*, *OpAtomicIDecrement*,
 *OpAtomicUMax*, *OpAtomicAnd*, *OpAtomicOr*, and *OpAtomicXor* to:
 
 ****
-The type of 'Value' must be the same as 'Result Type'. 'Pointer' must be a
-<<PointerType,pointer type>>. If the type of 'Pointer' is *OpTypePointer*, the
-type of the value pointed to by 'Pointer' must be the same as 'Result Type'.
+The type of 'Value' must be the same as 'Result Type'.
+The type of 'Pointer' must be a <<PointerType,pointer type>>.
+If its type is *OpTypePointer*, the type of the value pointed to by 'Pointer'
+must be the same as 'Result Type'.
+****
+
+Change the description of 'Pointer' in *OpAtomicFlagTestAndSet* and *OpAtomicFlagClear*:
+****
+The type of 'Pointer' must be a <<PointerType,pointer type>>.
+If its type is *OpTypePointer*, it must point to a 32-bit integer type representing an atomic flag.
 ****
 
 Add the following instruction to Section *3.37.6 Type-Declaration Instructions*:
@@ -886,7 +933,8 @@ Add the following instruction to Section *3.37.6 Type-Declaration Instructions*:
 |===
 3+| [[OpTypeUntypedPointerKHR]]*OpTypeUntypedPointerKHR* +
  +
-Declare a new pointer type. +
+Declare a new pointer type.
+Similar to *OpTypePointer*, but does not require a pointee type. +
  +
 'Storage Class' is the Storage Class of the memory holding object pointed to. Refer to the client API for allowed storage classes. 1+| Capability: +
 *UntypedPointersKHR*
@@ -899,17 +947,24 @@ Add the following instructions to Section *3.37.8 Memory Instructions*:
 |===
 5+| [[OpUntypedVariableKHR]]*OpUntypedVariableKHR* +
  +
-Allocate an object in memory, resulting in a pointer to it. +
+Allocate an object in memory, resulting in a pointer to it.
+Similar to *OpVariable*, but the allocated type is optionally provided via the 'Data Type' operand instead via the pointee type of the 'Result Type'. +
  +
 'Result Type' must be an *OpTypeUntypedPointerKHR*. +
  +
-'Storage Class' is the Storage Class of the memory holding the object. It must not be *Generic*. It must be the same storage class as the 'Storage Class' operand of the 'Result Type'. +
+'Storage Class' is the Storage Class of the memory holding the object.
+It must not be *Generic*.
+It must be the same storage class as the 'Storage Class' operand of the 'Result Type'. +
  +
-'Data Type' is optional. It is the type of the object in memory. 'Data Type' must be specified if 'Storage Class' is *Function*, *Private*, or *Workgroup*. Refer to the client API for other storage classes. +
+'Data Type' is optional. It is the type of the object in memory.
+'Data Type' must be specified if 'Storage Class' is *Function*, *Private*, or *Workgroup*.
+Refer to the client API for other storage classes.
+If 'Storage Class' is required to be explicitly laid out, then 'Data Type' must be explicitly laid out. +
  +
-'Initializer' is optional. If 'Initializer' is present, it will be the initial value of the variable’s memory content. 'Initializer' must be an '<id>' from a constant instruction or a global (module scope) <<Variable,variable>>. 'Initializer' must have the same type as 'Data Type'. 2+| Capability: +
+'Initializer' is optional. If 'Initializer' is present, it will be the initial value of the variable’s memory content.
+'Initializer' must be an '<id>' from a constant instruction or a global (module scope) <<Variable,variable>>. 'Initializer' must have the same type as 'Data Type'. 2+| Capability: +
 *UntypedPointersKHR*
-| 4 + variable | 4418 | '<id> Result Type' | 'Result <id>' | 'Storage Class' | Optional '<id> Data Type' | Optional '<id> Initializer'
+| 5 + variable | 4418 | '<id> Result Type' | 'Result <id>' | 'Storage Class' | Optional '<id> Data Type' | Optional '<id> Initializer'
 |===
 
 [cols="7"]
@@ -918,8 +973,11 @@ Allocate an object in memory, resulting in a pointer to it. +
  +
 Has the same semantics as *OpAccessChain*, with the following additions: +
 - 'Result Type' must be an <<OpTypeUntypedPointerKHR,*OpTypeUntypedPointerKHR*>>. Its 'Storage Class' operand must be the same Storage Class as 'Base'. +
-- a 'Base Type' operand. It must be a non-pointer type-declaration instruction. +
-- 'Base' must be a <<PointerType,pointer type>>. +
+- a 'Base Type' operand. It must be a non-pointer type-declaration instruction. 
+    If 'Base' is required to be accessed with explicitly laid out types, then 'Base Type' must also be explicitly laid out.
+   'Base Type' must not contain an array of structure type decorated with *Block* or *BufferBlock* unless 'Base' is a <<Variable,variable>> whose data type is that array type.
+   The data type of the 'Base' <<Variable,variable>> must not contain an array of structure type decorated with *Block* or *BufferBlock* unless 'Base Type' is that array type. +
+- the type of 'Base' must be a <<PointerType,pointer type>>. +
 - 'Indexes' walk the type hierarchy of 'Base Type' instead of 'Base'. 2+| Capability: +
 *UntypedPointersKHR*
 | 5 + variable | 4419 | '<id> Result Type' | 'Result <id>' | '<id> Base Type' | '<id> Base' | '<id>, <id>, ...' +
@@ -931,7 +989,7 @@ Has the same semantics as *OpAccessChain*, with the following additions: +
 5+| [[OpUntypedInBoundsAccessChainKHR]]*OpUntypedInBoundsAccessChainKHR* +
  +
 Has the same semantics as <<OpUntypedAccessChainKHR,*OpUntypedAccessChainKHR*>>, with the addition that the resulting pointer is known to point within the base object. 2+| Capability: +
-*UntypedPointersKHR*
+*OpUntypedPointersKHR*
 | 5 + variable | 4420 | '<id> Result Type' | 'Result <id>' | '<id> Base Type' | '<id> Base' | '<id>, <id>, ...' +
 'Indexes'
 |===
@@ -942,11 +1000,13 @@ Has the same semantics as <<OpUntypedAccessChainKHR,*OpUntypedAccessChainKHR*>>,
  +
 Has the same semantics as *OpPtrAccessChain*, with the following additions: +
 - 'Result Type' must be an <<OpTypeUntypedPointerKHR,*OpTypeUntypedPointerKHR*>>. Its 'Storage Class' operand must be the same Storage Class as 'Base'. +
-- a 'Base Type' operand. It must be a non-pointer type-declaration instruction. +
-- 'Base' must be a <<PointerType,pointer type>>. +
+- a 'Base Type' operand. It must be a type-declaration instruction. If 'Base' is required to be accessed with explicitly laid out types, then 'Base Type' must also be explicitly laid out. +
+- the type of 'Base' must be a <<PointerType,pointer type>>. If the 'Storage Class' is required to be explcitly laid out, then the type of 'Base' must be decorated with *ArrayStride*.  +
 - 'Element' is used to generate an <<OpUntypedAccessChainKHR,*OpUntypedAccessChainKHR*>> 'Base'. +
-- 'Indexes' walk the type hierarchy of 'Base Type' instead of 'Base'. 2+| Capability: +
-*UntypedPointersKHR*
+- 'Indexes' walk the type hierarchy of 'Base Type' instead of 'Base'. 
+
+If 'Base Type' is a structure decorated with *Block* or *BufferBlock* and the value of 'Element' is not zero then behavior is undefined.
+2+| Capability: *UntypedPointersKHR*
 | 6 + variable | 4423 | '<id> Result Type' | 'Result <id>' | '<id> Base Type' | '<id> Base' | '<id> Element' | '<id>, <id>, ...' +
 'Indexes'
 |===
@@ -969,23 +1029,25 @@ Length of a run-time array. +
  +
 'Result Type' must be an *OpTypeInt* with 32-bit 'Width' and 0 'Signedness'. +
  +
-'Structure' must be a *Block*-decorated *OpTypeStruct* whose last member is a run-time array. +
+'Structure' must be an explcitly laid out *Block*-decorated *OpTypeStruct* whose last member is a run-time array. +
  +
-'Pointer' must be a <<PointerType,pointer type>>. 'Pointer' must have the same value as a descriptor. That is, the value must be the same as a <<Variable,variable>> decorated with *DescriptorSet* and *Binding* or an element in such a variable when the data type is an array of *Block*-decorated structures. +
+The type of 'Pointer' must be a <<PointerType,pointer type>>.
+'Pointer' must have the same value as a descriptor.
+That is, the value must be the same as a <<Variable,variable>> decorated with *DescriptorSet* and *Binding* or an element in such a variable when the data type is an array of *Block*-decorated structures. +
  +
 'Array member' is an unsigned 32-bit integer index of the last member of 'Structure'. That member’s type must be from *OpTypeRuntimeArray*. 2+| Capability: +
 *UntypedPointersKHR*
-| 6 | 4425 | '<id> Result Type' | 'Result <id>' | '<id> Structure' | '<id> Pointer' | 'Literal Array member'
+| 7 | 4425 | '<id> Result Type' | 'Result <id>' | '<id> Structure' | '<id> Pointer' | 'Literal Array member'
 |===
 
-[cols="7"]
+[cols="8"]
 |===
-5+| [[OpUntypedPrefetchKHR]]*OpUntypedPrefetchKHR* +
+6+| [[OpUntypedPrefetchKHR]]*OpUntypedPrefetchKHR* +
  +
 Prefetch *Num Bytes* bytes of data from *Pointer* into the global cache.
 This instruction does not affect the functionality of the module. +
  +
-'Pointer' must be a <<PointerType,pointer>> whose 'Storage Class' is *CrossWorkgroup*. +
+The type of 'Pointer' must be a <<PointerType,pointer>> whose 'Storage Class' is *CrossWorkgroup*. +
  +
 'Num Bytes' is the number of bytes to prefetch. Its type must be an integer scalar. +
  +
@@ -1004,10 +1066,57 @@ If 'Cache Type' is present, it specifies the type of cache.
 It must be a constant instruction with an integer scalar type.
 The value must be either 0 (for instruction cache) or 1 (for data cache). +
  +
-The default values of all optional operands are implementation defined. 2+| Capability: +
+The default values of all 'RW', 'Locality', and 'Cache Type' operands are implementation defined. +
+ +
+If 'memory operands' is specified, it must begin with a Memory Operand literal.
+If not present, it is the same as specifying Memory Operand *None*. +
+ +
+Either all optional operands must be specified or none must be specified. 2+| Capability: +
 *UntypedPointersKHR*
-| 3  + variable | 4426 | '<id> Pointer Type' | '<id> Num Bytes' | Optional '<id> RW' | Optional '<id> Locality' | Optional '<id> Cache Type'
+| 4+ | 4426 | '<id> Pointer' | '<id> Num Bytes' | Optional '<id> RW' | Optional '<id> Locality' | Optional '<id> Cache Type' | Optional 'memory operands'
 |===
+
+[cols="13"]
+|===
+10+| [[OpUntypedGroupAsyncCopyKHR]]*OpUntypedGroupAsyncCopyKHR*
+ +
+Perform an asynchronous group copy of 'Element Num Bytes' &times; 'Num Elements' bytes from 'Source' to 'Destination'.
+The asynchronous copy is performed by all invocations in a group. +
+ +
+This instruction results in an event object that can be used by *OpGroupWaitEvents* to wait for the async copy to finish. +
+ +
+Behavior is undefined unless all invocations within 'Execution' execute the same dynamic instance of this instruction. +
+ +
+'Result Type' must be an *OpTypeEvent* object. +
+ +
+'Destination' must be a pointer of type <<OpUntypedPointerKHR,*OpUntypedPointerKHR*>>. +
+ +
+'Destination' pointer 'Storage Class' must be *Workgroup* or *CrossWorkgroup*. +
+ +
+'Source' must be a pointer of type <<OpUntypedPointerKHR,*OpUntypedPointerKHR*>>. +
+ +
+If 'Destination' pointer 'Storage Class' is *Workgroup*, the 'Source' pointer 'Storage Class' must be *CrossWorkgroup*.
+In this case 'Stride' defines the stride in bytes when reading from 'Source' pointer. +
+ +
+If 'Destination' pointer 'Storage Class' is *CrossWorkgroup*, the 'Source' pointer *Storage Class* must be *Workgroup*.
+In this case 'Stride' defines the stride in bytes when writing each element to 'Destination' pointer. +
+ +
+'Stride', 'Num Bytes', and 'NumElements' must be a 32-bit integer type scalar if the addressing model is *Physical32* and 64 bit integer type scalar if the Addressing Model is *Physical64*. +
+ +
+'Event' must have a type of *OpTypeEvent*. +
+ +
+'Event' can be used to associate the copy with a previous copy allowing an event to be shared by multiple copies.
+Otherwise 'Event' should be an *OpConstantNull*. +
+ +
+If 'Event' is not *OpConstantNull*, the result is the event object supplied by the 'Event' operand. +
+ +
+If present, 'Destination memory operands' and 'Source memory operands' must begin with a Memory Operand literal.
+If not present, it is the same as specifying the Memory Operand *None*.
+Either both memory operands must be specified or neither must be specified. 3+| Capability: +
+*UntypedPointersKHR*
+| 10+ | 4434 | '<id> Result Type' | 'Result <id>' | 'Scope <id> Execution' | '<id> Destination' | '<id> Source' | '<id> Element Num Bytes' | '<id> Num Elements' | '<id> Stride' | '<id> Event' | Optional 'Destination memory operands' | Optional 'Source memory operands'
+|===
+
 
 Modifications to the extension SPV_KHR_workgroup_memory_explicit_layout
 -----------------------------------------------------------------------
@@ -1107,6 +1216,36 @@ When the type of _Pointer_ is *OpTypeUntypedPointerKHR*, _Stride_ is specified
 in bytes.
 ****
 
+Modifications to SPV_EXT_shader_float_atomic_add
+------------------------------------------------
+
+In the description of *OpAtomicFAddEXT*, change:
+
+****
+The type of 'Value' must be the same as 'Result Type'. The type of the value pointed to by 'Pointer' must be the same as 'Result Type'.
+****
+
+To:
+
+****
+The type of 'Value' must be the same as 'Result Type'. If the type of 'Pointer' is *OpTypePointer*, then type of the value it points to must be the same as 'Result Type'.
+****
+
+Modifications to SPV_EXT_shader_float_atomic_min_max
+----------------------------------------------------
+
+In the description of *OpAtomicFMaxEXT* and *OpAtomicFMinEXT*, change:
+
+****
+The type of 'Value' must be the same as 'Result Type'. The type of the value pointed to by 'Pointer' must be the same as 'Result Type'.
+****
+
+To:
+
+****
+The type of 'Value' must be the same as 'Result Type'. If the type of 'Pointer' is *OpTypePointer*, then type of the value it points to must be the same as 'Result Type'.
+****
+
 Modifications to the OpenCL.std extended instruction set
 --------------------------------------------------------
 
@@ -1164,7 +1303,6 @@ For untyped pointers, the instructions as if the it were an appropriate typed po
 
 Note: *prefetch* should be replaced with <<OpUntypedPrefetchKHR,*OpUntypedPrefetchKHR*>>.
 
-
 Issues
 ------
 
@@ -1173,8 +1311,12 @@ Issues
 --
 *Resolved*
 
-This extension modifies SPV_KHR_workgroup_memory_explicit_layout and
-SPV_KHR_cooperative_matrix.
+This extension modifies:
+
+* SPV_KHR_workgroup_memory_explicit_layout
+* SPV_KHR_cooperative_matrix
+* SPV_EXT_shader_atomic_float_add
+* SPV_EXT_shader_atomic_float_min_max
 --
 
 . Should this extension include pointer access chain equivalents? +
@@ -1207,6 +1349,29 @@ Revision History
 [cols="4"]
 |===
 |Rev|Date|Author|Changes
+|3|2025-01-16|Alan Baker a|Changes from provisional.
+
+Change reference SPIR-V Specification to Version 1.6 Revision 5.
+
+Allow untyped pointer operands to the following instructions:
+
+  * *OpAtomicFAddEXT*
+  * *OpAtomicFMaxEXT*
+  * *OpAtomicFMinEXT*
+  * *OpAtomicFlagTestAndSet*
+  * *OpAtomicFlagClear*
+  * *OpImageTexelPointer*
+
+Allow untyped access chains in *OpSpecConstantOp*.
+
+Add memory operands to *OpUntypedPrefetchKHR*.
+
+Add the instruction *OpUntypedGroupAsyncCopyKHR*.
+
+Update physical storage buffer validation rules.
+
+Restrict the use of arrays of blocks with untyped access chains.
+
 |2|2024-08-08|Kevin Petit|Clarify OpPtrDiff support
 |1|2024-05-29|Alan Baker|Initial Revision
 |===
