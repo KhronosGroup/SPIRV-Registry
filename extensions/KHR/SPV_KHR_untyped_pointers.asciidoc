@@ -973,7 +973,7 @@ If 'Storage Class' is required to be explicitly laid out, then 'Data Type' must 
  +
 Has the same semantics as *OpAccessChain*, with the following additions: +
 - 'Result Type' must be an <<OpTypeUntypedPointerKHR,*OpTypeUntypedPointerKHR*>>. Its 'Storage Class' operand must be the same Storage Class as 'Base'. +
-- a 'Base Type' operand. It must be a non-pointer type-declaration instruction. 
+- a 'Base Type' operand. It must be a non-pointer type-declaration instruction.
     If 'Base' is required to be accessed with explicitly laid out types, then 'Base Type' must also be explicitly laid out.
    'Base Type' must not contain an array of structure type decorated with *Block* or *BufferBlock* unless 'Base' is a <<Variable,variable>> whose data type is that array type.
    The data type of the 'Base' <<Variable,variable>> must not contain an array of structure type decorated with *Block* or *BufferBlock* unless 'Base Type' is that array type. +
@@ -1003,7 +1003,7 @@ Has the same semantics as *OpPtrAccessChain*, with the following additions: +
 - a 'Base Type' operand. It must be a type-declaration instruction. If 'Base' is required to be accessed with explicitly laid out types, then 'Base Type' must also be explicitly laid out. +
 - the type of 'Base' must be a <<PointerType,pointer type>>. If the 'Storage Class' is required to be explcitly laid out, then the type of 'Base' must be decorated with *ArrayStride*.  +
 - 'Element' is used to generate an <<OpUntypedAccessChainKHR,*OpUntypedAccessChainKHR*>> 'Base'. +
-- 'Indexes' walk the type hierarchy of 'Base Type' instead of 'Base'. 
+- 'Indexes' walk the type hierarchy of 'Base Type' instead of 'Base'.
 
 If 'Base Type' is a structure decorated with *Block* or *BufferBlock* and the value of 'Element' is not zero then behavior is undefined.
 2+| Capability: *UntypedPointersKHR*
