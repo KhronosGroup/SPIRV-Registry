@@ -1833,7 +1833,7 @@ _Payload_ must be the [blue]#<<bookmark-OpTypeAvcImePayloadINTEL,__OpTypeAvcImeP
 
 | Capability: + 
 *SubgroupAvcMotionEstimationINTEL* +
-| 7 | 5749 | <id> Result Type | Result <id> | <id> Fwd Ref Offset | <id> Bwd Ref Offset | id> Search Window Config | <id> Payload
+| 7 | 5749 | <id> Result Type | Result <id> | <id> Fwd Ref Offset | <id> Bwd Ref Offset | <id> Search Window Config | <id> Payload
 |=====
 
 [cols="1,1,1,1,1,1",width="100%"]
