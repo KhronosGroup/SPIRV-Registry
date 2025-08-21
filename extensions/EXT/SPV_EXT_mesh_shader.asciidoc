@@ -172,6 +172,7 @@ to include:
 * <<OpEmitMeshTasksEXT,*OpEmitMeshTasksEXT*>>
 ====
 +
+Add the following to the end of the section:
 * *OpSetMeshOutputsEXT* must be called before any variable from *Output* storage class
   is written to.  Behavior is undefined if any invocation executes this instruction
   more than once or under non-uniform control flow. The arguments for the instruction
