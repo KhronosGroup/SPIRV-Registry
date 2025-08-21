@@ -30,8 +30,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2023-04-21
-| Revision           | 4
+| Last Modified Date | 2025-08-20
+| Revision           | 5
 |========================================
 
 Dependencies
@@ -94,6 +94,20 @@ OpRayQueryGetIntersectionTriangleVertexPositionsKHR
 
 Modifications to the SPIR-V Specification
 -----------------------------------------
+
+(Modify Section 2.16.1, Universal Validation Rules) ::
++
+Modify the list following the statement:
++
+====
+It is invalid for a pointer to be an operand to any instruction other than:
+====
++
+to include:
++
+====
+* <<OpRayQueryGetIntersectionTriangleVertexPositionsKHR,*OpRayQueryGetIntersectionTriangleVertexPositionsKHR*>>
+====
 
 (Modify Section 3.21, BuiltIn, adding rows to the BuiltIn table) ::
 +
@@ -210,5 +224,6 @@ Revision History
 |2 |2022-12-14 |Daniel Koch   | Use two capabilities and other spec cleanup.
 |3 |2023-01-06 |Daniel Koch   | Follow SPIR-V conventions for undefined behavior.
 |4 |2023-04-21 |Daniel Koch   | Add ratification status
+|5 |2025-08-20 |Alan Baker    | Modify logical pointer validation rules (spir-v#878)
 |========================================
 
