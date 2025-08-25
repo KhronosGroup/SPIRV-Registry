@@ -18,7 +18,7 @@ SPV_INTEL_variable_length_array
 
 To report problems with this extension, please open a new issue at:
 
-https://github.com/intel/llvm/issues
+https://github.com/KhronosGroup/SPIRV-Headers
 
 == Contributors
 
