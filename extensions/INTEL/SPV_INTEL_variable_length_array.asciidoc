@@ -77,7 +77,7 @@ OpExtension "SPV_INTEL_variable_length_array"
 Modify Section 3.31, Capability, adding rows to the Capability table:
 
 --
-[options="header"]
+[cols="^.^2,16,15",options="header",width = "100%"]
 |====
 2+^| Capability ^| Implicitly Declares 
 | {capability_token} | *VariableLengthArrayINTEL* +
@@ -179,9 +179,9 @@ instructions executed after this *OpSaveMemoryINTEL*. +
 | '<id>' 'Result'
 |=====
 
-[cols="1a,1,1*3",width="100%"]
+[cols="3,2,1*3",width="100%"]
 |=====
-2+|[[OpRestoreMemoryINTEL]]*OpRestoreMemoryINTEL* +
+2+a|[[OpRestoreMemoryINTEL]]*OpRestoreMemoryINTEL* +
  +
 Restore the *Function* storage class memory to the state it was in when the
 *OpSaveMemoryINTEL* was executed. +
