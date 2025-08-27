@@ -39,8 +39,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2023-01-13
-| Revision           | 14
+| Last Modified Date | 2025-08-20
+| Revision           | 15
 |========================================
 
 Dependencies
@@ -131,7 +131,41 @@ Modifications to the SPIR-V Specification
 --
 
 (Modify Section 2.16.1, Universal Validation Rules) ::
-
++
+Modify the list following the statement:
++
+====
+It is invalid for a pointer to be an operand to any instruction other than:
+====
++
+to include:
++
+====
+* <<OpRayQueryConfirmIntersectionKHR,*OpRayQueryConfirmIntersectionKHR*>>
+* <<OpRayQueryInitializeKHR,*OpRayQueryInitializeKHR*>>
+* <<OpRayQueryTerminateKHR,*OpRayQueryTerminateKHR*>>
+* <<OpRayQueryGenerateIntersectionKHR,*OpRayQueryGenerateIntersectionKHR*>>
+* <<OpRayQueryProceedKHR,*OpRayQueryProceedKHR*>>
+* <<OpRayQueryGetIntersectionTypeKHR,*OpRayQueryGetIntersectionTypeKHR*>>
+* <<OpRayQueryGetRayTMinKHR,*OpRayQueryGetRayTMinKHR*>>
+* <<OpRayQueryGetRayFlagsKHR,*OpRayQueryGetRayFlagsKHR*>>
+* <<OpRayQueryGetIntersectionTKHR,*OpRayQueryGetIntersectionTKHR*>>
+* <<OpRayQueryGetIntersectionInstanceCustomIndexKHR,*OpRayQueryGetIntersectionInstanceCustomIndexKHR*>>
+* <<OpRayQueryGetIntersectionInstanceIdKHR,*OpRayQueryGetIntersectionInstanceIdKHR*>>
+* <<OpRayQueryGetIntersectionInstanceShaderBindingTableRecordOffsetKHR,*OpRayQueryGetIntersectionInstanceShaderBindingTableRecordOffsetKHR*>>
+* <<OpRayQueryGetIntersectionGeometryIndexKHR,*OpRayQueryGetIntersectionGeometryIndexKHR*>>
+* <<OpRayQueryGetIntersectionPrimitiveIndexKHR,*OpRayQueryGetIntersectionPrimitiveIndexKHR*>>
+* <<OpRayQueryGetIntersectionBarycentricsKHR,*OpRayQueryGetIntersectionBarycentricsKHR*>>
+* <<OpRayQueryGetIntersectionFrontFaceKHR,*OpRayQueryGetIntersectionFrontFaceKHR*>>
+* <<OpRayQueryGetIntersectionCandidateAABBOpaqueKHR,*OpRayQueryGetIntersectionCandidateAABBOpaqueKHR*>>
+* <<OpRayQueryGetIntersectionObjectRayDirectionKHR,*OpRayQueryGetIntersectionObjectRayDirectionKHR*>>
+* <<OpRayQueryGetIntersectionObjectRayOriginKHR,*OpRayQueryGetIntersectionObjectRayOriginKHR*>>
+* <<OpRayQueryGetWorldRayDirectionKHR,*OpRayQueryGetWorldRayDirectionKHR*>>
+* <<OpRayQueryGetWorldRayOriginKHR,*OpRayQueryGetWorldRayOriginKHR*>>
+* <<OpRayQueryGetIntersectionObjectToWorldKHR,*OpRayQueryGetIntersectionObjectToWorldKHR*>>
+* <<OpRayQueryGetIntersectionWorldToObjectKHR,*OpRayQueryGetIntersectionWorldToObjectKHR*>>
+====
++
 include::ray_common/acceleration_structure_universal_val.txt[]
 
 
@@ -925,5 +959,6 @@ Revision History
 |12|2021-09-08 |Daniel Koch           | replace references to nonexistent OpRayQueryCommittedTypeKHR (GH#128)
 |13|2022-05-27 |Daniel Koch           | disallow more combinations of ray flags (vk-gl-cts#3647)
 |14|2023-01-13 |Daniel Koch           | Follow SPIR-V conventions for undefined behavior.
+|15|2025-08-20 |Alan Baker            | Modify logical pointer validation rules (spir-v#878)
 |========================================
 

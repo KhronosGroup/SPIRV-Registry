@@ -24,6 +24,7 @@ Contributors
 - Slawomir Grajewski, Intel
 - Timur Kristóf, Valve
 - Pankaj Mistry, NVIDIA
+- Alan Baker, Google
 
 Status
 ------
@@ -37,8 +38,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2022-09-16
-| Revision           | 7
+| Last Modified Date | 2025-08-20
+| Revision           | 8
 |========================================
 
 Dependencies
@@ -158,6 +159,20 @@ Modifications to the SPIR-V Specification
 Add *OpEmitMeshTasksEXT* to the list of Termination Instructions.
 
 (Modify Section 2.16.1, Universal Validation Rules) ::
++
+Modify the list following the statement:
++
+====
+It is invalid for a pointer to be an operand to any instruction other than:
+====
++
+to include:
++
+====
+* <<OpEmitMeshTasksEXT,*OpEmitMeshTasksEXT*>>
+====
++
+Add the following to the end of the section:
 * *OpSetMeshOutputsEXT* must be called before any variable from *Output* storage class
   is written to.  Behavior is undefined if any invocation executes this instruction
   more than once or under non-uniform control flow. The arguments for the instruction
@@ -591,4 +606,5 @@ Revision History
 |5  |2022-08-31 |Pankaj Mistry|Added validation rules for OpSetMeshOutputsEXT and OpEmitMeshTasksEXT
 |6  |2022-09-06 |Pankaj Mistry|Added OpEmitMeshTasksEXT as a termination instruction and added atomic access validation rule for TaskPayloadWorkgroupEXT
 |7  |2022-09-16 |Ricardo Garcia|Forbid more than one TaskPayloadWorkgroupEXT variable in each TaskEXT entry point
+|8  |2025-08-20 |Alan Baker    | Modify logical pointer validation rules (spir-v#878)
 |========================================

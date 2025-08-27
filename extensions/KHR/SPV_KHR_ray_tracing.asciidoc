@@ -38,8 +38,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2022-08-17
-| Revision           | 24
+| Last Modified Date | 2025-08-20
+| Revision           | 25
 |========================================
 
 Dependencies
@@ -168,7 +168,20 @@ add *OpTypeAccelerationStructureKHR* to list of opaque types
 Add *OpIgnoreIntersectionKHR* and *OpTerminateRayKHR* to the list of _Termination Instructions_.
 
 (Modify Section 2.16.1, Universal Validation Rules) ::
-
++
+Modify the list following the statement:
++
+====
+It is invalid for a pointer to be an operand to any instruction other than:
+====
++
+to include:
++
+====
+* <<OpTraceRayKHR,*OpTraceRayKHR*>>
+* <<OpExecuteCallableKHR,*OpExecuteCallableKHR*>>
+====
++
 Modify the list following the statement:
 +
 ====
@@ -749,5 +762,6 @@ Revision History
 |22|2021-05-13 |Eric Werness          | Fix ray payload allowed execution models to exclude any hit.
 |23|2022-05-27 |Daniel Koch           | disallow more combinations of ray flags (vk-gl-cts#3647)
 |24|2022-08-17 |Daniel Koch           | OpExecuteCallableKHR `SBT Index` must be 32-bit unsigned integer (#156)
+|24|2025-08-20 |Alan Baker            | Modify logical pointer validation rules (spir-v#878)
 |========================================
 
