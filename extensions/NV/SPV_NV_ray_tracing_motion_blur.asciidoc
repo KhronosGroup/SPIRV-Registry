@@ -18,6 +18,7 @@ Contributors
 - Eric Werness, NVIDIA
 - Ashwin Lele, NVIDIA
 - Daniel Koch, NVIDIA
+- Pradyuman Singh, NVIDIA
 
 Status
 ------
@@ -29,8 +30,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2023-11-29
-| Revision           | 2
+| Last Modified Date | 2025-09-02
+| Revision           | 3
 |========================================
 
 Dependencies
@@ -243,6 +244,20 @@ Allows the use of *OpTraceMotionNV* or *OpTraceRayMotionNV*.
 |======
 --
 
+(Modify Section 2.16.1, Universal Validation Rules) ::
++
+Modify the list following the statement:
++
+====
+It is invalid for a pointer to be an operand to any instruction other than:
+====
++
+to include:
++
+====
+* <<OpTraceMotionNV,*OpTraceMotionNV*>>
+* <<OpTraceRayMotionNV,*OpTraceRayMotionNV*>>
+====
 
 Validation Rules
 ----------------
@@ -287,4 +302,5 @@ Revision History
 |Rev|Date|Author|Changes
 |1 |2020-06-01 |Ashwin Lele|*Internal revisions*
 |2 |2023-11-29 |Daniel Koch| fix typo in document title
+|3 |2025-09-02 |Pradyuman Singh| Modify logical pointer validation rules (spir-v#878)
 |========================================
