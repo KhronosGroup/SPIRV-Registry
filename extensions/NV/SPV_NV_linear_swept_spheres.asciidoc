@@ -18,6 +18,7 @@ Contributors
 - Ashwin Lele, NVIDIA
 - Eric Werness, NVIDIA
 - Vikram Kushwaha, NVIDIA
+- Diego Novillo, NVIDIA
 
 Status
 ------
@@ -29,8 +30,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2025-01-01
-| Revision           | 1
+| Last Modified Date | 2025-09-02
+| Revision           | 2
 |========================================
 
 Dependencies
@@ -547,6 +548,32 @@ See the Ray Primitive Culling section in the Vulkan API specification.
 | '<id>' 'Intersection'
 |======
 
+(Modify Section 2.16.1, Universal Validation Rules) ::
++
+Modify the list following the statement:
++
+====
+It is invalid for a pointer to be an operand to any instruction other than:
+====
++
+to include:
++
+====
+* <<OpHitObjectGetLSSPositionsNV,*OpHitObjectGetLSSPositionsNV*>>
+* <<OpHitObjectGetLSSRadiiNV,*OpHitObjectGetLSSRadiiNV*>>
+* <<OpHitObjectGetSpherePositionNV,*OpHitObjectGetSpherePositionNV*>>
+* <<OpHitObjectGetSphereRadiusNV,*OpHitObjectGetSphereRadiusNV*>>
+* <<OpHitObjectIsLSSHitNV,*OpHitObjectIsLSSHitNV*>>
+* <<OpHitObjectIsSphereHitNV,*OpHitObjectIsSphereHitNV*>>
+* <<OpRayQueryGetIntersectionLSSHitValueNV,*OpRayQueryGetIntersectionLSSHitValueNV*>>
+* <<OpRayQueryGetIntersectionLSSPositionsNV,*OpRayQueryGetIntersectionLSSPositionsNV*>>
+* <<OpRayQueryGetIntersectionLSSRadiiNV,*OpRayQueryGetIntersectionLSSRadiiNV*>>
+* <<OpRayQueryGetIntersectionSpherePositionNV,*OpRayQueryGetIntersectionSpherePositionNV*>>
+* <<OpRayQueryGetIntersectionSphereRadiusNV,*OpRayQueryGetIntersectionSphereRadiusNV*>>
+* <<OpRayQueryIsLSSHitNV,*OpRayQueryIsLSSHitNV*>>
+* <<OpRayQueryIsSphereHitNV,*OpRayQueryIsSphereHitNV*>>
+====
+
 Validation Rules
 ----------------
 
@@ -595,5 +622,6 @@ Revision History
 |========================================
 |Rev|Date|Author|Changes
 |1 |2025-01-01  |Ashwin Lele           | Internal revisions.
+|2 |2025-09-02 |Diego Novillo|*Modify logical pointer validation rules (spir-v#878)*
 |========================================
 
