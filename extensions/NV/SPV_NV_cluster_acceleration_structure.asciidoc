@@ -31,8 +31,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2025-09-03
-| Revision           | 3
+| Last Modified Date | 2025-09-02
+| Revision           | 2
 |========================================
 
 Dependencies
@@ -90,7 +90,7 @@ New Instructions
 Instructions added under the *RayTracingClusterAccelerationStructureNV* capability
 
 ----
-OpRayQueryGetClusterIdNV
+OpRayQueryGetIntersectionClusterIdNV
 OpHitObjectGetClusterIdNV
 ----
 
@@ -131,7 +131,7 @@ Allowed in *AnyHitKHR* and *ClosestHitKHR* ray tracing execution models.
 --
 [cols="6*2"]
 |======
-5+|[[OpRayQueryGetClusterIdNV]]*OpRayQueryGetClusterIdNV* +
+5+|[[OpRayQueryGetIntersectionClusterIdNV]]*OpRayQueryGetIntersectionClusterIdNV* +
  +
  Returns the triangle cluster ID corresponding to the current intersection of the ray if the intersection is with a cluster object. Returns -1 otherwise. +
  +
@@ -198,7 +198,7 @@ to include:
 +
 ====
 * <<OpHitObjectGetClusterIdNV,*OpHitObjectGetClusterIdNV*>>
-* <<OpRayQueryGetClusterIdNV,*OpRayQueryGetClusterIdNV*>>
+* <<OpRayQueryGetIntersectionClusterIdNV,*OpRayQueryGetIntersectionClusterIdNV*>>
 ====
 
 Validation Rules
@@ -219,7 +219,7 @@ Builtin *ClusterIDNV* is supported only if SPV_KHR_ray_tracing is supported.
 Interactions with SPV_KHR_ray_query
 -----------------------------------
 
-*OpRayQueryGetClusterIdNV* is supported only if SPV_KHR_ray_query is supported.
+*OpRayQueryGetIntersectionClusterIdNV* is supported only if SPV_KHR_ray_query is supported.
 
 Interactions with SPV_NV_shader_invocation_reorder
 --------------------------------------------------
@@ -241,5 +241,4 @@ Revision History
 |Rev|Date|Author|Changes
 |1 |2025-01-01 |Pyarelal Knowles|*Internal revisions*
 |2 |2025-09-02 |Diego Novillo|*Modify logical pointer validation rules (spir-v#878)*
-|3 |2025-09-03 |Diego Novillo|*Update OpRayQueryGetClusterIdNV name*
 |========================================
