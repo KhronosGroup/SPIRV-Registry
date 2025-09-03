@@ -19,6 +19,7 @@ Contributors
 - Eric Werness, NVIDIA
 - Daniel Koch, NVIDIA
 - Pankaj Mistry, NVIDIA
+- Pradyuman Singh, NVIDIA
 
 Status
 ------
@@ -30,8 +31,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2023-12-06
-| Revision           | 2
+| Last Modified Date | 2025-09-02
+| Revision           | 3
 |========================================
 
 Dependencies
@@ -1194,6 +1195,50 @@ bit pattern.
 |=====
 --
 
++
+Modify the list following the statement:
++
+====
+It is invalid for a pointer to be an operand to any instruction other than:
+====
++
+to include:
++
+====
+* <<OpReorderThreadWithHitObjectNV,*OpReorderThreadWithHitObjectNV*>>
+* <<OpHitObjectIsMissNV,*OpHitObjectIsMissNV*>>
+* <<OpHitObjectIsHitNV,*OpHitObjectIsHitNV*>>
+* <<OpHitObjectIsEmptyNV,*OpHitObjectIsEmptyNV*>>
+* <<OpHitObjectGetRayTMinNV,*OpHitObjectGetRayTMinNV*>>
+* <<OpHitObjectGetRayTMaxNV,*OpHitObjectGetRayTMaxNV*>>
+* <<OpHitObjectGetWorldRayOriginNV,*OpHitObjectGetWorldRayOriginNV*>>
+* <<OpHitObjectGetWorldRayDirectionNV,*OpHitObjectGetWorldRayDirectionNV*>>
+* <<OpHitObjectGetInstanceCustomIndexNV,*OpHitObjectGetInstanceCustomIndexNV*>>
+* <<OpHitObjectGetInstanceIdNV,*OpHitObjectGetInstanceIdNV*>>
+* <<OpHitObjectGetGeometryIndexNV,*OpHitObjectGetGeometryIndexNV*>>
+* <<OpHitObjectGetPrimitiveIndexNV,*OpHitObjectGetPrimitiveIndexNV*>>
+* <<OpHitObjectGetHitKindNV,*OpHitObjectGetHitKindNV*>>
+* <<OpHitObjectGetAttributesNV,*OpHitObjectGetAttributesNV*>>
+* <<OpHitObjectGetCurrentTimeNV,*OpHitObjectGetCurrentTimeNV*>>
+* <<OpHitObjectExecuteShaderNV,*OpHitObjectExecuteShaderNV*>>
+* <<OpHitObjectRecordMissNV,*OpHitObjectRecordMissNV*>>
+* <<OpHitObjectRecordHitWithIndexNV,*OpHitObjectRecordHitWithIndexNV*>>
+* <<OpHitObjectRecordHitNV,*OpHitObjectRecordHitNV*>>
+* <<OpHitObjectTraceRayNV,*OpHitObjectTraceRayNV*>>
+* <<OpHitObjectRecordEmptyNV,*OpHitObjectRecordEmptyNV*>>
+* <<OpHitObjectGetShaderBindingTableRecordIndexNV,*OpHitObjectGetShaderBindingTableRecordIndexNV*>>
+* <<OpHitObjectGetShaderRecordBufferHandleNV,*OpHitObjectGetShaderRecordBufferHandleNV*>>
+* <<OpHitObjectTraceRayMotionNV,*OpHitObjectTraceRayMotionNV*>>
+* <<OpHitObjectGetObjectRayOriginNV,*OpHitObjectGetObjectRayOriginNV*>>
+* <<OpHitObjectGetObjectRayDirectionNV,*OpHitObjectGetObjectRayDirectionNV*>>
+* <<OpHitObjectGetObjectToWorldNV,*OpHitObjectGetObjectToWorldNV*>>
+* <<OpHitObjectGetWorldToObjectNV,*OpHitObjectGetWorldToObjectNV*>>
+* <<OpHitObjectRecordMissMotionNV,*OpHitObjectRecordMissMotionNV*>>
+* <<OpHitObjectRecordHitWithIndexMotionNV,*OpHitObjectRecordHitWithIndexMotionNV*>>
+* <<OpHitObjectRecordHitMotionNV,*OpHitObjectRecordHitMotionNV*>>
+====
++
+
 Validation Rules
 ----------------
 
@@ -1228,6 +1273,7 @@ Revision History
 |Rev|Date|Author|Changes
 |1 |2022-09-01 |Ashwin Lele         | Internal revisions
 |2 |2023-12-06 |Daniel Koch         | Remove references to non-existant SPIR-V definitions
+|3 |2025-09-02 |Pradyuman Singh     | Modify logical pointer validation rules (spir-v#878)
 |========================================
 
 
