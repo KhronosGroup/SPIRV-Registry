@@ -19,6 +19,7 @@ Contributors
 - Ashwin Lele, NVIDIA
 - Eric Werness, NVIDIA
 - Vikram Kushwaha, NVIDIA
+- Diego Novillo, NVIDIA
 
 Status
 ------
@@ -30,8 +31,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2025-01-01
-| Revision           | 1
+| Last Modified Date | 2025-09-02
+| Revision           | 2
 |========================================
 
 Dependencies
@@ -185,6 +186,20 @@ Allowed in *AnyHitKHR* and *ClosestHitKHR* ray tracing execution models.
 |======
 --
 
+(Modify Section 2.16.1, Universal Validation Rules) ::
++
+Modify the list following the statement:
++
+====
+It is invalid for a pointer to be an operand to any instruction other than:
+====
++
+to include:
++
+====
+* <<OpHitObjectGetClusterIdNV,*OpHitObjectGetClusterIdNV*>>
+* <<OpRayQueryGetIntersectionClusterIdNV,*OpRayQueryGetIntersectionClusterIdNV*>>
+====
 
 Validation Rules
 ----------------
@@ -225,4 +240,5 @@ Revision History
 |========================================
 |Rev|Date|Author|Changes
 |1 |2025-01-01 |Pyarelal Knowles|*Internal revisions*
+|2 |2025-09-02 |Diego Novillo|*Modify logical pointer validation rules (spir-v#878)*
 |========================================
