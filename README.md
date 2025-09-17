@@ -202,3 +202,7 @@ Note: we no longer push the HTML along side the extension.
 * [NonSemantic.DebugBreak                  ]( https://github.khronos.org/SPIRV-Registry/nonsemantic/NonSemantic.DebugBreak.html)
 * [NonSemantic.DebugPrintf                 ]( https://github.khronos.org/SPIRV-Registry/nonsemantic/NonSemantic.DebugPrintf.html)
 * [NonSemantic.Shader.DebugInfo.100        ]( https://github.khronos.org/SPIRV-Registry/nonsemantic/NonSemantic.Shader.DebugInfo.100.html)
+
+## Extended Instruction Set Specifications
+
+* [TOSA.001000.1                           ]( https://github.khronos.org/SPIRV-Registry/extended/TOSA.001000.1.html)
