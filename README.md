@@ -108,7 +108,6 @@ Note: we no longer push the HTML along side the extension.
 * [SPV_AMD_gpu_shader_int16                ]( https://github.khronos.org/SPIRV-Registry/extensions/AMD/SPV_AMD_gpu_shader_int16.html)
 * [SPV_AMD_shader_ballot                   ]( https://github.khronos.org/SPIRV-Registry/extensions/AMD/SPV_AMD_shader_ballot.html)
 * [SPV_AMD_shader_early_and_late_fragment_tests]( https://github.khronos.org/SPIRV-Registry/extensions/AMD/SPV_AMD_shader_early_and_late_fragment_tests.html)
-* [SPV_AMDX_shader_enqueue                 ]( https://github.khronos.org/SPIRV-Registry/extensions/AMD/SPV_AMDX_shader_enqueue.html)
 * [SPV_AMD_shader_explicit_vertex_parameter]( https://github.khronos.org/SPIRV-Registry/extensions/AMD/SPV_AMD_shader_explicit_vertex_parameter.html)
 * [SPV_AMD_shader_fragment_mask            ]( https://github.khronos.org/SPIRV-Registry/extensions/AMD/SPV_AMD_shader_fragment_mask.html)
 * [SPV_AMD_shader_image_load_store_lod     ]( https://github.khronos.org/SPIRV-Registry/extensions/AMD/SPV_AMD_shader_image_load_store_lod.html)
