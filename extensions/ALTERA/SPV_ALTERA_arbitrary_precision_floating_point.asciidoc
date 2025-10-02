@@ -1,9 +1,9 @@
-SPV_INTEL_arbitrary_precision_floating_point
-============================================
+SPV_ALTERA_arbitrary_precision_floating_point
+=============================================
 
 == Name Strings
 
-SPV_INTEL_arbitrary_precision_floating_point
+SPV_ALTERA_arbitrary_precision_floating_point
 
 == Contact
 
@@ -37,7 +37,7 @@ Supported
 
 This extension is written against the SPIR-V Specification Version 1.6, Revision 2.
 
-While this extension does not require SPV_INTEL_arbitrary_precision_integers, the new operators it adds are significantly more useful when that extension is supported as the combination of the two extensions allows for more freedom in the width of arbitrary precision floating point data types that can be represented.
+While this extension does not require SPV_ALTERA_arbitrary_precision_integers, the new operators it adds are significantly more useful when that extension is supported as the combination of the two extensions allows for more freedom in the width of arbitrary precision floating point data types that can be represented.
 
 == Overview
 
@@ -68,7 +68,7 @@ Each of the operations will also provide some control over the _Rounding Mode_ a
 To use this extension within a SPIR-V module, the following *OpExtension* must be present in the module:
 
 ----
-OpExtension "SPV_INTEL_arbitrary_precision_floating_point"
+OpExtension "SPV_ALTERA_arbitrary_precision_floating_point"
 ----
 
 == New Capabilities
@@ -76,55 +76,55 @@ OpExtension "SPV_INTEL_arbitrary_precision_floating_point"
 This extension introduces a new capability:
 
 ----
-ArbitraryPrecisionFloatingPointINTEL
+ArbitraryPrecisionFloatingPointALTERA
 ----
 
 == New Instructions
 
-Instructions added under the *ArbitraryPrecisionFloatingPointINTEL* capability:
+Instructions added under the *ArbitraryPrecisionFloatingPointALTERA* capability:
 
 ----
-OpArbitraryFloatAddINTEL
-OpArbitraryFloatSubINTEL
-OpArbitraryFloatMulINTEL
-OpArbitraryFloatDivINTEL
-OpArbitraryFloatGTINTEL
-OpArbitraryFloatGEINTEL
-OpArbitraryFloatLTINTEL
-OpArbitraryFloatLEINTEL
-OpArbitraryFloatEQINTEL
-OpArbitraryFloatRecipINTEL
-OpArbitraryFloatRSqrtINTEL
-OpArbitraryFloatCbrtINTEL
-OpArbitraryFloatHypotINTEL
-OpArbitraryFloatSqrtINTEL
-OpArbitraryFloatLogINTEL
-OpArbitraryFloatLog2INTEL
-OpArbitraryFloatLog10INTEL
-OpArbitraryFloatLog1pINTEL
-OpArbitraryFloatExpINTEL
-OpArbitraryFloatExp2INTEL
-OpArbitraryFloatExp10INTEL
-OpArbitraryFloatExpm1INTEL
-OpArbitraryFloatSinINTEL
-OpArbitraryFloatCosINTEL
-OpArbitraryFloatSinCosINTEL
-OpArbitraryFloatSinPiINTEL
-OpArbitraryFloatCosPiINTEL
-OpArbitraryFloatSinCosPiINTEL
-OpArbitraryFloatASinINTEL
-OpArbitraryFloatASinPiINTEL
-OpArbitraryFloatACosINTEL
-OpArbitraryFloatACosPiINTEL
-OpArbitraryFloatATanINTEL
-OpArbitraryFloatATanPiINTEL
-OpArbitraryFloatATan2INTEL
-OpArbitraryFloatPowINTEL
-OpArbitraryFloatPowRINTEL
-OpArbitraryFloatPowNINTEL
-OpArbitraryFloatCastINTEL
-OpArbitraryFloatCastFromIntINTEL
-OpArbitraryFloatCastToIntINTEL
+OpArbitraryFloatAddALTERA
+OpArbitraryFloatSubALTERA
+OpArbitraryFloatMulALTERA
+OpArbitraryFloatDivALTERA
+OpArbitraryFloatGTALTERA
+OpArbitraryFloatGEALTERA
+OpArbitraryFloatLTALTERA
+OpArbitraryFloatLEALTERA
+OpArbitraryFloatEQALTERA
+OpArbitraryFloatRecipALTERA
+OpArbitraryFloatRSqrtALTERA
+OpArbitraryFloatCbrtALTERA
+OpArbitraryFloatHypotALTERA
+OpArbitraryFloatSqrtALTERA
+OpArbitraryFloatLogALTERA
+OpArbitraryFloatLog2ALTERA
+OpArbitraryFloatLog10ALTERA
+OpArbitraryFloatLog1pALTERA
+OpArbitraryFloatExpALTERA
+OpArbitraryFloatExp2ALTERA
+OpArbitraryFloatExp10ALTERA
+OpArbitraryFloatExpm1ALTERA
+OpArbitraryFloatSinALTERA
+OpArbitraryFloatCosALTERA
+OpArbitraryFloatSinCosALTERA
+OpArbitraryFloatSinPiALTERA
+OpArbitraryFloatCosPiALTERA
+OpArbitraryFloatSinCosPiALTERA
+OpArbitraryFloatASinALTERA
+OpArbitraryFloatASinPiALTERA
+OpArbitraryFloatACosALTERA
+OpArbitraryFloatACosPiALTERA
+OpArbitraryFloatATanALTERA
+OpArbitraryFloatATanPiALTERA
+OpArbitraryFloatATan2ALTERA
+OpArbitraryFloatPowALTERA
+OpArbitraryFloatPowRALTERA
+OpArbitraryFloatPowNALTERA
+OpArbitraryFloatCastALTERA
+OpArbitraryFloatCastFromIntALTERA
+OpArbitraryFloatCastToIntALTERA
 ----
 
 == Token Number Assignments
@@ -132,48 +132,48 @@ OpArbitraryFloatCastToIntINTEL
 [cols="70%,30%"]
 [grid="rows"]
 |====
-|`ArbitraryPrecisionFloatingPointINTEL`   | 5845
-|`OpArbitraryFloatAddINTEL`               | 5846
-|`OpArbitraryFloatSubINTEL`               | 5847
-|`OpArbitraryFloatMulINTEL`               | 5848
-|`OpArbitraryFloatDivINTEL`               | 5849
-|`OpArbitraryFloatGTINTEL`                | 5850
-|`OpArbitraryFloatGEINTEL`                | 5851
-|`OpArbitraryFloatLTINTEL`                | 5852
-|`OpArbitraryFloatLEINTEL`                | 5853
-|`OpArbitraryFloatEQINTEL`                | 5854
-|`OpArbitraryFloatRecipINTEL`             | 5855
-|`OpArbitraryFloatRSqrtINTEL`             | 5856
-|`OpArbitraryFloatCbrtINTEL`              | 5857
-|`OpArbitraryFloatHypotINTEL`             | 5858
-|`OpArbitraryFloatSqrtINTEL`              | 5859
-|`OpArbitraryFloatLogINTEL`               | 5860
-|`OpArbitraryFloatLog2INTEL`              | 5861
-|`OpArbitraryFloatLog10INTEL`             | 5862
-|`OpArbitraryFloatLog1pINTEL`             | 5863
-|`OpArbitraryFloatExpINTEL`               | 5864
-|`OpArbitraryFloatExp2INTEL`              | 5865
-|`OpArbitraryFloatExp10INTEL`             | 5866
-|`OpArbitraryFloatExpm1INTEL`             | 5867
-|`OpArbitraryFloatSinINTEL`               | 5868
-|`OpArbitraryFloatCosINTEL`               | 5869
-|`OpArbitraryFloatSinCosINTEL`            | 5870
-|`OpArbitraryFloatSinPiINTEL`             | 5871
-|`OpArbitraryFloatCosPiINTEL`             | 5872
-|`OpArbitraryFloatSinCosPiINTEL`          | 5840
-|`OpArbitraryFloatASinINTEL`              | 5873
-|`OpArbitraryFloatASinPiINTEL`            | 5874
-|`OpArbitraryFloatACosINTEL`              | 5875
-|`OpArbitraryFloatACosPiINTEL`            | 5876
-|`OpArbitraryFloatATanINTEL`              | 5877
-|`OpArbitraryFloatATanPiINTEL`            | 5878
-|`OpArbitraryFloatATan2INTEL`             | 5879
-|`OpArbitraryFloatPowINTEL`               | 5880
-|`OpArbitraryFloatPowRINTEL`              | 5881
-|`OpArbitraryFloatPowNINTEL`              | 5882
-|`OpArbitraryFloatCastINTEL`              | 5841
-|`OpArbitraryFloatCastFromIntINTEL`       | 5842
-|`OpArbitraryFloatCastToIntINTEL`         | 5843
+|`ArbitraryPrecisionFloatingPointALTERA`   | 5845
+|`OpArbitraryFloatAddALTERA`               | 5846
+|`OpArbitraryFloatSubALTERA`               | 5847
+|`OpArbitraryFloatMulALTERA`               | 5848
+|`OpArbitraryFloatDivALTERA`               | 5849
+|`OpArbitraryFloatGTALTERA`                | 5850
+|`OpArbitraryFloatGEALTERA`                | 5851
+|`OpArbitraryFloatLTALTERA`                | 5852
+|`OpArbitraryFloatLEALTERA`                | 5853
+|`OpArbitraryFloatEQALTERA`                | 5854
+|`OpArbitraryFloatRecipALTERA`             | 5855
+|`OpArbitraryFloatRSqrtALTERA`             | 5856
+|`OpArbitraryFloatCbrtALTERA`              | 5857
+|`OpArbitraryFloatHypotALTERA`             | 5858
+|`OpArbitraryFloatSqrtALTERA`              | 5859
+|`OpArbitraryFloatLogALTERA`               | 5860
+|`OpArbitraryFloatLog2ALTERA`              | 5861
+|`OpArbitraryFloatLog10ALTERA`             | 5862
+|`OpArbitraryFloatLog1pALTERA`             | 5863
+|`OpArbitraryFloatExpALTERA`               | 5864
+|`OpArbitraryFloatExp2ALTERA`              | 5865
+|`OpArbitraryFloatExp10ALTERA`             | 5866
+|`OpArbitraryFloatExpm1ALTERA`             | 5867
+|`OpArbitraryFloatSinALTERA`               | 5868
+|`OpArbitraryFloatCosALTERA`               | 5869
+|`OpArbitraryFloatSinCosALTERA`            | 5870
+|`OpArbitraryFloatSinPiALTERA`             | 5871
+|`OpArbitraryFloatCosPiALTERA`             | 5872
+|`OpArbitraryFloatSinCosPiALTERA`          | 5840
+|`OpArbitraryFloatASinALTERA`              | 5873
+|`OpArbitraryFloatASinPiALTERA`            | 5874
+|`OpArbitraryFloatACosALTERA`              | 5875
+|`OpArbitraryFloatACosPiALTERA`            | 5876
+|`OpArbitraryFloatATanALTERA`              | 5877
+|`OpArbitraryFloatATanPiALTERA`            | 5878
+|`OpArbitraryFloatATan2ALTERA`             | 5879
+|`OpArbitraryFloatPowALTERA`               | 5880
+|`OpArbitraryFloatPowRALTERA`              | 5881
+|`OpArbitraryFloatPowNALTERA`              | 5882
+|`OpArbitraryFloatCastALTERA`              | 5841
+|`OpArbitraryFloatCastFromIntALTERA`       | 5842
+|`OpArbitraryFloatCastToIntALTERA`         | 5843
 |====
 
 == Modifications to the SPIR-V Specification Version 1.6
@@ -203,12 +203,12 @@ Controls whether rounding operations can be relaxed to trade correctness for imp
 [width="80%"]
 [cols="15%,20%,65%"]
 |====
-| Value ^| Mode           ^| Behavior
-| 0      | CORRECT_INTEL   | Conform to the rounding mode specified by the instruction's rounding mode operand.
-| 1      | FAITHFUL_INTEL  | Allow some tolerance for error (within 1ULP of the infinitely precise result) for rounding. +
+| Value ^| Mode            ^| Behavior
+| 0      | CORRECT_ALTERA   | Conform to the rounding mode specified by the instruction's rounding mode operand.
+| 1      | FAITHFUL_ALTERA  | Allow some tolerance for error (within 1ULP of the infinitely precise result) for rounding. +
 The returned result is one of the two floating point values closest to the mathematical result.
 
-This mode is useful for devices that can trade CORRECT_INTEL rounding for improved resource utilization.
+This mode is useful for devices that can trade CORRECT_ALTERA rounding for improved resource utilization.
 |====
 
 === Capability
@@ -217,7 +217,7 @@ Modify Section 3.31, *Capability*, adding a row to the Capability table:
 [options="header"]
 |====
 2+^| Capability ^| Implicitly Declares
-| 5845 | *ArbitraryPrecisionFloatingPointINTEL* +
+| 5845 | *ArbitraryPrecisionFloatingPointALTERA* +
 
 Allows the use of various operations for arbitrary precision floating-point math
 
@@ -230,7 +230,7 @@ In Section 3.32.13, *Arithmetic Instructions*, add the following instructions:
 
 [cols="12", width="100%"]
 |=====
-11+<|*OpArbitraryFloatAddINTEL* +
+11+<|*OpArbitraryFloatAddALTERA* +
 
 Two *OpTypeInt* values representing two arbitrary precision floating point numbers are passed in as _A_ and _B_ and the result of `A+B` is returned in _Result_.
 
@@ -243,18 +243,18 @@ Note that the exponent values (Ea, Eb, Eresult) are inferred from the width of t
 
 _Subnormal_ is a SubnormalMode chosen from _Table 3.16a_ that specifies whether subnormal numbers should be supported or flushed to zero before and after the operation.
 
-_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_INTEL".
+_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_ALTERA".
 
 _Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rounding accuracy of the result.
 
 | Capability:
-*ArbitraryPrecisionFloatingPointINTEL*
+*ArbitraryPrecisionFloatingPointALTERA*
 | 11 | 5846 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | B <id> | _Literal_ Mb | _Literal_ Mresult | _SubnormalMode_ Subnormal | _RoundingMode_ Rounding | _RoundingAccuracy_ Accuracy
 |=====
 
 [cols="12", width="100%"]
 |=====
-11+<|*OpArbitraryFloatSubINTEL* +
+11+<|*OpArbitraryFloatSubALTERA* +
 
 Two *OpTypeInt* values representing two arbitrary precision floating point numbers are passed in as _A_ and _B_ and the result of `A-B` is returned in _Result_.
 
@@ -267,18 +267,18 @@ Note that the exponent values (Ea, Eb, Eresult) are inferred from the width of t
 
 _Subnormal_ is a SubnormalMode chosen from _Table 3.16a_ that specifies whether subnormal numbers should be supported or flushed to zero before and after the operation.
 
-_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_INTEL".
+_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_ALTERA".
 
 _Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rounding accuracy of the result.
 
 | Capability:
-*ArbitraryPrecisionFloatingPointINTEL*
+*ArbitraryPrecisionFloatingPointALTERA*
 | 11 | 5847 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | B <id> | _Literal_ Mb | _Literal_ Mresult | _SubnormalMode_ Subnormal | _RoundingMode_ Rounding | _RoundingAccuracy_ Accuracy
 |=====
 
 [cols="12", width="100%"]
 |=====
-11+<|*OpArbitraryFloatMulINTEL* +
+11+<|*OpArbitraryFloatMulALTERA* +
 
 Two *OpTypeInt* values representing two arbitrary precision floating point numbers are passed in as _A_ and _B_ and the result of `A*B` is returned in _Result_.
 
@@ -291,18 +291,18 @@ Note that the exponent values (Ea, Eb, Eresult) are inferred from the width of t
 
 _Subnormal_ is a SubnormalMode chosen from _Table 3.16a_ that specifies whether subnormal numbers should be supported or flushed to zero before and after the operation.
 
-_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_INTEL".
+_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_ALTERA".
 
 _Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rounding accuracy of the result.
 
 | Capability:
-*ArbitraryPrecisionFloatingPointINTEL*
+*ArbitraryPrecisionFloatingPointALTERA*
 | 11 | 5848 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | B <id> | _Literal_ Mb | _Literal_ Mresult | _SubnormalMode_ Subnormal | _RoundingMode_ Rounding | _RoundingAccuracy_ Accuracy
 |=====
 
 [cols="12", width="100%"]
 |=====
-11+<|*OpArbitraryFloatDivINTEL* +
+11+<|*OpArbitraryFloatDivALTERA* +
 
 Two *OpTypeInt* values representing two arbitrary precision floating point numbers are passed in as _A_ and _B_ and the result of `A/B` is returned in _Result_.
 
@@ -315,18 +315,18 @@ Note that the exponent values (Ea, Eb, Eresult) are inferred from the width of t
 
 _Subnormal_ is a SubnormalMode chosen from _Table 3.16a_ that specifies whether subnormal numbers should be supported or flushed to zero before and after the operation.
 
-_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_INTEL".
+_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_ALTERA".
 
 _Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rounding accuracy of the result.
 
 | Capability:
-*ArbitraryPrecisionFloatingPointINTEL*
+*ArbitraryPrecisionFloatingPointALTERA*
 | 11 | 5849 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | B <id> | _Literal_ Mb | _Literal_ Mresult | _SubnormalMode_ Subnormal | _RoundingMode_ Rounding | _RoundingAccuracy_ Accuracy
 |=====
 
 [cols="8", width="100%"]
 |=====
-7+<|*OpArbitraryFloatGTINTEL* +
+7+<|*OpArbitraryFloatGTALTERA* +
 
 Two *OpTypeInt* values representing two arbitrary precision floating point numbers are passed in as _A_ and _B_.
 The two numbers are compared and a value of `true` is returned in _Result_ if `A > B`.
@@ -340,13 +340,13 @@ _Ma_ and _Mb_ are 32-bit unsigned integers that define the mantissa widths of th
 Note that the exponent values (Ea, Eb) are inferred from the width of the *OpTypeInt*.
 
 | Capability:
-*ArbitraryPrecisionFloatingPointINTEL*
+*ArbitraryPrecisionFloatingPointALTERA*
 | 7 | 5850 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | B <id> | _Literal_ Mb
 |=====
 
 [cols="8", width="100%"]
 |=====
-7+<|*OpArbitraryFloatGEINTEL* +
+7+<|*OpArbitraryFloatGEALTERA* +
 
 Two *OpTypeInt* values representing two arbitrary precision floating point numbers are passed in as _A_ and _B_.
 The two numbers are compared and a value of `true` is returned in _Result_ if `A >= B`.
@@ -360,13 +360,13 @@ _Ma_ and _Mb_ are 32-bit unsigned integers that define the mantissa widths of th
 Note that the exponent values (Ea, Eb) are inferred from the width of the *OpTypeInt*.
 
 | Capability:
-*ArbitraryPrecisionFloatingPointINTEL*
+*ArbitraryPrecisionFloatingPointALTERA*
 | 7 | 5851 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | B <id> | _Literal_ Mb
 |=====
 
 [cols="8", width="100%"]
 |=====
-7+<|*OpArbitraryFloatLTINTEL* +
+7+<|*OpArbitraryFloatLTALTERA* +
 
 Two *OpTypeInt* values representing two arbitrary precision floating point numbers are passed in as _A_ and _B_.
 The two numbers are compared and a value of `true` is returned in _Result_ if `A < B`.
@@ -380,13 +380,13 @@ _Ma_ and _Mb_ are 32-bit unsigned integers that define the mantissa widths of th
 Note that the exponent values (Ea, Eb) are inferred from the width of the *OpTypeInt*.
 
 | Capability:
-*ArbitraryPrecisionFloatingPointINTEL*
+*ArbitraryPrecisionFloatingPointALTERA*
 | 7 | 5852 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | B <id> | _Literal_ Mb
 |=====
 
 [cols="8", width="100%"]
 |=====
-7+<|*OpArbitraryFloatLEINTEL* +
+7+<|*OpArbitraryFloatLEALTERA* +
 
 Two *OpTypeInt* values representing two arbitrary precision floating point numbers are passed in as _A_ and _B_.
 The two numbers are compared and a value of `true` is returned in _Result_ if `A <= B`.
@@ -400,13 +400,13 @@ _Ma_ and _Mb_ are 32-bit unsigned integers that define the mantissa widths of th
 Note that the exponent values (Ea, Eb) are inferred from the width of the *OpTypeInt*.
 
 | Capability:
-*ArbitraryPrecisionFloatingPointINTEL*
+*ArbitraryPrecisionFloatingPointALTERA*
 | 7 | 5853 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | B <id> | _Literal_ Mb
 |=====
 
 [cols="8", width="100%"]
 |=====
-7+<|*OpArbitraryFloatEQINTEL* +
+7+<|*OpArbitraryFloatEQALTERA* +
 
 Two *OpTypeInt* values representing two arbitrary precision floating point numbers are passed in as _A_ and _B_.
 The two numbers are compared and a value of `true` is returned in _Result_ if `A == B`.
@@ -420,13 +420,13 @@ _Ma_ and _Mb_ are 32-bit unsigned integers that define the mantissa widths of th
 Note that the exponent values (Ea, Eb) are inferred from the width of the *OpTypeInt*.
 
 | Capability:
-*ArbitraryPrecisionFloatingPointINTEL*
+*ArbitraryPrecisionFloatingPointALTERA*
 | 7 | 5854 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | B <id> | _Literal_ Mb
 |=====
 
 [cols="10", width="100%"]
 |=====
-9+<|*OpArbitraryFloatRecipINTEL* +
+9+<|*OpArbitraryFloatRecipALTERA* +
 
 An *OpTypeInt* representing an arbitrary precision floating point number is passed in as _A_ and the reciprocal of the value is returned in _Result_.
 
@@ -439,18 +439,18 @@ Note that the exponent values (Ea, Eresult) are inferred from the width of the *
 
 _Subnormal_ is a SubnormalMode chosen from _Table 3.16a_ that specifies whether subnormal numbers should be supported or flushed to zero before and after the operation.
 
-_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_INTEL".
+_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_ALTERA".
 
 _Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rounding accuracy of the result.
 
 | Capability:
-*ArbitraryPrecisionFloatingPointINTEL*
+*ArbitraryPrecisionFloatingPointALTERA*
 | 9 | 5855 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | _Literal_ Mresult | _SubnormalMode_ Subnormal | _RoundingMode_ Rounding | _RoundingAccuracy_ Accuracy
 |=====
 
 [cols="10", width="100%"]
 |=====
-9+<|*OpArbitraryFloatRSqrtINTEL* +
+9+<|*OpArbitraryFloatRSqrtALTERA* +
 
 An *OpTypeInt* representing an arbitrary precision floating point number is passed in as _A_ and the reciprocal of the square root of the value is returned in _Result_.
 
@@ -463,18 +463,18 @@ Note that the exponent values (Ea, Eresult) are inferred from the width of the *
 
 _Subnormal_ is a SubnormalMode chosen from _Table 3.16a_ that specifies whether subnormal numbers should be supported or flushed to zero before and after the operation.
 
-_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_INTEL".
+_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_ALTERA".
 
 _Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rounding accuracy of the result.
 
 | Capability:
-*ArbitraryPrecisionFloatingPointINTEL*
+*ArbitraryPrecisionFloatingPointALTERA*
 | 9 | 5856 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | _Literal_ Mresult | _SubnormalMode_ Subnormal | _RoundingMode_ Rounding | _RoundingAccuracy_ Accuracy
 |=====
 
 [cols="10", width="100%"]
 |=====
-9+<|*OpArbitraryFloatCbrtINTEL* +
+9+<|*OpArbitraryFloatCbrtALTERA* +
 
 An *OpTypeInt* representing an arbitrary precision floating point number is passed in as _A_ and the cube root of the value is returned in _Result_.
 
@@ -487,18 +487,18 @@ Note that the exponent values (Ea, Eresult) are inferred from the width of the *
 
 _Subnormal_ is a SubnormalMode chosen from _Table 3.16a_ that specifies whether subnormal numbers should be supported or flushed to zero before and after the operation.
 
-_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_INTEL".
+_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_ALTERA".
 
 _Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rounding accuracy of the result.
 
 | Capability:
-*ArbitraryPrecisionFloatingPointINTEL*
+*ArbitraryPrecisionFloatingPointALTERA*
 | 9 | 5857 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | _Literal_ Mresult | _SubnormalMode_ Subnormal | _RoundingMode_ Rounding | _RoundingAccuracy_ Accuracy
 |=====
 
 [cols="12", width="100%"]
 |=====
-11+<|*OpArbitraryFloatHypotINTEL* +
+11+<|*OpArbitraryFloatHypotALTERA* +
 
 Two *OpTypeInt* values representing two arbitrary precision floating point numbers are passed in as _A_ and _B_ and the hypotenuse, sqrt(_A_^2 + _B_^2), is returned in _Result_.
 
@@ -511,18 +511,18 @@ Note that the exponent values (Ea, Eb, Eresult) are inferred from the width of t
 
 _Subnormal_ is a SubnormalMode chosen from _Table 3.16a_ that specifies whether subnormal numbers should be supported or flushed to zero before and after the operation.
 
-_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_INTEL".
+_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_ALTERA".
 
 _Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rounding accuracy of the result.
 
 | Capability:
-*ArbitraryPrecisionFloatingPointINTEL*
+*ArbitraryPrecisionFloatingPointALTERA*
 | 11 | 5858 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | B <id> | _Literal_ Mb | _Literal_ Mresult | _SubnormalMode_ Subnormal | _RoundingMode_ Rounding | _RoundingAccuracy_ Accuracy
 |=====
 
 [cols="10", width="100%"]
 |=====
-9+<|*OpArbitraryFloatSqrtINTEL* +
+9+<|*OpArbitraryFloatSqrtALTERA* +
 
 An *OpTypeInt* representing an arbitrary precision floating point number is passed in as _A_ and the square root of the value is returned in _Result_.
 
@@ -535,18 +535,18 @@ Note that the exponent values (Ea, Eresult) are inferred from the width of the *
 
 _Subnormal_ is a SubnormalMode chosen from _Table 3.16a_ that specifies whether subnormal numbers should be supported or flushed to zero before and after the operation.
 
-_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_INTEL".
+_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_ALTERA".
 
 _Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rounding accuracy of the result.
 
 | Capability:
-*ArbitraryPrecisionFloatingPointINTEL*
+*ArbitraryPrecisionFloatingPointALTERA*
 | 9 | 5859 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | _Literal_ Mresult | _SubnormalMode_ Subnormal | _RoundingMode_ Rounding | _RoundingAccuracy_ Accuracy
 |=====
 
 [cols="10", width="100%"]
 |=====
-9+<|*OpArbitraryFloatLogINTEL* +
+9+<|*OpArbitraryFloatLogALTERA* +
 
 An *OpTypeInt* representing an arbitrary precision floating point number is passed in as _A_ and the `ln(A)` of the value is returned in _Result_.
 
@@ -559,18 +559,18 @@ Note that the exponent values (Ea, Eresult) are inferred from the width of the *
 
 _Subnormal_ is a SubnormalMode chosen from _Table 3.16a_ that specifies whether subnormal numbers should be supported or flushed to zero before and after the operation.
 
-_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_INTEL".
+_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_ALTERA".
 
 _Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rounding accuracy of the result.
 
 | Capability:
-*ArbitraryPrecisionFloatingPointINTEL*
+*ArbitraryPrecisionFloatingPointALTERA*
 | 9 | 5860 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | _Literal_ Mresult | _SubnormalMode_ Subnormal | _RoundingMode_ Rounding | _RoundingAccuracy_ Accuracy
 |=====
 
 [cols="10", width="100%"]
 |=====
-9+<|*OpArbitraryFloatLog2INTEL* +
+9+<|*OpArbitraryFloatLog2ALTERA* +
 
 An *OpTypeInt* representing an arbitrary precision floating point number is passed in as _A_ the `log2(A)` of the value is returned in _Result_.
 
@@ -583,18 +583,18 @@ Note that the exponent values (Ea, Eresult) are inferred from the width of the *
 
 _Subnormal_ is a SubnormalMode chosen from _Table 3.16a_ that specifies whether subnormal numbers should be supported or flushed to zero before and after the operation.
 
-_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_INTEL".
+_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_ALTERA".
 
 _Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rounding accuracy of the result.
 
 | Capability:
-*ArbitraryPrecisionFloatingPointINTEL*
+*ArbitraryPrecisionFloatingPointALTERA*
 | 9 | 5861 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | _Literal_ Mresult | _SubnormalMode_ Subnormal | _RoundingMode_ Rounding | _RoundingAccuracy_ Accuracy
 |=====
 
 [cols="10", width="100%"]
 |=====
-9+<|*OpArbitraryFloatLog10INTEL* +
+9+<|*OpArbitraryFloatLog10ALTERA* +
 
 An *OpTypeInt* representing an arbitrary precision floating point number is passed in as _A_ and the `log10(A)` of the value is returned in _Result_.
 
@@ -607,18 +607,18 @@ Note that the exponent values (Ea, Eresult) are inferred from the width of the *
 
 _Subnormal_ is a SubnormalMode chosen from _Table 3.16a_ that specifies whether subnormal numbers should be supported or flushed to zero before and after the operation.
 
-_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_INTEL".
+_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_ALTERA".
 
 _Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rounding accuracy of the result.
 
 | Capability:
-*ArbitraryPrecisionFloatingPointINTEL*
+*ArbitraryPrecisionFloatingPointALTERA*
 | 9 | 5862 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | _Literal_ Mresult | _SubnormalMode_ Subnormal | _RoundingMode_ Rounding | _RoundingAccuracy_ Accuracy
 |=====
 
 [cols="10", width="100%"]
 |=====
-9+<|*OpArbitraryFloatLog1pINTEL* +
+9+<|*OpArbitraryFloatLog1pALTERA* +
 
 An *OpTypeInt* representing an arbitrary precision floating point number is passed in as _A_ and the `ln(1+A)` of the value is returned in _Result_.
 
@@ -631,18 +631,18 @@ Note that the exponent values (Ea, Eresult) are inferred from the width of the *
 
 _Subnormal_ is a SubnormalMode chosen from _Table 3.16a_ that specifies whether subnormal numbers should be supported or flushed to zero before and after the operation.
 
-_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_INTEL".
+_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_ALTERA".
 
 _Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rounding accuracy of the result.
 
 | Capability:
-*ArbitraryPrecisionFloatingPointINTEL*
+*ArbitraryPrecisionFloatingPointALTERA*
 | 9 | 5863 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | _Literal_ Mresult | _SubnormalMode_ Subnormal | _RoundingMode_ Rounding | _RoundingAccuracy_ Accuracy
 |=====
 
 [cols="10", width="100%"]
 |=====
-9+<|*OpArbitraryFloatExpINTEL* +
+9+<|*OpArbitraryFloatExpALTERA* +
 
 An *OpTypeInt* representing an arbitrary precision floating point number is passed in as _A_ and the `e^(A)` of the value is returned in _Result_.
 
@@ -655,18 +655,18 @@ Note that the exponent values (Ea, Eresult) are inferred from the width of the *
 
 _Subnormal_ is a SubnormalMode chosen from _Table 3.16a_ that specifies whether subnormal numbers should be supported or flushed to zero before and after the operation.
 
-_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_INTEL".
+_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_ALTERA".
 
 _Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rounding accuracy of the result.
 
 | Capability:
-*ArbitraryPrecisionFloatingPointINTEL*
+*ArbitraryPrecisionFloatingPointALTERA*
 | 9 | 5864 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | _Literal_ Mresult | _SubnormalMode_ Subnormal | _RoundingMode_ Rounding | _RoundingAccuracy_ Accuracy
 |=====
 
 [cols="10", width="100%"]
 |=====
-9+<|*OpArbitraryFloatExp2INTEL* +
+9+<|*OpArbitraryFloatExp2ALTERA* +
 
 An *OpTypeInt* representing an arbitrary precision floating point number is passed in as _A_ and the `2^(A)` of the value is returned in _Result_.
 
@@ -679,18 +679,18 @@ Note that the exponent values (Ea, Eresult) are inferred from the width of the *
 
 _Subnormal_ is a SubnormalMode chosen from _Table 3.16a_ that specifies whether subnormal numbers should be supported or flushed to zero before and after the operation.
 
-_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_INTEL".
+_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_ALTERA".
 
 _Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rounding accuracy of the result.
 
 | Capability:
-*ArbitraryPrecisionFloatingPointINTEL*
+*ArbitraryPrecisionFloatingPointALTERA*
 | 9 | 5865 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | _Literal_ Mresult | _SubnormalMode_ Subnormal | _RoundingMode_ Rounding | _RoundingAccuracy_ Accuracy
 |=====
 
 [cols="10", width="100%"]
 |=====
-9+<|*OpArbitraryFloatExp10INTEL* +
+9+<|*OpArbitraryFloatExp10ALTERA* +
 
 An *OpTypeInt* representing an arbitrary precision floating point number is passed in as _A_ and the `10^(A)` of the value is returned in _Result_.
 
@@ -703,18 +703,18 @@ Note that the exponent values (Ea, Eresult) are inferred from the width of the *
 
 _Subnormal_ is a SubnormalMode chosen from _Table 3.16a_ that specifies whether subnormal numbers should be supported or flushed to zero before and after the operation.
 
-_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_INTEL".
+_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_ALTERA".
 
 _Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rounding accuracy of the result.
 
 | Capability:
-*ArbitraryPrecisionFloatingPointINTEL*
+*ArbitraryPrecisionFloatingPointALTERA*
 | 9 | 5866 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | _Literal_ Mresult | _SubnormalMode_ Subnormal | _RoundingMode_ Rounding | _RoundingAccuracy_ Accuracy
 |=====
 
 [cols="10", width="100%"]
 |=====
-9+<|*OpArbitraryFloatExpm1INTEL* +
+9+<|*OpArbitraryFloatExpm1ALTERA* +
 
 An *OpTypeInt* representing an arbitrary precision floating point number is passed in as _A_ and the `(e^A)-1` of the value is returned in _Result_.
 
@@ -727,18 +727,18 @@ Note that the exponent values (Ea, Eresult) are inferred from the width of the *
 
 _Subnormal_ is a SubnormalMode chosen from _Table 3.16a_ that specifies whether subnormal numbers should be supported or flushed to zero before and after the operation.
 
-_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_INTEL".
+_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_ALTERA".
 
 _Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rounding accuracy of the result.
 
 | Capability:
-*ArbitraryPrecisionFloatingPointINTEL*
+*ArbitraryPrecisionFloatingPointALTERA*
 | 9 | 5867 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | _Literal_ Mresult | _SubnormalMode_ Subnormal | _RoundingMode_ Rounding | _RoundingAccuracy_ Accuracy
 |=====
 
 [cols="10", width="100%"]
 |=====
-9+<|*OpArbitraryFloatSinINTEL* +
+9+<|*OpArbitraryFloatSinALTERA* +
 
 An *OpTypeInt* representing an arbitrary precision floating point number is passed in as _A_ and the sine of the value is returned in _Result_.
 
@@ -751,18 +751,18 @@ Note that the exponent values (Ea, Eresult) are inferred from the width of the *
 
 _Subnormal_ is a SubnormalMode chosen from _Table 3.16a_ that specifies whether subnormal numbers should be supported or flushed to zero before and after the operation.
 
-_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_INTEL".
+_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_ALTERA".
 
 _Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rounding accuracy of the result.
 
 | Capability:
-*ArbitraryPrecisionFloatingPointINTEL*
+*ArbitraryPrecisionFloatingPointALTERA*
 | 9 | 5868 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | _Literal_ Mresult | _SubnormalMode_ Subnormal | _RoundingMode_ Rounding | _RoundingAccuracy_ Accuracy
 |=====
 
 [cols="10", width="100%"]
 |=====
-9+<|*OpArbitraryFloatCosINTEL* +
+9+<|*OpArbitraryFloatCosALTERA* +
 
 An *OpTypeInt* representing an arbitrary precision floating point number is passed in as _A_ and the cosine of the value is returned in _Result_.
 
@@ -775,18 +775,18 @@ Note that the exponent values (Ea, Eresult) are inferred from the width of the *
 
 _Subnormal_ is a SubnormalMode chosen from _Table 3.16a_ that specifies whether subnormal numbers should be supported or flushed to zero before and after the operation.
 
-_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_INTEL".
+_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_ALTERA".
 
 _Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rounding accuracy of the result.
 
 | Capability:
-*ArbitraryPrecisionFloatingPointINTEL*
+*ArbitraryPrecisionFloatingPointALTERA*
 | 9 | 5869 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | _Literal_ Mresult | _SubnormalMode_ Subnormal | _RoundingMode_ Rounding | _RoundingAccuracy_ Accuracy
 |=====
 
 [cols="10", width="100%"]
 |=====
-9+<|*OpArbitraryFloatSinCosINTEL* +
+9+<|*OpArbitraryFloatSinCosALTERA* +
 
 An *OpTypeInt* representing an arbitrary precision floating point number is passed in as _A_ and the sine and cosine of the value is returned in _Result_.
 
@@ -797,18 +797,18 @@ Note that the exponent values (Ea, Eresult) are inferred from the width of the *
 
 _Subnormal_ is a SubnormalMode chosen from _Table 3.16a_ that specifies whether subnormal numbers should be supported or flushed to zero before and after the operation.
 
-_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_INTEL".
+_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_ALTERA".
 
 _Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rounding accuracy of the result.
 
 | Capability:
-*ArbitraryPrecisionFloatingPointINTEL*
+*ArbitraryPrecisionFloatingPointALTERA*
 | 9 | 5870 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | _Literal_ Mresult | _SubnormalMode_ Subnormal | _RoundingMode_ Rounding | _RoundingAccuracy_ Accuracy
 |=====
 
 [cols="10", width="100%"]
 |=====
-9+<|*OpArbitraryFloatSinPiINTEL* +
+9+<|*OpArbitraryFloatSinPiALTERA* +
 
 An *OpTypeInt* representing an arbitrary precision floating point number is passed in as _A_ and the `sin(A*pi)` is returned in _Result_.
 
@@ -821,18 +821,18 @@ Note that the exponent values (Ea, Eresult) are inferred from the width of the *
 
 _Subnormal_ is a SubnormalMode chosen from _Table 3.16a_ that specifies whether subnormal numbers should be supported or flushed to zero before and after the operation.
 
-_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_INTEL".
+_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_ALTERA".
 
 _Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rounding accuracy of the result.
 
 | Capability:
-*ArbitraryPrecisionFloatingPointINTEL*
+*ArbitraryPrecisionFloatingPointALTERA*
 | 9 | 5871 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | _Literal_ Mresult | _SubnormalMode_ Subnormal | _RoundingMode_ Rounding | _RoundingAccuracy_ Accuracy
 |=====
 
 [cols="10", width="100%"]
 |=====
-9+<|*OpArbitraryFloatCosPiINTEL* +
+9+<|*OpArbitraryFloatCosPiALTERA* +
 
 An *OpTypeInt* representing an arbitrary precision floating point number is passed in as _A_ and the `cos(A*pi)` is returned in _Result_.
 
@@ -845,18 +845,18 @@ Note that the exponent values (Ea, Eresult) are inferred from the width of the *
 
 _Subnormal_ is a SubnormalMode chosen from _Table 3.16a_ that specifies whether subnormal numbers should be supported or flushed to zero before and after the operation.
 
-_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_INTEL".
+_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_ALTERA".
 
 _Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rounding accuracy of the result.
 
 | Capability:
-*ArbitraryPrecisionFloatingPointINTEL*
+*ArbitraryPrecisionFloatingPointALTERA*
 | 9 | 5872 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | _Literal_ Mresult | _SubnormalMode_ Subnormal | _RoundingMode_ Rounding | _RoundingAccuracy_ Accuracy
 |=====
 
 [cols="10", width="100%"]
 |=====
-9+<|*OpArbitraryFloatSinCosPiINTEL* +
+9+<|*OpArbitraryFloatSinCosPiALTERA* +
 
 An *OpTypeInt* representing an arbitrary precision floating point number is passed in as _A_ and the sine and cosine of `A*pi` is returned in _Result_.
 
@@ -867,18 +867,18 @@ Note that the exponent values (Ea, Eresult) are inferred from the width of the *
 
 _Subnormal_ is a SubnormalMode chosen from _Table 3.16a_ that specifies whether subnormal numbers should be supported or flushed to zero before and after the operation.
 
-_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_INTEL".
+_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_ALTERA".
 
 _Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rounding accuracy of the result.
 
 | Capability:
-*ArbitraryPrecisionFloatingPointINTEL*
+*ArbitraryPrecisionFloatingPointALTERA*
 | 9 | 5840 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | _Literal_ Mresult | _SubnormalMode_ Subnormal | _RoundingMode_ Rounding | _RoundingAccuracy_ Accuracy
 |=====
 
 [cols="10", width="100%"]
 |=====
-9+<|*OpArbitraryFloatASinINTEL* +
+9+<|*OpArbitraryFloatASinALTERA* +
 
 An *OpTypeInt* representing an arbitrary precision floating point number is passed in as _A_ and the `arcsin(A)` is returned in _Result_.
 
@@ -891,18 +891,18 @@ Note that the exponent values (Ea, Eresult) are inferred from the width of the *
 
 _Subnormal_ is a SubnormalMode chosen from _Table 3.16a_ that specifies whether subnormal numbers should be supported or flushed to zero before and after the operation.
 
-_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_INTEL".
+_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_ALTERA".
 
 _Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rounding accuracy of the result.
 
 | Capability:
-*ArbitraryPrecisionFloatingPointINTEL*
+*ArbitraryPrecisionFloatingPointALTERA*
 | 9 | 5873 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | _Literal_ Mresult | _SubnormalMode_ Subnormal | _RoundingMode_ Rounding | _RoundingAccuracy_ Accuracy
 |=====
 
 [cols="10", width="100%"]
 |=====
-9+<|*OpArbitraryFloatASinPiINTEL* +
+9+<|*OpArbitraryFloatASinPiALTERA* +
 
 An *OpTypeInt* representing an arbitrary precision floating point number is passed in as _A_ and the `arcsin(A)/pi` is returned in _Result_.
 
@@ -915,18 +915,18 @@ Note that the exponent values (Ea, Eresult) are inferred from the width of the *
 
 _Subnormal_ is a SubnormalMode chosen from _Table 3.16a_ that specifies whether subnormal numbers should be supported or flushed to zero before and after the operation.
 
-_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_INTEL".
+_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_ALTERA".
 
 _Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rounding accuracy of the result.
 
 | Capability:
-*ArbitraryPrecisionFloatingPointINTEL*
+*ArbitraryPrecisionFloatingPointALTERA*
 | 9 | 5874 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | _Literal_ Mresult | _SubnormalMode_ Subnormal | _RoundingMode_ Rounding | _RoundingAccuracy_ Accuracy
 |=====
 
 [cols="10", width="100%"]
 |=====
-9+<|*OpArbitraryFloatACosINTEL* +
+9+<|*OpArbitraryFloatACosALTERA* +
 
 An *OpTypeInt* representing an arbitrary precision floating point number is passed in as _A_ and the `arccos(A)` is returned in _Result_.
 
@@ -939,18 +939,18 @@ Note that the exponent values (Ea, Eresult) are inferred from the width of the *
 
 _Subnormal_ is a SubnormalMode chosen from _Table 3.16a_ that specifies whether subnormal numbers should be supported or flushed to zero before and after the operation.
 
-_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_INTEL".
+_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_ALTERA".
 
 _Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rounding accuracy of the result.
 
 | Capability:
-*ArbitraryPrecisionFloatingPointINTEL*
+*ArbitraryPrecisionFloatingPointALTERA*
 | 9 | 5875 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | _Literal_ Mresult | _SubnormalMode_ Subnormal | _RoundingMode_ Rounding | _RoundingAccuracy_ Accuracy
 |=====
 
 [cols="10", width="100%"]
 |=====
-9+<|*OpArbitraryFloatACosPiINTEL* +
+9+<|*OpArbitraryFloatACosPiALTERA* +
 
 An *OpTypeInt* representing an arbitrary precision floating point number is passed in as _A_ and the `arccos(A)/pi` is returned in _Result_.
 
@@ -963,18 +963,18 @@ Note that the exponent values (Ea, Eresult) are inferred from the width of the *
 
 _Subnormal_ is a SubnormalMode chosen from _Table 3.16a_ that specifies whether subnormal numbers should be supported or flushed to zero before and after the operation.
 
-_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_INTEL".
+_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_ALTERA".
 
 _Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rounding accuracy of the result.
 
 | Capability:
-*ArbitraryPrecisionFloatingPointINTEL*
+*ArbitraryPrecisionFloatingPointALTERA*
 | 9 | 5876 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | _Literal_ Mresult | _SubnormalMode_ Subnormal | _RoundingMode_ Rounding | _RoundingAccuracy_ Accuracy
 |=====
 
 [cols="10", width="100%"]
 |=====
-9+<|*OpArbitraryFloatATanINTEL* +
+9+<|*OpArbitraryFloatATanALTERA* +
 
 An *OpTypeInt* representing an arbitrary precision floating point number is passed in as _A_ and the `arctan(A)` is returned in _Result_.
 
@@ -987,18 +987,18 @@ Note that the exponent values (Ea, Eresult) are inferred from the width of the *
 
 _Subnormal_ is a SubnormalMode chosen from _Table 3.16a_ that specifies whether subnormal numbers should be supported or flushed to zero before and after the operation.
 
-_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_INTEL".
+_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_ALTERA".
 
 _Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rounding accuracy of the result.
 
 | Capability:
-*ArbitraryPrecisionFloatingPointINTEL*
+*ArbitraryPrecisionFloatingPointALTERA*
 | 9 | 5877 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | _Literal_ Mresult | _SubnormalMode_ Subnormal | _RoundingMode_ Rounding | _RoundingAccuracy_ Accuracy
 |=====
 
 [cols="10", width="100%"]
 |=====
-9+<|*OpArbitraryFloatATanPiINTEL* +
+9+<|*OpArbitraryFloatATanPiALTERA* +
 
 An *OpTypeInt* representing an arbitrary precision floating point number is passed in as _A_ and the `arctan(A)/pi` is returned in _Result_.
 
@@ -1011,18 +1011,18 @@ Note that the exponent values (Ea, Eresult) are inferred from the width of the *
 
 _Subnormal_ is a SubnormalMode chosen from _Table 3.16a_ that specifies whether subnormal numbers should be supported or flushed to zero before and after the operation.
 
-_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_INTEL".
+_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_ALTERA".
 
 _Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rounding accuracy of the result.
 
 | Capability:
-*ArbitraryPrecisionFloatingPointINTEL*
+*ArbitraryPrecisionFloatingPointALTERA*
 | 9 | 5878 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | _Literal_ Mresult | _SubnormalMode_ Subnormal | _RoundingMode_ Rounding | _RoundingAccuracy_ Accuracy
 |=====
 
 [cols="12", width="100%"]
 |=====
-11+<|*OpArbitraryFloatATan2INTEL* +
+11+<|*OpArbitraryFloatATan2ALTERA* +
 
 Two *OpTypeInt* values representing two arbitrary precision floating point numbers are passed in as _A_ and _B_ and the `arctan2(A,B) = arctan(A/B)` is returned in _Result_.
 
@@ -1035,18 +1035,18 @@ Note that the exponent values (Ea, Eb, Eresult) are inferred from the width of t
 
 _Subnormal_ is a SubnormalMode chosen from _Table 3.16a_ that specifies whether subnormal numbers should be supported or flushed to zero before and after the operation.
 
-_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_INTEL".
+_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_ALTERA".
 
 _Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rounding accuracy of the result.
 
 | Capability:
-*ArbitraryPrecisionFloatingPointINTEL*
+*ArbitraryPrecisionFloatingPointALTERA*
 | 11 | 5879 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | B <id> | _Literal_ Mb | _Literal_ Mresult | _SubnormalMode_ Subnormal | _RoundingMode_ Rounding | _RoundingAccuracy_ Accuracy
 |=====
 
 [cols="12", width="100%"]
 |=====
-11+<|*OpArbitraryFloatPowINTEL* +
+11+<|*OpArbitraryFloatPowALTERA* +
 
 Two *OpTypeInt* values representing two arbitrary precision floating point numbers are passed in as _A_ and _B_ and the value of `A^B` is returned in _Result_.
 
@@ -1059,18 +1059,18 @@ Note that the exponent values (Ea, Eb, Eresult) are inferred from the width of t
 
 _Subnormal_ is a SubnormalMode chosen from _Table 3.16a_ that specifies whether subnormal numbers should be supported or flushed to zero before and after the operation.
 
-_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_INTEL".
+_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_ALTERA".
 
 _Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rounding accuracy of the result.
 
 | Capability:
-*ArbitraryPrecisionFloatingPointINTEL*
+*ArbitraryPrecisionFloatingPointALTERA*
 | 11 | 5880 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | B <id> | _Literal_ Mb | _Literal_ Mresult | _SubnormalMode_ Subnormal | _RoundingMode_ Rounding | _RoundingAccuracy_ Accuracy
 |=====
 
 [cols="12", width="100%"]
 |=====
-11+<|*OpArbitraryFloatPowRINTEL* +
+11+<|*OpArbitraryFloatPowRALTERA* +
 
 Two *OpTypeInt* values representing two arbitrary precision floating point numbers are passed in as _A_ and _B_.
 The value of `A^B` is returned in _Result_. However, `A >= 0`, otherwise, the result is undefined.
@@ -1084,18 +1084,18 @@ Note that the exponent values (Ea, Eb, Eresult) are inferred from the width of t
 
 _Subnormal_ is a SubnormalMode chosen from _Table 3.16a_ that specifies whether subnormal numbers should be supported or flushed to zero before and after the operation.
 
-_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_INTEL".
+_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_ALTERA".
 
 _Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rounding accuracy of the result.
 
 | Capability:
-*ArbitraryPrecisionFloatingPointINTEL*
+*ArbitraryPrecisionFloatingPointALTERA*
 | 11 | 5881 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | B <id> | _Literal_ Mb | _Literal_ Mresult | _SubnormalMode_ Subnormal | _RoundingMode_ Rounding | _RoundingAccuracy_ Accuracy
 |=====
 
 [cols="12", width="100%"]
 |=====
-11+<|*OpArbitraryFloatPowNINTEL* +
+11+<|*OpArbitraryFloatPowNALTERA* +
 
 Two *OpTypeInt* values representing an arbitrary precision floating point number and an arbitrary precision integer number of signedness _SignOfB_ are passed in as _A_ and _B_ respectively.
 The value of `A^B` is returned in _Result_ where `B` is a signed or unsigned integer of arbitrary size.
@@ -1111,18 +1111,18 @@ _SignOfB_ specifies whether _B_ is signed or unsigned.
 
 _Subnormal_ is a SubnormalMode chosen from _Table 3.16a_ that specifies whether subnormal numbers should be supported or flushed to zero before and after the operation.
 
-_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_INTEL".
+_Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding mode for the result. It is ignored if the _Accuracy_ operand is set to "FAITHFUL_ALTERA".
 
 _Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rounding accuracy of the result.
 
 | Capability:
-*ArbitraryPrecisionFloatingPointINTEL*
+*ArbitraryPrecisionFloatingPointALTERA*
 | 11 | 5882 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | B <id> | _Literal_ SignOfB | _Literal_ Mresult | _SubnormalMode_ Subnormal | _RoundingMode_ Rounding | _RoundingAccuracy_ Accuracy
 |=====
 
 [cols="10", width="100%"]
 |=====
-9+<|*OpArbitraryFloatCastINTEL* +
+9+<|*OpArbitraryFloatCastALTERA* +
 
 An *OpTypeInt* representing an arbitrary precision floating point number is passed in as _A_.
 It is type converted into an arbitrary precision floating point number with the new specification (Eresult, Mresult) and returned as _Result_.
@@ -1140,13 +1140,13 @@ _Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding
 _Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rounding accuracy of the result.
 
 | Capability:
-*ArbitraryPrecisionFloatingPointINTEL*
+*ArbitraryPrecisionFloatingPointALTERA*
 | 9 | 5841 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | _Literal_ Mresult | _SubnormalMode_ Subnormal | _RoundingMode_ Rounding | _RoundingAccuracy_ Accuracy
 |=====
 
 [cols="10", width="100%"]
 |=====
-9+<|*OpArbitraryFloatCastFromIntINTEL* +
+9+<|*OpArbitraryFloatCastFromIntALTERA* +
 
 An *OpTypeInt* representing an integer of signedness _FromSign_ is passed in as _A_.
 It is type converted into an arbitrary precision floating point number with the specification (Eresult, Mresult) and sign _FromSign_. The result of the convert operation is returned in _Result_.
@@ -1164,13 +1164,13 @@ _Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding
 _Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rounding accuracy of the result.
 
 | Capability:
-*ArbitraryPrecisionFloatingPointINTEL*
+*ArbitraryPrecisionFloatingPointALTERA*
 | 9 | 5842 | <id> Result Type | Result <id> | A <id> | _Literal_ Mresult | _Literal_ FromSign | _SubnormalMode_ Subnormal |  _RoundingMode_ Rounding | _RoundingAccurcy_ Accuracy
 |=====
 
 [cols="10", width="100%"]
 |=====
-9+<|*OpArbitraryFloatCastToIntINTEL* +
+9+<|*OpArbitraryFloatCastToIntALTERA* +
 
 An *OpTypeInt* representing an arbitrary precision floating point number is passed in as _A_.
 It is type converted into an integer with signedness _ToSign_ and returned as _Result_.
@@ -1188,7 +1188,7 @@ _Rounding_ is a RoundingMode chosen from _Table 3.16_ that controls the rounding
 _Accuracy_ is a RoundingAccuracy chosen from _Table 3.16d_ that controls the rounding accuracy of the result.
 
 | Capability:
-*ArbitraryPrecisionFloatingPointINTEL*
+*ArbitraryPrecisionFloatingPointALTERA*
 | 9 | 5843 | <id> Result Type | Result <id> | A <id> | _Literal_ Ma | _Literal_ ToSign | _SubnormalMode_ Subnormal |  _RoundingMode_ Rounding | _RoundingAccuracy_ Accuracy
 |=====
 

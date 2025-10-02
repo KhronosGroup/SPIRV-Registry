@@ -1,9 +1,9 @@
-SPV_INTEL_fpga_latency_control
-==============================
+SPV_ALTERA_fpga_latency_control
+===============================
 
 == Name Strings
 
-SPV_INTEL_fpga_latency_control
+SPV_ALTERA_fpga_latency_control
 
 == Contact
 
@@ -38,7 +38,7 @@ Version 1.6 Revision 2.
 
 This extension requires SPIR-V 1.0.
 
-This extension specifies interaction with the SPV_INTEL_blocking_pipes extension.
+This extension specifies interaction with the SPV_ALTERA_blocking_pipes extension.
 
 == Overview
 
@@ -50,7 +50,7 @@ The behavior is implementation-defined if the combination of constraints specifi
 To use this extension within a SPIR-V module, the following *OpExtension* must be present in the module:
 
 ----
-OpExtension "SPV_INTEL_fpga_latency_control"
+OpExtension "SPV_ALTERA_fpga_latency_control"
 ----
 
 == New Capabilities
@@ -58,16 +58,16 @@ OpExtension "SPV_INTEL_fpga_latency_control"
 This extension introduces a new capability:
 
 ----
-FPGALatencyControlINTEL
+FPGALatencyControlALTERA
 ----
 
 == New Decorations
 
-Decorations added under the *FPGALatencyControlINTEL* capability:
+Decorations added under the *FPGALatencyControlALTERA* capability:
 
 ----
-LatencyControlLabelINTEL
-LatencyControlConstraintINTEL
+LatencyControlLabelALTERA
+LatencyControlConstraintALTERA
 ----
 
 == Token Number Assignments
@@ -77,9 +77,9 @@ LatencyControlConstraintINTEL
 [cols="70%,30%"]
 [grid="rows"]
 |====
-|FPGALatencyControlINTEL | 6171
-|LatencyControlLabelINTEL | 6172
-|LatencyControlConstraintINTEL | 6173
+|FPGALatencyControlALTERA | 6171
+|LatencyControlLabelALTERA | 6172
+|LatencyControlConstraintALTERA | 6173
 |====
 --
 
@@ -94,20 +94,20 @@ Modify Section 3.20, Decoration, adding these rows to the Decoration table:
 2+^| Decoration 3+^| Extra Operands	^| Enabling Capabilities
 
 // --- ROW BREAK ---
-| 6172 | *LatencyControlLabelINTEL* +
-Apply to an object of type OpTypePointer or OpTypePipe. If that object is used as the pointer operand by an OpLoad or OpStore instruction (for OpTypePointer) or the pipe operand by an OpReadPipe, OpWritePipe, OpReadPipeBlockingINTEL, or OpWritePipeBlockingINTEL instruction (for OpTypePipe) then this decoration conveys latency control information about that instruction. Any such instructions will be referred to as the "labeled instructions" corresponding to the decoration.
+| 6172 | *LatencyControlLabelALTERA* +
+Apply to an object of type OpTypePointer or OpTypePipe. If that object is used as the pointer operand by an OpLoad or OpStore instruction (for OpTypePointer) or the pipe operand by an OpReadPipe, OpWritePipe, OpReadPipeBlockingALTERA, or OpWritePipeBlockingALTERA instruction (for OpTypePipe) then this decoration conveys latency control information about that instruction. Any such instructions will be referred to as the "labeled instructions" corresponding to the decoration.
 
-_Latency Label_ is a 32-bit signed integer type scalar that labels the labeled instruction so that it may be referred to in *LatencyControlConstraintINTEL* decorations.
+_Latency Label_ is a 32-bit signed integer type scalar that labels the labeled instruction so that it may be referred to in *LatencyControlConstraintALTERA* decorations.
 3+| Literal Number +
-_Latency Label_ | *FPGALatencyControlINTEL*
+_Latency Label_ | *FPGALatencyControlALTERA*
 
 // --- ROW BREAK ---
-| 6173 | *LatencyControlConstraintINTEL* +
-Apply to an object of type OpTypePointer or OpTypePipe. If that object is used as the pointer operand by an OpLoad or OpStore instruction (for OpTypePointer) or the pipe operand by an OpReadPipe, OpWritePipe, OpReadPipeBlockingINTEL, or OpWritePipeBlockingINTEL instruction (for OpTypePipe) then this decoration conveys latency control information about that instruction. Any such instructions will be referred to as the "constrained instructions" corresponding to the decoration.
+| 6173 | *LatencyControlConstraintALTERA* +
+Apply to an object of type OpTypePointer or OpTypePipe. If that object is used as the pointer operand by an OpLoad or OpStore instruction (for OpTypePointer) or the pipe operand by an OpReadPipe, OpWritePipe, OpReadPipeBlockingALTERA, or OpWritePipeBlockingALTERA instruction (for OpTypePipe) then this decoration conveys latency control information about that instruction. Any such instructions will be referred to as the "constrained instructions" corresponding to the decoration.
 
 _Relative To_, _Control Type_, and _Relative Cycle_ constrain the cycle on which the constrained instruction can be scheduled.
 
-_Relative To_ is a 32-bit signed integer type scalar that identifies the labeled instruction relative to which the constrained instruction associated with this decoration is being constrained. It corresponds to the _Latency Label_ operand of a *LatencyControlLabelINTEL* decoration.
+_Relative To_ is a 32-bit signed integer type scalar that identifies the labeled instruction relative to which the constrained instruction associated with this decoration is being constrained. It corresponds to the _Latency Label_ operand of a *LatencyControlLabelALTERA* decoration.
 
 _Relative Cycle_ is a 32-bit signed integer type scalar whose meaning depends on _Control Type_.
 
@@ -121,7 +121,7 @@ If _Control Type_ is equal to 3, it indicates that the latency between the label
 | Literal Number +
 _Relative To_ | Literal Number +
 _Control Type_ | Literal Number +
-_Relative Cycle_ | *FPGALatencyControlINTEL*
+_Relative Cycle_ | *FPGALatencyControlALTERA*
 |====
 --
 
@@ -134,7 +134,7 @@ Modify Section 3.31, Capability, adding a row to the Capability table:
 [options="header"]
 |====
 2+^| Capability ^| Implicitly Declares
-| 6171 | FPGALatencyControlINTEL |
+| 6171 | FPGALatencyControlALTERA |
 |====
 --
 

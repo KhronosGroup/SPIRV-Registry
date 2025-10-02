@@ -1,9 +1,9 @@
-SPV_INTEL_io_pipes
-==================
+SPV_ALTERA_io_pipes
+===================
 
 == Name Strings
 
-SPV_INTEL_io_pipes
+SPV_ALTERA_io_pipes
 
 == Contact
 
@@ -47,7 +47,7 @@ This extension adds a decoration to identify pipes that correspond to hardware p
 To use this extension within a SPIR-V module, the following *OpExtension* must be present in the module:
 
 ----
-OpExtension "SPV_INTEL_io_pipes"
+OpExtension "SPV_ALTERA_io_pipes"
 ----
 
 == New Capabilities
@@ -55,15 +55,15 @@ OpExtension "SPV_INTEL_io_pipes"
 This extension introduces a new capability:
 
 ----
-IOPipesINTEL
+IOPipesALTERA
 ----
 
 == New Decorations
 
-Decorations added under the *IOPipesINTEL* capability:
+Decorations added under the *IOPipesALTERA* capability:
 
 ----
-IOPipeStorageINTEL
+IOPipeStorageALTERA
 ----
 
 == Token Number Assignments
@@ -73,8 +73,8 @@ IOPipeStorageINTEL
 [cols="70%,30%"]
 [grid="rows"]
 |====
-| IOPipesINTEL | 5943
-| IOPipeStorageINTEL | 5944
+| IOPipesALTERA | 5943
+| IOPipeStorageALTERA | 5944
 |==== 
 --
 
@@ -88,10 +88,10 @@ Modify Section 3.20, Decoration, adding these rows to the Decoration table:
 [options="header"]
 |====
 2+^| Decoration	^| Extra Operands 2+^| Enabling Capabilities
-| 5944 | *IOPipeStorageINTEL* +
+| 5944 | *IOPipeStorageALTERA* +
 Apply to a pipe-storage object created from *OpConstantPipeStorage*.  Indicates that the pipe storage object provides access to a hardware peripheral identified by the specified ID.
 | Literal Number + 
-_IO Pipe ID_ 2+| *IOPipesINTEL* 
+_IO Pipe ID_ 2+| *IOPipesALTERA* 
 |====
 --
 
@@ -103,7 +103,7 @@ Modify Section 3.31, Capability, adding a row to the Capability table:
 [options="header"]
 |====
 2+^| Capability ^| Implicitly Declares
-| 5943 | *IOPipesINTEL* |
+| 5943 | *IOPipesALTERA* |
 |====
 --
 

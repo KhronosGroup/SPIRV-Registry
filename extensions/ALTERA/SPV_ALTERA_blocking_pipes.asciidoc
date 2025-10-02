@@ -1,9 +1,9 @@
-SPV_INTEL_blocking_pipes
-========================
+SPV_ALTERA_blocking_pipes
+=========================
 
 == Name Strings
 
-SPV_INTEL_blocking_pipes
+SPV_ALTERA_blocking_pipes
 
 == Contact
 
@@ -47,7 +47,7 @@ This extension adds new pipe read and write functions that have blocking semanti
 To use this extension within a SPIR-V module, the following *OpExtension* must be present in the module:
 
 ----
-OpExtension "SPV_INTEL_blocking_pipes"
+OpExtension "SPV_ALTERA_blocking_pipes"
 ----
 
 == New Capabilities
@@ -55,16 +55,16 @@ OpExtension "SPV_INTEL_blocking_pipes"
 This extension introduces a new capability:
 
 ----
-BlockingPipesINTEL
+BlockingPipesALTERA
 ----
 
 == New Instructions
 
-Instructions added under the *BlockingPipesINTEL* capability:
+Instructions added under the *BlockingPipesALTERA* capability:
 
 ----
-OpReadPipeBlockingINTEL
-OpWritePipeBlockingINTEL
+OpReadPipeBlockingALTERA
+OpWritePipeBlockingALTERA
 ----
 
 == Token Number Assignments
@@ -74,9 +74,9 @@ OpWritePipeBlockingINTEL
 [cols="70%,30%"]
 [grid="rows"]
 |====
-|BlockingPipesINTEL | 5945
-|OpReadPipeBlockingINTEL | 5946
-|OpWritePipeBlockingINTEL  | 5947
+|BlockingPipesALTERA | 5945
+|OpReadPipeBlockingALTERA | 5946
+|OpWritePipeBlockingALTERA  | 5947
 |==== 
 --
 
@@ -89,16 +89,16 @@ Modify section 3.31, Capability, adding a row to the capability table:
 [options="header"]
 |====
 2+^| Capability ^| Implicitly Declares
-| 5945 | BlockingPipesINTEL | *Pipes*
+| 5945 | BlockingPipesALTERA | *Pipes*
 |====
 --
 
 === Instructions
-In section 3.32.23, Pipe Instructions, add two new instructions: *OpReadPipeBlockingINTEL* and *OpWritePipeBlockingINTEL*, as follows:
+In section 3.32.23, Pipe Instructions, add two new instructions: *OpReadPipeBlockingALTERA* and *OpWritePipeBlockingALTERA*, as follows:
 
 [cols="6", width="100%"]
 |=====
-5+|*OpReadPipeBlockingINTEL* +
+5+|*OpReadPipeBlockingALTERA* +
 
 Read a packet from the pipe object specified by _Pipe_ into _Pointer_.  This instruction will not return until the read has completed successfully and thus if the pipe is empty it will block until there is data in the pipe. +
 
@@ -116,7 +116,7 @@ _Packet Size_ and _Packet Alignment_ must satisfy the following: +
 
 For concrete types, _Packet Alignment_ should equal _Packet Size_.  For aggregate types, _Packet Alignment_ should be the size of the largest primitive type in the hierarchy of types.
 | Capability: +
-*BlockingPipesINTEL*
+*BlockingPipesALTERA*
 
 | 5 | 5946 | <id> +
 _Pipe_ | <id> + 
@@ -127,7 +127,7 @@ _Packet Alignment_
 
 [cols="6", width="100%"]
 |=====
-5+|*OpWritePipeBlockingINTEL* +
+5+|*OpWritePipeBlockingALTERA* +
 
 Write a packet from _Pointer_ to the pipe object specified by _Pipe_. This instruction will not return until the write has completed successfully and thus if the pipe is full it will block until there is available capacity in the pipe. +
 
@@ -145,7 +145,7 @@ _Packet Size_ and _Packet Alignment_ must satisfy the following: +
 
 For concrete types, _Packet Alignment_ should equal _Packet Size_.  For aggregate types, _Packet Alignment_ should be the size of the largest primitive type in the hierarchy of types.
 | Capability: +
-*BlockingPipesINTEL*
+*BlockingPipesALTERA*
 
 | 5 | 5947 | <id> +
 _Pipe_ | <id> + 

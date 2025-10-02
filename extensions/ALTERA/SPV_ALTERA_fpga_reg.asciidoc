@@ -1,9 +1,9 @@
-SPV_INTEL_fpga_reg
-==================
+SPV_ALTERA_fpga_reg
+===================
 
 == Name Strings
 
-SPV_INTEL_fpga_reg
+SPV_ALTERA_fpga_reg
 
 == Contact
 
@@ -47,22 +47,22 @@ This extension adds an instruction which explicitly requests that a pipelining r
 To use this extension within a SPIR-V module, the following *OpExtension* must be present in the module:
 
 ----
-OpExtension "SPV_INTEL_fpga_reg"
+OpExtension "SPV_ALTERA_fpga_reg"
 ----
  
 == New capabilities
 This extension introduces a new capability:
 
 ----
-FPGARegINTEL
+FPGARegALTERA
 ----
 
 == New Instructions
 
-Instructions added under the *FPGARegINTEL* capability:
+Instructions added under the *FPGARegALTERA* capability:
 
 ----
-OpFPGARegINTEL
+OpFPGARegALTERA
 ----
 
 == Token Number Assignments
@@ -72,8 +72,8 @@ OpFPGARegINTEL
 [cols="70%,30%"]
 [grid="rows"]
 |====
-|FPGARegINTEL   |5948
-|OpFPGARegINTEL |5949
+|FPGARegALTERA   |5948
+|OpFPGARegALTERA |5949
 |==== 
 --
 
@@ -86,22 +86,22 @@ Modify Section 3.31, Capability, adding a row to the Capability table:
 [options="header"]
 |====
 2+^| Capability ^| Implicitly Declares
-| 5948 | FPGARegINTEL | 
+| 5948 | FPGARegALTERA | 
 |====
 --
 
 === Instructions
-In section 3.32.1, Miscellaneous Instructions, add a new instruction, *OpFPGARegINTEL*, as follows:
+In section 3.32.1, Miscellaneous Instructions, add a new instruction, *OpFPGARegALTERA*, as follows:
 [cols="5", width="100%"]
 |=====
-4+|*OpFPGARegINTEL* +
+4+|*OpFPGARegALTERA* +
 
 Used to indicate to FPGA backends that pipelining registers should be inserted between the definition of _Input_ and uses of _Result_.  The value passed in as _Input_ is returned in _Result_. This instruction is strictly an optimization hint and thus it would be functionally correct for a consumer to treat it as an assignment.  
 
 _Result Type_ can be any type and is the type of both _Result_ and _Input_.
 
 | Capability:
-*FPGARegINTEL*
+*FPGARegALTERA*
 
 | 4 | 5949 | <id> +
 Result Type | Result <id> | Input <id>

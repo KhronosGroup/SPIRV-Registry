@@ -1,9 +1,9 @@
-SPV_INTEL_fpga_invocation_pipelining_attributes
-===============================================
+SPV_ALTERA_fpga_invocation_pipelining_attributes
+================================================
 
 == Name Strings
 
-SPV_INTEL_fpga_invocation_pipelining_attributes
+SPV_ALTERA_fpga_invocation_pipelining_attributes
 
 == Contact
 
@@ -51,24 +51,24 @@ This extension adds decorations to request that a kernel or function support inv
 To use this extension within a SPIR-V module, the following *OpExtension* must be present in the module:
 
 ----
-OpExtension "SPV_INTEL_fpga_invocation_pipelining_attributes"
+OpExtension "SPV_ALTERA_fpga_invocation_pipelining_attributes"
 ----
 
 == New capabilities
 This extension introduces a new capability:
 
 ----
-FPGAInvocationPipeliningAttributesINTEL
+FPGAInvocationPipeliningAttributesALTERA
 ----
 
 == New Decorations
 
-This extension adds the following decorations under the *FPGAInvocationPipeliningAttributesINTEL* capability:
+This extension adds the following decorations under the *FPGAInvocationPipeliningAttributesALTERA* capability:
 
 ----
-InitiationIntervalINTEL
-MaxConcurrencyINTEL
-PipelineEnableINTEL
+InitiationIntervalALTERA
+MaxConcurrencyALTERA
+PipelineEnableALTERA
 ----
 
 == Token Number Assignments
@@ -78,10 +78,10 @@ PipelineEnableINTEL
 [cols="70%,30%"]
 [grid="rows"]
 |====
-|FPGAInvocationPipeliningAttributesINTEL|5916
-|InitiationIntervalINTEL              |5917
-|MaxConcurrencyINTEL                  |5918
-|PipelineEnableINTEL                  |5919
+|FPGAInvocationPipeliningAttributesALTERA|5916
+|InitiationIntervalALTERA              |5917
+|MaxConcurrencyALTERA                  |5918
+|PipelineEnableALTERA                  |5919
 |====
 --
 
@@ -95,18 +95,18 @@ Modify Section 3.20, Decoration, adding these rows to the Decoration table:
 [options="header"]
 |====
 2+^| Decoration 2+^| Extra Operands ^| Enabling Capabilities
-| 5917 | *InitiationIntervalINTEL* +
+| 5917 | *InitiationIntervalALTERA* +
 Only valid on OpFunction. Strong request, to the extent possible, for this function to support an initiation interval of _Cycles_ clock cycles. _Cycles_ is a 32-bit unsigned integer type scalar. The value of _Cycles_ must be non-zero.
 2+| Literal +
-_Cycles_ | *FPGAInvocationPipeliningAttributesINTEL*
-| 5918 | *MaxConcurrencyINTEL* +
+_Cycles_ | *FPGAInvocationPipeliningAttributesALTERA*
+| 5918 | *MaxConcurrencyALTERA* +
 Only valid on OpFunction. Strong request, to the extent possible, to allow no more than a fixed number _Invocations_ of invocations to execute the function concurrently. _Invocations_ is a 32-bit unsigned integer type scalar. If _Invocations_ is equal to zero, it indicates no limit on the number of concurrent invocations.
 2+| Literal +
-_Invocations_ | *FPGAInvocationPipeliningAttributesINTEL*
-| 5919 | *PipelineEnableINTEL* +
+_Invocations_ | *FPGAInvocationPipeliningAttributesALTERA*
+| 5919 | *PipelineEnableALTERA* +
 Only valid on OpFunction. Strong request, to the extent possible, to either support pipelining or to not pipeline invocations of this function.  _Enable_ is a 32-bit unsigned integer type scalar. If _Enable_ is equal to 0, it indicates a request not to pipeline, while a non-zero value indicates a request to pipeline.
 2+| Literal +
-_Enable_ | *FPGAInvocationPipeliningAttributesINTEL*
+_Enable_ | *FPGAInvocationPipeliningAttributesALTERA*
 |====
 --
 
@@ -117,7 +117,7 @@ Modify Section 3.31, Capability, adding a row to the Capability table:
 [options="header"]
 |====
 2+^| Capability ^| Implicitly Declares
-| 5916 | FPGAInvocationPipeliningAttributesINTEL | Kernel
+| 5916 | FPGAInvocationPipeliningAttributesALTERA | Kernel
 |====
 --
 

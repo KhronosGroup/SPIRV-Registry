@@ -1,8 +1,8 @@
-= SPV_INTEL_task_sequence
+= SPV_ALTERA_task_sequence
 
 == Name Strings
 
-SPV_INTEL_task_sequence
+SPV_ALTERA_task_sequence
 
 == Contact
 
@@ -48,25 +48,25 @@ A task sequence is an abstraction of a sequence of calls to a function that can
 execute asynchronously from the caller and each other. This extension introduces
 four new instructions that support task sequence execution.
 
-The *OpTaskSequenceCreateINTEL* instruction creates a task sequence to which
+The *OpTaskSequenceCreateALTERA* instruction creates a task sequence to which
 asynchronous function calls can be submitted through the
-*OpTaskSequenceAsyncINTEL* instruction. The results of those function calls can
-be queried with the *OpTaskSequenceGetINTEL* instruction.
+*OpTaskSequenceAsyncALTERA* instruction. The results of those function calls can
+be queried with the *OpTaskSequenceGetALTERA* instruction.
 
 === Task Sequence and Task Threads
 
-A task sequence object can be created by calling *OpTaskSequenceCreateINTEL*.
-The *OpTaskSequenceAsyncINTEL*, *OpTaskSequenceGetINTEL*, and
-*OpTaskSequenceReleaseINTEL* instructions take a task sequence object as an
-argument. The *OpTaskSequenceAsyncINTEL* instruction creates a invocation which
+A task sequence object can be created by calling *OpTaskSequenceCreateALTERA*.
+The *OpTaskSequenceAsyncALTERA*, *OpTaskSequenceGetALTERA*, and
+*OpTaskSequenceReleaseALTERA* instructions take a task sequence object as an
+argument. The *OpTaskSequenceAsyncALTERA* instruction creates a invocation which
 will be referred to as a _task thread_ in this document. This task thread is
-said to belong to the task sequence specified to the *OpTaskSequenceAsyncINTEL*
-instruction. The *OpTaskSequenceGetINTEL* instruction returns the result of a
+said to belong to the task sequence specified to the *OpTaskSequenceAsyncALTERA*
+instruction. The *OpTaskSequenceGetALTERA* instruction returns the result of a
 task thread in the specified task sequence. Results are returned from the task
-sequence in the same order as the *OpTaskSequenceAsyncINTEL* calls are made to
+sequence in the same order as the *OpTaskSequenceAsyncALTERA* calls are made to
 the task sequence.
 
-An *OpFunction* `f` is passed as an argument to the *OpTaskSequenceCreateINTEL*
+An *OpFunction* `f` is passed as an argument to the *OpTaskSequenceCreateALTERA*
 instruction. The task threads belonging to a task sequence asynchronously
 execute `f` and they may run in parallel with the caller and with any other
 task threads. The implementation is not required to run these task threads in
@@ -82,13 +82,13 @@ memory or *Function* storage class memory with the caller or with other task
 threads. It can access memory from *CrossWorkgroup* storage class. A task thread
 cannot synchronize with the caller or with other task threads using a barrier.
 
-NOTE: Calling *OpTaskSequenceAsyncINTEL* is analogous to enqueuing an OpenCL
+NOTE: Calling *OpTaskSequenceAsyncALTERA* is analogous to enqueuing an OpenCL
 kernel with `global_work_offset, global_work_size, local_work_size` set to
 `0, 1, 1`, i.e., a task kernel. This extension does not support
 any instruction which would be analogous to enqueuing a kernel with a different
 geometry.
 
-An *OpTaskSequenceAsyncINTEL* call is guaranteed to not block the caller as long
+An *OpTaskSequenceAsyncALTERA* call is guaranteed to not block the caller as long
 as the number of task threads in the task sequence is strictly less than the
 `AsyncCapacity` of the sequence.
 
@@ -97,8 +97,8 @@ results to an output data structure _D_ associated with the sequence. The
 task thread can only write into _D_ if there is space available in it and the
 task thread ceases to exist after writing its results. The implementation must
 ensure that at least `GetCapacity` task threads can store their outputs to _D_.
-Results are removed from _D_ when they are retrieved by *OpTaskSequenceGetINTEL*
-calls. An *OpTaskSequenceGetINTEL* call is guaranteed to block the caller if
+Results are removed from _D_ when they are retrieved by *OpTaskSequenceGetALTERA*
+calls. An *OpTaskSequenceGetALTERA* call is guaranteed to block the caller if
 there are no results stored in _D_.
 
 C{plus}{plus} defines a framework for describing the
@@ -124,7 +124,7 @@ the lifetime of the affected thread of execution.
 Using the above definitions, the progress guarantees for task threads are
 defined as follows:
 
- - When a task sequence object _O_ is created by *OpTaskSequenceCreateINTEL*, a
+ - When a task sequence object _O_ is created by *OpTaskSequenceCreateALTERA*, a
  task sequence object thread is also created.
 
  - At any point in time, the progress guarantee of all task sequence object
@@ -133,8 +133,8 @@ defined as follows:
  initial guarantee, all of the task sequence object threads created by _WI_
  are also strengthened.
 
-  - A call to `OpTaskSequenceAsyncINTEL(O, ...)` will result in creation of a
- task thread. `OpTaskSequenceAsyncINTEL(O, ...)` can be called multiple times
+  - A call to `OpTaskSequenceAsyncALTERA(O, ...)` will result in creation of a
+ task thread. `OpTaskSequenceAsyncALTERA(O, ...)` can be called multiple times
  to create multiple task threads for _O_. A task thread has weakly parallel
  forward progress guarantee.
 
@@ -161,18 +161,18 @@ Example 1 uses the following pseudo-code program:
 // A work item WI
 {
   ...
-  TaskSeqObject1 = OpTaskSequenceCreateINTEL(SomeFunction, ...); // Object_1_Thread
-  OpTaskSequenceAsyncINTEL(TaskSeqObject1, ...); // Task_1_1
-  OpTaskSequenceAsyncINTEL(TaskSeqObject1, ...); // Task_1_2
+  TaskSeqObject1 = OpTaskSequenceCreateALTERA(SomeFunction, ...); // Object_1_Thread
+  OpTaskSequenceAsyncALTERA(TaskSeqObject1, ...); // Task_1_1
+  OpTaskSequenceAsyncALTERA(TaskSeqObject1, ...); // Task_1_2
   ...
-  TaskSeqObject2 = OpTaskSequenceCreateINTEL(SomeFunction, ...); // Object_2_Thread
-  OpTaskSequenceAsyncINTEL(TaskSeqObject2, ...); // Task_2_1
-  OpTaskSequenceAsyncINTEL(TaskSeqObject2, ...); // Task_2_2
+  TaskSeqObject2 = OpTaskSequenceCreateALTERA(SomeFunction, ...); // Object_2_Thread
+  OpTaskSequenceAsyncALTERA(TaskSeqObject2, ...); // Task_2_1
+  OpTaskSequenceAsyncALTERA(TaskSeqObject2, ...); // Task_2_2
 }
 ```
-The *OpTaskSequenceCreateINTEL* calls create task object threads
+The *OpTaskSequenceCreateALTERA* calls create task object threads
 _Object_1_Thread_ and _Object_2_Thread_. The first two
-*OpTaskSequenceAsyncINTEL* calls create task threads _Task_1_1_ and _Task_1_2_.
+*OpTaskSequenceAsyncALTERA* calls create task threads _Task_1_1_ and _Task_1_2_.
 Similarly the next two calls create _Task_2_1_ and _Task_2_2_.
 
 The table below provides a view of the hierarchy of task threads that will be
@@ -224,7 +224,7 @@ The next example shows how a task thread delegates its progress
 guarantee to another task thread:
 
 Assume that we have a task sequence _TS_ with `GetCapacity` of 1 and
-`AsyncCapacity` of 5. Four *OpTaskSequenceAsyncINTEL* calls create the
+`AsyncCapacity` of 5. Four *OpTaskSequenceAsyncALTERA* calls create the
 following task threads: _T1_, _T2_, _T3_ and _T4_, for _TS_. _T1_ has
 concurrent forward progress guarantee after getting strengthened, while
 _T2_, _T3_ and _T4_ have  weakly parallel forward progress guarantees. The
@@ -245,7 +245,7 @@ task threads go through the following execution flow:
  , none of the other task threads can be picked to be strengthened to the
  stronger progress guarantee.
 
- - *OpTaskSequenceGetINTEL* is invoked. _T1_'s results get removed from
+ - *OpTaskSequenceGetALTERA* is invoked. _T1_'s results get removed from
  _D_.
 
  - _T2_ can write its results and some other task thread can be picked to be
@@ -253,27 +253,27 @@ task threads go through the following execution flow:
 
 === Memory Order Semantics
 
-- *OpTaskSequenceAsyncINTEL* is a *Release* operation scoped to include the work
-item that called it and the task thread that the *OpTaskSequenceAsyncINTEL* call
+- *OpTaskSequenceAsyncALTERA* is a *Release* operation scoped to include the work
+item that called it and the task thread that the *OpTaskSequenceAsyncALTERA* call
 creates.
 
 - The beginning of a task thread _T_ is an *Acquire* operation scoped to include
-the work item that called *OpTaskSequenceAsyncINTEL* to create _T_ and the
+the work item that called *OpTaskSequenceAsyncALTERA* to create _T_ and the
 task thread _T_.
 
 - The end of a task thread _T_ is a *Release* operation scoped to include _T_
-and the work item that called *OpTaskSequenceAsyncINTEL* to create _T_.
+and the work item that called *OpTaskSequenceAsyncALTERA* to create _T_.
 
-- *OpTaskSequenceGetINTEL* is an *Acquire* operation scoped to include the task
-thread that is being retrieved by *OpTaskSequenceGetINTEL* and the work item
-that is calling *OpTaskSequenceGetINTEL*.
+- *OpTaskSequenceGetALTERA* is an *Acquire* operation scoped to include the task
+thread that is being retrieved by *OpTaskSequenceGetALTERA* and the work item
+that is calling *OpTaskSequenceGetALTERA*.
 
 == Extension Name
 To use this extension within a SPIR-V module, the following *OpExtension* must
 be present in the module:
 
 ----
-OpExtension "SPV_INTEL_task_sequence"
+OpExtension "SPV_ALTERA_task_sequence"
 ----
 
 == New Capabilities
@@ -281,18 +281,18 @@ OpExtension "SPV_INTEL_task_sequence"
 This extension introduces a new capability:
 
 ----
-TaskSequenceINTEL
+TaskSequenceALTERA
 ----
 
 == New Instructions
 
-Instructions added under the *TaskSequenceINTEL* capability:
+Instructions added under the *TaskSequenceALTERA* capability:
 
 ----
-OpTaskSequenceCreateINTEL
-OpTaskSequenceAsyncINTEL
-OpTaskSequenceGetINTEL
-OpTaskSequenceReleaseINTEL
+OpTaskSequenceCreateALTERA
+OpTaskSequenceAsyncALTERA
+OpTaskSequenceGetALTERA
+OpTaskSequenceReleaseALTERA
 ----
 
 == Token Number Assignments
@@ -302,12 +302,12 @@ OpTaskSequenceReleaseINTEL
 [cols="70%,30%"]
 [grid="rows"]
 |====
-|TaskSequenceINTEL | 6162
-|OpTaskSequenceCreateINTEL  | 6163
-|OpTaskSequenceAsyncINTEL  | 6164
-|OpTaskSequenceGetINTEL  | 6165
-|OpTaskSequenceReleaseINTEL  | 6166
-|OpTypeTaskSequenceINTEL  | 6199
+|TaskSequenceALTERA | 6162
+|OpTaskSequenceCreateALTERA  | 6163
+|OpTaskSequenceAsyncALTERA  | 6164
+|OpTaskSequenceGetALTERA  | 6165
+|OpTaskSequenceReleaseALTERA  | 6166
+|OpTypeTaskSequenceALTERA  | 6199
 |====
 --
 
@@ -320,7 +320,7 @@ Modify Section 3.31, Capability, adding a row to the Capability table:
 [options="header"]
 |====
 2+^| Capability | Implicitly Declares
-| 6162 | TaskSequenceINTEL |
+| 6162 | TaskSequenceALTERA |
 |====
 --
 
@@ -331,12 +331,12 @@ add one new instruction in this subsection as follows:
 
 [cols="3", width="100%"]
 |=====
-2+|*OpTypeTaskSequenceINTEL* +
+2+|*OpTypeTaskSequenceALTERA* +
 
 Declare a task sequence type.
 
 | Capability:
-*TaskSequenceINTEL*
+*TaskSequenceALTERA*
 
 | 2 | 6199 | Result +
 _<id>_
@@ -348,13 +348,13 @@ instructions in this subsection as follows:
 
 [cols="9", width="100%"]
 |=====
-8+|*OpTaskSequenceCreateINTEL* +
+8+|*OpTaskSequenceCreateALTERA* +
 
 Create and return an instance of a task sequence with type
- *OpTypeTaskSequenceINTEL*. All calls to *OpTaskSequenceAsyncINTEL* with
+ *OpTypeTaskSequenceALTERA*. All calls to *OpTaskSequenceAsyncALTERA* with
  _Result_ passed in as an argument will execute the function _Function_.
 
-_Result Type_ must be *OpTypeTaskSequenceINTEL*.
+_Result Type_ must be *OpTypeTaskSequenceALTERA*.
 
 _Function_ is an *OpFunction*.
 
@@ -392,12 +392,12 @@ implementation must ensure that at least the oldest _GetCapacity_ task threads
 can write their results and completion status. Only task threads that have
 written their results are counted against this limit.
 
-_AsyncCapacity_ is a literal 32-bit unsigned integer. *OpTaskSequenceAsyncINTEL*
+_AsyncCapacity_ is a literal 32-bit unsigned integer. *OpTaskSequenceAsyncALTERA*
 calls for _Result_ are guaranteed to not block as long as the number of task
 threads in _Result_ are strictly less than this limit.
 
 | Capability:
-*TaskSequenceINTEL*
+*TaskSequenceALTERA*
 
 | 8 | 6163 | _<id>_ +
 _Result Type_ | _Result_ +
@@ -411,12 +411,12 @@ _AsyncCapacity_
 
 [cols="4", width="100%"]
 |=====
-3+|*OpTaskSequenceAsyncINTEL* +
+3+|*OpTaskSequenceAsyncALTERA* +
 
 Asynchronously invoke the *OpFunction* `f` associated with the task sequence
 _Sequence_.
 
-_Sequence_ must have type *OpTypeTaskSequenceINTEL*.
+_Sequence_ must have type *OpTypeTaskSequenceALTERA*.
 
 This instruction is guaranteed to not block as long as the number of task
 threads in _Sequence_ are strictly less than the *AsyncCapacity* of _Sequence_.
@@ -427,7 +427,7 @@ _Argument N_ is the object to pass as the _N_ th parameter of the function `f`.
 If `f` cannot be called with _N_ arguments the behavior is undefined.
 
 | Capability:
-*TaskSequenceINTEL*
+*TaskSequenceALTERA*
 
 | 2+variable | 6164 | _<id>_ +
 _Sequence_ | _<id>, <id>, ..._ +
@@ -437,16 +437,16 @@ _..._
 |=====
 [cols="5", width="100%"]
 |=====
-4+|*OpTaskSequenceGetINTEL* +
+4+|*OpTaskSequenceGetALTERA* +
 Retrieve the result of a task thread in the task sequence _Sequence_. If there
 are multiple task threads, the results are retrieved in the same order in which
 the threads were created.
-_Sequence_ must have type *OpTypeTaskSequenceINTEL*.
+_Sequence_ must have type *OpTypeTaskSequenceALTERA*.
 This instruction will block if there are no results to return.
 _Result Type_ is the same as the return type of the *OpFunction* associated with
 _Sequence_.
 | Capability:
-*TaskSequenceINTEL*
+*TaskSequenceALTERA*
 | 4 | 6165 | _<id>_ +
 _Result Type_ | _Result_ +
 _<id>_ | _<id>_ +
@@ -454,20 +454,20 @@ _Sequence_
 |=====
 [cols="3", width="100%"]
 |=====
-2+|*OpTaskSequenceReleaseINTEL* +
+2+|*OpTaskSequenceReleaseALTERA* +
 Release the memory allocated for the task sequence uniquely identified by the
 id _Sequence_.
-_Sequence_ must have type *OpTypeTaskSequenceINTEL*.
+_Sequence_ must have type *OpTypeTaskSequenceALTERA*.
 | Capability:
-*TaskSequenceINTEL*
+*TaskSequenceALTERA*
 | 2 | 6166 | _<id>_ +
 _Sequence_
 |=====
 
 == SPIR-V Representation in LLVM IR
-This is a non-normative section. `OpTypeTaskSequenceINTEL` can be mapped to LLVM
-opaque type `spirv.TaskSequenceINTEL` and mangled as
-`\\__spirv_TaskSequenceINTEL__`.
+This is a non-normative section. `OpTypeTaskSequenceALTERA` can be mapped to LLVM
+opaque type `spirv.TaskSequenceALTERA` and mangled as
+`\\__spirv_TaskSequenceALTERA__`.
 
 == Issues
 None.

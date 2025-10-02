@@ -1,9 +1,9 @@
-SPV_INTEL_fpga_cluster_attributes
-=================================
+SPV_ALTERA_fpga_cluster_attributes
+==================================
 
 == Name Strings
 
-SPV_INTEL_fpga_cluster_attributes
+SPV_ALTERA_fpga_cluster_attributes
 
 == Contact
 
@@ -47,29 +47,29 @@ This extension adds decorations to request that statically-scheduled clusters us
 To use this extension within a SPIR-V module, the following *OpExtension* must be present in the module:
 
 ----
-OpExtension "SPV_INTEL_fpga_cluster_attributes"
+OpExtension "SPV_ALTERA_fpga_cluster_attributes"
 ----
 
 == New capabilities
 This extension introduces two new capabilities:
 
 ----
-FPGAClusterAttributesINTEL
-FPGAClusterAttributesV2INTEL
+FPGAClusterAttributesALTERA
+FPGAClusterAttributesV2ALTERA
 ----
 
 == New Decorations
 
-This extension adds the following decoration under the *FPGAClusterAttributesINTEL* capability:
+This extension adds the following decoration under the *FPGAClusterAttributesALTERA* capability:
 
 ----
-StallEnableINTEL
+StallEnableALTERA
 ----
 
-This extension adds the following decoration under the *FPGAClusterAttributesV2INTEL* capability:
+This extension adds the following decoration under the *FPGAClusterAttributesV2ALTERA* capability:
 
 ----
-StallFreeINTEL
+StallFreeALTERA
 ----
 
 
@@ -80,10 +80,10 @@ StallFreeINTEL
 [cols="70%,30%"]
 [grid="rows"]
 |====
-|FPGAClusterAttributesINTEL         |5904
-|StallEnableINTEL                   |5905
-|FPGAClusterAttributesV2INTEL       |6150
-|StallFreeINTEL                     |6151
+|FPGAClusterAttributesALTERA         |5904
+|StallEnableALTERA                   |5905
+|FPGAClusterAttributesV2ALTERA       |6150
+|StallFreeALTERA                     |6151
 |====
 --
 
@@ -97,12 +97,12 @@ Modify Section 3.20, Decoration, adding these rows to the Decoration table:
 [options="header"]
 |====
 2+^| Decoration 2+^| Extra Operands ^| Enabling Capabilities
-| 5905 | *StallEnableINTEL* +
+| 5905 | *StallEnableALTERA* +
 Only valid on OpFunction. Request, to the extent possible, that statically-scheduled clusters should handle stalls using a stall-enable signal to freeze computation within the cluster.
-2+| | *FPGAClusterAttributesINTEL*
-| 6151 | *StallFreeINTEL* +
+2+| | *FPGAClusterAttributesALTERA*
+| 6151 | *StallFreeALTERA* +
 Only valid on OpFunction. Request, to the extent possible, that statically-scheduled clusters should handle stalls by using an exit FIFO to hold any output data until the cluster is no longer stalled.
-2+| | *FPGAClusterAttributesV2INTEL*
+2+| | *FPGAClusterAttributesV2ALTERA*
 
 |====
 --
@@ -114,14 +114,14 @@ Modify Section 3.31, Capability, adding the following rows to the Capability tab
 [options="header"]
 |====
 2+^| Capability ^| Implicitly Declares
-| 5904 | FPGAClusterAttributesINTEL |
-| 6150 | FPGAClusterAttributesV2INTEL | FPGAClusterAttributesINTEL
+| 5904 | FPGAClusterAttributesALTERA |
+| 6150 | FPGAClusterAttributesV2ALTERA | FPGAClusterAttributesALTERA
 |====
 --
 
 === Validation Rules
 
-At most one of the *StallEnableINTEL* and *StallFreeINTEL* decorations can appear on an *OpFunction*.
+At most one of the *StallEnableALTERA* and *StallFreeALTERA* decorations can appear on an *OpFunction*.
 
 == Issues
 

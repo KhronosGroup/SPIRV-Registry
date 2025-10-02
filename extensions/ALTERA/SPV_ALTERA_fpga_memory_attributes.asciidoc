@@ -1,9 +1,9 @@
-SPV_INTEL_fpga_memory_attributes
-================================
+SPV_ALTERA_fpga_memory_attributes
+=================================
 
 == Name Strings
 
-SPV_INTEL_fpga_memory_attributes
+SPV_ALTERA_fpga_memory_attributes
 
 == Contact
 
@@ -51,14 +51,14 @@ This extension adds decorations that influence compiler generation of memory str
 To use this extension within a SPIR-V module, the following *OpExtension* must be present in the module:
 
 ----
-OpExtension "SPV_INTEL_fpga_memory_attributes"
+OpExtension "SPV_ALTERA_fpga_memory_attributes"
 ----
  
 == New capabilities
 This extension introduces a new capability:
 
 ----
-FPGAMemoryAttributesINTEL
+FPGAMemoryAttributesALTERA
 ----
 
 == New Decorations
@@ -66,21 +66,21 @@ FPGAMemoryAttributesINTEL
 Decorations added under the *FPGAMemoryAttributes* capability:
 
 ----
-RegisterINTEL
-MemoryINTEL
-NumbanksINTEL
-BankwidthINTEL
-MaxPrivateCopiesINTEL
-SinglepumpINTEL
-DoublepumpINTEL
-MaxReplicatesINTEL
-SimpleDualPortINTEL
-MergeINTEL
-BankBitsINTEL
-ForcePow2DepthINTEL
-StridesizeINTEL
-WordsizeINTEL
-TrueDualPortINTEL
+RegisterALTERA
+MemoryALTERA
+NumbanksALTERA
+BankwidthALTERA
+MaxPrivateCopiesALTERA
+SinglepumpALTERA
+DoublepumpALTERA
+MaxReplicatesALTERA
+SimpleDualPortALTERA
+MergeALTERA
+BankBitsALTERA
+ForcePow2DepthALTERA
+StridesizeALTERA
+WordsizeALTERA
+TrueDualPortALTERA
 ----
 
 == Token Number Assignments
@@ -90,22 +90,22 @@ TrueDualPortINTEL
 [cols="70%,30%"]
 [grid="rows"]
 |====
-|FPGAMemoryAttributesINTEL|5824
-|RegisterINTEL            |5825
-|MemoryINTEL              |5826
-|NumbanksINTEL            |5827
-|BankwidthINTEL           |5828
-|MaxPrivateCopiesINTEL    |5829
-|SinglepumpINTEL          |5830
-|DoublepumpINTEL          |5831
-|MaxReplicatesINTEL       |5832
-|SimpleDualPortINTEL      |5833
-|MergeINTEL               |5834
-|BankBitsINTEL            |5835
-|ForcePow2DepthINTEL      |5836
-|StridesizeINTEL          |5883
-|WordsizeINTEL            |5884
-|TrueDualPortINTEL        |5885
+|FPGAMemoryAttributesALTERA|5824
+|RegisterALTERA            |5825
+|MemoryALTERA              |5826
+|NumbanksALTERA            |5827
+|BankwidthALTERA           |5828
+|MaxPrivateCopiesALTERA    |5829
+|SinglepumpALTERA          |5830
+|DoublepumpALTERA          |5831
+|MaxReplicatesALTERA       |5832
+|SimpleDualPortALTERA      |5833
+|MergeALTERA               |5834
+|BankBitsALTERA            |5835
+|ForcePow2DepthALTERA      |5836
+|StridesizeALTERA          |5883
+|WordsizeALTERA            |5884
+|TrueDualPortALTERA        |5885
 |==== 
 --
 
@@ -119,11 +119,11 @@ Modify Section 3.20, Decoration, adding these rows to the Decoration table:
 [options="header"]
 |====
 2+^| Decoration 2+^| Extra Operands	^| Enabling Capabilities
-| 5825 | *RegisterINTEL* +
+| 5825 | *RegisterALTERA* +
 Apply to a variable or a structure-type member. Request, to the extent possible, that the variable or structure member should be implemented in logic and carried through the datapath. 
-2+| | *FPGAMemoryAttributesINTEL*
+2+| | *FPGAMemoryAttributesALTERA*
 | 5826 a| 
-*MemoryINTEL* +
+*MemoryALTERA* +
 Apply to a variable or a structure-type member. Request, to the extent possible, that the variable or structure member should be implemented in memory of the specified type.
 
 .Supported strings:
@@ -132,56 +132,56 @@ Apply to a variable or a structure-type member. Request, to the extent possible,
 * _BLOCK_RAM_: data is stored in dedicated block RAM modules
 
 2+| Literal String +
-_Memory Type_ | *FPGAMemoryAttributesINTEL*
-| 5827 | *NumbanksINTEL*  +
+_Memory Type_ | *FPGAMemoryAttributesALTERA*
+| 5827 | *NumbanksALTERA*  +
 Apply to a variable or a structure-type member. Request, to the extent possible, that the variable or structure member should be implemented in a memory with the specified number of banks.
 2+| Literal Number +
-_Banks_ | *FPGAMemoryAttributesINTEL*
-| 5828 | *BankwidthINTEL* +
+_Banks_ | *FPGAMemoryAttributesALTERA*
+| 5828 | *BankwidthALTERA* +
 Apply to a variable or a structure-type member. Request, to the extent possible, that the variable or structure member should be implemented in a memory whose banks have the specified width in bytes.
 2+| Literal Number +
-_Bank Width_ | *FPGAMemoryAttributesINTEL*
-| 5829 | *MaxPrivateCopiesINTEL* +
+_Bank Width_ | *FPGAMemoryAttributesALTERA*
+| 5829 | *MaxPrivateCopiesALTERA* +
 Apply to a variable or a structure-type member. Request, to the extent possible, that no more than the specified number of independent copies of the memory synthesized for the variable or structure member should be created for the purpose of enabling concurrent thread or loop iteration accesses.
 2+| Literal Number +
-_Maximum Copies_ | *FPGAMemoryAttributesINTEL*
-| 5830 | *SinglepumpINTEL* +
+_Maximum Copies_ | *FPGAMemoryAttributesALTERA*
+| 5830 | *SinglepumpALTERA* +
 Apply to a variable or a structure-type member. Request, to the extent possible, that the variable or structure member should be implemented in a memory that is clocked at the same rate as accesses to it.
-2+| | *FPGAMemoryAttributesINTEL*
-| 5831 | *DoublepumpINTEL* +
+2+| | *FPGAMemoryAttributesALTERA*
+| 5831 | *DoublepumpALTERA* +
 Apply to a variable or a structure-type member. Request, to the extent possible, that the variable or structure member should be implemented in a memory that is clocked at twice the rate of accesses to it.
-2+| | *FPGAMemoryAttributesINTEL*
-| 5832 | *MaxReplicatesINTEL* +
+2+| | *FPGAMemoryAttributesALTERA*
+| 5832 | *MaxReplicatesALTERA* +
 Apply to a variable or a structure-type member. Request, to the extent possible, that each copy of the memory synthesized for the variable or structure member should be replicated no more than the specified number of times for the purpose of enabling simultaneous accesses from different load/store sites in the program.  
 2+| Literal Number +
-_Maximum Replicates_ | *FPGAMemoryAttributesINTEL*
-| 5833 | *SimpleDualPortINTEL* +
+_Maximum Replicates_ | *FPGAMemoryAttributesALTERA*
+| 5833 | *SimpleDualPortALTERA* +
 Apply to a variable or a structure-type member. Request, to the extent possible, that the variable or structure member should be implemented in a memory that is configured such that no memory port services both stores and loads.
-2+| | *FPGAMemoryAttributesINTEL*
-| 5834 | *MergeINTEL* +
+2+| | *FPGAMemoryAttributesALTERA*
+| 5834 | *MergeALTERA* +
 Apply to a variable or a structure-type member.  Request, to the extent possible, that the variable or structure member should be implemented in a memory that is merged with any memories synthesized from arrays or structure members that are decorated with this decoration and the same specified merge key.  The mechanism of this merging is specified as a subsequent literal string.
 | Literal String +
 _Merge Key_ | Literal String +
-_Merge Type_ | *FPGAMemoryAttributesINTEL*
-| 5835 | *BankBitsINTEL* +
+_Merge Type_ | *FPGAMemoryAttributesALTERA*
+| 5835 | *BankBitsALTERA* +
 Apply to a variable or a structure-type member. Request, to the extent possible, that the variable or structure member should be implemented in a banked memory system, where the bits specified determine the pointer address bits to bank on.
 2+| Literal Number, Literal Number, ... +
-_Bank Bits_ | *FPGAMemoryAttributesINTEL*
-| 5836 | *ForcePow2DepthINTEL* +
+_Bank Bits_ | *FPGAMemoryAttributesALTERA*
+| 5836 | *ForcePow2DepthALTERA* +
 Apply to a variable or a structure-type member. Request that the variable or structure member should be implemented in a memory that is a power-of-2 deep. This option is enabled if the subsequent literal number specified is 1, and disabled if the subsequent literal number specified is 0.
 2+| Literal Number +
-_Force Power-Of-2 Depth_ | *FPGAMemoryAttributesINTEL*
-| 5883 | *StridesizeINTEL* +
+_Force Power-Of-2 Depth_ | *FPGAMemoryAttributesALTERA*
+| 5883 | *StridesizeALTERA* +
 Apply to a variable or a structure-type member of array type. Request, to the extent possible, that _Stride Size_ worth of consecutive array elements be placed in the same memory bank.
 2+| Literal Number +
-_Stride Size_ | *FPGAMemoryAttributesINTEL*
-| 5884 | *WordsizeINTEL* +
+_Stride Size_ | *FPGAMemoryAttributesALTERA*
+| 5884 | *WordsizeALTERA* +
 Apply to a variable or a structure-type member of array type. Request, to the extent possible, the size in array elements of a single memory transaction.
 2+| Literal Number +
-_Word Size_ | *FPGAMemoryAttributesINTEL*
-| 5885 | *TrueDualPortINTEL* +
+_Word Size_ | *FPGAMemoryAttributesALTERA*
+| 5885 | *TrueDualPortALTERA* +
 Apply to a variable or a structure-type member. Request, to the extent possible, that the variable or structure member should be implemented in a memory that is configured such that all memory ports can service both stores and loads.
-2+| | *FPGAMemoryAttributesINTEL*
+2+| | *FPGAMemoryAttributesALTERA*
 |====
 --
 
@@ -192,7 +192,7 @@ Modify Section 3.31, Capability, adding a row to the Capability table:
 [options="header"]
 |====
 2+^| Capability ^| Implicitly Declares
-| 5824 | FPGAMemoryAttributesINTEL |
+| 5824 | FPGAMemoryAttributesALTERA |
 |====
 --
 
@@ -212,12 +212,12 @@ None.
 |========================================
 |Rev|Date|Author|Changes
 |A|2019-02-27|Joe Garvey|*Initial public release*
-|B|2019-03-18|Joe Garvey|Added MaxconcurrencyINTEL decoration.  Fixed NumbanksINTEL capitalization
-|C|2019-04-23|Joe Garvey|Added SinglepumpINTEL and DoublepumpINTEL decorations
-|D|2019-06-06|Joe Garvey|Changed the name of MaxconcurrencyINTEL to MaxPrivateCopiesINTEL
-|E|2019-06-18|Joe Garvey|Added the MaxReplicatesINTEL, SimpleDualPortINTEL, and MergeINTEL decorations
-|F|2019-12-18|Julian Packer|Added the BankBitsINTEL decoration
-|G|2020-02-06|Mohammad Fawaz|Added the ForcePow2DepthINTEL decoration
-|H|2023-07-26|Artem Radzikhovskyy|Added StridesizeINTEL, WordsizeINTEL, TrueDualPortINTEL decorations
-|I|2023-10-03|Artem Radzikhovskyy|Definition clarifications; Defined supported strings in MemoryINTEL
+|B|2019-03-18|Joe Garvey|Added MaxconcurrencyALTERA decoration.  Fixed NumbanksALTERA capitalization
+|C|2019-04-23|Joe Garvey|Added SinglepumpALTERA and DoublepumpALTERA decorations
+|D|2019-06-06|Joe Garvey|Changed the name of MaxconcurrencyALTERA to MaxPrivateCopiesALTERA
+|E|2019-06-18|Joe Garvey|Added the MaxReplicatesALTERA, SimpleDualPortALTERA, and MergeALTERA decorations
+|F|2019-12-18|Julian Packer|Added the BankBitsALTERA decoration
+|G|2020-02-06|Mohammad Fawaz|Added the ForcePow2DepthALTERA decoration
+|H|2023-07-26|Artem Radzikhovskyy|Added StridesizeALTERA, WordsizeALTERA, TrueDualPortALTERA decorations
+|I|2023-10-03|Artem Radzikhovskyy|Definition clarifications; Defined supported strings in MemoryALTERA
 |======================================== 

@@ -1,9 +1,9 @@
-SPV_INTEL_usm_storage_classes
-=============================
+SPV_ALTERA_usm_storage_classes
+==============================
 
 == Name Strings
 
-SPV_INTEL_usm_storage_classes
+SPV_ALTERA_usm_storage_classes
 
 == Contact
 
@@ -48,14 +48,14 @@ The extension also introduces two new conversion instructions to enable converti
 To use this extension within a SPIR-V module, the following *OpExtension* must be present in the module:
 
 ----
-OpExtension "SPV_INTEL_usm_storage_classes"
+OpExtension "SPV_ALTERA_usm_storage_classes"
 ----
 
 == New capabilities
 This extension introduces a new capability:
 
 ----
-USMStorageClassesINTEL
+USMStorageClassesALTERA
 ----
 
 == Token Number Assignments
@@ -64,11 +64,11 @@ USMStorageClassesINTEL
 [cols="70%,30%"]
 [grid="rows"]
 |====
-| OpPtrCastToCrossWorkgroupINTEL | 5934
-| USMStorageClassesINTEL  | 5935
-| DeviceOnlyINTEL | 5936
-| HostOnlyINTEL | 5937
-| OpCrossWorkgroupCastToPtrINTEL | 5938
+| OpPtrCastToCrossWorkgroupALTERA | 5934
+| USMStorageClassesALTERA  | 5935
+| DeviceOnlyALTERA | 5936
+| HostOnlyALTERA | 5937
+| OpCrossWorkgroupCastToPtrALTERA | 5938
 |====
 
 == Modifications to the SPIR-V Specification, Version 1.6 Revision 2
@@ -81,10 +81,10 @@ Modify Section 3.7, Storage Class, adding these rows to the table:
 [options="header"]
 |===
 2+^| Storage Class | Enabling Capabilities
-| 5936 | *DeviceOnlyINTEL* +
-A subset of the *CrossWorkgroup* storage class.  Memory that is resident on the device.  SYCL or OpenCL device unified shared memory. | *USMStorageClassesINTEL*
-| 5937 | *HostOnlyINTEL* +
-A subset of the *CrossWorkgroup* storage class.  Memory that is resident on the host.  SYCL or OpenCL host unified shared memory. | *USMStorageClassesINTEL*
+| 5936 | *DeviceOnlyALTERA* +
+A subset of the *CrossWorkgroup* storage class.  Memory that is resident on the device.  SYCL or OpenCL device unified shared memory. | *USMStorageClassesALTERA*
+| 5937 | *HostOnlyALTERA* +
+A subset of the *CrossWorkgroup* storage class.  Memory that is resident on the host.  SYCL or OpenCL host unified shared memory. | *USMStorageClassesALTERA*
 |===
 --
 
@@ -95,7 +95,7 @@ Modify Section 3.31, Capability, adding a row to the Capability table:
 [options="header"]
 |====
 2+^| Capability ^| Implicitly Declares
-| 5935 | *USMStorageClassesINTEL* | *Kernel*
+| 5935 | *USMStorageClassesALTERA* | *Kernel*
 |====
 --
 
@@ -105,16 +105,16 @@ Modify Section 3.36.11, Conversion Instructions, adding two new instructions as 
 
 [cols="1,1,3*3",width="100%"]
 |===
-4+| *OpPtrCastToCrossWorkgroupINTEL*
+4+| *OpPtrCastToCrossWorkgroupALTERA*
 
 Converts a pointer's Storage Class from a more specific class to *CrossWorkgroup*.
 
 _Result Type_ must be an OpTypePointer.  Its Storage Class must be *CrossWorkgroup*.  
 
-_Pointer_ must point to the *DeviceOnlyINTEL* or *HostOnlyINTEL* Storage Class.  
+_Pointer_ must point to the *DeviceOnlyALTERA* or *HostOnlyALTERA* Storage Class.  
 
 _Pointer_ must have the same type as _Result Type_ aside from the Storage Class. 1+| Capability: +
-*USMStorageClassesINTEL*
+*USMStorageClassesALTERA*
 | 4 | 5934 | <id> +
 Result Type | Result <id> | <id> +
 Pointer
@@ -122,16 +122,16 @@ Pointer
 
 [cols="1,1,3*3",width="100%"]
 |===
-4+| *OpCrossWorkgroupCastToPtrINTEL*
+4+| *OpCrossWorkgroupCastToPtrALTERA*
 
 Convert a pointer's Storage Class from *CrossWorkgroup* to a more specific class.
 
-_Result Type_ must be an OpTypePointer.  _Result Type_'s Storage Class must be *DeviceOnlyINTEL* or *HostOnlyINTEL*.
+_Result Type_ must be an OpTypePointer.  _Result Type_'s Storage Class must be *DeviceOnlyALTERA* or *HostOnlyALTERA*.
 
 _Pointer_ must point to the *CrossWorkgroup* Storage Class.
 
 _Pointer_ must have the same type as _Result Type_ aside from the Storage Class.  1+| Capability: +
-*USMStorageClassesINTEL*
+*USMStorageClassesALTERA*
 | 4 | 5938 | <id> +
 Result Type | Result <id> | <id> +
 Pointer

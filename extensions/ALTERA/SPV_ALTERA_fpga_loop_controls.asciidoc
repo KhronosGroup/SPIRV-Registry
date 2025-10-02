@@ -1,9 +1,9 @@
-SPV_INTEL_fpga_loop_controls
-============================
+SPV_ALTERA_fpga_loop_controls
+=============================
 
 == Name Strings
 
-SPV_INTEL_fpga_loop_controls
+SPV_ALTERA_fpga_loop_controls
 
 == Contact
 
@@ -52,14 +52,14 @@ This extension introduces additional loop controls for FPGA targets.
 To use this extension within a SPIR-V module, the following *OpExtension* must be present in the module:
 
 ----
-OpExtension "SPV_INTEL_fpga_loop_controls"
+OpExtension "SPV_ALTERA_fpga_loop_controls"
 ----
 
 == New capabilities
 This extension introduces a new capability:
 
 ----
-FPGALoopControlsINTEL
+FPGALoopControlsALTERA
 ----
 
 == Token Number Assignments
@@ -68,7 +68,7 @@ FPGALoopControlsINTEL
 [cols="70%,30%"]
 [grid="rows"]
 |====
-|FPGALoopControlsINTEL  |5888
+|FPGALoopControlsALTERA  |5888
 |====
 
 == Modifications to the SPIR-V Specification, Version 1.4
@@ -78,27 +78,27 @@ In section 3.23, Loop Control, add the following entries to the table:
 
 |====
 2+^| *Loop Control* | *Enabling Capabilities*
-| 0x10000 | *InitiationIntervalINTEL* +
-Strong request, to the extent possible, to implement this loop with an initiation interval specified as a subsequent literal-number operand to the instruction. | *FPGALoopControlsINTEL*
-| 0x20000 | *MaxConcurrencyINTEL* +
-Strong request, to the extent possible, to allow no more than a fixed number of threads or loop iterations to execute the loop concurrently as specified by a subsequent literal-number operand to the instruction. | *FPGALoopControlsINTEL*
-| 0x40000 | *DependencyArrayINTEL* +
+| 0x10000 | *InitiationIntervalALTERA* +
+Strong request, to the extent possible, to implement this loop with an initiation interval specified as a subsequent literal-number operand to the instruction. | *FPGALoopControlsALTERA*
+| 0x20000 | *MaxConcurrencyALTERA* +
+Strong request, to the extent possible, to allow no more than a fixed number of threads or loop iterations to execute the loop concurrently as specified by a subsequent literal-number operand to the instruction. | *FPGALoopControlsALTERA*
+| 0x40000 | *DependencyArrayALTERA* +
 Guarantees that there are no dependencies on a particular variable between a number of loop iterations.
-Can be applied to multiple variables, the number of which is specified as a subsequent literal-number operand to the instruction. Following that, for each variable, an <id> and literal number pair are provided indicating the variable and number of loop iterations. A number of loop iterations of 0 indicates that there are no loop-carried dependences on that variable. | *FPGALoopControlsINTEL*
-| 0x80000 | *PipelineEnableINTEL* +
-Strong request, to the extent possible, to either pipeline iterations of this loop or to not pipeline iterations of this loop depending on the value of the subsequent literal number operand.  A value of 0 indicates a request not to pipeline while a value of 1 indicates a request to pipeline. | *FPGALoopControlsINTEL*
-| 0x100000 | *LoopCoalesceINTEL* +
-Request to combine the loops nested within this loop into a single loop. A subsequent 32-bit integer literal operand specifies the number of nested loop levels to coalesce. A value of 0 indicates that all loop levels should be coalesced. | *FPGALoopControlsINTEL*
-| 0x200000 | *MaxInterleavingINTEL* +
-Request to limit the number of pipelined interleaved invocations of this loop that can be executed simultaneously to the number specified subsequently as a 32-bit integer literal operand. | *FPGALoopControlsINTEL*
-| 0x400000 | *SpeculatedIterationsINTEL* +
-Request to limit the number of iterations launched before the loop exit condition has been evaluated to the number specified subsequently as a 32-bit integer literal operand. | *FPGALoopControlsINTEL*
-| 0x800000 | *NoFusionINTEL* +
-Strong request, to the extent possible, that this loop not be fused with any adjacent loop. | *FPGALoopControlsINTEL*
-| 0x1000000 | *LoopCountINTEL* +
-Specify minimum, maximum and expected iteration counts of the loop. There are three 64-bit integer literal operands. The first operand is the minimum iteration count, the second is the maximum iteration count, and the third is the expected iteration count. A negative literal operand value specifies that the respective loop iteration bound or expectation is not defined. The behavior is undefined if the minimum iteration operand is non-negative and the loop iterates fewer times than that minimum.  The behavior is also undefined if the maximum iteration operand is non-negative and the loop iterates more times than that maximum. | *FPGALoopControlsINTEL*
-| 0x2000000 | *MaxReinvocationDelayINTEL* +
-Request to implement this loop with a maximum limit on the delay between launching the last iteration of a loop invocation and launching the first iteration of the next loop invocation. A subsequent positive 32-bit integer literal operand specifies the budget for the maximum reinvocation delay allowed. A value of 1 indicates that the first iteration of the next invocation should start immediately following the start of the last iteration of the previous loop invocation. | *FPGALoopControlsINTEL*
+Can be applied to multiple variables, the number of which is specified as a subsequent literal-number operand to the instruction. Following that, for each variable, an <id> and literal number pair are provided indicating the variable and number of loop iterations. A number of loop iterations of 0 indicates that there are no loop-carried dependences on that variable. | *FPGALoopControlsALTERA*
+| 0x80000 | *PipelineEnableALTERA* +
+Strong request, to the extent possible, to either pipeline iterations of this loop or to not pipeline iterations of this loop depending on the value of the subsequent literal number operand.  A value of 0 indicates a request not to pipeline while a value of 1 indicates a request to pipeline. | *FPGALoopControlsALTERA*
+| 0x100000 | *LoopCoalesceALTERA* +
+Request to combine the loops nested within this loop into a single loop. A subsequent 32-bit integer literal operand specifies the number of nested loop levels to coalesce. A value of 0 indicates that all loop levels should be coalesced. | *FPGALoopControlsALTERA*
+| 0x200000 | *MaxInterleavingALTERA* +
+Request to limit the number of pipelined interleaved invocations of this loop that can be executed simultaneously to the number specified subsequently as a 32-bit integer literal operand. | *FPGALoopControlsALTERA*
+| 0x400000 | *SpeculatedIterationsALTERA* +
+Request to limit the number of iterations launched before the loop exit condition has been evaluated to the number specified subsequently as a 32-bit integer literal operand. | *FPGALoopControlsALTERA*
+| 0x800000 | *NoFusionALTERA* +
+Strong request, to the extent possible, that this loop not be fused with any adjacent loop. | *FPGALoopControlsALTERA*
+| 0x1000000 | *LoopCountALTERA* +
+Specify minimum, maximum and expected iteration counts of the loop. There are three 64-bit integer literal operands. The first operand is the minimum iteration count, the second is the maximum iteration count, and the third is the expected iteration count. A negative literal operand value specifies that the respective loop iteration bound or expectation is not defined. The behavior is undefined if the minimum iteration operand is non-negative and the loop iterates fewer times than that minimum.  The behavior is also undefined if the maximum iteration operand is non-negative and the loop iterates more times than that maximum. | *FPGALoopControlsALTERA*
+| 0x2000000 | *MaxReinvocationDelayALTERA* +
+Request to implement this loop with a maximum limit on the delay between launching the last iteration of a loop invocation and launching the first iteration of the next loop invocation. A subsequent positive 32-bit integer literal operand specifies the budget for the maximum reinvocation delay allowed. A value of 1 indicates that the first iteration of the next invocation should start immediately following the start of the last iteration of the previous loop invocation. | *FPGALoopControlsALTERA*
 |====
 
 === Capability
@@ -108,7 +108,7 @@ Modify Section 3.31, Capability, adding a row to the Capability table:
 [options="header"]
 |=====
 2+^| Capability ^| Implicitly Declares
-| 5888 | FPGALoopControlsINTEL |
+| 5888 | FPGALoopControlsALTERA |
 |=====
 
 === Validation Rules
@@ -129,11 +129,11 @@ None.
 |A|2019-05-06|Joe Garvey|*Initial public release*
 |B|2019-05-07|Michael Kinsner|Update overview wording
 |C|2019-06-02|Michael Kinsner|Use loop control bits directly, as allocated in SPIRV-Headers spir-v.xml
-|D|2020-02-11|Artem Chikin|Add PipelineDisableINTEL
-|E|2020-02-12|Ci Tian|Add LoopCoalesceINTEL, MaxInterleavingINTEL and SpeculatedIterationsINTEL
-|F|2020-10-27|Jessica Davies|Add NoFusionINTEL
-|G|2020-11-17|Joe Garvey|Made LoopCoalesceINTEL argument mandatory
-|H|2021-05-03|Mark Mendell|Add LoopCountINTEL
-|I|2022-08-18|Bowen Xue|Add MaxReinvocationDelayINTEL
-|J|2022-10-13|Bowen Xue|Update wording of MaxReinvocationDelayINTEL
+|D|2020-02-11|Artem Chikin|Add PipelineDisableALTERA
+|E|2020-02-12|Ci Tian|Add LoopCoalesceALTERA, MaxInterleavingALTERA and SpeculatedIterationsALTERA
+|F|2020-10-27|Jessica Davies|Add NoFusionALTERA
+|G|2020-11-17|Joe Garvey|Made LoopCoalesceALTERA argument mandatory
+|H|2021-05-03|Mark Mendell|Add LoopCountALTERA
+|I|2022-08-18|Bowen Xue|Add MaxReinvocationDelayALTERA
+|J|2022-10-13|Bowen Xue|Update wording of MaxReinvocationDelayALTERA
 |========================================
