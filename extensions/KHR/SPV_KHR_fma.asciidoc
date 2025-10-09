@@ -1,0 +1,127 @@
+= SPV_KHR_fma
+
+== Name Strings
+
+SPV_KHR_fma
+
+== Contact
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Registry
+
+== Contributors
+
+- Graeme Leese, Broadcom
+- Alan Baker, Google
+- Georg Lehmann, Valve
+- Jeff Bolz, NVIDIA
+- Tobias Hector, AMD
+
+== Notice
+
+Copyright (c) 2024 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+== Status
+
+- Approved by the SPIR-V Working Group: 2025-08-06
+- Approved by the Khronos Board of Promoters: 2025-09-19
+
+== Version
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2024-05-09
+| Revision           | 2
+|========================================
+
+== Dependencies
+
+This extension is written against the SPIR-V Specification,
+Version 1.6 Revision 1, Unified
+
+This extension requires SPIR-V 1.0.
+
+== Overview
+
+This extension provides a core operation for fused-multiply-add (fma) to
+replace the different variants that have existed in extended instruction
+sets.
+It is intended to give greater consistency among consuming APIs and give
+access to the higher-accuracy operation where this has not been supported
+in the past.
+
+== Extension Name
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_KHR_fma"
+----
+
+== Modifications to the SPIR-V Specification, Version 1.6
+
+=== Capability
+
+In section 3.31 "Capability" add the following row to the capability table:
+[cols="^.^2,16,15",options="header",width = "100%"]
+|====
+| 6030 | *FMAKHR* +
+Uses *OpFmaKHR*. |
+|====
+
+=== Arithmetic Instructions
+
+In section 3.49.13 "Arithmetic Instructions" add the following instruction
+
+[%unbreakable,cols="1,2,5*3",width="100%"]
+|=====
+5+|[[OpFmaKHR]]*OpFmaKHR* +
+ +
+Floating-point fused multiply add, ('Operand 1' * 'Operand 2') + 'Operand 3'. +
+ +
+ 'Result Type' must be a scalar or vector of <<Floating,'floating-point type'>>.  +
+ +
+ The types of 'Operand 1', 'Operand 2', and 'Operand 3' must be the same as 'Result Type'.  +
+ +
+ Results are computed per component.
+2+|<<Capability,Capability>>: +
+*FMAKHR*
+| 6 | 4427
+ | '<id>' +
+'Result Type' | <<ResultId,'Result <id>' >> | '<id>' +
+'Operand 1' | '<id>' +
+'Operand 2' | '<id>' +
+'Operand 3'
+|=====
+
+
+== Deprecation
+
+This extension deprecates the following features:
+
+* The *OpenCL.std* instruction *fma*.
+
+== Issues
+
+1. Should unfused multiply-accumulate be included here?
++
+--
+*RESOLVED*: SPIR-V's fast-math flags already allow representing multiply-add
+which the compiler is allowed to fuse (using the *Contract* flag), so adding
+operation variants for these cases seems unnecessary. The first version of
+this extension does not add these operations.
+--
+
+== Revision History
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2024-04-30|Graeme Leese|Initial KHR extension.
+|2|2024-05-09|Graeme Leese|Update token reservations.
+|========================================
