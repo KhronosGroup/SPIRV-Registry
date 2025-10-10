@@ -20,7 +20,7 @@ https://github.com/KhronosGroup/SPIRV-Registry
 
 == Notice
 
-Copyright (c) 2024 The Khronos Group Inc. Copyright terms at
+Copyright (c) 2025 The Khronos Group Inc. Copyright terms at
 http://www.khronos.org/registry/speccopyright.html
 
 == Status
@@ -68,6 +68,7 @@ OpExtension "SPV_KHR_fma"
 In section 3.31 "Capability" add the following row to the capability table:
 [cols="^.^2,16,15",options="header",width = "100%"]
 |====
+2+^.^| Capability | Implicitly Declares
 | 6030 | *FMAKHR* +
 Uses *OpFmaKHR*. |
 |====
