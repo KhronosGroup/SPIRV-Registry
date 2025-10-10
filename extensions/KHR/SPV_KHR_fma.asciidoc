@@ -33,7 +33,7 @@ http://www.khronos.org/registry/speccopyright.html
 [width="40%",cols="25,25"]
 |========================================
 | Last Modified Date | 2024-05-09
-| Revision           | 2
+| Revision           | 1
 |========================================
 
 == Dependencies
@@ -123,6 +123,5 @@ this extension does not add these operations.
 [options="header"]
 |========================================
 |Rev|Date|Author|Changes
-|1|2024-04-30|Graeme Leese|Initial KHR extension.
-|2|2024-05-09|Graeme Leese|Update token reservations.
+|1|2024-05-09|Graeme Leese|Initial public release.
 |========================================
