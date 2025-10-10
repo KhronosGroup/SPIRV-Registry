@@ -45,6 +45,7 @@ Note: we no longer push the HTML along side the extension.
 * [SPV_KHR_expect_assume                   ]( https://github.khronos.org/SPIRV-Registry/extensions/KHR/SPV_KHR_expect_assume.html)
 * [SPV_KHR_float_controls                  ]( https://github.khronos.org/SPIRV-Registry/extensions/KHR/SPV_KHR_float_controls.html)
 * [SPV_KHR_float_controls2                 ]( https://github.khronos.org/SPIRV-Registry/extensions/KHR/SPV_KHR_float_controls2.html)
+* [SPV_KHR_fma                             ]( https://github.khronos.org/SPIRV-Registry/extensions/KHR/SPV_KHR_fma.html)
 * [SPV_KHR_fragment_shader_barycentric     ]( https://github.khronos.org/SPIRV-Registry/extensions/KHR/SPV_KHR_fragment_shader_barycentric.html)
 * [SPV_KHR_fragment_shading_rate           ]( https://github.khronos.org/SPIRV-Registry/extensions/KHR/SPV_KHR_fragment_shading_rate.html)
 * [SPV_KHR_integer_dot_product             ]( https://github.khronos.org/SPIRV-Registry/extensions/KHR/SPV_KHR_integer_dot_product.html)
