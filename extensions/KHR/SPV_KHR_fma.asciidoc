@@ -81,21 +81,21 @@ In section 3.49.13 "Arithmetic Instructions" add the following instruction
 |=====
 5+|[[OpFmaKHR]]*OpFmaKHR* +
  +
-Floating-point fused multiply add, ('Operand 1' * 'Operand 2') + 'Operand 3'. +
+Floating-point fused multiply add, (_Operand 1_ * _Operand 2_) + _Operand 3_. +
  +
- 'Result Type' must be a scalar or vector of <<Floating,'floating-point type'>>.  +
+ _Result Type_ must be a scalar or vector of <<Floating,_floating-point type_>>.  +
  +
- The types of 'Operand 1', 'Operand 2', and 'Operand 3' must be the same as 'Result Type'.  +
+ The types of _Operand 1_, _Operand 2_, and _Operand 3_ must be the same as _Result Type_.  +
  +
  Results are computed per component.
 2+|<<Capability,Capability>>: +
 *FMAKHR*
 | 6 | 4427
- | '<id>' +
-'Result Type' | <<ResultId,'Result <id>' >> | '<id>' +
-'Operand 1' | '<id>' +
-'Operand 2' | '<id>' +
-'Operand 3'
+ | _<id>_ +
+_Result Type_ | <<ResultId,_Result <id>_ >> | _<id>_ +
+_Operand 1_ | _<id>_ +
+_Operand 2_ | _<id>_ +
+_Operand 3_
 |=====
 
 
