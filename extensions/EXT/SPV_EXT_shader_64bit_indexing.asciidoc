@@ -1,0 +1,150 @@
+SPV_EXT_shader_64bit_indexing
+=============================
+
+Name Strings
+------------
+
+SPV_EXT_shader_64bit_indexing
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Jeff Bolz, NVIDIA
+
+Notice
+------
+
+Copyright (c) 2025 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+Status
+------
+
+- Approved by the SPIR-V Working Group: 2025-09-03
+- Approved by the Khronos Board of Promoters: 2025-10-17
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2025-10-22
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.6, Revision 5, Unified.
+
+This extension requires SPIR-V 1.0.
+
+This extension interacts with SPV_NV_cooperative_vector.
+
+This extension interacts with SPV_KHR_untyped_pointers.
+
+Overview
+--------
+
+This extension allows shaders to request 64-bit addressing calculations, as
+defined in the VK_EXT_shader_64bit_indexing extension.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_EXT_shader_64bit_indexing"
+----
+
+Modifications to the SPIR-V Specification, Version 1.6
+------------------------------------------------------
+
+3.6 Execution Mode
+~~~~~~~~~~~~~~~~~~
+
+Modify Section 3.6, "Execution Mode", adding these rows to the Execution Mode table:
+
+--
+[options="header"]
+|====
+2+^| Execution Mode ^| Extra Operands ^| Enabling Capabilities
+| 5427 | *Shader64BitIndexingEXT* +
+Requests the use of 64-bit indexing, as defined by the execution environment.
+|
+| *Shader64BitIndexingEXT*
+|====
+--
+
+3.3.8. Memory Instructions
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Modify *OpArrayLength* and *OpUntypedArrayLengthKHR*, to replace:
+
+"Result Type must be an OpTypeInt with 32-bit Width and 0 Signedness."
+
+with:
+
+"Result Type must be an OpTypeInt with 32- or 64-bit Width and 0 Signedness."
+
+
+3.42.X Cooperative Vector Instructions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Modify *OpCooperativeVectorMatrixMulAddNV*, to replace:
+
+"MatrixOffset must be a 32 bit integer." and "BiasOffset must be a 32 bit integer."
+
+with:
+
+"MatrixOffset must be a 32- or 64-bit integer." and "BiasOffset must be a 32- or 64-bit integer."
+
+Modify *OpCooperativeVectorLoadNV*, *OpCooperativeVectorStoreNV*,
+*OpCooperativeVectorOuterProductAccumulateNV*, and
+*OpCooperativeVectorReduceSumAccumulateNV*, to replace:
+
+"Offset must be a 32 bit integer."
+
+with:
+
+"Offset must be a 32- or 64-bit integer."
+
+
+3.31 Capabilities
+~~~~~~~~~~~~~~~~~
+
+Modify Section 3.31, "Capability", adding these rows to the Capability table:
+
+--
+[options="header"]
+|====
+2+^| Capability ^| Enabling Capabilities
+| 5426 | *Shader64BitIndexingEXT* +
+Enables the *Shader64BitIndexingEXT* execution mode.
+|
+|====
+--
+
+Issues
+------
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2025-10-22|Jeff Bolz|Initial revision of SPV_EXT_shader_64bit_indexing
+|========================================

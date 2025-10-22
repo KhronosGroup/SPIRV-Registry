@@ -93,6 +93,7 @@ Note: we no longer push the HTML along side the extension.
 * [SPV_EXT_physical_storage_buffer         ]( https://github.khronos.org/SPIRV-Registry/extensions/EXT/SPV_EXT_physical_storage_buffer.html)
 * [SPV_EXT_relaxed_printf_string_address_space]( https://github.khronos.org/SPIRV-Registry/extensions/EXT/SPV_EXT_relaxed_printf_string_address_space.html)
 * [SPV_EXT_replicated_composites           ]( https://github.khronos.org/SPIRV-Registry/extensions/EXT/SPV_EXT_replicated_composites.html)
+* [SPV_EXT_shader_64bit_indexing           ]( https://github.khronos.org/SPIRV-Registry/extensions/EXT/SPV_EXT_shader_64bit_indexing.html)
 * [SPV_EXT_shader_atomic_float_add         ]( https://github.khronos.org/SPIRV-Registry/extensions/EXT/SPV_EXT_shader_atomic_float_add.html)
 * [SPV_EXT_shader_atomic_float_min_max     ]( https://github.khronos.org/SPIRV-Registry/extensions/EXT/SPV_EXT_shader_atomic_float_min_max.html)
 * [SPV_EXT_shader_atomic_float16_add       ]( https://github.khronos.org/SPIRV-Registry/extensions/EXT/SPV_EXT_shader_atomic_float16_add.html)
