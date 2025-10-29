@@ -1,9 +1,9 @@
-SPV_INTEL_fpga_buffer_location
-==============================
+SPV_ALTERA_fpga_buffer_location
+===============================
 
 == Name Strings
 
-SPV_INTEL_fpga_buffer_location
+SPV_ALTERA_fpga_buffer_location
 
 == Contact
 
@@ -47,14 +47,14 @@ This extension adds a pointer decoration that is useful for FPGA targets.  This 
 To use this extension within a SPIR-V module, the following *OpExtension* must be present in the module:
 
 ----
-OpExtension "SPV_INTEL_fpga_buffer_location"
+OpExtension "SPV_ALTERA_fpga_buffer_location"
 ----
 
 == New Capabilities
 This extension introduces a new capability:
 
 ----
-FPGABufferLocationINTEL
+FPGABufferLocationALTERA
 ----
 
 == Token Number Assignments
@@ -64,8 +64,8 @@ FPGABufferLocationINTEL
 [cols="70%,30%"]
 [grid="rows"]
 |====
-|FPGABufferLocationINTEL |5920
-|BufferLocationINTEL     |5921
+|FPGABufferLocationALTERA |5920
+|BufferLocationALTERA     |5921
 |==== 
 --
 
@@ -79,9 +79,9 @@ Modify Section 3.20, Decoration, adding these rows to the Decoration table:
 [options="header"]
 |====
 2+^| Decoration | Extra Operands | Enabling Capabilities
-| 5921 | *BufferLocationINTEL* + 
+| 5921 | *BufferLocationALTERA* + 
 Apply only to a pointer. Indicates that the pointer must only point into the physical memory identified by the subsequent literal number operand. The exact semantics of the literal number are implementation defined. | Literal +
-_Buffer Location ID_ | *FPGABufferLocationINTEL*
+_Buffer Location ID_ | *FPGABufferLocationALTERA*
 |====
 --
 
@@ -92,7 +92,7 @@ Modify Section 3.31, Capability, adding a row to the Capability table:
 [options="header"]
 |====
 2+^| Capability ^| Implicitly Declares
-| 5920 | FPGABufferLocationINTEL |
+| 5920 | FPGABufferLocationALTERA |
 |====
 --
 

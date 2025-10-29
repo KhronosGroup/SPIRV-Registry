@@ -1,9 +1,9 @@
-SPV_INTEL_fpga_memory_accesses
-==============================
+SPV_ALTERA_fpga_memory_accesses
+===============================
 
 == Name Strings
 
-SPV_INTEL_fpga_memory_accesses
+SPV_ALTERA_fpga_memory_accesses
 
 == Contact
 
@@ -49,25 +49,25 @@ This extension adds decorations, useful for FPGA targets, that explicitly reques
 To use this extension within a SPIR-V module, the following *OpExtension* must be present in the module:
 
 ----
-OpExtension "SPV_INTEL_fpga_memory_accesses"
+OpExtension "SPV_ALTERA_fpga_memory_accesses"
 ----
  
 == New capabilities
 This extension introduces a new capability:
 
 ----
-FPGAMemoryAccessesINTEL
+FPGAMemoryAccessesALTERA
 ----
 
 == New Decorations
 
-Decorations added under the *FPGAMemoryAccessesINTEL* capability:
+Decorations added under the *FPGAMemoryAccessesALTERA* capability:
 
 ----
-BurstCoalesceINTEL
-CacheSizeINTEL
-DontStaticallyCoalesceINTEL
-PrefetchINTEL
+BurstCoalesceALTERA
+CacheSizeALTERA
+DontStaticallyCoalesceALTERA
+PrefetchALTERA
 ----
 
 == Token Number Assignments
@@ -77,11 +77,11 @@ PrefetchINTEL
 [cols="70%,30%"]
 [grid="rows"]
 |====
-|FPGAMemoryAccessesINTEL     |5898
-|BurstCoalesceINTEL          |5899
-|CacheSizeINTEL              |5900
-|DontStaticallyCoalesceINTEL |5901
-|PrefetchINTEL               |5902
+|FPGAMemoryAccessesALTERA     |5898
+|BurstCoalesceALTERA          |5899
+|CacheSizeALTERA              |5900
+|DontStaticallyCoalesceALTERA |5901
+|PrefetchALTERA               |5902
 |==== 
 --
 
@@ -95,20 +95,20 @@ Modify Section 3.20, Decoration, adding these rows to the Decoration table:
 [options="header"]
 |====
 2+^| Decoration 2+^| Extra Operands	^| Enabling Capabilities
-| 5899 | *BurstCoalesceINTEL* +
+| 5899 | *BurstCoalesceALTERA* +
 Apply to a pointer. Request, to the extent possible, that a dynamic burst coalescer be implemented when the memory pointed to by the pointer is accessed using OpLoad or OpStore. 
-2+| | *FPGAMemoryAccessesINTEL*
-| 5900 | *CacheSizeINTEL* +
+2+| | *FPGAMemoryAccessesALTERA*
+| 5900 | *CacheSizeALTERA* +
 Apply to a pointer. Request, to the extent possible, that a read-only cache of the specified size be implemented when the memory pointed to by the pointer is accessed using OpLoad.
 2+| Literal Number +
-_Cache Size in bytes_ | *FPGAMemoryAccessesINTEL*
-| 5901 | *DontStaticallyCoalesceINTEL*  +
+_Cache Size in bytes_ | *FPGAMemoryAccessesALTERA*
+| 5901 | *DontStaticallyCoalesceALTERA*  +
 Apply to a pointer. Request, to the extent possible, that accesses to the pointer, using OpLoad or OpStore, should not be statically coalesced with other memory accesses at compile time.
-2+| | *FPGAMemoryAccessesINTEL*
-| 5902 | *PrefetchINTEL* +
+2+| | *FPGAMemoryAccessesALTERA*
+| 5902 | *PrefetchALTERA* +
 Apply to a pointer. Request, to the extent possible, that a prefetcher of the specified size be implemented when the memory pointed to by the pointer is accessed using OpLoad.
 2+| Literal Number +
-_Prefetcher Size in bytes_ | *FPGAMemoryAccessesINTEL*
+_Prefetcher Size in bytes_ | *FPGAMemoryAccessesALTERA*
 |====
 --
 
@@ -119,7 +119,7 @@ Modify Section 3.31, Capability, adding a row to the Capability table:
 [options="header"]
 |====
 2+^| Capability ^| Implicitly Declares
-| 5898 | FPGAMemoryAccessesINTEL |
+| 5898 | FPGAMemoryAccessesALTERA |
 |====
 --
 

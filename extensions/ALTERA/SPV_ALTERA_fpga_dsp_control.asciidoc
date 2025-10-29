@@ -1,9 +1,9 @@
-SPV_INTEL_fpga_dsp_control
-==========================
+SPV_ALTERA_fpga_dsp_control
+===========================
 
 == Name Strings
 
-SPV_INTEL_fpga_dsp_control
+SPV_ALTERA_fpga_dsp_control
 
 == Contact
 
@@ -52,22 +52,22 @@ Digital Signal Processing (DSP) blocks or soft logic, on an FPGA target.
 To use this extension within a SPIR-V module, the following *OpExtension* must be present in the module:
 
 ----
-OpExtension "SPV_INTEL_fpga_dsp_control"
+OpExtension "SPV_ALTERA_fpga_dsp_control"
 ----
 
 == New capabilities
 This extension introduces a new capability:
 
 ----
-FPGADSPControlINTEL
+FPGADSPControlALTERA
 ----
 
 == New Decorations
 
-This extension adds the following decoration under the *FPGADSPControlINTEL* capability:
+This extension adds the following decoration under the *FPGADSPControlALTERA* capability:
 
 ----
-MathOpDSPModeINTEL
+MathOpDSPModeALTERA
 ----
 
 == Token Number Assignments
@@ -77,8 +77,8 @@ MathOpDSPModeINTEL
 [cols="70%,30%"]
 [grid="rows"]
 |====
-|FPGADSPControlINTEL        |5908
-|MathOpDSPModeINTEL         |5909
+|FPGADSPControlALTERA        |5908
+|MathOpDSPModeALTERA         |5909
 |====
 --
 
@@ -92,7 +92,7 @@ Modify Section 3.20, Decoration, adding the following rows to the Decoration tab
 [options="header"]
 |====
 2+^| Decoration 2+^| Extra Operands ^| Enabling Capabilities
-| 5909 | *MathOpDSPModeINTEL* +
+| 5909 | *MathOpDSPModeALTERA* +
 Only valid on OpFunction.
 Request, to the extent possible, that math operations in the function be implemented according to _Mode_.
 
@@ -106,13 +106,13 @@ If _Mode_ is equal to 2 it indicates a request that math operations be implement
 
 If _Propagate_ is equal to 0, the _Mode_ request applies to math operations in this function F only, and does not extend to math operations executed as part of function calls made by F.
 
-If _Propagate_ is equal to 1, the _Mode_ request applies to math operations in this function F, and to all math operations executed as part of functions called (transitively) by F, unless a called function G has a MathOpDSPModeINTEL decoration. The decoration on G takes precedence for G and all functions called (transitively) by G, i.e., the _Mode_ request from F does not apply to G nor functions called (transitively) by G.
+If _Propagate_ is equal to 1, the _Mode_ request applies to math operations in this function F, and to all math operations executed as part of functions called (transitively) by F, unless a called function G has a MathOpDSPModeALTERA decoration. The decoration on G takes precedence for G and all functions called (transitively) by G, i.e., the _Mode_ request from F does not apply to G nor functions called (transitively) by G.
 
-If _Propagate_ is equal to 2, the _Mode_ request applies to all math operations in this function F, and to all math operations executed as part of function calls made (transitively) by F, overriding any MathOpDSPModeINTEL on the called functions.
+If _Propagate_ is equal to 2, the _Mode_ request applies to all math operations in this function F, and to all math operations executed as part of function calls made (transitively) by F, overriding any MathOpDSPModeALTERA on the called functions.
 
 | Literal +
 _Mode_ | Literal +
-_Propagate_ | *FPGADSPControlINTEL*
+_Propagate_ | *FPGADSPControlALTERA*
 |====
 --
 
@@ -123,7 +123,7 @@ Modify Section 3.31, Capability, adding a row to the Capability table:
 [options="header"]
 |====
 2+^| Capability ^| Implicitly Declares
-| 5908 | FPGADSPControlINTEL |
+| 5908 | FPGADSPControlALTERA |
 |====
 --
 

@@ -1,9 +1,9 @@
-SPV_INTEL_runtime_aligned
-=========================
+SPV_ALTERA_runtime_aligned
+==========================
 
 == Name Strings
 
-SPV_INTEL_runtime_aligned
+SPV_ALTERA_runtime_aligned
 
 == Contact
 
@@ -46,14 +46,14 @@ This extension introduces a new function parameter attribute that can be applied
 To use this extension within a SPIR-V module, the following *OpExtension* must be present in the module:
 
 ----
-OpExtension "SPV_INTEL_runtime_aligned"
+OpExtension "SPV_ALTERA_runtime_aligned"
 ----
 
 == New capabilities
 This extension introduces a new capability:
 
 ----
-RuntimeAlignedAttributeINTEL
+RuntimeAlignedAttributeALTERA
 ----
 
 == Token Number Assignments
@@ -62,8 +62,8 @@ RuntimeAlignedAttributeINTEL
 [cols="70%,30%"]
 [grid="rows"]
 |====
-| RuntimeAlignedAttributeINTEL  | 5939
-| RuntimeAlignedINTEL | 5940 
+| RuntimeAlignedAttributeALTERA  | 5939
+| RuntimeAlignedALTERA | 5940 
 |====
 
 == Modifications to the SPIR-V Specification, Version 1.5 Revision 5
@@ -76,8 +76,8 @@ Modify Section 3.19, Function Parameter Attribute, adding a row to the table:
 [options="header"]
 |===
 2+^| Function Parameter Attribute | Enabling Capabilities
-| 5940 | *RuntimeAlignedINTEL* +
-Indicates that the pointer comes directly from a runtime allocation and was not offset in any way.  This pointer can thus be assumed to have the implementation-defined alignment with which the corresponding runtime is known to allocate pointers. Only valid for pointer parameters. Not valid on return values. | *RuntimeAlignedAttributeINTEL*
+| 5940 | *RuntimeAlignedALTERA* +
+Indicates that the pointer comes directly from a runtime allocation and was not offset in any way.  This pointer can thus be assumed to have the implementation-defined alignment with which the corresponding runtime is known to allocate pointers. Only valid for pointer parameters. Not valid on return values. | *RuntimeAlignedAttributeALTERA*
 |===
 --
 
@@ -88,7 +88,7 @@ Modify Section 3.31, Capability, adding a row to the Capability table:
 [options="header"]
 |====
 2+^| Capability ^| Implicitly Declares
-| 5939 | *RuntimeAlignedAttributeINTEL* | *Kernel*
+| 5939 | *RuntimeAlignedAttributeALTERA* | *Kernel*
 |====
 --
 

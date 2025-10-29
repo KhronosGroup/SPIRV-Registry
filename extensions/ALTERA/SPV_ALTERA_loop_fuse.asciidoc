@@ -1,9 +1,9 @@
-SPV_INTEL_loop_fuse
-===================
+SPV_ALTERA_loop_fuse
+====================
 
 == Name Strings
 
-SPV_INTEL_loop_fuse
+SPV_ALTERA_loop_fuse
 
 == Contact
 
@@ -47,22 +47,22 @@ This extension adds a function decoration to request that loops meeting defined 
 To use this extension within a SPIR-V module, the following *OpExtension* must be present in the module:
 
 ----
-OpExtension "SPV_INTEL_loop_fuse"
+OpExtension "SPV_ALTERA_loop_fuse"
 ----
 
 == New capabilities
 This extension introduces a new capability:
 
 ----
-LoopFuseINTEL
+LoopFuseALTERA
 ----
 
 == New Decorations
 
-This extension adds the following decoration under the *LoopFuseINTEL* capability:
+This extension adds the following decoration under the *LoopFuseALTERA* capability:
 
 ----
-FuseLoopsInFunctionINTEL
+FuseLoopsInFunctionALTERA
 ----
 
 == Token Number Assignments
@@ -72,8 +72,8 @@ FuseLoopsInFunctionINTEL
 [cols="70%,30%"]
 [grid="rows"]
 |====
-|LoopFuseINTEL                |5906
-|FuseLoopsInFunctionINTEL     |5907
+|LoopFuseALTERA                |5906
+|FuseLoopsInFunctionALTERA     |5907
 |====
 --
 
@@ -87,11 +87,11 @@ Modify Section 3.20, Decoration, adding the following row to the Decoration tabl
 [options="header"]
 |====
 2+^| Decoration 2+^| Extra Operands ^| Enabling Capabilities
-| 5907 | *FuseLoopsInFunctionINTEL* +
+| 5907 | *FuseLoopsInFunctionALTERA* +
 Only valid on OpFunction. Request, to the extent possible, that loops in the function be fused if they are contained in strictly fewer than _Depth_ other loops in the function. _Depth_ is a 32-bit unsigned integer type scalar. _Independent_ is a 32-bit unsigned integer type scalar.  If _Independent_ is non-zero, it guarantees that fusing loops in the function that are contained in strictly fewer than _Depth_ other loops within the function does not change the order of any dependent memory accesses.
 | Literal +
 _Depth_ | Literal +
-_Independent_ | *LoopFuseINTEL*
+_Independent_ | *LoopFuseALTERA*
 |====
 --
 
@@ -102,7 +102,7 @@ Modify Section 3.31, Capability, adding a row to the Capability table:
 [options="header"]
 |====
 2+^| Capability ^| Implicitly Declares
-| 5906 | LoopFuseINTEL |
+| 5906 | LoopFuseALTERA |
 |====
 --
 

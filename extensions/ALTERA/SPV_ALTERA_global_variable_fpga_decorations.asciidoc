@@ -1,4 +1,4 @@
-= SPV_INTEL_global_variable_fpga_decorations
+= SPV_ALTERA_global_variable_fpga_decorations
 :source-highlighter: coderay
 :coderay-linenums-mode: table
 
@@ -11,7 +11,7 @@
 
 == Name Strings
 
-SPV_INTEL_global_variable_fpga_decorations
+SPV_ALTERA_global_variable_fpga_decorations
 
 == Contact
 
@@ -61,14 +61,14 @@ To use this extension within a SPIR-V module, the following *OpExtension* must
 be present in the module:
 
 ----
-OpExtension "SPV_INTEL_global_variable_fpga_decorations"
+OpExtension "SPV_ALTERA_global_variable_fpga_decorations"
 ----
 
 == New Capabilities
 This extension introduces a new capability:
 
 ----
-GlobalVariableFPGADecorationsINTEL
+GlobalVariableFPGADecorationsALTERA
 ----
 
 == Token Number Assignments
@@ -78,9 +78,9 @@ GlobalVariableFPGADecorationsINTEL
 [cols="70%,30%"]
 [grid="rows"]
 |====
-|GlobalVariableFPGADecorationsINTEL | 6189
-|InitModeINTEL | 6190
-|ImplementInRegisterMapINTEL | 6191
+|GlobalVariableFPGADecorationsALTERA | 6189
+|InitModeALTERA | 6190
+|ImplementInRegisterMapALTERA | 6191
 |====
 --
 
@@ -92,7 +92,7 @@ After Section 3.18, add a new section "3.18a Initialization Mode Qualifier" as f
 
 Defines how the initialization should be triggered.
 
-Used by InitModeINTEL.
+Used by InitModeALTERA.
 
 --
 [options="header"]
@@ -100,22 +100,22 @@ Used by InitModeINTEL.
 2+^| Initialization Mode Qualifier ^| Enabling Capabilities
 // --- ROW BREAK ---
 | 0
-| *InitOnDeviceReprogramINTEL*
+| *InitOnDeviceReprogramALTERA*
 
 Initialization is performed by reprogramming
  the device. This may require more frequent reprogramming but may reduce
  area.
 
-| *GlobalVariableFPGADecorationsINTEL*
+| *GlobalVariableFPGADecorationsALTERA*
 
 // --- ROW BREAK ---
 | 1
-| *InitOnDeviceResetINTEL*
+| *InitOnDeviceResetALTERA*
 
 Initialization is performed by sending a reset
  signal to the device. This may increase area but may reduce reprogramming
  frequency.
-| *GlobalVariableFPGADecorationsINTEL*
+| *GlobalVariableFPGADecorationsALTERA*
 
 |====
 --
@@ -132,7 +132,7 @@ Modify Section 3.20, Decoration, adding these rows to the Decoration table:
 // --- ROW BREAK ---
 | 6190
 a|
-*InitModeINTEL* +
+*InitModeALTERA* +
 Only valid on global (module scope) *OpVariable* which has an _Initializer_
 operand.
 
@@ -141,17 +141,17 @@ device. The _Trigger_ value tells how the global variable should be
 initialized.
 
 If a global *OpVariable* with an _Initializer_ operand is not decorated with
-*InitModeINTEL*, the method by which the variable's value is initialized is
+*InitModeALTERA*, the method by which the variable's value is initialized is
 implementation defined.
 
 2+| Initialization Mode Qualifier +
 _Trigger_
-| *GlobalVariableFPGADecorationsINTEL*
+| *GlobalVariableFPGADecorationsALTERA*
 
 // --- ROW BREAK ---
 | 6191
 a|
-*ImplementInRegisterMapINTEL* +
+*ImplementInRegisterMapALTERA* +
 Only valid on global (module scope) *OpVariable*.
 
 This decoration only has an effect when the consumer is an FPGA or similar
@@ -163,12 +163,12 @@ Legal values of _Value_:
 * 0 [False] - Access to this memory is through a dedicated interface.
 * 1 [True] - Access to this memory is through a common register map interface that may be shared by other control or data inputs and outputs.
 
-If a global *OpVariable* is not decorated with *ImplementInRegisterMapINTEL*, the
+If a global *OpVariable* is not decorated with *ImplementInRegisterMapALTERA*, the
 interface for the variable is implementation defined.
 
 2+| Literal Number +
 _Value_
-| *GlobalVariableFPGADecorationsINTEL*
+| *GlobalVariableFPGADecorationsALTERA*
 
 |====
 --
@@ -181,7 +181,7 @@ Modify Section 3.31, Capability, adding a row to the Capability table:
 |====
 2+^| Capability ^| Implicitly Declares
 | 6189
-|  GlobalVariableFPGADecorationsINTEL
+|  GlobalVariableFPGADecorationsALTERA
 |
 |====
 --

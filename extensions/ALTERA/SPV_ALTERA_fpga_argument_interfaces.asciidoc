@@ -1,4 +1,4 @@
-= SPV_INTEL_fpga_argument_interfaces
+= SPV_ALTERA_fpga_argument_interfaces
 
 :source-highlighter: coderay
 :coderay-linenums-mode: table
@@ -22,7 +22,7 @@
 
 == Name Strings
 
-SPV_INTEL_fpga_argument_interfaces
+SPV_ALTERA_fpga_argument_interfaces
 
 == Contact
 
@@ -65,14 +65,14 @@ This extension adds kernel argument decorations that influence the interfaces bu
 To use this extension within a SPIR-V module, the following *OpExtension* must be present in the module:
 
 ----
-OpExtension "SPV_INTEL_fpga_argument_interfaces"
+OpExtension "SPV_ALTERA_fpga_argument_interfaces"
 ----
 
 == New Capabilities
 This extension introduces the following new capability:
 
 ----
-FPGAArgumentInterfacesINTEL
+FPGAArgumentInterfacesALTERA
 ----
 
 == Token Number Assignments
@@ -82,16 +82,16 @@ FPGAArgumentInterfacesINTEL
 [cols="70%,30%"]
 [grid="rows"]
 |====
-|FPGAArgumentInterfacesINTEL        |6174
-|ConduitKernelArgumentINTEL         |6175
-|RegisterMapKernelArgumentINTEL     |6176
-|MMHostInterfaceAddressWidthINTEL   |6177
-|MMHostInterfaceDataWidthINTEL      |6178
-|MMHostInterfaceLatencyINTEL        |6179
-|MMHostInterfaceReadWriteModeINTEL  |6180
-|MMHostInterfaceMaxBurstINTEL       |6181
-|MMHostInterfaceWaitRequestINTEL    |6182
-|StableKernelArgumentINTEL          |6183
+|FPGAArgumentInterfacesALTERA        |6174
+|ConduitKernelArgumentALTERA         |6175
+|RegisterMapKernelArgumentALTERA     |6176
+|MMHostInterfaceAddressWidthALTERA   |6177
+|MMHostInterfaceDataWidthALTERA      |6178
+|MMHostInterfaceLatencyALTERA        |6179
+|MMHostInterfaceReadWriteModeALTERA  |6180
+|MMHostInterfaceMaxBurstALTERA       |6181
+|MMHostInterfaceWaitRequestALTERA    |6182
+|StableKernelArgumentALTERA          |6183
 |====
 --
 
@@ -106,49 +106,49 @@ Modify Section 3.20, Decoration, adding these rows to the Decoration table:
 |====
 2+^| Decoration 2+^| Extra Operands	^| Enabling Capabilities
 // --- ROW BREAK ---
-| 6175 | *ConduitKernelArgumentINTEL* +
+| 6175 | *ConduitKernelArgumentALTERA* +
 Must be applied only to an *OpFunctionParameter* of a function that is an *entry point*. Indicates that dedicated input wires should be created for this argument.
-2+| | *FPGAArgumentInterfacesINTEL*
-| 6176 | *RegisterMapKernelArgumentINTEL* +
-Must be applied only to an *OpFunctionParameter* of a function that is an *entry point*. Indicates that this argument is stored in registers in the kernel that are accessed through a common interface shared between this argument, other RegisterMapKernelArgumentINTEL arguments, and possibly kernel control signals.
-2+| | *FPGAArgumentInterfacesINTEL*
+2+| | *FPGAArgumentInterfacesALTERA*
+| 6176 | *RegisterMapKernelArgumentALTERA* +
+Must be applied only to an *OpFunctionParameter* of a function that is an *entry point*. Indicates that this argument is stored in registers in the kernel that are accessed through a common interface shared between this argument, other RegisterMapKernelArgumentALTERA arguments, and possibly kernel control signals.
+2+| | *FPGAArgumentInterfacesALTERA*
 // --- ROW BREAK ---
-| 6177 | *MMHostInterfaceAddressWidthINTEL* +
+| 6177 | *MMHostInterfaceAddressWidthALTERA* +
 Must be applied only to a pointer *OpFunctionParameter* of a function that is an *entry point*. Indicates the size, in bits, of the address bus for the Memory Mapped Interface created for this pointer argument.
 2+| Literal Number (32-bit signed integer) +
-_AddressWidth_ | *FPGAArgumentInterfacesINTEL*
+_AddressWidth_ | *FPGAArgumentInterfacesALTERA*
 // --- ROW BREAK ---
-| 6178 | *MMHostInterfaceDataWidthINTEL* +
+| 6178 | *MMHostInterfaceDataWidthALTERA* +
 Must be applied only to a pointer *OpFunctionParameter* of a function that is an *entry point*. Indicates the size, in bits, of the data bus for the Memory Mapped Interface created for this pointer argument.
 2+| Literal Number (32-bit signed integer) +
-_DataWidth_ | *FPGAArgumentInterfacesINTEL*
+_DataWidth_ | *FPGAArgumentInterfacesALTERA*
 // --- ROW BREAK ---
-| 6179 | *MMHostInterfaceLatencyINTEL* +
+| 6179 | *MMHostInterfaceLatencyALTERA* +
 Must be applied only to a pointer *OpFunctionParameter* of a function that is an *entry point*. Indicates the latency in cycles of the Memory Mapped Interface created for this pointer argument. If this decoration is present it guarantees that the latency is fixed.
 2+| Literal Number (32-bit signed integer) +
-_Latency_ | *FPGAArgumentInterfacesINTEL*
+_Latency_ | *FPGAArgumentInterfacesALTERA*
 // --- ROW BREAK ---
-| 6180 | *MMHostInterfaceReadWriteModeINTEL* +
+| 6180 | *MMHostInterfaceReadWriteModeALTERA* +
 Must be applied only to a pointer *OpFunctionParameter* of a function that is an *entry point*. Indicates the read-write mode of the Memory Mapped Interface created for this pointer argument.
 2+| *Access Qualifier* +
-_ReadWriteMode_ | *FPGAArgumentInterfacesINTEL*
+_ReadWriteMode_ | *FPGAArgumentInterfacesALTERA*
 // --- ROW BREAK ---
-| 6181 | *MMHostInterfaceMaxBurstINTEL* +
+| 6181 | *MMHostInterfaceMaxBurstALTERA* +
 Must be applied only to a pointer *OpFunctionParameter* of a function that is an *entry point*. Indicates the maximum burst count of the Memory Mapped Interface created for this pointer argument.
 2+| Literal Number (32-bit signed integer) +
-_MaxBurstCount_ | *FPGAArgumentInterfacesINTEL*
+_MaxBurstCount_ | *FPGAArgumentInterfacesALTERA*
 // --- ROW BREAK ---
-| 6182 | *MMHostInterfaceWaitRequestINTEL* +
+| 6182 | *MMHostInterfaceWaitRequestALTERA* +
 Must be applied only to a pointer *OpFunctionParameter* of a function that is an *entry point*. Indicates whether the Memory Mapped Interface created for this pointer argument should accept a waitrequest signal.
 
 A setting of 1 means build a waitrequest signal and a setting of 0 means don't.
 
 2+| Literal Number (32-bit signed integer) +
-_Waitrequest_ | *FPGAArgumentInterfacesINTEL*
+_Waitrequest_ | *FPGAArgumentInterfacesALTERA*
 // --- ROW BREAK ---
-| 6183 | *StableKernelArgumentINTEL* +
+| 6183 | *StableKernelArgumentALTERA* +
 Must be applied only to an *OpFunctionParameter* of a function that is an *entry point*. Indicates that this input will not change during the execution of pipelined kernel invocations. Input can change once all active invocations have finished.
-2+| | *FPGAArgumentInterfacesINTEL*
+2+| | *FPGAArgumentInterfacesALTERA*
 |====
 --
 
@@ -160,14 +160,14 @@ Modify Section 3.31, Capability, adding a row to the Capability table:
 |====
 2+^| Capability ^| Implicitly Declares
 | 6174
-| FPGAArgumentInterfacesINTEL
+| FPGAArgumentInterfacesALTERA
 |
 |====
 --
 
 === Validation Rules
 
-It is invalid to specify both *ConduitKernelArgumentINTEL* and *RegisterMapKernelArgumentINTEL* decorations on the same *OpFunctionParameter*.
+It is invalid to specify both *ConduitKernelArgumentALTERA* and *RegisterMapKernelArgumentALTERA* decorations on the same *OpFunctionParameter*.
 
 == Issues
 

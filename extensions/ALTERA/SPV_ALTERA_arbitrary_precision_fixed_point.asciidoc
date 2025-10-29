@@ -1,9 +1,9 @@
-SPV_INTEL_arbitrary_precision_fixed_point
-=========================================
+SPV_ALTERA_arbitrary_precision_fixed_point
+==========================================
 
 == Name Strings
 
-SPV_INTEL_arbitrary_precision_fixed_point
+SPV_ALTERA_arbitrary_precision_fixed_point
 
 == Contact
 
@@ -37,7 +37,7 @@ Final draft
 
 This extension is written against the SPIR-V Specification Version 1.6, Revision 2.
 
-While this extension does not require SPV_INTEL_arbitrary_precision_integers, the new operators it adds are significantly more useful when that extension is supported as the combination of the two extensions allows for more freedom in the width of arbitrary precision data types that can be represented (see the definition of the `W` parameter below).  
+While this extension does not require SPV_ALTERA_arbitrary_precision_integers, the new operators it adds are significantly more useful when that extension is supported as the combination of the two extensions allows for more freedom in the width of arbitrary precision data types that can be represented (see the definition of the `W` parameter below).
 
 This extension is built on Mentor Graphics ac_datatypes spec v3.9.2.
 
@@ -70,7 +70,7 @@ Note that it is also possible that one of the two portions may have no bits.
 To use this extension within a SPIR-V module, the following *OpExtension* must be present in the module:
 
 ----
-OpExtension "SPV_INTEL_arbitrary_precision_fixed_point"
+OpExtension "SPV_ALTERA_arbitrary_precision_fixed_point"
 ----
 
 == New Capabilities
@@ -78,25 +78,25 @@ OpExtension "SPV_INTEL_arbitrary_precision_fixed_point"
 This extension introduces a new capability:
 
 ----
-ArbitraryPrecisionFixedPointINTEL
+ArbitraryPrecisionFixedPointALTERA
 ----
 
 == New Instructions
 
-Instructions added under the *ArbitraryPrecisionFixedPointINTEL* capability:
+Instructions added under the *ArbitraryPrecisionFixedPointALTERA* capability:
 
 ----
-OpFixedSqrtINTEL
-OpFixedRecipINTEL
-OpFixedRsqrtINTEL
-OpFixedSinINTEL
-OpFixedCosINTEL
-OpFixedSinCosINTEL
-OpFixedSinPiINTEL
-OpFixedCosPiINTEL
-OpFixedSinCosPiINTEL
-OpFixedLogINTEL
-OpFixedExpINTEL
+OpFixedSqrtALTERA
+OpFixedRecipALTERA
+OpFixedRsqrtALTERA
+OpFixedSinALTERA
+OpFixedCosALTERA
+OpFixedSinCosALTERA
+OpFixedSinPiALTERA
+OpFixedCosPiALTERA
+OpFixedSinCosPiALTERA
+OpFixedLogALTERA
+OpFixedExpALTERA
 ----
 
 == Token Number Assignments
@@ -104,18 +104,18 @@ OpFixedExpINTEL
 [cols="70%,30%"]
 [grid="rows"]
 |====
-|*ArbitraryPrecisionFixedPointINTEL*    | 5922
-|*OpFixedSqrtINTEL*                     | 5923
-|*OpFixedRecipINTEL*                    | 5924
-|*OpFixedRsqrtINTEL*                    | 5925
-|*OpFixedSinINTEL*                      | 5926
-|*OpFixedCosINTEL*                      | 5927
-|*OpFixedSinCosINTEL*                   | 5928
-|*OpFixedSinPiINTEL*                    | 5929
-|*OpFixedCosPiINTEL*                    | 5930
-|*OpFixedSinCosPiINTEL*                 | 5931
-|*OpFixedLogINTEL*                      | 5932
-|*OpFixedExpINTEL*                      | 5933
+|*ArbitraryPrecisionFixedPointALTERA*    | 5922
+|*OpFixedSqrtALTERA*                     | 5923
+|*OpFixedRecipALTERA*                    | 5924
+|*OpFixedRsqrtALTERA*                    | 5925
+|*OpFixedSinALTERA*                      | 5926
+|*OpFixedCosALTERA*                      | 5927
+|*OpFixedSinCosALTERA*                   | 5928
+|*OpFixedSinPiALTERA*                    | 5929
+|*OpFixedCosPiALTERA*                    | 5930
+|*OpFixedSinCosPiALTERA*                 | 5931
+|*OpFixedLogALTERA*                      | 5932
+|*OpFixedExpALTERA*                      | 5933
 |====
 
 
@@ -128,15 +128,15 @@ After Section 3.16, add a new section "3.16b Quantization Modes" as follows:
 [width="80%"]
 [cols="10%,20%,60%,10%"]
 |====
-| Value ^| Mode              ^| Behavior                                                          ^| Enabling Capabilities
-| 0      | TRN_INTEL          | Truncate towards -Inf                                              | *ArbitraryPrecisionFixedPointINTEL*
-| 1      | TRN_ZERO_INTEL     | Truncate towards 0                                                 | *ArbitraryPrecisionFixedPointINTEL*
-| 2      | RND_INTEL          | Round towards +Inf                                                 | *ArbitraryPrecisionFixedPointINTEL*
-| 3      | RND_ZERO_INTEL     | Round towards 0                                                    | *ArbitraryPrecisionFixedPointINTEL*
-| 4      | RND_INF_INTEL      | Round positive values toward +Inf and negative values toward -Inf  | *ArbitraryPrecisionFixedPointINTEL*
-| 5      | RND_MIN_INF_INTEL  | Round towards -Inf                                                 | *ArbitraryPrecisionFixedPointINTEL*
-| 6      | RND_CONV_INTEL     | Round towards even                                                 | *ArbitraryPrecisionFixedPointINTEL*
-| 7      | RND_CONV_ODD_INTEL | Round towards odd                                                  | *ArbitraryPrecisionFixedPointINTEL*
+| Value ^| Mode               ^| Behavior                                                          ^| Enabling Capabilities
+| 0      | TRN_ALTERA          | Truncate towards -Inf                                              | *ArbitraryPrecisionFixedPointALTERA*
+| 1      | TRN_ZERO_ALTERA     | Truncate towards 0                                                 | *ArbitraryPrecisionFixedPointALTERA*
+| 2      | RND_ALTERA          | Round towards +Inf                                                 | *ArbitraryPrecisionFixedPointALTERA*
+| 3      | RND_ZERO_ALTERA     | Round towards 0                                                    | *ArbitraryPrecisionFixedPointALTERA*
+| 4      | RND_INF_ALTERA      | Round positive values toward +Inf and negative values toward -Inf  | *ArbitraryPrecisionFixedPointALTERA*
+| 5      | RND_MIN_INF_ALTERA  | Round towards -Inf                                                 | *ArbitraryPrecisionFixedPointALTERA*
+| 6      | RND_CONV_ALTERA     | Round towards even                                                 | *ArbitraryPrecisionFixedPointALTERA*
+| 7      | RND_CONV_ODD_ALTERA | Round towards odd                                                  | *ArbitraryPrecisionFixedPointALTERA*
 |====
 
 After Section 3.16, add a new section "3.16c Overflow Modes" as follows:
@@ -146,13 +146,13 @@ After Section 3.16, add a new section "3.16c Overflow Modes" as follows:
 [width="80%"]
 [cols="10%,20%,60%,10%"]
 |====
-| Value ^| Mode           ^| Behavior                               ^| Enabling Capabilities
-| 0      | WRAP_INTEL      | Drop the bits to the left of the MSB    | *ArbitraryPrecisionFixedPointINTEL*
-| 1      | SAT_INTEL       | Saturate to the closest of MIN or MAX   | *ArbitraryPrecisionFixedPointINTEL*
-| 2      | SAT_ZERO_INTEL  | Set to 0 on overflow                    | *ArbitraryPrecisionFixedPointINTEL*
-| 3      | SAT_SYM_INTEL   | For unsigned, treat as SAT_INTEL. +
+| Value ^| Mode            ^| Behavior                               ^| Enabling Capabilities
+| 0      | WRAP_ALTERA      | Drop the bits to the left of the MSB    | *ArbitraryPrecisionFixedPointALTERA*
+| 1      | SAT_ALTERA       | Saturate to the closest of MIN or MAX   | *ArbitraryPrecisionFixedPointALTERA*
+| 2      | SAT_ZERO_ALTERA  | Set to 0 on overflow                    | *ArbitraryPrecisionFixedPointALTERA*
+| 3      | SAT_SYM_ALTERA   | For unsigned, treat as SAT_ALTERA. +
 
-For signed: a positive overflow will saturate at the maximum positive value, whereas a negative overflow will saturate to the negation of the maximum positive value, as opposed to the most negative value.                               | *ArbitraryPrecisionFixedPointINTEL*
+For signed: a positive overflow will saturate at the maximum positive value, whereas a negative overflow will saturate to the negation of the maximum positive value, as opposed to the most negative value.                               | *ArbitraryPrecisionFixedPointALTERA*
 
 
 |====
@@ -164,9 +164,9 @@ After Section 3.16, add a new section "3.16d Signedness Modes" as follows:
 [width="80%"]
 [cols="10%,20%,60%,10%"]
 |====
-| Value ^| Mode           ^| Behavior                            ^| Enabling Capabilities
-| 0      | UNSIGNED_INTEL  | Input and result types are unsigned  | *ArbitraryPrecisionFixedPointINTEL*
-| 1      | SIGNED_INTEL    | Input and result types are signed    | *ArbitraryPrecisionFixedPointINTEL*
+| Value ^| Mode            ^| Behavior                            ^| Enabling Capabilities
+| 0      | UNSIGNED_ALTERA  | Input and result types are unsigned  | *ArbitraryPrecisionFixedPointALTERA*
+| 1      | SIGNED_ALTERA    | Input and result types are signed    | *ArbitraryPrecisionFixedPointALTERA*
 |====
 
 === Capability
@@ -175,7 +175,7 @@ Modify Section 3.31, *Capability*, adding a row to the Capability table:
 [options="header"]
 |====
 2+^| Capability ^| Implicitly Declares
-| 5922 | *ArbitraryPrecisionFixedPointINTEL* +
+| 5922 | *ArbitraryPrecisionFixedPointALTERA* +
 
 Enables arbitrary precision fixed-point math instructions.
 |
@@ -187,7 +187,7 @@ In Section 3.32.13, *Arithmetic Instructions*, add the following instructions:
 
 [cols="10", width="100%"]
 |=====
-7+|*OpFixedSqrtINTEL* +
+7+|*OpFixedSqrtALTERA* +
 
 An *OpTypeInt* representing an arbitrary precision fixed point number (ac_fixed) is passed in as the _Input_ and the square root of the value is returned in _Result_.
 The behavior of this function is undefined for input values < 0.
@@ -207,14 +207,14 @@ _Q_ is a QuantizationMode enum chosen from _Table 3.16b_ that indicates the Quan
 _O_ is an OverflowMode enum chosen from _Table 3.16c_ that indicates the Overflow Mode of this operation.
 
 3+| Capability:
-*ArbitraryPrecisionFixedPointINTEL*
+*ArbitraryPrecisionFixedPointALTERA*
 
 | 9 | 5923 | <id> Result Type | Result <id> | Input <id> | _Signedness_ S | _Literal_ I | _Literal_ rI | _QuatntizationMode_ Q | _OverflowMode_ O
 |=====
 
 [cols="10", width="100%"]
 |=====
-7+|*OpFixedRecipINTEL* +
+7+|*OpFixedRecipALTERA* +
 
 An *OpTypeInt* representing an arbitrary precision fixed point number (ac_fixed) is passed in as the _Input_ and the reciprocal (`1/Input`) of the value is returned in _Result_.
 
@@ -233,14 +233,14 @@ _Q_ is a QuantizationMode enum chosen from _Table 3.16b_ that indicates the Quan
 _O_ is an OverflowMode enum chosen from _Table 3.16c_ that indicates the Overflow Mode of this operation.
 
 3+| Capability:
-*ArbitraryPrecisionFixedPointINTEL*
+*ArbitraryPrecisionFixedPointALTERA*
 
 | 9 | 5924 | <id> Result Type | Result <id> | Input <id> | _Signedness_ S | _Literal_ I | _Literal_ rI | _QuatntizationMode_ Q | _OverflowMode_ O
 |=====
 
 [cols="10", width="100%"]
 |=====
-7+|*OpFixedRsqrtINTEL* +
+7+|*OpFixedRsqrtALTERA* +
 
 An *OpTypeInt* representing an arbitrary precision fixed point number (ac_fixed) is passed in as the _Input_ and the reciprocal square root (`1/sqrt(Input)`) of the value is returned in _Result_.
 The behavior of this function is undefined for input values < 0.
@@ -260,14 +260,14 @@ _Q_ is a QuantizationMode enum chosen from _Table 3.16b_ that indicates the Quan
 _O_ is an OverflowMode enum chosen from _Table 3.16c_ that indicates the Overflow Mode of this operation.
 
 3+| Capability:
-*ArbitraryPrecisionFixedPointINTEL*
+*ArbitraryPrecisionFixedPointALTERA*
 
 | 9 | 5925 | <id> Result Type | Result <id> | Input <id> | _Signedness_ S | _Literal_ I | _Literal_ rI | _QuatntizationMode_ Q | _OverflowMode_ O
 |=====
 
 [cols="10", width="100%"]
 |=====
-7+|*OpFixedSinINTEL* +
+7+|*OpFixedSinALTERA* +
 
 An *OpTypeInt* representing an arbitrary precision fixed point number (ac_fixed) is passed in as the _Input_ and the sine of the value is returned in _Result_. Note that the angles are measured in radians.
 
@@ -286,14 +286,14 @@ _Q_ is a QuantizationMode enum chosen from _Table 3.16b_ that indicates the Quan
 _O_ is an OverflowMode enum chosen from _Table 3.16c_ that indicates the Overflow Mode of this operation.
 
 3+| Capability:
-*ArbitraryPrecisionFixedPointINTEL*
+*ArbitraryPrecisionFixedPointALTERA*
 
 | 9 | 5926 | <id> Result Type | Result <id> | Input <id> | _Signedness_ S | _Literal_ I | _Literal_ rI | _QuatntizationMode_ Q | _OverflowMode_ O
 |=====
 
 [cols="10", width="100%"]
 |=====
-7+|*OpFixedCosINTEL* +
+7+|*OpFixedCosALTERA* +
 
 An *OpTypeInt* representing an arbitrary precision fixed point number (ac_fixed) is passed in as the _Input_ and the cosine of the value is returned in _Result_. Note that the angles are measured in radians.
 
@@ -312,14 +312,14 @@ _Q_ is a QuantizationMode enum chosen from _Table 3.16b_ that indicates the Quan
 _O_ is an OverflowMode enum chosen from _Table 3.16c_ that indicates the Overflow Mode of this operation.
 
 3+| Capability:
-*ArbitraryPrecisionFixedPointINTEL*
+*ArbitraryPrecisionFixedPointALTERA*
 
 | 9 | 5927 | <id> Result Type | Result <id> | Input <id> | _Signedness_ S | _Literal_ I | _Literal_ rI | _QuatntizationMode_ Q | _OverflowMode_ O
 |=====
 
 [cols="10", width="100%"]
 |=====
-7+|*OpFixedSinCosINTEL* +
+7+|*OpFixedSinCosALTERA* +
 
 An *OpTypeInt* representing an arbitrary precision fixed point number (ac_fixed) is passed in as the _Input_ and both the sine and cosine of the value are returned in _Result_. Note that the angles are measured in radians.
 
@@ -336,14 +336,14 @@ _Q_ is a QuantizationMode enum chosen from _Table 3.16b_ that indicates the Quan
 _O_ is an OverflowMode enum chosen from _Table 3.16c_ that indicates the Overflow Mode of this operation.
 
 3+| Capability:
-*ArbitraryPrecisionFixedPointINTEL*
+*ArbitraryPrecisionFixedPointALTERA*
 
 | 9 | 5928 | <id> Result Type | Result <id> | Input <id> | _Signedness_ S | _Literal_ I | _Literal_ rI | _QuatntizationMode_ Q | _OverflowMode_ O
 |=====
 
 [cols="10", width="100%"]
 |=====
-7+|*OpFixedSinPiINTEL* +
+7+|*OpFixedSinPiALTERA* +
 
 An *OpTypeInt* representing an arbitrary precision fixed point number (ac_fixed) is passed in as the _Input_ and the sine of pi * _Input_ is returned in _Result_. Note that the angles are measured in radians.
 
@@ -362,14 +362,14 @@ _Q_ is a QuantizationMode enum chosen from _Table 3.16b_ that indicates the Quan
 _O_ is an OverflowMode enum chosen from _Table 3.16c_ that indicates the Overflow Mode of this operation.
 
 3+| Capability:
-*ArbitraryPrecisionFixedPointINTEL*
+*ArbitraryPrecisionFixedPointALTERA*
 
 | 9 | 5929 | <id> Result Type | Result <id> | Input <id> | _Signedness_ S | _Literal_ I | _Literal_ rI | _QuatntizationMode_ Q | _OverflowMode_ O
 |=====
 
 [cols="10", width="100%"]
 |=====
-7+|*OpFixedCosPiINTEL* +
+7+|*OpFixedCosPiALTERA* +
 
 An *OpTypeInt* representing an arbitrary precision fixed point number (ac_fixed) is passed in as the _Input_ and the cosine of pi * _Input_ is returned in _Result_. Note that the angles are measured in radians.
 
@@ -388,7 +388,7 @@ _Q_ is a QuantizationMode enum chosen from _Table 3.16b_ that indicates the Quan
 _O_ is an OverflowMode enum chosen from _Table 3.16c_ that indicates the Overflow Mode of this operation.
 
 3+| Capability:
-*ArbitraryPrecisionFixedPointINTEL*
+*ArbitraryPrecisionFixedPointALTERA*
 
 | 9 | 5930 | <id> Result Type | Result <id> | Input <id> | _Signedness_ S | _Literal_ I | _Literal_ rI | _QuatntizationMode_ Q | _OverflowMode_ O
 |=====
@@ -396,7 +396,7 @@ _O_ is an OverflowMode enum chosen from _Table 3.16c_ that indicates the Overflo
 
 [cols="10", width="100%"]
 |=====
-7+|*OpFixedSinCosPiINTEL* +
+7+|*OpFixedSinCosPiALTERA* +
 
 An *OpTypeInt* representing an arbitrary precision fixed point number (ac_fixed) is passed in as the _Input_ and both the sine and cosine of pi * _Input_ are returned in _Result_. Note that the angles are measured in radians.
 
@@ -413,14 +413,14 @@ _Q_ is a QuantizationMode enum chosen from _Table 3.16b_ that indicates the Quan
 _O_ is an OverflowMode enum chosen from _Table 3.16c_ that indicates the Overflow Mode of this operation.
 
 3+| Capability:
-*ArbitraryPrecisionFixedPointINTEL*
+*ArbitraryPrecisionFixedPointALTERA*
 
 | 9 | 5931 | <id> Result Type | Result <id> | Input <id> | _Signedness_ S | _Literal_ I | _Literal_ rI | _QuatntizationMode_ Q | _OverflowMode_ O
 |=====
 
 [cols="10", width="100%"]
 |=====
-7+|*OpFixedLogINTEL* +
+7+|*OpFixedLogALTERA* +
 
 An *OpTypeInt* representing an arbitrary precision fixed point number (ac_fixed) is passed in as the _Input_ and the log of the value is returned in _Result_.
 
@@ -439,14 +439,14 @@ _Q_ is a QuantizationMode enum chosen from _Table 3.16b_ that indicates the Quan
 _O_ is an OverflowMode enum chosen from _Table 3.16c_ that indicates the Overflow Mode of this operation.
 
 3+| Capability:
-*ArbitraryPrecisionFixedPointINTEL*
+*ArbitraryPrecisionFixedPointALTERA*
 
 | 9 | 5932 | <id> Result Type | Result <id> | Input <id> | _Signedness_ S | _Literal_ I | _Literal_ rI | _QuatntizationMode_ Q | _OverflowMode_ O
 |=====
 
 [cols="10", width="100%"]
 |=====
-7+|*OpFixedExpINTEL* +
+7+|*OpFixedExpALTERA* +
 
 An *OpTypeInt* representing an arbitrary precision fixed point number (ac_fixed) is passed in as the _Input_ and the exp of the value is returned in _Result_.
 
@@ -465,7 +465,7 @@ _Q_ is a QuantizationMode enum chosen from _Table 3.16b_ that indicates the Quan
 _O_ is an OverflowMode enum chosen from _Table 3.16c_ that indicates the Overflow Mode of this operation.
 
 3+| Capability:
-*ArbitraryPrecisionFixedPointINTEL*
+*ArbitraryPrecisionFixedPointALTERA*
 
 | 9 | 5933 | <id> Result Type | Result <id> | Input <id> | _Signedness_ S | _Literal_ I | _Literal_ rI | _QuatntizationMode_ Q | _OverflowMode_ O
 |=====
