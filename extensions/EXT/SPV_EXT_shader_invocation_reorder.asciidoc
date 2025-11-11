@@ -630,14 +630,14 @@ is equivalent to *OpTraceRayKHR* instruction.
  +
  'Hit Object' is a pointer to the hit object. +
  +
- 'Hit Object Attribute' contains the attributes of the hit which are to be encoded in 'Hit Object'. This must be an OpVariable in *HitObjectAttributeEXT* storage class. +
+ 'Hit Object Attributes' contains the attributes of the hit which are to be encoded in 'Hit Object'. This must be an OpVariable in *HitObjectAttributeEXT* storage class. +
  +
  This instruction is allowed only in *RayGenerationKHR*, *ClosestHitKHR* and *MissKHR* execution models. +
 1+|Capability: +
 *ShaderInvocationReorderEXT*
 | 3 | 5321
 | '<id>' 'Hit Object'
-| '<id>' 'Hit Object Attribute'
+| '<id>' 'Hit Object Attributes'
 |======
 
 [cols="5*1"]
