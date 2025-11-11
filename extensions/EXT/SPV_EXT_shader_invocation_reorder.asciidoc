@@ -24,15 +24,15 @@ Status
 ------
 
 - Approved by the SPIR-V Working Group: 2025-09-03
-- Not Yet Approved by the Khronos Board of Promoters: (To become approved, with an approval date, e.g. 2018-01-30)
+- Ratified by the Khronos Board: 2025-10-17
 
 Version
 -------
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2024-05-29
-| Revision           | 1
+| Last Modified Date | 2025-01-27
+| Revision           | 2
 |========================================
 
 Dependencies
