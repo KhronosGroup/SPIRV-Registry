@@ -19,6 +19,16 @@ Contributors
 - Eric Werness, NVIDIA
 - Daniel Koch, NVIDIA
 - Pankaj Mistry, NVIDIA
+- Aaron Hagan, AMD
+- Stu Smith, AMD
+- Sebastian Neubauer, AMD
+- Alan Baker, Google
+- Sven Woop, Intel
+- Ben Ashbaugh, Intel
+- Baldur Karlsson, Valve
+- Matthew Moulton, Samsung
+- Tim Kong, Samsung
+- Members of Vulkan Ray Tracing TSG
 
 Status
 ------
@@ -492,7 +502,7 @@ is equivalent to *OpTraceRayKHR* instruction.
  +
  'Ray Flags' contains one or more of the ray flag values. Refer to the client API specification for details.
  +
-'Miss Index' is the index of the miss shader to be encode in the hit object. +
+ 'Miss Index' is the index of the miss shader to be encoded in the hit object. +
  +
  'Miss Index' must be a 32-bit 'unsigned integer type' scalar.
  +
@@ -526,7 +536,7 @@ is equivalent to *OpTraceRayKHR* instruction.
  +
  'Ray Flags' contains one or more of the ray flag values. Refer to the client API specification for details.
  +
- 'Miss Index' is the index of the miss shader to be encode in the hit object. +
+ 'Miss Index' is the index of the miss shader to be encoded in the hit object. +
  +
  'Miss Index' must be a 32-bit 'unsigned integer type' scalar.
  +
@@ -574,7 +584,7 @@ is equivalent to *OpTraceRayKHR* instruction.
 3+|[[OpHitObjectExecuteShaderEXT]]*OpHitObjectExecuteShaderEXT* +
  +
  Executes the closest-hit or miss shader as encoded in the hit object. +
- If the hit object encodes an empty hit object or was created from a ray query with no shader index set no function is called. +
+ If the hit object encodes an empty hit object or was created from a ray query with no shader index set, no function is called. +
  +
  'Hit Object' is a pointer to the hit object. +
  +
@@ -620,14 +630,14 @@ is equivalent to *OpTraceRayKHR* instruction.
  +
  'Hit Object' is a pointer to the hit object. +
  +
- 'Hit Object Attributes' contains the attributes of the hit which are to be encoded in 'Hit Object'. This must be an OpVariable in *HitObjectAttributeEXT* storage class. +
+ 'Hit Object Attribute' contains the attributes of the hit which are to be encoded in 'Hit Object'. This must be an OpVariable in *HitObjectAttributeEXT* storage class. +
  +
  This instruction is allowed only in *RayGenerationKHR*, *ClosestHitKHR* and *MissKHR* execution models. +
 1+|Capability: +
 *ShaderInvocationReorderEXT*
 | 3 | 5321
 | '<id>' 'Hit Object'
-| '<id>' 'Hit Object Attributes'
+| '<id>' 'Hit Object Attribute'
 |======
 
 [cols="5*1"]
@@ -981,15 +991,15 @@ is equivalent to *OpTraceRayKHR* instruction.
  +
  'Hit Object' is a pointer to the hit object. +
  +
- 'SBT index' is the new SBT index value to encode in the hit object. +
+ 'SBT Record Index' is the new SBT index value to be encoded in the hit object. +
  +
- 'SBT index' must be a 32-bit 'integer type' scalar. +
+ 'SBT Record Index' must be a 32-bit 'integer type' scalar. +
  This instruction is allowed only in *RayGenerationKHR*, *ClosestHitKHR* and *MissKHR* execution models. +
 1+|Capability: +
 *ShaderInvocationReorderEXT*
 | 3 | 5309
 | '<id>' 'Hit Object'
-| '<id>' 'SBT Index'
+| '<id>' 'SBT Record Index'
 |======
 
 [cols="5*1"]
