@@ -180,9 +180,11 @@ At the end of Section 3 "Binary Form", add:
 |====
 2+^| Raw Access Chain Operands ^| <<Capability,Enabling Capabilities>>
 | 0x0 | *None* |
+Out of bounds access is undefined behavior regardless of the host environment.
 | 0x1 | *RobustnessPerComponentNV* +
 Consumers of this access chain will bounds check each scalar using the computed offset. +
 The behavior for out of bounds accesses is specified by the host environment. +
+Host environment may define out of bounds as undefined behavior even if this operand is used. +
 Must not be used on a pointer with <<Storage_Class, storage class>> *PhysicalStorageBuffer*. +
 Must not be used with *RobustnessPerElementNV*.
 |*RawAccessChainsNV*
@@ -190,6 +192,7 @@ Must not be used with *RobustnessPerElementNV*.
 Consumers of this access chain will bounds check using the product of 'Stride' and 'Index' as access offset for the whole operation. 'Stride' must not be zero. +
 The behavior for out of bounds accesses is specified by the host environment. +
 The implementation may assume any offset within 'Index' is either all in-bounds or all out-of-bounds. +
+Host environment may define out of bounds as undefined behavior even if this operand is used. +
 Must not be decorated on a pointer with <<Storage_Class, storage class>> *PhysicalStorageBuffer*. +
 Must not be used with *RobustnessPerComponentNV*.
 |*RawAccessChainsNV*
@@ -220,5 +223,6 @@ Define enums.
 Fix OpRawAccessChainsNV pointer type rules for 'Base'. +
 Explicitly mention overflow does not allow faulting. +
 Give the optional operand a default value. +
-Minor wording changes.
+Minor wording changes. +
+|8|2025-11-07|Hans-Kristian Arntzen|Clarify robustness behavior
 |========================================
