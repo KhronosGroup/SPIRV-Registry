@@ -21,7 +21,7 @@ Contributors
 Notice
 ------
 
-Copyright (c) 2023 Arm Ltd.
+Copyright (c) 2023-2025 Arm Ltd.
 
 Status
 ------
@@ -33,8 +33,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2024-05-29
-| Revision           | 1
+| Last Modified Date | 2025-11-10
+| Revision           | 2
 |========================================
 
 Dependencies
@@ -72,23 +72,22 @@ Validation Rules
 
 * If the 'MemoryLayout' provided to *OpCooperativeMatrixLoadKHR* or
 *OpCooperativeMatrixStoreKHR* is *RowBlockedInterleavedARM*
-or *ColumnBlockedInterleavedARM* then their 'Result Type', or
-'Object', respectively, must be a cooperative matrix type whose
-'Rows' is a multiple of 4 and whose 'Columns' is a multiple of
-16 / `sizeof`('Component Type').
+or *ColumnBlockedInterleavedARM* then 'Stride' must be present,
+come from a constant instruction, and be equal to 1, 2, or 4.
 
 * If the 'MemoryLayout' provided to *OpCooperativeMatrixLoadKHR* or
 *OpCooperativeMatrixStoreKHR* is *RowBlockedInterleavedARM*
 then their 'Result Type', or 'Object', respectively, must be a cooperative
-matrix type whose 'Columns' is a multiple of 16 / `sizeof`('Component Type')
-multiplied by the 'Stride' operand to the *OpCooperativeMatrixLoadKHR* or
-*OpCooperativeMatrixStoreKHR* instruction.
+matrix type whose 'Rows' is a multiple of 4 and whose 'Columns' is a multiple
+of 16 / `sizeof`('Component Type') multiplied by the 'Stride' operand to the
+*OpCooperativeMatrixLoadKHR* or *OpCooperativeMatrixStoreKHR* instruction.
 
 * If the 'MemoryLayout' provided to *OpCooperativeMatrixLoadKHR* or
 *OpCooperativeMatrixStoreKHR* is *ColumnBlockedInterleavedARM*
 then their 'Result Type', or 'Object', respectively, must be a cooperative
 matrix type whose 'Rows' is a multiple of 4 times the 'Stride' operand to
-the *OpCooperativeMatrixLoadKHR* or *OpCooperativeMatrixStoreKHR* instruction.
+the *OpCooperativeMatrixLoadKHR* or *OpCooperativeMatrixStoreKHR* instruction
+and whose 'Columns' is a multiple of 16 / `sizeof`('Component Type').
 
 Capabilities
 ~~~~~~~~~~~~
@@ -147,5 +146,6 @@ Revision History
 [options="header"]
 |========================================
 |Rev|Date|Author|Changes
+|2|2025-11-10|Kevin Petit|Clarify and extend validation rules
 |1|2024-05-29|Kevin Petit|Initial revision
 |========================================
