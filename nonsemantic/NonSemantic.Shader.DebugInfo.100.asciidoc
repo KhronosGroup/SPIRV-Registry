@@ -173,7 +173,8 @@ of the core SPIR-V specification. +
 Debug info for source language opaque types is represented by
 <<DebugTypeComposite,*DebugTypeComposite*>> without 'Members' operands.
 'Size' of the composite must be <<DebugInfoNone,*DebugInfoNone*>> and 'Name'
-must start with '@' symbol to avoid clashes with user defined names.
+should be mangled in an implementation-defined manner to avoid clashes with
+user-defined names.
 
 Removing Instructions
 ~~~~~~~~~~~~~~~~~~~~~
@@ -910,7 +911,8 @@ Describe a 'structure', 'class', or 'union' data type. The 'Result <id>' of this
  +
 *Note:* To represent a source language opaque type, this instruction must have no
 'Members' operands, 'Size' operand must be <<DebugInfoNone,*DebugInfoNone*>>,
- and 'Name' must start with '@' to avoid clashes with user defined names.
+ and 'Name' should be mangled in an implementation-defined manner to avoid
+ clashes with user-defined names.
 
 | 14+ | 12 | '<id>' +
 'Result Type' | 'Result <id>' | '<id> Set'| 10
