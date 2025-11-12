@@ -55,8 +55,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2025-02-04
-| Revision           | 12
+| Last Modified Date | 2025-11-19
+| Revision           | 13
 |========================================
 
 Dependencies
@@ -173,7 +173,8 @@ of the core SPIR-V specification. +
 Debug info for source language opaque types is represented by
 <<DebugTypeComposite,*DebugTypeComposite*>> without 'Members' operands.
 'Size' of the composite must be <<DebugInfoNone,*DebugInfoNone*>> and 'Name'
-must start with '@' symbol to avoid clashes with user defined names.
+should be mangled in an implementation-defined manner to avoid clashes with
+user-defined names.
 
 Removing Instructions
 ~~~~~~~~~~~~~~~~~~~~~
@@ -910,7 +911,8 @@ Describe a 'structure', 'class', or 'union' data type. The 'Result <id>' of this
  +
 *Note:* To represent a source language opaque type, this instruction must have no
 'Members' operands, 'Size' operand must be <<DebugInfoNone,*DebugInfoNone*>>,
- and 'Name' must start with '@' to avoid clashes with user defined names.
+ and 'Name' should be mangled in an implementation-defined manner to avoid
+ clashes with user-defined names.
 
 | 14+ | 12 | '<id>' +
 'Result Type' | 'Result <id>' | '<id> Set'| 10
@@ -1857,5 +1859,6 @@ Revision History
                                              can be equal to 'Column start' operand.
 |1.00 Rev 11 |2024-10-08|Spencer Fricke     |Fix using 'Scope' instead of 'Parent' operand name.
 |1.00 Rev 12 |2025-02-04|Spencer Fricke     |Clarify Line and Column operand should start at 1.
+|1.00 Rev 13 |2025-11-19|Diego Novillo      |Loosen name mangling rules to make them implementation-defined.
 |========================================================
 
