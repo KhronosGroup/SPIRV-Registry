@@ -56,7 +56,7 @@ Version
 [width="40%",cols="25,25"]
 |========================================
 | Last Modified Date | 2025-11-19
-| Revision           | 13
+| Revision           | 14
 |========================================
 
 Dependencies
@@ -108,7 +108,7 @@ This is a non-normative list of changes to the OpenCL.DebugInfo.100 specificatio
 * <<DebugDeclare,*DebugDeclare*>> has an *Indices* parameter with the same meaning as
   <<DebugValue,*DebugValue*>>. This parameter is optional and so tools can treat it as
   if it were present in OpenCL.DebugInfo.100 too but with no values.
-* All literal parameters are passed as *OpConstant* values.
+* All literal parameters are passed as *OpConstant* values, except for array counts, which may also be *OpSpecConstant* values.
 * New instructions: <<DebugSourceContinued,*DebugSourceContinued*>>,
   <<DebugLine,*DebugLine*>>, <<DebugNoLine,*DebugNoLine*>>,
   <<DebugBuildIdentifier,*DebugBuildIdentifier*>>,
@@ -679,14 +679,21 @@ A type with multiple qualifiers are represented as a sequence of
 'Component Count' is the number of elements in the corresponding dimension of
  the array. The number and order of 'Component Count' operands must match with
  the number and order of array dimensions as they appear in the source program.
- 'Component Count' must be a 'Result <id>' of an *OpConstant*,
+ 'Component Count' must be a 'Result <id>' of an *OpConstant*, *OpSpecConstant*,
+ 'Component Count' must be a 'Result <id>' of an *OpConstant*, *OpSpecConstant*,
  <<DebugGlobalVariable,*DebugGlobalVariable*>>, or
- <<DebugLocalVariable,*DebugLocalVariable*>>. If it is an *OpConstant*, its type
- must be a 32-bit or 64-bit integer type. Otherwise its type must be
- a <<DebugTypeBasic,*DebugTypeBasic*>> whose 'Size' is 32 or 64 and whose
- 'Encoding' is *Unsigned*. If the *OpConstant* value is set to 0, this indicates
- an array with an unknown size at compile time which is sized at runtime,
- corresponding to the SPIR-V *OpTypeRuntimeArray* type. +
+ <<DebugLocalVariable,*DebugLocalVariable*>>. If it is an *OpConstant* or
+ *OpSpecConstant*, its type must be a 32-bit or 64-bit integer type. Otherwise
+ its type must be a <<DebugTypeBasic,*DebugTypeBasic*>> whose 'Size' is 32 or 64
+ and whose 'Encoding' is *Unsigned*. If the *OpConstant* or *OpSpecConstant*
+ value is set to 0, this indicates an array with an unknown size at compile time
+ which is sized at runtime, corresponding to the SPIR-V *OpTypeRuntimeArray* type. +
+ <<DebugLocalVariable,*DebugLocalVariable*>>. If it is an *OpConstant* or
+ *OpSpecConstant*, its type must be a 32-bit or 64-bit integer type. Otherwise
+ its type must be a <<DebugTypeBasic,*DebugTypeBasic*>> whose 'Size' is 32 or 64
+ and whose 'Encoding' is *Unsigned*. If the *OpConstant* or *OpSpecConstant*
+ value is set to 0, this indicates an array with an unknown size at compile time
+ which is sized at runtime, corresponding to the SPIR-V *OpTypeRuntimeArray* type. +
 
 | 7+ | 12 | '<id>' +
 'Result Type' | 'Result <id>' | '<id> Set'| 5
@@ -728,8 +735,10 @@ Describe a matrix data type. +
 'Vector Type' is the '<id>' of a debugging instruction that describes the type of
  vector in the matrix. +
  +
-'Vector Count' is the '<id>' of a 32-bit integer *OpConstant* denoting the number of
- vectors in the matrix. +
+'Vector Count' is the '<id>' of a 32-bit integer *OpConstant* or *OpSpecConstant*
+ denoting the number of vectors in the matrix. +
+'Vector Count' is the '<id>' of a 32-bit integer *OpConstant* or *OpSpecConstant*
+ denoting the number of vectors in the matrix. +
  +
 'Column Major' is the '<id>' of a boolean *OpConstant* denoting whether the matrix is
 column major. If it is 'True' then the matrix is column major with each 'Vector Type'
@@ -1860,5 +1869,7 @@ Revision History
 |1.00 Rev 11 |2024-10-08|Spencer Fricke     |Fix using 'Scope' instead of 'Parent' operand name.
 |1.00 Rev 12 |2025-02-04|Spencer Fricke     |Clarify Line and Column operand should start at 1.
 |1.00 Rev 13 |2025-11-19|Diego Novillo      |Loosen name mangling rules to make them implementation-defined.
+|1.00 Rev 14 |2025-11-19|Diego Novillo      |Allow *OpSpecConstant* in addition to *OpConstant*
+                                             for array sizes.
 |========================================================
 
