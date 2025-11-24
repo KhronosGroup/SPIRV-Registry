@@ -34,7 +34,7 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2025-04-10
+| Last Modified Date | 2025-11-24
 | Revision           | 2
 |========================================
 
@@ -619,11 +619,23 @@ The type of 'Matrix' and 'Result Type' must each have 'Use' of *MatrixAccumulato
 and must have matching 'Scope'. +
  +
 If 'Reduce' includes *2x2*, the dimensions of 'ResultType' must be half of
-the dimensions of 'Matrix'. If 'Reduce' equals *Row*, then 'Result Type' must
-have the same number of rows as 'Matrix'. If 'Reduce' equals *Column*, then
-'Result Type' must have the same number of columns as 'Matrix'. If 'Reduce'
-includes *Row* and *Column*, 'Result Type' can have any number of rows and
-columns. +
+the dimensions of 'Matrix'. Each element (r,c) of the result matrix is calculated
+by combining elements (2*r, 2*c), (2*r+1, 2*c), (2*r, 2*c+1), and (2*r+1, 2*c+1)
+of 'Matrix'. +
+ +
+If 'Reduce' equals *Row*, then 'Result Type' must have the same number of rows as 'Matrix'
+but can have any supported number of columns. All elements of a row in the result matrix
+have the same value, which is computed by combining all elements of the corresponding
+row of 'Matrix'. +
+ +
+If 'Reduce' equals *Column*, then 'Result Type' must have the same number of columns as
+'Matrix' but can have any supported number of rows. All elements of a column in the result
+matrix have the same value, which is computed by combining all elements of the corresponding
+row of 'Matrix'. +
+ +
+If 'Reduce' includes *Row* and *Column*, 'Result Type' can have any number of rows and
+columns. All elements of the result matrix have the same value, which is computed by
+combining all elements of 'Matrix'. +
  +
 'CombineFunc' must be an *OpFunction* with two parameters whose types and result
 type all match the component type of 'Matrix'. This function is called to combine
@@ -633,7 +645,7 @@ point numbers, may not be exactly commutative/associative). +
  +
 1+|Capability: +
 *CooperativeMatrixReductionsNV*
-1+| 5 | 5366 | '<id>' +
+1+| 6 | 5366 | '<id>' +
 'Result Type' |'Result <id>' | '<id>' +
 'Matrix' | Literal +
 'Reduce' | '<id>' +
@@ -667,7 +679,7 @@ of 'Result Type' must be *MatrixAKHR* or *MatrixBKHR* and the 'Use' of
  +
 1+|Capability: +
 *CooperativeMatrixConversionsNV*
-1+| 3 | 5293 | '<id>' +
+1+| 4 | 5293 | '<id>' +
 'Result Type' |'Result <id>' | '<id>' +
 'Matrix'
 |=====
@@ -688,7 +700,7 @@ The type of 'Matrix' must be an *OpTypeCooperativeMatrixKHR* with the same
  +
 1+|Capability: +
 *CooperativeMatrixConversionsNV*
-1+| 3 | 5390 | '<id>' +
+1+| 4 | 5390 | '<id>' +
 'Result Type' |'Result <id>' | '<id>' +
 'Matrix'
 |=====
@@ -706,17 +718,24 @@ The type of 'Matrix' must be an *OpTypeCooperativeMatrixKHR*. +
  +
 'Result Type' must match the type of 'Matrix'. +
  +
-'Func' must be an *OpFunction* whose return type must match the component type
+'Func' must be an *OpFunction* whose return type matches the component type
 of 'Matrix', whose first two parameters must be 32-bit integer types, whose
 third parameter type must match the component type of 'Matrix', and which may
 have additional parameters. The function is called for each element of the
 matrix where the element is passed as the third parameter to the function,
 the row and column number of the matrix are passed as the first and second
 parameters, and any optional operands are passed in order as the remaining
-parameters. Any additional cooperative matrix elements have the corresponding
-component passed to the function. The return value of that function is the
-corresponding element of 'Result'. The calls are considered unordered against
-each other, and calls may occur more than once.
+parameters.
+
+Any additional cooperative matrix operands have the corresponding matrix
+element passed to the function. The matrix type must match the type of
+'Matrix' and the component type of the matrix must match the type of the
+corresponding parameter of 'Func'
+
+The return value of 'Func' is the corresponding element of 'Result'.
+
+The calls are considered unordered against each other, and calls may occur more
+than once.
  +
 1+|Capability: +
 *CooperativeMatrixPerElementOperationsNV*
