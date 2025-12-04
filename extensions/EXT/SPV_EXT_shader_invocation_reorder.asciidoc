@@ -165,6 +165,14 @@ Add <<OpTraceRayWithHitObjectEXT,*OpTraceRayWithHitObjectEXT*>>,
 <<OpHitObjectTraceReorderExecuteEXT,*OpHitObjectTraceReorderExecuteEXT>> to the list
 of shader call instructions.
 
+Add <<OpReorderThreadWithHintEXT,*OpReorderThreadWithHintEXT*>>,
+<<OpReorderThreadWithHitObjectEXT,*OpReorderThreadWithHitObjectEXT*>>,
+<<OpHitObjectTraceRayEXT,*OpHitObjectTraceRayEXT*>>,
+<<OpHitObjectReorderExecuteShaderEXT,*OpHitObjectReorderExecuteShaderEXT*>>,
+<<OpHitObjectTraceReorderExecuteEXT,*OpHitObjectTraceReorderExecuteEXT*>>,
+<<OpHitObjectTraceRayMotionEXT,*OpHitObjectTraceRayMotionEXT*>>,
+<<OpHitObjectTraceMotionReorderExecuteEXT,*OpHitObjectTraceMotionReorderExecuteEXT*>> to the list of invocation repack instructions.
+
 (Add the following terminology to section 2.2.2, Types) ::
 +
 --
