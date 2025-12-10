@@ -158,10 +158,20 @@ other shaders. The <<OpTraceRayKHR,*OpTraceRayKHR*>>,
 <<OpReportIntersectionKHR,*OpReportIntersectionKHR*>> instructions are
 shader call instructions.
 
+_Invocation Repack Instruction_: An instruction which may change the
+set of invocations that are executing. The <<OpTraceRayKHR,*OpTraceRayKHR*>>,
+<<OpExecuteCallableKHR,*OpExecuteCallableKHR*>>, and
+<<OpReportIntersectionKHR,*OpReportIntersectionKHR*>> instructions are
+invocation repack instructions.
 
 (Modify Section 2.2.2, Types ) ::
 +
 add *OpTypeAccelerationStructureKHR* to list of opaque types
+
+(Modify Section 2.2.5, Control Flow) ::
++
+Modify the Uniform Control Flow definition to include shader call instructions
+and invocation repack instructions as instructions which may cause divergence.
 
 (Modify Section 2.2.5, Control Flow) ::
 +
