@@ -108,7 +108,7 @@ This is a non-normative list of changes to the OpenCL.DebugInfo.100 specificatio
 * <<DebugDeclare,*DebugDeclare*>> has an *Indices* parameter with the same meaning as
   <<DebugValue,*DebugValue*>>. This parameter is optional and so tools can treat it as
   if it were present in OpenCL.DebugInfo.100 too but with no values.
-* All literal parameters are passed as *OpConstant* values, except for operands denoting a size, count, offset, or value, which can be any constant instruction.
+* As literal parameters cannot be used with non-semantic instructions, static parameters must be passed as constant instructions.
 * New instructions: <<DebugSourceContinued,*DebugSourceContinued*>>,
   <<DebugLine,*DebugLine*>>, <<DebugNoLine,*DebugNoLine*>>,
   <<DebugBuildIdentifier,*DebugBuildIdentifier*>>,
