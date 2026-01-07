@@ -87,6 +87,7 @@ Note: we no longer push the HTML along side the extension.
 * [SPV_EXT_fragment_invocation_density     ]( https://github.khronos.org/SPIRV-Registry/extensions/EXT/SPV_EXT_fragment_invocation_density.html)
 * [SPV_EXT_fragment_shader_interlock       ]( https://github.khronos.org/SPIRV-Registry/extensions/EXT/SPV_EXT_fragment_shader_interlock.html)
 * [SPV_EXT_image_raw10_raw12               ]( https://github.khronos.org/SPIRV-Registry/extensions/EXT/SPV_EXT_image_raw10_raw12.html)
+* [SPV_EXT_long_vector                     ]( https://github.khronos.org/SPIRV-Registry/extensions/EXT/SPV_EXT_long_vector.html)
 * [SPV_EXT_mesh_shader                     ]( https://github.khronos.org/SPIRV-Registry/extensions/EXT/SPV_EXT_mesh_shader.html)
 * [SPV_EXT_opacity_micromap                ]( https://github.khronos.org/SPIRV-Registry/extensions/EXT/SPV_EXT_opacity_micromap.html)
 * [SPV_EXT_optnone                         ]( https://github.khronos.org/SPIRV-Registry/extensions/EXT/SPV_EXT_optnone.html)
