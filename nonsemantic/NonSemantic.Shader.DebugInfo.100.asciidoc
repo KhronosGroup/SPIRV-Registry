@@ -55,8 +55,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2025-11-19
-| Revision           | 13
+| Last Modified Date | 2025-11-20
+| Revision           | 14
 |========================================
 
 Dependencies
@@ -108,7 +108,7 @@ This is a non-normative list of changes to the OpenCL.DebugInfo.100 specificatio
 * <<DebugDeclare,*DebugDeclare*>> has an *Indices* parameter with the same meaning as
   <<DebugValue,*DebugValue*>>. This parameter is optional and so tools can treat it as
   if it were present in OpenCL.DebugInfo.100 too but with no values.
-* All literal parameters are passed as *OpConstant* values.
+* As literal parameters cannot be used with non-semantic instructions, static parameters must be passed as constant instructions.
 * New instructions: <<DebugSourceContinued,*DebugSourceContinued*>>,
   <<DebugLine,*DebugLine*>>, <<DebugNoLine,*DebugNoLine*>>,
   <<DebugBuildIdentifier,*DebugBuildIdentifier*>>,
@@ -365,17 +365,17 @@ Used by <<DebugOperation,*DebugOperation*>> +
 | 1 | *Plus*             | 0               | Pops the top two entries from the stack, adds them together and push the result.
 | 2 | *Minus*            | 0               | Pops the top two entries from the stack, subtracts the former top entry from the former second to top entry and push the result.
 | 3 | *PlusUconst*       | 1               | Pops the top stack entry, adds the 'addend' operand to it, and pushes the result.
-                                             The operand must be a single 32-bit integer *OpConstant*.
+                                             The operand must be a single 32-bit integer constant instruction.
 | 4 | *BitPiece*         | 2               | Describes an object or value that may be contained in part of a register or stored in more than one location.
                                              The first operand is 'offset' in bit from the location defined by the preceding operation.
                                              The second operand is 'size' of the piece in bits.
-                                             The operands must each be a single 32-bit integer *OpConstant*.
+                                             The operands must each be a single 32-bit integer constant instruction.
 | 5 | *Swap*             | 0               | Swaps the top two stack values.
 | 6 | *Xderef*           | 0               | Pops the top two entries from the stack.
                                              Treats the former top entry as an address and the former second to top entry as an address space.
                                              The value retrieved from the address in the given address space is pushed.
 | 7 | *StackValue*       | 0               | Describes an object that doesn't exist in memory but it's value is known and is at the top of the DWARF expression stack.
-| 8 | *Constu*           | 1               | Pushes a constant 'value' onto the stack. The 'value' operand must be a single 32-bit integer *OpConstant*.
+| 8 | *Constu*           | 1               | Pushes a constant 'value' onto the stack. The 'value' operand must be a single 32-bit integer constant instruction.
 | 9 | *Fragment*         | 2               | Has the same semantics as *BitPiece*, but the 'offset' operand defines location within the source variable.
 |======
 
@@ -679,12 +679,12 @@ A type with multiple qualifiers are represented as a sequence of
 'Component Count' is the number of elements in the corresponding dimension of
  the array. The number and order of 'Component Count' operands must match with
  the number and order of array dimensions as they appear in the source program.
- 'Component Count' must be a 'Result <id>' of an *OpConstant*,
+ 'Component Count' must be a 'Result <id>' of a constant instruction,
  <<DebugGlobalVariable,*DebugGlobalVariable*>>, or
- <<DebugLocalVariable,*DebugLocalVariable*>>. If it is an *OpConstant*, its type
+ <<DebugLocalVariable,*DebugLocalVariable*>>. If it is a constant instruction, its type
  must be a 32-bit or 64-bit integer type. Otherwise its type must be
  a <<DebugTypeBasic,*DebugTypeBasic*>> whose 'Size' is 32 or 64 and whose
- 'Encoding' is *Unsigned*. If the *OpConstant* value is set to 0, this indicates
+ 'Encoding' is *Unsigned*. If the constant instruction's value is set to 0, this indicates
  an array with an unknown size at compile time which is sized at runtime,
  corresponding to the SPIR-V *OpTypeRuntimeArray* type. +
 
@@ -728,7 +728,7 @@ Describe a matrix data type. +
 'Vector Type' is the '<id>' of a debugging instruction that describes the type of
  vector in the matrix. +
  +
-'Vector Count' is the '<id>' of a 32-bit integer *OpConstant* denoting the number of
+'Vector Count' is the '<id>' of a 32-bit integer constant instruction denoting the number of
  vectors in the matrix. +
  +
 'Column Major' is the '<id>' of a boolean *OpConstant* denoting whether the matrix is
@@ -892,7 +892,7 @@ Describe a 'structure', 'class', or 'union' data type. The 'Result <id>' of this
 'Linkage Name' is an *OpString*, holding the linkage name or mangled name of the
  composite. +
  +
-'Size' is an *OpConstant* with 32-bit or 64-bit integer type and its value is
+'Size' is a constant instruction with 32-bit or 64-bit integer type and its value is
  the number of bits required to hold an instance of the composite type. +
  +
 {flags} +
@@ -950,15 +950,15 @@ Describe a data member of a 'structure', 'class', or 'union'. +
 'Column' is the '<id>' of a 32-bit integer *OpConstant* denoting the column number at
  which the first character of the member declaration appears. +
  +
-'Offset' is an *OpConstant* with integral type, and its value is the memory
+'Offset' is a constant instruction with integral type, and its value is the memory
  offset in bits from the beginning of the 'Scope' type. +
  +
-'Size' is an *OpConstant* with 32-bit or 64-bit integer type and its value is
+'Size' is a constant instruction with 32-bit or 64-bit integer type and its value is
  the number of bits the member occupies within the 'Scope' type. +
  +
 {flags} +
  +
-'Value' is an *OpConstant* representing initialization value in case of
+'Value' is a constant instruction representing initialization value in case of
  'const static' qualified member in 'C++'. +
  +
  *Note:* If 'flags' contains the *FlagUnknownPhysicalLayout* flag, the 'Size'
@@ -992,10 +992,10 @@ The Result of this instruction can be used as a member of a composite type. +
 'Parent' is a debug instruction representing a class or structure the
  'Child Type' is derived from. +
  +
-'Offset' is an *OpConstant* with integral type and its value is the offset of the
+'Offset' is a constant instruction with integral type and its value is the offset of the
  'Parent Type' in bits in layout of the 'Child Type'. +
  +
-'Size' is an *OpConstant* with 32-bit or 64-bit integer type and its value is
+'Size' is a constant instruction with 32-bit or 64-bit integer type and its value is
  the number of bits the 'Parent type' occupies within the 'Child Type'. +
  +
 {flags} +
@@ -1067,7 +1067,7 @@ Describe a formal parameter of a C++ template instantiation. +
  parameter for this particular instantiation. +
  +
  If this instruction describes a template value parameter, the 'Value' is
- represented by an *OpConstant* with an integer result type. For a template type
+ represented by a constant instruction with an integer result type. For a template type
  parameter, the 'Value' operand must be the 'Result <id>' of
  <<DebugInfoNone,*DebugInfoNone*>>. +
  +
@@ -1665,7 +1665,7 @@ Represent a DWARF operation that operates on a stack of values. +
 'Operation' is a 32-bit *OpConstant* specifying the DWARF operation from the
  <<Operation,Debug Operations>> table. +
  +
-'Operands' are zero or more 32-bit integer *OpConstant* '<id>s'.
+'Operands' are zero or more 32-bit integer constant instruction '<id>s'.
 
 | 6+ | 12 | '<id>' +
 'Result Type' | 'Result <id>' | '<id> Set'| 30
@@ -1860,5 +1860,7 @@ Revision History
 |1.00 Rev 11 |2024-10-08|Spencer Fricke     |Fix using 'Scope' instead of 'Parent' operand name.
 |1.00 Rev 12 |2025-02-04|Spencer Fricke     |Clarify Line and Column operand should start at 1.
 |1.00 Rev 13 |2025-11-19|Diego Novillo      |Loosen name mangling rules to make them implementation-defined.
+|1.00 Rev 14 |2025-11-20|Diego Novillo      |Allow constant instructions for size, count, offset,
+                                             and value operands.
 |========================================================
 
