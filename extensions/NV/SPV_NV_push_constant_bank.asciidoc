@@ -1,0 +1,130 @@
+= SPV_NV_push_constant_bank
+
+== Name Strings
+
+SPV_NV_push_constant_bank
+
+== Contact
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Registry
+
+== Contributors
+
+- Vassili Nikolaev, NVIDIA
+
+== Notice
+
+Copyright (c) 2025 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+== Status
+
+- Complete
+
+== Version
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2025-12-17
+| Revision           | 1
+|========================================
+
+== Dependencies
+
+This extension is written against the SPIR-V Specification,
+Version 1.6 Revision 2.
+
+This extension requires SPIR-V 1.0.
+
+== Overview
+
+This extension provides a mechanism to specify a bank and member offset for
+push constant blocks. This allows shaders to access push constants from
+multiple banks, with each bank having its own offset into the push constant
+data.
+
+In GLSL, this can be expressed as:
+
+----
+layout(push_constant, bank=0, member_offset=64) uniform Block
+{
+    layout(offset=0) vec4 a;   // At byte 64 in bank 0
+    layout(offset=16) vec4 b;  // At byte 80 in bank 0
+};
+----
+
+The *BankNV* decoration specifies which push constant bank the
+variable belongs to. The *MemberOffsetNV* decoration specifies
+a base offset that is added to member offsets within the block.
+
+== Extension Name
+
+To use this extension within a SPIR-V module, the following *OpExtension* must
+be present in the module:
+
+----
+OpExtension "SPV_NV_push_constant_bank"
+----
+
+== Modifications to the SPIR-V Specification, Version 1.6
+
+=== Capabilities
+
+Modify Section 3.31, "Capability", adding rows to the Capability table:
+
+--
+[cols="1,10,4",options="header"]
+|====
+2+^| Capability ^| Implicitly Declares
+
+| 5423
+| [[PushConstantBanksNV]]*PushConstantBanksNV* +
+Uses the *BankNV* or *MemberOffsetNV* decorations.
+| *Shader*
+
+|====
+--
+
+=== Decorations
+
+Modify Section 3.20, "Decoration", adding rows to the Decoration table:
+
+--
+[cols="1^,10,6^,2*2",options="header",width = "100%"]
+|====
+2+^.^| Decoration | Enabling Capabilities 2+<.^| Extra Operands
+
+| 5397
+| *BankNV* +
+Apply to a variable with *PushConstant* storage class to specify the push
+constant bank index. The bank index must be a 32-bit unsigned integer literal.
+If not present, the bank is assumed to be 0.
+| *PushConstantBanksNV*
+2+| _Literal_ +
+Bank
+
+| 5358
+| *MemberOffsetNV* +
+Apply to a variable with *PushConstant* storage class to specify a base offset
+(in bytes) that is added to all member offsets within the block. This allows
+the block's members to be located at an offset from the start of the bank's
+push constant region. If not present, the member offset is assumed to be 0.
+| *PushConstantBanksNV*
+2+| _Literal_ +
+Member Offset
+
+|====
+--
+
+== Revision History
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2025-12-17|Vassili Nikolaev|Initial revision
+|========================================
+
