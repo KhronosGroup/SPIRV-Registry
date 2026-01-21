@@ -82,6 +82,7 @@ Note: we no longer push the HTML along side the extension.
 * [SPV_EXT_arithmetic_fence                ]( https://github.khronos.org/SPIRV-Registry/extensions/EXT/SPV_EXT_arithmetic_fence.html)
 * [SPV_EXT_demote_to_helper_invocation     ]( https://github.khronos.org/SPIRV-Registry/extensions/EXT/SPV_EXT_demote_to_helper_invocation.html)
 * [SPV_EXT_descriptor_indexing             ]( https://github.khronos.org/SPIRV-Registry/extensions/EXT/SPV_EXT_descriptor_indexing.html)
+* [SPV_EXT_descriptor_heap                 ]( https://github.khronos.org/SPIRV-Registry/extensions/EXT/SPV_EXT_descriptor_heap.html)
 * [SPV_EXT_float8                          ]( https://github.khronos.org/SPIRV-Registry/extensions/EXT/SPV_EXT_float8.html)
 * [SPV_EXT_fragment_fully_covered          ]( https://github.khronos.org/SPIRV-Registry/extensions/EXT/SPV_EXT_fragment_fully_covered.html)
 * [SPV_EXT_fragment_invocation_density     ]( https://github.khronos.org/SPIRV-Registry/extensions/EXT/SPV_EXT_fragment_invocation_density.html)

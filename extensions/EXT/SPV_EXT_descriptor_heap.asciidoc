@@ -1,0 +1,400 @@
+SPV_EXT_descriptor_heap
+=======================
+
+Name Strings
+------------
+
+SPV_EXT_descriptor_heap
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Tobias Hector, AMD
+- Alan Baker, Google
+- Ben Ashbaugh, Intel
+- Spencer Fricke, LunarG
+- Faith Ekstrand, Collabora
+- Rodrigo Locatti, Nvidia
+- Guang Xu, AMD
+- Wooyoung Kim, Qualcomm
+- Victor Lomuller, Codeplay
+- Ruihao Zhang, Qualcomm
+- Joerg Wollenschlaegr, Nvidia
+- Erik Hogeman, Arm
+- Marty Johnson, Khronos
+- Shaochi Zhou, AMD
+- Kévin Petit, Arm
+- Jeff Bolz, Nvidia
+
+Status
+------
+
+- Approved by the SPIR-V Working Group: 2025-10-08
+- Approved by the Khronos Board of Promoters: 2026-01-16
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2025-09-08
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification, Version 1.6 Revision 5.
+
+This extension requires SPIR-V 1.0.
+
+This extension requires SPV_KHR_untyped_pointers.
+
+This extension interacts with SPV_KHR_ray_tracing, SPV_KHR_ray_query, SPV_EXT_shader_64bit_indexing, and SPV_ARM_tensors.
+
+Overview
+--------
+
+This extension adds new built-in variables, decorations, and instructions that can be used to access descriptors bound as descriptor heaps in a client API.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_EXT_descriptor_heap"
+----
+
+New Capabilities
+----------------
+
+This extension introduces new capabilities:
+
+----
+DescriptorHeapEXT
+----
+
+Modifications to the SPIR-V Specification, Version 1.6, Revision 5
+------------------------------------------------------------------
+
+Modify Section 2.2.1, "Instructions":
+
+Add *OpBufferPointerEXT* to the list of instructions that define a memory
+object declaration.
+
+Modify Section 2.2.2, "Types":
+
+Add the following definition:
+
+[[Descriptor]]
+*Descriptor*: An opaque object describing complex state in memory, with a
+defined size, and specialized access instructions.
+Has a type of *OpTypeBufferEXT*, *OpTypeImage*,
+*OpTypeAccelerationStructureKHR*, *OpTypeTensorARM*, or *OpTypeSampler*.
+
+[[Buffer]]
+*Buffer*: An opaque descriptor to a larger set of memory.
+Buffer objects themselves are opaque and cannot be accessed or modified; a
+buffer's data is accessed by retrieving a pointer to their data with
+*OpBufferPointerEXT*.
+
+Add *OpTypeBufferEXT* to the list defining *Opaque Type*.
+
+In the definition of _Explicit Layout_, add *OffsetIdEXT* and
+*ArrayStrideIdEXT* as alternatives to *Offset* and *ArrayStride*, so that it
+reads:
+
+_Explicit Layout_: Types with an explicit layout have decorations defining the relative locations of all of their constituents.
+A type has an explicit layout if the following statements are true, recursively applied to any nested types:
+
+* Each structure-type member must have an *Offset* or *OffsetIdEXT* decoration.
+* Each array type must have an *ArrayStride* or *ArrayStrideIdEXT* decoration, unless it is an array that contains a structure decorated with *Block* or *BufferBlock*, in which case it must not have an *ArrayStride* or *ArrayStrideIdEXT* decoration.
+* Each structure-type member that is a matrix or array-of-matrices must be decorated with a *MatrixStride* decoration, and one of the *RowMajor* or *ColMajor* decorations.
+* *ArrayStride*, *ArrayStrideIdEXT*, *MatrixStride*, *Offset*, and *OffsetIdEXT* decorations must not cause overlap between elements or with other members.
+* Each *ArrayStride*, *ArrayStrideIdEXT*, and *MatrixStride* must be greater than zero.
+* A pointer to a structure decorated with *Block* or *BufferBlock* must not have an *ArrayStride* or *ArrayStrideIdEXT* decoration.
+* All members of a given structure must have distinct *Offset* or *OffsetIdEXT* decorations.
+
+Modify Section 2.18.1., "Memory Layout":
+
+Add *OffsetIdEXT* and *ArrayStrideIdEXT* to the list of decorations that partially define how a memory buffer is laid out.
+Add "or *OffsetIdEXT*" immediately after "*Offset*" in each bullet point immediately after "*Offset*".
+
+Modify Section 3.20, "Decoration":
+
+Add *OpMemberDecorateIdEXT* to the list of supported instructions.
+
+Add these rows to the *Decoration* table:
+
+[cols="^2,22,3*3,22",options="header",width = "100%"]
+|====
+2+^.^| Decoration 3+<.^| Extra Operands | Enabling Capabilities
+| 5124 | *ArrayStrideIdEXT* +
+Identical to *ArrayStride*, except that the extra operand is a constant <id>.
+Must only be applied to arrays containing <<Descriptor,descriptor>> types.
+3+| _<id> Array Stride_
+|*DescriptorHeapEXT*
+| 5125 | *OffsetIdEXT* +
+Identical to *Offset*, except that the extra operand is a constant <id>.
+Must only be applied to members of structs where the struct contains at least one <<Descriptor,descriptor>> type.
+3+| _<id> Byte Offset_
+|*DescriptorHeapEXT*
+|====
+
+Add the following allowed declaration types *NonReadable*:
+
+ - The result of *OpBufferPointerEXT*.
+ 
+Add the following allowed declaration types *NonWritable*:
+
+ - The result of *OpBufferPointerEXT* with the *StorageBuffer* storage class.
+
+
+Modify Section 3.21, "BuiltIn", adding these rows to the BuiltIn table:
+
+[cols="^2,22,3*3,22",options="header",width = "100%"]
+|====
+2+^.^| BuiltIn 3+<.^| Extra Operands | Enabling Capabilities
+| 5122 | *SamplerHeapEXT* +
+Base pointer to the sampler heap.
+Must not be used to decorate a struct member. 3+| |*DescriptorHeapEXT*
+| 5123 | *ResourceHeapEXT* +
+Base pointer to the resource heap.
+Must not be used to decorate a struct member. 3+| |*DescriptorHeapEXT*
+|====
+
+Modify Section 3.31, "Capability", adding this row to the Capability table:
+
+[[Capability]]
+[cols="1,10,6",options="header"]
+|====
+2+^| Capability ^| Implicitly Declares
+| 5128  | *DescriptorHeapEXT* +
+Module uses the _SamplerHeapEXT_ and _ResourceHeapEXT_ built-ins, the _OffsetIdEXT_ and _ArrayStrideIdEXT_ decorations, and *OpMemberDecorateIdEXT*, *OpTypeBufferEXT*, *OpConstantSizeOfEXT*, *OpUntypedImageTexelPointerEXT* and *OpBufferPointerEXT* instructions.
+| *UntypedPointersKHR*
+|====
+
+Modify Section 3.56.3, "Annotation Instructions":
+
+[cols="6*1"]
+|======
+5+|[[OpMemberDecorateIdEXT]]*OpMemberDecorateIdEXT*
+
+Add a *Decoration* to a member of a structure type, using _<id>s_ as *Extra Operands*.
+
+_Structure Type_ is the _<id>_ of a type from *OpTypeStruct*.
+
+_Member_ is the number of the member to decorate in the type. The first member is member 0, the next is member 1, ...
+
+This instruction is only valid if the *Decoration* operand is a decoration
+that takes *Extra Operands* that are <id> operands.
+All such _<id>_ *Extra Operands* must be constant instructions or
+*OpVariable* instructions.
+All _<id>_ *Extra Operands* must appear before _Structure Type_.
+
+NOTE: Currently, only *OffsetIdEXT* and *ArrayStrideIdEXT* are valid with this instruction.
+1+|Capability: +
+*DescriptorHeapEXT*
+| 4 + variable | 5127
+| _<id> Structure Type_
+| _Literal Member_
+| _Decoration_
+| _<id>, <id>, ... +
+_See *Decoration*_
+|======
+
+Modify Section 3.56.6, "Type-Declaration Instructions":
+
+[cols="4*1",width="100%"]
+|=====
+3+|[[OpTypeBufferEXT]]*OpTypeBufferEXT*
+
+Declare a new _buffer_ type.
+
+_Storage Class_ is the storage class of the underlying data in the buffer.
+_Storage Class_ must be _Uniform_ or _StorageBuffer_.
+
+|<<Capability,Capability>>: +
+*DescriptorHeapEXT*
+
+| 3 | 5115 | <<ResultId,_Result <id>_ >> | _Storage Class_
+|=====
+
+Modify Section 3.56.7, "Constant Instructions":
+
+[cols="5*1"]
+|======
+4+|[[OpConstantSizeOfEXT]]*OpConstantSizeOfEXT*
+
+Get the compile time size of a resource type.
+
+_Type_ is the type to query the size of.
+
+_Result Type_ must be a 32-bit or 64-bit _integer type_ scalar.
+
+_Type_ must be a <<Descriptor,descriptor>> type instruction.
+1+|Capability: +
+*DescriptorHeapEXT*
+| 4 | 5129
+| _<id> +
+Result Type_
+| _Result <id>_
+| _<id>_ +
+_Type_
+|======
+
+Modify Section 3.56.8, "Memory Instructions":
+
+Add the following instructions:
+
+[cols="5*1",width="100%"]
+|=====
+4+|[[OpBufferPointerEXT]]*OpBufferPointerEXT*
+
+Returns a pointer to the data of a buffer from the _ResourceHeapEXT_ built-in.
+
+_Result Type_ must be a pointer type with a _Storage Class_ of _Uniform_ or _StorageBuffer_.
+
+_Buffer_ is the buffer to obtain a pointer from.
+
+_Buffer_ must be an untyped pointer into a variable declared with the _ResourceHeapEXT_ built-in.
+|<<Capability,Capability>>: +
+*DescriptorHeapEXT*
+
+| 4 | 5119 | '<id>' 'Result Type' | 'Result <id>' | '<id>' 'Buffer'
+|=====
+
+[cols="1,2,6*3",width="100%"]
+|=====
+7+|[[OpUntypedImageTexelPointerEXT]]*OpUntypedImageTexelPointerEXT* +
+ +
+Form a pointer to a texel of an image. Use of such a pointer is limited to atomic operations. +
+ +
+_Result Type_ must be *OpTypeUntypedPointerKHR* whose _Storage Class_ operand is *Image*. +
+ +
+_Image Type_ must be an *OpTypeImage*.
+The _Dim_ operand of _Image Type_ must not be *SubpassData*. +
+ +
+_Image_ must have a type of *OpTypeUntypedPointerKHR* +
+ +
+_Coordinate_ and _Sample_ specify which texel and sample within the image to form a pointer to. +
+ +
+_Coordinate_ must be a scalar or vector of _integer type_.
+It must have the number of components specified below, given the following _Arrayed_ and _Dim_ operands of _Image Type_. +
+ +
+If _Arrayed_ is 0: +
+*1D*: scalar +
+*2D*: 2 components +
+*3D*: 3 components +
+*Cube*: 3 components +
+*Rect*: 2 components +
+*Buffer*: scalar +
+ +
+If _Arrayed_ is 1: +
+*1D*: 2 components +
+*2D*: 3 components +
+*Cube*: 3 components; the face and layer combine into the 3rd component, _layer_face_, such that face is _layer_face_ % 6 and layer is floor(_layer_face_ / 6) +
+ +
+_Sample_ must be an _integer type_ scalar. It specifies which sample to select at the given coordinate. Behavior is undefined unless it is a valid _<id>_ for the value 0 when the *OpTypeImage* has _MS_ of 0.
+|<<Capability,Capability>>: +
+*DescriptorHeapEXT*
+
+| 7 | 5126 | '<id>' 'Result Type' | 'Result <id>' | '<id>' 'Image Type' | '<id>' 'Image' | '<id>' 'Coordinate' | '<id>' 'Sample'
+|=====
+
+Modify Section 2.16.1, "Universal Validation Rules":
+
+Under:
+    * It is invalid for a pointer to be an operand to any instruction other than:
+
+Add:
+    ** *OpBufferPointerEXT*
+    ** *OpUntypedImageTexelPointerEXT*
+
+Under:
+
+    * It is invalid for a pointer to be the 'Result' of any instruction other than:
+    
+Add:
+
+    ** *OpBufferPointerEXT*
+    ** *OpUntypedImageTexelPointerEXT*
+
+Examples
+--------
+
+Heap declarations
+~~~~~~~~~~~~~~~~~
+
+Any shader using heaps will likely use the same declarations for each heap, roughly as follows:
+
+[source,spirv]
+----
+                                  OpDecorate %sampler_heap BuiltIn SamplerHeapEXT
+                                  OpDecorate %resource_heap BuiltIn ResourceHeapEXT
+
+      %uniformconstant_ptr_type = OpTypeUntypedPointerKHR UniformConstant
+                %input_ptr_type = OpTypeUntypedPointerKHR Input
+                  %sampler_heap = OpUntypedVariableKHR %uniformconstant_ptr_type UniformConstant
+                 %resource_heap = OpUntypedVariableKHR %uniformconstant_ptr_type UniformConstant
+----
+
+Note that each heap is untyped; the resource types and placeholder types are only used when the heap is dereferenced, as noted in SPV_KHR_untyped_pointers.
+
+
+Buffer access
+~~~~~~~~~~~~~
+
+This example gets a pointer to buffer data, which requires a little more work than an image or sampler, as there is no buffer type in core SPIR-V.
+This extension adds a buffer type that has a size defined by the client API.
+`OpBufferPointerEXT` is used to extract a pointer to the underlying data of the buffer from the dereferenced heap pointer:
+
+[source,spirv]
+----
+                                  OpDecorateId %storage_buffer_array_type ArrayStrideIdEXT %buffer_size
+
+                     %size_type = OpTypeInt 32 0
+           %storage_buffer_type = OpTypeBufferEXT StorageBuffer
+     %storage_buffer_array_type = OpTypeRuntimeArray %storage_buffer_type
+                   %buffer_size = OpConstantSizeOfEXT %size_type %storage_buffer_type
+      %uniformconstant_ptr_type = OpTypeUntypedPointerKHR UniformConstant
+        %storagebuffer_ptr_type = OpTypeUntypedPointerKHR StorageBuffer
+
+                    %buffer_ptr = OpUntypedAccessChainKHR %uniformconstant_ptr_type %storage_buffer_array_type %resource_heap %heap_index
+               %buffer_data_ptr = OpBufferPointerEXT %storagebuffer_ptr_type %buffer_ptr
+----
+
+
+Issues
+------
+
+1. Is there a way to tag different images from the heap as aliases?
+
+Not directly, but workarounds are possible.
+
+For Vulkan, alias decorations in SPIR-V only serve to state that you are accessing the same _descriptor_, which is a fairly unlikely situation in the first place, and is just as doable today with descriptor arrays. The only way to run into this in a valid manner would be to have two matching indices OR have a known identical descriptor in the source at two locations (possible with either Vulkan's VK_EXT_descriptor_buffer or VK_EXT_descriptor_heap extensions), or have two independent index values that match. So it's a vanishingly unlikely case, and a pre-existing condition.
+
+If aliasing is necessary to express, there is nothing to tag the decoration onto when obtaining an element of an array, as you cannot use `Aliased` or `AliasedPointer` on an access chain instruction. This can be worked around though, by passing the resulting handles to a function and decorating the function parameters with `Aliased`/`AliasedPointer`, and accessing them through that function. This works with both descriptor bindings and heaps.
+
+Also note that at the time of writing, there is no way to tag this kind of aliasing in HLSL, and as HLSL compilers are intended as the initial primary consumer of this extension, improving this situation is not a goal for this extension.
+
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1 |2025-09-08 |Tobias Hector|Internal revisions
+|========================================
