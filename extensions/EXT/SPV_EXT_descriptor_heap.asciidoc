@@ -36,9 +36,8 @@ Contributors
 Status
 ------
 
-- Approved by the SPIR-V Working Group: 2025-08-06
 - Approved by the SPIR-V Working Group: 2025-10-08
-- Approved by the Khronos Board of Promoters: 2025-11-21
+- Approved by the Khronos Board of Promoters: 2026-01-16
 
 Version
 -------
