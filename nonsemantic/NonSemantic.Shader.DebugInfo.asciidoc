@@ -58,7 +58,7 @@ Version
 [width="40%",cols="25,25"]
 |========================================
 | Last Modified Date | 2026-01-30
-| Revision           | 15
+| Revision           | 100 Rev 15
 |========================================
 
 Versioning
@@ -84,7 +84,9 @@ Later versions are supersets of earlier versions in the following sense:
 
 However, later versions are NOT required to be semantically compatible:
 
-* The meaning or constraints of existing instructions may change.
+* The meaning of an instruction and its operands will not change unless an
+operand, added after the instruction's initial version, is used. Clarifications
+to the specification text do not constitute semantic changes.
 * Tools consuming debug info at version N should use the semantics defined in version N.
 * Tools may choose to support multiple versions or drop support for older versions.
 
