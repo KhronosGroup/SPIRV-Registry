@@ -1,0 +1,210 @@
+SPV_VALVE_mixed_float_dot_product
+=================================
+
+Name Strings
+------------
+
+SPV_VALVE_mixed_float_dot_product
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Georg Lehmann, Valve
+
+Notice
+------
+
+Copyright (c) 2026, Valve Corporation
+
+Status
+------
+
+- Complete
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2026-02-04
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.6 Revision 6.
+
+This extension requires SPIR-V 1.0.
+
+If DotProductBFloat16AccVALVE is used, SPV_KHR_bfloat16 is required.
+
+If DotProductFloat8AccFloat32VALVE is used, SPV_EXT_float8 is required.
+
+Overview
+--------
+
+This extension introduces support for dot product operations on low precision inputs
+with potentially higher precision accumulation. The specific types accepted as inputs are
+constrained by capabilities of which this extension introduces four:
+
+- 2 component vector of 16bit float inputs with 32bit accumulation
+
+- 2 component vector of 16bit float inputs with 16bit accumulation
+
+- 2 component vector of bfloat16 inputs with 32bit or bfloat16 accumulation
+
+- 4 component vector of 8bit float inputs with 32bit accumulation
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_VALVE_mixed_float_dot_product"
+----
+
+Modifications to the SPIR-V Specification, Version 1.6
+------------------------------------------------------
+
+Capabilities
+~~~~~~~~~~~~
+
+Modify Section 3.2.30, "Capability", adding these rows to the Capability table
+(these capabilities enable specific input types):
+
+--
+[options="header"]
+|====
+2+^| Capability ^| Implicitly declares
+| 6912 | *DotProductFloat16AccFloat32VALVE* +
+Uses 16bit floating point dot product with 32bit accumulation | *Float16*
+| 6913 | *DotProductFloat16AccFloat16VALVE* +
+Uses 16bit floating point dot product with 16bit accumulation | *Float16*
+| 6914 | *DotProductBFloat16AccVALVE* +
+Uses 16bit BFloat16 dot product with BFloat16 or 32bit accumulation | *BFloat16TypeKHR*
+| 6915 | *DotProductFloat8AccFloat32VALVE* +
+Uses 8bit E4M3 or E5M2 dot product with 32bit accumulation | *Float8EXT*
+|====
+--
+
+Instructions
+~~~~~~~~~~~~
+
+Add the following new instructions:
+
+
+[cols="1,1,4*3,1",width="100%"]
+|====
+6+|*OpFDot2MixAcc32VALVE* +
+ +
+Floating point dot product of _Vector 1_ and _Vector 2_ and addition of the result with _Accumulator_. +
+ +
+_Result Type_ must be a scalar floating-point type using the IEEE 754 encoding. The component width must be 32 bits. +
+ +
+_Vector 1_ and _Vector 2_ must have the same type. +
+ +
+_Vector 1_ and _Vector 2_ must be vectors of 2 components of floating point types using the IEEE 754 encoding (enabled by
+*DotProductFloat16AccFloat32VALVE*) or the *BFloat16KHR* encoding
+(enabled by *DotProductBFloat16AccVALVE*).
+The component width must be 16 bits. +
+ +
+The type of _Accumulator_ must be the same as _Result Type_. +
+ +
+All components of the input vectors are converted to _Result Type_.
+The converted vectors are then multiplied component-wise
+and all components of the vector resulting from the component-wise multiplication
+are added together. Finally, the resulting sum is added to the input accumulator.
+ +
+Exact order and precision of these operations is implementation defined.
+
+1+|<<Capability,Capability>>: +
+*DotProductFloat16AccFloat32VALVE*, *DotProductBFloat16AccVALVE*
+| 6 | 6916 | <id> _Result Type_ | <<ResultId,'Result <id>' >> | <id> _Vector 1_ | <id> _Vector 2_ | <id> _Accumulator_
+|====
+
+[cols="1,1,4*3,1",width="100%"]
+|====
+6+|*OpFDot2MixAcc16VALVE* +
+ +
+Floating point dot product of _Vector 1_ and _Vector 2_ and addition of the result with _Accumulator_. +
+ +
+_Result Type_ must be a scalar floating-point type equal to the components of _Vector 1_ and _Vector 2_. +
+ +
+_Vector 1_ and _Vector 2_ must have the same type. +
+ +
+_Vector 1_ and _Vector 2_ must be vectors of 2 components of floating point types using the IEEE 754 encoding (enabled by
+*DotProductFloat16AccFloat16VALVE*) or the *BFloat16KHR* encoding
+(enabled by *DotProductBFloat16AccVALVE*).
+The component width must be 16 bits. +
+ +
+The type of _Accumulator_ must be the same as _Result Type_. +
+ +
+The vectors are multiplied component-wise
+and all components of the vector resulting from the component-wise multiplication
+are added together. Finally, the resulting sum is added to the input accumulator.
+ +
+Exact order and precision of these operations is implementation defined.
+
+1+|<<Capability,Capability>>: +
+*DotProductFloat16AccFloat16VALVE*, *DotProductBFloat16AccVALVE*
+| 6 | 6917 | <id> _Result Type_ | <<ResultId,'Result <id>' >> | <id> _Vector 1_ | <id> _Vector 2_ | <id> _Accumulator_
+|====
+
+[cols="1,1,4*3,1",width="100%"]
+|====
+6+|*OpFDot4MixAcc32VALVE* +
+ +
+Floating point dot product of _Vector 1_ and _Vector 2_ and addition of the result with _Accumulator_. +
+ +
+_Result Type_ must be a scalar floating-point type using the IEEE 754 encoding. The component width must be 32 bits. +
+ +
+_Vector 1_ and _Vector 2_ must be vectors of 4 components of floating point types using the *Float8E4M3EXT* or
+*Float8E5M2EXT* encoding.
+The component width must be 8 bits. +
+ +
+The type of _Accumulator_ must be the same as _Result Type_. +
+ +
+All components of the input vectors are converted to _Result Type_.
+The converted vectors are then multiplied component-wise
+and all components of the vector resulting from the component-wise multiplication
+are added together. Finally, the resulting sum is added to the input accumulator.
+ +
+Exact order and precision of these operations is implementation defined.
+
+1+|<<Capability,Capability>>: +
+*DotProductFloat8AccFloat32VALVE*
+| 6 | 6918 | <id> _Result Type_ | <<ResultId,'Result <id>' >> | <id> _Vector 1_ | <id> _Vector 2_ | <id> _Accumulator_
+|====
+
+Issues
+------
+
+. How to define precision?
++
+--
+Leave it implementation defined, like cooperative matrix multiply-add. Precision
+varies across supported hardware.
+
+--
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2026-02-04|Georg Lehmann|Initial revision
+|========================================
