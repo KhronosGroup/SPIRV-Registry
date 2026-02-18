@@ -201,6 +201,7 @@ Note: we no longer push the HTML along side the extension.
 * [SPV_QCOM_image_processing               ]( https://github.khronos.org/SPIRV-Registry/extensions/QCOM/SPV_QCOM_image_processing.html)
 * [SPV_QCOM_image_processing2              ]( https://github.khronos.org/SPIRV-Registry/extensions/QCOM/SPV_QCOM_image_processing2.html)
 * [SPV_QCOM_tile_shading                   ]( https://github.khronos.org/SPIRV-Registry/extensions/QCOM/SPV_QCOM_tile_shading.html)
+* [SPV_VALVE_mixed_float_dot_product       ]( https://github.khronos.org/SPIRV-Registry/extensions/VALVE/SPV_VALVE_mixed_float_dot_product.html)
 
 ## Non-Semantic Extended Instruction Set Specifications
 
