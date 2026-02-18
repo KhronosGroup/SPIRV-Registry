@@ -1,6 +1,8 @@
 SPIR-V NonSemantic Shader DebugInfo Instructions
 ================================================
 
+Version 100
+
 :result_type: pass:normal['Result Type' must be *OpTypeVoid*.]
 :source:      pass:normal['Source' is a *DebugSource* instruction representing the text of the source program]
 :flags:       pass:normal['Flags' is the '<id>' of a 32-bit integer *OpConstant* formed by the bitwise-OR of values from the <<DebugFlags,*Debug Info Flags*>> table.]
@@ -55,9 +57,41 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2025-11-20
-| Revision           | 14
+| Last Modified Date | 2026-01-30
+| Revision           | 100 Rev 15
 |========================================
+
+Versioning
+----------
+
+This extended instruction set is versioned. The version is specified via the
+import string using an *OpExtInstImport*
+"NonSemantic.Shader.DebugInfo.'<ver>'" instruction, where '<ver>' indicates
+the version number starting at 100.
+
+For compatibility with existing modules and to reflect the instruction numbering
+scheme (new instructions begin at number 100), versioning starts at 100.
+
+Version Compatibility
+~~~~~~~~~~~~~~~~~~~~~
+
+Later versions are supersets of earlier versions in the following sense:
+
+* New instructions may be added.
+* Existing instructions maintain their instruction numbers and operand structure.
+* Operands may be added to existing instructions (always as optional trailing operands).
+* Validation rules may become stricter for newly generated code.
+
+However, later versions are NOT required to be semantically compatible:
+
+* The meaning of an instruction and its operands will not change unless an
+operand, added after the instruction's initial version, is used. Clarifications
+to the specification text do not constitute semantic changes.
+* Tools consuming debug info at version N should use the semantics defined in version N.
+* Tools may choose to support multiple versions or drop support for older versions.
+
+This allows the specification to evolve and fix problematic patterns without
+being constrained by full backward compatibility.
 
 Dependencies
 ------------
@@ -70,13 +104,20 @@ This instruction set requires SPIR-V 1.0.
 Introduction
 ------------
 
-This is the specification of the *NonSemantic.Shader.DebugInfo.100* extended instruction
+This is the specification of the *NonSemantic.Shader.DebugInfo* extended instruction
 set.
 
 This extended instruction set is imported into a SPIR-V module in the following
 manner:
 
-[[OpExtInstImport]]`<extinst-id> OpExtInstImport "NonSemantic.Shader.DebugInfo.100"`
+[[OpExtInstImport]]`<extinst-id> OpExtInstImport "NonSemantic.Shader.DebugInfo.<ver>"`
+
+Where '<ver>' is the version number. For compatibility with existing modules,
+versioning starts at 100. Example:
+
+----
+%debug = OpExtInstImport "NonSemantic.Shader.DebugInfo.100"
+----
 
 The instructions below are capable of conveying debug information about the
 source program.
@@ -1838,29 +1879,30 @@ Revision History
 [options="header"]
 |========================================================
 |Rev         |Date      |Author             |Changes
-|1.00 Rev 1  |2020-11-02|Baldur Karlsson    |*Initial revision*
-|1.00 Rev 2  |2020-11-02|Baldur Karlsson    |Changed to comply with non-semantic restrictions. +
+|100 Rev 1   |2020-11-02|Baldur Karlsson    |*Initial revision*
+|100 Rev 2   |2020-11-02|Baldur Karlsson    |Changed to comply with non-semantic restrictions. +
                                              Removed forward references. +
                                              Converted literal operands to OpConstant ids. +
-|1.00 Rev 3  |2020-11-17|Baldur Karlsson    |Added *DebugSourceContinued*, *DebugLine*/*DebugNoLine*,
+|100 Rev 3   |2020-11-17|Baldur Karlsson    |Added *DebugSourceContinued*, *DebugLine*/*DebugNoLine*,
                                              *DebugBuildIdentifier*, *DebugStoragePath*,
                                              *DebugEntryPoint*, *DebugTypeMatrix*.
-|1.00 Rev 4  |2020-12-08|Baldur Karlsson    |Grammar fixes, added *FlagUnknownPhysicalLayout* and
+|100 Rev 4   |2020-12-08|Baldur Karlsson    |Grammar fixes, added *FlagUnknownPhysicalLayout* and
                                              *Indexes* parameter in *DebugValue*. Limited where
                                              *DebugLine* type instructions can appear.
-|1.00 Rev 5  |2020-01-04|Baldur Karlsson    |Add *Flags* parameter to *DebugTypeBasic*.
-|1.00 Rev 6  |2020-01-22|Baldur Karlsson    |Rename extended instruction set.
-|1.00 Rev 7  |2021-07-01|Baldur Karlsson    |Clarify runtime array sizing.
-|1.00 Rev 8  |2021-07-27|Baldur Karlsson    |Clarify that *DebugFunctionDefinition* can be in +
+|100 Rev 5   |2020-01-04|Baldur Karlsson    |Add *Flags* parameter to *DebugTypeBasic*.
+|100 Rev 6   |2020-01-22|Baldur Karlsson    |Rename extended instruction set.
+|100 Rev 7   |2021-07-01|Baldur Karlsson    |Clarify runtime array sizing.
+|100 Rev 8   |2021-07-27|Baldur Karlsson    |Clarify that *DebugFunctionDefinition* can be in +
                                              basic blocks.
-|1.00 Rev 9  |2022-02-28|Baldur Karlsson    |Clarify that *DebugEntryPoint* refers to a
+|100 Rev 9   |2022-02-28|Baldur Karlsson    |Clarify that *DebugEntryPoint* refers to a
                                              *DebugFunction*, not an *OpEntryPoint*.
-|1.00 Rev 10 |2024-08-07|Victor Lomüller    |Fix that in *DebugLine* the 'Column end' operand
+|100 Rev 10  |2024-08-07|Victor Lomüller    |Fix that in *DebugLine* the 'Column end' operand
                                              can be equal to 'Column start' operand.
-|1.00 Rev 11 |2024-10-08|Spencer Fricke     |Fix using 'Scope' instead of 'Parent' operand name.
-|1.00 Rev 12 |2025-02-04|Spencer Fricke     |Clarify Line and Column operand should start at 1.
-|1.00 Rev 13 |2025-11-19|Diego Novillo      |Loosen name mangling rules to make them implementation-defined.
-|1.00 Rev 14 |2025-11-20|Diego Novillo      |Allow constant instructions for size, count, offset,
+|100 Rev 11  |2024-10-08|Spencer Fricke     |Fix using 'Scope' instead of 'Parent' operand name.
+|100 Rev 12  |2025-02-04|Spencer Fricke     |Clarify Line and Column operand should start at 1.
+|100 Rev 13  |2025-11-19|Diego Novillo      |Loosen name mangling rules to make them implementation-defined.
+|100 Rev 14  |2025-11-20|Diego Novillo      |Allow constant instructions for size, count, offset,
                                              and value operands.
+|100 Rev 15  |2026-01-30|Diego Novillo      |Unify specification into single versioned document.
 |========================================================
 
