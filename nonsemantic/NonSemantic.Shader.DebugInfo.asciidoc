@@ -78,8 +78,11 @@ Version Compatibility
 Later versions are supersets of earlier versions in the following sense:
 
 * New instructions may be added.
-* Existing instructions maintain their instruction numbers and operand structure.
-* Operands may be added to existing instructions (always as optional trailing operands).
+* Existing instructions maintain their instruction numbers and operand structure
+  within the version they were defined.
+* Adding operands to existing instructions, even as optional trailing operands,
+  constitutes a breaking change and requires a new version. Any added operands
+  must be optional trailing operands.
 * Validation rules may become stricter for newly generated code.
 
 However, later versions are NOT required to be semantically compatible:
