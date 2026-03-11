@@ -674,9 +674,9 @@ Compilation Unit
 Type instructions
 ~~~~~~~~~~~~~~~~~
 
-[cols="2*1,3*2,1,4*3"]
+[cols="2*1,3*2,1,5*3"]
 |======
-10+|[[DebugTypeBasic]]*DebugTypeBasic* +
+11+|[[DebugTypeBasic]]*DebugTypeBasic* +
  +
  Describe a basic data type. +
  +
