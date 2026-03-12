@@ -1,0 +1,320 @@
+= SPV_KHR_poison_freeze
+
+== Name Strings
+
+SPV_KHR_poison_freeze
+
+== Contact
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Registry
+
+== Contributors
+
+- Tobias Hector, AMD
+- Jakub Kuderski, AMD
+- Alyssa Rosensweig, Valve
+- Alan Baker, Google
+- Jeff Bolz, Nvidia
+- Ben Ashbaugh, Intel
+- Victor Lomuller, Codeplay
+- Nicolai Hähnle, AMD
+- Graeme Leese, Broadcom
+- David Neto, Google
+- Raph Levien, Google
+- John Kessenich, Google
+
+
+== Notice
+
+Copyright (c) 2025-2026 The Khronos Group Inc.
+Copyright terms at http://www.khronos.org/registry/speccopyright.html
+
+== Status
+
+Experimental
+
+- Approved by the SPIR-V Working Group: 2026-01-07
+- Approved by the Khronos Board of Promoters: 2026-02-20
+
+== Version
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2026-03-12
+| Revision           | 1
+|========================================
+
+== Dependencies
+
+This extension is written against the SPIR-V Specification,
+Version 1.6 Revision 7.
+
+This extension requires SPIR-V 1.0.
+
+== Overview
+
+This extension adds the *OpFreezeKHR* instructions that enables compilers
+targeting SPIR-V to force a poison value to take an unspecified but stable
+value, while leaving existing stable values alone.
+In addition, a new execution mode is added that modifies several existing
+operations to now produce poison rather than directly resulting in undefined
+behavior.
+
+
+== Problem Statement
+
+There has been a long standing clarity issue around the handling of undefined
+values in SPIR-V; some developers have assumed "undefined values" to imply
+that a single stable value is returned, while others took the meaning of
+OpUndef and assumed this applied.
+In practice, the edges of this have never been tested in any client APIs, so
+the details remained fuzzy until the core specification was updated to
+define the concept of
+https://registry.khronos.org/SPIR-V/specs/unified1/SPIRV.html#Poison[poison],
+bringing it in line with LLVM's solution to this problem.
+
+However, just defining poison acknowledges that a suite of things that people
+have expected to work actually don't work - and there is no clear fallback.
+This makes generating sound SPIR-V that avoids undefined
+behavior challenging, which is a particular problem for languages like WGSL
+where avoiding undefined behavior is critically important.
+
+
+== Solution Space
+
+One solution to this problem could have been to just start testing if
+implementations are returning stable values or undefined values already.
+Unfortunately, without testing the likelihood is that many existing
+implementations would retroactively be considered buggy.
+Any implementations that updated to the newer definition would also likely
+have a negative performance impact on execution existing code, even if that
+code did not need such strong guarantees.
+It also means that client APIs and implementations would expend a lot of
+effort testing and fixing compilers to do something that we don't necessarily
+want for the long term anyway, which brings us to the other option.
+
+Looking to LLVM, they solved this issue by introducing the
+https://llvm.org/docs/UndefinedBehavior.html#the-freeze-instruction["freeze"
+instruction].
+This instruction can be used to turn a poison or undef value into a static
+valid value, with the expectation that higher level language compilers can
+use this instruction to make tighter guarantees about handling of undefined
+values.
+SPIR-V defining a similar instruction with a 1:1 meaning would also give a
+clean and straightforward translation between LLVM IR and SPIR-V, which is
+important in an ecosystem where translation both ways is relied upon by a
+huge number of tools and implementations.
+
+This document thus proposes introducing a freeze instruction, as well as
+changing some instances of undefined behavior into generating poison.
+
+
+== Extension Name
+
+To use this extension within a SPIR-V module, the following *OpExtension* must
+be present in the module:
+
+----
+OpExtension "SPV_KHR_poison_freeze"
+----
+
+== Modifications to the SPIR-V Specification, Version 1.6
+
+=== Capabilities
+
+Modify Section 3.2.30, "Capability", adding rows to the Capability table:
+
+[cols="1,10,4",options="header"]
+|====
+2+^| Capability ^| Implicitly Declares
+
+| 5156
+| [[PoisonFreezeKHR]]*PoisonFreezeKHR* +
+Uses the *OpFreezeKHR* instruction or the *ArithmeticPoisonKHR* execution mode.
+If declared, all entry points must use the *ArithmeticPoisonKHR* execution mode.
+|
+
+|====
+
+
+=== Execution Modes
+
+Modify Section 3.2.5, "Execution Mode", adding rows to the Capability table:
+
+[cols="1,6,6,6",options="header"]
+|====
+2+^| Execution Mode ^| Extra Operands | Enabling Capabilities
+
+| 5157
+| [[ArithmeticPoisonKHR]]*ArithmeticPoisonKHR*
+Instructions with return values must return a well-defined value for all
+possible valid inputs unless they explicitly state conditions under which
+they either return _poison_ or have _undefined behavior_.
+Poison is preferred to _undefined behavior_ wherever possible.
+|
+| *PoisonFreezeKHR*
+|====
+
+=== Decoration
+
+Modify section 3.2.19, "Decoration", modifying entries in the table as follows:
+
+Change the last sentence in the descriptions of *NoSignedWrap* and *NoUnsignedWrap* from:
+
+====
+If an instruction decorated with *NoSignedWrap*/*NoUnsignedWrap* does overflow or underflow, behavior is undefined.
+====
+
+to:
+
+====
+If an instruction decorated with *NoSignedWrap*/*NoUnsignedWrap* does overflow or underflow, its result is _poison_ if *ArithmeticPoisonKHR* is declared, otherwise behavior is undefined.
+====
+
+
+=== Instructions
+
+Modify section 3.3.1, "Miscellaneous Instructions":
+
+Add the following text to the start of *OpUndef*:
+
+====
+Deprecated (use *OpPoisonKHR* and *OpFreezeKHR* instead)
+
+[NOTE]
+=====
+The same behavior can be guaranteed by using *OpPoisonKHR* and freezing it via *OpFreezeKHR* from the perspective of a SPIR-V producer.
+For a SPIR-V consumer this is more conservative than *OpUndef*, but any impact on compilation output is expected to be negligible.
+=====
+====
+
+Add the following instructions immediately after *OpUndef*:
+
+
+[cols="4", width="100%"]
+|=====
+2+|[[OpPoisonKHR]]*OpPoisonKHR*
+
+This instruction generates a _poison_ value.
+
+2+| Capability:
+*PoisonFreezeKHR*
+
+| 3 | 5158 | _<id>_
+_Result Type_ | _Result <id>_
+|=====
+
+
+[cols="5", width="100%"]
+|=====
+3+a|[[OpFreezeKHR]]*OpFreezeKHR*
+
+This instruction generates a _stable value_ of the result type.
+The value of _Result_ depends on _Value_:
+
+ * If _Value_ is _poison_, _Result_ is any non-poison value for _Result Type_.
+ * If _Value_ is an _undefined value_, _Result_ is one possible evaluated value.
+ * If _Value_ is neither _poison_ nor an _undefined value_, _Result_ is equal to _Value_.
+ * The _Type_ of _Value_ must be the same as _Result Type_.
+
+_Result_ is always a _stable value_.
+2+| Capability:
+*PoisonFreezeKHR*
+
+| 4 | 5159 | _<id>_
+_Result Type_ | _Result <id>_ | _<id>_ _Value_
+|=====
+
+Modify section 3.3.11, "Conversion Instructions", modifying the following instructions:
+
+Change the following sentence in the descriptions of *OpConvertFToU* and *OpConvertFToS* from:
+
+====
+Behavior is undefined if Result Type is not wide enough to hold the converted value.
+====
+
+to:
+
+====
+If _Result Type_ is not wide enough to hold the converted value _Result_ is _poison_ if *ArithmeticPoisonKHR* is declared; otherwise behavior is undefined.
+====
+
+Change the following sentence in the description of *OpConvertUToPtr* from:
+
+====
+Behavior is undefined if the storage class of _Result Type_ does not match the one used by the operation that produced the value of Integer Value.
+====
+
+to:
+
+====
+If the storage class of _Result Type_ does not match the one used by the operation that produced the value of _Integer Value_, _Result_ is _poison_ if *ArithmeticPoisonKHR* is declared; otherwise behavior is undefined.
+====
+
+Change the following sentence in the description of *OpBitcast* from:
+
+====
+Behavior is undefined if the storage class of _Result Type_ does not match the one used by the operation that produced the value of Integer Value.
+====
+
+to:
+
+====
+If the storage class of _Result Type_ does not match the one used by the operation that produced the value of _Operand_, _Result_ is _poison_ if *ArithmeticPoisonKHR* is declared; otherwise behavior is undefined.
+====
+
+Modify section 3.3.11, "Conversion Instructions", modifying the following instructions:
+
+Change the following sentence in the description of *OpUDiv*, *OpSDiv*, *OpUMod*, *OpSRem*, and *OpSMod* from:
+
+====
+Behavior is undefined if _Operand 2_ is 0. 
+====
+
+to:
+
+====
+If _Operand 2_ is 0, _Result_ is _poison_ if *ArithmeticPoisonKHR* is declared; otherwise behavior is undefined.
+====
+
+
+Change the following sentence in the description of *OpSDiv*, *OpSRem*, and *OpSMod* from:
+
+====
+Behavior is undefined if _Operand 2_ is -1 and _Operand 1_ is the minimum representable value for the operands' type, causing signed overflow. 
+====
+
+to:
+
+====
+If _Operand 2_ is -1 and _Operand 1_ is the minimum representable value for the operands' type, causing signed overflow, _Result_ is _poison_ if *ArithmeticPoisonKHR* is declared; otherwise behavior is undefined.
+====
+
+
+== Issues
+:sectnums:
+
+=== Should future extensions adding data transforms result in poison instead?
+
+Yes. Unless explicitly called out why poison is not returned, it should be considered a spec bug to not, even when this functionality is not present.
+
+We should work to ensure that UB can never be the direct result of a data transformation.
+
+
+=== What about extensions not listed here that already exist?
+
+This should also be considered a bug - missing interactions should be added.
+
+
+:!sectnums:
+== Revision History
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2026-03-12|Tobias Hector|Initial KHR extension.
+|========================================
