@@ -132,7 +132,7 @@ and specialized floating-point encodings.
 
 New instructions in version 101:
 
-* <<DebugTypeCooperativeVectorNV,*DebugTypeCooperativeVectorNV*>> (instruction 109)
+* <<DebugTypeVectorIdEXT,*DebugTypeVectorIdEXT*>> (instruction 109)
 * <<DebugTypeCooperativeMatrixKHR,*DebugTypeCooperativeMatrixKHR*>> (instruction 110)
 
 Extended instructions in version 101:
@@ -342,7 +342,7 @@ Instruction Enumeration [[InstEnum]]
 | 106 | <<DebugStoragePath,*DebugStoragePath*>>
 | 107 | <<DebugEntryPoint,*DebugEntryPoint*>>
 | 108 | <<DebugTypeMatrix,*DebugTypeMatrix*>>
-| 109 | <<DebugTypeCooperativeVectorNV,*DebugTypeCooperativeVectorNV*>>
+| 109 | <<DebugTypeVectorIdEXT,*DebugTypeVectorIdEXT*>>
 | 110 | <<DebugTypeCooperativeMatrixKHR,*DebugTypeCooperativeMatrixKHR*>>
 |======
 
@@ -839,11 +839,13 @@ then correspondingly the matrix is row major with each vector being a row. +
 
 [cols="2*1,3*2,1,2*3"]
 |======
-8+|[[DebugTypeCooperativeVectorNV]]*DebugTypeCooperativeVectorNV* +
+8+|[[DebugTypeVectorIdEXT]]*DebugTypeVectorIdEXT* +
  +
 (*version 101*) +
  +
-Describe the cooperative vector data type *OpTypeCooperativeVectorNV*. +
+Describe a variable-length vector type declared by *OpTypeVectorIdEXT* or
+*OpTypeCooperativeVectorNV*. Both instructions share the same opcode and operand
+structure; generators must emit this debug instruction for either. +
  +
 {result_type} +
  +
@@ -852,7 +854,7 @@ element of the vector. +
  +
 'Component Count' is the '<id>' of a constant instruction with scalar integer type denoting the number of
 elements in the vector. This includes *OpSpecConstant*, which must be used when the corresponding
-*OpTypeCooperativeVectorNV* uses a specialization constant for its component count. +
+SPIR-V type uses a specialization constant for its component count. +
 
 | 7 | 12 | '<id>' +
 'Result Type' | 'Result <id>' | '<id> Set'| 109
@@ -1960,7 +1962,7 @@ Validation Rules
 - If *FPEncoding* is not specified (omitted), the floating-point format defaults to
   the standard IEEE 754 format for the given width.
 
-- The dimension operands of *DebugTypeCooperativeVectorNV* and *DebugTypeCooperativeMatrixKHR*
+- The dimension operands of *DebugTypeVectorIdEXT* and *DebugTypeCooperativeMatrixKHR*
   ('Component Count', 'Scope', 'Rows', 'Columns', 'Use')
   must be the result id of a constant instruction with a 32-bit unsigned integer type.
   Both *OpConstant* and *OpSpecConstant* are valid. When the corresponding SPIR-V cooperative
@@ -2034,7 +2036,7 @@ Revision History
                                              and value operands.
 |100 Rev 15  |2026-01-30|Diego Novillo      |Unify specification into single versioned document.
 |101 Rev 1   |2025-09-09|Chao Chen          |*Version 101 extension:* Add support for cooperative +
-                         Diego Novillo      types (*DebugTypeCooperativeVectorNV*, +
+                         Diego Novillo      types (*DebugTypeVectorIdEXT*, +
                                              *DebugTypeCooperativeMatrixKHR*). Extend +
                                              *DebugTypeBasic* with optional *FPEncoding* +
                                              parameter for specialized floating-point formats.
