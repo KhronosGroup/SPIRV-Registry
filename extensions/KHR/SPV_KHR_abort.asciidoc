@@ -271,5 +271,5 @@ In addition to this, by having the message passing generalized, implementation a
 [options="header"]
 |========================================
 |Rev|Date|Author|Changes
-|1 |2024-11-20 |Tobias Hector|Internal revisions
+|1 |2026-03-23 |Tobias Hector|Initial revision for publication
 |========================================
