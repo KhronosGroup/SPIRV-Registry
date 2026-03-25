@@ -23,7 +23,7 @@ https://github.com/KhronosGroup/SPIRV-Headers
 
 [width="40%",cols="25,25"]
 |===
-| Last Modified Date | 2024-10-03
+| Last Modified Date | 2026-03-23
 | Revision           | 1
 |===
 
