@@ -1,0 +1,294 @@
+= SPV_KHR_constant_data
+
+== Name Strings
+
+SPV_KHR_constant_data
+
+== Contact
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+== Contributors
+
+- Tobias Hector, AMD
+
+== Status
+
+- Approved by the SPIR-V Working Group: 2025-12-03
+- Approved by the Khronos Board of Promoters: 2026-01-16
+
+== Version
+
+[width="40%",cols="25,25"]
+|===
+| Last Modified Date | 2026-03-23
+| Revision           | 1
+|===
+
+== Dependencies
+
+This extension is written against the SPIR-V Specification, Version 1.6 Revision 4.
+
+This extension requires SPIR-V 1.0.
+
+== Overview
+
+This extension allows the specification of an array of data in a single
+instruction, rather than having to specify each scalar element and construct
+a composite from that.
+
+
+=== Problem Statement
+
+Specifying arrayed data via constants in SPIR-V is generally quite verbose -
+each scalar element of the composite must be specified as its own constant
+value, which are then constructed into a larger composite using
+*OpConstantComposite*.
+This is particularly problematic when specifying a string constant for use as
+actual data, rather than just for debugging via *OpString*.
+To specify a string constant, a list of individual constants for each
+character would need to be specified, followed by an *OpConstantComposite*
+instruction packing it into an array of integers.
+The most this could be optimised would be by packing characters into larger
+integers, but most consumers would only handle 64-bit integers at most, and
+further obscures the original intent.
+
+
+=== Solution Space
+
+The following options were considered:
+
+  . Extend or modify *OpString*
+  . Add a new constant instruction for string data
+  . Add a more general constant instruction
+
+Option 1 would avoid adding new instructions and instead allow new (or
+existing) instructions to safely use *OpString*.
+However, the options to extend *OpString* are limited due to it already
+having a defined interface with a dynamic length.
+In addition, string types have no defined bit pattern in SPIR-V, limiting
+their use to explicit string parameters.
+
+Option 2 could function more or less identically to *OpString*, but would
+allow more changes to the parameters, potentially enabling other changes.
+As there is no string type in SPIR-V, an array data type could be used
+instead to allow general usage.
+
+There are use cases for composite data beyond just strings, so taking option
+2 one step further and generalising the instruction to any data type as a
+blob of memory enables more flexibility, which is option 3.
+However, this opens the extension up to a lot of additional use cases which
+may require further discussion, and move far beyond the original intended
+problem statement.
+
+This extension works along the lines of Option 2.
+
+
+== Extension Name
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_KHR_constant_data"
+----
+
+== New Capabilities
+
+This extension introduces the new capability:
+
+----
+ConstantDataKHR
+----
+
+
+== Modifications to the SPIR-V Specification, Version 1.6.4
+
+
+Modify Section 2.12, "Specialization":
+
+Add *OpSpecConstantDataKHR* to the list of specialization constant
+instructions.
+
+Change the sentence immediately following the list of specialization constant
+instructions from:
+
+[.excerpt]
+____
+Similarly, the "True" and "False" parts of *OpSpecConstantTrue* and
+*OpSpecConstantFalse* provide the default Boolean specialization
+constants.
+____
+
+To:
+
+[.excerpt]
+____
+Similarly, the "True" and "False" parts of *OpSpecConstantTrue* and
+*OpSpecConstantFalse* provide the default Boolean specialization
+constants, and the _Data_ operand of *OpSpecConstantDataKHR* provides
+the default bit pattern for a data specialization constant.
+____
+
+Add the following example specialization transform:
+
+____
+OpSpecConstantDataKHR -> OpConstantDataKHR
+____
+
+Modify Section 3.20, "Decoration":
+
+Change the first sentence describing *SpecId* from:
+
+[.excerpt]
+____
+Apply only to a scalar specialization constant.
+____
+    
+To:
+
+[.excerpt]
+____
+Apply only to *OpSpecConstantTrue*, *OpSpecConstantFalse*,
+*OpSpecConstant*, or *OpSpecConstantDataKHR*.
+____
+
+Change the sentence reading:
+
+[.excerpt]
+____
+Each pair is a SpecId Decoration of a scalar specialization instruction along with its specialization constant.
+____
+    
+To:
+
+[.excerpt]
+____
+Each pair is a SpecId Decoration of a specialization instruction along with its specialization constant.
+____
+
+    
+Add this row to the Decoration table:
+
+--
+[cols="1,10,10,10",options="header"]
+|===
+2+^| Decoration ^| Extra Operands ^| Enabling Capabilities
+| 5145 | *UTFEncodedKHR* + 
+Decorate an array type with scalar _integer type_ elements to indicate that
+it should be interpreted as a UTF encoded string for debugging, transpiling,
+or assembly/disassembly.
+This has no semantic impact and can be safely removed from a module.
+The _Width_ of each integer element of the decorated type must be 8.
+|
+| *ConstantDataKHR*
+|===
+--
+
+NOTE: This is added to the extension to enable strings to be clearly identified with disassembly or during debugging. Without this, replacing *OpString* usage with this would lose valuable debugging information.
+
+Modify Section 3.31, "Capability", adding this row to the Capability table:
+
+--
+[cols="1,15,15",options="header"]
+|===
+2+^| Capability ^| Implicitly Declares
+| 5146 | *ConstantDataKHR* +
+Uses the *OpConstantDataKHR* or *OpSpecConstantDataKHR* instructions, or uses
+the *UTFEncodedKHR* decoration.
+|
+|===
+--
+
+Modify Section 3.52.7, "Constant-Creation Instructions", adding the following instructions:
+
+--
+[cols="5,5,5,5,5"]
+|===
+4+| *OpConstantDataKHR* +
+ +
+Declare an array of constant data. +
+ +
+_Result Type_ must be an array of scalar _integer type_ elements.
+_Result Type_ must not be decorated with _ArrayStride_. +
+ +
+_Data_ is the bit pattern for the constant.
+The number of words in _Data_ must be equal to number of words needed to
+specify data for all scalar elements of the array of _Result Type_, rounded
+up to the nearest word.
+_Data_ is packed with no padding between elements of the specified type.
+If the size of _Result Type_ is not a multiple of 32 bits, the final element
+of _Data_ is padded to 32-bits, with the most significant bits of the final
+element ignored.
+| *ConstantDataKHR*
+| 4+ variable | 5147 | _<id> Result Type_ | Result <id> | _Literal Data_ ...
+|===
+--
+
+--
+[cols="5,5,5,5,5"]
+|===
+4+| *OpSpecConstantDataKHR* +
+ +
+Declare an array of specialization constant data. +
+ +
+_Result Type_ must be an array of scalar _integer type_ elements.
+_Result Type_ must not be decorated with _ArrayStride_. +
+ +
+_Data_ is the bit pattern for the constant.
+The number of words in _Data_ must be equal to number of words needed to
+specify data for all scalar elements of the array of _Result Type_, rounded
+up to the nearest word.
+_Data_ is packed with no padding between elements of the specified type.
+If the size of _Result Type_ is not a multiple of 32 bits, the final element
+of _Data_ is padded to 32-bits, with the most significant bits of the final
+element ignored.
+ +
+This instruction can be specialized to become an *OpConstantDataKHR*
+instruction. +
+ +
+The amount of data provided via specialization can vary from the amount of
+data originally in the shader, as long as the _Length_ parameter of _Result
+Type_ is specialized to the size of the specialized _Data_.
+| *ConstantDataKHR*
+| 4+ variable | 5148 | _<id> Result Type_ | Result <id> | _Literal Data_ ...
+|===
+--
+
+
+== Issues
+:sectnums:
+
+=== Why is ArrayStride banned on constant data?
+
+Allowing the decoration would mean it would either have to be ignored (which is confusing), or it would imply padding must be present in the constant data (which complicates things).
+Modules can use *OpCopyLogical* to move the data to a strided format if they really need to.
+
+
+=== Should constant data be packed as a single 32-bit word per element rather than tightly packed?
+
+No, for the primary use case of character strings, this would be incredibly
+wasteful in terms of memory, with 24-bits of wasted padding per character.
+
+
+=== Are there limits on the amount of data provided as a constant?
+
+The size is limited by the maximum size of an instruction (65535); taking
+into account the size of the instruction, this limits a single data constant
+to 65531 words, or 262124 bytes.
+
+Should this ever be a limiting factor, data can always be split into multiple
+data constants and concatenated using *OpConstantComposite*.
+
+
+== Revision History
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|===
+|Rev| Date       | Author        | Changes
+|1 |2026-03-23|Tobias Hector|Initial revision for publication
+|===

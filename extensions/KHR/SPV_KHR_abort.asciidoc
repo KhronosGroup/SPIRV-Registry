@@ -1,0 +1,275 @@
+= SPV_KHR_abort
+
+== Name Strings
+
+SPV_KHR_abort
+
+
+== Contact
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+
+== Contributors
+
+- Tobias Hector, AMD
+- Alan Baker, Google
+- Kévin Petit, Arm
+- Victor Lomuller, Codeplay
+- Boris Zanin, AMD
+- Ben Ashbaugh, Intel
+- Jeff Bolz, NVIDIA
+
+
+== Status
+
+- Approved by the SPIR-V Working Group: 2025-12-03
+- Approved by the Khronos Board of Promoters: 2026-01-16
+
+
+== Version
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2026-03-23
+| Revision           | 1
+|========================================
+
+
+== Dependencies
+
+This extension is written against the SPIR-V Specification, Version 1.6 Revision 5.
+
+This extension requires SPIR-V 1.0.
+
+This extension requires SPV_KHR_constant_data.
+
+This extension interacts with SPV_KHR_maximal_reconvergence.
+
+
+== Overview
+
+This extension adds a new "abort" instruction to allow shaders to report fatal errors to the client API.
+
+
+=== Problem Statement
+
+In the case of fairly catastrophic failure (i.e. unexpected inputs or taking
+code paths that were expected to never occur), many traditional programming
+languages expose methods of rapidly asserting to a user that something has
+gone awry.
+These can be deployed during local debugging, but are also often deployed in
+production apps to enable rapid bug reporting at the point of failure, rather
+than risking instability.
+These typically come with some amount of information to either allow the user
+to resolve the issue themselves, or to give richer information for a bug
+report back to the original developer.
+
+SPIR-V as yet has no functionality to raise an immediate error to a client
+API; and some developers have opted to forcibly terminate in ways that happen
+to work reliably on existing platforms (e.g. triggering an infinite loop),
+but those options are not guaranteed to work in future.
+
+Additionally, while there are established methods to write data in SPIR-V
+that can be retrieved by external clients, these are generic enough that they
+typically do not make guarantees in exceptional circumstances - such as when
+a crash is imminent.
+Data loss in these situations is a real danger that occurs on some platforms
+as device caches cannot be flushed once a critical error occurs.
+
+A method of reliably terminating a shader invocation and raising an error to
+the client API, along with guaranteeing some amount of information passing,
+is needed to address this issue.
+
+
+=== Solution Space
+
+A few options were considered for this:
+
+  . Add guarantees for existing methods used by developers
+  . Add a termination request instruction, and separately write data using existing paths
+  . Add a termination request instruction that passes data
+
+The methods used by developers today work typically based on operating system
+timeouts; long-running shaders will be terminated eventually, and any data
+they emitted will (hopefully) be reported back to the host.
+As this timeout is handled by operating systems rather than client API
+implementations, behavior cannot be mandated by client API specifications.
+
+Option 2 would require that writes are guaranteed to bypass caching on the
+way back to the host for a client API.
+While this is technically possible on some platforms, a vendor extension
+exists that has never been standardised.
+
+However, vendors can make this guarantee in limited cases, such as debug
+instructions, so Option 3 is thus a good fit for that.
+
+
+== Extension Name
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_KHR_abort"
+----
+
+
+== Modifications to the SPIR-V Specification, Version 1.6
+
+
+Modify Section 2.2.5., Control Flow:
+
+Add *OpAbortKHR* to the list of _Function Termination Instructions_.
+
+
+Modify Section 3.31, "Capability", adding this row to the Capability table:
+
+[cols="1,8,8",width="100%"]
+|=====
+2+|*Capability* | *Implicitly Declares*
+| 5120 | *AbortKHR* | 
+|=====
+
+
+Modify Section 3.52.17, "Control-Flow Instructions", adding the following instruction:
+
+[cols="1,6,4,3",width="100%"]
+|=====
+3+|*OpAbortKHR* +
+ +
+Ceases all further processing in the invocation that executes it.
+Only instructions executed before *OpAbortKHR* will have side effects.
+Other invocations in the same *Device* scope instance will also be terminated in finite time, though may reach completion. +
+ +
+_Message Type_ is the type of the data to be written.
+_Message Type_ must be a concrete type.
+If the _Shader_ capability is declared, _Message Type_ must have an explicit layout. +
+ +
+_Message_ is data that is passed to the client API after termination.
+_Message Type_ must _logically match_ the type of _Message_, as defined in
+*OpCopyLogical*. +
+ +
+This instruction must be the last instruction in a block.
+| Capability: +
+*AbortKHR*
+| 3 | 5121 | <id> Message Type | <id> Message
+|=====
+
+
+== Interactions with SPV_KHR_maximal_reconvergence
+
+Add the following bullet to the definition of _escapes reconvergence_:
+
+  * The invocation executes *OpAbortKHR*.
+
+
+== Examples
+
+=== Using SPV_KHR_abort to output string messages
+
+`SPV_KHR_abort` requires data to be provided as a single composite argument,
+which for most use cases is likely to contain at least one constant string.
+This use case is illustrated below, with two strings and some user output
+data.
+The format string is specialized, such that it can be overridden when
+compiling the shader.
+
+
+```spirv
+             OpCapability ConstantDataKHR
+
+...
+             OpDecorate %string1_t UTFEncodedKHR
+             OpDecorate %string2_t UTFEncodedKHR
+
+             OpDecorate %string1_x UTFEncodedKHR
+             OpDecorate %string1_x ArrayStride 1
+             OpDecorate %string2_x UTFEncodedKHR
+             OpDecorate %string2_x ArrayStride 1
+             OpMemberDecorate %message_x 0 Offset 0
+             OpMemberDecorate %message_x 1 Offset 6
+             OpMemberDecorate %message_x 2 Offset 8
+
+...
+
+   %char_t = OpTypeInt 8 0
+ %uint32_t = OpTypeInt 32 0
+  %str1len = OpConstant %uint32_t 6
+%string1_t = OpTypeArray %char_t %str1len
+  %string1 = OpConstantDataKHR %string1_t "test: "
+  %str2len = OpSpecConstant %uint32_t 2
+%string2_t = OpTypeArray %char_t %str2len
+  %string2 = OpSpecConstantDataKHR %string2_t "%u"
+%message_t = OpTypeStruct %string1_t %string2_t %uint32_t
+
+%string1_x = OpTypeArray %char_t %str1len
+%string2_x = OpTypeArray %char_t %str2len
+%message_x = OpTypeStruct %string1_x %string2_x %uint32_t
+
+...
+    %abort = OpLabel
+  %message = OpCompositeConstruct %message_t %string1 %string2 %uintval
+             OpAbortKHR %message_x %message
+```
+
+In this instance, an external processor would need to identify printf
+modifiers, and using a specialization constant for the printf modifier allows
+the app to change the data type without changing the whole shader.
+
+
+== Issues
+:sectnums:
+
+
+=== Does *OpAbortKHR* allow for strings to be passed in?
+
+Yes, although not via *OpString*.
+To pass in a string argument from a high level language, the data in the string must be converted to byte array or similar, and stored out using a static array passed through _Message_.
+It is the responsibility of the shader author and the consumer of the eventual abort message to agree on how the data is formatted when interpreted for an end user.
+
+
+=== Can aborts be removed/ignored in some way?
+
+As *OpAbortKHR* is a termination instruction, replacing it is somewhat involved and depends on what the replacement is trying to do, but is doable.
+If the aim is simply to have the shader run on a client without support for this extension, the *OpAbortKHR* can be replaced with a series of *OpNop*, *OpNop*, *OpUnreachable*.
+Further, the *OpNop* instructions can be replaced with *OpStore* to have some amount of debuggability if that is desired.
+
+To completely strip out aborts (e.g. between a release and debug build), all branches that lead to an abort must be redirected, and then the abort blocks should either be removed or have the abort instruction replaced with a different termination instruction.
+
+
+=== What happens if *OpAbortKHR* is called from multiple invocations?
+
+It is up to the client API to define how messages are transmitted in this case; multiple aborts may be reported.
+
+
+=== How can an application ensure that errors detected at a wider scope (e.g. device uniform) are only reported once?
+
+Either shader authors or high-level compilers should ensure that abort messages are only reported once within the set of invocations, using atomics or group instructions (e.g. OpGroupNonUniformElect) as necessary to ensure this.
+
+
+=== Is _Message_ intended to be a string?
+
+It can be, but it does not have to be.
+No formatting of the data is mandated in this extension.
+
+
+=== Why is there no standardized formatting for the *OpAbortKHR* message?
+
+How data is transmitted back to the client API and through to debug tooling is subject to ongoing design discussions outside of SPIR-V.
+Rather than picking an option and having to walk it back later, or trying to solve this in this extension, this extension simply enables a generalized data passing mechanism which can be built on top of.
+
+In addition to this, by having the message passing generalized, implementation and testing burden is significantly reduced, with type data still available in the shader for any tooling (including the "this is a string" decoration from SPV_KHR_constant_data).
+
+
+== Revision History
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1 |2026-03-23 |Tobias Hector|Initial revision for publication
+|========================================

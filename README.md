@@ -37,9 +37,11 @@ Note: we no longer push the HTML along side the extension.
 
 * [SPV_KHR_16bit_storage                   ]( https://github.khronos.org/SPIRV-Registry/extensions/KHR/SPV_KHR_16bit_storage.html)
 * [SPV_KHR_8bit_storage                    ]( https://github.khronos.org/SPIRV-Registry/extensions/KHR/SPV_KHR_8bit_storage.html)
+* [SPV_KHR_abort                           ]( https://github.khronos.org/SPIRV-Registry/extensions/KHR/SPV_KHR_abort.html)
 * [SPV_KHR_bfloat16                        ]( https://github.khronos.org/SPIRV-Registry/extensions/KHR/SPV_KHR_bfloat16.html)
 * [SPV_KHR_bit_instructions                ]( https://github.khronos.org/SPIRV-Registry/extensions/KHR/SPV_KHR_bit_instructions.html)
 * [SPV_KHR_compute_shader_derivatives      ]( https://github.khronos.org/SPIRV-Registry/extensions/KHR/SPV_KHR_compute_shader_derivatives.html)
+* [SPV_KHR_constant_data                   ]( https://github.khronos.org/SPIRV-Registry/extensions/KHR/SPV_KHR_constant_data.html)
 * [SPV_KHR_cooperative_matrix              ]( https://github.khronos.org/SPIRV-Registry/extensions/KHR/SPV_KHR_cooperative_matrix.html)
 * [SPV_KHR_device_group                    ]( https://github.khronos.org/SPIRV-Registry/extensions/KHR/SPV_KHR_device_group.html)
 * [SPV_KHR_expect_assume                   ]( https://github.khronos.org/SPIRV-Registry/extensions/KHR/SPV_KHR_expect_assume.html)
