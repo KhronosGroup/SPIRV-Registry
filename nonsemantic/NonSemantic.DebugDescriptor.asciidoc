@@ -1,0 +1,150 @@
+SPIR-V NonSemantic DebugDescriptor Instructions
+===============================================
+
+Version 1.00
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Spencer Fricke, LunarG Inc.
+
+Notice
+------
+
+Copyright (c) 2026 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+Status
+------
+
+- Not Yet Approved by the SPIR-V Working Group
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2026-04-01
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.6 Revision 7.
+
+This instruction set requires SPIR-V 1.0.
+
+1. Introduction
+---------------
+
+This specifies the NonSemantic.DebugDescriptor extended instruction set. It
+provides a *DebugDescriptor* instruction which is intercepted by the
+implementation (ex. Vulkan validation layers) and replaced with code to
+generate information about the descriptor.
+
+The main use case is for debugging VK_EXT_descriptor_buffer or
+VK_EXT_descriptor_heap where the application has no way to easily log
+the address a descriptor is being read from.
+
+Import this extended instruction set using an OpExtInstImport
+"NonSemantic.DebugDescriptor" instruction.
+
+2. Binary Form
+---------------
+
+'Result Type' of all instructions below is the '<id>' of *OpTypeVoid*.
+
+'Set' operand in all instructions below is the result of an *OpExtInstImport*
+ instruction.
+
+Option [[Option]]
+~~~~~~~~~~~~~~~~~
+These options are used alongside the descriptor to provide additional control. +
+
+[cols="^1,3,6",options="header",width = "50%"]
+|======
+2+^| Option encodings    | Description
+| 0 | *None*             | Nothing additional will occur.
+| 1 | *FunctionReturn*   | Inject a *OpReturn* to allow returning safely before accessing the descriptor.
+                           If the function expects a result, will return *OpConstantNull*.
+| 2 | *ShaderAbort*      | Inject a *OpAbortKHR* to allow the shader to halt.
+| 3 | *UseNullValue*     | Discards all writes to the descriptors and replaces all reads with *OpConstantNull*
+|======
+
+
+[cols="2*1,3*2,1,3*2",width="100%"]
+|======
+9+|[[DebugDescriptor]]*DebugDescriptor* +
+ +
+For a given descriptor, provides the output including, but not limited to
+the device address. +
+ +
+'Variable' is the descriptor for which to debug.
+'Variable' must be an *OpVariable* or *OpUntypedVariableKHR*. +
+ +
+'Index' is the index into the descriptor array.
+If there is no descriptor array, the value must be zero.
+'Index' must have a scalar integer type.  +
+ +
+'Option' is a 32-bit integer constant containing a value from the
+  <<Option,*Option*>> table.
+| 8 | 12
+| '<id>' 'Result Type'
+| 'Result <id>'
+| '<id> Set'
+| 1
+| '<id>' 'Variable'
+| '<id>' 'Index'
+| '<id>' <<Option,'Option'>>
+|======
+
+[cols="2*1,3*2,1,2",width="100%"]
+|======
+7+|[[DebugDescriptorAll]]*DebugDescriptorAll* +
+ +
+For all descriptors in a given module,
+provides the output including, but not limited to the device address. +
+ +
+'Option' is a 32-bit integer constant containing a value from the
+  <<Option,*Option*>> table. 'Option' must not be *UseNullValue*
+| 6 | 12
+| '<id>' 'Result Type'
+| 'Result <id>'
+| '<id> Set'
+| 1
+| '<id>' <<Option,'Option'>>
+|======
+
+
+Validation Rules
+----------------
+
+There must be no more than one <<DebugDescriptorAll,'DebugDescriptorAll'>> per entrypoint.
+
+There must not be a  <<DebugDescriptor,'DebugDescriptor'>> for an entrypoint if
+<<DebugDescriptorAll,'DebugDescriptorAll'>> is used in it.
+
+Issues
+------
+
+None.
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2026-04-01|Spencer Fricke|Initial revision
+|========================================
