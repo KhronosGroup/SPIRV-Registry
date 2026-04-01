@@ -16,11 +16,12 @@ Contributors
 - Qingyuan Zheng, NVIDIA Corporation
 - Ashwin Lele, NVIDIA Corporation
 - Jeff Bolz, NVIDIA Corporation
+- Spencer Fricke, LunarG Inc
 
 Notice
 ------
 
-Copyright (c) 2019-2022 The Khronos Group Inc. Copyright terms at
+Copyright (c) 2019-2026 The Khronos Group Inc. Copyright terms at
 http://www.khronos.org/registry/speccopyright.html
 
 Status
@@ -33,8 +34,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2022-08-18
-| Revision           | 1
+| Last Modified Date | 2026-04-13
+| Revision           | 2
 |========================================
 
 Dependencies
@@ -49,7 +50,7 @@ This instruction set requires SPIR-V 1.0 and SPV_KHR_non_semantic_info.
 ---------------
 
 This specifies the NonSemantic.DebugBreak extended instruction set. It
-provides a *DebugBreak* instruction which is a hint for any attached 
+provides a *DebugBreak* instruction which is a hint for any attached
 shader debugger to hit a breakpoint.
 
 
@@ -59,20 +60,16 @@ Import this extended instruction set using an OpExtInstImport
 2. Binary Form
 ---------------
 
-[cols="1,1,2*3",width="100%"]
+[cols="1",width="100%"]
 |=====
-3+|[[DebugBreak]]*DebugBreak* +
+1+|[[DebugBreak]]*DebugBreak* +
  +
 Hint the attached shader debugger to trigger a breakpoint and
 pause the execution. If no debugger is available, this instruction
 should be ignored. +
  +
 'Return Type' must be *OpTypeVoid*.
-1+|Capability:
-
-1+| 1 
-1+| 1
-2+|
+| 1
 |=====
 
 
@@ -90,4 +87,5 @@ Revision History
 |========================================
 |Rev|Date|Author|Changes
 |1|2022-08-18|Qingyuan Zheng|Initial revision
+|2|2026-04-13|Spencer Fricke|Fix binary form view
 |========================================
