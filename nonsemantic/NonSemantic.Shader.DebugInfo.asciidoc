@@ -19,6 +19,16 @@ Contributors and Acknowledgments
 
  - Baldur Karlsson, Valve
 
+Contributors to *DebugInfo.101* extension.
+
+ - Jeff Bolz, NVIDIA
+ - Chao Chen, NVIDIA
+ - Thomas Klein, NVIDIA
+ - Sajjad Mirza, NVIDIA
+ - Diego Novillo, NVIDIA
+ - Pradyuman Singh, NVIDIA
+ - Vikram Tarikere, Imagination Technologies
+
 Author of original *OpenCL.DebugInfo.100* specification.
 
  - Alexey Sotkin, Intel
@@ -41,16 +51,26 @@ Contributors to original *OpenCL.DebugInfo.100* specification.
 Notice
 ------
 
-Copyright (c) 2019-2024 The Khronos Group Inc. Copyright terms at
+Copyright (c) 2019-2026 The Khronos Group Inc. Copyright terms at
 http://www.khronos.org/registry/speccopyright.html
 
 
 Status
 ------
 
+Version 100
+~~~~~~~~~~~
+
 - Complete
 - Approved by the SPIR Working Group: 2021-02-05
 - Ratified by the Khronos Group: 2021-03-19
+
+Version 101
+~~~~~~~~~~~
+
+- _Draft_
+- Approved by the SPIR Working Group: YYYY-MM-DD
+- Approved by the Khronos Group: YYYY-MM-DD
 
 Version
 -------
@@ -58,7 +78,7 @@ Version
 [width="40%",cols="25,25"]
 |========================================
 | Last Modified Date | 2026-01-30
-| Revision           | 100 Rev 15
+| Revision           | 101 Rev 1
 |========================================
 
 Versioning
@@ -103,6 +123,26 @@ This extension is written against the SPIR-V Specification,
 Version 1.4 Revision 1.
 
 This instruction set requires SPIR-V 1.0.
+
+Version 101 Extension
+---------------------
+
+Version 101 of this extended instruction set adds support for debugging cooperative types
+and specialized floating-point encodings.
+
+New instructions in version 101:
+
+* <<DebugTypeVectorIdEXT,*DebugTypeVectorIdEXT*>> (instruction 109)
+* <<DebugTypeCooperativeMatrixKHR,*DebugTypeCooperativeMatrixKHR*>> (instruction 110)
+
+Extended instructions in version 101:
+
+* <<DebugTypeBasic,*DebugTypeBasic*>> now accepts an optional 'FPEncoding' parameter for
+  specifying specialized floating-point formats (bfloat16, fp8 e4m3, fp8 e5m2).
+
+To use version 101 features, import this extended instruction set using:
+
+`OpExtInstImport "NonSemantic.Shader.DebugInfo.101"`
 
 Introduction
 ------------
@@ -302,6 +342,8 @@ Instruction Enumeration [[InstEnum]]
 | 106 | <<DebugStoragePath,*DebugStoragePath*>>
 | 107 | <<DebugEntryPoint,*DebugEntryPoint*>>
 | 108 | <<DebugTypeMatrix,*DebugTypeMatrix*>>
+| 109 | <<DebugTypeVectorIdEXT,*DebugTypeVectorIdEXT*>>
+| 110 | <<DebugTypeCooperativeMatrixKHR,*DebugTypeCooperativeMatrixKHR*>>
 |======
 
 
@@ -630,9 +672,9 @@ Compilation Unit
 Type instructions
 ~~~~~~~~~~~~~~~~~
 
-[cols="2*1,3*2,1,4*3"]
+[cols="2*1,3*2,1,5*3"]
 |======
-10+|[[DebugTypeBasic]]*DebugTypeBasic* +
+11+|[[DebugTypeBasic]]*DebugTypeBasic* +
  +
  Describe a basic data type. +
  +
@@ -649,16 +691,21 @@ Type instructions
  +
 {flags} +
  +
+ 'FPEncoding' (*version 101*) is an optional 32-bit integer *OpConstant* specifying the
+ floating-point encoding from the SPIR-V *FP Encoding* enumeration. This parameter is only
+ valid when the 'Encoding' operand indicates a floating-point type. +
+ +
  *Note:* If 'flags' contains the *FlagUnknownPhysicalLayout* flag, the 'Size'
  is a placeholder value based on an assumed memory layout and may not correspond
  to the exact size of the composite by the implementation. +
 
-| 9 | 12 | '<id>' +
+| 9+ | 12 | '<id>' +
 'Result Type' | 'Result <id>' | '<id> Set'| 2
 | '<id>' 'Name'
 | '<id>' 'Size'
 | '<id>' <<BaseTypeAttributeEncoding,'Encoding'>>
 | '<id> Flags'
+| Optional '<id> FPEncoding'
 |======
 
 
@@ -787,6 +834,69 @@ then correspondingly the matrix is row major with each vector being a row. +
   'Vector Count'
 | '<id>' +
   'Column Major'
+|======
+
+
+[cols="2*1,3*2,1,2*3"]
+|======
+8+|[[DebugTypeVectorIdEXT]]*DebugTypeVectorIdEXT* +
+ +
+(*version 101*) +
+ +
+Describe a variable-length vector type declared by *OpTypeVectorIdEXT* or
+*OpTypeCooperativeVectorNV*. Both instructions share the same opcode and operand
+structure; generators must emit this debug instruction for either. +
+ +
+{result_type} +
+ +
+'Component Type' is the '<id>' of a debugging instruction that describes the type of
+element of the vector. +
+ +
+'Component Count' is the '<id>' of a constant instruction with scalar integer type denoting the number of
+elements in the vector. This includes *OpSpecConstant*, which must be used when the corresponding
+SPIR-V type uses a specialization constant for its component count. +
+
+| 7 | 12 | '<id>' +
+'Result Type' | 'Result <id>' | '<id> Set'| 109
+| '<id>' 'Component Type'
+| '<id>' 'Component Count'
+|======
+
+
+[cols="2*1,3*2,1,4*3,1"]
+|======
+11+|[[DebugTypeCooperativeMatrixKHR]]*DebugTypeCooperativeMatrixKHR* +
+ +
+(*version 101*) +
+ +
+Describe a cooperative matrix data type *OpTypeCooperativeMatrixKHR*. +
+ +
+{result_type} +
+ +
+'Component Type' is the '<id>' of a debugging instruction that describes the type of
+element in the matrix. +
+ +
+'Scope' is the '<id>' of a constant instruction with scalar integer type denoting the scope of
+cooperative operations. This includes *OpSpecConstant*. +
+ +
+'Rows' is the '<id>' of a constant instruction with scalar integer type denoting the number of
+rows in the matrix. This includes *OpSpecConstant*, which must be used when the corresponding
+*OpTypeCooperativeMatrixKHR* uses a specialization constant for its row count. +
+ +
+'Columns' is the '<id>' of a constant instruction with scalar integer type denoting the number of
+columns in the matrix. This includes *OpSpecConstant*, which must be used when the corresponding
+*OpTypeCooperativeMatrixKHR* uses a specialization constant for its column count. +
+ +
+'Use' is the '<id>' of a constant instruction with scalar integer type denoting the use
+('MatrixAKHR', 'MatrixBKHR' or 'MatrixAccumulatorKHR'). This includes *OpSpecConstant*. +
+
+| 10 | 12 | '<id>' +
+'Result Type' | 'Result <id>' | '<id> Set'| 110
+| '<id>' 'Component Type'
+| '<id>' 'Scope'
+| '<id>' 'Rows'
+| '<id>' 'Columns'
+| '<id>' 'Use'
 |======
 
 
@@ -1839,7 +1949,25 @@ Imported Entities
 
 Validation Rules
 ----------------
-None.
+
+*Version 101*
+
+- The *FPEncoding* parameter in <<DebugTypeBasic,*DebugTypeBasic*>> is only valid when the *Encoding* parameter
+  indicates a floating-point type (e.g., *Float*).
+
+- When *FPEncoding* is *BFloat16KHR* (0), the *Size* parameter must be 16.
+
+- When *FPEncoding* is *Float8E4M3EXT* (4214) or *Float8E5M2EXT* (4215), the *Size* parameter must be 8.
+
+- If *FPEncoding* is not specified (omitted), the floating-point format defaults to
+  the standard IEEE 754 format for the given width.
+
+- The dimension operands of *DebugTypeVectorIdEXT* and *DebugTypeCooperativeMatrixKHR*
+  ('Component Count', 'Scope', 'Rows', 'Columns', 'Use')
+  must be the result id of a constant instruction with a 32-bit unsigned integer type.
+  Both *OpConstant* and *OpSpecConstant* are valid. When the corresponding SPIR-V cooperative
+  type uses a specialization constant for a dimension, the debug type instruction must use the
+  same *OpSpecConstant* result id for the matching operand.
 
 
 Issues
@@ -1907,5 +2035,10 @@ Revision History
 |100 Rev 14  |2025-11-20|Diego Novillo      |Allow constant instructions for size, count, offset,
                                              and value operands.
 |100 Rev 15  |2026-01-30|Diego Novillo      |Unify specification into single versioned document.
+|101 Rev 1   |2025-09-09|Chao Chen          |*Version 101 extension:* Add support for cooperative +
+                         Diego Novillo      types (*DebugTypeVectorIdEXT*, +
+                                             *DebugTypeCooperativeMatrixKHR*). Extend +
+                                             *DebugTypeBasic* with optional *FPEncoding* +
+                                             parameter for specialized floating-point formats.
 |========================================================
 

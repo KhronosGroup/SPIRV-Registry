@@ -211,7 +211,7 @@ Note: we no longer push the HTML along side the extension.
 * [NonSemantic.ClspvReflection             ]( https://github.khronos.org/SPIRV-Registry/nonsemantic/NonSemantic.ClspvReflection.html)
 * [NonSemantic.DebugBreak                  ]( https://github.khronos.org/SPIRV-Registry/nonsemantic/NonSemantic.DebugBreak.html)
 * [NonSemantic.DebugPrintf                 ]( https://github.khronos.org/SPIRV-Registry/nonsemantic/NonSemantic.DebugPrintf.html)
-* [NonSemantic.Shader.DebugInfo.100        ]( https://github.khronos.org/SPIRV-Registry/nonsemantic/NonSemantic.Shader.DebugInfo.100.html)
+* [NonSemantic.Shader.DebugInfo            ]( https://github.khronos.org/SPIRV-Registry/nonsemantic/NonSemantic.Shader.DebugInfo.html)
 
 ## Extended Instruction Set Specifications
 
