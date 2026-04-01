@@ -1,7 +1,7 @@
 SPIR-V NonSemantic Shader DebugInfo Instructions
 ================================================
 
-Version 100
+Version 101
 
 :result_type: pass:normal['Result Type' must be *OpTypeVoid*.]
 :source:      pass:normal['Source' is a *DebugSource* instruction representing the text of the source program]
