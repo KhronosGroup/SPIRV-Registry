@@ -174,6 +174,7 @@ Note: we no longer push the HTML along side the extension.
 * [SPV_INTEL_ternary_bitwise_function      ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_ternary_bitwise_function.html)
 * [SPV_INTEL_unstructured_loop_controls    ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_unstructured_loop_controls.html)
 * [SPV_INTEL_variable_length_array         ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_variable_length_array.html)
+* [SPV_MESA_fragment_coverage_mask         ]( https://github.khronos.org/SPIRV-Registry/extensions/MESA/SPV_MESA_fragment_coverage_mask.html)
 * [SPV_NV_bindless_texture                 ]( https://github.khronos.org/SPIRV-Registry/extensions/NV/SPV_NV_bindless_texture.html)
 * [SPV_NV_cluster_acceleration_structure   ]( https://github.khronos.org/SPIRV-Registry/extensions/NV/SPV_NV_cluster_acceleration_structure.html)
 * [SPV_NV_compute_shader_derivatives       ]( https://github.khronos.org/SPIRV-Registry/extensions/NV/SPV_NV_compute_shader_derivatives.html)
