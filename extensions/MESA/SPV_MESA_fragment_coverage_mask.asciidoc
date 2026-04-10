@@ -1,0 +1,197 @@
+SPV_MESA_fragment_coverage_mask
+===============================
+
+Name Strings
+------------
+
+SPV_MESA_fragment_coverage_mask
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Registry
+
+Contributors
+------------
+
+- Michal Krol, Broadcom
+- Brian Paul, Broadcom
+- Roland Scheidegger, Broadcom
+
+Status
+------
+
+Proposed
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2026-04-10
+| Revision           | 3
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification, Version 1.6 Revision 6.
+
+This extension requires SPIR-V 1.0.
+
+Overview
+--------
+
+This extension introduces a new built-in decoration, *FragmentCoverageMaskMESA*, for fragment shader
+inputs. This new capability addresses limitations in how the existing *SampleMask* built-in behaves
+during per-sample fragment shader execution, providing a more direct and consistent mechanism
+for accessing the full coverage mask of the fragment across all samples.
+
+The existing input decoration *SampleMask* is intended to provide the set of samples that contribute
+to a fragment. However, when a fragment shader executes in a per-sample shading mode (e.g. when
+a fragment shader input is decorated with *SampleId* or *SamplePosition*), the *SampleMask* built-in
+is masked to only include the bits corresponding to the specific sample(s) currently being processed
+by that invocation. In the case of full per-sample shading (one invocation per sample), this results
+in only a single bit being set. When a sample shading rate is specified (e.g. via Vulkan's
+*minSampleShading* parameter), an invocation may process a subset of samples, and *SampleMask* will
+contain the corresponding subset of bits.
+
+This constrained behaviour makes it impossible for the shader to determine the entire set of samples
+covered by the fragment. Specifically, it is impossible to directly map the functionality of input
+coverage mask in D3D10 API, making it very difficult to port some D3D10 shaders to SPIR-V. Furthermore,
+when per-sample shading is triggered by a sample shading rate rather than by the use of *SampleId*
+or *SamplePosition*, those built-in variables are not available, making it impossible to derive the
+full coverage mask from *SampleMask* alone.
+
+The *FragmentCoverageMaskMESA* built-in decoration provides a fragment shader input that is
+guaranteed to contain the complete set of samples covered by the fragment, regardless of the
+fragment's execution mode.
+
+Specifically, when a fragment shader is executing in per-sample mode:
+
+- The existing *SampleMask* will contain only the bits corresponding to the sample(s) being
+processed by the current invocation.
+
+- The new *FragmentCoverageMaskMESA* will contain the full coverage mask, equivalent to the input
+coverage mask available in API models such as D3D10 and later, where all covered samples are
+represented by set bits.
+
+Note that when *SampleId* is available, fragment shaders using *FragmentCoverageMaskMESA* can
+recover the value of *SampleMask* from *FragmentCoverageMaskMESA* by computing a bitwise AND with
+a bit set at position *SampleId*.
+
+The new functionality is enabled under the *FragmentCoverageMESA* capability.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_MESA_fragment_coverage_mask"
+----
+
+New Capabilities
+----------------
+
+This extension introduces a new capability:
+
+----
+FragmentCoverageMESA
+----
+
+
+New Builtins
+------------
+
+Builtin IDs added:
+
+----
+FragmentCoverageMaskMESA
+----
+
+New Instructions
+----------------
+
+None.
+
+
+Token Number Assignments
+------------------------
+
+[width="40%"]
+[cols="70%,30%"]
+[grid="rows"]
+|====
+|FragmentCoverageMaskMESA|4096
+|FragmentCoverageMESA|4097
+|====
+
+Modifications to the SPIR-V Specification, Version 1.6
+------------------------------------------------------
+
+(Modify Section 3.2.20, *BuiltIn* to include a new builtin) ::
++
+--
+[cols="1,20,8",options="header",width="80%"]
+|====
+2+^.^| BuiltIn ^| Enabling Capabilities
+| 4096 | *FragmentCoverageMaskMESA* +
+Input sample mask that provides the complete set of samples covered by the fragment,
+even when the fragment shader executes in a per-sample shading mode.
+| *FragmentCoverageMESA*
+|====
+--
+
+(Modify Section 3.2.30, *Capability*, adding a row to the Capability table) ::
++
+--
+[cols="1,10,10",options="header",width="80%"]
+|====
+2+^.^| Capability | Implicitly Declares
+| 4097 | *FragmentCoverageMESA* |  *Shader*
+|====
+
+--
+
+Validation Rules
+----------------
+
+An *OpExtension* must be added to the SPIR-V for validation layers to check
+legal use of this extension:
+
+----
+OpExtension "SPV_MESA_fragment_coverage_mask"
+----
+
+Issues
+------
+
+. Interactions with KHR_post_depth_coverage.
++
+--
+*DISCUSSION*: How does this extension interact with KHR_post_depth_coverage? Logically it seems
+like without any further clarification this should follow the logic of the ordinary *SampleMask*.
+
+*RESOLVED*: Yes, we want *FragmentCoverageMaskMESA* to effectively contain the union of the
+*SampleMask* values across all concurrent per-sample shader invocations. Hence, if
+*PostDepthCoverage* execution mode is declared, *FragmentCoverageMaskMESA* will contain
+the results of *EarlyFragmentTests*.
+--
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2025-09-12|Michal Krol|*Initial revision*
+|2|2025-09-29|Michal Krol|Rename extension and enumerants, expand the Overview section, discuss interaction
+ with KHR_post_depth_coverage
+|3|2026-04-10|Michal Krol|Clarify SampleMask behaviour with partial sample shading rates
+|========================================
