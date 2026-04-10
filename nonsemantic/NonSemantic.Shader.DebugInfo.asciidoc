@@ -58,19 +58,10 @@ http://www.khronos.org/registry/speccopyright.html
 Status
 ------
 
-Version 100
-~~~~~~~~~~~
-
-- Complete
+- Last Ratified Version: 100
 - Approved by the SPIR Working Group: 2021-02-05
 - Ratified by the Khronos Group: 2021-03-19
-
-Version 101
-~~~~~~~~~~~
-
-- _Draft_
-- Approved by the SPIR Working Group: YYYY-MM-DD
-- Approved by the Khronos Group: YYYY-MM-DD
+- Current Version: 101
 
 Version
 -------
