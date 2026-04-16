@@ -219,6 +219,9 @@ The number of words in _Data_ must be equal to number of words needed to
 specify data for all scalar elements of the array of _Result Type_, rounded
 up to the nearest word.
 _Data_ is packed with no padding between elements of the specified type.
+If the size of scalar elements of _Result Type_ are less than 32 bits,
+they are packed into elements of _Data_ from least significant bits to most
+significant bits.
 If the size of _Result Type_ is not a multiple of 32 bits, the final element
 of _Data_ is padded to 32-bits, with the most significant bits of the final
 element ignored.
@@ -242,6 +245,9 @@ The number of words in _Data_ must be equal to number of words needed to
 specify data for all scalar elements of the array of _Result Type_, rounded
 up to the nearest word.
 _Data_ is packed with no padding between elements of the specified type.
+If the size of scalar elements of _Result Type_ are less than 32 bits,
+they are packed into elements of _Data_ from least significant bits to most
+significant bits.
 If the size of _Result Type_ is not a multiple of 32 bits, the final element
 of _Data_ is padded to 32-bits, with the most significant bits of the final
 element ignored.
