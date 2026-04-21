@@ -1,0 +1,134 @@
+= SPV_AMD_weak_linkage
+
+== Name Strings
+
+SPV_AMD_weak_linkage
+
+== Contact
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Registry
+
+== Contributors
+
+- Dmitry Sidorov, AMD
+
+== Notice
+
+Copyright (c) 2026 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+== Status
+
+- Draft
+
+== Version
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2026-02-18
+| Revision           | 1
+|========================================
+
+== Dependencies
+
+This extension is written against the SPIR-V Specification,
+Version 1.6 Revision 6, Unified
+
+This extension requires SPIR-V 1.0.
+
+== Overview
+
+This extension adds a new _Linkage Type_ *Weak*.
+A function or global variable with *Weak* linkage type has a definition that
+may be replaced during linking by a definition with *Export* linkage type from
+another module. If no *Export* definition of the same name is found, the *Weak*
+definition is retained.
+
+== Extension Name
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_AMD_weak_linkage"
+----
+
+== Modifications to the SPIR-V Specification, Version 1.6
+
+=== Linkage Type
+
+In section 3.17 "Linkage Type" add the following row to the Linkage Type table:
+
+[cols="1,4,4",options="header",width="100%"]
+|====
+2+| Linkage Type| <<Capability,Enabling Capabilities>> |
+3 | *Weak* +
+Same as the *Export* linkage type, but a function or global variable with this
+linkage type may be replaced during linking by one with *Export* linkage from
+another module.
+If multiple modules provide a definition of the same symbol and at least one
+has *Export* linkage, the linker must select an *Export* definition and discard
+all *Weak* definitions of that symbol.
+If only *Weak* definitions exist for a given symbol, the linker selects one
+and discards the rest.
+| *Linkage*
+|====
+
+=== Resolution Rules
+
+The following symbol resolution rules apply when linking modules that
+use the *Weak* linkage type together with the existing *Export* and *Import*
+linkage types:
+
+[cols="1,1,1,3",options="header",width="100%"]
+|====
+| Module A | Module B | Result | Notes
+| *Weak* | *Export* | *Export* definition selected | Strong overrides weak
+| *Weak* | *Weak* | One definition selected | Linker may select either
+| *Weak* | *Import* | *Weak* definition selected |
+| *Export* | *Export* | Error | Multiple strong definitions
+|====
+
+== Issues
+
+1. Should we also add a *WeakODR* linkage type?
++
+--
+*RESOLVED*: No. The *WeakODR* linkage type implies that all definitions are
+semantically equivalent, which is not the intended use case for this extension.
+The *Weak* linkage type is specifically designed for the case where a library
+provides a default implementation that a user explicitly replaces with a
+different implementation. The existing *LinkOnceODR* from *SPV_KHR_linkonce_odr*
+already covers the case where all definitions are equivalent.
+--
+
+2. What happens when a *Weak* definition and a *LinkOnceODR* definition of the
+   same symbol are linked together?
++
+--
+*RESOLVED*: A *LinkOnceODR* definition does not override a *Weak* definition,
+as *LinkOnceODR* does not carry stronger-than-weak semantics. Only an *Export*
+definition overrides a *Weak* definition. If both *Weak* and *LinkOnceODR*
+definitions exist for the same symbol without an *Export* definition, the linker
+may select either.
+--
+
+3. Can tools inline a *Weak* function?
++
+--
+*RESOLVED*: Tools should not inline a *Weak* function across module boundaries
+before linking, as the definition may be replaced. After linking has resolved the
+final definition, inlining is permitted.
+--
+
+== Revision History
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2026-02-18| Dmitry Sidorov |Initial draft.
+|========================================

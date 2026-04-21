@@ -142,6 +142,7 @@ Note: we no longer push the HTML along side the extension.
 * [SPV_AMD_shader_image_load_store_lod     ]( https://github.khronos.org/SPIRV-Registry/extensions/AMD/SPV_AMD_shader_image_load_store_lod.html)
 * [SPV_AMD_shader_trinary_minmax           ]( https://github.khronos.org/SPIRV-Registry/extensions/AMD/SPV_AMD_shader_trinary_minmax.html)
 * [SPV_AMD_texture_gather_bias_lod         ]( https://github.khronos.org/SPIRV-Registry/extensions/AMD/SPV_AMD_texture_gather_bias_lod.html)
+* [SPV_AMD_weak_linkage                    ]( https://github.khronos.org/SPIRV-Registry/extensions/AMD/SPV_AMD_weak_linkage.html)
 * [SPV_AMDX_shader_enqueue                 ]( https://github.khronos.org/SPIRV-Registry/extensions/AMD/SPV_AMDX_shader_enqueue.html)
 * [SPV_ARM_cooperative_matrix_layouts      ]( https://github.khronos.org/SPIRV-Registry/extensions/ARM/SPV_ARM_cooperative_matrix_layouts.html)
 * [SPV_ARM_core_builtins                   ]( https://github.khronos.org/SPIRV-Registry/extensions/ARM/SPV_ARM_core_builtins.html)
