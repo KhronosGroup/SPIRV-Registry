@@ -17,7 +17,7 @@ To publish a new extension, please create a pull request which includes:
 
 - The extension document in the asciidoc format named following
   the `SPV_<vendor>_<name>.asciidoc` pattern. The document should be placed
-  in the `extension/<vendor>` folder.
+  in the `extensions/<vendor>` folder.
 - README.md update with the link to the new extension once published
 
 To publish a non-semantic extended instruction set,
@@ -165,6 +165,7 @@ Note: we no longer push the HTML along side the extension.
 * [SPV_INTEL_masked_gather_scatter         ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_masked_gather_scatter.html)
 * [SPV_INTEL_maximum_registers             ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_maximum_registers.html)
 * [SPV_INTEL_media_block_io                ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_media_block_io.html)
+* [SPV_INTEL_predicated_io                 ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_predicated_io.html)
 * [SPV_INTEL_shader_integer_functions2     ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_shader_integer_functions2.html)
 * [SPV_INTEL_split_barrier                 ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_split_barrier.html)
 * [SPV_INTEL_subgroups                     ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_subgroups.html)
