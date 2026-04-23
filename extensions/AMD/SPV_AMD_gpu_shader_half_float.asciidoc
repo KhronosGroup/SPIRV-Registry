@@ -132,6 +132,114 @@ The 'offset' operand must be a vector of 2 components of 32-bit floating-point t
 The 'offset' operand must be a vector of 2 components of 16- or 32-bit floating-point type. +
 
 
+OpDPdx
+~~~~~~
+
+(Replace the following sentence:) +
+ +
+The component width must be 32 bits.
+ +
+(with:) +
+ +
+The component width must be 16 or 32 bits.
+
+
+OpDPdy
+~~~~~~
+
+(Replace the following sentence:) +
+ +
+The component width must be 32 bits.
+ +
+(with:) +
+ +
+The component width must be 16 or 32 bits.
+
+
+OpFWidth
+~~~~~~~~
+
+(Replace the following sentence:) +
+ +
+The component width must be 32 bits.
+ +
+(with:) +
+ +
+The component width must be 16 or 32 bits.
+
+
+OpDPdxFine
+~~~~~~~~~~
+
+(Replace the following sentence:) +
+ +
+The component width must be 32 bits.
+ +
+(with:) +
+ +
+The component width must be 16 or 32 bits.
+
+
+OpDPdyFine
+~~~~~~~~~~
+
+(Replace the following sentence:) +
+ +
+The component width must be 32 bits.
+ +
+(with:) +
+ +
+The component width must be 16 or 32 bits.
+
+
+OpFWidthFine
+~~~~~~~~~~~~
+
+(Replace the following sentence:) +
+ +
+The component width must be 32 bits.
+ +
+(with:) +
+ +
+The component width must be 16 or 32 bits.
+
+
+OpDPdxCoarse
+~~~~~~~~~~~~
+
+(Replace the following sentence:) +
+ +
+The component width must be 32 bits.
+ +
+(with:) +
+ +
+The component width must be 16 or 32 bits.
+
+
+OpDPdyCoarse
+~~~~~~~~~~~~
+
+(Replace the following sentence:) +
+ +
+The component width must be 32 bits.
+ +
+(with:) +
+ +
+The component width must be 16 or 32 bits.
+
+
+OpFWidthCoarse
+~~~~~~~~~~~~~~
+
+(Replace the following sentence:) +
+ +
+The component width must be 32 bits.
+ +
+(with:) +
+ +
+The component width must be 16 or 32 bits.
+
+
 Validation Rules
 ----------------
 
@@ -150,6 +258,7 @@ Revision History
 [options="header"]
 |========================================
 |Rev|Date|Author|Changes
+|4|April 23, 2026|Tobias Hector|Add in derivative instructions to match GL extension.
 |3|June 12, 2018|Dominik Witczak|Removenon-interpolate extended instruction modifications, as GLSL.std.450 spec now includes these changes.
 |2|June 22, 2017|Dominik Witczak|Removed incorrect language regarding accessing the new functionality.
 |1|September 21, 2016|Dominik Witczak|Initial revision based on AMD_gpu_shader_half_float.
