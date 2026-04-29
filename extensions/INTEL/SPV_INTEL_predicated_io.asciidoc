@@ -82,12 +82,6 @@ OpExtension "{extension_name}"
 
 == Modifications to the SPIR-V Specification, Version 1.6
 
-=== Validation Rules
-
-Add a validation rule to section 2.16.1 Universal Validation Rules:
-
-* For *{op_pred_load}* and *{op_pred_store}* instructions, _Memory Operands_ must not include *Volatile*.
-
 === Capabilities
 
 Modify Section 3.2.30, Capability, adding rows to the Capability table:
