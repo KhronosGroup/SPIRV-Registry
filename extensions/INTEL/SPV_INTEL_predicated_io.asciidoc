@@ -122,7 +122,7 @@ If present, any _Memory Operands_ must begin with a memory operand literal. If n
 
 |Capability: +
 *{capability_name}*
-| 5 + variable | {op_pred_load_token}
+| 6 + variable | {op_pred_load_token}
 | _<id>_ +
 _Result Type_
 | _<id>_ +
