@@ -190,5 +190,5 @@ Since, supporting volatile semantics doesn't look necessary for predicated memor
 [options="header"]
 |========================================
 |Rev|Date|Author|Changes
-|1|2026-04-20|Yury Plyakhin|Initial version for publication
+|1|2026-04-29|Yury Plyakhin|Initial version for publication
 |========================================
