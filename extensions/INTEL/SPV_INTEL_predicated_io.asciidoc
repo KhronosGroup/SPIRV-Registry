@@ -154,7 +154,7 @@ If present, any _Memory Operands_ must begin with a memory operand literal. If n
 
 |Capability: +
 *{capability_name}*
-| 3 + variable | {op_pred_store_token}
+| 4 + variable | {op_pred_store_token}
 | _<id>_ +
 _Pointer_
 | _<id>_ +
