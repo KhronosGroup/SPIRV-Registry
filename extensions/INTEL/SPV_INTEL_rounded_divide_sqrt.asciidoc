@@ -1,0 +1,113 @@
+:RoundedCapabilityINTEL: RoundedDivideSqrtINTEL
+:RoundedCapabilityINTEL_token: 6265
+
+= SPV_INTEL_rounded_divide_sqrt
+
+== Name Strings
+
+SPV_INTEL_rounded_divide_sqrt
+
+== Contact
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Registry
+
+== Contributors
+
+// spell-checker: disable
+* Ben Ashbaugh, Intel
+* Greg Lueck, Intel
+* Piotr Kanclerz, Intel
+// spell-checker: enable
+
+== Notice
+
+Copyright (c) 2026 Intel Corporation.  All rights reserved.
+
+== Status
+
+* Complete
+
+== Version
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2026-04-20
+| Revision           | 1
+|========================================
+
+== Dependencies
+
+This extension is written against the SPIR-V Specification, Version 1.6 Revision 7.
+
+This extension requires SPIR-V 1.0.
+
+== Overview
+
+This extension adds a new SPIR-V capability to allow floating-point divide and square root instructions to be decorated with an optional *FPRoundingMode* decoration.
+When an *FPRoundingMode* decoration is applied to a divide or square root instruction, it indicates that the result of the instruction will be correctly rounded using the specified rounding mode.
+
+== Extension Name
+
+To use this extension within a SPIR-V module, the following *OpExtension* must
+be present in the module:
+
+----
+OpExtension "SPV_INTEL_rounded_divide_sqrt"
+----
+
+== Modifications to the SPIR-V Specification, Version 1.6
+
+=== Validation Rules
+
+Modify Section 2.16.2, "Validation Rules for Shader Capabilities", adding to the conditions where the *FPRoundingMode* decoration is valid:
+
+--
+* The *FPRoundingMode* decoration must be applied only to [...], or to instructions enabled by the *{RoundedCapabilityINTEL}* capability.
+--
+
+=== Capabilities
+
+Modify Section 3.2.30, "Capability", adding these rows to the Capability table:
+
+--
+[cols="^.^2,16,15",options="header"]
+|====
+2+^.^| Capability | Implicitly Declares
+| {RoundedCapabilityINTEL_token} | *{RoundedCapabilityINTEL}* +
+Allows an *FPRoundingMode* decoration to be applied to the following instructions when they are operating on a floating-point type using the IEEE 754 encoding: *OpFDiv*, the *sqrt* instruction from the *OpenCL.std* extended instruction set, and the *Sqrt* instruction from the *GLSL.std.450* extended instruction set.
+
+When an *FPRoundingMode* decoration is applied to these instructions, it indicates that the result of the instruction will be correctly rounded using the specified rounding mode.
+|
+|====
+--
+
+== Issues
+
+. How many capabilities do we need?
+Do we need different capabilities for different instructions?
+Do we need different capabilities for different floating-point types?
++
+--
+*RESOLVED*: We will have a single capability for both divide and square root.
+This single capability applies to all floating-point types using IEEE 754 encodings, so it will work for 16-bit `half`, 32-bit `float`, and 64-bit `double`.
+
+This extension does not currently support rounding modes on floating-point types with non-IEEE 754 encodings, such as `bfloat16`.
+--
+
+. Should this extension support *Shader* SPIR-V?
++
+--
+*RESOLVED*: There is nothing in this extension that would prohibit usage in *Shader* SPIR-V.
+--
+
+== Revision History
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2026-04-20|Ben Ashbaugh|Initial revision for publication
+|========================================

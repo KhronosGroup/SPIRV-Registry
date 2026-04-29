@@ -166,6 +166,7 @@ Note: we no longer push the HTML along side the extension.
 * [SPV_INTEL_maximum_registers             ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_maximum_registers.html)
 * [SPV_INTEL_media_block_io                ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_media_block_io.html)
 * [SPV_INTEL_predicated_io                 ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_predicated_io.html)
+* [SPV_INTEL_rounded_divide_sqrt           ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_rounded_divide_sqrt.html)
 * [SPV_INTEL_shader_integer_functions2     ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_shader_integer_functions2.html)
 * [SPV_INTEL_split_barrier                 ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_split_barrier.html)
 * [SPV_INTEL_subgroups                     ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_subgroups.html)
