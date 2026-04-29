@@ -41,8 +41,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2025-01-27
-| Revision           | 2
+| Last Modified Date | 2026-03-13
+| Revision           | 3
 |========================================
 
 Dependencies
@@ -472,9 +472,9 @@ is equivalent to *OpTraceRayKHR* instruction.
 | '<id>' 'Payload'
 |======
 
-[cols="6*1"]
+[cols="7*1"]
 |======
-5+|[[OpHitObjectRecordFromQueryEXT]]*OpHitObjectRecordFromQueryEXT* +
+6+|[[OpHitObjectRecordFromQueryEXT]]*OpHitObjectRecordFromQueryEXT* +
  +
  Populates the hit object to represent a hit without tracing a ray. +
  +
@@ -485,19 +485,22 @@ is equivalent to *OpTraceRayKHR* instruction.
  'SBT Record Index' controls indexing into the SBT to determine the closest-hit shader to be encoded in the hit object.
  'SBT' stands for Shader Binding Table. Refer to the client API specification for details. +
  +
- 'SBT Record Index'  must be a 32 bit 'integer type' scalar.
+ 'SBT Record Index'  must be a 32 bit 'integer type' scalar. +
  +
- 'Hit Object Attributes' contains the attributes of the hit which are to be encoded in 'Hit Object'. This must be an OpVariable in *HitObjectAttributeEXT* storage class. +
+ 'Hit Object Attributes' contains the attributes of the hit which are to be encoded in 'Hit Object'. This must be an OpVariable in the *HitObjectAttributeEXT* storage class. If the committed intersection in 'Ray Query' is *RayQueryCommittedIntersectionTriangleKHR*, the value of 'Hit Object Attributes' is ignored, and the hit object attributes are taken from the committed triangle intersection encoded in 'Ray Query'. If the committed intersection in 'Ray Query' is *RayQueryCommittedIntersectionAABBKHR*, the value of 'Hit Object Attributes' is used as the source of the hit object attributes to be encoded in 'Hit Object'. +
+ +
+ 'Hit Kind' is optional. If present, it is the integer hit kind to be encoded in 'Hit Object'. It must be a 32-bit 'unsigned integer type' scalar. If the committed intersection in 'Ray Query' is *RayQueryCommittedIntersectionAABBKHR*, 'Hit Kind' must be present. If the committed intersection in 'Ray Query' is *RayQueryCommittedIntersectionTriangleKHR*, the value of 'Hit Kind' is ignored, and the hit kind is taken from the committed triangle intersection encoded in 'Ray Query'. +
  +
  This instruction is allowed only in *RayGenerationKHR*, *ClosestHitKHR* and *MissKHR* execution models. +
  +
 1+|Capability: +
 *ShaderInvocationReorderEXT*
-| 5 | 5304
+| 5 + variable | 5304
 | '<id>' 'Hit Object'
 | '<id>' 'Ray Query'
 | '<id>' 'SBT Record Index'
 | '<id>' 'Hit Object Attributes'
+| Optional '<id>' 'Hit Kind'
 |======
 
 [cols="9*1"]
@@ -1320,7 +1323,15 @@ If the 'SPV_KHR_ray_query' extension is not supported the
 Issues
 ------
 
-None
+1) Must 'Hit Kind' be provided for AABB intersections in *OpHitObjectRecordFromQueryEXT*?
++
+--
+*RESOLVED*: Yes. Revision 2 and earlier of this specification erroneously did
+not provide a hit kind for AABB intersections. For compatibility with SPIR-V
+generated against those revisions, implementations in practice should accept
+*OpHitObjectRecordFromQueryEXT* for AABB intersections even when 'Hit Kind' is
+not provided.
+--
 
 Revision History
 ----------------
@@ -1332,6 +1343,7 @@ Revision History
 |Rev|Date|Author|Changes
 |1 |2024-05-08 |Eric Werness         | Port to EXT
 |2 |2025-01-27 |Ashwin Lele          | Renumber enums
+|3 |2026-03-13 |Eric Werness         | Added Hit Kind to OpHitObjectRecordFromQueryEXT and clarified AABB hit-kind requirements
 |========================================
 
 
