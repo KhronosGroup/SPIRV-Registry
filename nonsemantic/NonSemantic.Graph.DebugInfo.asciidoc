@@ -1,0 +1,161 @@
+SPIR-V Non-Semantic Graph DebugInfo Instructions
+================================================
+
+Version 1
+
+Contact
+-------
+
+To report problems with this extended instruction set, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Kévin Petit, Arm Ltd.
+- Jan-Harald Fredriksen, Arm Ltd.
+- Derek Lamberti, Arm Ltd.
+- Davide Grohmann, Arm Ltd.
+
+Notice
+------
+
+Copyright (c) 2022-2026 Arm Ltd.
+
+Status
+------
+
+Draft.
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2026-01-30
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This instruction set requires SPIR-V 1.0.
+
+This instruction set requires SPV_KHR_non_semantic_info.
+
+This instruction set requires SPV_ARM_graph.
+
+1. Introduction
+---------------
+
+This document specifies the `NonSemantic.Graph.DebugInfo` extended instruction
+set. This instruction set can be used to record information about the
+higher-level graph representation a SPIR-V graph was produced from.
+
+Import this extended instruction set using an *OpExtInstImport*
+`NonSemantic.Graph.DebugInfo.<ver>` instruction, where `<ver>` indicates the
+version.
+
+2. Version
+----------
+
+This extended instruction set is versioned. The version is specified via the
+import string. It must be an integer between 1 and the version specified at the
+beginning of this instruction set. Differences between the version are
+specified below.
+
+3. Binary Form
+---------------
+
+The return type for all instructions must be *OpTypeVoid*.
+
+None of the instructions support forward references in their operands.
+
+Instructions
+------------
+
+[cols="2*1,3*2,1,2*2"]
+|=====
+8+|[[DebugGraph]]*DebugGraph* +
+ +
+Describe a graph. +
+ +
+'Graph' must be an *OpGraphARM*. +
+ +
+'Name' must be an *OpString* specifying the name of the graph as it appears in the source format. +
+ +
+1+| 7 | 12 | '<id>' +
+'Result Type' | 'Result' +
+'<id>' | '<id>' +
+'Set' | 1 | '<id>' +
+'Graph' |
+'<id>' +
+'Name'
+|=====
+
+[cols="2*1,3*2,1,3*2"]
+|=====
+9+|[[DebugOperation]]*DebugOperation* +
+ +
+Describe an operation. +
+ +
+'DebugGraph' must be an the 'Result Id' of a *DebugGraph* instruction specifying the
+graph the operation is a part of. +
+ +
+'Name' must be an *OpString* specifying the name of the operation. +
+ +
+'Instructions' must be the 'Result Id' of instructions within the graph described by 'DebugGraph'. +
+ +
+1+| 8+ | 12 | '<id>' +
+'Result Type' | 'Result' +
+'<id>' | '<id>' +
+'Set' | 2 | '<id>' +
+'DebugGraph' | '<id'> +
+'Name' |
+'<id>, <id>, ...' +
+'Instructions'
+|=====
+
+[cols="2*1,3*2,1,3*2"]
+|=====
+9+|[[DebugTensor]]*DebugTensor* +
+ +
+Describe a tensor. +
+ +
+'Tensor' must be an _<id>_ of a value whose type is *OpTypeTensorARM* or a
+composite type whose top-level constituents all are of *OpTypeTensorARM* type.
+If 'Tensor' is a composite, then 'Index' must be present. +
+ +
+'Name' must be an *OpString* specifying the name of the tensor. +
+ +
+'Index' must be a 32-bit unsigned integer and must come from a constant
+instruction. When 'Index' is present, 'Tensor' must be a value of composite
+type and 'Index' specifies the individual constituent being described. +
+ +
+1+| 7+ | 12 | '<id>' +
+'Result Type' | 'Result' +
+'<id>' | '<id>' +
+'Set' | 3 | '<id>' +
+'Tensor' | '<id'> +
+'Name' |
+'Optional <id>' +
+'Index'
+|=====
+
+Issues
+------
+
+None.
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2026-01-30|Kevin Petit|Initial revision
+|========================================
+
