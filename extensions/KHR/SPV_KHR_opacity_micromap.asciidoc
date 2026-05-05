@@ -1,0 +1,159 @@
+SPV_KHR_opacity_micromap
+========================
+
+Name Strings
+------------
+
+SPV_KHR_opacity_micromap
+
+Contact
+-------
+
+See *Issues* list in the Khronos SPIRV-Headers repository:
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Daniel Koch, NVIDIA
+- Eric Werness, NVIDIA
+- Joshua Barczak, Intel
+- Matt Netsch, Qualcomm
+
+Status
+------
+
+- Approved by the SPIR-V Working Group: 2026-01-07
+
+- Ratified by the Khronos Board: 2026-02-20
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2025-12-10
+| Revision           | 3
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.6 Revision 6.
+
+This extension requires SPIR-V 1.4.
+
+This extension requires SPV_KHR_ray_query or SPV_KHR_ray_tracing.
+
+Overview
+--------
+
+This extension adds new functionality to support the Vulkan
+VK_KHR_opacity_micromap extension in SPIR-V.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, at least one of the following
+*OpExtension* strings must be present in the module:
+
+----
+OpExtension "SPV_KHR_opacity_micromap"
+OpExtension "SPV_EXT_opacity_micromap"
+----
+
+Modifications to the SPIR-V Specification
+-----------------------------------------
+
+(Modify Section 3.2.5, Execution Mode, adding to the existing table) ::
++
+--
+[cols="1,23,5,7",options="header",width = "100%"]
+|====
+2+^| *Execution mode* ^| *Enabling Capabilities* ^| *Extra Operands*
+| 6031 | *OpacityMicromapIdKHR* +
+
+Indicates whether the shader can use opacity micromaps or not.
+The _<id>_ operand is the id of a constant instruction
+of *OpTypeBool* which may be a specialization constant.
+If ray query traversal uses acceleration structures with opacity micromaps,
+this execution mode must be specified with a value of *true*;
+otherwise, undefined behavior results.
+
+| *RayTracingOpacityMicromapExecutionModeKHR*
+| _<id>_ +
+_Enable_
+|====
+
+--
+
+
+(Modify Section 3.2.31, Ray Flags, adding to the existing table) ::
++
+--
+[cols="1,30,5",options="header",width = "100%"]
+|====
+2+^.^| Ray Flags | Enabling Capabilities
+| 1024 | *ForceOpacityMicromap2StateKHR* +
+Force opacity micromaps intersected by this ray to be evaluated in the 2 state mode.
+See the Ray Opacity Micromap in the Vulkan API specification.
+| *RayTracingOpacityMicromapKHR*
+|====
+
+--
+
+(Modify Section 3.2.30, Capability, adding a row to the Capability table) ::
++
+--
+[cols="1,25,15",options="header",width = "100%"]
+|====
+2+^.^| Capability | Implicitly Declares
+| 5381 | *RayTracingOpacityMicromapKHR* +
+Uses the *ForceOpacityMicromap2StateKHR* enumerant.
+| *Shader*
+| 6032 | *RayTracingOpacityMicromapExecutionModeKHR* +
+Uses the *OpacityMicromapIdKHR* execution mode.
+| *Shader*
+|====
+--
+
+Validation Rules
+----------------
+
+An OpExtension must be added to the SPIR-V for validation layers to check
+legal use of this extension:
+
+----
+OpExtension "SPV_KHR_opacity_micromap"
+OpExtension "SPV_EXT_opacity_micromap"
+----
+
+Either OpExtension string is accepted, it’s not necessary to include both.
+
+If a shader uses execution mode *OpacityMicromapIdKHR*, it must have the SPV_KHR_opacity_micromap extension string.
+
+
+Issues
+------
+
+(1) Why are there two OpExtension strings?
+
+RESOLVED: This extension is identical to SPV_EXT_opacity_micromap except that
+it adds a new execution mode named OpacityMicromapIdKHR. There is a strong
+desire to keep the existing behaviors when a shader does not use the new execution
+mode.
+
+
+Revision History
+----------------
+
+[cols="5,15,30,55"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1 |2025-04-09 |Eric Werness/Wooyoung Kim  | Initial revision
+|2 |2025-11-12 |Wooyoung Kim  | Add ExecutionMode OpacityMicromapIdKHR, Updated to SPIR-V 1.6.6
+|3 |2025-12-10 |Wooyoung Kim  | Allow "OpExtension SPV_EXT_opacity_micromap" to use the extension
+|========================================
