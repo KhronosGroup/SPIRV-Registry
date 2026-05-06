@@ -53,15 +53,6 @@ may be replaced during linking by a definition with *Export* linkage type from
 another module. If no *Export* definition of the same name is found, the *{linkage_type_name}*
 definition is retained.
 
-== Extension Name
-
-To use this extension within a SPIR-V module, the following
-*OpExtension* must be present in the module:
-
-----
-OpExtension "{extension_name}"
-----
-
 == Modifications to the SPIR-V Specification, Version 1.6
 
 === Capabilities
