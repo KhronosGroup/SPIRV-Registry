@@ -1,0 +1,145 @@
+SPV_QCOM_multiple_wait_queues
+=============================
+
+Name Strings
+------------
+
+SPV_QCOM_multiple_wait_queues
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Wooyoung Kim, Qualcomm (wooykim 'at' qti.qualcomm.com)
+
+
+Notice
+------
+
+Copyright (c) 2025 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+Status
+------
+
+- Final
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2026-05-05
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the Unified SPIR-V Specification,
+Version 1.6 Revision 6.
+
+This extension requires SPIR-V 1.0.
+
+Overview
+--------
+
+This extension adds a compiler hint that the compiler
+may take advantage of multiple wait queues to optimize a loop
+if a target supports them.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following *OpExtension* must
+be present in the module:
+
+----
+OpExtension "SPV_QCOM_multiple_wait_queues"
+----
+
+New Capabilities
+----------------
+
+This extension introduces a new capability:
+
+----
+MultipleWaitQueuesQCOM
+----
+
+
+New Loop Control
+----------------
+
+Loop Control added under the *MultipleWaitQueuesQCOM* capability:
+
+----
+MultipleWaitQueuesQCOM
+----
+
+Modifications to the SPIR-V Specification, Version 1.6
+------------------------------------------------------
+
+Capabilities
+~~~~~~~~~~~~
+
+Modify Section 3.2.30. "Capability", adding the following row to the Capability table after TextureBlockMatch2QCOM:
+
+[cols="1,5,1",options="header",width = "100%"]
+|====
+2+^| Capability ^| Enabling Capabilities
+| 4539 | *MultipleWaitQueuesQCOM* +
+
+To provide a compiler hint that the compiler may take advantage of multiple wait queues 
+to optimize a loop if a target supports them.
+|
+|====
+
+
+Loop Control
+~~~~~~~~~~~~
+
+Modify Section 3.2.22. "Loop Control", adding the following row after MaxReinvocationDelayINTEL
+
+--
+[cols="1,23,7",options="header",width = "100%"]
+|====
+2+^| *Loop Control* ^| *Enabling Capabilities* 
+| 0x10000000 | *MultipleWaitQueuesQCOM* +
+A hint that the compiler may take advantage of multiple wait queues to optimize a loop
+if a target supports them. Up to how many wait queues the compiler may use 
+is specified in a subsequent unsigned 32-bit integer literal operand.
+The max queue count of 0 means the compiler may use all of the available wait queues. 
+| *MultipleWaitQueuesQCOM*
+|====
+--
+
+Validation Rules
+----------------
+
+An OpExtension must be added to the SPIR-V for validation layers
+to check legal use of this extension:
+
+----
+OpExtension "SPV_QCOM_multiple_wait_queues"
+----
+
+Issues
+------
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|===========================================================
+|Rev|Date|Author|Changes
+|1|2026-05-05|Wooyoung Kim|Initial version
+|===========================================================
