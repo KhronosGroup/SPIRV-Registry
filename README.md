@@ -56,6 +56,7 @@ Note: we no longer push the HTML along side the extension.
 * [SPV_KHR_multiview                       ]( https://github.khronos.org/SPIRV-Registry/extensions/KHR/SPV_KHR_multiview.html)
 * [SPV_KHR_no_integer_wrap_decoration      ]( https://github.khronos.org/SPIRV-Registry/extensions/KHR/SPV_KHR_no_integer_wrap_decoration.html)
 * [SPV_KHR_non_semantic_info               ]( https://github.khronos.org/SPIRV-Registry/extensions/KHR/SPV_KHR_non_semantic_info.html)
+* [SPV_KHR_opacity_micromap                ]( https://github.khronos.org/SPIRV-Registry/extensions/KHR/SPV_KHR_opacity_micromap.html)
 * [SPV_KHR_poison_freeze                   ]( https://github.khronos.org/SPIRV-Registry/extensions/KHR/SPV_KHR_poison_freeze.html)
 * [SPV_KHR_physical_storage_buffer         ]( https://github.khronos.org/SPIRV-Registry/extensions/KHR/SPV_KHR_physical_storage_buffer.html)
 * [SPV_KHR_post_depth_coverage             ]( https://github.khronos.org/SPIRV-Registry/extensions/KHR/SPV_KHR_post_depth_coverage.html)
