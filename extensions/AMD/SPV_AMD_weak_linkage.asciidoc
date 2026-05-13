@@ -1,0 +1,143 @@
+:extension_name: SPV_AMD_weak_linkage
+:capability_name: WeakLinkageAMD
+:capability_token: 5181
+:linkage_type_name: WeakAMD
+:linkage_type_token: 3
+
+= {extension_name}
+
+== Name Strings
+
+{extension_name}
+
+== Contact
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Registry
+
+== Contributors
+
+- Dmitry Sidorov, AMD
+
+== Notice
+
+Copyright (c) 2026 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+== Status
+
+- Complete.
+
+== Version
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2026-02-18
+| Revision           | 1
+|========================================
+
+== Dependencies
+
+This extension is written against the SPIR-V Specification,
+Version 1.6 Revision 6, Unified
+
+This extension requires SPIR-V 1.0.
+
+== Overview
+
+This extension adds a new _Linkage Type_ *{linkage_type_name}* and the *{capability_name}*
+capability.
+A function or global variable with *{linkage_type_name}* linkage type has a definition that
+may be replaced during linking by a definition with *Export* linkage type from
+another module. If no *Export* definition of the same name is found, the *{linkage_type_name}*
+definition is retained.
+
+== Modifications to the SPIR-V Specification, Version 1.6
+
+=== Capabilities
+
+Modify Section 3.31, "Capability", adding this row to the table:
+
+[cols="1,10,8",options="header"]
+|====
+2+^.^| Capability | Implicitly Declares
+| {capability_token} | *{capability_name}* +
+Uses weak linkage functionality | *Linkage*
+|====
+
+=== Linkage Type
+
+In section 3.17 "Linkage Type" add the following row to the Linkage Type table:
+
+[cols="1,4,4",options="header",width="100%"]
+|====
+2+| Linkage Type| <<Capability,Enabling Capabilities>> |
+{linkage_type_token} | *{linkage_type_name}* +
+Same as the *Export* linkage type, but a function or global variable with this
+linkage type may be replaced during linking by one with *Export* linkage from
+another module.
+If multiple modules provide a definition of the same symbol and at least one
+has *Export* linkage, the linker must select an *Export* definition and discard
+all *{linkage_type_name}* definitions of that symbol.
+If only *{linkage_type_name}* definitions exist for a given symbol, the linker selects one
+and discards the rest.
+| *{capability_name}*
+|====
+
+=== Resolution Rules
+
+The following symbol resolution rules apply when linking modules that
+use the *{linkage_type_name}* linkage type together with the existing *Export* and *Import*
+linkage types:
+
+[cols="1,1,1,3",options="header",width="100%"]
+|====
+| Module A | Module B | Result | Notes
+| *{linkage_type_name}* | *Export* | *Export* definition selected | Strong overrides weak
+| *{linkage_type_name}* | *{linkage_type_name}* | One definition selected | Linker may select either
+| *{linkage_type_name}* | *Import* | *{linkage_type_name}* definition selected |
+| *Export* | *Export* | Error | Multiple strong definitions
+|====
+
+== Issues
+
+1. Should we also add a *WeakODRAMD* linkage type?
++
+--
+*RESOLVED*: No. The *WeakODRAMD* linkage type implies that all definitions are
+semantically equivalent, which is not the intended use case for this extension.
+The *{linkage_type_name}* linkage type is specifically designed for the case where a library
+provides a default implementation that a user explicitly replaces with a
+different implementation. The existing *LinkOnceODR* from *SPV_KHR_linkonce_odr*
+already covers the case where all definitions are equivalent.
+--
+
+2. What happens when a *{linkage_type_name}* definition and a *LinkOnceODR* definition of the
+   same symbol are linked together?
++
+--
+*RESOLVED*: A *LinkOnceODR* definition does not override a *{linkage_type_name}* definition,
+as *LinkOnceODR* does not carry stronger-than-weak semantics. Only an *Export*
+definition overrides a *{linkage_type_name}* definition. If both *{linkage_type_name}* and *LinkOnceODR*
+definitions exist for the same symbol without an *Export* definition, the linker
+may select either.
+--
+
+3. Can tools inline a *{linkage_type_name}* function?
++
+--
+*RESOLVED*: Tools should not inline a *{linkage_type_name}* function across module boundaries
+before linking, as the definition may be replaced. After linking has resolved the
+final definition, inlining is permitted.
+--
+
+== Revision History
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2026-02-18| Dmitry Sidorov |Initial draft.
+|========================================
