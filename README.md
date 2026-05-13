@@ -109,6 +109,7 @@ Note: we no longer push the HTML along side the extension.
 * [SPV_EXT_shader_subgroup_partitioned     ]( https://github.khronos.org/SPIRV-Registry/extensions/EXT/SPV_EXT_shader_subgroup_partitioned.html)
 * [SPV_EXT_shader_tile_image               ]( https://github.khronos.org/SPIRV-Registry/extensions/EXT/SPV_EXT_shader_tile_image.html)
 * [SPV_EXT_shader_viewport_index_layer     ]( https://github.khronos.org/SPIRV-Registry/extensions/EXT/SPV_EXT_shader_viewport_index_layer.html)
+* [SPV_EXT_split_barrier                   ]( https://github.khronos.org/SPIRV-Registry/extensions/EXT/SPV_EXT_split_barrier.html)
 
 ### Vendor Extensions
 
