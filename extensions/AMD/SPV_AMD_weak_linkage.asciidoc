@@ -1,6 +1,6 @@
 :extension_name: SPV_AMD_weak_linkage
 :capability_name: WeakLinkageAMD
-:capability_token: 5085
+:capability_token: 5181
 :linkage_type_name: WeakAMD
 :linkage_type_token: 3
 
