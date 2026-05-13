@@ -343,7 +343,6 @@ Any shader using heaps will likely use the same declarations for each heap, roug
                                   OpDecorate %resource_heap BuiltIn ResourceHeapEXT
 
       %uniformconstant_ptr_type = OpTypeUntypedPointerKHR UniformConstant
-                %input_ptr_type = OpTypeUntypedPointerKHR Input
                   %sampler_heap = OpUntypedVariableKHR %uniformconstant_ptr_type UniformConstant
                  %resource_heap = OpUntypedVariableKHR %uniformconstant_ptr_type UniformConstant
 ----
