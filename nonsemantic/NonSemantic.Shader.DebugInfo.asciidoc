@@ -473,7 +473,7 @@ Instructions
 Missing Debugging Information
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-[cols="1,0*3"]
+[cols="1"]
 |======
 1+|[[DebugInfoNone]]*DebugInfoNone* +
  +
@@ -1539,7 +1539,7 @@ Provide information about a previously declared
 |======
 
 
-[cols="1,0*3"]
+[cols="1"]
 |======
 1+|[[DebugNoScope]]*DebugNoScope* +
  +
@@ -1621,7 +1621,7 @@ instruction. +
 |======
 
 
-[cols="1,0*3"]
+[cols="1"]
 |======
 1+|[[DebugNoLine]]*DebugNoLine* +
  +

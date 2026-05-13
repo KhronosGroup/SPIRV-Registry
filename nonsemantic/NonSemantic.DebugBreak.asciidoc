@@ -60,7 +60,7 @@ Import this extended instruction set using an OpExtInstImport
 2. Binary Form
 ---------------
 
-[cols="1",width="100%"]
+[cols="1"]
 |=====
 1+|[[DebugBreak]]*DebugBreak* +
  +
