@@ -33,7 +33,7 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2026-01-30
+| Last Modified Date | 2026-05-15
 | Revision           | 1
 |========================================
 
@@ -146,7 +146,14 @@ type and 'Index' specifies the individual constituent being described. +
 Issues
 ------
 
-None.
+1) Why is this a separate instruction set and not included in
+`NonSemantic.Shader.DebugInfo`? +
+ +
+*RESOLVED*: Graphs are still a fairly new construct and currently defined by
+a vendor extension. A separate instruction set allows for greater freedom
+of exploration and makes it easier to deprecate and/or remove functionality
+in the future with a lower impact on the users of `NonSemantic.Shader.DebugInfo`.
+ +
 
 Revision History
 ----------------
@@ -156,6 +163,6 @@ Revision History
 [options="header"]
 |========================================
 |Rev|Date|Author|Changes
-|1|2026-01-30|Kevin Petit|Initial revision
+|1|2026-05-15|Kevin Petit|Initial revision
 |========================================
 
