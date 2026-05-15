@@ -1,0 +1,201 @@
+SPV_QCOM_image_processing3
+==========================
+
+Name Strings
+------------
+
+SPV_QCOM_image_processing3
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Matt Netsch, Qualcomm
+- Wooyoung Kim, Qualcomm
+
+Notice
+------
+
+Copyright (c) 2020-2025 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+Status
+------
+
+Final
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2025-09-21
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.6 Revision 6, Unified.
+
+This extension requires SPIR-V 1.4.
+
+Overview
+--------
+
+This extension introduces an image gather instruction for image processing, 
+that gathers the requested components from the four texels
+that are specified with an additional mode parameter.
+
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_QCOM_image_processing3"
+----
+
+New Capabilities
+----------------
+
+This extension introduces two new capabilities:
+
+----
+ImageGatherLinearQCOM
+ImageGatherExtendedModesQCOM
+----
+
+
+New Instructions
+----------------
+
+Instruction added under the *ImageGatherLinearQCOM* 
+and/or *ImageGatherExtendedModesQCOM* capabilities:
+
+----
+OpImageGatherQCOM
+----
+
+
+Modifications to the SPIR-V Specification, Version 1.6
+------------------------------------------------------
+
+Capabilities
+~~~~~~~~~~~~
+
+Modify Section 3.2.30, "Capability", adding these rows to the Capability table:
+
+--
+[options="header"]
+|====
+2+^| Capability ^| Implicitly declares
+| 4543 | *ImageGatherLinearQCOM* +
+Add the extended Image Gather instruction along with the Gather4x1QCOM mode |
+| 4544 | *ImageGatherExtendedModesQCOM* +
+Add the extended Image Gather instruction along with the GatherDQCOM, GatherH2QCOM, and GatherV2QCOM modes |
+|====
+--
+
+3.2.X Image Gather Modes
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+New section in 3.2 "Enumerants".
+
+--
+[options="header"]
+|====
+2+^| Gather Modes ^| Enabling Capabilities
+| 0 | *Gather4x1QCOM* | *ImageGatherLinearQCOM*
+| 1 | *GatherDQCOM*   | *ImageGatherExtendedModesQCOM*
+| 2 | *GatherH2QCOM*  | *ImageGatherExtendedModesQCOM*
+| 3 | *GatherV2QCOM*  | *ImageGatherExtendedModesQCOM*
+|====
+--
+
+3.3.10 Image Instructions
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Modify Section 3.3.10, "Image Instructions", adding before OpImageSampleFootprintNV:
+
+[cols="1,1,8*3",width="100%"]
+|====
+8+|*OpImageGatherQCOM* +
+ +
+Gathers the requested component values from the four texels
+which are specified with the _Mode_ operand.
+
+Assuming the (0,0) is at the upper-left corner and (1.0, 1.0) is at the lower-right corner
+in the diagram below, *OpImageGatherQCOM* gathers component values from the four texels 
+
+`\|.\|.\|d\|c\|.\|.\|.\|.\|` +
+`\|.\|h\|w\|z\|g\|.\|.\|.\|` +
+`+-+-+-P-+-+-+-+-+` +
+`\|.\|e\|x\|y\|f\|.\|.\|.\|` +
+`\|.\|.\|a\|b\|.\|.\|.\|.\|` +
+`\|.\|.\|.\|.\|.\|.\|.\|.\|` +
+`\|.\|N\|.\|.\|.\|.\|.\|.\|` +
+`\|W\|Q\|E\|.\|R\|S\|T\|U\|` +
+`\|.\|S\|.\|.\|.\|.\|.\|.\|`
+
+when _Mode_ is *GatherV2QCOM*, given P, (a, b, c, d).
+
+when _Mode_ is *GatherH2QCOM*, given P, (e, f, g, h).
+
+when _Mode_ is *GatherDQCOM*, given Q, (S, E, N, W).
+
+when _Mode_ is *Gather4x1QCOM*, given R, (R, S, T, U). 
+
+_Result Type_ must be a vector of four components of _floating-point type_ or 
+_integer type_. Its components must be the same as _Sampled Type_ of the underlying *OpTypeImage*
+(unless that underlying _Sampled Type_ is *OpTypeVoid*). It has one component per gathered texel.
+
+_Sampled Image_ must be an object whose type is *OpTypeSampledImage*. Its *OpTypeImage* must
+have a _Dim_ of *2D* or *Rect*.  The _MS_ operand of the underlying *OpTypeImage* must be 0.
+
+_Coordinate_ must be a vector of _floating-point type_. It contains (_u_, _v_ [, _array layer_]) 
+as needed by the definition of _Sampled Image_.
+
+_Component_ is the component number gathered from all four texels. It must be a 32-bit _integer type_
+scalar. Behavior is undefined if its value is not 0, 1, 2 or 3.
+
+_Mode_ specifies four texels from which the component values are gathered. It must be a 32-bit _integer type_
+scalar constant whose value corresponds to a 'Gather Modes'. Behavior is undefined if its value is not 0, 1, 2 or 3.
+
+Image Operands encodes what operands follow, as per Image Operands.
+
+2+|<<Capability,Capability>>: +
+*ImageGatherLinearQCOM*, *ImageGatherExtendedModesQCOM*
+| 7 + variable | 4545 | _<id>_ _Result Type_ | _<<ResultId,'<id> Result' >>_ | _<id>_ _Sampled Image_ | _<id>_ _Coordinate_ 
+| _<id>_ _Component_ | _<id>_ _Mode_ | Optional _<<Image_Operands, Image Operands>>_ | Optional _<id>_, _<id>_, ...
+|====
+
+
+Validation Rules
+----------------
+
+An OpExtension must be added to the SPIR-V for validation layers to check
+legal use of this extension.
+
+Issues
+------
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|===========================================================
+|Rev|Date|Author|Changes
+|1|2025-09-21|Wooyoung Kim| Initial version
+|===========================================================
