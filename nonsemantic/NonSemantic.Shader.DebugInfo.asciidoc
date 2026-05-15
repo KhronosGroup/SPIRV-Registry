@@ -68,8 +68,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2026-01-30
-| Revision           | 101 Rev 1
+| Last Modified Date | 2026-04-13
+| Revision           | 101 Rev 2
 |========================================
 
 Versioning
@@ -473,25 +473,24 @@ Instructions
 Missing Debugging Information
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-[cols="2*1,3*2,1,0*3"]
+[cols="1"]
 |======
-6+|[[DebugInfoNone]]*DebugInfoNone* +
+1+|[[DebugInfoNone]]*DebugInfoNone* +
  +
 Other instructions can refer to this one in case the debugging information is
 unknown, not available, or not applicable. +
  +
 {result_type} +
 
-| 5 | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 0
+| 0
 |======
 
 Debug Info Metadata
 ~~~~~~~~~~~~~~~~~~~
 
-[cols="2*1,3*2,1,2*3"]
+[cols="1,2*3"]
 |======
-8+|[[DebugBuildIdentifier]]*DebugBuildIdentifier* +
+3+|[[DebugBuildIdentifier]]*DebugBuildIdentifier* +
  +
  A build identifier for the shader that can be used to tie debug information to a
  SPIR-V module even if the two are separated, as long as the identifier is present in
@@ -512,16 +511,15 @@ Debug Info Metadata
  'Flags' is a 32-bit integer constant containing a value from the
   <<BuildIdentifierFlags,*BuildIdentifierFlags*>> table. +
 
-| 7 | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 105
+| 105
 | '<id>' 'Identifier'
 | '<id>' 'Flags'
 |======
 
 
-[cols="2*1,3*2,1,3"]
+[cols="1,3"]
 |======
-7+|[[DebugStoragePath]]*DebugStoragePath* +
+2+|[[DebugStoragePath]]*DebugStoragePath* +
  +
  A hint for consumers as to where to store this shader's debug information. If the debug
  information has been split apart and is identified with
@@ -540,17 +538,16 @@ Debug Info Metadata
  'Identifier' is an *OpString* holding the absolute or relative path to the stored SPIR-V
  module. +
 
-| 6 | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 106
+| 106
 | '<id>' 'Path'
 |======
 
 Compilation Unit
 ~~~~~~~~~~~~~~~~
 
-[cols="2*1,3*2,1,4*3"]
+[cols="1,4*3"]
 |======
-10+|[[DebugCompilationUnit]]*DebugCompilationUnit* +
+5+|[[DebugCompilationUnit]]*DebugCompilationUnit* +
  +
  Describe a source compilation unit. A compilation unit is the single source input to a
  SPIR-V front-end after any preprocessing has occurred. Multiple compilation units can
@@ -574,17 +571,16 @@ Compilation Unit
  of this particular compilation unit. Possible values of this operand are described in the
  'Source Language' section of the core SPIR-V specification. +
 
-| 9 | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 1
+| 1
 | '<id>' 'Version'
 | '<id>' 'DWARF version'
 | '<id>' 'Source'
 | '<id> Language'
 |======
 
-[cols="2*1,3*2,1,2*3"]
+[cols="1,2*3"]
 |======
-8+|[[DebugSource]]*DebugSource* +
+3+|[[DebugSource]]*DebugSource* +
  +
  Describe the source program. It can be either the primary source file or a
  file added via a `#include` directive. +
@@ -597,17 +593,16 @@ Compilation Unit
  'Text' is an *OpString* that contains text of the source program the SPIR-V
   module is derived from. +
 
-| 6+ | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 35
+| 35
 | '<id>' 'File'
 | Optional +
   '<id>' 'Text'
 |======
 
 
-[cols="2*1,3*2,1,3"]
+[cols="1,3"]
 |======
-7+|[[DebugSourceContinued]]*DebugSourceContinued* +
+2+|[[DebugSourceContinued]]*DebugSourceContinued* +
  +
  Continue specifying source text from the previous instruction. +
  +
@@ -623,15 +618,14 @@ Compilation Unit
  +
  'Text' is an *OpString* that contains text to append. +
 
-| 6 | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 102
+| 102
 | '<id> Text'
 |======
 
 
-[cols="2*1,3*2,1,4*3"]
+[cols="1,4*3"]
 |======
-10+|[[DebugEntryPoint]]*DebugEntryPoint* +
+5+|[[DebugEntryPoint]]*DebugEntryPoint* +
  +
  Describe the compilation environment for an *OpEntryPoint*. +
  +
@@ -651,8 +645,7 @@ Compilation Unit
  'Command-line Arguments' is an *OpString* containing the command line arguments passed to
  the compiler. +
 
-| 9 | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 107
+| 107
 | '<id>' 'Entry Point'
 | '<id>' 'Compilation Unit'
 | '<id>' 'Compiler Signature'
@@ -663,9 +656,9 @@ Compilation Unit
 Type instructions
 ~~~~~~~~~~~~~~~~~
 
-[cols="2*1,3*2,1,5*3"]
+[cols="1,5*3"]
 |======
-11+|[[DebugTypeBasic]]*DebugTypeBasic* +
+6+|[[DebugTypeBasic]]*DebugTypeBasic* +
  +
  Describe a basic data type. +
  +
@@ -690,8 +683,7 @@ Type instructions
  is a placeholder value based on an assumed memory layout and may not correspond
  to the exact size of the composite by the implementation. +
 
-| 9+ | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 2
+| 2
 | '<id>' 'Name'
 | '<id>' 'Size'
 | '<id>' <<BaseTypeAttributeEncoding,'Encoding'>>
@@ -700,9 +692,9 @@ Type instructions
 |======
 
 
-[cols="2*1,3*2,1,3*3"]
+[cols="1,3*3"]
 |======
-9+|[[DebugTypePointer]]*DebugTypePointer* +
+4+|[[DebugTypePointer]]*DebugTypePointer* +
  +
 Describe a pointer or reference data type. +
  +
@@ -717,17 +709,16 @@ Describe a pointer or reference data type. +
  +
 {flags} +
 
-| 8 | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 3
+| 3
 | '<id> Base Type'
 | '<id> Storage Class'
 | '<id> Flags'
 |======
 
 
-[cols="2*1,3*2,1,2*3"]
+[cols="1,2*3"]
 |======
-8+|[[DebugTypeQualifier]]*DebugTypeQualifier* +
+3+|[[DebugTypeQualifier]]*DebugTypeQualifier* +
  +
 Describe a 'const', 'volatile', or 'restrict' qualified data type.
 A type with multiple qualifiers are represented as a sequence of
@@ -740,16 +731,15 @@ A type with multiple qualifiers are represented as a sequence of
  'Type Qualifier' is a 32-bit integer constant containing a value from the
   <<TypeQualifiers,*TypeQualifiers*>> table. +
 
-| 7 | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 4
+| 4
 | '<id> Base Type'
 | '<id>' <<TypeQualifiers,'Type Qualifier'>>
 |======
 
 
-[cols="2*1,3*2,1,2*3"]
+[cols="1,2*3"]
 |======
-8+|[[DebugTypeArray]]*DebugTypeArray* +
+3+|[[DebugTypeArray]]*DebugTypeArray* +
  +
  Describe a array data type. +
  +
@@ -770,16 +760,15 @@ A type with multiple qualifiers are represented as a sequence of
  an array with an unknown size at compile time which is sized at runtime,
  corresponding to the SPIR-V *OpTypeRuntimeArray* type. +
 
-| 7+ | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 5
+| 5
 | '<id> Base Type'
 | '<id> Component Count', ...
 |======
 
 
-[cols="2*1,3*2,1,2*3"]
+[cols="1,2*3"]
 |======
-8+|[[DebugTypeVector]]*DebugTypeVector* +
+3+|[[DebugTypeVector]]*DebugTypeVector* +
  +
 Describe a vector data type. +
  +
@@ -791,17 +780,16 @@ Describe a vector data type. +
 'Component Count' is the '<id>' of a 32-bit integer *OpConstant* denoting the number of
  elements in the vector. +
 
-| 7 | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 6
+| 6
 | '<id> Base Type'
 | '<id>' +
   'Component Count'
 |======
 
 
-[cols="2*1,3*2,1,3*3"]
+[cols="1,3*3"]
 |======
-9+|[[DebugTypeMatrix]]*DebugTypeMatrix* +
+4+|[[DebugTypeMatrix]]*DebugTypeMatrix* +
  +
 Describe a matrix data type. +
  +
@@ -818,8 +806,7 @@ column major. If it is 'True' then the matrix is column major with each 'Vector 
 representing a column and 'Vector Count' giving the number of columns. If it is 'False'
 then correspondingly the matrix is row major with each vector being a row. +
 
-| 8 | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 108
+| 108
 | '<id> Vector Type'
 | '<id>' +
   'Vector Count'
@@ -828,9 +815,9 @@ then correspondingly the matrix is row major with each vector being a row. +
 |======
 
 
-[cols="2*1,3*2,1,2*3"]
+[cols="1,2*3"]
 |======
-8+|[[DebugTypeVectorIdEXT]]*DebugTypeVectorIdEXT* +
+3+|[[DebugTypeVectorIdEXT]]*DebugTypeVectorIdEXT* +
  +
 (*version 101*) +
  +
@@ -847,16 +834,15 @@ element of the vector. +
 elements in the vector. This includes *OpSpecConstant*, which must be used when the corresponding
 SPIR-V type uses a specialization constant for its component count. +
 
-| 7 | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 109
+| 109
 | '<id>' 'Component Type'
 | '<id>' 'Component Count'
 |======
 
 
-[cols="2*1,3*2,1,4*3,1"]
+[cols="1,4*3,1"]
 |======
-11+|[[DebugTypeCooperativeMatrixKHR]]*DebugTypeCooperativeMatrixKHR* +
+6+|[[DebugTypeCooperativeMatrixKHR]]*DebugTypeCooperativeMatrixKHR* +
  +
 (*version 101*) +
  +
@@ -881,8 +867,7 @@ columns in the matrix. This includes *OpSpecConstant*, which must be used when t
 'Use' is the '<id>' of a constant instruction with scalar integer type denoting the use
 ('MatrixAKHR', 'MatrixBKHR' or 'MatrixAccumulatorKHR'). This includes *OpSpecConstant*. +
 
-| 10 | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 110
+| 110
 | '<id>' 'Component Type'
 | '<id>' 'Scope'
 | '<id>' 'Rows'
@@ -891,9 +876,9 @@ columns in the matrix. This includes *OpSpecConstant*, which must be used when t
 |======
 
 
-[cols="2*1,3*2,1,6*3"]
+[cols="1,6*3"]
 |======
-12+|[[DebugTypedef]]*DebugTypedef* +
+7+|[[DebugTypedef]]*DebugTypedef* +
  +
 Describe a C/C++ 'typedef declaration'. +
  +
@@ -915,8 +900,7 @@ Describe a C/C++ 'typedef declaration'. +
 'Parent' is the '<id>' of a debug instruction that represents the
  <<LexicalScope,lexical scope>> that contains the typedef declaration. +
 
-| 11 | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 7
+| 7
 | '<id> Name'
 | '<id> Base Type'
 | '<id> Source'
@@ -926,9 +910,9 @@ Describe a C/C++ 'typedef declaration'. +
 |======
 
 
-[cols="2*1,3*2,1,3*3"]
+[cols="1,3*3"]
 |======
-9+|[[DebugTypeFunction]]*DebugTypeFunction* +
+4+|[[DebugTypeFunction]]*DebugTypeFunction* +
  +
 Describe a function type. +
  +
@@ -943,17 +927,16 @@ Describe a function type. +
  'Parameter Types' are debug instructions that describe the type of parameters of
  the function. +
 
-| 7+ | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 8
+| 8
 | '<id> Flags'
 | '<id> Return Type'
 | Optional '<id>, <id>, ... Parameter Types'
 |======
 
 
-[cols="9*1,5*2,3"]
+[cols="9*1,3"]
 |======
-15+|[[DebugTypeEnum]]*DebugTypeEnum* +
+10+|[[DebugTypeEnum]]*DebugTypeEnum* +
  +
 Describe an enumeration type. +
  +
@@ -987,8 +970,7 @@ Enumerators are encoded as trailing pairs of 'Value' and corresponding 'Name'.
 'Values' must be the '<id>' of *OpConstant* instructions, with a 32-bit integer result
 type. 'Name' must be the '<id>' of an *OpString* instruction. +
 
-| 13+ | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 9
+| 9
 | '<id> Name'
 | '<id> Underlying Type'
 | '<id> Source'
@@ -1004,9 +986,9 @@ type. 'Name' must be the '<id>' of an *OpString* instruction. +
 |======
 
 
-[cols="2*1,3*2,1,10*3"]
+[cols="1,10*3"]
 |======
-16+|[[DebugTypeComposite]]*DebugTypeComposite* +
+11+|[[DebugTypeComposite]]*DebugTypeComposite* +
  +
 Describe a 'structure', 'class', or 'union' data type. The 'Result <id>' of this
  instruction represents a <<LexicalScope,lexical scope>>. +
@@ -1059,8 +1041,7 @@ Describe a 'structure', 'class', or 'union' data type. The 'Result <id>' of this
  and 'Name' should be mangled in an implementation-defined manner to avoid
  clashes with user-defined names.
 
-| 14+ | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 10
+| 10
 | '<id> Name'
 | <<CompositeTypes,'Tag'>>
 | '<id> Source'
@@ -1074,9 +1055,9 @@ Describe a 'structure', 'class', or 'union' data type. The 'Result <id>' of this
 |======
 
 
-[cols="2*1,3*2,1,9*3"]
+[cols="1,9*3"]
 |======
-15+|[[DebugTypeMember]]*DebugTypeMember* +
+10+|[[DebugTypeMember]]*DebugTypeMember* +
  +
 Describe a data member of a 'structure', 'class', or 'union'. +
  +
@@ -1111,8 +1092,7 @@ Describe a data member of a 'structure', 'class', or 'union'. +
  not correspond to the exact size of the composite by the implementation. 'Size'
  will be greater than zero. +
 
-| 13+ | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 11
+| 11
 | '<id> Name'
 | '<id> Type'
 | '<id> Source'
@@ -1125,9 +1105,9 @@ Describe a data member of a 'structure', 'class', or 'union'. +
 |======
 
 
-[cols="2*1,3*2,1,1*2,2*3,1"]
+[cols="1,1*2,2*3,1"]
 |======
-10+|[[DebugTypeInheritance]]*DebugTypeInheritance* +
+5+|[[DebugTypeInheritance]]*DebugTypeInheritance* +
  +
 Describe the inheritance relationship with a parent 'class' or 'structure'.
 The Result of this instruction can be used as a member of a composite type. +
@@ -1145,8 +1125,7 @@ The Result of this instruction can be used as a member of a composite type. +
  +
 {flags} +
 
-| 9 | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 12
+| 12
 | '<id> Parent'
 | '<id>' 'Offset'
 | '<id>' 'Size'
@@ -1154,9 +1133,9 @@ The Result of this instruction can be used as a member of a composite type. +
 |======
 
 
-[cols="2*1,3*2,1,2*3"]
+[cols="1,2*3"]
 |======
-8+|[[DebugTypePtrToMember]]*DebugTypePtrToMember* +
+3+|[[DebugTypePtrToMember]]*DebugTypePtrToMember* +
  +
 Describe the type of an object that is a pointer to a structure or class member. +
  +
@@ -1166,8 +1145,7 @@ Describe the type of an object that is a pointer to a structure or class member.
  +
 'Parent' is a debug instruction, representing a structure or class type. +
 
-| 7 | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 13
+| 13
 | '<id> Member Type'
 | '<id> Parent'
 |======
@@ -1176,9 +1154,9 @@ Describe the type of an object that is a pointer to a structure or class member.
 Templates
 ~~~~~~~~~
 
-[cols="2*1,3*2,1,2*3"]
+[cols="1,2*3"]
 |======
-8+|[[DebugTypeTemplate]]*DebugTypeTemplate* +
+3+|[[DebugTypeTemplate]]*DebugTypeTemplate* +
  +
 Describe an instantiated template of 'class', 'struct', or 'function' in C++. +
  +
@@ -1191,16 +1169,15 @@ Describe an instantiated template of 'class', 'struct', or 'function' in C++. +
  this particular instantiation. +
  +
 
-| 7 | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 14
+| 14
 | '<id>' 'Target'
 | '<id>...' 'Parameters'
 |======
 
 
-[cols="2*1,3*2,1,6*3"]
+[cols="1,6*3"]
 |======
-12+|[[DebugTypeTemplateParameter]]*DebugTypeTemplateParameter* +
+7+|[[DebugTypeTemplateParameter]]*DebugTypeTemplateParameter* +
  +
 Describe a formal parameter of a C++ template instantiation. +
  +
@@ -1224,8 +1201,7 @@ Describe a formal parameter of a C++ template instantiation. +
 'Column' is the '<id>' of a 32-bit integer *OpConstant* denoting the column number at
  which the first character of the template parameter declaration appears. +
 
-| 11 | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 15
+| 15
 | '<id>' 'Name'
 | '<id>' 'Actual Type'
 | '<id>' 'Value'
@@ -1235,9 +1211,9 @@ Describe a formal parameter of a C++ template instantiation. +
 |======
 
 
-[cols="2*1,3*2,1,5*3"]
+[cols="1,5*3"]
 |======
-11+|[[DebugTypeTemplateTemplateParameter]]*DebugTypeTemplateTemplateParameter* +
+6+|[[DebugTypeTemplateTemplateParameter]]*DebugTypeTemplateTemplateParameter* +
  +
  Describe a template template parameter of a C++ template instantiation. +
  +
@@ -1256,8 +1232,7 @@ Describe a formal parameter of a C++ template instantiation. +
 'Column' is the '<id>' of a 32-bit integer *OpConstant* denoting the column number at
  which the first character of the template template parameter declaration appears. +
 
-| 10 | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 16
+| 16
 | '<id>' 'Name'
 | '<id>' 'Template Name'
 | '<id> Source'
@@ -1266,9 +1241,9 @@ Describe a formal parameter of a C++ template instantiation. +
 |======
 
 
-[cols="2*1,3*2,1,5*3"]
+[cols="1,5*3"]
 |======
-11+|[[DebugTypeTemplateParameterPack]]*DebugTypeTemplateParameterPack* +
+6+|[[DebugTypeTemplateParameterPack]]*DebugTypeTemplateParameterPack* +
  +
 Describe the expanded template parameter pack in a variadic template instantiation
  in C++. +
@@ -1289,8 +1264,7 @@ Describe the expanded template parameter pack in a variadic template instantiati
  <<DebugTypeTemplateParameter,*DebugTypeTemplateParameter*>>s describing the
  expanded parameter pack in the variadic template instantiation. +
  +
-| 10+ | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 17
+| 17
 | '<id>' 'Name'
 | '<id> Source'
 | '<id> Line'
@@ -1302,9 +1276,9 @@ Describe the expanded template parameter pack in a variadic template instantiati
 Global Variables
 ~~~~~~~~~~~~~~~~
 
-[cols="2*1,3*2,1,10*3"]
+[cols="1,10*3"]
 |======
-16+|[[DebugGlobalVariable]]*DebugGlobalVariable* +
+11+|[[DebugGlobalVariable]]*DebugGlobalVariable* +
  +
  Describe a source global variable. +
  +
@@ -1347,8 +1321,7 @@ If the source global variable represents a defining declaration
  'Static Member Declaration' operand refers to the debugging type of the
  previously declared variable, i.e.  <<DebugTypeMember,*DebugTypeMember*>>. +
 
-| 14+ | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 18
+| 18
 | '<id> Name'
 | '<id> Type'
 | '<id> Source'
@@ -1364,9 +1337,9 @@ If the source global variable represents a defining declaration
 Functions
 ~~~~~~~~~
 
-[cols="2*1,3*2,1,8*3"]
+[cols="1,8*3"]
 |======
-14+|[[DebugFunctionDeclaration]]*DebugFunctionDeclaration* +
+9+|[[DebugFunctionDeclaration]]*DebugFunctionDeclaration* +
  +
 Describe a function or method declaration. +
  +
@@ -1394,8 +1367,7 @@ Describe a function or method declaration. +
  {flags} +
   +
 
-| 13 | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 19
+| 19
 | '<id> Name'
 | '<id> Type'
 | '<id> Source'
@@ -1407,9 +1379,9 @@ Describe a function or method declaration. +
 |======
 
 
-[cols="2*1,3*2,1,10*3"]
+[cols="1,10*3"]
 |======
-16+|[[DebugFunction]]*DebugFunction* +
+11+|[[DebugFunction]]*DebugFunction* +
  +
 Describe a function or method definition. The 'Result <id>' of this instruction
  represents a <<LexicalScope,lexical scope>>. +
@@ -1443,8 +1415,7 @@ Describe a function or method definition. The 'Result <id>' of this instruction
 'Declaration' is <<DebugFunctionDeclaration,*DebugFunctionDeclaration*>>
  that represents non-defining declaration of the function. +
 
-| 14+ | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 20
+| 20
 | '<id> Name'
 | '<id> Type'
 | '<id> Source'
@@ -1458,9 +1429,9 @@ Describe a function or method definition. The 'Result <id>' of this instruction
 |======
 
 
-[cols="2*1,3*2,1,2*3"]
+[cols="1,2*3"]
 |======
-8+|[[DebugFunctionDefinition]]*DebugFunctionDefinition* +
+3+|[[DebugFunctionDefinition]]*DebugFunctionDefinition* +
  +
 Describe a function definition. This instruction must appear in the entry basic block of
 an *OpFunction* and there must be at most one such instruction. +
@@ -1474,8 +1445,7 @@ an *OpFunction* and there must be at most one such instruction. +
  +
 'Definition' is the '<id>' of the *OpFunction* that this instruction is inside. +
 
-| 7 | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 101
+| 101
 | '<id> Function'
 | '<id> Definition'
 |======
@@ -1484,9 +1454,9 @@ an *OpFunction* and there must be at most one such instruction. +
 Location Information
 ~~~~~~~~~~~~~~~~~~~~
 
-[cols="2*1,3*2,1,5*3"]
+[cols="1,5*3"]
 |======
-11+|[[DebugLexicalBlock]]*DebugLexicalBlock* +
+6+|[[DebugLexicalBlock]]*DebugLexicalBlock* +
  +
 Describe a lexical block in the source program. The 'Result <id>' of this
  instruction represents a <<LexicalScope,lexical scope>>. +
@@ -1510,8 +1480,7 @@ Describe a lexical block in the source program. The 'Result <id>' of this
  C\++ namespace. This operand refers to an *OpString* holding the name of the
  namespace. For anonymous C++ namespaces, the name must be an empty string. +
 
-| 9+ | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 21
+| 21
 | '<id>' 'Source'
 | '<id> Line'
 | '<id> Column'
@@ -1520,9 +1489,9 @@ Describe a lexical block in the source program. The 'Result <id>' of this
 |======
 
 
-[cols="2*1,3*2,1,3*3"]
+[cols="1,3*3"]
 |======
-9+|[[DebugLexicalBlockDiscriminator]]*DebugLexicalBlockDiscriminator* +
+4+|[[DebugLexicalBlockDiscriminator]]*DebugLexicalBlockDiscriminator* +
  +
 Distinguish lexical blocks on a single line in the source program. +
  +
@@ -1536,17 +1505,16 @@ Distinguish lexical blocks on a single line in the source program. +
 'Discriminator' is the '<id>' of a 32-bit integer *OpConstant* denoting a DWARF
  discriminator value for instructions in the lexical block. +
 
-| 8 | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 22
+| 22
 | '<id>' 'Source'
 | '<id>' 'Discriminator'
 | '<id>' 'Parent'
 |======
 
 
-[cols="2*1,3*2,1,2*3"]
+[cols="1,2*3"]
 |======
-8+|[[DebugScope]]*DebugScope* +
+3+|[[DebugScope]]*DebugScope* +
  +
 Provide information about a previously declared
  <<LexicalScope,lexical scope>>. This instruction delimits the start of a
@@ -1564,17 +1532,16 @@ Provide information about a previously declared
  the <<LexicalScope,lexical scope>> and location to where 'Scope' instructions
  were inlined. +
 
-| 6+ | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 23
+| 23
 | '<id> Scope'
 | Optional +
   '<id> Inlined'
 |======
 
 
-[cols="2*1,3*2,1,0*3"]
+[cols="1"]
 |======
-6+|[[DebugNoScope]]*DebugNoScope* +
+1+|[[DebugNoScope]]*DebugNoScope* +
  +
 Delimit the end of a contiguous group of instructions started by the
  previous *DebugScope*. +
@@ -1583,14 +1550,13 @@ Delimit the end of a contiguous group of instructions started by the
  +
  {result_type} +
 
-| 5 | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 24
+| 24
 |======
 
 
-[cols="2*1,3*2,1,3*3"]
+[cols="1,3*3"]
 |======
-9+|[[DebugInlinedAt]]*DebugInlinedAt* +
+4+|[[DebugInlinedAt]]*DebugInlinedAt* +
  +
 Declare to where instructions grouped together by a <<DebugScope,*DebugScope*>>
  instruction are inlined. When a function is inlined, a
@@ -1610,17 +1576,16 @@ Declare to where instructions grouped together by a <<DebugScope,*DebugScope*>>
 'Inlined' is a debug instruction representing the next level of inlining in case
  of recursive inlining. +
 
-| 7+ | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 25
+| 25
 | '<id> Line'
 | '<id> Scope'
 | Optional '<id> Inlined'
 |======
 
 
-[cols="2*1,3*2,1,5*3"]
+[cols="1,5*3"]
 |======
-11+|[[DebugLine]]*DebugLine* +
+6+|[[DebugLine]]*DebugLine* +
  +
 Specify source-level line and column information. This information applies to all
 following instructions, up to the first occurrence of any of the following: the
@@ -1647,8 +1612,7 @@ instruction. +
  column number where the location ends. This must be greater than or equal to 'Column Start'
  if 'Line Start' equals 'Line End'. +
 
-| 10 | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 103
+| 103
 | '<id> Source'
 | '<id> Line Start'
 | '<id> Line End'
@@ -1657,9 +1621,9 @@ instruction. +
 |======
 
 
-[cols="2*1,3*2,1,0*3"]
+[cols="1"]
 |======
-6+|[[DebugNoLine]]*DebugNoLine* +
+1+|[[DebugNoLine]]*DebugNoLine* +
  +
 Discontinue any source-level line and column information specified by any previous
 *DebugLine* instruction. +
@@ -1668,17 +1632,16 @@ Discontinue any source-level line and column information specified by any previo
  +
  {result_type} +
 
-| 5 | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 104
+| 104
 |======
 
 
 Local Variables
 ~~~~~~~~~~~~~~~
 
-[cols="2*1,3*2,1,8*3"]
+[cols="1,8*3"]
 |======
-14+|[[DebugLocalVariable]]*DebugLocalVariable* +
+9+|[[DebugLocalVariable]]*DebugLocalVariable* +
  +
  Describe a <<LocalVariable,local variable>>. +
  +
@@ -1707,8 +1670,7 @@ Local Variables
 If 'ArgNumber' operand is present, this instruction represents a function formal
  parameter. The argument is the '<id>' of a 32-bit integer *OpConstant*. +
 
-| 12+ | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 26
+| 26
 | '<id> Name'
 | '<id> Type'
 | '<id> Source'
@@ -1721,9 +1683,9 @@ If 'ArgNumber' operand is present, this instruction represents a function formal
 |======
 
 
-[cols="2*1,3*2,1,2*3"]
+[cols="1,2*3"]
 |======
-8+|[[DebugInlinedVariable]]*DebugInlinedVariable* +
+3+|[[DebugInlinedVariable]]*DebugInlinedVariable* +
  +
  Describe an inlined <<LocalVariable,local variable>>. +
  +
@@ -1735,16 +1697,15 @@ If 'ArgNumber' operand is present, this instruction represents a function formal
 'Inlined' is an <<DebugInlinedAt,*DebugInlinedAt*>> instruction representing
  the inline location. +
 
-| 7+ | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 27
+| 27
 | '<id> Variable'
 | '<id> Inlined'
 |======
 
 
-[cols="2*1,3*2,1,4*3"]
+[cols="1,4*3"]
 |======
-10+|[[DebugDeclare]]*DebugDeclare* +
+5+|[[DebugDeclare]]*DebugDeclare* +
  +
 Define point of declaration of a <<LocalVariable,local variable>>. +
  +
@@ -1761,8 +1722,7 @@ Define point of declaration of a <<LocalVariable,local variable>>. +
 'Indexes' have the same semantics as the corresponding operand(s) of
  *OpAccessChain*, applied to the 'Local Variable'. +
 
-| 8+ | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 28
+| 28
 | '<id> Local Variable'
 | '<id> Variable'
 | '<id> Expression'
@@ -1770,9 +1730,9 @@ Define point of declaration of a <<LocalVariable,local variable>>. +
 |======
 
 
-[cols="2*1,3*2,1,4*3"]
+[cols="1,4*3"]
 |======
-10+|[[DebugValue]]*DebugValue* +
+5+|[[DebugValue]]*DebugValue* +
  +
 Represent a changing of value of a <<LocalVariable,local variable>>. +
  +
@@ -1790,8 +1750,7 @@ Represent a changing of value of a <<LocalVariable,local variable>>. +
 'Indexes' have the same semantics as the corresponding operand(s) of
  *OpAccessChain*, applied to the 'Local Variable'. +
 
-| 8+ | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 29
+| 29
 | '<id> Local Variable'
 | '<id> Value'
 | '<id> Expression'
@@ -1799,9 +1758,9 @@ Represent a changing of value of a <<LocalVariable,local variable>>. +
 |======
 
 
-[cols="2*1,3*2,1,2*3"]
+[cols="1,2*3"]
 |======
-8+|[[DebugOperation]]*DebugOperation* +
+3+|[[DebugOperation]]*DebugOperation* +
  +
 Represent a DWARF operation that operates on a stack of values. +
  +
@@ -1812,17 +1771,16 @@ Represent a DWARF operation that operates on a stack of values. +
  +
 'Operands' are zero or more 32-bit integer constant instruction '<id>s'.
 
-| 6+ | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 30
+| 30
 | '<id>' <<Operation,'Operation'>>
 | Optional '<id>' +
   'Operands ...'
 |======
 
 
-[cols="2*1,3*2,1,1*3"]
+[cols="1,1*3"]
 |======
-7+|[[DebugExpression]]*DebugExpression* +
+2+|[[DebugExpression]]*DebugExpression* +
  +
  Represent a DWARF expression, which describe how to compute a value or name
  location during debugging of a program. This is expressed in terms of DWARF
@@ -1832,17 +1790,16 @@ Represent a DWARF operation that operates on a stack of values. +
  +
 'Operation' is zero or more ids of <<DebugOperation,*DebugOperation*>>. +
 
-| 5+ | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 31
+| 31
 | Optional '<id>...' 'Operation'
 |======
 
 Macros
 ~~~~~~
 
-[cols="2*1,3*2,1,4*3"]
+[cols="1,4*3"]
 |======
-10+|[[DebugMacroDef]]*DebugMacroDef* +
+5+|[[DebugMacroDef]]*DebugMacroDef* +
  +
  Represents a macro definition. +
  +
@@ -1863,8 +1820,7 @@ Macros
  +
 'Value' is the '<id>' of an *OpString*, which contains text with definition of the macro. +
 
-| 7+ | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 32
+| 32
 | '<id> Source'
 | '<id> Line'
 | '<id> Name'
@@ -1872,9 +1828,9 @@ Macros
 |======
 
 
-[cols="2*1,3*2,1,3*3"]
+[cols="1,3*3"]
 |======
-9+|[[DebugMacroUndef]]*DebugMacroUndef* +
+4+|[[DebugMacroUndef]]*DebugMacroUndef* +
  +
  Discontinue previous macro definition. +
  +
@@ -1889,8 +1845,7 @@ Macros
 'Macro' is the '<id>' of <<DebugMacroDef,*DebugMacroDef*>> which represent the macro
  to be undefined. +
 
-| 8 | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 33
+| 33
 | '<id> Source'
 | '<id> Line'
 | '<id> Macro'
@@ -1899,9 +1854,9 @@ Macros
 Imported Entities
 ~~~~~~~~~~~~~~~~~
 
-[cols="2*1,3*2,1,7*3"]
+[cols="1,7*3"]
 |======
-13+|[[DebugImportedEntity]]*DebugImportedEntity* +
+8+|[[DebugImportedEntity]]*DebugImportedEntity* +
  +
  Represents a C++ namespace 'using-directive', namespace alias, or
  'using-declaration'. +
@@ -1926,8 +1881,7 @@ Imported Entities
  'Parent' is the '<id>' of a debug instruction that represents the
  <<LexicalScope,lexical scope>> that contains the namespace or declaration. +
 
-| 12 | 12 | '<id>' +
-'Result Type' | 'Result <id>' | '<id> Set'| 34
+| 34
 | '<id> Name'
 | '<id> Tag'
 | '<id> Source'
@@ -2031,5 +1985,6 @@ Revision History
                                              *DebugTypeCooperativeMatrixKHR*). Extend +
                                              *DebugTypeBasic* with optional *FPEncoding* +
                                              parameter for specialized floating-point formats.
+|101 Rev 2  |2026-04-13|Spencer Fricke     |Fix binary form view
 |========================================================
 

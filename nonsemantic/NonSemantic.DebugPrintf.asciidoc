@@ -14,11 +14,12 @@ Contributors
 ------------
 
 - Jeff Bolz, NVIDIA Corporation
+- Spencer Fricke, LunarG Inc
 
 Notice
 ------
 
-Copyright (c) 2019-2020 The Khronos Group Inc. Copyright terms at
+Copyright (c) 2019-2026 The Khronos Group Inc. Copyright terms at
 http://www.khronos.org/registry/speccopyright.html
 
 Status
@@ -31,8 +32,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2020-02-11
-| Revision           | 1
+| Last Modified Date | 2026-04-13
+| Revision           | 2
 |========================================
 
 Dependencies
@@ -57,7 +58,7 @@ Import this extended instruction set using an OpExtInstImport
 2. Binary Form
 ---------------
 
-[cols="1,1,2*3",width="100%"]
+[cols="1,2*2",width="100%"]
 |=====
 3+|[[DebugPrintf]]*DebugPrintf* +
  +
@@ -71,10 +72,9 @@ Interpretation of the format specifiers is specified by the client API. +
 'Return Type' must be *OpTypeVoid*. +
  +
 'Format' must be an *OpString*.
-1+|Capability:
-1+| 2+variable | 1 | '<id>' +
-'Format' | Optional
-'<id>', '<id>', ...
+| 1
+| '<id>' 'Format'
+| Optional '<id>', '<id>', ...
 |=====
 
 
@@ -92,4 +92,5 @@ Revision History
 |========================================
 |Rev|Date|Author|Changes
 |1|2020-02-11|Jeff Bolz|Initial revision
+|2|2026-04-13|Spencer Fricke|Fix binary form view
 |========================================
