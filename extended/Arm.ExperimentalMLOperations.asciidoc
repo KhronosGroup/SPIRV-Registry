@@ -1,0 +1,95 @@
+Arm Experimental ML Operations Instructions
+===========================================
+
+Revision 1
+
+Contact
+-------
+
+To report problems with this extended instruction set, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Kévin Petit, Arm Ltd.
+
+Notice
+------
+
+Copyright (c) 2025 Arm Ltd.
+
+Status
+------
+
+Unratified extended instruction set.
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2025-10-31
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This instruction set requires SPIR-V 1.0.
+
+1. Introduction
+---------------
+
+This specifies the Arm.ExperimentalMLOperations extended instruction set. It
+provides a mechanism to encode experimental ML operations in SPIR-V modules.
+
+Import this extended instruction set using an *OpExtInstImport*
+`Arm.ExperimentalMLOperations.<ver>` instruction, where `<ver>` indicates the
+version.
+
+2. Version
+----------
+
+This extended instruction set is versioned. The version is specified via the
+import string. It must be an integer between 1 and the version specified at the
+beginning of this instruction set. Differences between the version are
+specified below.
+
+3. Binary Form
+---------------
+
+[cols="3"]
+|=====
+3+|[[CALL]]*CALL* +
+ +
+Call an experimental ML operation. +
+ +
+'Opcode' is a literal integer that specifies the operation being called. +
+ +
+'Parameters' provides zero or more '<id>' operands, as required by the
+operation being called. +
+ +
+1+| 0 | 'Literal' +
+'Opcode' |
+Optional '<id>', '<id>', ... +
+'Parameters'
+|=====
+
+Issues
+------
+
+None.
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2025-10-31|Kevin Petit|Initial revision
+|========================================
+
