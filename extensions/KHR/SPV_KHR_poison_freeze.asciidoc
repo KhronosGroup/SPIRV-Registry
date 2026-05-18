@@ -122,6 +122,39 @@ OpExtension "SPV_KHR_poison_freeze"
 
 == Modifications to the SPIR-V Specification, Version 1.6
 
+=== Logical Layout
+
+Modify Section 2.4, "Logical Layout of a Module", paragraph 9:
+
+====
+All type declarations (*OpTypeXXX* instructions), all constant instructions, and
+all global variable declarations (all *OpVariable* instructions whose Storage
+Class is not *Function*). This is the preferred location for *OpUndef*
+instructions, though they can also appear in function bodies. All operands in
+all these instructions must be declared before being used. Otherwise, they can
+be in any order. This section is the first section to allow use of:
+
+a. OpLine and OpNoLine debug information.
+
+b. Non-semantic instructions with OpExtInst.
+====
+
+to:
+
+====
+All type declarations (*OpTypeXXX* instructions), all constant instructions, and
+all global variable declarations (all *OpVariable* instructions whose Storage
+Class is not *Function*). This is the preferred location for *OpUndef* and *OpPoisonKHR*
+instructions, though they can also appear in function bodies. All operands in
+all these instructions must be declared before being used. Otherwise, they can
+be in any order. This section is the first section to allow use of:
+
+a. OpLine and OpNoLine debug information.
+
+b. Non-semantic instructions with OpExtInst.
+====
+
+
 === Capabilities
 
 Modify Section 3.2.30, "Capability", adding rows to the Capability table:
@@ -317,4 +350,5 @@ This should also be considered a bug - missing interactions should be added.
 |========================================
 |Rev|Date|Author|Changes
 |1|2026-03-12|Tobias Hector|Initial KHR extension.
+|2|2026-05-18|Dmitry Sidorov|Clarify *OpPoisonKHR* position in the layout.
 |========================================
