@@ -283,7 +283,7 @@ wasteful in terms of memory, with 24-bits of wasted padding per character.
 
 The size is limited by the maximum size of an instruction (65535); taking
 into account the size of the instruction, this limits a single data constant
-to 65531 words, or 262124 bytes.
+to 65532 words, or 262128 bytes.
 
 Should this ever be a limiting factor, data can always be split into multiple
 data constants and concatenated using *OpConstantComposite*.
