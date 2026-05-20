@@ -1,0 +1,250 @@
+SPV_NV_cooperative_matrix_decode_vector
+=======================================
+
+Name Strings
+------------
+
+SPV_NV_cooperative_matrix_decode_vector
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Jeff Bolz, NVIDIA
+
+Notice
+------
+
+Copyright (c) 2026 NVIDIA Corp.
+
+Status
+------
+
+- Complete
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2026-04-28
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.6, Revision 3, Unified.
+
+This extension requires SPIR-V 1.6.
+
+This extension requires SPV_NV_cooperative_matrix2.
+
+Overview
+--------
+
+This extension adds an optional *DecodeVectorFunc* tensor addressing
+operand to *OpCooperativeMatrixLoadTensorNV* (added by
+SPV_NV_cooperative_matrix2). When present, *DecodeVectorFunc* references
+a vector-returning decode function that decodes V block-adjacent matrix
+elements per invocation, rather than one element per invocation as the
+scalar *DecodeFunc* does. Collapsing V independent decode calls into a
+single call lets a small unit of encoded data (such as one dword of a
+block-quantized weight tensor) be loaded and decoded once for V
+neighboring matrix elements at a time.
+
+The scalar *DecodeFunc* operand remains required and unchanged from
+SPV_NV_cooperative_matrix2: its function returns one element per
+invocation. *DecodeVectorFunc* is an opportunistic optimization layered
+on top - the implementation may invoke either *DecodeFunc* (per
+element) or *DecodeVectorFunc* (per group of V block-adjacent elements)
+at any call site, choosing whichever fits better. For example, the
+implementation may use *DecodeVectorFunc* when staging through shared
+memory and *DecodeFunc* when loading directly
+into registers along an axis that does not match the vector function's
+V-direction.
+
+V can be 2, 4, or 8 components of any matrix component
+type. Larger V matches the natural pack unit of formats like 1-bit
+(8 elements per byte) and 4-bit (8 elements per dword) quantized
+weights, and amortizes per-invocation overhead over more outputs.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_NV_cooperative_matrix_decode_vector"
+----
+
+Modifications to the SPIR-V Specification, Version 1.6
+------------------------------------------------------
+
+3.31 Capabilities
+~~~~~~~~~~~~~~~~~
+
+Modify Section 3.31, "Capability", adding this row to the Capability table:
+
+--
+[options="header"]
+|====
+2+^| Capability ^| Implicitly Declares
+| 5447 | *CooperativeMatrixDecodeVectorNV* +
+Allows the *DecodeVectorFunc* tensor addressing operand to be used with
+*OpCooperativeMatrixLoadTensorNV*, decoding multiple block-adjacent
+elements per invocation.
+| *CooperativeMatrixBlockLoadsNV*
+|====
+--
+
+3.49.8 Memory Instructions
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Modify the description of *OpCooperativeMatrixLoadTensorNV* by appending
+the following text to the paragraph beginning "For
+*OpCooperativeMatrixLoadTensorNV* instructions with a *DecodeFunc*
+operand...":
+
+An *OpCooperativeMatrixLoadTensorNV* instruction whose 'Tensor
+Addressing Operands' include *DecodeVectorFunc* must satisfy the
+following:
+
+* *DecodeFunc* must also be present in the same 'Tensor Addressing
+Operands'.
+
+* The 'Result Type' of *DecodeVectorFunc*'s function must be a vector
+of the 'Component Type' of 'Result Type' with 2, 4, or 8 components.
+
+*DecodeVectorFunc*'s function is subject to the same parameter type requirements as
+*DecodeFunc* (first parameter a pointer in the
+*PhysicalStorageBuffer* storage class, second and third parameters arrays
+of 32-bit integers whose length equals the tensor layout dimension), but
+the two functions can use different pointer parameter types.
+
+Let V be the number of components of *DecodeVectorFunc*'s return type.
+For each matrix element of 'Result Type', at least one decode function
+invocation is performed that decodes that element: either an invocation
+of *DecodeFunc* for that element, or an invocation of *DecodeVectorFunc*
+for a group of V matrix elements that contains it. The implementation
+chooses which function to invoke and how often. Multiple invocations of
+the same function with the same operand values are expected to return
+the same value.
+
+When *DecodeVectorFunc* is invoked, the V matrix elements covered by
+the invocation are V matrix elements whose tensor coordinates, as
+computed by matrixCoordToTensorElement(WithView), share the same
+'blockCoord' and the same 'coordInBlock' values in every dimension
+except LDim-1, and whose 'coordInBlock[LDim-1]' values are V
+consecutive integers starting at a multiple of V. The blockCoord,
+coordInBlock, and pointer arguments passed to the invocation are
+those for the element of the group with the lowest
+'coordInBlock[LDim-1]'. For each 'i' in the range 0 to V-1, component
+'i' of the returned vector is stored to the matrix element whose
+'coordInBlock[LDim-1]' is the group's lowest value plus 'i'.
+
+The behavior of *OpCooperativeMatrixLoadTensorNV* is undefined when
+*DecodeVectorFunc* is invoked if the following requirement is not
+satisfied:
+
+* 'blockSize[LDim-1]' must be a multiple of V.
+
+This condition, together with the requirement above that
+'coordInBlock[LDim-1]' for the invocation is a multiple of V, ensures
+that the V matrix elements covered by the invocation always lie
+within a single block and share a common 'blockCoord'.
+
+3.49.8.1 Tensor Addressing Operands
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Modify Section 3.49.8 of SPV_NV_cooperative_matrix2 by adding the
+following row to the 'Tensor Addressing Operands' table:
+
+--
+[options="header"]
+|====
+2+^| Tensor Addressing Operand | Extra Operands
+| 0x4 | *DecodeVectorFunc*
+| <id> of an *OpFunction* whose return type is a vector. See 3.49.8.
+|====
+--
+
+Issues
+------
+
+1) Why an optional second decode function instead of changing the existing *DecodeFunc*?
+
+Discussion:: An alternate design could make *DecodeFunc* itself vector-returning and
+couple it to static restrictions on the matrix's 'Use' and *TensorView* and to
+dynamic alignment requirements on the load's 'span', 'offset', and 'layoutDimension'.
+That approach gets intricate and still misses important cases: for example, loading a
+*UseB* matrix from row-major memory can require an effective transpose relative to tensor storage, so
+vector decode aligned to the blocking layout can be harmful when values are
+written straight into registers, while the same tensor load can still benefit
+from vector decode when a shared-memory staging pass makes loads match that
+layout.
+A single vector-returning *DecodeFunc* cannot serve both kinds of call site without
+further special cases.
+
+Resolution:: RESOLVED. Keep *DecodeFunc* as the required scalar decode function
+(unchanged from SPV_NV_cooperative_matrix2) and add an optional *DecodeVectorFunc*.
+The implementation may invoke either at any call site. The shader supplies both;
+the implementation chooses per site. 'Use' and *TensorView* stay independent of
+decode shape; the only structural rule is that 'blockSize[LDim-1]' is a
+multiple of V. One load covers both paths without an up-front shader choice.
+
+2) When may an implementation invoke *DecodeFunc* per element instead of *DecodeVectorFunc* at a call site?
+
+Discussion:: The implementation may decline to invoke *DecodeVectorFunc* at any call
+site and instead invoke *DecodeFunc* for each element. Examples of call
+sites where the implementation might do so include:
+
+* The V return components do not naturally map to adjacent registers at
+that site.
+
+* A V-group would straddle a 'span' or clip boundary.
+
+This lets a single load instruction serve both vector-friendly and
+vector-unfriendly call sites without forcing the shader to pick one
+or the other up front.
+
+Resolution:: RESOLVED. The implementation's per-call-site choice between *DecodeFunc*
+and *DecodeVectorFunc* is intentionally flexible, as discussed above.
+
+3) Why only a single *DecodeVectorFunc* instead of letting the shader supply multiple vector decode functions for different V and letting the implementation pick among them?
+
+Discussion:: An alternate design could let the shader provide several vector decode
+functions for different V (for example V = 2, V = 4, and V = 8) and let the
+implementation pick the most profitable one per call site. The incremental benefit
+over a single shader-chosen V is small: each block-quantized format has a natural
+pack unit (one byte for 1-bit formats, one dword for 4-bit formats, and so on),
+and once V is matched to that unit, larger V mostly amortizes overhead that is
+already small at the matched unit. Supporting multiple vector decode functions
+would add validation rules, a cross-product of allowed combinations, and
+per-call-site selection logic in the implementation, in exchange for that small
+benefit. In practice, a shader author can experiment with different V values and
+keep whichever is fastest for their format and target.
+
+Resolution:: RESOLVED. *OpCooperativeMatrixLoadTensorNV* accepts at most one
+*DecodeVectorFunc*. The shader picks V (2, 4, or 8); the implementation chooses
+per call site whether to invoke *DecodeVectorFunc* or fall back to *DecodeFunc*.
+
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2026-04-26|Jeff Bolz|Initial revision
+|========================================
