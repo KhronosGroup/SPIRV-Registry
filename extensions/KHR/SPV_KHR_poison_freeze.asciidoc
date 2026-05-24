@@ -42,8 +42,8 @@ Experimental
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2026-03-12
-| Revision           | 1
+| Last Modified Date | 2026-05-24
+| Revision           | 2
 |========================================
 
 == Dependencies
@@ -124,35 +124,7 @@ OpExtension "SPV_KHR_poison_freeze"
 
 === Logical Layout
 
-Modify Section 2.4, "Logical Layout of a Module", paragraph 9:
-
-====
-All type declarations (*OpTypeXXX* instructions), all constant instructions, and
-all global variable declarations (all *OpVariable* instructions whose Storage
-Class is not *Function*). This is the preferred location for *OpUndef*
-instructions, though they can also appear in function bodies. All operands in
-all these instructions must be declared before being used. Otherwise, they can
-be in any order. This section is the first section to allow use of:
-
-a. OpLine and OpNoLine debug information.
-
-b. Non-semantic instructions with OpExtInst.
-====
-
-to:
-
-====
-All type declarations (*OpTypeXXX* instructions), all constant instructions, and
-all global variable declarations (all *OpVariable* instructions whose Storage
-Class is not *Function*). This is the preferred location for *OpUndef* and *OpPoisonKHR*
-instructions, though they can also appear in function bodies. All operands in
-all these instructions must be declared before being used. Otherwise, they can
-be in any order. This section is the first section to allow use of:
-
-a. OpLine and OpNoLine debug information.
-
-b. Non-semantic instructions with OpExtInst.
-====
+Modify Section 2.4, "Logical Layout of a Module", paragraph 9, adding *OpPoisonKHR* alongside *OpUndef*.
 
 
 === Capabilities
@@ -260,6 +232,32 @@ _Result_ is always a _stable value_.
 _Result Type_ | _Result <id>_ | _<id>_ _Value_
 |=====
 
+Modify section 3.3.7, "Constant-Creation Instructions", modifying the following instructions:
+
+Change the last sentence in the description of *OpConstantComposite* from:
+
+====
+The _Constituents_ must all be _<id>_ s of non-specialization constant-instruction declarations or an *OpUndef*.
+====
+
+to:
+
+====
+The _Constituents_ must all be _<id>_ s of non-specialization constant-instruction declarations, an *OpUndef*, or an *OpPoisonKHR*.
+====
+
+Change the last sentence in the description of *OpSpecConstantComposite* from:
+
+====
+The _Constituents_ must be the _<id>_ of other specialization constants, constant declarations, or an *OpUndef*.
+====
+
+to:
+
+====
+The _Constituents_ must be the _<id>_ of other specialization constants, constant declarations, an *OpUndef*, or an *OpPoisonKHR*.
+====
+
 Modify section 3.3.11, "Conversion Instructions", modifying the following instructions:
 
 Change the following sentence in the descriptions of *OpConvertFToU* and *OpConvertFToS* from:
@@ -350,5 +348,5 @@ This should also be considered a bug - missing interactions should be added.
 |========================================
 |Rev|Date|Author|Changes
 |1|2026-03-12|Tobias Hector|Initial KHR extension.
-|2|2026-05-18|Dmitry Sidorov|Clarify *OpPoisonKHR* position in the layout.
+|2|2026-05-24|Dmitry Sidorov|Clarify *OpPoisonKHR* position in the layout and allow *OpPoisonKHR* for composites init.
 |========================================
