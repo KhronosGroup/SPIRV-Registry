@@ -24,6 +24,7 @@ https://github.com/KhronosGroup/SPIRV-Registry
 - David Neto, Google
 - Raph Levien, Google
 - John Kessenich, Google
+- Dmitry Sidorov, AMD
 
 
 == Notice
