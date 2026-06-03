@@ -39,8 +39,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2025-08-20
-| Revision           | 15
+| Last Modified Date | 2026-06-03
+| Revision           | 16
 |========================================
 
 Dependencies
@@ -573,7 +573,7 @@ include::ray_common/opconvertutoaccelerationstructure_table.txt[]
  +
  Gets the shader binding table record offset for the current intersection considered in a ray query. +
  +
- 'Result' is the returned instance id. +
+ 'Result' is the returned shader binding table record offset. +
  +
  'Result Type' must be a 32-bit 'integer type' scalar. +
  +
@@ -960,5 +960,6 @@ Revision History
 |13|2022-05-27 |Daniel Koch           | disallow more combinations of ray flags (vk-gl-cts#3647)
 |14|2023-01-13 |Daniel Koch           | Follow SPIR-V conventions for undefined behavior.
 |15|2025-08-20 |Alan Baker            | Modify logical pointer validation rules (spir-v#878)
+|16|2026-06-03 |Daniel Koch           | Fix ray query wording typos (spir-v#935, spir-v#936)
 |========================================
 
