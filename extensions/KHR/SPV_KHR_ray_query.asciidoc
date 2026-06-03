@@ -187,7 +187,7 @@ Identifies which intersection should be returned from a ray query.
 Identifies the current candidate intersection being considered, valid when 'OpRayQueryProceedKHR' returns true.
 | *RayQueryKHR*
 | 1 | *RayQueryCommittedIntersectionKHR* +
-Identifies the last intersection committed that is being considered, valid when 'OpRayQueryGetCommittedIntersectionTypeKHR' does not return *RayQueryCommittedIntersectionNoneKHR*.
+Identifies the closest recorded hit so far, valid when 'OpRayQueryGetIntersectionTypeKHR' with 'Intersection' set to *RayQueryCommittedIntersectionKHR* does not return *RayQueryCommittedIntersectionNoneKHR*.
 | *RayQueryKHR*
 |====
 
