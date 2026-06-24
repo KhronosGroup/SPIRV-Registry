@@ -54,8 +54,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2025-01-16
-| Revision           | 3
+| Last Modified Date | 2026-06-20
+| Revision           | 4
 |========================================
 
 Dependencies
@@ -540,13 +540,17 @@ Add the following:
 
 ****
 * Untyped pointers
-** The 'Data Type' in <<OpUntypedVariableKHR,*OpUntypedVariableKHR*>>, or the
-   'Base Type' in <<OpUntypedAccessChainKHR,*OpUntypedAccessChainKHR*>>,
-   <<OpUntypedInBoundsAccessChainKHR,*OpUntypedInBoundsAccessChainKHR*>> or
-   <<OpUntypedPtrAccessChainKHR,*OpUntypedPtrAccessChainKHR*>> must not be a
-   matrix type if the 'Storage Class' is required to be explicitly laid out.
 ** *Workgroup* 'Storage Class' must be explcitly laid out when used with
    <<UntypedPointers,untyped pointers>>.
+** Any <<OpTypeUntypedPointerKHR,untyped pointer>> value that is accessed as a
+   matrix, an array of matrices, or a row of a matrix must be the result of an
+   <<OpUntypedAccessChainKHR,*OpUntypedAccessChainKHR*>>,
+   <<OpUntypedInBoundsAccessChainKHR,*OpUntypedInBoundsAccessChainKHR*>>, or
+   <<OpUntypedPtrAccessChainKHR,*OpUntypedPtrAccessChainKHR*>> instruction
+   whose _Base Type_ operand is a structure type (or recursively must be the
+   result of a sequence of only access chains from a structure to the final
+   value). Such a pointer must only be used as the Pointer operand to *OpLoad*
+   or *OpStore*.
 ****
 
 Modify the list items under the following list item:
@@ -1349,6 +1353,7 @@ Revision History
 [cols="4"]
 |===
 |Rev|Date|Author|Changes
+|4|2026-06-20|Alan Baker|Clarify matrix access rules
 |3|2025-01-16|Alan Baker a|Changes from provisional.
 
 Change reference SPIR-V Specification to Version 1.6 Revision 5.
