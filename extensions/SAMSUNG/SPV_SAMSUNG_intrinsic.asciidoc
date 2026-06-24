@@ -1,0 +1,114 @@
+:extension_name: SPV_SAMSUNG_intrinsic
+:decoration_name: IntrinsicSAMSUNG
+:decoration_token: 7040
+:operand_name: Intrinsic ID
+:capability_name: IntrinsicSAMSUNG
+:capability_token: 7041
+
+= {extension_name}
+
+== Name Strings
+
+{extension_name}
+
+== Contact
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Registry
+
+== Contributors
+
+// spell-checker: disable
+* Matthew Moulton, Samsung
+// spell-checker: enable
+
+== Notice
+
+Copyright (c) 2026 Samsung Electronics Co., Ltd.  All rights reserved.
+
+== Status
+
+* Complete
+
+== Version
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2026-06-24
+| Revision           | 1
+|========================================
+
+== Dependencies
+
+This extension is written against the SPIR-V Specification, Version 1.6 Revision 7.
+
+This extension requires SPIR-V 1.0.
+
+== Overview
+
+This extension adds a new SPIR-V decoration, *{decoration_name}*, which associates a SPIR-V id with a vendor-defined
+intrinsic via a literal index id.
+
+== Extension Name
+
+To use this extension within a SPIR-V module, the following *OpExtension* must
+be present in the module:
+
+----
+OpExtension "SPV_SAMSUNG_intrinsic"
+----
+
+== Modifications to the SPIR-V Specification, Version 1.6
+
+=== Validation Rules
+
+Modify Section 2.16.2, "Validation Rules for Shader Capabilities", adding to the conditions where the
+*{decoration_name}* decoration is valid:
+
+--
+* The *{decoration_name}* decoration must not be applied multiple times to the same instruction with conflicting values
+of *{operand_name}*.
+--
+
+=== Decorations
+Modify Section 3.2.19, "Decoration", adding this row to the Decoration table:
+
+[cols="1,10,5,2,2",options="header",width = "100%"]
+|====
+2+^.^| Decoration | Extra Operands 2+<.^| Enabling Capabilities
+| {decoration_token} | *{decoration_name}* +
+Associates the object with a vendor-defined *{operand_name}*. See the vendor specification for more details.
+  | _Literal_ +
+      {operand_name}
+  2+| *{capability_name}*
+
+|====
+
+=== Capabilities
+
+Modify Section 3.2.30, "Capability", adding this row to the Capability table:
+
+--
+[cols="^.^2,16,15",options="header"]
+|====
+2+^.^| Capability | Implicitly Declares
+| {capability_token} | *{capability_name}* +
+Uses the *{decoration_name}* decoration.
+|
+|====
+--
+
+== Issues
+
+None yet.
+
+== Revision History
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2026-06-24|Matthew Moulton|Initial revision for publication
+|========================================
