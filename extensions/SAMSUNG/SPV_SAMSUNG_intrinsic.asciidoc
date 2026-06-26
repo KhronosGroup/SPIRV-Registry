@@ -61,16 +61,6 @@ OpExtension "SPV_SAMSUNG_intrinsic"
 
 == Modifications to the SPIR-V Specification, Version 1.6
 
-=== Validation Rules
-
-Modify Section 2.16.2, "Validation Rules for Shader Capabilities", adding to the conditions where the
-*{decoration_name}* decoration is valid:
-
---
-* The *{decoration_name}* decoration must not be applied multiple times to the same instruction with conflicting values
-of *{operand_name}*.
---
-
 === Decorations
 Modify Section 3.2.19, "Decoration", adding this row to the Decoration table:
 
