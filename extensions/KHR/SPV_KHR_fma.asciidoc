@@ -32,8 +32,8 @@ http://www.khronos.org/registry/speccopyright.html
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2024-05-09
-| Revision           | 1
+| Last Modified Date | 2026-06-29
+| Revision           | 2
 |========================================
 
 == Dependencies
@@ -87,7 +87,9 @@ Floating-point fused multiply add, (_Operand 1_ * _Operand 2_) + _Operand 3_. +
  +
  The types of _Operand 1_, _Operand 2_, and _Operand 3_ must be the same as _Result Type_.  +
  +
- Results are computed per component.
+ Results are computed per component. +
+ +
+The result may be decorated with *FPFastMathMode*.
 2+|<<Capability,Capability>>: +
 *FMAKHR*
 | 6 | 4427
@@ -124,4 +126,5 @@ this extension does not add these operations.
 |========================================
 |Rev|Date|Author|Changes
 |1|2024-05-09|Graeme Leese|Initial public release.
+|2|2026-06-29|Arseniy Obolenskiy|Clarify that OpFmaKHR results may be decorated with FPFastMathMode.
 |========================================
