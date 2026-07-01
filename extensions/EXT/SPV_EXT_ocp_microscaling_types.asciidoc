@@ -1,0 +1,256 @@
+SPV_EXT_ocp_microscaling_types
+==============================
+
+Name Strings
+------------
+
+SPV_EXT_ocp_microscaling_types
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Kevin Petit, Arm Ltd.
+- Vikram Tarikere, Imagination Technologies
+- Dmitry Sidorov, AMD
+- Jeff Bolz, NVIDIA
+- Alan Baker, Google
+
+Notice
+------
+
+Copyright (c) 2024-2026 The Khronos Group Inc.
+
+Status
+------
+
+- Approved by the SPIR-V Working Group: 2026-05-13
+- Approved by the Khronos Board of Promoters: 2026-06-26
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2026-05-08
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.6 Revision 5.
+
+This extension requires SPIR-V 1.0.
+
+This extension requires SPV_EXT_float8.
+
+Overview
+--------
+
+This extension extends the *OpTypeFloat* instruction to enable the use of the
+following data types described in the "OCP Microscaling Formats v1.0"
+specification:
+
+- FP4 E2M1
+- FP6 E3M2 and E2M3
+- FP8 E8M0
+- MXINT8
+
+It also adds a new *OpBitcastExtractEXT* instruction to facilitate the loading
+of values whose bit width is smaller than a byte.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_EXT_ocp_microscaling_types"
+----
+
+Modifications to the SPIR-V Specification, Version 1.6
+------------------------------------------------------
+
+Validation Rules
+~~~~~~~~~~~~~~~~
+
+Add the following bullets to section 2.16.11, "Universal Validation Rules":
+
+* Objects with a type that is or includes a floating-point type with one of the following FP Encoding:
+** *Float6E2M3EXT*
+** *Float6E3M2EXT*
+** *Float4E2M1EXT*
+** *Float8UnsignedE8M0EXT*
+** *MXInt8EXT*
+must only be used with the following instructions:
+** Constant Creation Instructions
+** Memory Instructions
+*** *Float8UnsignedE8M0EXT* and *MXInt8EXT* encodings can be used with all storage classes
+*** *Float4E2M1EXT*, *Float6E2M3EXT*, and *Float6E3M2EXT* encodings can only be used with the *Function* and *Private* storage classes
+** Function Instructions
+** Conversion Instructions
+** Composite Instructions
+** Annotation Instructions
+** Debug Instructions
+** Miscellaneous Instructions
+** Extension Instructions
+** Mode-Setting Instructions
+** *OpSelect*
+** *OpPhi*
+** *OpReturnValue*
+** *OpLifetimeStart*
+** *OpLifetimeStop*
+
+FP Encoding
+~~~~~~~~~~~
+
+Modify Section 3.55, adding these rows to the table of alternative floating
+point encodings:
+
+[cols="1,3,1,1",options="header",width = "100%"]
+|===
+2+^.^| FP Encoding | Width(s) | Enabling Capabilities
+
+| 4223 | *Float6E2M3EXT* +
+The floating point type is encoded as an FP6 E2M3 type, as specified in the
+"OCP Microscaling Formats v1.0" specification. | 6 | *Float6EXT*
+| 4224 | *Float6E3M2EXT* +
+The floating point type is encoded as an FP6 E3M2 type, as specified in the
+"OCP Microscaling Formats v1.0" specification. | 6 | *Float6EXT*
+| 4225 | *Float4E2M1EXT* +
+The floating point type is encoded as an FP4 E2M1 type, as specified in the
+"OCP Microscaling Formats v1.0" specification. | 4 | *Float4EXT*
+| 4226 | *Float8UnsignedE8M0EXT* +
+The floating point type is encoded as an unsigned FP8 E8M0 type, as specified in the
+"OCP Microscaling Formats v1.0" specification. | 8 | *Float8UnsignedE8M0EXT*
+| 4227 | *MXInt8EXT* +
+The floating point type is encoded as an MXINT8 type, as specified in the
+"OCP Microscaling Formats v1.0" specification. | 8 | *MXInt8EXT*
+|===
+
+The "OCP Microscaling Formats v1.0" specification can be found at
+https://www.opencompute.org/documents/ocp-microscaling-formats-mx-v1-0-spec-final-pdf
+
+Capability
+~~~~~~~~~~
+
+Modify Section 3.31, "Capability", adding these rows to the Capability table:
+
+--
+[options="header"]
+|====
+2+^| Capability ^| Implicitly Declares
+| 4228 | *Float6EXT* +
+Uses *OpTypeFloat* to specify types with the *Float6E2M3EXT* or *Float6E3M2EXT* FP Encoding and values of this type with a few instructions.
+|
+| 4229 | *Float4EXT* +
+Uses *OpTypeFloat* to specify types with the *Float4E2M1EXT* FP Encoding and values of this type with a few instructions.
+|
+| 4230 | *Float8UnsignedE8M0EXT* +
+Uses *OpTypeFloat* to specify types with the *Float8UnsignedE8M0EXT* FP Encoding and values of this type with a few instructions.
+|
+| 4231 | *MXInt8EXT* +
+Uses *OpTypeFloat* to specify types with the *MXInt8EXT* FP Encoding and values of this type with a few instructions.
+|
+| 4232 | *BitcastExtractEXT* +
+Uses *OpBicastExtractEXT* instruction.
+|
+|====
+--
+
+Instructions
+~~~~~~~~~~~~
+
+Modify section 3.56.11 "Conversion Instruction", adding the following instruction:
+
+[cols="6", width="100%"]
+|====
+4+|[[OpBitcastExtractEXT]]*OpBitcastExtractEXT* +
+
+Extract a bit field from an object and perform a bit pattern-preserving type
+conversion. +
+ +
+The bits of 'Base' numbered in
+['Offset', 'Offset' + Bitwidth(ComponentsOf('Result Type')) - 1]
+(inclusive) become the bits of the result. Results are computed per component. +
+ +
+'Result Type' must be a scalar or vector of numerical type with the same
+number of components as 'Base'. +
+ +
+'Base' must be a scalar or vector of numerical type whose components must have
+a bit width greater than that of 'Result Type'. +
+ +
+'Offset' must be a scalar integer type. 'Offset' is the lowest-order bit of the
+bit field to extract from 'Base'. It is consumed as an unsigned value. +
+ +
+The resulting value is undefined if 'Offset' or the sum of 'Offset' and the bit
+width of 'Result Type' is greater than the number of bits in 'Base'. +
+ +
+2+| Capability: +
+*BitcastExtractEXT*
+
+| 5 | 4195 | _<id>_ +
+_Result Type_ | _Result <id>_ | _<id>_ +
+Base | _<id>_ +
+Offset
+|====
+
+
+Issues
+------
+
+1) Should this extension add support for *OpDot*, likely enabled by a separate
+capability?
+--
+*RESOLVED*: No. *OpDot* currently only supports operations for which the
+input and output data types are the same and those are not typically useful
+with types that can only represent a very small set of values. Adding
+support for mixed-precision dot product operations _could_ be done but
+none of the vendors participating in the creation of this extension currently
+think they could accelerate these operations that can otherwise be expressed
+with existing dot product operations on existing floating point types and
+the conversion operations introduced in this extension.
+--
+
+2) What conversions do we want to support? Some conversions between these new types
+do not seem useful. We decided to allow conversions between FP8 encodings
+in SPV_EXT_float8.
+--
+*RESOLVED*: This specification does not constrain the conversions that are
+allowed but client API specifications may (and we expect Vulkan will).
+--
+
+3) Does this extension provide any mechanism to calculate scaled values?
+--
+*RESOLVED*: No, not directly, but it provides the necessary support to express code
+that does it.
+--
+
+4) Should this extension add support for cooperative matrix operations?
+--
+*RESOLVED*: No. While there is consensus that this would be valuable
+functionality, there is also consensus that there are multiple approaches
+that could be followed, and that fully resolving these discussions would
+unduly defer the release of this extension. It was decided to defer such support
+to a future extension.
+--
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2026-05-08|Kévin Petit|Initial revision
+|========================================
