@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 2.0.18">
+<meta name="generator" content="Asciidoctor 2.0.26">
 <title>TOSA extended instruction set 001000.1</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -116,7 +116,6 @@ h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title str
 :not(pre):not([class^=L])>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background:#f7f7f8;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed}
 pre{color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;line-height:1.45;text-rendering:optimizeSpeed}
 pre code,pre pre{color:inherit;font-size:inherit;line-height:inherit}
-pre>code{display:block}
 pre.nowrap,pre.nowrap pre{white-space:pre;word-wrap:normal}
 em em{font-style:normal}
 strong strong{font-weight:400}
@@ -140,7 +139,7 @@ p a>code:hover{color:rgba(0,0,0,.9)}
 #content::before{content:none}
 #header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
 #header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #dddddf}
-#header>h1:only-child,body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
+#header>h1:only-child{border-bottom:1px solid #dddddf;padding-bottom:8px}
 #header .details{border-bottom:1px solid #dddddf;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:flex;flex-flow:row wrap}
 #header .details span:first-child{margin-left:-.125em}
 #header .details span.email a{color:rgba(0,0,0,.85)}
@@ -162,6 +161,7 @@ p a>code:hover{color:rgba(0,0,0,.9)}
 #toctitle{color:#7a2518;font-size:1.2em}
 @media screen and (min-width:768px){#toctitle{font-size:1.375em}
 body.toc2{padding-left:15em;padding-right:0}
+body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
 #toc.toc2{margin-top:0!important;background:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #e7e7e9;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
 #toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
 #toc.toc2>ul{font-size:.9em;margin-bottom:0}
@@ -208,19 +208,17 @@ table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
 .admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #dddddf;color:rgba(0,0,0,.6);word-wrap:anywhere}
 .admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
 .exampleblock>.content{border:1px solid #e6e6e6;margin-bottom:1.25em;padding:1.25em;background:#fff;border-radius:4px}
-.exampleblock>.content>:first-child{margin-top:0}
-.exampleblock>.content>:last-child{margin-bottom:0}
 .sidebarblock{border:1px solid #dbdbd6;margin-bottom:1.25em;padding:1.25em;background:#f3f3f2;border-radius:4px}
-.sidebarblock>:first-child{margin-top:0}
-.sidebarblock>:last-child{margin-bottom:0}
 .sidebarblock>.content>.title{color:#7a2518;margin-top:0;text-align:center}
-.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
+.exampleblock>.content>:first-child,.sidebarblock>.content>:first-child{margin-top:0}
+.exampleblock>.content>:last-child,.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
 .literalblock pre,.listingblock>.content>pre{border-radius:4px;overflow-x:auto;padding:1em;font-size:.8125em}
 @media screen and (min-width:768px){.literalblock pre,.listingblock>.content>pre{font-size:.90625em}}
 @media screen and (min-width:1280px){.literalblock pre,.listingblock>.content>pre{font-size:1em}}
 .literalblock pre,.listingblock>.content>pre:not(.highlight),.listingblock>.content>pre[class=highlight],.listingblock>.content>pre[class^="highlight "]{background:#f7f7f8}
 .literalblock.output pre{color:#f7f7f8;background:rgba(0,0,0,.9)}
 .listingblock>.content{position:relative}
+.listingblock pre>code{display:block}
 .listingblock code[data-lang]::before{display:none;content:attr(data-lang);position:absolute;font-size:.75em;top:.425rem;right:.5rem;line-height:1;text-transform:uppercase;color:inherit;opacity:.5}
 .listingblock:hover code[data-lang]::before{display:block}
 .listingblock.terminal pre .command::before{content:attr(data-prompt);padding-right:.5em;color:inherit;opacity:.5}
@@ -330,7 +328,7 @@ a.image{text-decoration:none;display:inline-block}
 a.image object{pointer-events:none}
 sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
 sup.footnote a,sup.footnoteref a{text-decoration:none}
-sup.footnote a:active,sup.footnoteref a:active{text-decoration:underline}
+sup.footnote a:active,sup.footnoteref a:active,#footnotes .footnote a:first-of-type:active{text-decoration:underline}
 #footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
 #footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em;border-width:1px 0 0}
 #footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;margin-bottom:.2em}
@@ -393,7 +391,7 @@ b.conum *{color:inherit!important}
 dt,th.tableblock,td.content,div.footnote{text-rendering:optimizeLegibility}
 h1,h2,p,td.content,span.alt,summary{letter-spacing:-.01em}
 p strong,td.content strong,div.footnote strong{letter-spacing:-.005em}
-p,blockquote,dt,td.content,span.alt,summary{font-size:1.0625rem}
+p,blockquote,dt,td.content,td.hdlist1,span.alt,summary{font-size:1.0625rem}
 p{margin-bottom:1.25rem}
 .sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
 .exampleblock>.content{background:#fffef7;border-color:#e0e0dc;box-shadow:0 1px 4px #e0e0dc}
@@ -1028,7 +1026,7 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>OpTypeTensor %etype [rank] [shape]</code></pre>
+<pre class="highlight"><code>OpTypeTensorARM %etype 1 [1]</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1038,7 +1036,7 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>OpTypeTensor %etype [rank] [shape]</code></pre>
+<pre class="highlight"><code>OpTypeTensorARM %etype 1 [1]</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1088,19 +1086,19 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 %bfloat16 = OpTypeFloat 16 BFloat16KHR
 %float32 = OpTypeFloat 32
 %ts_int8_r4 = OpTypeTensorARM %int8 4
-%ts_int8_s1 = OpTypeTensor %int8 [rank] [shape]
+%ts_int8_s1 = OpTypeTensorARM %int8 1 [1]
 %ts_int16_r4 = OpTypeTensorARM %int16 4
-%ts_int16_s1 = OpTypeTensor %int16 [rank] [shape]
+%ts_int16_s1 = OpTypeTensorARM %int16 1 [1]
 %ts_fp8e4m3_r4 = OpTypeTensorARM %fp8e4m3 4
-%ts_fp8e4m3_s1 = OpTypeTensor %fp8e4m3 [rank] [shape]
+%ts_fp8e4m3_s1 = OpTypeTensorARM %fp8e4m3 1 [1]
 %ts_fp8e5m2_r4 = OpTypeTensorARM %fp8e5m2 4
-%ts_fp8e5m2_s1 = OpTypeTensor %fp8e5m2 [rank] [shape]
+%ts_fp8e5m2_s1 = OpTypeTensorARM %fp8e5m2 1 [1]
 %ts_float16_r4 = OpTypeTensorARM %float16 4
-%ts_float16_s1 = OpTypeTensor %float16 [rank] [shape]
+%ts_float16_s1 = OpTypeTensorARM %float16 1 [1]
 %ts_bfloat16_r4 = OpTypeTensorARM %bfloat16 4
-%ts_bfloat16_s1 = OpTypeTensor %bfloat16 [rank] [shape]
+%ts_bfloat16_s1 = OpTypeTensorARM %bfloat16 1 [1]
 %ts_float32_r4 = OpTypeTensorARM %float32 4
-%ts_float32_s1 = OpTypeTensor %float32 [rank] [shape]</code></pre>
+%ts_float32_s1 = OpTypeTensorARM %float32 1 [1]</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -1115,9 +1113,9 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Enabling profile/extension</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">input</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">input_zp</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">output_zp</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">input_zp, output_zp</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">output</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">acc_type</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT</p></td>
@@ -1128,10 +1126,10 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <p><code>%ts_int8_s1</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int8_s1</code></p>
+<p><code>%ts_int8_r4</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int8_r4</code></p>
+<p><a href="#enum-acc_type_t">INT32</a></p>
 </div></div></td>
 </tr>
 <tr>
@@ -1143,10 +1141,10 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <p><code>%ts_int16_s1</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int16_s1</code></p>
+<p><code>%ts_int16_r4</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int16_r4</code></p>
+<p><a href="#enum-acc_type_t">INT32</a></p>
 </div></div></td>
 </tr>
 <tr>
@@ -1158,10 +1156,10 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <p><code>%ts_fp8e4m3_s1</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_fp8e4m3_s1</code></p>
+<p><code>%ts_fp8e4m3_r4</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_fp8e4m3_r4</code></p>
+<p><a href="#enum-acc_type_t">FP16</a></p>
 </div></div></td>
 </tr>
 <tr>
@@ -1173,25 +1171,10 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <p><code>%ts_fp8e5m2_s1</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_fp8e5m2_s1</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_fp8e5m2_r4</code></p>
 </div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PRO-FP</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float16_r4</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float16_s1</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float16_s1</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float16_r4</code></p>
+<p><a href="#enum-acc_type_t">FP16</a></p>
 </div></div></td>
 </tr>
 <tr>
@@ -1203,10 +1186,25 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <p><code>%ts_float16_s1</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>%ts_float16_r4</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a href="#enum-acc_type_t">FP16</a></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PRO-FP</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>%ts_float16_r4</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float16_s1</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float16_r4</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a href="#enum-acc_type_t">FP32</a></p>
 </div></div></td>
 </tr>
 <tr>
@@ -1218,10 +1216,10 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <p><code>%ts_bfloat16_s1</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bfloat16_s1</code></p>
+<p><code>%ts_bfloat16_r4</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bfloat16_r4</code></p>
+<p><a href="#enum-acc_type_t">FP32</a></p>
 </div></div></td>
 </tr>
 <tr>
@@ -1233,10 +1231,10 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <p><code>%ts_float32_s1</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float32_s1</code></p>
+<p><code>%ts_float32_r4</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float32_r4</code></p>
+<p><a href="#enum-acc_type_t">FP32</a></p>
 </div></div></td>
 </tr>
 </tbody>
@@ -1364,7 +1362,7 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>OpTypeTensor %etype [rank] [shape]</code></pre>
+<pre class="highlight"><code>OpTypeTensorARM %etype 1 [1]</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1374,7 +1372,7 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>OpTypeTensor %etype [rank] [shape]</code></pre>
+<pre class="highlight"><code>OpTypeTensorARM %etype 1 [1]</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1433,36 +1431,37 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 %float32 = OpTypeFloat 32
 %ts_int8_r4 = OpTypeTensorARM %int8 4
 %ts_int32_r1 = OpTypeTensorARM %int32 1
-%ts_int8_s1 = OpTypeTensor %int8 [rank] [shape]
+%ts_int8_s1 = OpTypeTensorARM %int8 1 [1]
 %ts_int32_r4 = OpTypeTensorARM %int32 4
 %ts_int16_r4 = OpTypeTensorARM %int16 4
 %ts_int64_r1 = OpTypeTensorARM %int64 1
-%ts_int16_s1 = OpTypeTensor %int16 [rank] [shape]
+%ts_int16_s1 = OpTypeTensorARM %int16 1 [1]
 %ts_int64_r4 = OpTypeTensorARM %int64 4
 %ts_fp8e4m3_r4 = OpTypeTensorARM %fp8e4m3 4
 %ts_float16_r1 = OpTypeTensorARM %float16 1
-%ts_fp8e4m3_s1 = OpTypeTensor %fp8e4m3 [rank] [shape]
+%ts_fp8e4m3_s1 = OpTypeTensorARM %fp8e4m3 1 [1]
 %ts_float16_r4 = OpTypeTensorARM %float16 4
 %ts_fp8e5m2_r4 = OpTypeTensorARM %fp8e5m2 4
-%ts_fp8e5m2_s1 = OpTypeTensor %fp8e5m2 [rank] [shape]
-%ts_float16_s1 = OpTypeTensor %float16 [rank] [shape]
+%ts_fp8e5m2_s1 = OpTypeTensorARM %fp8e5m2 1 [1]
+%ts_float16_s1 = OpTypeTensorARM %float16 1 [1]
 %ts_bfloat16_r4 = OpTypeTensorARM %bfloat16 4
 %ts_bfloat16_r1 = OpTypeTensorARM %bfloat16 1
-%ts_bfloat16_s1 = OpTypeTensor %bfloat16 [rank] [shape]
+%ts_bfloat16_s1 = OpTypeTensorARM %bfloat16 1 [1]
 %ts_float32_r4 = OpTypeTensorARM %float32 4
 %ts_float32_r1 = OpTypeTensorARM %float32 1
-%ts_float32_s1 = OpTypeTensor %float32 [rank] [shape]</code></pre>
+%ts_float32_s1 = OpTypeTensorARM %float32 1 [1]</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 14.2857%;">
-<col style="width: 14.2857%;">
-<col style="width: 14.2857%;">
-<col style="width: 14.2857%;">
-<col style="width: 14.2857%;">
-<col style="width: 14.2857%;">
-<col style="width: 14.2858%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
 </colgroup>
 <tbody>
 <tr>
@@ -1473,6 +1472,7 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">input_zp</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">weight_zp</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">output</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">acc_type</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT</p></td>
@@ -1493,6 +1493,9 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_int32_r4</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a href="#enum-acc_type_t">INT32</a></p>
 </div></div></td>
 </tr>
 <tr>
@@ -1515,6 +1518,9 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_int64_r4</code></p>
 </div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a href="#enum-acc_type_t">INT48</a></p>
+</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">EXT-FP8E4M3</p></td>
@@ -1535,6 +1541,9 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float16_r4</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a href="#enum-acc_type_t">FP16</a></p>
 </div></div></td>
 </tr>
 <tr>
@@ -1557,26 +1566,8 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float16_r4</code></p>
 </div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PRO-FP</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float16_r4</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float16_r4</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float16_r1</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float16_s1</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float16_s1</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float16_r4</code></p>
+<p><a href="#enum-acc_type_t">FP16</a></p>
 </div></div></td>
 </tr>
 <tr>
@@ -1598,6 +1589,33 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float16_r4</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a href="#enum-acc_type_t">FP16</a></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PRO-FP</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>%ts_float16_r4</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>%ts_float16_r4</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>%ts_float16_r1</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>%ts_float16_s1</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>%ts_float16_s1</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>%ts_float16_r4</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a href="#enum-acc_type_t">FP32</a></p>
 </div></div></td>
 </tr>
 <tr>
@@ -1620,6 +1638,9 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_bfloat16_r4</code></p>
 </div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a href="#enum-acc_type_t">FP32</a></p>
+</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-FP</p></td>
@@ -1640,6 +1661,9 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float32_r4</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a href="#enum-acc_type_t">FP32</a></p>
 </div></div></td>
 </tr>
 </tbody>
@@ -1767,7 +1791,7 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>OpTypeTensor %etype [rank] [shape]</code></pre>
+<pre class="highlight"><code>OpTypeTensorARM %etype 1 [1]</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1777,7 +1801,7 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>OpTypeTensor %etype [rank] [shape]</code></pre>
+<pre class="highlight"><code>OpTypeTensorARM %etype 1 [1]</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1836,36 +1860,37 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 %float32 = OpTypeFloat 32
 %ts_int8_r5 = OpTypeTensorARM %int8 5
 %ts_int32_r1 = OpTypeTensorARM %int32 1
-%ts_int8_s1 = OpTypeTensor %int8 [rank] [shape]
+%ts_int8_s1 = OpTypeTensorARM %int8 1 [1]
 %ts_int32_r5 = OpTypeTensorARM %int32 5
 %ts_int16_r5 = OpTypeTensorARM %int16 5
 %ts_int64_r1 = OpTypeTensorARM %int64 1
-%ts_int16_s1 = OpTypeTensor %int16 [rank] [shape]
+%ts_int16_s1 = OpTypeTensorARM %int16 1 [1]
 %ts_int64_r5 = OpTypeTensorARM %int64 5
 %ts_fp8e4m3_r5 = OpTypeTensorARM %fp8e4m3 5
 %ts_float16_r1 = OpTypeTensorARM %float16 1
-%ts_fp8e4m3_s1 = OpTypeTensor %fp8e4m3 [rank] [shape]
+%ts_fp8e4m3_s1 = OpTypeTensorARM %fp8e4m3 1 [1]
 %ts_float16_r5 = OpTypeTensorARM %float16 5
 %ts_fp8e5m2_r5 = OpTypeTensorARM %fp8e5m2 5
-%ts_fp8e5m2_s1 = OpTypeTensor %fp8e5m2 [rank] [shape]
-%ts_float16_s1 = OpTypeTensor %float16 [rank] [shape]
+%ts_fp8e5m2_s1 = OpTypeTensorARM %fp8e5m2 1 [1]
+%ts_float16_s1 = OpTypeTensorARM %float16 1 [1]
 %ts_bfloat16_r5 = OpTypeTensorARM %bfloat16 5
 %ts_bfloat16_r1 = OpTypeTensorARM %bfloat16 1
-%ts_bfloat16_s1 = OpTypeTensor %bfloat16 [rank] [shape]
+%ts_bfloat16_s1 = OpTypeTensorARM %bfloat16 1 [1]
 %ts_float32_r5 = OpTypeTensorARM %float32 5
 %ts_float32_r1 = OpTypeTensorARM %float32 1
-%ts_float32_s1 = OpTypeTensor %float32 [rank] [shape]</code></pre>
+%ts_float32_s1 = OpTypeTensorARM %float32 1 [1]</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 14.2857%;">
-<col style="width: 14.2857%;">
-<col style="width: 14.2857%;">
-<col style="width: 14.2857%;">
-<col style="width: 14.2857%;">
-<col style="width: 14.2857%;">
-<col style="width: 14.2858%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
 </colgroup>
 <tbody>
 <tr>
@@ -1876,6 +1901,7 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">input_zp</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">weight_zp</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">output</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">acc_type</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT</p></td>
@@ -1896,6 +1922,9 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_int32_r5</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a href="#enum-acc_type_t">INT32</a></p>
 </div></div></td>
 </tr>
 <tr>
@@ -1918,6 +1947,9 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_int64_r5</code></p>
 </div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a href="#enum-acc_type_t">INT48</a></p>
+</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">EXT-FP8E4M3</p></td>
@@ -1938,6 +1970,9 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float16_r5</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a href="#enum-acc_type_t">FP16</a></p>
 </div></div></td>
 </tr>
 <tr>
@@ -1960,26 +1995,8 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float16_r5</code></p>
 </div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PRO-FP</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float16_r5</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float16_r5</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float16_r1</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float16_s1</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float16_s1</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float16_r5</code></p>
+<p><a href="#enum-acc_type_t">FP16</a></p>
 </div></div></td>
 </tr>
 <tr>
@@ -2001,6 +2018,33 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float16_r5</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a href="#enum-acc_type_t">FP16</a></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PRO-FP</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>%ts_float16_r5</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>%ts_float16_r5</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>%ts_float16_r1</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>%ts_float16_s1</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>%ts_float16_s1</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>%ts_float16_r5</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a href="#enum-acc_type_t">FP32</a></p>
 </div></div></td>
 </tr>
 <tr>
@@ -2023,6 +2067,9 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_bfloat16_r5</code></p>
 </div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a href="#enum-acc_type_t">FP32</a></p>
+</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-FP</p></td>
@@ -2043,6 +2090,9 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float32_r5</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a href="#enum-acc_type_t">FP32</a></p>
 </div></div></td>
 </tr>
 </tbody>
@@ -2170,7 +2220,7 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>OpTypeTensor %etype [rank] [shape]</code></pre>
+<pre class="highlight"><code>OpTypeTensorARM %etype 1 [1]</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2180,7 +2230,7 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>OpTypeTensor %etype [rank] [shape]</code></pre>
+<pre class="highlight"><code>OpTypeTensorARM %etype 1 [1]</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2239,39 +2289,40 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 %float32 = OpTypeFloat 32
 %ts_int8_r4 = OpTypeTensorARM %int8 4
 %ts_int32_r1 = OpTypeTensorARM %int32 1
-%ts_int8_s1 = OpTypeTensor %int8 [rank] [shape]
+%ts_int8_s1 = OpTypeTensorARM %int8 1 [1]
 %ts_int32_r[rank] = OpTypeTensorARM %int32 [rank]
 %ts_int16_r4 = OpTypeTensorARM %int16 4
 %ts_int64_r1 = OpTypeTensorARM %int64 1
-%ts_int16_s1 = OpTypeTensor %int16 [rank] [shape]
+%ts_int16_s1 = OpTypeTensorARM %int16 1 [1]
 %ts_int64_r[rank] = OpTypeTensorARM %int64 [rank]
 %ts_fp8e4m3_r4 = OpTypeTensorARM %fp8e4m3 4
 %ts_float16_r1 = OpTypeTensorARM %float16 1
-%ts_fp8e4m3_s1 = OpTypeTensor %fp8e4m3 [rank] [shape]
+%ts_fp8e4m3_s1 = OpTypeTensorARM %fp8e4m3 1 [1]
 %ts_float16_r[rank] = OpTypeTensorARM %float16 [rank]
 %ts_fp8e5m2_r4 = OpTypeTensorARM %fp8e5m2 4
-%ts_fp8e5m2_s1 = OpTypeTensor %fp8e5m2 [rank] [shape]
+%ts_fp8e5m2_s1 = OpTypeTensorARM %fp8e5m2 1 [1]
 %ts_float16_r4 = OpTypeTensorARM %float16 4
-%ts_float16_s1 = OpTypeTensor %float16 [rank] [shape]
+%ts_float16_s1 = OpTypeTensorARM %float16 1 [1]
 %ts_bfloat16_r4 = OpTypeTensorARM %bfloat16 4
 %ts_bfloat16_r1 = OpTypeTensorARM %bfloat16 1
-%ts_bfloat16_s1 = OpTypeTensor %bfloat16 [rank] [shape]
+%ts_bfloat16_s1 = OpTypeTensorARM %bfloat16 1 [1]
 %ts_bfloat16_r[rank] = OpTypeTensorARM %bfloat16 [rank]
 %ts_float32_r4 = OpTypeTensorARM %float32 4
 %ts_float32_r1 = OpTypeTensorARM %float32 1
-%ts_float32_s1 = OpTypeTensor %float32 [rank] [shape]
+%ts_float32_s1 = OpTypeTensorARM %float32 1 [1]
 %ts_float32_r[rank] = OpTypeTensorARM %float32 [rank]</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 14.2857%;">
-<col style="width: 14.2857%;">
-<col style="width: 14.2857%;">
-<col style="width: 14.2857%;">
-<col style="width: 14.2857%;">
-<col style="width: 14.2857%;">
-<col style="width: 14.2858%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
 </colgroup>
 <tbody>
 <tr>
@@ -2282,6 +2333,7 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">input_zp</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">weight_zp</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">output</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">acc_type</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT</p></td>
@@ -2302,6 +2354,9 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_int32_r[rank]</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a href="#enum-acc_type_t">INT32</a></p>
 </div></div></td>
 </tr>
 <tr>
@@ -2324,6 +2379,9 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_int64_r[rank]</code></p>
 </div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a href="#enum-acc_type_t">INT48</a></p>
+</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">EXT-FP8E4M3</p></td>
@@ -2344,6 +2402,9 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float16_r[rank]</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a href="#enum-acc_type_t">FP16</a></p>
 </div></div></td>
 </tr>
 <tr>
@@ -2366,26 +2427,8 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float16_r[rank]</code></p>
 </div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PRO-FP</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float16_r4</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float16_r4</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float16_r1</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float16_s1</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float16_s1</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float16_r[rank]</code></p>
+<p><a href="#enum-acc_type_t">FP16</a></p>
 </div></div></td>
 </tr>
 <tr>
@@ -2407,6 +2450,33 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float16_r[rank]</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a href="#enum-acc_type_t">FP16</a></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PRO-FP</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>%ts_float16_r4</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>%ts_float16_r4</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>%ts_float16_r1</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>%ts_float16_s1</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>%ts_float16_s1</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>%ts_float16_r[rank]</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a href="#enum-acc_type_t">FP32</a></p>
 </div></div></td>
 </tr>
 <tr>
@@ -2429,6 +2499,9 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_bfloat16_r[rank]</code></p>
 </div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a href="#enum-acc_type_t">FP32</a></p>
+</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-FP</p></td>
@@ -2449,6 +2522,9 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float32_r[rank]</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a href="#enum-acc_type_t">FP32</a></p>
 </div></div></td>
 </tr>
 </tbody>
@@ -2555,31 +2631,16 @@ OpTypeStruct %tensor_[element_type]_r3 %tensor_[element_type]_r3</code></pre>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
+<col style="width: 50%;">
+<col style="width: 50%;">
 </colgroup>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Enabling profile/extension</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">input_real</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">input_imag</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">output_real</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">output_imag</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">input_real, input_imag, output_real, output_imag</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">EXT-FFT</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float32_r3</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float32_r3</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float32_r3</code></p>
-</div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float32_r3</code></p>
 </div></div></td>
@@ -2633,7 +2694,7 @@ OpTypeStruct %tensor_[element_type]_r3 %tensor_[element_type]_r3</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>OpTypeTensor %etype [rank] [shape]</code></pre>
+<pre class="highlight"><code>OpTypeTensorARM %etype 1 [1]</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2643,7 +2704,7 @@ OpTypeStruct %tensor_[element_type]_r3 %tensor_[element_type]_r3</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>OpTypeTensor %etype [rank] [shape]</code></pre>
+<pre class="highlight"><code>OpTypeTensorARM %etype 1 [1]</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2689,39 +2750,37 @@ OpTypeStruct %tensor_[element_type]_r3 %tensor_[element_type]_r3</code></pre>
 %float32 = OpTypeFloat 32
 %bfloat16 = OpTypeFloat 16 BFloat16KHR
 %ts_int8_r3 = OpTypeTensorARM %int8 3
-%ts_int8_s1 = OpTypeTensor %int8 [rank] [shape]
+%ts_int8_s1 = OpTypeTensorARM %int8 1 [1]
 %ts_int32_r3 = OpTypeTensorARM %int32 3
 %ts_int16_r3 = OpTypeTensorARM %int16 3
-%ts_int16_s1 = OpTypeTensor %int16 [rank] [shape]
+%ts_int16_s1 = OpTypeTensorARM %int16 1 [1]
 %ts_int64_r3 = OpTypeTensorARM %int64 3
 %ts_fp8e4m3_r3 = OpTypeTensorARM %fp8e4m3 3
-%ts_fp8e4m3_s1 = OpTypeTensor %fp8e4m3 [rank] [shape]
+%ts_fp8e4m3_s1 = OpTypeTensorARM %fp8e4m3 1 [1]
 %ts_float16_r3 = OpTypeTensorARM %float16 3
 %ts_fp8e5m2_r3 = OpTypeTensorARM %fp8e5m2 3
-%ts_fp8e5m2_s1 = OpTypeTensor %fp8e5m2 [rank] [shape]
-%ts_float16_s1 = OpTypeTensor %float16 [rank] [shape]
+%ts_fp8e5m2_s1 = OpTypeTensorARM %fp8e5m2 1 [1]
+%ts_float16_s1 = OpTypeTensorARM %float16 1 [1]
 %ts_float32_r3 = OpTypeTensorARM %float32 3
 %ts_bfloat16_r3 = OpTypeTensorARM %bfloat16 3
-%ts_bfloat16_s1 = OpTypeTensor %bfloat16 [rank] [shape]
-%ts_float32_s1 = OpTypeTensor %float32 [rank] [shape]</code></pre>
+%ts_bfloat16_s1 = OpTypeTensorARM %bfloat16 1 [1]
+%ts_float32_s1 = OpTypeTensorARM %float32 1 [1]</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.667%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
 </colgroup>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Enabling profile/extension</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">B</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A_zp</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">B_zp</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A_zp, B_zp</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">output</p></td>
 </tr>
 <tr>
@@ -2731,9 +2790,6 @@ OpTypeStruct %tensor_[element_type]_r3 %tensor_[element_type]_r3</code></pre>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_int8_r3</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int8_s1</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_int8_s1</code></p>
@@ -2754,9 +2810,6 @@ OpTypeStruct %tensor_[element_type]_r3 %tensor_[element_type]_r3</code></pre>
 <p><code>%ts_int16_s1</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int16_s1</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_int64_r3</code></p>
 </div></div></td>
 </tr>
@@ -2767,9 +2820,6 @@ OpTypeStruct %tensor_[element_type]_r3 %tensor_[element_type]_r3</code></pre>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_fp8e4m3_r3</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_fp8e4m3_s1</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_fp8e4m3_s1</code></p>
@@ -2790,9 +2840,6 @@ OpTypeStruct %tensor_[element_type]_r3 %tensor_[element_type]_r3</code></pre>
 <p><code>%ts_fp8e5m2_s1</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_fp8e5m2_s1</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float16_r3</code></p>
 </div></div></td>
 </tr>
@@ -2808,9 +2855,6 @@ OpTypeStruct %tensor_[element_type]_r3 %tensor_[element_type]_r3</code></pre>
 <p><code>%ts_float16_s1</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float16_s1</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float16_r3</code></p>
 </div></div></td>
 </tr>
@@ -2821,9 +2865,6 @@ OpTypeStruct %tensor_[element_type]_r3 %tensor_[element_type]_r3</code></pre>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float16_r3</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float16_s1</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float16_s1</code></p>
@@ -2844,9 +2885,6 @@ OpTypeStruct %tensor_[element_type]_r3 %tensor_[element_type]_r3</code></pre>
 <p><code>%ts_bfloat16_s1</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bfloat16_s1</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float32_r3</code></p>
 </div></div></td>
 </tr>
@@ -2857,9 +2895,6 @@ OpTypeStruct %tensor_[element_type]_r3 %tensor_[element_type]_r3</code></pre>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float32_r3</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float32_s1</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float32_s1</code></p>
@@ -3156,25 +3191,20 @@ OpTypeStruct %tensor_[element_type]_r[rank] %tensor_[element_type]_r[rank]</code
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
 </colgroup>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Enabling profile/extension</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">input_real</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">output_real</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">output_imag</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">output_real, output_imag</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">EXT-FFT</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float32_r3</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float32_r[rank]</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float32_r[rank]</code></p>
@@ -3292,7 +3322,7 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>OpTypeTensor %etype [rank] [shape]</code></pre>
+<pre class="highlight"><code>OpTypeTensorARM %etype 1 [1]</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3302,7 +3332,7 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>OpTypeTensor %etype [rank] [shape]</code></pre>
+<pre class="highlight"><code>OpTypeTensorARM %etype 1 [1]</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3359,36 +3389,37 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 %float32 = OpTypeFloat 32
 %ts_int8_r4 = OpTypeTensorARM %int8 4
 %ts_int32_r1 = OpTypeTensorARM %int32 1
-%ts_int8_s1 = OpTypeTensor %int8 [rank] [shape]
+%ts_int8_s1 = OpTypeTensorARM %int8 1 [1]
 %ts_int32_r4 = OpTypeTensorARM %int32 4
 %ts_int16_r4 = OpTypeTensorARM %int16 4
 %ts_int64_r1 = OpTypeTensorARM %int64 1
-%ts_int16_s1 = OpTypeTensor %int16 [rank] [shape]
+%ts_int16_s1 = OpTypeTensorARM %int16 1 [1]
 %ts_int64_r4 = OpTypeTensorARM %int64 4
 %ts_fp8e4m3_r4 = OpTypeTensorARM %fp8e4m3 4
 %ts_float16_r1 = OpTypeTensorARM %float16 1
-%ts_fp8e4m3_s1 = OpTypeTensor %fp8e4m3 [rank] [shape]
+%ts_fp8e4m3_s1 = OpTypeTensorARM %fp8e4m3 1 [1]
 %ts_float16_r4 = OpTypeTensorARM %float16 4
 %ts_fp8e5m2_r4 = OpTypeTensorARM %fp8e5m2 4
-%ts_fp8e5m2_s1 = OpTypeTensor %fp8e5m2 [rank] [shape]
-%ts_float16_s1 = OpTypeTensor %float16 [rank] [shape]
+%ts_fp8e5m2_s1 = OpTypeTensorARM %fp8e5m2 1 [1]
+%ts_float16_s1 = OpTypeTensorARM %float16 1 [1]
 %ts_bfloat16_r4 = OpTypeTensorARM %bfloat16 4
 %ts_bfloat16_r1 = OpTypeTensorARM %bfloat16 1
-%ts_bfloat16_s1 = OpTypeTensor %bfloat16 [rank] [shape]
+%ts_bfloat16_s1 = OpTypeTensorARM %bfloat16 1 [1]
 %ts_float32_r4 = OpTypeTensorARM %float32 4
 %ts_float32_r1 = OpTypeTensorARM %float32 1
-%ts_float32_s1 = OpTypeTensor %float32 [rank] [shape]</code></pre>
+%ts_float32_s1 = OpTypeTensorARM %float32 1 [1]</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 14.2857%;">
-<col style="width: 14.2857%;">
-<col style="width: 14.2857%;">
-<col style="width: 14.2857%;">
-<col style="width: 14.2857%;">
-<col style="width: 14.2857%;">
-<col style="width: 14.2858%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
 </colgroup>
 <tbody>
 <tr>
@@ -3399,6 +3430,7 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">input_zp</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">weight_zp</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">output</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">acc_type</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT</p></td>
@@ -3419,6 +3451,9 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_int32_r4</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a href="#enum-acc_type_t">INT32</a></p>
 </div></div></td>
 </tr>
 <tr>
@@ -3441,6 +3476,9 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_int64_r4</code></p>
 </div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a href="#enum-acc_type_t">INT48</a></p>
+</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">EXT-FP8E4M3</p></td>
@@ -3461,6 +3499,9 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float16_r4</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a href="#enum-acc_type_t">FP16</a></p>
 </div></div></td>
 </tr>
 <tr>
@@ -3483,26 +3524,8 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float16_r4</code></p>
 </div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PRO-FP</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float16_r4</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float16_r4</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float16_r1</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float16_s1</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float16_s1</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float16_r4</code></p>
+<p><a href="#enum-acc_type_t">FP16</a></p>
 </div></div></td>
 </tr>
 <tr>
@@ -3524,6 +3547,33 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float16_r4</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a href="#enum-acc_type_t">FP16</a></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PRO-FP</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>%ts_float16_r4</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>%ts_float16_r4</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>%ts_float16_r1</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>%ts_float16_s1</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>%ts_float16_s1</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>%ts_float16_r4</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a href="#enum-acc_type_t">FP32</a></p>
 </div></div></td>
 </tr>
 <tr>
@@ -3546,6 +3596,9 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_bfloat16_r4</code></p>
 </div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a href="#enum-acc_type_t">FP32</a></p>
+</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-FP</p></td>
@@ -3566,6 +3619,9 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float32_r4</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a href="#enum-acc_type_t">FP32</a></p>
 </div></div></td>
 </tr>
 </tbody>
@@ -3688,8 +3744,8 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Enabling profile/extension</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">input</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">output</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">input, output</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">min_val, max_val</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT</p></td>
@@ -3697,7 +3753,7 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <p><code>%ts_int8_r[rank]</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int8_r[rank]</code></p>
+<p><code>%int8</code></p>
 </div></div></td>
 </tr>
 <tr>
@@ -3706,7 +3762,7 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <p><code>%ts_int16_r[rank]</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int16_r[rank]</code></p>
+<p><code>%int16</code></p>
 </div></div></td>
 </tr>
 <tr>
@@ -3715,7 +3771,7 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <p><code>%ts_float16_r[rank]</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float16_r[rank]</code></p>
+<p><code>%float16</code></p>
 </div></div></td>
 </tr>
 <tr>
@@ -3724,7 +3780,7 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <p><code>%ts_bfloat16_r[rank]</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bfloat16_r[rank]</code></p>
+<p><code>%bfloat16</code></p>
 </div></div></td>
 </tr>
 <tr>
@@ -3733,7 +3789,7 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <p><code>%ts_float32_r[rank]</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float32_r[rank]</code></p>
+<p><code>%float32</code></p>
 </div></div></td>
 </tr>
 </tbody>
@@ -3802,21 +3858,16 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
+<col style="width: 50%;">
+<col style="width: 50%;">
 </colgroup>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Enabling profile/extension</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">input</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">output</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">input, output</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float16_r[rank]</code></p>
-</div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float16_r[rank]</code></p>
 </div></div></td>
@@ -3826,15 +3877,9 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_bfloat16_r[rank]</code></p>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bfloat16_r[rank]</code></p>
-</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float32_r[rank]</code></p>
-</div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float32_r[rank]</code></p>
 </div></div></td>
@@ -3905,21 +3950,16 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
+<col style="width: 50%;">
+<col style="width: 50%;">
 </colgroup>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Enabling profile/extension</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">input</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">output</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">input, output</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float16_r[rank]</code></p>
-</div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float16_r[rank]</code></p>
 </div></div></td>
@@ -3929,15 +3969,9 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_bfloat16_r[rank]</code></p>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bfloat16_r[rank]</code></p>
-</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float32_r[rank]</code></p>
-</div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float32_r[rank]</code></p>
 </div></div></td>
@@ -4008,21 +4042,16 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
+<col style="width: 50%;">
+<col style="width: 50%;">
 </colgroup>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Enabling profile/extension</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">input</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">output</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">input, output</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float16_r[rank]</code></p>
-</div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float16_r[rank]</code></p>
 </div></div></td>
@@ -4032,15 +4061,9 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_bfloat16_r[rank]</code></p>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bfloat16_r[rank]</code></p>
-</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float32_r[rank]</code></p>
-</div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float32_r[rank]</code></p>
 </div></div></td>
@@ -4140,18 +4163,6 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">input1</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">input2</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">output</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT, PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int32_r[rank]</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int32_r[rank]</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int32_r[rank]</code></p>
-</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT, PRO-FP</p></td>
@@ -4820,18 +4831,6 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <p><code>%ts_int32_r[rank]</code></p>
 </div></div></td>
 </tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT, PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int32_r[rank]</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int32_r[rank]</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int32_r[rank]</code></p>
-</div></div></td>
-</tr>
 </tbody>
 </table>
 </div>
@@ -4918,18 +4917,6 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">input1</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">input2</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">output</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT, PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bool_r[rank]</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bool_r[rank]</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bool_r[rank]</code></p>
-</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT, PRO-FP</p></td>
@@ -5049,18 +5036,6 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT, PRO-FP</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int8_r[rank]</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int8_r[rank]</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int8_r[rank]</code></p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT, PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_int16_r[rank]</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
@@ -5068,30 +5043,6 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_int16_r[rank]</code></p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT, PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int16_r[rank]</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int16_r[rank]</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int16_r[rank]</code></p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT, PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int32_r[rank]</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int32_r[rank]</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int32_r[rank]</code></p>
 </div></div></td>
 </tr>
 <tr>
@@ -5212,18 +5163,6 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT, PRO-FP</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int8_r[rank]</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int8_r[rank]</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int8_r[rank]</code></p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT, PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_int16_r[rank]</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
@@ -5231,30 +5170,6 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_int16_r[rank]</code></p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT, PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int16_r[rank]</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int16_r[rank]</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int16_r[rank]</code></p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT, PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int32_r[rank]</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int32_r[rank]</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int32_r[rank]</code></p>
 </div></div></td>
 </tr>
 <tr>
@@ -5368,18 +5283,6 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <p><code>%ts_bool_r[rank]</code></p>
 </div></div></td>
 </tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT, PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bool_r[rank]</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bool_r[rank]</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bool_r[rank]</code></p>
-</div></div></td>
-</tr>
 </tbody>
 </table>
 </div>
@@ -5466,18 +5369,6 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">input1</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">input2</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">output</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT, PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bool_r[rank]</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bool_r[rank]</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bool_r[rank]</code></p>
-</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT, PRO-FP</p></td>
@@ -5954,18 +5845,6 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT, PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int32_r[rank]</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int32_r[rank]</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int32_r[rank]</code></p>
-</div></div></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-FP</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float16_r[rank]</code></p>
@@ -6234,18 +6113,6 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT, PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int32_r[rank]</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int32_r[rank]</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int32_r[rank]</code></p>
-</div></div></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-FP</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float16_r[rank]</code></p>
@@ -6318,7 +6185,7 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>OpTypeTensorARM %etype 1</code></pre>
+<pre class="highlight"><code>OpTypeTensorARM %etype 1 [TABLE_SIZE]</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -6354,18 +6221,19 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 %int16 = OpTypeInt 16 0
 %int32 = OpTypeInt 32 0
 %ts_int8_r[rank] = OpTypeTensorARM %int8 [rank]
-%ts_int8_r1 = OpTypeTensorARM %int8 1
+%ts_int8_sTABLE_SIZE = OpTypeTensorARM %int8 1 [TABLE_SIZE]
 %ts_int16_r[rank] = OpTypeTensorARM %int16 [rank]
-%ts_int16_r1 = OpTypeTensorARM %int16 1
+%ts_int16_sTABLE_SIZE = OpTypeTensorARM %int16 1 [TABLE_SIZE]
 %ts_int32_r[rank] = OpTypeTensorARM %int32 [rank]</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
 </colgroup>
 <tbody>
 <tr>
@@ -6373,6 +6241,7 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">input1</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">table</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">output</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TABLE_SIZE</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT</p></td>
@@ -6380,10 +6249,13 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <p><code>%ts_int8_r[rank]</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int8_r1</code></p>
+<p><code>%ts_int8_sTABLE_SIZE</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_int8_r[rank]</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>256</p>
 </div></div></td>
 </tr>
 <tr>
@@ -6392,10 +6264,13 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <p><code>%ts_int16_r[rank]</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int16_r1</code></p>
+<p><code>%ts_int16_sTABLE_SIZE</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_int32_r[rank]</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>513</p>
 </div></div></td>
 </tr>
 </tbody>
@@ -6469,30 +6344,22 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
+<col style="width: 50%;">
+<col style="width: 50%;">
 </colgroup>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Enabling profile/extension</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">input1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">output</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">input1, output</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_int32_r[rank]</code></p>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int32_r[rank]</code></p>
-</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float16_r[rank]</code></p>
-</div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float16_r[rank]</code></p>
 </div></div></td>
@@ -6502,15 +6369,9 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_bfloat16_r[rank]</code></p>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bfloat16_r[rank]</code></p>
-</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float32_r[rank]</code></p>
-</div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float32_r[rank]</code></p>
 </div></div></td>
@@ -6581,21 +6442,16 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
+<col style="width: 50%;">
+<col style="width: 50%;">
 </colgroup>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Enabling profile/extension</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">input1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">output</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">input1, output</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int8_r[rank]</code></p>
-</div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_int8_r[rank]</code></p>
 </div></div></td>
@@ -6605,15 +6461,9 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_int16_r[rank]</code></p>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int16_r[rank]</code></p>
-</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int32_r[rank]</code></p>
-</div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_int32_r[rank]</code></p>
 </div></div></td>
@@ -6684,21 +6534,16 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
+<col style="width: 50%;">
+<col style="width: 50%;">
 </colgroup>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Enabling profile/extension</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">input1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">output</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">input1, output</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float16_r[rank]</code></p>
-</div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float16_r[rank]</code></p>
 </div></div></td>
@@ -6708,15 +6553,9 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_bfloat16_r[rank]</code></p>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bfloat16_r[rank]</code></p>
-</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float32_r[rank]</code></p>
-</div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float32_r[rank]</code></p>
 </div></div></td>
@@ -6783,21 +6622,16 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
+<col style="width: 50%;">
+<col style="width: 50%;">
 </colgroup>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Enabling profile/extension</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">input1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">output</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">input1, output</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int32_r[rank]</code></p>
-</div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_int32_r[rank]</code></p>
 </div></div></td>
@@ -6868,21 +6702,16 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
+<col style="width: 50%;">
+<col style="width: 50%;">
 </colgroup>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Enabling profile/extension</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">input1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">output</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">input1, output</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float16_r[rank]</code></p>
-</div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float16_r[rank]</code></p>
 </div></div></td>
@@ -6892,15 +6721,9 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_bfloat16_r[rank]</code></p>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bfloat16_r[rank]</code></p>
-</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float32_r[rank]</code></p>
-</div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float32_r[rank]</code></p>
 </div></div></td>
@@ -6971,21 +6794,16 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
+<col style="width: 50%;">
+<col style="width: 50%;">
 </colgroup>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Enabling profile/extension</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">input1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">output</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">input1, output</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float16_r[rank]</code></p>
-</div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float16_r[rank]</code></p>
 </div></div></td>
@@ -6995,15 +6813,9 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_bfloat16_r[rank]</code></p>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bfloat16_r[rank]</code></p>
-</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float32_r[rank]</code></p>
-</div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float32_r[rank]</code></p>
 </div></div></td>
@@ -7074,21 +6886,16 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
+<col style="width: 50%;">
+<col style="width: 50%;">
 </colgroup>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Enabling profile/extension</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">input1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">output</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">input1, output</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float16_r[rank]</code></p>
-</div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float16_r[rank]</code></p>
 </div></div></td>
@@ -7098,15 +6905,9 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_bfloat16_r[rank]</code></p>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bfloat16_r[rank]</code></p>
-</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float32_r[rank]</code></p>
-</div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float32_r[rank]</code></p>
 </div></div></td>
@@ -7177,21 +6978,16 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
+<col style="width: 50%;">
+<col style="width: 50%;">
 </colgroup>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Enabling profile/extension</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">input1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">output</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">input1, output</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float16_r[rank]</code></p>
-</div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float16_r[rank]</code></p>
 </div></div></td>
@@ -7201,15 +6997,9 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_bfloat16_r[rank]</code></p>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bfloat16_r[rank]</code></p>
-</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float32_r[rank]</code></p>
-</div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float32_r[rank]</code></p>
 </div></div></td>
@@ -7276,30 +7066,16 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
+<col style="width: 50%;">
+<col style="width: 50%;">
 </colgroup>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Enabling profile/extension</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">input1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">output</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">input1, output</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT, PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bool_r[rank]</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bool_r[rank]</code></p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT, PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bool_r[rank]</code></p>
-</div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_bool_r[rank]</code></p>
 </div></div></td>
@@ -7342,7 +7118,7 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>OpTypeTensor %etype [rank] [shape]</code></pre>
+<pre class="highlight"><code>OpTypeTensorARM %etype 1 [1]</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -7352,7 +7128,7 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>OpTypeTensor %etype [rank] [shape]</code></pre>
+<pre class="highlight"><code>OpTypeTensorARM %etype 1 [1]</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -7393,34 +7169,30 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 %bfloat16 = OpTypeFloat 16 BFloat16KHR
 %float32 = OpTypeFloat 32
 %ts_int8_r[rank] = OpTypeTensorARM %int8 [rank]
-%ts_int8_s1 = OpTypeTensor %int8 [rank] [shape]
+%ts_int8_s1 = OpTypeTensorARM %int8 1 [1]
 %ts_int16_r[rank] = OpTypeTensorARM %int16 [rank]
-%ts_int16_s1 = OpTypeTensor %int16 [rank] [shape]
+%ts_int16_s1 = OpTypeTensorARM %int16 1 [1]
 %ts_int32_r[rank] = OpTypeTensorARM %int32 [rank]
-%ts_int32_s1 = OpTypeTensor %int32 [rank] [shape]
+%ts_int32_s1 = OpTypeTensorARM %int32 1 [1]
 %ts_float16_r[rank] = OpTypeTensorARM %float16 [rank]
-%ts_float16_s1 = OpTypeTensor %float16 [rank] [shape]
+%ts_float16_s1 = OpTypeTensorARM %float16 1 [1]
 %ts_bfloat16_r[rank] = OpTypeTensorARM %bfloat16 [rank]
-%ts_bfloat16_s1 = OpTypeTensor %bfloat16 [rank] [shape]
+%ts_bfloat16_s1 = OpTypeTensorARM %bfloat16 1 [1]
 %ts_float32_r[rank] = OpTypeTensorARM %float32 [rank]
-%ts_float32_s1 = OpTypeTensor %float32 [rank] [shape]</code></pre>
+%ts_float32_s1 = OpTypeTensorARM %float32 1 [1]</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
 </colgroup>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Enabling profile/extension</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">input1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">input1_zp</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">output_zp</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">output</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">input1, output</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">input1_zp, output_zp</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT</p></td>
@@ -7429,12 +7201,6 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_int8_s1</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int8_s1</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int8_r[rank]</code></p>
 </div></div></td>
 </tr>
 <tr>
@@ -7445,12 +7211,6 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_int16_s1</code></p>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int16_s1</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int16_r[rank]</code></p>
-</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT</p></td>
@@ -7459,12 +7219,6 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_int32_s1</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int32_s1</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int32_r[rank]</code></p>
 </div></div></td>
 </tr>
 <tr>
@@ -7474,12 +7228,6 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float16_s1</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float16_s1</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float16_r[rank]</code></p>
 </div></div></td>
 </tr>
 <tr>
@@ -7490,12 +7238,6 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_bfloat16_s1</code></p>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bfloat16_s1</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bfloat16_r[rank]</code></p>
-</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-FP</p></td>
@@ -7504,12 +7246,6 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float32_s1</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float32_s1</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float32_r[rank]</code></p>
 </div></div></td>
 </tr>
 </tbody>
@@ -7578,21 +7314,16 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
+<col style="width: 50%;">
+<col style="width: 50%;">
 </colgroup>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Enabling profile/extension</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">input1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">output</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">input1, output</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float16_r[rank]</code></p>
-</div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float16_r[rank]</code></p>
 </div></div></td>
@@ -7602,15 +7333,9 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_bfloat16_r[rank]</code></p>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bfloat16_r[rank]</code></p>
-</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float32_r[rank]</code></p>
-</div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float32_r[rank]</code></p>
 </div></div></td>
@@ -7681,21 +7406,16 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
+<col style="width: 50%;">
+<col style="width: 50%;">
 </colgroup>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Enabling profile/extension</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">input1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">output</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">input1, output</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float16_r[rank]</code></p>
-</div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float16_r[rank]</code></p>
 </div></div></td>
@@ -7705,15 +7425,9 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_bfloat16_r[rank]</code></p>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bfloat16_r[rank]</code></p>
-</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float32_r[rank]</code></p>
-</div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float32_r[rank]</code></p>
 </div></div></td>
@@ -7784,21 +7498,16 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
+<col style="width: 50%;">
+<col style="width: 50%;">
 </colgroup>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Enabling profile/extension</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">input1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">output</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">input1, output</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float16_r[rank]</code></p>
-</div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float16_r[rank]</code></p>
 </div></div></td>
@@ -7808,15 +7517,9 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_bfloat16_r[rank]</code></p>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bfloat16_r[rank]</code></p>
-</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float32_r[rank]</code></p>
-</div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float32_r[rank]</code></p>
 </div></div></td>
@@ -7936,18 +7639,6 @@ OpTypeTensorARM %etype [rank]</code></pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">input2</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">input3</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">output</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT, PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bool_r[rank]</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bool_r[rank]</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bool_r[rank]</code></p>
-</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT, PRO-FP</p></td>
@@ -8561,15 +8252,6 @@ OpTypeTensorARM %etype [rank]</code></pre>
 <p><code>%ts_bool_r[rank]</code></p>
 </div></div></td>
 </tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT, PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bool_r[rank]</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bool_r[rank]</code></p>
-</div></div></td>
-</tr>
 </tbody>
 </table>
 </div>
@@ -8653,15 +8335,6 @@ OpTypeTensorARM %etype [rank]</code></pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Enabling profile/extension</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">input</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">output</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT, PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bool_r[rank]</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bool_r[rank]</code></p>
-</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT, PRO-FP</p></td>
@@ -9334,14 +9007,12 @@ OpTypeTensorARM %etype [rank]</code></pre>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
+<col style="width: 50%;">
+<col style="width: 50%;">
 </colgroup>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Enabling profile/extension</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">input1</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">output</p></td>
 </tr>
 <tr>
@@ -9349,24 +9020,9 @@ OpTypeTensorARM %etype [rank]</code></pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_bool_r[rank]</code></p>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bool_r[rank]</code></p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT, PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bool_r[rank]</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bool_r[rank]</code></p>
-</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int8_r[rank]</code></p>
-</div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_int8_r[rank]</code></p>
 </div></div></td>
@@ -9376,15 +9032,9 @@ OpTypeTensorARM %etype [rank]</code></pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_int16_r[rank]</code></p>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int16_r[rank]</code></p>
-</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int32_r[rank]</code></p>
-</div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_int32_r[rank]</code></p>
 </div></div></td>
@@ -9394,24 +9044,15 @@ OpTypeTensorARM %etype [rank]</code></pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_fp8e4m3_r[rank]</code></p>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_fp8e4m3_r[rank]</code></p>
-</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">EXT-FP8E5M2</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_fp8e5m2_r[rank]</code></p>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_fp8e5m2_r[rank]</code></p>
-</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float16_r[rank]</code></p>
-</div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float16_r[rank]</code></p>
 </div></div></td>
@@ -9421,15 +9062,9 @@ OpTypeTensorARM %etype [rank]</code></pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_bfloat16_r[rank]</code></p>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bfloat16_r[rank]</code></p>
-</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float32_r[rank]</code></p>
-</div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float32_r[rank]</code></p>
 </div></div></td>
@@ -9485,7 +9120,7 @@ OpTypeTensorARM %uint %uint_1 %uint_array_rank(padding)</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>OpTypeTensor %etype [rank] [shape]</code></pre>
+<pre class="highlight"><code>OpTypeTensorARM %etype 1 [1]</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -9529,23 +9164,23 @@ OpTypeTensorARM %uint %uint_1 %uint_array_rank(padding)</code></pre>
 %bfloat16 = OpTypeFloat 16 BFloat16KHR
 %float32 = OpTypeFloat 32
 %ts_bool_r[rank] = OpTypeTensorARM %bool [rank]
-%ts_bool_s1 = OpTypeTensor %bool [rank] [shape]
+%ts_bool_s1 = OpTypeTensorARM %bool 1 [1]
 %ts_int8_r[rank] = OpTypeTensorARM %int8 [rank]
-%ts_int8_s1 = OpTypeTensor %int8 [rank] [shape]
+%ts_int8_s1 = OpTypeTensorARM %int8 1 [1]
 %ts_int16_r[rank] = OpTypeTensorARM %int16 [rank]
-%ts_int16_s1 = OpTypeTensor %int16 [rank] [shape]
+%ts_int16_s1 = OpTypeTensorARM %int16 1 [1]
 %ts_int32_r[rank] = OpTypeTensorARM %int32 [rank]
-%ts_int32_s1 = OpTypeTensor %int32 [rank] [shape]
+%ts_int32_s1 = OpTypeTensorARM %int32 1 [1]
 %ts_fp8e4m3_r[rank] = OpTypeTensorARM %fp8e4m3 [rank]
-%ts_fp8e4m3_s1 = OpTypeTensor %fp8e4m3 [rank] [shape]
+%ts_fp8e4m3_s1 = OpTypeTensorARM %fp8e4m3 1 [1]
 %ts_fp8e5m2_r[rank] = OpTypeTensorARM %fp8e5m2 [rank]
-%ts_fp8e5m2_s1 = OpTypeTensor %fp8e5m2 [rank] [shape]
+%ts_fp8e5m2_s1 = OpTypeTensorARM %fp8e5m2 1 [1]
 %ts_float16_r[rank] = OpTypeTensorARM %float16 [rank]
-%ts_float16_s1 = OpTypeTensor %float16 [rank] [shape]
+%ts_float16_s1 = OpTypeTensorARM %float16 1 [1]
 %ts_bfloat16_r[rank] = OpTypeTensorARM %bfloat16 [rank]
-%ts_bfloat16_s1 = OpTypeTensor %bfloat16 [rank] [shape]
+%ts_bfloat16_s1 = OpTypeTensorARM %bfloat16 1 [1]
 %ts_float32_r[rank] = OpTypeTensorARM %float32 [rank]
-%ts_float32_s1 = OpTypeTensor %float32 [rank] [shape]</code></pre>
+%ts_float32_s1 = OpTypeTensorARM %float32 1 [1]</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -9561,18 +9196,6 @@ OpTypeTensorARM %uint %uint_1 %uint_array_rank(padding)</code></pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">input1</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">pad_const</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">output</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT, PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bool_r[rank]</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bool_s1</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bool_r[rank]</code></p>
-</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT, PRO-FP</p></td>
@@ -9794,15 +9417,6 @@ OpTypeTensorARM %uint %uint_1 %uint_array_rank(shape)</code></pre>
 </div></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT, PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bool_r[rank]</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bool_r[rank]</code></p>
-</div></div></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_int8_r[rank]</code></p>
@@ -9964,30 +9578,16 @@ OpTypeTensorARM %uint %uint_1 %uint_array_rank(shape)</code></pre>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
+<col style="width: 50%;">
+<col style="width: 50%;">
 </colgroup>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Enabling profile/extension</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">input1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">output</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">input1, output</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT, PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bool_r[rank]</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bool_r[rank]</code></p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT, PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bool_r[rank]</code></p>
-</div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_bool_r[rank]</code></p>
 </div></div></td>
@@ -9997,24 +9597,15 @@ OpTypeTensorARM %uint %uint_1 %uint_array_rank(shape)</code></pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_int8_r[rank]</code></p>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int8_r[rank]</code></p>
-</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_int16_r[rank]</code></p>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int16_r[rank]</code></p>
-</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int32_r[rank]</code></p>
-</div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_int32_r[rank]</code></p>
 </div></div></td>
@@ -10024,24 +9615,15 @@ OpTypeTensorARM %uint %uint_1 %uint_array_rank(shape)</code></pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_fp8e4m3_r[rank]</code></p>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_fp8e4m3_r[rank]</code></p>
-</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">EXT-FP8E5M2</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_fp8e5m2_r[rank]</code></p>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_fp8e5m2_r[rank]</code></p>
-</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float16_r[rank]</code></p>
-</div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float16_r[rank]</code></p>
 </div></div></td>
@@ -10051,15 +9633,9 @@ OpTypeTensorARM %uint %uint_1 %uint_array_rank(shape)</code></pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_bfloat16_r[rank]</code></p>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bfloat16_r[rank]</code></p>
-</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float32_r[rank]</code></p>
-</div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float32_r[rank]</code></p>
 </div></div></td>
@@ -10180,15 +9756,6 @@ OpTypeTensorARM %uint %uint_1 %uint_array_rank(size)</code></pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Enabling profile/extension</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">input1</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">output</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT, PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bool_r[rank]</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bool_r[rank]</code></p>
-</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT, PRO-FP</p></td>
@@ -10372,15 +9939,6 @@ OpTypeTensorARM %uint %uint_1 %uint_array_rank(multiples)</code></pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Enabling profile/extension</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">input1</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">output</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT, PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bool_r[rank]</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bool_r[rank]</code></p>
-</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT, PRO-FP</p></td>
@@ -10576,15 +10134,6 @@ OpTypeTensorARM %etype %uint_1 %shape</code></pre>
 </div></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT, PRO-FP</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bool_r[rank]</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bool_r[rank]</code></p>
-</div></div></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_int8_r[rank]</code></p>
@@ -10749,20 +10298,28 @@ OpTypeTensorARM %etype 2</code></pre>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
 </colgroup>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Enabling profile/extension</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">values</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">indices</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">output</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_int8_r3</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>%etype = OpTypeInt 32 0
+OpTypeTensorARM %etype 2</code></pre>
+</div>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_int8_r3</code></p>
@@ -10772,6 +10329,12 @@ OpTypeTensorARM %etype 2</code></pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_int16_r3</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>%etype = OpTypeInt 32 0
+OpTypeTensorARM %etype 2</code></pre>
+</div>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_int16_r3</code></p>
@@ -10781,6 +10344,12 @@ OpTypeTensorARM %etype 2</code></pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_int32_r3</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>%etype = OpTypeInt 32 0
+OpTypeTensorARM %etype 2</code></pre>
+</div>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_int32_r3</code></p>
@@ -10791,6 +10360,12 @@ OpTypeTensorARM %etype 2</code></pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_fp8e4m3_r3</code></p>
 </div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>%etype = OpTypeInt 32 0
+OpTypeTensorARM %etype 2</code></pre>
+</div>
+</div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_fp8e4m3_r3</code></p>
 </div></div></td>
@@ -10800,6 +10375,12 @@ OpTypeTensorARM %etype 2</code></pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_fp8e5m2_r3</code></p>
 </div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>%etype = OpTypeInt 32 0
+OpTypeTensorARM %etype 2</code></pre>
+</div>
+</div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_fp8e5m2_r3</code></p>
 </div></div></td>
@@ -10808,6 +10389,12 @@ OpTypeTensorARM %etype 2</code></pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-FP</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float16_r3</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>%etype = OpTypeInt 32 0
+OpTypeTensorARM %etype 2</code></pre>
+</div>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float16_r3</code></p>
@@ -10818,6 +10405,12 @@ OpTypeTensorARM %etype 2</code></pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_bfloat16_r3</code></p>
 </div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>%etype = OpTypeInt 32 0
+OpTypeTensorARM %etype 2</code></pre>
+</div>
+</div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_bfloat16_r3</code></p>
 </div></div></td>
@@ -10826,6 +10419,12 @@ OpTypeTensorARM %etype 2</code></pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-FP</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float32_r3</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>%etype = OpTypeInt 32 0
+OpTypeTensorARM %etype 2</code></pre>
+</div>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float32_r3</code></p>
@@ -10942,17 +10541,20 @@ OpTypeTensorARM %etype 2</code></pre>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Enabling profile/extension</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">values_in</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">values_in, values_out</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">indices</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">input</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">values_out</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRO-INT</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_int8_r3</code></p>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int8_r3</code></p>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>%etype = OpTypeInt 32 0
+OpTypeTensorARM %etype 2</code></pre>
+</div>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_int8_r3</code></p>
@@ -10963,8 +10565,11 @@ OpTypeTensorARM %etype 2</code></pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_int16_r3</code></p>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int16_r3</code></p>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>%etype = OpTypeInt 32 0
+OpTypeTensorARM %etype 2</code></pre>
+</div>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_int16_r3</code></p>
@@ -10975,8 +10580,11 @@ OpTypeTensorARM %etype 2</code></pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_int32_r3</code></p>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_int32_r3</code></p>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>%etype = OpTypeInt 32 0
+OpTypeTensorARM %etype 2</code></pre>
+</div>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_int32_r3</code></p>
@@ -10987,8 +10595,11 @@ OpTypeTensorARM %etype 2</code></pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_fp8e4m3_r3</code></p>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_fp8e4m3_r3</code></p>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>%etype = OpTypeInt 32 0
+OpTypeTensorARM %etype 2</code></pre>
+</div>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_fp8e4m3_r3</code></p>
@@ -10999,8 +10610,11 @@ OpTypeTensorARM %etype 2</code></pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_fp8e5m2_r3</code></p>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_fp8e5m2_r3</code></p>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>%etype = OpTypeInt 32 0
+OpTypeTensorARM %etype 2</code></pre>
+</div>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_fp8e5m2_r3</code></p>
@@ -11011,8 +10625,11 @@ OpTypeTensorARM %etype 2</code></pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float16_r3</code></p>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float16_r3</code></p>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>%etype = OpTypeInt 32 0
+OpTypeTensorARM %etype 2</code></pre>
+</div>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float16_r3</code></p>
@@ -11023,8 +10640,11 @@ OpTypeTensorARM %etype 2</code></pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_bfloat16_r3</code></p>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_bfloat16_r3</code></p>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>%etype = OpTypeInt 32 0
+OpTypeTensorARM %etype 2</code></pre>
+</div>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_bfloat16_r3</code></p>
@@ -11035,8 +10655,11 @@ OpTypeTensorARM %etype 2</code></pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float32_r3</code></p>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>%ts_float32_r3</code></p>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>%etype = OpTypeInt 32 0
+OpTypeTensorARM %etype 2</code></pre>
+</div>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%ts_float32_r3</code></p>
@@ -11869,7 +11492,7 @@ OpTypeTensorARM %etype 1</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>OpTypeTensor %etype [rank] [shape]</code></pre>
+<pre class="highlight"><code>OpTypeTensorARM %etype 1 [1]</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -11879,7 +11502,7 @@ OpTypeTensorARM %etype 1</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>OpTypeTensor %etype [rank] [shape]</code></pre>
+<pre class="highlight"><code>OpTypeTensorARM %etype 1 [1]</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -11932,13 +11555,13 @@ OpTypeTensorARM %etype 1</code></pre>
 %int32 = OpTypeInt 32 0
 %int64 = OpTypeInt 64 0
 %ts_int8_r[rank] = OpTypeTensorARM %int8 [rank]
-%ts_int8_s1 = OpTypeTensor %int8 [rank] [shape]
-%ts_int16_s1 = OpTypeTensor %int16 [rank] [shape]
+%ts_int8_s1 = OpTypeTensorARM %int8 1 [1]
+%ts_int16_s1 = OpTypeTensorARM %int16 1 [1]
 %ts_int16_r[rank] = OpTypeTensorARM %int16 [rank]
-%ts_int32_s1 = OpTypeTensor %int32 [rank] [shape]
+%ts_int32_s1 = OpTypeTensorARM %int32 1 [1]
 %ts_int32_r[rank] = OpTypeTensorARM %int32 [rank]
 %ts_int64_r[rank] = OpTypeTensorARM %int64 [rank]
-%ts_int64_s1 = OpTypeTensor %int64 [rank] [shape]</code></pre>
+%ts_int64_s1 = OpTypeTensorARM %int64 1 [1]</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -12303,6 +11926,31 @@ OpTypeTensorARM %etype 1</code></pre>
 <div class="sectionbody">
 <div class="ulist">
 <ul>
+<li>
+<p>Revision 2 - 2026-06-30 - Kevin Petit</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Remove duplicate entries in type support tables</p>
+</li>
+<li>
+<p>Show accumulator type constraints in type support tables</p>
+</li>
+<li>
+<p>Fix type support table for CLAMP (show min_val/max_val)</p>
+</li>
+<li>
+<p>Show TABLE_SIZE constraints in type support table for TABLE</p>
+</li>
+<li>
+<p>Show shape constraints in types</p>
+</li>
+<li>
+<p>Replace mentions of OpTypeTensor with OpTypeTensorARM</p>
+</li>
+</ul>
+</div>
+</li>
 <li>
 <p>Revision 1 - 2025-09-12 - Kevin Petit</p>
 <div class="ulist">
