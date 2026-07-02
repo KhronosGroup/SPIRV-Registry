@@ -87,9 +87,7 @@ Floating-point fused multiply add, (_Operand 1_ * _Operand 2_) + _Operand 3_. +
  +
  The types of _Operand 1_, _Operand 2_, and _Operand 3_ must be the same as _Result Type_.  +
  +
- Results are computed per component. +
- +
-The result may be decorated with *FPFastMathMode*.
+ Results are computed per component.
 2+|<<Capability,Capability>>: +
 *FMAKHR*
 | 6 | 4427
@@ -99,6 +97,11 @@ _Operand 1_ | _<id>_ +
 _Operand 2_ | _<id>_ +
 _Operand 3_
 |=====
+
+=== FP Fast Math Mode
+
+In section 3.15 "FP Fast Math Mode", following "Only valid on ...", add
+*OpFmaKHR*.
 
 
 == Deprecation
