@@ -91,6 +91,8 @@ Add the following bullets to section 2.16.11, "Universal Validation Rules":
 ** *Float4E2M1EXT*
 ** *Float8UnsignedE8M0EXT*
 ** *MXInt8EXT*
+
++
 must only be used with the following instructions:
 ** Constant Creation Instructions
 ** Memory Instructions
