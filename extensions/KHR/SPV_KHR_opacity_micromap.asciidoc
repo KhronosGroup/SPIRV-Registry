@@ -32,7 +32,7 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2026-06-12
+| Last Modified Date | 2026-07-07
 | Revision           | 4
 |========================================
 
@@ -144,16 +144,34 @@ it adds a new execution mode named OpacityMicromapIdKHR. There is a strong
 desire to keep the existing behaviors when a shader does not use the new execution
 mode.
 
-Specifically, declaring either OpExtension string without the OpacityMicromapIdKHR
-execution mode produces the same shader behavior. The behavior of a shader that
-declares SPV_EXT_opacity_micromap is identical to that of a shader that declares
-SPV_KHR_opacity_micromap without OpacityMicromapIdKHR. Declaring
-SPV_EXT_opacity_micromap alone does not imply that opacity micromaps are always
-present; whether opacity micromap data is consumed during ray traversal is
-gated by which Vulkan extension is enabled: with VK_EXT_opacity_micromap,
-opacity micromaps are always consumed when present in the acceleration
-structure; with VK_KHR_opacity_micromap, they are only consumed when the
-shader declares the OpacityMicromapIdKHR execution mode.
+Specifically:
+
+* Declaring either OpExtension string without the OpacityMicromapIdKHR
+  execution mode produces the same shader behavior. A shader that
+  declares SPV_EXT_opacity_micromap behaves identically to one that
+  declares SPV_KHR_opacity_micromap without OpacityMicromapIdKHR.
+
+* Declaring an OpExtension string in a shader does not, by itself,
+  determine whether opacity micromap data is used during ray traversal.
+  That is gated by which Vulkan opacity_micromap feature is enabled at
+  the API level:
+
+  ** With the VK_EXT_opacity_micromap `micromap` feature enabled,
+     opacity micromap data present in the acceleration structure is
+     always used during ray traversal.
+
+  ** With the VK_KHR_opacity_micromap `micromap` feature enabled,
+     opacity micromap data present in the acceleration structure is
+     used during ray traversal only when the shader declares the
+     OpacityMicromapIdKHR execution mode.
+
+* If a shader traces against an acceleration structure that contains
+  opacity micromap data with the VK_KHR_opacity_micromap `micromap`
+  feature enabled but without declaring the OpacityMicromapIdKHR
+  execution mode, the traversal result is undefined. This is not
+  equivalent to skipping opacity micromaps; applications must
+  explicitly opt in via the execution mode when they intend to use
+  opacity micromap data.
 
 
 Revision History
@@ -167,5 +185,5 @@ Revision History
 |1 |2025-04-09 |Eric Werness/Wooyoung Kim  | Initial revision
 |2 |2025-11-12 |Wooyoung Kim  | Add ExecutionMode OpacityMicromapIdKHR, Updated to SPIR-V 1.6.6
 |3 |2025-12-10 |Wooyoung Kim  | Allow "OpExtension SPV_EXT_opacity_micromap" to use the extension
-|4 |2026-06-12 |Daniel Koch    | Clarify SPV_EXT vs SPV_KHR behavior equivalence (#4842)
+|4 |2026-07-07 |Daniel Koch    | Clarify SPV_EXT vs SPV_KHR behavior equivalence (#4842)
 |========================================
