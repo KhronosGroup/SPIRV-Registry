@@ -32,8 +32,8 @@ http://www.khronos.org/registry/speccopyright.html
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2024-05-09
-| Revision           | 1
+| Last Modified Date | 2026-06-29
+| Revision           | 2
 |========================================
 
 == Dependencies
@@ -62,6 +62,11 @@ OpExtension "SPV_KHR_fma"
 ----
 
 == Modifications to the SPIR-V Specification, Version 1.6
+
+=== FP Fast Math Mode
+
+In section 3.15 "FP Fast Math Mode", following "Only valid on ...", add
+*OpFmaKHR*.
 
 === Capability
 
@@ -124,4 +129,5 @@ this extension does not add these operations.
 |========================================
 |Rev|Date|Author|Changes
 |1|2024-05-09|Graeme Leese|Initial public release.
+|2|2026-06-29|Arseniy Obolenskiy|Clarify that OpFmaKHR results may be decorated with FPFastMathMode.
 |========================================
