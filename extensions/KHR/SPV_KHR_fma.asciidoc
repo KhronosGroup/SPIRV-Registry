@@ -63,6 +63,11 @@ OpExtension "SPV_KHR_fma"
 
 == Modifications to the SPIR-V Specification, Version 1.6
 
+=== FP Fast Math Mode
+
+In section 3.15 "FP Fast Math Mode", following "Only valid on ...", add
+*OpFmaKHR*.
+
 === Capability
 
 In section 3.31 "Capability" add the following row to the capability table:
@@ -97,11 +102,6 @@ _Operand 1_ | _<id>_ +
 _Operand 2_ | _<id>_ +
 _Operand 3_
 |=====
-
-=== FP Fast Math Mode
-
-In section 3.15 "FP Fast Math Mode", following "Only valid on ...", add
-*OpFmaKHR*.
 
 
 == Deprecation
