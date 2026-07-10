@@ -311,6 +311,19 @@ _Sample_ must be an _integer type_ scalar. It specifies which sample to select a
 | 7 | 5126 | '<id>' 'Result Type' | 'Result <id>' | '<id>' 'Image Type' | '<id>' 'Image' | '<id>' 'Coordinate' | '<id>' 'Sample'
 |=====
 
+Change the following paragraph in *OpUntypedArrayLengthKHR* from:
+
+> The type of Pointer must be a pointer type. Pointer must have the same value as a descriptor. That is, the value must be the same as a variable decorated with DescriptorSet and Binding or an element in such a variable when the data type is an array of Block-decorated structures.
+
+to:
+
+> The type of Pointer must be a pointer type. Pointer must have the same value as a storage buffer descriptor. That is, the value must be one of:
+>
+>  * the same as the result of *OpBufferPointerEXT* in the StorageBuffer storage class
+>  * the same as a variable decorated with DescriptorSet, Binding, and Block in the StorageBuffer storage class
+>  * the same as an element of one of the above when the data type is an array of structures
+>  * the same as a variable in the PhysicalStorageBuffer storage class
+
 Modify Section 2.16.1, "Universal Validation Rules":
 
 Under:
