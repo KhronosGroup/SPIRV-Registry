@@ -153,25 +153,27 @@ Specifically:
 
 * Declaring an OpExtension string in a module does not, by itself,
   determine whether opacity micromap data is used during ray traversal.
-  That is gated by which Vulkan opacity_micromap feature is enabled at
-  the API level:
+  That is determined by which Vulkan opacity_micromap extension is
+  enabled at the API level:
 
-  ** With the VK_EXT_opacity_micromap `micromap` feature enabled,
-     opacity micromap data present in the acceleration structure is
-     always used during ray traversal.
+  ** With VK_EXT_opacity_micromap enabled, opacity micromap data
+     present in the acceleration structure is always used during ray
+     traversal.
 
   ** With the VK_KHR_opacity_micromap `micromap` feature enabled,
      opacity micromap data present in the acceleration structure is
      used during ray traversal only when the module declares the
-     OpacityMicromapIdKHR execution mode.
+     OpacityMicromapIdKHR execution mode with its
+     specialization-constant operand equal to VK_TRUE.
 
 * If ray traversal uses an acceleration structure that contains
   opacity micromap data with the VK_KHR_opacity_micromap `micromap`
   feature enabled but the module does not declare the
-  OpacityMicromapIdKHR execution mode, the traversal result is
-  undefined. This is not equivalent to skipping opacity micromaps;
-  applications must explicitly opt in via the execution mode when
-  they intend to use opacity micromap data.
+  OpacityMicromapIdKHR execution mode with its specialization-constant
+  operand equal to VK_TRUE, the traversal result is undefined. This is
+  not equivalent to skipping opacity micromaps; applications must
+  explicitly opt in via the execution mode when they intend to use
+  opacity micromap data.
 
 * Declaring the OpacityMicromapIdKHR execution mode requires the
   VK_KHR_opacity_micromap `micromap` feature to be enabled at the
