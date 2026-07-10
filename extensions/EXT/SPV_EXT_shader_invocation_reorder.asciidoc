@@ -35,14 +35,15 @@ Status
 
 - Approved by the SPIR-V Working Group: 2025-09-03
 - Ratified by the Khronos Board: 2025-10-17
+- Re-ratified by the Khronos Board: 2026-06-26
 
 Version
 -------
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2026-03-13
-| Revision           | 3
+| Last Modified Date | 2026-07-08
+| Revision           | 4
 |========================================
 
 Dependencies
@@ -1344,6 +1345,7 @@ Revision History
 |1 |2024-05-08 |Eric Werness         | Port to EXT
 |2 |2025-01-27 |Ashwin Lele          | Renumber enums
 |3 |2026-03-13 |Eric Werness         | Added Hit Kind to OpHitObjectRecordFromQueryEXT and clarified AABB hit-kind requirements
+|4 |2026-07-08 |Daniel Koch          | Recorded Khronos Board re-ratification
 |========================================
 
 
