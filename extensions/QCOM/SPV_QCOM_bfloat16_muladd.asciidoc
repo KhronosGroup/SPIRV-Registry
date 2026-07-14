@@ -1,0 +1,148 @@
+SPV_QCOM_bfloat16_muladd
+========================
+
+Name Strings
+------------
+
+SPV_QCOM_bfloat16_muladd
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Balaji Calidas, Qualcomm
+- Wooyoung Kim, Qualcomm
+
+Notice
+------
+
+Copyright (c) 2024 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+Status
+------
+
+- Final
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2025-12-31
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.6 Revision 6.
+
+This extension requires SPV_KHR_bfloat16.
+
+Overview
+--------
+
+This extension adds a new instruction that multiplies two bfloat16 values
+and adds the product to a 32-bit float-point value.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_QCOM_bfloat16_muladd"
+----
+
+New Capabilities
+----------------
+
+This extension introduces a new capability:
+
+----
+BFloat16MulAddQCOM
+----
+
+New Instruction
+---------------
+
+The extension adds a new instruction.
+
+----
+OpBFloat16MulAddQCOM
+----
+
+
+Modifications to the SPIR-V Specification, Version 1.6
+------------------------------------------------------
+
+Capability
+~~~~~~~~~~
+
+Modify Section 3.2.30, "Capability", adding the following row to the Capability table:
+
+--
+[options="header"]
+|====
+2+^| Capability ^| Implicitly declares
+| 4504 | *BFloat16MulAddQCOM* +
+Add the QCOM BFloat16 MulAdd instruction support. |
+|====
+--
+
+Instruction
+~~~~~~~~~~~
+
+Modify Section 3.3.13  "Arithmetic Instructions", adding the following row to the table:
+
+--
+[cols="1,1,5*3",width="100%"]
+|====
+5+|*OpBFloat16MulAddQCOM* +
+Multiplies two bfloat16 values and adds the product to a 32-bit floating-point value
+
+_Result Type_ is the 32-bit floating-point type.
+
+_Operand 1_ and _Operand 2_ are 16-bit floating-point values with the BFloat16KHR encoding.
+
+_Operand 3_ is a 32-bit floating-point value.
+
+2+|<<Capability,Capability>>: +
+*BFloat16MulAddQCOM*
+| 6 | 4505 | <id> _Result Type_ | <<ResultId,'<id> Result' >> | <id> _Operand 1_ | <id> _Operand 2_ | <id> _Operand 3_
+|====
+--
+
+
+Validation Rules
+----------------
+
+OpExtension must be added to the SPIR-V for validation layers to check
+legal use of this extension:
+
+----
+OpExtension "SPV_QCOM_bfloat16_muladd"
+----
+
+Issues
+------
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|===========================================================
+|Rev|Date|Author|Changes
+|1|2025-12-31|Wooyoung Kim|Initial version
+|===========================================================
