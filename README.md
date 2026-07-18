@@ -88,6 +88,7 @@ Note: we no longer push the HTML along side the extension.
 * [SPV_EXT_descriptor_indexing             ]( https://github.khronos.org/SPIRV-Registry/extensions/EXT/SPV_EXT_descriptor_indexing.html)
 * [SPV_EXT_descriptor_heap                 ]( https://github.khronos.org/SPIRV-Registry/extensions/EXT/SPV_EXT_descriptor_heap.html)
 * [SPV_EXT_float8                          ]( https://github.khronos.org/SPIRV-Registry/extensions/EXT/SPV_EXT_float8.html)
+* [SPV_EXT_fragment_coverage_mask          ]( https://github.khronos.org/SPIRV-Registry/extensions/EXT/SPV_EXT_fragment_coverage_mask.html)
 * [SPV_EXT_fragment_fully_covered          ]( https://github.khronos.org/SPIRV-Registry/extensions/EXT/SPV_EXT_fragment_fully_covered.html)
 * [SPV_EXT_fragment_invocation_density     ]( https://github.khronos.org/SPIRV-Registry/extensions/EXT/SPV_EXT_fragment_invocation_density.html)
 * [SPV_EXT_fragment_shader_interlock       ]( https://github.khronos.org/SPIRV-Registry/extensions/EXT/SPV_EXT_fragment_shader_interlock.html)
