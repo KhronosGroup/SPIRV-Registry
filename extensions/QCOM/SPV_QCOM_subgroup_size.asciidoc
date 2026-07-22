@@ -1,0 +1,155 @@
+SPV_QCOM_subgroup_size
+======================
+
+Name Strings
+------------
+
+SPV_QCOM_subgroup_size
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Balaji Calidas, Qualcomm
+- Po-Sheng Chen, Qualcomm
+- Victor Lomuller, Qualcomm
+- Wooyoung Kim, Qualcomm
+
+Notice
+------
+
+Copyright (c) 2024 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+Status
+------
+
+- Final
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2026-03-17
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.6 Revision 6.
+
+This extension requires SPIR-V 1.1.
+
+Overview
+--------
+
+This extension adds two new execution modes with which an
+application executes subgroup operations in a shader or kernel.
+Shaders/kernels with the "half" execution mode will run with
+half the maximum subgroup size the implementation supports.
+Similarly, those with "full" will run with the maximum subgroup
+size the implementation supports. In case where a shader/kernel
+enables the extension, but has neither of the execution modes,
+the implementation selects the either full or half the maximum
+subgroup size it supports.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_QCOM_subgroup_size"
+----
+
+New Capabilities
+----------------
+
+This extension introduces the following new capability:
+
+----
+SubgroupSizeQCOM
+----
+
+New Execution Modes
+-------------------
+
+The extension adds the following new execution modes.
+
+----
+SubgroupSizeHalfQCOM
+SubgroupSizeFullQCOM
+----
+
+Modifications to the SPIR-V Specification, Version 1.6
+------------------------------------------------------
+
+Capabilities
+~~~~~~~~~~~~
+
+Modify Section 3.2.30, "Capability", adding the row to the Capability table:
+
+--
+[options="header"]
+|====
+2+^| Capability ^| Implicitly declares
+| 4506 | *SubgroupSizeQCOM* +
+Enable the QCOM-extended full/half subgroup size execution modes. |
+|====
+--
+
+Execution Mode
+~~~~~~~~~~~~~~
+
+Modify Section 3.2.5. "Execution Mode", adding the following row
+to the Execution Mode table:
+
+--
+[options="header"]
+|====
+2+^| Execution Mode 2+^| Extra Operands	^| Enabling Capabilities
+| 4507 | *SubgroupSizeHalfQCOM* +
+Run the shader or kernel with half the maximum subgroup size the implementation supports.
+2+| | *SubgroupSizeQCOM*
+| 4508 | *SubgroupSizeFullQCOM* +
+Run the shader or kernel with the maximum subgroup size the implementation supports.
+2+| | *SubgroupSizeQCOM*
+|====
+--
+
+Validation Rules
+----------------
+
+An OpExtension must be added to the SPIR-V for validation layers to check
+legal use of this extension:
+
+----
+OpExtension "SPV_QCOM_subgroup_size"
+----
+
+A shader or kernel must not specify both the *SubgroupSizeHalfQCOM* and *SubgroupSizeFullQCOM*
+execution modes.
+
+Issues
+------
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|===========================================================
+|Rev|Date|Author|Changes
+|1|2026-03-17|Wooyoung Kim|Initial version
+|===========================================================
