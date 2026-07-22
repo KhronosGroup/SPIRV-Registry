@@ -39,8 +39,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2026-06-03
-| Revision           | 16
+| Last Modified Date | 2026-07-10
+| Revision           | 17
 |========================================
 
 Dependencies
@@ -298,6 +298,10 @@ include::ray_common/opconvertutoaccelerationstructure_table.txt[]
 (Add a new sub section 3.36.RQInstructions, Ray Query Instructions) ::
 +
 --
+For any ray query instruction other than *OpRayQueryInitializeKHR*,
+behavior is undefined if *OpRayQueryInitializeKHR* has not been previously
+executed on the same ray query object.
+
 [cols="1,1,8*3"]
 |======
 9+|[[OpRayQueryInitializeKHR]]*OpRayQueryInitializeKHR* +
@@ -728,7 +732,11 @@ include::ray_common/opconvertutoaccelerationstructure_table.txt[]
  +
  'Result Type' must be a 'boolean type' scalar. +
  +
- 'Ray Query' is a pointer to the ray query object.
+ 'Ray Query' is a pointer to the ray query object. +
+ +
+ Behavior is undefined if *OpRayQueryProceedKHR* was not executed on the same ray query object,
+ if the last value returned by such an execution of *OpRayQueryProceedKHR* was not true, or the
+ current intersection candidate does not have a Ray Query Candidate Intersection Type of *RayQueryCandidateIntersectionAABBKHR*.
 1+|Capability: +
 *RayQueryKHR*
 | 4 | 6026
@@ -961,5 +969,6 @@ Revision History
 |14|2023-01-13 |Daniel Koch           | Follow SPIR-V conventions for undefined behavior.
 |15|2025-08-20 |Alan Baker            | Modify logical pointer validation rules (spir-v#878)
 |16|2026-06-03 |Daniel Koch           | Fix ray query wording typos (spir-v#935, spir-v#936)
+|17|2026-07-10 |Daniel Koch           | Require Initialize before other ray query instructions; add missing candidate-AABB preconditions to OpRayQueryGetIntersectionCandidateAABBOpaqueKHR (spir-v#945, spir-v#947)
 |========================================
 
