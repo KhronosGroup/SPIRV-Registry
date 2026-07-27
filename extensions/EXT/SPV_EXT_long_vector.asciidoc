@@ -36,8 +36,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2025-10-13
-| Revision           | 1
+| Last Modified Date | 2026-07-27
+| Revision           | 2
 |========================================
 
 Dependencies
@@ -193,4 +193,5 @@ Revision History
 |========================================
 |Rev|Date|Author|Changes
 |1|2025-10-13|Jeff Bolz|Initial revision of SPV_EXT_long_vector
+|2|2026-07-27|Ben Ashbaugh|Added UniformConstant to the list of supported storage classes
 |========================================
