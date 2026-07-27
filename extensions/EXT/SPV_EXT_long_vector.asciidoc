@@ -84,8 +84,8 @@ Modifications to the SPIR-V Specification, Version 1.6
 ==== Modify section 2.16.1. Universal Validation Rules:
 
 * Vector types with more than four components (or types containing them) can
-only be allocated in *Function*, *Private*, *Uniform*, *Workgroup*,
-*StorageBuffer*, *PhysicalStorageBuffer*, *PushConstant*,
+only be allocated in *Function*, *Private*, *UniformConstant*, *Uniform*,
+*Workgroup*, *StorageBuffer*, *PhysicalStorageBuffer*, *PushConstant*,
 *ShaderRecordBufferKHR*, *CrossWorkgroup*, and *Generic* storage classes.
 
 * Matrix types must be parameterized only with *OpTypeVector* having 2, 3, or 4
