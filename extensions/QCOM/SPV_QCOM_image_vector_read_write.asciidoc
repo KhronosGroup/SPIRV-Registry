@@ -1,0 +1,316 @@
+SPV_QCOM_image_vector_read_write
+================================
+
+Name Strings
+------------
+
+SPV_QCOM_image_vector_read_write
+
+Contact
+-------
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+Contributors
+------------
+
+- Adam Brouwers-Harries, Qualcomm
+- Balaji Calidas, Qualcomm
+- Victor Lomuller, Qualcomm
+- Wooyoung Kim, Qualcomm
+
+Notice
+------
+
+Copyright (c) 2026 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+Status
+------
+
+- Final
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2026-07-23
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the SPIR-V Specification,
+Version 1.6 Revision 6.
+
+This extension requires SPIR-V 1.4.
+
+Overview
+--------
+
+This extension introduces two vector read/write instructions on images along with new image formats.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_QCOM_image_vector_read_write"
+----
+
+New Capability
+--------------
+
+This extension introduces a new capability:
+
+----
+VectorImageOperationsQCOM
+----
+
+New Image Formats
+-----------------
+
+The extension adds a new image formats.
+
+----
+NV12QCOM
+NV12YQCOM
+NV12UVQCOM
+P010QCOM
+P010YQCOM
+P010UVQCOM
+TP10QCOM
+TP10YQCOM
+TP10UVQCOM
+UNORM_MIPI10QCOM
+UNORM_MIPI12QCOM
+UNSIGNED_MIPI10QCOM
+UNSIGNED_MIPI12QCOM
+CompressedRGBAQCOM
+CompressedRGBxQCOM
+CompressedNV12QCOM
+CompressedNV12YQCOM
+CompressedNV12UVQCOM
+CompressedP010QCOM
+CompressedP010YQCOM
+CompressedP010UVQCOM
+CompressedTP10QCOM
+CompressedTP10YQCOM
+CompressedTP10UVQCOM
+CompressedNV124RQCOM
+CompressedNV124RYQCOM
+CompressedNV124RUVQCOM
+----
+
+New Instructions
+----------------
+
+Instructions added under the *VectorImageOperationsQCOM* capability:
+
+----
+OpImageVectorReadQCOM
+OpImageVectorWriteQCOM
+----
+
+
+Modifications to the SPIR-V Specification, Version 1.6
+------------------------------------------------------
+
+[#ImageFormat]
+Image Format
+~~~~~~~~~~~~
+
+Modify Section 3.2.10, "Image Format", adding the following rows to the Image Format table:
+
+--
+[options="header"]
+|====
+2+^| Image Format ^| Enabling Capabilities
+| 4510 | *NV12QCOM* | *VectorImageOperationsQCOM*
+| 4511 | *NV12YQCOM* | *VectorImageOperationsQCOM*
+| 4512 | *NV12UVQCOM* | *VectorImageOperationsQCOM*
+| 4513 | *P010QCOM* | *VectorImageOperationsQCOM*
+| 4514 | *P010YQCOM* | *VectorImageOperationsQCOM*
+| 4515 | *P010UVQCOM* | *VectorImageOperationsQCOM*
+| 4516 | *TP10QCOM* | *VectorImageOperationsQCOM*
+| 4517 | *TP10YQCOM* | *VectorImageOperationsQCOM*
+| 4518 | *TP10UVQCOM* | *VectorImageOperationsQCOM*
+| 4519 | *UNORM_MIPI10QCOM* | *VectorImageOperationsQCOM*
+| 4520 | *UNORM_MIPI12QCOM* | *VectorImageOperationsQCOM*
+| 4521 | *UNSIGNED_MIPI10QCOM* | *VectorImageOperationsQCOM*
+| 4522 | *UNSIGNED_MIPI12QCOM* | *VectorImageOperationsQCOM*
+| 4523 | *CompressedRGBAQCOM* | *VectorImageOperationsQCOM*
+| 4524 | *CompressedRGBxQCOM* | *VectorImageOperationsQCOM*
+| 4525 | *CompressedNV12QCOM* | *VectorImageOperationsQCOM*
+| 4526 | *CompressedNV12YQCOM* | *VectorImageOperationsQCOM*
+| 4527 | *CompressedNV12UVQCOM* | *VectorImageOperationsQCOM*
+| 4528 | *CompressedP010QCOM* | *VectorImageOperationsQCOM*
+| 4529 | *CompressedP010YQCOM* | *VectorImageOperationsQCOM*
+| 4530 | *CompressedP010UVQCOM* | *VectorImageOperationsQCOM*
+| 4531 | *CompressedTP10QCOM* | *VectorImageOperationsQCOM*
+| 4532 | *CompressedTP10YQCOM* | *VectorImageOperationsQCOM*
+| 4533 | *CompressedTP10UVQCOM* | *VectorImageOperationsQCOM*
+| 4534 | *CompressedNV124RQCOM* | *VectorImageOperationsQCOM*
+| 4535 | *CompressedNV124RYQCOM* | *VectorImageOperationsQCOM*
+| 4536 | *CompressedNV124RUVQCOM* | *VectorImageOperationsQCOM*
+|====
+--
+
+[#Capability]
+Capability
+~~~~~~~~~~
+
+Modify Section 3.2.30, "Capability", adding the row to the Capability table:
+
+--
+[options="header"]
+|====
+2+^| Capability ^| Implicitly declares
+| 4509 | *VectorImageOperationsQCOM* +
+Add QCOM-defined vector image instructions. |
+|====
+--
+
+[#AccessShape]
+Read/Write Access Shape
+~~~~~~~~~~~~~~~~~~~~~~~
+
+A new section in 3. "Binary Form".
+
+--
+[options="header"]
+|====
+2+^| Access Shape ^| Enabling Capabilities
+| 0x0 | AccessShape_2x1 | *VectorImageOperationsQCOM* 
+| 0x1 | AccessShape_3x1 | *VectorImageOperationsQCOM* 
+| 0x2 | AccessShape_4x1 | *VectorImageOperationsQCOM* 
+| 0x3 | AccessShape_2x2 | *VectorImageOperationsQCOM* 
+|====
+--
+
+
+Instructions
+~~~~~~~~~~~~
+
+Modify Section 3.3.10, "Image Instructions", adding before OpImageSampleFootprintNV:
+
+[cols="1,1,6*3",width="100%"]
+|====
+6+|*OpImageVectorReadQCOM* +
+ +
+Loads the specified component of each of the four adjacent texels
+according to the specified access shape and
+returns them as a vector of four components.
+
+_Result Type_ is a vector type with four components. The element type is one of 32-bit *floating-point* type,
+16-bit *floating-point* type, and 32-bit signed/unsigned *integer* type.
+
+_Texture Sampled Image_ must be an object whose type is OpTypeSampledImage. The MS operand of the 
+underlying OpTypeImage must be 0.
+
+_Coordinate_ must be a vector of *floating-point* type, whose vector size is 2.
+
+_Component Id_ must be a 32-bit *integer* type scalar and be one of 0, 1, 2, and 3 which correspond to 
+_R_, _G_, _B_, and _A_, respectively, of the _RGBA_ channel order.
+
+_Shape_ is the read access shape and is either AccessShape_4x1 or AccessShape_2x2. See <<AccessShape,*Access Shape*>>.
+
+2+|<<Capability,Capability>>: +
+*VectorImageOperationsQCOM*
+| 7 | 4537 | <id> _Result Type_ |  <id> Result | <id> +
+ _Texture Sampled Image_ 
+| <id> +
+_Coordinate_ 
+| <id> +
+_Component Id_ 
+| <<AccessShape,*Access Shape*>> +
+ _Shape_
+|====
+
+[cols="1,1,7*3",width="100%"]
+|====
+7+|*OpImageVectorWriteQCOM* +
+ +
+Write multiple values into the specified image at the adjacent locations
+according to the specified access shape.
+
+_Image_ must be an object whose type is OpTypeImage.  The type must not have the Unknown image format.
+The behavior is undefined if the type has the image format that is not supported.
+
+
+_Coordinate_ must be a vector of integer type whose vector size is 2.
+
+_Shape_ is the write access shape. See <<AccessShape,'Access Shape'>>.
+AccessShape_2x1 requires no additional operand. 
+AccessShape_3x1 requires one additional operand; a total of three values are written.
+AccessShape_4x1 and AccessShape_2x2 require two additional operands; a total of four values are written.
+
+_Format_ is the image format associated with _Image_. See <<ImageFormat,'Image Format'>>.
+
+_Values_ depend on the <<ImageFormat,image format>> associated with _Image_.
+
+* 32-bit / 16-bit floating point values for NV12YQCOM, P010YQCOM, TP10YQCOM, CompressedNV12YQCOM, CompressedP010YQCOM, and
+CompressedTP01YQCOM 
+
+* vectors of 32-bit / 16-bit floating point values whose lengths are 2 for NV12UVQCOM, P010UVQCOM, TP10UVQCOM, CompressedNV12UVQCOM, CompressedP010UVQCOM, and CompressedTP10UVQCOM
+
+* 32-bit floating point scalar values for UNORM_MIPI10QCOM and UNORM_MIPI12QCOM
+
+* 32-bit integer scalar values for UNSIGNED_MIPI10QCOM and UNSIGNED_MIPI12QCOM
+
+
+2+|<<Capability,Capability>>: +
+*VectorImageOperationsQCOM*
+| 7 + variable | 4538 | <id> +
+_Image_ 
+| <id> +
+_Coordinate_ 
+| <<AccessShape,*Access Shape*>> +
+_Shape_ 
+| <<ImageFormat,*Image Format*>> +
+_Format_
+| <id> +
+_Value 0_ 
+| <id> +
+_Value 1_ 
+| Optional +
+<id>,<id> +
+ _Value 2_, _Value 3_
+|====
+
+Validation Rules
+----------------
+
+An OpExtension must be added to the SPIR-V for validation layers to check
+legal use of this extension:
+
+----
+OpExtension "SPV_QCOM_image_vector_read_write"
+----
+
+*OpImageVectorWriteQCOM* accepts only the image formats defined in the 
+SPV_QCOM_image_vector_read_write extension. The behavior is undefined if NV12QCOM,
+P010QCOM, or TP10QCOM is passed as _Format_ to *OpImageVectorWriteQCOM*.
+
+The number of the _Values_ operands and their types passed to *OpImageVectorWriteQCOM*
+must be consistent to the <<ImageFormat,image format>> specified with the _Format_ operand.
+
+Issues
+------
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|===========================================================
+|Rev|Date|Author|Changes
+|1|2026-07-23|Wooyoung Kim|Initial version
+|===========================================================
