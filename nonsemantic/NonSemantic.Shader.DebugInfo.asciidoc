@@ -1,7 +1,7 @@
 SPIR-V NonSemantic Shader DebugInfo Instructions
 ================================================
 
-Version 101
+Version 102
 
 :result_type: pass:normal['Result Type' must be *OpTypeVoid*.]
 :source:      pass:normal['Source' is a *DebugSource* instruction representing the text of the source program]
@@ -28,6 +28,14 @@ Contributors to *DebugInfo.101* extension.
  - Diego Novillo, NVIDIA
  - Pradyuman Singh, NVIDIA
  - Vikram Tarikere, Imagination Technologies
+
+Contributors to *DebugInfo.102* extension.
+
+ - Dmitry Sidorov, AMD
+ - Mariya Podchishchaeva, Intel
+ - Nikita Kornev, Intel
+ - Stanley Gambarin, Intel
+ - Viktoria Maksimova, Intel
 
 Author of original *OpenCL.DebugInfo.100* specification.
 
@@ -61,15 +69,15 @@ Status
 - Last Ratified Version: 100
 - Approved by the SPIR Working Group: 2021-02-05
 - Ratified by the Khronos Group: 2021-03-19
-- Current Version: 101
+- Current Version: 102
 
 Version
 -------
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2026-04-13
-| Revision           | 101 Rev 2
+| Last Modified Date | 2026-05-18
+| Revision           | 102 Rev 1
 |========================================
 
 Versioning
@@ -134,6 +142,28 @@ Extended instructions in version 101:
 To use version 101 features, import this extended instruction set using:
 
 `OpExtInstImport "NonSemantic.Shader.DebugInfo.101"`
+
+Version 102 Extension
+---------------------
+
+Version 102 of this extended instruction set adds support for describing source
+language modules (for example, Fortran modules) and a broader set of DWARF
+expression operations.
+
+New instructions in version 102:
+
+* <<DebugModule,*DebugModule*>> (instruction 111)
+
+Extended enumerations in version 102:
+
+* The <<Operation,*Debug Operations*>> table is extended with additional DWARF
+  operations (encodings 10 through 167), enabling richer
+  <<DebugExpression,*DebugExpression*>> sequences. The semantics of operations
+  with encodings 0 through 9 are unchanged.
+
+To use version 102 features, import this extended instruction set using:
+
+`OpExtInstImport "NonSemantic.Shader.DebugInfo.102"`
 
 Introduction
 ------------
@@ -335,6 +365,7 @@ Instruction Enumeration [[InstEnum]]
 | 108 | <<DebugTypeMatrix,*DebugTypeMatrix*>>
 | 109 | <<DebugTypeVectorIdEXT,*DebugTypeVectorIdEXT*>>
 | 110 | <<DebugTypeCooperativeMatrixKHR,*DebugTypeCooperativeMatrixKHR*>>
+| 111 | <<DebugModule,*DebugModule*>>
 |======
 
 
@@ -454,6 +485,255 @@ Used by <<DebugOperation,*DebugOperation*>> +
 | 7 | *StackValue*       | 0               | Describes an object that doesn't exist in memory but it's value is known and is at the top of the DWARF expression stack.
 | 8 | *Constu*           | 1               | Pushes a constant 'value' onto the stack. The 'value' operand must be a single 32-bit integer constant instruction.
 | 9 | *Fragment*         | 2               | Has the same semantics as *BitPiece*, but the 'offset' operand defines location within the source variable.
+4+| The following operations are added in *version 102*. All constant operands
+referenced below must be the '<id>' of a constant instruction (e.g. *OpConstant*)
+of the indicated type.
+| 10  | *Convert*           | 1 | Pops the top stack entry and converts it to *DebugTypeBasic*
+                                  specified by offset from debug information entry
+                                  in the current compilation unit provided by a single
+                                  32-bit integer *OpConstant* parameter.
+| 11  | *Addr*              | 1 | Pushes a machine address passed in the operand to the stack.
+| 12  | *Const1u*           | 1 | *Const<n>u* Pushes a constant 'value' onto the stack. The 'value' operand must be a single <n>-bit unsigned integer *OpConstant*.
+| 13  | *Const1s*           | 1 | *Const<n>s* Pushes a constant 'value' onto the stack. The 'value' operand must be a single <n>-bit signed integer *OpConstant*.
+| 14  | *Const2u*           | 1 |
+| 15  | *Const2s*           | 1 |
+| 16  | *Const4u*           | 1 |
+| 17  | *Const4s*           | 1 |
+| 18  | *Const8u*           | 1 |
+| 19  | *Const8s*           | 1 |
+| 20  | *Consts*            | 1 | Pushes a constant 'value' onto the stack. The 'value' operand must be a single 32-bit signed integer *OpConstant*.
+| 21  | *Dup*               | 0 | Duplicates the value from the top of the stack including its *OpType*.
+| 22  | *Drop*              | 0 | Pops the value from the top of the stack including its *OpType*.
+| 23  | *Over*              | 0 | Equivalent to *Pick* operation with the index value of 1.
+| 24  | *Pick*              | 1 | The single operand of the operation provides a 1-byte integer *OpConstant* index. Copies the value of the stack entry at the provided index and pushes it to the stack.
+| 25  | *Rot*               | 0 | Rotates the first three stack entries. The entry at the top of the stack becomes the third stack entry, the second entry becomes the top of the stack, and the third entry becomes the second entry.
+| 26  | *Abs*               | 0 | Pops the top entry from the stack, interprets it as a signed value and pushes its absolute value. If the absolute value cannot be represented, the result is undefined.
+| 27  | *And*               | 0 | Pops the top two entries from the stack, performs a bitwise and operation on them, and pushes the result.
+| 28  | *Div*               | 0 | Pops the top two entries from the stack, divides the value of the second entry by the value of the first entry, and pushes the result.
+| 29  | *Mod*               | 0 | Pops the top two entries from the stack, modulo the value of the second entry by the value of the first entry, and pushes the result.
+| 30  | *Mul*               | 0 | Pops the top two entries from the stack, multiplies them together, and pushes the result.
+| 31  | *Neg*               | 0 | Pops the top entry from the stack, interprets it as a signed value and pushes its negation. If the negation cannot be represented, the result is undefined.
+| 32  | *Not*               | 0 | Pops the top entry from the stack and pushes its bitwise complement.
+| 33  | *Or*                | 0 | Pops the top two entries from the stack, performs a bitwise or operation on them, and pushes the result.
+| 34  | *Shl*               | 0 | Pops the top two entries from the stack, shifts left (filling with zero bits) the value of the second entry by the value of the first entry, and pushes the result.
+| 35  | *Shr*               | 0 | Pops the top two entries from the stack, shifts right logically (filling with zero bits) the value of the second entry by the value of the first entry, and pushes the result.
+| 36  | *Shra*              | 0 | Pops the top two entries from the stack, shifts right arithmetically (divide the magnitude by 2, keep the same sign for the result) the value of the second entry by the value of the first entry, and pushes the result.
+| 37  | *Xor*               | 0 | Pops the top two entries from the stack, performs a bitwise exclusive-or operation on them, and pushes the result.
+| 38  | *Bra*               | 1 | Pops the top entry from the stack. If the value popped is not *OpConstant* holding 0, then skip forward or backward from the current operation by a number of bytes provided by its 2-byte integer *OpConstant* operand.
+| 39  | *Eq*                | 0 | Pops two entries from the stack with the same *OpType*; pushes a 32-bit integer *OpConstant* with a value of 1 onto the stack if the value of the second entry is equal to the value of the first entry.
+| 40  | *Ge*                | 0 | Pops two entries from the stack with the same *OpType*; pushes a 32-bit integer *OpConstant* with a value of 1 onto the stack if the value of the second entry is greater than or equal to the value of the first entry.
+| 41  | *Gt*                | 0 | Pops two entries from the stack with the same *OpType*; pushes a 32-bit integer *OpConstant* with a value of 1 onto the stack if the value of the second entry is greater than the value of the first entry.
+| 42  | *Le*                | 0 | Pops two entries from the stack with the same *OpType*; pushes a 32-bit integer *OpConstant* with a value of 1 onto the stack if the value of the second entry is less than or equal to the value of the first entry.
+| 43  | *Lt*                | 0 | Pops two entries from the stack with the same *OpType*; pushes a 32-bit integer *OpConstant* with a value of 1 onto the stack if the value of the second entry is less than the value of the first entry.
+| 44  | *Ne*                | 0 | Pops two entries from the stack with the same *OpType*; pushes a 32-bit integer *OpConstant* with a value of 1 onto the stack if the value of the second entry is not equal to the value of the first entry.
+| 45  | *Skip*              | 1 | Skip forward or backward from the current operation by a number of bytes provided by its 2-byte integer *OpConstant* operand.
+| 46  | *Lit0*              | 0 | *Lit<n>* encodes unsigned literal values from 0 through 31 inclusive.
+| 47  | *Lit1*              | 0 |
+| 48  | *Lit2*              | 0 |
+| 49  | *Lit3*              | 0 |
+| 50  | *Lit4*              | 0 |
+| 51  | *Lit5*              | 0 |
+| 52  | *Lit6*              | 0 |
+| 53  | *Lit7*              | 0 |
+| 54  | *Lit8*              | 0 |
+| 55  | *Lit9*              | 0 |
+| 56  | *Lit10*             | 0 |
+| 57  | *Lit11*             | 0 |
+| 58  | *Lit12*             | 0 |
+| 59  | *Lit13*             | 0 |
+| 60  | *Lit14*             | 0 |
+| 61  | *Lit15*             | 0 |
+| 62  | *Lit16*             | 0 |
+| 63  | *Lit17*             | 0 |
+| 64  | *Lit18*             | 0 |
+| 65  | *Lit19*             | 0 |
+| 66  | *Lit20*             | 0 |
+| 67  | *Lit21*             | 0 |
+| 68  | *Lit22*             | 0 |
+| 69  | *Lit23*             | 0 |
+| 70  | *Lit24*             | 0 |
+| 71  | *Lit25*             | 0 |
+| 72  | *Lit26*             | 0 |
+| 73  | *Lit27*             | 0 |
+| 74  | *Lit28*             | 0 |
+| 75  | *Lit29*             | 0 |
+| 76  | *Lit30*             | 0 |
+| 77  | *Lit31*             | 0 |
+| 78  | *Reg0*              | 0 | *Reg<n>* encodes names of up to 32 registers.
+| 79  | *Reg1*              | 0 |
+| 80  | *Reg2*              | 0 |
+| 81  | *Reg3*              | 0 |
+| 82  | *Reg4*              | 0 |
+| 83  | *Reg5*              | 0 |
+| 84  | *Reg6*              | 0 |
+| 85  | *Reg7*              | 0 |
+| 86  | *Reg8*              | 0 |
+| 87  | *Reg9*              | 0 |
+| 88  | *Reg10*             | 0 |
+| 89  | *Reg11*             | 0 |
+| 90  | *Reg12*             | 0 |
+| 91  | *Reg13*             | 0 |
+| 92  | *Reg14*             | 0 |
+| 93  | *Reg15*             | 0 |
+| 94  | *Reg16*             | 0 |
+| 95  | *Reg17*             | 0 |
+| 96  | *Reg18*             | 0 |
+| 97  | *Reg19*             | 0 |
+| 98  | *Reg20*             | 0 |
+| 99  | *Reg21*             | 0 |
+| 100 | *Reg22*             | 0 |
+| 101 | *Reg23*             | 0 |
+| 102 | *Reg24*             | 0 |
+| 103 | *Reg25*             | 0 |
+| 104 | *Reg26*             | 0 |
+| 105 | *Reg27*             | 0 |
+| 106 | *Reg28*             | 0 |
+| 107 | *Reg29*             | 0 |
+| 108 | *Reg30*             | 0 |
+| 109 | *Reg31*             | 0 |
+| 110 | *Breg0*             | 1 | *Breg<n>* a single 32-bit signed integer *OpConstant*
+                                  operand encodes a signed offset from the contents of the *<n>* register.
+| 111 | *Breg1*             | 1 |
+| 112 | *Breg2*             | 1 |
+| 113 | *Breg3*             | 1 |
+| 114 | *Breg4*             | 1 |
+| 115 | *Breg5*             | 1 |
+| 116 | *Breg6*             | 1 |
+| 117 | *Breg7*             | 1 |
+| 118 | *Breg8*             | 1 |
+| 119 | *Breg9*             | 1 |
+| 120 | *Breg10*            | 1 |
+| 121 | *Breg11*            | 1 |
+| 122 | *Breg12*            | 1 |
+| 123 | *Breg13*            | 1 |
+| 124 | *Breg14*            | 1 |
+| 125 | *Breg15*            | 1 |
+| 126 | *Breg16*            | 1 |
+| 127 | *Breg17*            | 1 |
+| 128 | *Breg18*            | 1 |
+| 129 | *Breg19*            | 1 |
+| 130 | *Breg20*            | 1 |
+| 131 | *Breg21*            | 1 |
+| 132 | *Breg22*            | 1 |
+| 133 | *Breg23*            | 1 |
+| 134 | *Breg24*            | 1 |
+| 135 | *Breg25*            | 1 |
+| 136 | *Breg26*            | 1 |
+| 137 | *Breg27*            | 1 |
+| 138 | *Breg28*            | 1 |
+| 139 | *Breg29*            | 1 |
+| 140 | *Breg30*            | 1 |
+| 141 | *Breg31*            | 1 |
+| 142 | *Regx*              | 1 | A single 32-bit unsigned integer *OpConstant* operand encodes
+                                  the name of a register.
+| 143 | *Fbreg*             | 1 | A single 32-bit signed integer *OpConstant* operand encodes
+                                  an offset from the address.
+| 144 | *Bregx*             | 2 | Provides a sum of its 32-bit integer *OpConstant* operands,
+                                  where the 1st operand is a register number and the 2nd is a signed offset.
+| 145 | *Piece*             | 1 | Describes an object or value that may be contained in part
+                                  of a register or stored in more than one location.
+                                  A single 32-bit integer *OpConstant* operand specifies
+                                  the size of the piece in bytes.
+| 146 | *DerefSize*         | 1 | Pops the top stack entry, treats it as an address.
+                                  A single 8-bit integer *OpConstant* operand specifies
+                                  the size of data to be retrieved. The data retrieved is
+                                  zero extended to the size of an address on the target machine.
+                                  Pushes the value retrieved from that address.
+| 147 | *XDerefSize*        | 1 | Pops the top two entries from the stack.
+                                  Treats the former top entry as an address and the former
+                                  second to top entry as an address space.
+                                  A single 8-bit integer *OpConstant* operand specifies
+                                  the size of data to be retrieved. The data retrieved is
+                                  zero extended to the size of an address on the target machine.
+                                  Pushes the value retrieved from that address in the given address space.
+| 148 | *Nop*               | 0 | Placeholder operation with no effects.
+| 149 | *PushObjectAddress* | 0 | Pushes the address of an object currently processed.
+| 150 | *Call2*             | 1 | Perform a call during *DebugOperation* evaluation.
+                                  A single 16-bit integer *OpConstant* operand specifies
+                                  the offset of a debugging information entry in the
+                                  current compilation unit.
+| 151 | *Call4*             | 1 | Perform a call during *DebugOperation* evaluation.
+                                  A single 32-bit integer *OpConstant* operand specifies
+                                  the offset of a debugging information entry in the
+                                  current compilation unit.
+| 152 | *CallRef*           | 1 | Perform a call during *DebugOperation* evaluation.
+                                  A single operand must be either a 32-bit or 64-bit integer
+                                  *OpConstant* and specifies the offset of a
+                                  debugging information entry in the current compilation unit.
+| 153 | *FormTlsAddress*    | 0 | Pops the top stack entry, it must be of an integer type,
+                                  translates it to an address in the thread-local storage,
+                                  and pushes the address back to the stack.
+| 154 | *CallFrameCfa*      | 0 | Pushes the value of the Call Frame Information.
+| 155 | *ImplicitValue*     | 2 | Creates an immediate value. The first 32-bit integer *OpConstant*
+                                  parameter specifies the length of a sequence of bytes that
+                                  follows this parameter and contains the value.
+| 156 | *ImplicitPointer*   | 2 | Specifies a dereferenced value. It can be used
+                                  when the pointer was optimized out by the compiler
+                                  but the value it pointed to was retained.
+                                  The first operand must be either a 32-bit or 64-bit integer
+                                  *OpConstant* that is a reference to a debug information
+                                  entry containing the value and the second
+                                  operand is a 32-bit integer *OpConstant* offset
+                                  from the start to this value.
+| 157 | *Addrx*             | 1 | Placeholder. Has a single 32-bit integer *OpConstant* operand.
+| 158 | *Constx*            | 1 | Placeholder. Has a single 32-bit integer *OpConstant* operand.
+| 159 | *EntryValue*        | 2 | Pushes a result value of *DebugExpression* (the second
+                                  parameter of the operation) that describes the location
+                                  held upon entering the current *DebugFunction*. The length
+                                  of the *DebugExpression* is specified by the first
+                                  32-bit integer *OpConstant* operand. The operation
+                                  assumes that the stack is empty. If the *DebugExpression*
+                                  held a register location operation, then *EntryValue*
+                                  pushes the value that register had to the stack.
+| 160 | *ConstType*         | 3 | Creates a constant of a type provided as the first
+                                  parameter which should point to *DebugTypeBasic*.
+                                  The second operand must be an 8-bit integer *OpConstant*,
+                                  which specifies the size of this constant. The third
+                                  parameter is a sequence of bytes of the given size
+                                  that is interpreted as a value of the referenced type.
+| 161 | *RegvalType*        | 2 | Pushes a value of a register specified by the first
+                                  32-bit integer *OpConstant* parameter. The second
+                                  parameter must be a 32-bit integer *OpConstant*; it
+                                  specifies an offset from a debug information entry
+                                  in the current compilation unit, which must be
+                                  *DebugTypeBasic*. The operation interprets the pushed
+                                  value as a value of *DebugTypeBasic*.
+| 162 | *DerefType*         | 2 | Pops the top stack entry, treats it as an address.
+                                  The first 8-bit integer *OpConstant* operand specifies
+                                  the size of data to be retrieved. The data retrieved is
+                                  zero extended to the size of an address on the target machine.
+                                  The second is a 32-bit integer *OpConstant* that represents the
+                                  offset of a debugging information entry in the current
+                                  compilation unit, which should point to *DebugTypeBasic*.
+                                  Pushes the value retrieved from that address
+                                  including type identifier.
+| 163 | *XDerefType*        | 2 | Pops the top two entries from the stack.
+                                  Treats the former top entry as an address and the former
+                                  second to top entry as an address space.
+                                  The first 8-bit integer *OpConstant* operand specifies
+                                  the size of data to be retrieved. The data retrieved is
+                                  zero extended to the size of an address on the target machine.
+                                  The second is a 32-bit integer *OpConstant* that represents the
+                                  offset of a debugging information entry in the current
+                                  compilation unit, which should point to *DebugTypeBasic*.
+                                  Pushes the value retrieved from that address in the given address space,
+                                  including type identifier.
+| 164 | *Reinterpret*       | 1 | Pops the top stack entry and reinterprets its bits as
+                                  a value of *DebugTypeBasic* specified by an offset from a
+                                  debug information entry in the current compilation unit
+                                  provided by a single 32-bit integer *OpConstant* parameter.
+| 165 | *Arg*               | 1 | A single 32-bit integer *OpConstant* parameter specifies
+                                  an argument used in a debug operation. When this operation
+                                  is used inside <<DebugOperation,*DebugOperation*>>, the
+                                  *DebugOperation* may instead carry one optional operand,
+                                  which is the '<id>' of a non-debug instruction whose value
+                                  is used as the argument of a debug expression.
+| 166 | *ImplicitPointerTag* | 0 | Specifies a dereferenced value. It can be
+                                   used when the pointer was optimized out by
+                                   the compiler but the value it pointed to was retained.
+| 167 | *TagOffset*         | 1 | Specifies that a memory tag should be optionally applied to the
+                                  pointer. The tag is derived from the single 32-bit integer
+                                  *OpConstant* operand offset and is implementation defined.
 |======
 
 Imported Entities [[ImportedEntities]]
@@ -1892,6 +2172,57 @@ Imported Entities
 |======
 
 
+[cols="1,8*3"]
+|======
+9+|[[DebugModule]]*DebugModule* +
+ +
+(*version 102*) +
+ +
+ Represents a module in the programming language, for example a Fortran module. +
+ +
+ {result_type} +
+ +
+ 'Name' is the '<id>' of an *OpString*, holding the name of the imported module. +
+ +
+ {source} representing text of the source program of the module. +
+ +
+ 'Line' is the '<id>' of a 32-bit integer *OpConstant* denoting the line number in
+ the source at which the declaration or use of the module appears in the 'Source'. +
+ +
+ 'Parent' is the '<id>' of a debug instruction that represents the
+ <<LexicalScope,lexical scope>> that contains the module. +
+ +
+ 'ConfigurationMacros' is the '<id>' of an *OpString*, holding a space-separated,
+ shell-quoted list of `-D` macro definitions as they would appear on a command line
+ specified to a preprocessor during early stages of 'Source' translation to the
+ SPIR-V module. +
+ +
+ 'IncludePath' is the '<id>' of an *OpString*, holding the path to the module map
+ file. +
+ +
+ 'APINotesFile' is the '<id>' of an *OpString*, holding the path to an API notes
+ file for this module. +
+ +
+ 'IsDeclaration' is the '<id>' of a 32-bit integer *OpConstant* which indicates
+ whether the module is a declaration. It must have one of the following values: +
+ 0 indicates that this module is not a declaration. +
+ 1 indicates that this module is a declaration. +
+ +
+ The 'Result <id>' of this instruction can be used as the 'Entity' operand of a
+ <<DebugImportedEntity,*DebugImportedEntity*>> instruction. +
+
+| 111
+| '<id>' 'Name'
+| '<id>' 'Source'
+| '<id>' 'Line'
+| '<id>' 'Parent'
+| '<id>' 'ConfigurationMacros'
+| '<id>' 'IncludePath'
+| '<id>' 'APINotesFile'
+| '<id>' 'IsDeclaration'
+|======
+
+
 Validation Rules
 ----------------
 
@@ -1913,6 +2244,19 @@ Validation Rules
   Both *OpConstant* and *OpSpecConstant* are valid. When the corresponding SPIR-V cooperative
   type uses a specialization constant for a dimension, the debug type instruction must use the
   same *OpSpecConstant* result id for the matching operand.
+
+*Version 102*
+
+- The 'Result <id>' of <<DebugModule,*DebugModule*>> may only be used as the
+  'Entity' operand of a <<DebugImportedEntity,*DebugImportedEntity*>>.
+
+- The 'IsDeclaration' operand of <<DebugModule,*DebugModule*>> must be a 32-bit
+  integer *OpConstant* whose value is either 0 or 1.
+
+- All operand constants of the Debug Operations introduced in version 102
+  (encodings 10 through 167) must be the '<id>' of a constant instruction whose
+  width and signedness match the requirements stated in the
+  <<Operation,*Debug Operations*>> table for the corresponding operation.
 
 
 Issues
@@ -1986,5 +2330,9 @@ Revision History
                                              *DebugTypeBasic* with optional *FPEncoding* +
                                              parameter for specialized floating-point formats.
 |101 Rev 2  |2026-04-13|Spencer Fricke     |Fix binary form view
+|102 Rev 1   |2026-05-18|Dmitry Sidorov     |*Version 102 extension:* Add *DebugModule* +
+                                             instruction and additional Debug Operations +
+                                             (encodings 10 through 167) from +
+                                             NonSemantic.Shader.DebugInfo.200.
 |========================================================
 
