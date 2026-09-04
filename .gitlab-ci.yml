@@ -1,0 +1,31 @@
+# Copyright 2026 The Khronos Group Inc.
+# SPDX-License-Identifier: Apache-2.0
+
+# Gitlab CI file for SPIR-V extensions
+
+# All stages use the same Docker image, so there are no prerequisites
+# Refer to the container by its SHA instead of the name, to prevent
+# caching problems when updating the image.
+# image: khronosgroup/docker-images:asciidoctor-spec.202601
+image: khronosgroup/docker-images@sha256:f1ca671f3bdb10ad49e238b9bf28853088a21af49504498fc9084c9b4fea4762
+
+# Specify which gitlab runner to use
+default:
+  tags:
+    - khrmedium
+
+spec-generate:
+  stage: build
+  # Note: Use ./_site instead of ../_site because GitLab artifacts cannot
+  # point outside of the CI project directory.
+  script:
+    - find . -name "*.asciidoc" -exec touch {} \;
+    - make all
+    - find . -path ./_site -prune -o -type d -exec mkdir -p _site/{} \;
+    - find . -path ./_site -prune -o -name "*.html" -exec cp {} _site/{} \;
+    - find _site -type d -empty -delete
+  artifacts:
+    when: always
+    paths:
+      - _site
+    expire_in: 1 week
