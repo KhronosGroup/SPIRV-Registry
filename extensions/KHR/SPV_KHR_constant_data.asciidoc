@@ -178,7 +178,7 @@ Add this row to the Decoration table:
 2+^| Decoration ^| Extra Operands ^| Enabling Capabilities
 | 5145 | *UTFEncodedKHR* + 
 Decorate an array type with scalar _integer type_ elements to indicate that
-it should be interpreted as a UTF encoded string for debugging, transpiling,
+it should be interpreted as a UTF-8 encoded string for debugging, transpiling,
 or assembly/disassembly.
 This has no semantic impact and can be safely removed from a module.
 The _Width_ of each integer element of the decorated type must be 8.
