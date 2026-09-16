@@ -39,8 +39,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2018-09-06
-| Revision           | 1
+| Last Modified Date | 2026-09-09
+| Revision           | 2
 |========================================
 
 Dependencies
@@ -168,6 +168,13 @@ Interactions with the FP Fast Math Mode
 The *FPFastMathMode* decoration is limited to the *Kernel* capability.
 There are no interactions with this extension.
 
+Interactions with the RelaxedPrecision decoration
+-------------------------------------------------
+
+The *DenormPreserve*, *DenormFlushToZero*, *SignedZeroInfNanPreserve*,
+*RoundingModeRTE* and *RoundingModeRTZ* *Execution Modes* have no effect
+for values decorated with the *RelaxedPrecision* decoration.
+
 Default execution modes
 -----------------------
 Default execution modes are expected to be documented by client APIs.
@@ -196,5 +203,6 @@ Revision History
 [options="header"]
 |========================================
 |Rev|Date|Author|Changes
+|2|2026-09-09|Kévin Petit|Clarify interactions with *RelaxedPrecision* decoration
 |1|2018-09-06|Alexander Galazin|Initial revision
 |========================================
