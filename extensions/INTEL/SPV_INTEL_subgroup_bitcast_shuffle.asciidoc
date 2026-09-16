@@ -1,0 +1,335 @@
+:extension_name: SPV_INTEL_subgroup_bitcast_shuffle
+:capability_name: SubgroupBitcastShuffleINTEL
+:capability_token: 6207
+:op_name_bitcast_shuffle: OpSubgroupBitcastShuffleINTEL
+:op_token_bitcast_shuffle: 6208
+
+{extension_name}
+================
+
+== Name Strings
+
+{extension_name}
+
+== Contact
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/intel/llvm
+
+== Contributors
+
+// spell-checker: disable
+* Ben Ashbaugh, Intel
+* Peter Cadey, Intel
+* Pawel Jurek, Intel
+* Piotr Kanclerz, Intel
+* Jianhui Li, Intel
+* Greg Lueck, Intel
+* Roland Schulz, Intel
+// spell-checker: enable
+
+== Notice
+
+Copyright (c) 2026 Intel Corporation. All rights reserved.
+
+== Status
+
+* Complete
+
+== Version
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2026-08-20
+| Revision           | 1
+|========================================
+
+== Dependencies
+
+This extension is written against the SPIR-V Specification, Version 1.6, Revision 7.
+
+This extension requires SPIR-V 1.0.
+
+== Overview
+
+This extension adds a special sub-group shuffle instruction to reinterpret
+vector or scalar source data as vector or scalar source data of a different
+type, and specifically as vector or scalar data with a different number of
+components.
+
+Unlike the core SPIR-V *OpBitcast* instruction, which reinterprets the
+per-invocation source data as a different type, the *{op_name_bitcast_shuffle}*
+instruction added by this extension also re-assigns the data from one invocation
+in the subgroup to a different invocation in the subgroup.
+Although the re-assignment performed by *{op_name_bitcast_shuffle}* appears to
+be more complex than the core SPIR-V *OpBitcast*, the re-assignment is free for
+some hardware, and therefore can be more efficient than a traditional bitcast
+for applications performing element-wise operations or that can otherwise
+account for the re-assignment.
+
+The *{op_name_bitcast_shuffle}* instruction added by this extension is
+especially useful for applications performing operations on the packed _Matrix
+B_ data before passing it to the *OpSubgroupMatrixMultiplyAccumulateINTEL*
+instruction added by the SPV_INTEL_subgroup_matrix_multiply_accumulate
+extension.
+
+== Extension Name
+
+To use this extension within a SPIR-V module, the appropriate *OpExtension* must
+be present in the module:
+
+[subs="attributes"]
+----
+OpExtension "{extension_name}"
+----
+
+== Modifications to the SPIR-V Specification, Version 1.6
+
+=== Capabilities
+
+Modify Section 3.2.30, Capability, adding rows to the Capability table:
+--
+[cols="^.^2,16,15",options="header",width = "100%"]
+|====
+2+^.^| Capability | Implicitly Declares
+| {capability_token} | *{capability_name}* |
+|====
+--
+
+=== Instructions
+
+Modify Section 3.3.21, Group and Subgroup Instructions, adding to the end of the list of instructions:
+
+[cols="1,2,3*3",width="100%"]
+|=====
+4+a|[[{op_name_bitcast_shuffle}]]*{op_name_bitcast_shuffle}*
+
+Performs a bit-preserving type conversion and shuffle of the source data among invocations in a subgroup.
+This instruction may execute more efficiently than a traditional bitcast.
+All invocations in the subgroup cooperate to perform this operation.
+
+_Result Type_ defines the result of the operation and must be a scalar or vector of _numerical type_.
+
+_Operand_ is the source data and must also be a scalar or vector of _numerical type_.
+It must have a different type than _Result Type_.
+
+If _Result Type_ has the same number of components as the type of _Operand_, the behavior is the same as a traditional bitcast.
+
+Otherwise, when _Result Type_ has a different number of components than the type of _Operand_, the total number of bits in _Result Type_ must equal the total number of bits in _Operand_, and the bitcast and shuffle operation is performed as follows:
+
+Take the first component of the _Operand_ source data for each invocation in the subgroup and concatenate the first components together, in order based on the subgroup local invocation ID.
+Then, repeat for the next component of the _Operand_ source data for each invocation in the subgroup, until all _Operand_ source data has been concatenated.
+This forms an _M_ times _N_ bit number, where _M_ is the size in bits of each source _Operand_ and _N_ is the number of invocations in the subgroup.
+
+Now, take the first _C_ bits of the concatenated number and assign them to the first component of the _Result_ destination for the first invocation in the subgroup, where _C_ is the size in bits of each component of _Result Type_ when it is a vector type, or the size of the _Result Type_ when it is a scalar type.
+Assign the next _C_ bits to the first component of the _Result_ destination for the next invocation in the subgroup, and so on, in order based on the subgroup local invocation ID.
+After _C_ bits have been assigned to the first component for all invocations in the subgroup, repeat for the second component of the _Result_ destination, and so on, until all bits have been assigned.
+
+Like a traditional bitcast, the bitcast and shuffle operation is reversible, so an *{op_name_bitcast_shuffle}* to one type followed another *{op_name_bitcast_shuffle}* back to the original type will result in the original source data.
+
+See <<supported-types>> for the supported type combinations for this instruction.
+
+Behavior is undefined unless all invocations within the subgroup execute the same dynamic instance of this instruction.
+
+Additionally, behavior is undefined unless the *SubgroupSize* is equal to the *SubgroupMaxSize*; in other words, unless it is a full subgroup.
+
+|Capability: +
+*{capability_name}*
+| 4 | {op_token_bitcast_shuffle}
+| _<id>_ +
+_Result Type_
+| _<id>_ +
+_Result_
+| _<id>_ +
+_Operand_
+|=====
+
+=== Examples
+
+In the following examples:
+
+* A 32-bit number storing packed 16-bit data is described as `lowbits | highbits`.
+* A 32-bit number storing packed 8-bit data is described as `lowbits | ... | ... | highbits`.
+* A vector of two 16-bit numbers is described as `<first component, second component>`.
+* A vector of four 8-bit numbers is described as `<first component, ..., ..., fourth component>`.
+
+==== 32-bit Scalar to Vector of 16-bit Data
+
+Let the subgroup size be eight and let _Operand_ equal:
+
+[cols="2,8*^",options="header",width="100%",separator="!"]
+|====
+!Invocation:
+! 0 ! 1 ! 2 ! 3 ! 4 ! 5 ! 6 ! 7
+!_Operand_:
+! `0|1` ! `2|3` ! `4|5` ! `6|7` ! `8|9` ! `10|11` ! `12|13` ! `14|15`
+|====
+
+After the bitcast and shuffle operation, _Result_ will be:
+
+// Concatenated source data: 0|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15
+// First result component: 0, 1, 2, 3, 4, 5, 6, 7
+// Second result component: 8, 9, 10, 11, 12, 13, 14, 15
+
+[cols="2,8*^",options="header",width="100%",separator="!"]
+|====
+!Invocation:
+! 0 ! 1 ! 2 ! 3 ! 4 ! 5 ! 6 ! 7
+!_Result_:
+! `<0,8>` ! `<1,9>` ! `<2,10>` ! `<3,11>` ! `<4,12>` ! `<5,13>` ! `<6,14>` ! `<7,15>`
+|====
+
+==== Vector of 16-bit Data to 32-bit Scalar
+
+Let the subgroup size be eight and let _Operand_ equal:
+
+[cols="2,8*^",options="header",width="100%",separator="!"]
+|====
+!Invocation:
+! 0 ! 1 ! 2 ! 3 ! 4 ! 5 ! 6 ! 7
+!_Operand_:
+! `<0,1>` ! `<2,3>` ! `<4,5>` ! `<6,7>` ! `<8,9>` ! `<10,11>` ! `<12,13>` ! `<14,15>`
+|====
+
+After the bitcast and shuffle operation, _Result_ will be:
+
+// Concatenated source data: 0|2|4|6|8|10|12|14|1|3|5|7|9|11|13|15
+// Result: 0|2, 4|6, 8|10, 12|14, 1|3, 5|7, 9|11, 13|15
+
+[cols="2,8*^",options="header",width="100%",separator="!"]
+|====
+!Invocation:
+! 0 ! 1 ! 2 ! 3 ! 4 ! 5 ! 6 ! 7
+!_Result_:
+! `0|2` ! `4|6` ! `8|10` ! `12|14` ! `1|3` ! `5|7` ! `9|11` ! `13|15`
+|====
+
+==== 32-bit Scalar to Vector of 8-bit Data
+
+Let the subgroup size be four and let _Operand_ equal:
+
+[cols="1,4*^",options="header",width="100%",separator="!"]
+|====
+!Invocation:
+! 0 ! 1 ! 2 ! 3
+!_Operand_:
+! `0|1|2|3` ! `4|5|6|7` ! `8|9|10|11` ! `12|13|14|15`
+|====
+
+After the bitcast and shuffle operation, _Result_ will be:
+
+// Concatenated source data: 0|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15
+// First result component: 0, 1, 2, 3
+// Second result component: 4, 5, 6, 7
+// Third result component: 8, 9, 10, 11
+// Fourth result component: 12, 13, 14, 15
+
+[cols="1,4*^",options="header",width="100%",separator="!"]
+|====
+!Invocation:
+! 0 ! 1 ! 2 ! 3
+!_Result_:
+! `<0,4,8,12>` ! `<1,5,9,13>` ! `<2,6,10,14>` ! `<3,7,11,15>`
+|====
+
+==== Vector of 8-bit Data to 32-bit Scalar
+
+Let the subgroup size be four and let _Operand_ equal:
+
+[cols="1,4*^",options="header",width="100%",separator="!"]
+|====
+!Invocation:
+! 0 ! 1 ! 2 ! 3
+!_Operand_:
+! `<0,1,2,3>` ! `<4,5,6,7>` ! `<8,9,10,11>` ! `<12,13,14,15>`
+|====
+
+After the bitcast and shuffle operation, _Result_ will be:
+
+// Concatenated source data: 0|4|8|12|1|5|9|13|2|6|10|14|3|7|11|15
+// Result: 0|4|8|12, 1|5|9|13, 2|6|10|14, 3|7|11|15
+
+[cols="1,4*^",options="header",width="100%",separator="!"]
+|====
+!Invocation:
+! 0 ! 1 ! 2 ! 3
+!_Result_:
+! `0|4|8|12` ! `1|5|9|13` ! `2|6|10|14` ! `3|7|11|15`
+|====
+
+[[supported-types]]
+== Supported Types
+
+The table below describes valid type combinations for the bitcast and shuffle operation.
+Each row in this table describes two type combinations, one where the first type is the source operand type and the second type is the destination result type, and another where the first type is the destination result type and the second type is the source operand type:
+
+[cols="1,1",width="80%"]
+[options="header"]
+|====
+| First Type | Second Type
+
+2+| *16 bits:*
+| Vector of two 8-bit integers (`2 x uint8_t`) | Scalar 16-bit Integer (`uint16_t`)
+
+2+| *32 bits:*
+| Vector of four 8-bit Integers (`4 x uint8_t`) | Vector of two 16-bit Integers (`2 x uint16_t`)
+| Vector of four 8-bit Integers (`4 x uint8_t`) | Scalar 32-bit Integer (`uint32_t`)
+| Vector of two 16-bit Integers (`2 x uint16_t`) | Scalar 32-bit Integer (`uint32_t`)
+
+2+| *64 bits:*
+| Vector of eight 8-bit Integers (`8 x uint8_t`) | Vector of four 16-bit Integers (`4 x uint16_t`)
+| Vector of eight 8-bit Integers (`8 x uint8_t`) | Vector of two 32-bit Integers (`2 x uint32_t`)
+| Vector of eight 8-bit Integers (`8 x uint8_t`) | Scalar 64-bit Integer (`uint64_t`)
+| Vector of four 16-bit Integers (`4 x uint16_t`) | Vector of two 32-bit Integers (`2 x uint32_t`)
+| Vector of four 16-bit Integers (`4 x uint16_t`) | Scalar 64-bit Integer (`uint64_t`)
+| Vector of two 32-bit Integers (`2 x uint32_t`) | Scalar 64-bit Integer (`uint64_t`)
+
+2+| *128 bits:*
+| Vector of sixteen 8-bit Integers (`16 x uint8_t`) | Vector of eight 16-bit Integers (`8 x uint16_t`)
+| Vector of sixteen 8-bit Integers (`16 x uint8_t`) | Vector of four 32-bit Integers (`4 x uint32_t`)
+| Vector of sixteen 8-bit Integers (`16 x uint8_t`) | Vector of two 64-bit Integers (`2 x uint64_t`)
+| Vector of eight 16-bit Integers (`8 x uint16_t`) | Vector of four 32-bit Integers (`4 x uint32_t`)
+| Vector of eight 16-bit Integers (`8 x uint16_t`) | Vector of two 64-bit Integers (`2 x uint64_t`)
+| Vector of four 32-bit Integers (`4 x uint32_t`) | Vector of two 64-bit Integers (`2 x uint64_t`)
+
+2+| *256 bits:*
+| Vector of sixteen 16-bit Integers (`16 x uint16_t`) | Vector of eight 32-bit Integers (`8 x uint32_t`)
+| Vector of sixteen 16-bit Integers (`16 x uint16_t`) | Vector of four 64-bit Integers (`4 x uint64_t`)
+| Vector of eight 32-bit Integers (`8 x uint32_t`) | Vector of four 64-bit Integers (`4 x uint64_t`)
+
+2+| *512 bits:*
+| Vector of sixteen 32-bit Integers (`16 x uint32_t`) | Vector of eight 64-bit Integers (`8 x uint64_t`)
+
+// These combinations are not supported directly, but are supported by combining
+// with additional bitcast instructions:
+//  Signed integers
+//  bfloat16
+//  fp16
+//  fp8
+
+|====
+
+== Issues
+
+. What should this extension be called?
++
+--
+*RESOLVED*: The name of the extension is SPV_INTEL_subgroup_bitcast_shuffle.
+This name describes the key properties of the extension:
+
+1. It is intended to reinterpret ("bitcast") source bits as bits of a different type.
+2. It is exchanging ("shuffling") data among the invocations in a group, specifically a subgroup.
+
+Although the shuffling will likely be used to bitcast to or from a "VNNI" packing, the same instruction could be used to perform other types of reinterpretation as well, such as reinterpreting a 64-bit value as two 32-bit values, or vice versa.
+--
+
+== Revision History
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2026-08-20|Ben Ashbaugh|Initial revision for publication
+|========================================
