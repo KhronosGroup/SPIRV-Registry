@@ -168,7 +168,8 @@ Specifically:
 
   This execution mode does not affect traversal initiated by pipeline
   trace ray instructions, which is governed separately by the Vulkan
-  API.
+  API. It does apply to ray queries issued from a shader in a ray
+  tracing pipeline.
 
 * If ray query traversal uses an acceleration structure that contains
   opacity micromap data with only VK_KHR_opacity_micromap enabled and
