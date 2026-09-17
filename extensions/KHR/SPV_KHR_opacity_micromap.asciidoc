@@ -168,7 +168,7 @@ Specifically:
 
   This execution mode does not affect traversal initiated by pipeline
   trace ray instructions, which is governed separately by the Vulkan
-  API. It does apply to ray queries issued from a shader in a ray
+  API, however it does apply to ray queries issued from a shader in a ray
   tracing pipeline.
 
 * If ray query traversal uses an acceleration structure that contains
