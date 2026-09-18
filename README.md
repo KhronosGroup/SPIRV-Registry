@@ -160,6 +160,7 @@ Note: we no longer push the HTML along side the extension.
 * [SPV_INTEL_2d_block_io                   ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_2d_block_io.html)
 * [SPV_INTEL_bfloat16_conversion           ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_bfloat16_conversion.html)
 * [SPV_INTEL_cache_controls                ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_cache_controls.html)
+* [SPV_INTEL_device_barrier                ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_device_barrier.html)
 * [SPV_INTEL_device_side_avc_motion_estimation]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_device_side_avc_motion_estimation.html)
 * [SPV_INTEL_fp_fast_math_mode             ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_fp_fast_math_mode.html)
 * [SPV_INTEL_fp_max_error                  ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_fp_max_error.html)

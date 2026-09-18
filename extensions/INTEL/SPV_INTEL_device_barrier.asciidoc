@@ -1,0 +1,157 @@
+:DeviceBarrierINTEL: DeviceBarrierINTEL
+:DeviceBarrierINTEL_token: 6185
+:DeviceBarrierExecutionValidINTEL: DeviceBarrierExecutionValidINTEL
+:DeviceBarrierExecutionValidINTEL_token: 6186
+
+= SPV_INTEL_device_barrier
+
+== Name Strings
+
+SPV_INTEL_device_barrier
+
+== Contact
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Registry
+
+== Contributors
+
+// spell-checker: disable
+* Ben Ashbaugh, Intel
+* Michael Aziz, Intel
+* Pawel Jurek, Intel
+* Victor Mustya, Intel
+* John Pennycook, Intel
+* Alexey Sachkov, Intel
+* Dmitry Sidorov, Intel
+// spell-checker: enable
+
+== Notice
+
+Copyright (c) 2026 Intel Corporation.  All rights reserved.
+
+== Status
+
+* Complete
+
+== Version
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2026-08-28
+| Revision           | 1
+|========================================
+
+== Dependencies
+
+This extension is written against the SPIR-V Specification, Version 1.6 Revision 7.
+
+This extension requires SPIR-V 1.0.
+
+== Overview
+
+This extension adds a new SPIR-V capability that indicates that this SPIR-V
+module uses *Device* as the _Scope_ for _Execution_ for *OpControlBarrier*.
+Specifying *Device* as the _Scope_ for _Execution_ for *OpControlBarrier* waits
+for all invocations of the module from all workgroups in a kernel dispatch to
+reach the current point of execution before any are allowed to continue.
+
+== Extension Name
+
+To use this extension within a SPIR-V module, the following *OpExtension* must
+be present in the module:
+
+----
+OpExtension "SPV_INTEL_device_barrier"
+----
+
+== Modifications to the SPIR-V Specification, Version 1.6
+
+=== BuiltIn
+
+Modify Section 3.2.20, "BuiltIn", adding these rows to the BuiltIn table:
+
+--
+[cols="^.^2,16,15",options="header"]
+|====
+2+^.^| BuiltIn | Enabling Capabilities
+| {DeviceBarrierExecutionValidINTEL_token} | *{DeviceBarrierExecutionValidINTEL}* +
+Indicates whether behavior is defined when executing an *OpControlBarrier*
+instruction with *Device* as the _Scope_ for _Execution_.
+See the client API specification for more detail.
+| *{DeviceBarrierINTEL}*
+|====
+--
+
+=== Capabilities
+
+Modify Section 3.2.30, "Capability", adding these rows to the Capability table:
+
+--
+[cols="^.^2,16,15",options="header"]
+|====
+2+^.^| Capability | Implicitly Declares
+| {DeviceBarrierINTEL_token} | *{DeviceBarrierINTEL}* +
+Allows *Device* as a _Scope_ for _Execution_ for an *OpControlBarrier*
+instruction.
+|
+|====
+--
+
+== Issues
+
+. Is it correct to describe this functionality as a "device barrier"?
++
+--
+*RESOLVED*: Strictly speaking the "device barrier" described by this extension
+is only synchronizing the work-items in the current dispatch or ND-range, and
+not all work-items that may be executing on a device from other dispatches
+Using "device" does seem to be consistent with other uses of "device" in SPIR-V,
+though, including the *Device* scope, so we will continue describe the
+functionality as a "device barrier".
+--
+
+. How does this extension interact with the split barrier extension
+*SPV_INTEL_split_barrier*?
++
+--
+*RESOLVED*: Currently, there is no interaction, and *Device* may only be used as
+a _Scope_ for _Execution_ for an *OpControlBarrier* instruction.
+This restriction may be lifted at some point in the future.
+--
+
+. How does the *{DeviceBarrierINTEL}* capability relate to the
+*{DeviceBarrierExecutionValidINTEL}* built-in?
++
+--
+*RESOLVED*: The *{DeviceBarrierINTEL}* capability allows the SPIR-V module to
+contain an *OpControlBarrier* instruction with *Device* as the _Scope_ for
+_Execution_.
+An implementation supporting the *{DeviceBarrierINTEL}* capability must compile
+SPIR-V modules containing *OpControlBarrier* instructions with *Device* as the
+_Scope_ for _Execution_, even if there are scenarios when behavior is undefined
+if the *OpControlBarrier* instruction is executed.
+Without this capability, a SPIR-V module that statically passes *Device* to
+*OpControlBarrier* as the _Scope_ for _Execution_ may be considered invalid, and
+SPIR-V consumers may assume that a dynamically passed _Scope_ for _Execution_
+to *OpControlBarrier* will never be *Device*.
+
+Some client APIs may require a kernel to be dispatched in a special way in order
+for the invocations in a kernel dispatch to synchronize.
+The *{DeviceBarrierExecutionValidINTEL}* built-in indicates whether behavior is
+defined when an invocation executes an *OpControlBarrier* instruction with
+*Device* as the _Scope_ for _Execution_, or whether behavior is undefined.
+All built-in variables decorated with *{DeviceBarrierExecutionValidINTEL}* will
+have the same value for all invocations in a kernel dispatch.
+--
+
+== Revision History
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2026-08-28|Ben Ashbaugh|*Initial revision for publication*
+|========================================
