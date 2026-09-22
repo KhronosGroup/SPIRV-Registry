@@ -16,8 +16,6 @@ default:
 
 spec-generate:
   stage: build
-  # Note: Use ./_site instead of ../_site because GitLab artifacts cannot
-  # point outside of the CI project directory.
   script:
     - find . -name "*.asciidoc" -exec touch {} \;
     - make all
