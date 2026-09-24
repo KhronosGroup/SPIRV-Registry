@@ -176,6 +176,7 @@ Note: we no longer push the HTML along side the extension.
 * [SPV_INTEL_shader_integer_functions2     ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_shader_integer_functions2.html)
 * [SPV_INTEL_split_barrier                 ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_split_barrier.html)
 * [SPV_INTEL_subgroups                     ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_subgroups.html)
+* [SPV_INTEL_subgroup_bitcast_shuffle      ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_subgroup_bitcast_shuffle.html)
 * [SPV_INTEL_subgroup_buffer_prefetch      ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_subgroup_buffer_prefetch.html)
 * [SPV_INTEL_subgroup_matrix_multiply_accumulate]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_subgroup_matrix_multiply_accumulate.html)
 * [SPV_INTEL_tensor_float32_conversion     ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_tensor_float32_conversion.html)
@@ -215,7 +216,7 @@ Note: we no longer push the HTML along side the extension.
 * [SPV_QCOM_image_processing2              ]( https://github.khronos.org/SPIRV-Registry/extensions/QCOM/SPV_QCOM_image_processing2.html)
 * [SPV_QCOM_image_processing3              ]( https://github.khronos.org/SPIRV-Registry/extensions/QCOM/SPV_QCOM_image_processing3.html)
 * [SPV_QCOM_multiple_wait_queues           ]( https://github.khronos.org/SPIRV-Registry/extensions/QCOM/SPV_QCOM_multiple_wait_queues.html)
-* [SPV_QCOM__subgroup_size                 ]( https://github.khronos.org/SPIRV-Registry/extensions/QCOM/SPV_QCOM_subgroup_size.html)
+* [SPV_QCOM_subgroup_size                  ]( https://github.khronos.org/SPIRV-Registry/extensions/QCOM/SPV_QCOM_subgroup_size.html)
 * [SPV_QCOM_tile_shading                   ]( https://github.khronos.org/SPIRV-Registry/extensions/QCOM/SPV_QCOM_tile_shading.html)
 * [SPV_VALVE_mixed_float_dot_product       ]( https://github.khronos.org/SPIRV-Registry/extensions/VALVE/SPV_VALVE_mixed_float_dot_product.html)
 
