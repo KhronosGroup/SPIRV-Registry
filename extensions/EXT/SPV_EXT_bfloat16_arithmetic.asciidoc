@@ -1,0 +1,126 @@
+:extension_name: SPV_EXT_bfloat16_arithmetic
+:capability_name: BFloat16ArithmeticEXT
+:capability_token: 6226
+
+= {extension_name}
+
+== Name Strings
+
+{extension_name}
+
+== Contact
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Headers
+
+== Contributors
+
+* Ben Ashbaugh, Intel
+* Victor Mustya, Intel
+
+== Notice
+
+Copyright (c) 2026 The Khronos Group Inc. Copyright terms at
+http://www.khronos.org/registry/speccopyright.html
+
+== Status
+
+* Working Draft
+
+== Version
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2026-08-11
+| Revision           | 2
+|========================================
+
+== Dependencies
+
+This extension is written against the SPIR-V Specification, Version 1.6 Revision
+7, and `SPV_KHR_bfloat16`, Revision 1.
+
+This extension requires SPIR-V 1.0 and `SPV_KHR_bfloat16`.
+
+== Overview
+
+This extension extends `SPV_KHR_bfloat16` to allow use of bfloat16 types with
+additional arithmetic floating-point instructions.
+
+== Extension Name
+
+To use this extension within a SPIR-V module, the following *OpExtension* must
+be present in the module:
+
+[subs="attributes"]
+----
+OpExtension "{extension_name}"
+----
+
+== Modifications to the SPIR-V Specification, Version 1.6
+
+=== Validation Rules
+
+Add validation rules to section 2.16.1 Universal Validation Rules:
+
+* If the *{capability_name}* capability is declared, then variables with a type
+that is or includes a floating-point type with the *BFloat16KHR* encoding may be
+used with the following instructions:
+
+** https://registry.khronos.org/SPIR-V/specs/unified1/SPIRV.html#Arithmetic[Arithmetic Instructions]:
+
+*** *OpFNegate*
+*** *OpFAdd*
+*** *OpFSub*
+*** *OpFMul*
+*** *OpFDiv*
+*** *OpFRem*
+*** *OpFMod*
+*** *OpVectorTimesScalar*
+
+** https://registry.khronos.org/SPIR-V/specs/unified1/SPIRV.html#Relational_and_Logical[Relational and Logical Instructions]
+
+** Supported **OpExtInst** instructions from the https://registry.khronos.org/SPIR-V/specs/unified1/OpenCL.ExtendedInstructionSet.100.html[OpenCL Extended Instruction Set]
+
+=== Capabilities
+
+Modify Section 3.2.30, "Capability", adding these rows to the Capability table:
+
+--
+[cols="^.^2,16,15",options="header"]
+|====
+2+^.^| Capability | Implicitly Declares
+| {capability_token} | *{capability_name}* +
+Uses *OpTypeFloat* types with the *BFloat16KHR* <<Floating_Point_Encoding, floating point encoding>>
+with arithmetic instructions.
+| *BFloat16TypeKHR*
+|====
+--
+
+== Interactions with Other Extensions
+
+If `SPV_INTEL_masked_gather_scatter` is supported then *OpMaskedGatherINTEL*
+and *OpMaskedScatterINTEL* will also accept vectors of *BFloat16KHR* and vectors of
+pointers to *BFloat16KHR*.
+
+== Issues
+
+. Should we define *BFloat16* atomics and interaction with
+`SPV_EXT_shader_atomic_float_min_max` and `SPV_EXT_shader_atomic_float_add`
+in this extension?
++
+--
+*RESOLVED*: The atomic operations will be defined by a separate extension.
+--
+
+== Revision History
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2025-05-07|Victor Mustya|Initial public revision
+|2|2026-08-11|Ben Ashbaugh|Switched to an EXT extension
+|========================================
