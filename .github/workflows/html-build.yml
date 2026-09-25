@@ -36,13 +36,13 @@ jobs:
         run: |
           find . -name "*.asciidoc" -exec touch {} \;
           make all
-          find . -type d -exec mkdir -p ../_site/{} \;
-          find . -name "*.html" -exec cp {} ../_site/{}  \;
-          find ../_site -type d -empty -delete
+          find . -type d -exec mkdir -p _site/{} \;
+          find . -name "*.html" -exec cp {} _site/{}  \;
+          find _site -type d -empty -delete
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ../_site
+          path: _site
 
   # Deployment job
   deploy:
