@@ -84,15 +84,6 @@ OpExtension "{extension_name}"
 
 == Modifications to the SPIR-V Specification, Version 1.6
 
-=== Modifications 2.4 Logical Layout of a Module
-
-Insert an extra item before "8. All annotation instructions"
-
-[start=8]
-. Optional *OpAliasDomainDeclINTEL*, *OpAliasScopeDeclINTEL* and *OpAliasScopeListDeclINTEL*
-instructions.
-
-
 === Capabilities
 
 Modify Section 3.2.30, "Capability", adding these rows to the Capability table:
@@ -110,25 +101,24 @@ and *AliasScopeINTEL* and *NoAliasINTEL* _Memory Operands_. |
 
 === Instructions
 
-[cols="4", width="100%"]
+Modify Section 3.3.3, "Annotation Instructions", adding to the end of the list of instructions:
+
+[cols="3", width="100%"]
 |=====
-3+|*OpAliasDomainDeclINTEL* +
+2+|*OpAliasDomainDeclINTEL* +
 The instruction declares an aliasing domain.
 
 The _Result_ is used by *OpAliasScopeDeclINTEL* instruction to form aliasing
 scope.
-
-Optional <id> _Name_ parameter is used to specify an unique domain in global
-scope.
 | Capability:
 *{capability_name}*
 
-| 3 | {OpAliasDomainDeclINTEL_token} | <id> _Result_ | optional <id> _Name_
+| 2 | {OpAliasDomainDeclINTEL_token} | <id> _Result_
 |=====
 
-[cols="5", width="100%"]
+[cols="4", width="100%"]
 |=====
-4+|*OpAliasScopeDeclINTEL* +
+3+|*OpAliasScopeDeclINTEL* +
 The instruction declares an aliasing scope.
 
 The _Result_ is used by *OpAliasScopeListDeclINTEL* instruction to form aliasing
@@ -136,13 +126,10 @@ scope list.
 
 <id> _AliasDomain_ parameter specifies aliasing domain within this aliasing
 scope, it must be the result id of *OpAliasDomainDeclINTEL* instruction.
-
-Optional <id> _Name_ parameter is used to specify an unique domain in
-global scope.
 | Capability:
 *{capability_name}*
 
-| 4 | {OpAliasScopeDeclINTEL_token} | <id> _Result_ | <id> _AliasDomain_ | optional <id> _Name_
+| 3 | {OpAliasScopeDeclINTEL_token} | <id> _Result_ | <id> _AliasDomain_
 |=====
 
 [cols="4", width="100%"]
