@@ -47,11 +47,11 @@ Copyright (c) 2026 Intel Corporation. All rights reserved.
 This extension is written against the SPIR-V Specification, Version 1.6
 Revision 7.
 
-This extension requires SPIR-V 1.0.
+This extension requires SPIR-V 1.2.
 
 == Overview
 
-This extension adds *AliasDomainDeclINTEL*, *AliasScopeINTEL* and
+This extension adds *AliasDomainDeclINTEL*, *AliasScopeDeclINTEL* and
 *AliasScopeListDeclINTEL* instructions that serve a purpose to
 specify aliasing scopes within which annotated memory accesses don't alias.
 Also the extension adds *AliasScopeINTEL* and *NoAliasINTEL* decorations and _Memory Operands_ mask
@@ -89,7 +89,7 @@ OpExtension "{extension_name}"
 Insert an extra item before "8. All annotation instructions"
 
 [start=8]
-. Optional *OpAliasDomainDeclINTEL*, *OpAliasScopeDeclINTEL* and *OpAliasScopeDeclINTEL*
+. Optional *OpAliasDomainDeclINTEL*, *OpAliasScopeDeclINTEL* and *OpAliasScopeListDeclINTEL*
 instructions.
 
 
@@ -170,7 +170,7 @@ Modify Section 3.2.19 "Decoration", adding these rows to Decoration table:
 |====
 2+^| Decoration 2+^| Extra Operands ^| Enabling Capabilities
 | {AliasScopeINTEL_token} | *AliasScopeINTEL* +
-Can only be applied to _OpFunctionCall_ and _Atomic_ instruction. Has
+Can only be applied to _OpFunctionCall_ and _Atomic_ instructions. Has
 _Aliasing Scopes List_ <id> operand pointing to a result of
 *OpAliasScopeListDeclINTEL* instruction, that specifies a set of aliasing scopes
 in which memory access instruction is assumed to be not aliased with any other
@@ -190,9 +190,19 @@ _AliasScopeINTEL_ memory operand.
 |====
 --
 
+=== Annotation Instructions
+
+Modify Section 3.3.3, "Annotation Instructions", in the description of *OpDecorateId*, replacing:
+
+"All such <id> Extra Operands must be constant instructions or *OpVariable* instructions."
+
+with:
+
+"All such <id> Extra Operands must be constant instructions or *OpVariable* instructions, except for the *AliasScopeINTEL* and *NoAliasINTEL* decorations, whose <id> Extra Operand must be an *OpAliasScopeListDeclINTEL* instruction."
+
 === Memory Operands
 
-Modify Section 3.26 "Memory Operands", adding these rows to Memory Operands
+Modify Section 3.2.25 "Memory Operands", adding these rows to Memory Operands
 table:
 
 --
