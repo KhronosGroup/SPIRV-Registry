@@ -55,8 +55,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2025-04-24
-| Revision           | 10
+| Last Modified Date | 2025-09-22
+| Revision           | 11
 |========================================
 
 Dependencies
@@ -227,9 +227,9 @@ are laid out with a fixed stride communicated via the 'Stride' operand to
 provided. Elements (row,$$*$$) of the result of load or store operations are taken
 in order from contiguous locations starting at 'Pointer'[row*'Stride'] where
 'Pointer' is the 'Pointer' operand to *OpCooperativeMatrixLoadKHR* or
-*OpCooperativeMatrixStoreKHR*. 'Stride' must be greater than 0 when passed to
-*OpCooperativeMatrixStoreKHR* and must be greater than or equal to 0 when passed
-to *OpCooperativeMatrixLoadKHR*.
+*OpCooperativeMatrixStoreKHR*. 'Stride' is interpreted as unsigned and must be
+greater than 0 when passed to
+*OpCooperativeMatrixStoreKHR*.
 |
 
 | 0x1 | *ColumnMajorKHR* +
@@ -239,9 +239,9 @@ are laid out with a fixed stride communicated via the 'Stride' operand to
 provided. Elements ($$*$$,col) of the result of load or store operations are taken
 in order from contiguous locations starting at 'Pointer'[col*'Stride'] where
 'Pointer' is the 'Pointer' operand to *OpCooperativeMatrixLoadKHR* or
-*OpCooperativeMatrixStoreKHR*. 'Stride' must be greater than 0 when passed to
-*OpCooperativeMatrixStoreKHR* and must be greater than or equal to 0 when passed
-to *OpCooperativeMatrixLoadKHR*.
+*OpCooperativeMatrixStoreKHR*. 'Stride' is interpreted as unsigned and must be
+greater than 0 when passed to
+*OpCooperativeMatrixStoreKHR*.
 |
 |====
 --
@@ -651,6 +651,7 @@ Revision History
 [options="header"]
 |========================================
 |Rev|Date|Author|Changes
+|11|2025-09-22|Kevin Petit|Clarify requirements on Stride
 |10|2025-04-24|Alan Baker|Reduce version requirement to 1.3
 |9|2025-04-10|Jeff Bolz|Specify which instructions are tangled
 |8|2025-04-10|Jeff Bolz|Clarify composite creation behavior
