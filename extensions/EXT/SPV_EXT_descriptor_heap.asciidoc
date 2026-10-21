@@ -44,8 +44,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2025-09-08
-| Revision           | 1
+| Last Modified Date | 2026-10-21
+| Revision           | 2
 |========================================
 
 Dependencies
@@ -201,7 +201,7 @@ All such _<id>_ *Extra Operands* must be constant instructions or
 *OpVariable* instructions.
 All _<id>_ *Extra Operands* must appear before _Structure Type_.
 
-NOTE: Currently, only *OffsetIdEXT* and *ArrayStrideIdEXT* are valid with this instruction.
+NOTE: Currently, only *OffsetIdEXT* is valid with this instruction.
 1+|Capability: +
 *DescriptorHeapEXT*
 | 4 + variable | 5127
@@ -409,4 +409,5 @@ Revision History
 |========================================
 |Rev|Date|Author|Changes
 |1 |2025-09-08 |Tobias Hector|Internal revisions
+|2 |2026-10-21 |Spencer Fricke|Remove ArrayStrideIdEXT from OpMemberDecorateIdEXT
 |========================================
