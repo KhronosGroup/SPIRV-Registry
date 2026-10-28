@@ -103,7 +103,7 @@ The operation is a hint to the implementation, that doesn't change the
 observable behavior of the program. The implementation can choose to ignore the
 pause request. +
  +
-_Clocks_ must be a scalar 32-bit integer. It is interpreted as unsigned.
+_Clocks_ must be a 32-bit integer type scalar. It is interpreted as unsigned.
 
 1+|Capability: +
 *{capability_name}*
