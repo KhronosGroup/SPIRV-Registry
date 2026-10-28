@@ -88,10 +88,10 @@ Add the following instruction to Section 3.3.1, "Miscellaneous Instructions":
 2+|[[{instruction_name}]]*{instruction_name}* +
  +
 Pauses execution of the current invocation for the duration requested by
-_Clocks_. _Clocks_ is an unsigned integer specifying a number of clocks. The
-pause duration is approximate, and the maximum allowed pause duration is
-implementation-defined. If _Clocks_ exceeds this maximum, it is treated as the
-maximum for the purpose of the pause. +
+_Clocks_. _Clocks_ specifies a number of clocks to pause. The pause duration is
+approximate, and the maximum allowed pause duration is implementation-defined.
+If _Clocks_ exceeds this maximum, it is treated as the maximum for the purpose
+of the pause. +
  +
 The observed wall-clock duration of a pause may vary between executions with
 the same _Clocks_ value, even within a single invocation. +
@@ -103,7 +103,7 @@ The operation is a hint to the implementation, that doesn't change the
 observable behavior of the program. The implementation can choose to ignore the
 pause request. +
  +
-_Clocks_ must be a scalar 32-bit integer with unsigned integer type.
+_Clocks_ must be a scalar 32-bit integer. It is interpreted as unsigned.
 
 1+|Capability: +
 *{capability_name}*
