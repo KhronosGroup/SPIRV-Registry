@@ -42,8 +42,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2026-10-09
-| Revision           | 5
+| Last Modified Date | 2026-10-28
+| Revision           | 6
 |========================================
 
 Dependencies
@@ -626,6 +626,8 @@ is equivalent to *OpTraceRayKHR* instruction.
  'Hit Object' is a pointer to the hit object. +
  +
  This instruction is allowed only in *RayGenerationKHR*, *ClosestHitKHR* and *MissKHR* execution models. +
+ +
+ The *RayTracingMotionBlurNV* capability must also be declared. +
 1+|Capability: +
 *ShaderInvocationReorderEXT*
 | 4 | 5320
@@ -899,6 +901,8 @@ is equivalent to *OpTraceRayKHR* instruction.
  'Hit Object' is a pointer to the hit object. +
  +
  This instruction is allowed only in *RayGenerationKHR*, *ClosestHitKHR* and *MissKHR* execution models. +
+ +
+ The *RayTracingPositionFetchKHR* capability must also be declared. +
 1+|Capability: +
 *ShaderInvocationReorderEXT*
 | 4 | 5307
@@ -1306,7 +1310,8 @@ Interactions with SPV_NV_ray_tracing_motion_blur
 
 If the 'SPV_NV_ray_tracing_motion_blur' extension is not supported, the
 *OpHitObjectTraceRayMotionEXT*, *OpHitObjectRecordMissMotionEXT*,
-and *OpHitObjectTraceMotionReorderExecuteEXT* instructions are not supported.
+*OpHitObjectTraceMotionReorderExecuteEXT*, and *OpHitObjectGetCurrentTimeEXT*
+instructions are not supported.
 
 Interactions with SPV_KHR_ray_tracing_position_fetch
 ----------------------------------------------------
@@ -1347,6 +1352,7 @@ Revision History
 |3 |2026-03-13 |Eric Werness         | Added Hit Kind to OpHitObjectRecordFromQueryEXT and clarified AABB hit-kind requirements
 |4 |2026-07-08 |Daniel Koch          | Recorded Khronos Board re-ratification
 |5 |2026-10-09 |Marijn Suijten       | Clarified that OpHitObjectGetInstanceIdEXT returns the instance index and linked the matching BuiltIns
+|6 |2026-10-28 |Daniel Koch          | Fix interactions with SPV_NV_ray_tracing_motion_blur and SPV_KHR_ray_tracing_position_fetch (GitHub issue #462)
 |========================================
 
 
