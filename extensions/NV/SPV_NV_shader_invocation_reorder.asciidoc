@@ -366,12 +366,14 @@ are same as those with the same names of <<OpTraceRayKHR,*OpTraceRayKHR*>> and
  + 
  'Current Time' must be a 32-bit float type scalar. +
  +
- This instruction is allowed only in *RayGenerationKHR*, *ClosestHitKHR* and *MissKHR* execution models with *SPV_NV_ray_tracing_motion_blur* extension. +
+ This instruction is allowed only in *RayGenerationKHR*, *ClosestHitKHR* and *MissKHR* execution models. +
+ +
+ The *RayTracingMotionBlurNV* capability must also be declared. +
  +
  This instruction is a _shader call instruction_ which may invoke shaders with the *IntersectionKHR* and *AnyHitKHR* execution models. +
  +
 1+|Capability: +
-*ShaderInvocationReorderNV*, *RayTracingMotionBlurNV*
+*ShaderInvocationReorderNV*
 | 14 | 5256
 | '<id>' 'Hit Object'
 | '<id>' 'Acceleration Structure'
@@ -496,10 +498,12 @@ are same as those with the same names of <<OpTraceRayKHR,*OpTraceRayKHR*>> and
  +
  'Hit Object Attributes' contains the attributes of the hit which are to be encoded in 'Hit Object'. This must be an OpVariable in *HitObjectAttributeNV* storage class. +
  +
- This instruction is allowed only in *RayGenerationKHR*, *ClosestHitKHR* and *MissKHR* execution models with *SPV_NV_ray_tracing_motion_blur* extension. +
+ This instruction is allowed only in *RayGenerationKHR*, *ClosestHitKHR* and *MissKHR* execution models. +
+ +
+ The *RayTracingMotionBlurNV* capability must also be declared. +
  +
 1+|Capability: +
-*ShaderInvocationReorderNV*, *RayTracingMotionBlurNV*
+*ShaderInvocationReorderNV*
 | 15 | 5249
 | '<id>' 'Hit Object'
 | '<id>' 'Acceleration Structure'
@@ -624,10 +628,12 @@ are same as those with the same names of <<OpTraceRayKHR,*OpTraceRayKHR*>> and
  +
  'Hit Object Attributes' contains the attributes of the hit which are to be encoded in 'Hit Object'. This must be an OpVariable in *HitObjectAttributeNV* storage class. +
  +
- This instruction is allowed only in *RayGenerationKHR*, *ClosestHitKHR* and *MissKHR* execution models with *SPV_NV_ray_tracing_motion_blur* extension. +
+ This instruction is allowed only in *RayGenerationKHR*, *ClosestHitKHR* and *MissKHR* execution models. +
+ +
+ The *RayTracingMotionBlurNV* capability must also be declared. +
  +
 1+|Capability: +
-*ShaderInvocationReorderNV*, *RayTracingMotionBlurNV*
+*ShaderInvocationReorderNV*
 | 14 | 5250
 | '<id>' 'Hit Object'
 | '<id>' 'Acceleration Structure'
@@ -696,10 +702,12 @@ are same as those with the same names of <<OpTraceRayKHR,*OpTraceRayKHR*>> and
  +
  'Current Time' must be a 32-bit float type scalar. +
  +
- This instruction is allowed only in *RayGenerationKHR*, *ClosestHitKHR* and *MissKHR* execution models with *SPV_NV_ray_tracing_motion_blur* extension. +
+ This instruction is allowed only in *RayGenerationKHR*, *ClosestHitKHR* and *MissKHR* execution models. +
+ +
+ The *RayTracingMotionBlurNV* capability must also be declared. +
  +
 1+|Capability: +
-*ShaderInvocationReorderNV*, *RayTracingMotionBlurNV*
+*ShaderInvocationReorderNV*
 | 8 | 5251
 | '<id>' 'Hit Object'
 | '<id>' 'Miss Index'
