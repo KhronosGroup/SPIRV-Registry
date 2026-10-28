@@ -1,0 +1,122 @@
+:extension_name: SPV_INTEL_pause
+:capability_name: PauseINTEL
+:capability_token: 6266
+:instruction_name: OpPauseINTEL
+:instruction_token: 6267
+
+= {extension_name}
+
+== Name Strings
+
+{extension_name}
+
+== Contact
+
+To report problems with this extension, please open an issue at:
+
+https://github.com/KhronosGroup/SPIRV-Registry
+
+== Contributors
+
+* Ben Ashbaugh, Intel
+* Gregory Lueck, Intel
+* Mateusz Belicki, Intel
+* Victor Mustya, Intel
+
+== Notice
+
+Copyright (c) 2026 Intel Corporation.  All rights reserved.
+
+== Status
+
+* Complete
+
+== Version
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2026-10-21
+| Revision           | 1
+|========================================
+
+== Dependencies
+
+This extension is written against the SPIR-V Specification, Version 1.6
+Revision 8.
+
+This extension requires SPIR-V 1.0.
+
+== Overview
+
+This extension adds an instruction to pause execution of the current invocation
+for a requested number of clocks. The pause duration is approximate, and the
+maximum pause duration is implementation-defined.
+
+== Extension Name
+
+To use this extension within a SPIR-V module, the following *OpExtension* must
+be present in the module:
+
+[subs="attributes"]
+----
+OpExtension "{extension_name}"
+----
+
+== Modifications to the SPIR-V Specification, Version 1.6
+
+=== Capabilities
+
+Modify Section 3.2.30, "Capability", adding the following row to the Capability
+table:
+
+--
+[cols="^.^2,16,15",options="header"]
+|====
+2+^.^| Capability | Implicitly Declares
+| {capability_token} | *{capability_name}* +
+Enables *{instruction_name}*.
+|
+|====
+--
+
+=== Instructions
+
+Add the following instruction to Section 3.3.1, "Miscellaneous Instructions":
+
+[cols="2,2,1",width="100%"]
+|=====
+2+|[[{instruction_name}]]*{instruction_name}* +
+ +
+Pauses execution of the current invocation for the duration requested by
+_Clocks_. _Clocks_ specifies a number of clocks to pause. The pause duration is
+approximate, and the maximum allowed pause duration is implementation-defined.
+If _Clocks_ exceeds this maximum, it is treated as the maximum for the purpose
+of the pause. +
+ +
+The observed wall-clock duration of a pause may vary between executions with
+the same _Clocks_ value, even within a single invocation. +
+ +
+The pause may also affect other invocations in the same subgroup. Whether it
+does so is implementation-defined. +
+ +
+The operation is a hint to the implementation, that doesn't change the
+observable behavior of the program. The implementation can choose to ignore the
+pause request. +
+ +
+_Clocks_ must be a 32-bit integer type scalar. It is interpreted as unsigned.
+
+1+|Capability: +
+*{capability_name}*
+1+| 2 | {instruction_token} | _<id>_ +
+_Clocks_
+|=====
+
+== Revision History
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2026-10-21|Victor Mustya|Initial version
+|========================================
