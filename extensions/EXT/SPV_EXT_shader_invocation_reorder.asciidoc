@@ -451,12 +451,14 @@ is equivalent to *OpTraceRayKHR* instruction.
  + 
  'Current Time' must be a 32-bit float type scalar. +
  +
- This instruction is allowed only in *RayGenerationKHR*, *ClosestHitKHR* and *MissKHR* execution models with *SPV_NV_ray_tracing_motion_blur* extension. +
+ This instruction is allowed only in *RayGenerationKHR*, *ClosestHitKHR* and *MissKHR* execution models. +
+ +
+ The *RayTracingMotionBlurNV* capability must also be declared. +
  +
  This instruction is a _shader call instruction_ which may invoke shaders with the *IntersectionKHR* and *AnyHitKHR* execution models. +
  +
 1+|Capability: +
-*ShaderInvocationReorderEXT*, *RayTracingMotionBlurNV*
+*ShaderInvocationReorderEXT*
 | 14 | 5317
 | '<id>' 'Hit Object'
 | '<id>' 'Acceleration Structure'
@@ -560,10 +562,12 @@ is equivalent to *OpTraceRayKHR* instruction.
  +
  'Current Time' must be a 32-bit float type scalar. +
  +
- This instruction is allowed only in *RayGenerationKHR*, *ClosestHitKHR* and *MissKHR* execution models with *SPV_NV_ray_tracing_motion_blur* extension. +
+ This instruction is allowed only in *RayGenerationKHR*, *ClosestHitKHR* and *MissKHR* execution models. +
+ +
+ The *RayTracingMotionBlurNV* capability must also be declared. +
  +
 1+|Capability: +
-*ShaderInvocationReorderEXT*, *RayTracingMotionBlurNV*
+*ShaderInvocationReorderEXT*
 | 9 | 5306
 | '<id>' 'Hit Object'
 | '<id>' 'Ray Flags'
@@ -1248,12 +1252,14 @@ is equivalent to *OpTraceRayKHR* instruction.
  'Hint' and 'Bits' are optional together i.e Either both 'Hint' and 'Bits'
  should be provided or neither. +
  +
- This instruction is allowed only in *RayGenerationKHR* execution models with *SPV_NV_ray_tracing_motion_blur* extension. +
+ This instruction is allowed only in *RayGenerationKHR* execution models. +
+ +
+ The *RayTracingMotionBlurNV* capability must also be declared. +
  +
  This instruction is a _shader call instruction_ which may invoke shaders with the *IntersectionKHR*, *AnyHitKHR*, *ClosestHitKHR*, and *MissKHR* execution models. +
  +
 1+|Capability: +
-*ShaderInvocationReorderEXT*, *RayTracingMotionBlurNV*
+*ShaderInvocationReorderEXT*
 | 14 + variable | 5312
 | '<id>' 'Hit Object'
 | '<id>' 'Acceleration Structure'
