@@ -42,8 +42,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2026-07-08
-| Revision           | 4
+| Last Modified Date | 2026-10-09
+| Revision           | 5
 |========================================
 
 Dependencies
@@ -721,9 +721,9 @@ is equivalent to *OpTraceRayKHR* instruction.
 |======
 4+|[[OpHitObjectGetInstanceIdEXT]]*OpHitObjectGetInstanceIdEXT* +
  +
- Returns the instance id as encoded in the hit object. +
+ Returns the index of the instance in the top-level acceleration structure, as encoded in the hit object. This is the same value as the https://registry.khronos.org/SPIR-V/specs/unified1/SPIRV.html#BuiltIn[*InstanceId* *BuiltIn*]. +
  +
- 'Result' is the instance id as encoded in the hit object. +
+ 'Result' is the index of the instance as encoded in the hit object. +
  +
  'Result Type' must be a 32-bit 'integer type' scalar. +
  +
@@ -742,7 +742,7 @@ is equivalent to *OpTraceRayKHR* instruction.
 |======
 4+|[[OpHitObjectGetInstanceCustomIndexEXT]]*OpHitObjectGetInstanceCustomIndexEXT* +
  +
- Returns the application specified custom index value as encoded in the hit object. +
+ Returns the application specified custom index value as encoded in the hit object. This is the same value as the https://registry.khronos.org/SPIR-V/specs/unified1/SPIRV.html#BuiltIn[*InstanceCustomIndexKHR* *BuiltIn*]. +
  +
  'Result' is the application specified custom index value as encoded in the hit object. +
  +
@@ -1346,6 +1346,7 @@ Revision History
 |2 |2025-01-27 |Ashwin Lele          | Renumber enums
 |3 |2026-03-13 |Eric Werness         | Added Hit Kind to OpHitObjectRecordFromQueryEXT and clarified AABB hit-kind requirements
 |4 |2026-07-08 |Daniel Koch          | Recorded Khronos Board re-ratification
+|5 |2026-10-09 |Marijn Suijten       | Clarified that OpHitObjectGetInstanceIdEXT returns the instance index and linked the matching BuiltIns
 |========================================
 
 
