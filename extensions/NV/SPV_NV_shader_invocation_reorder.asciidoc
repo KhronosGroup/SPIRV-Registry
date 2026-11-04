@@ -31,8 +31,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2025-09-02
-| Revision           | 3
+| Last Modified Date | 2026-10-28
+| Revision           | 4
 |========================================
 
 Dependencies
@@ -366,12 +366,14 @@ are same as those with the same names of <<OpTraceRayKHR,*OpTraceRayKHR*>> and
  + 
  'Current Time' must be a 32-bit float type scalar. +
  +
- This instruction is allowed only in *RayGenerationKHR*, *ClosestHitKHR* and *MissKHR* execution models with *SPV_NV_ray_tracing_motion_blur* extension. +
+ This instruction is allowed only in *RayGenerationKHR*, *ClosestHitKHR* and *MissKHR* execution models. +
+ +
+ The *RayTracingMotionBlurNV* capability must also be declared. +
  +
  This instruction is a _shader call instruction_ which may invoke shaders with the *IntersectionKHR* and *AnyHitKHR* execution models. +
  +
 1+|Capability: +
-*ShaderInvocationReorderNV*, *RayTracingMotionBlurNV*
+*ShaderInvocationReorderNV*
 | 14 | 5256
 | '<id>' 'Hit Object'
 | '<id>' 'Acceleration Structure'
@@ -496,10 +498,12 @@ are same as those with the same names of <<OpTraceRayKHR,*OpTraceRayKHR*>> and
  +
  'Hit Object Attributes' contains the attributes of the hit which are to be encoded in 'Hit Object'. This must be an OpVariable in *HitObjectAttributeNV* storage class. +
  +
- This instruction is allowed only in *RayGenerationKHR*, *ClosestHitKHR* and *MissKHR* execution models with *SPV_NV_ray_tracing_motion_blur* extension. +
+ This instruction is allowed only in *RayGenerationKHR*, *ClosestHitKHR* and *MissKHR* execution models. +
+ +
+ The *RayTracingMotionBlurNV* capability must also be declared. +
  +
 1+|Capability: +
-*ShaderInvocationReorderNV*, *RayTracingMotionBlurNV*
+*ShaderInvocationReorderNV*
 | 15 | 5249
 | '<id>' 'Hit Object'
 | '<id>' 'Acceleration Structure'
@@ -624,10 +628,12 @@ are same as those with the same names of <<OpTraceRayKHR,*OpTraceRayKHR*>> and
  +
  'Hit Object Attributes' contains the attributes of the hit which are to be encoded in 'Hit Object'. This must be an OpVariable in *HitObjectAttributeNV* storage class. +
  +
- This instruction is allowed only in *RayGenerationKHR*, *ClosestHitKHR* and *MissKHR* execution models with *SPV_NV_ray_tracing_motion_blur* extension. +
+ This instruction is allowed only in *RayGenerationKHR*, *ClosestHitKHR* and *MissKHR* execution models. +
+ +
+ The *RayTracingMotionBlurNV* capability must also be declared. +
  +
 1+|Capability: +
-*ShaderInvocationReorderNV*, *RayTracingMotionBlurNV*
+*ShaderInvocationReorderNV*
 | 14 | 5250
 | '<id>' 'Hit Object'
 | '<id>' 'Acceleration Structure'
@@ -696,10 +702,12 @@ are same as those with the same names of <<OpTraceRayKHR,*OpTraceRayKHR*>> and
  +
  'Current Time' must be a 32-bit float type scalar. +
  +
- This instruction is allowed only in *RayGenerationKHR*, *ClosestHitKHR* and *MissKHR* execution models with *SPV_NV_ray_tracing_motion_blur* extension. +
+ This instruction is allowed only in *RayGenerationKHR*, *ClosestHitKHR* and *MissKHR* execution models. +
+ +
+ The *RayTracingMotionBlurNV* capability must also be declared. +
  +
 1+|Capability: +
-*ShaderInvocationReorderNV*, *RayTracingMotionBlurNV*
+*ShaderInvocationReorderNV*
 | 8 | 5251
 | '<id>' 'Hit Object'
 | '<id>' 'Miss Index'
@@ -760,6 +768,8 @@ are same as those with the same names of <<OpTraceRayKHR,*OpTraceRayKHR*>> and
  'Hit Object' is a pointer to the hit object. +
  +
  This instruction is allowed only in *RayGenerationKHR*, *ClosestHitKHR* and *MissKHR* execution models. +
+ +
+ The *RayTracingMotionBlurNV* capability must also be declared. +
 1+|Capability: +
 *ShaderInvocationReorderNV*
 | 4 | 5265
@@ -1254,8 +1264,8 @@ Interactions with SPV_NV_ray_tracing_motion_blur
 
 If the 'SPV_NV_ray_tracing_motion_blur' extension is not supported, the
 *OpHitObjectTraceRayMotionNV*, *OpHitObjectRecordHitMotionNV*,
-*OpHitObjectRecordHitWithIndexMotionNV*, and *OpHitObjectRecordMissMotionNV*
-instructions are not supported.
+*OpHitObjectRecordHitWithIndexMotionNV*, *OpHitObjectRecordMissMotionNV*, and
+*OpHitObjectGetCurrentTimeNV* instructions are not supported.
 
 
 Issues
@@ -1274,6 +1284,7 @@ Revision History
 |1 |2022-09-01 |Ashwin Lele         | Internal revisions
 |2 |2023-12-06 |Daniel Koch         | Remove references to non-existant SPIR-V definitions
 |3 |2025-09-02 |Pradyuman Singh     | Modify logical pointer validation rules (spir-v#878)
+|4 |2026-10-28 |Daniel Koch         | Fix interactions with SPV_NV_ray_tracing_motion_blur (GitHub issue #462)
 |========================================
 
 
