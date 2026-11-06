@@ -157,6 +157,7 @@ Note: we no longer push the HTML along side the extension.
 * [SPV_GOOGLE_user_type                    ]( https://github.khronos.org/SPIRV-Registry/extensions/GOOGLE/SPV_GOOGLE_user_type.html)
 * [SPV_HUAWEI_cluster_culling_shader       ]( https://github.khronos.org/SPIRV-Registry/extensions/HUAWEI/SPV_HUAWEI_cluster_culling_shader.html)
 * [SPV_HUAWEI_subpass_shading              ]( https://github.khronos.org/SPIRV-Registry/extensions/HUAWEI/SPV_HUAWEI_subpass_shading.html)
+* [SPV_INTEL_16bit_atomics                 ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_16bit_atomics.html)
 * [SPV_INTEL_2d_block_io                   ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_2d_block_io.html)
 * [SPV_INTEL_bfloat16_conversion           ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_bfloat16_conversion.html)
 * [SPV_INTEL_cache_controls                ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_cache_controls.html)
