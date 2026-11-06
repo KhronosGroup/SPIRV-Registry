@@ -162,6 +162,7 @@ Note: we no longer push the HTML along side the extension.
 * [SPV_INTEL_cache_controls                ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_cache_controls.html)
 * [SPV_INTEL_device_barrier                ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_device_barrier.html)
 * [SPV_INTEL_device_side_avc_motion_estimation]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_device_side_avc_motion_estimation.html)
+* [SPV_INTEL_fp_conversions                ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_fp_conversions.html)
 * [SPV_INTEL_fp_fast_math_mode             ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_fp_fast_math_mode.html)
 * [SPV_INTEL_fp_max_error                  ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_fp_max_error.html)
 * [SPV_INTEL_global_variable_host_access   ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_global_variable_host_access.html)

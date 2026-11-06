@@ -1,0 +1,332 @@
+:extension_name: SPV_INTEL_fp_conversions
+
+:f2f_capability_name: FloatConversionsFToFINTEL
+:f2f_capability_token: 6215
+:f2s_capability_name: FloatConversionsFToSINTEL
+:f2s_capability_token: 6216
+:OpClampConvertFToSINTEL_token: 6424
+:OpStochasticRoundFToFINTEL_token: 6217
+:OpClampStochasticRoundFToSINTEL_token: 6219
+
+= {extension_name}
+
+== Name Strings
+
+{extension_name}
+
+== Contact
+
+To report problems with this extension, please open a new issue at:
+
+https://github.com/KhronosGroup/SPIRV-Registry
+
+== Contributors
+
+- Ben Ashbaugh, Intel
+- Dmitry Sidorov, Intel
+- Dounia Khaldi, Intel
+- Eyal Radiano, Intel
+- Greg Lueck, Intel
+- Joe Garvey, Intel
+- John Lu, Intel
+- Mateusz Garbowski, Intel
+- Pawel Jurek, Intel
+- Victor Mustya, Intel
+- Viktoria Maksimova, Intel
+
+== Notice
+
+Copyright (c) 2026 Intel Corporation. All rights reserved.
+
+== Status
+
+* Complete
+
+== Version
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2026-10-28
+| Revision           | 1
+|========================================
+
+== Dependencies
+
+This extension is written against the SPIR-V Specification,
+Version 1.6 Revision 8.
+
+This extension requires SPIR-V 1.0.
+
+== Overview
+
+This extension adds instructions to convert floating-point values with stochastic rounding, and to convert floating-point values and clamp the result to the nearest representable integer value.
+Stochastic rounding replaces deterministic rounding behavior with a stochastic (probabilistic) rounding behavior.
+Stochastic rounding is important for certain numerical algorithms, particularly those relying on small floating-point types.
+
+== Modifications to the SPIR-V Specification, Version 1.6
+
+=== Capabilities
+
+Modify Section 3.2.30, Capability, adding rows to the Capability table:
+
+--
+[cols="^.^2,16,15",options="header"]
+|====
+2+^.^| Capability | Implicitly Declares
+| {f2f_capability_token} | *{f2f_capability_name}* +
+Uses *OpStochasticRoundFToFINTEL* instructions.
+|
+| {f2s_capability_token} | *{f2s_capability_name}* +
+Uses *OpClampStochasticRoundFToSINTEL* or *OpClampConvertFToSINTEL* instructions.
+|
+|====
+--
+
+=== Instructions
+
+==== 3.3.11. Conversion Instructions
+
+[cols="1a,1,5*",width="100%"]
+|=====
+6+|[[OpStochasticRoundFToFINTEL]]*OpStochasticRoundFToFINTEL*
+
+Convert an input value numerically from one floating point width to another
+using stochastic rounding.
+
+For finite input values, stochastic rounding is performed by adding a
+pseudo-random bias value to the mantissa of the input value.
+If this causes the mantissa to overflow, then the exponent of the input
+value is increased by one and the mantissa bits are shifted right.
+The value is then converted to the _Result Type_, rounding towards zero.
+
+If the input value is infinity, or if the exponent overflows when converting to
+_Result Type_, the result is determined as follows:
+if the result is decorated with *SaturatedToLargestFloat8NormalConversionEXT* or
+_Result Type_ has no representation for both NaN and infinity, the result is the
+nearest representable value of _Result Type_;
+otherwise, if _Result Type_ has a representation for infinity, the result is
+infinity with a matching sign;
+otherwise, the result is NaN.
+
+If either the input value or the result is NaN, and _Result Type_ has no
+representation for NaN, then the result is an unspecified stable value.
+
+The pseudo-random bias values are generated with an implementation-defined
+algorithm using _Seed_ as a starting point.
+The algorithm is guaranteed to produce repeatable bias values when the same
+value is passed for _Seed_.
+
+The instruction may optionally return a new seed value in _Next Seed_.
+When multiple stochastic rounding conversions will be performed by the same
+invocation, the value returned in _Next Seed_ should be passed as _Seed_ for the
+next stochastic rounding to generate good quality bias values.
+
+_Result Type_ is the type of the converted value and must be a scalar or
+vector of _floating-point type_.
+
+_Value_ must be a scalar or vector of _floating-point type_.
+It must have a wider range than the _Result Type_ and it must have the same number of components as _Result Type_.
+
+_Seed_ must be a 32-bit scalar _integer type_.
+
+_Next Seed_ must be a pointer to a 32-bit scalar _integer type_ in the *Function* storage class.
+
+Results are computed per component.
+1+|Capability: +
+*{f2f_capability_name}*
+1+| 5+ | {OpStochasticRoundFToFINTEL_token}
+| _<id>_ +
+_Result Type_
+| _Result <id>_
+| _<id>_ +
+_Value_
+| _<id>_ +
+_Seed_
+| Optional _<id>_ +
+_Next Seed_
+|=====
+
+[cols="1a,1,5*3",width="100%"]
+|=====
+6+|[[OpClampStochasticRoundFToSINTEL]]*OpClampStochasticRoundFToSINTEL*
+
+Converts an input value numerically from floating point to signed integer using stochastic rounding.
+
+Has the same semantics as *OpStochasticRoundFToFINTEL*.
+If the input value is infinity or overflows, the result is saturated to the
+nearest representable value of _Result Type_.
+
+If the input value is NaN, the result is an unspecified stable value.
+
+_Result Type_ is the type of the converted value and must be a scalar or
+vector of _integer type_.
+
+_Value_ must be a scalar or vector of _floating-point type_.
+It must have a wider range than the _Result Type_ and it must have the same number of components as _Result Type_.
+
+_Seed_ must be a 32-bit scalar _integer type_.
+
+_Next Seed_ must be a pointer to a 32-bit scalar _integer type_ in the *Function* storage class.
+
+Results are computed per component.
+1+|Capability: +
+*{f2s_capability_name}*
+1+| 5+ | {OpClampStochasticRoundFToSINTEL_token}
+| _<id>_ +
+_Result Type_
+| _Result <id>_
+| _<id>_ +
+_Value_
+| _<id>_ +
+_Seed_
+| Optional _<id>_ +
+_Next Seed_
+|=====
+
+[cols="1a,1,3*3",width="100%"]
+|=====
+4+|[[OpClampConvertFToSINTEL]]*OpClampConvertFToSINTEL*
+
+Converts an input value numerically from floating point to signed integer by rounding to the nearest even.
+If the input value is infinity or overflows, the result is saturated to the
+nearest representable value of _Result Type_.
+
+If the input value is NaN, the result is an unspecified stable value.
+
+_Result Type_ must be a scalar or vector of _integer type_.
+
+_Value_ must be a scalar or vector of _floating-point type_.
+It must have the same number of components as _Result Type_.
+
+Results are computed per component.
+
+1+|Capability: +
+*{f2s_capability_name}*
+1+| 4 | {OpClampConvertFToSINTEL_token}
+| _<id>_ +
+_Result Type_
+| _Result <id>_
+| _<id>_ +
+_Value_
+|=====
+
+=== Validation Rules
+
+Add the following bullets to section 2.16.11, Universal Validation Rules:
+
+* It is valid to use the *SaturatedToLargestFloat8NormalConversionEXT* decoration with *OpStochasticRoundFToFINTEL* when the _Result Type_ is *Float8E4M3EXT* or *Float8E5M2EXT*.
+* It is not valid to apply the *FPRoundingMode* decoration to the *OpStochasticRoundFToFINTEL*, *OpClampStochasticRoundFToSINTEL*, or *OpClampConvertFToSINTEL* instructions.
+* It is not valid to apply the *SaturatedConversion* decoration to the *OpClampStochasticRoundFToSINTEL* or *OpClampConvertFToSINTEL* instructions.
+
+== Client API Environment
+
+This section describes supported conversions for types and instructions added by
+the *SPV_INTEL_fp_conversions*, *SPV_EXT_float8*, *SPV_INTEL_int4*, and
+*SPV_EXT_ocp_microscaling_types* extensions when supported by Intel Level-Zero
+and OpenCL platforms.
+
+The following conversions are supported for *OpFConvert*:
+
+ * For conversions to the fp8 types *Float8E4M3EXT* and *Float8E5M2EXT*, the *SaturatedToLargestFloat8NormalConversionEXT* decoration is supported and controls whether the conversion is saturated.
+ * For conversions to the fp4 type *Float4E2M1EXT*, the conversion is always saturated to the nearest representable value, with NaN converting to an unspecified stable value.
+ * For conversions to the *BFloat16KHR* type, the *RTE* (round to nearest even) rounding mode is supported and is the default rounding mode.
+ * For conversions to the fp8 types *Float8E4M3EXT* and *Float8E5M2EXT*, the *RTE* (round to nearest even) rounding mode is supported and is the default rounding mode.
+ * For conversions to the fp4 type *Float4E2M1EXT*, the *RTE* (round to nearest even) rounding mode is supported and is the default rounding mode.
+
+[cols="9*^.^", width="100%"]
+|====
+2.2+| *OpFConvert*: 7+| To:
+| 64-bit *IEEE754* | 32-bit *IEEE754* | 16-bit *IEEE754* | *BFloat16KHR* | *Float8E4M3EXT* | *Float8E5M2EXT* | *Float4E2M1EXT*
+.7+| From:
+//                  fp64  fp32  fp16  bf16  e4m3  e5m2  e2m1
+| 64-bit *IEEE754* |  -  | Yes | Yes |     |     |     |
+| 32-bit *IEEE754* | Yes |  -  | Yes | Yes |     |     |
+| 16-bit *IEEE754* | Yes | Yes |  -  |     | Yes | Yes | Yes
+| *BFloat16KHR*    |     | Yes |     |  -  | Yes | Yes | Yes
+| *Float8E4M3EXT*  |     |     | Yes | Yes |  -  |     |
+| *Float8E5M2EXT*  |     |     | Yes | Yes |     |  -  |
+| *Float4E2M1EXT*  |     |     | Yes | Yes | Yes | Yes |  -
+|====
+
+The following conversions are supported for *OpStochasticRoundFToFINTEL*:
+
+ * For conversions to the fp8 types *Float8E4M3EXT* and *Float8E5M2EXT*, the *SaturatedToLargestFloat8NormalConversionEXT* decoration is supported and controls whether the conversion is saturated.
+
+[cols="9*^.^", width="100%"]
+|====
+2.2+| *OpStochasticRoundFToFINTEL*: 7+| To:
+| 64-bit *IEEE754* | 32-bit *IEEE754* | 16-bit *IEEE754* | *BFloat16KHR* | *Float8E4M3EXT* | *Float8E5M2EXT* | *Float4E2M1EXT*
+.7+| From:
+//                  fp64  fp32  fp16  bf16  e4m3  e5m2  e2m1
+| 64-bit *IEEE754* |  -  |     |     |     |     |     |
+| 32-bit *IEEE754* |     |  -  | Yes |     |     |     |
+| 16-bit *IEEE754* |     |     |  -  |     | Yes | Yes | Yes
+| *BFloat16KHR*    |     |     |     |  -  | Yes | Yes | Yes
+| *Float8E4M3EXT*  |     |     |     |     |  -  |     |
+| *Float8E5M2EXT*  |     |     |     |     |     |  -  |
+| *Float4E2M1EXT*  |     |     |     |     |     |     |  -
+|====
+
+The following conversions are supported for *OpConvertFToS*, *OpClampStochasticRoundFToSINTEL*, and *OpClampConvertFToSINTEL*:
+
+* For *OpConvertFToS* conversions to a 4-bit *Integer* type, the *RTE* (round to nearest even) rounding mode is supported.
+
+[cols="3*^.^", width="20%"]
+|====
+2.2+| *OpConvertFToS*, +
+*OpClampStochasticRoundFToSINTEL*, and +
+*OpClampConvertFToSINTEL*: 1+| To:
+| 4-bit *Integer*
+.7+| From:
+//                  int4
+| 64-bit *IEEE754* |
+| 32-bit *IEEE754* |
+| 16-bit *IEEE754* | Yes
+| *BFloat16KHR*    | Yes
+| *Float8E4M3EXT*  |
+| *Float8E5M2EXT*  |
+| *Float4E2M1EXT*  |
+|====
+
+The following conversions are supported for *OpConvertSToF*:
+
+* For *OpConvertSToF* conversions from a 4-bit *Integer* type, the default rounding mode is supported.
+Because all of the supported conversions are exact, there is no rounding.
+
+[cols="9*^.^", width="100%"]
+|====
+2.2+| *OpConvertSToF*: 7+| To:
+| 64-bit *IEEE754* | 32-bit *IEEE754* | 16-bit *IEEE754* | *BFloat16KHR* | *Float8E4M3EXT* | *Float8E5M2EXT* | *Float4E2M1EXT*
+.1+| From:
+//                  fp64  fp32  fp16  bf16  e4m3  e5m2  e2m1
+| 4-bit *Integer*  |     |     | Yes | Yes | Yes | Yes |
+|====
+
+== Issues
+
+. Why do we need *OpClampConvertFToSINTEL*? Can we just reuse *OpConvertFToS* with the *SaturatedConversion* decoration?
++
+--
+RESOLVED: Although it would be nice to reuse *OpConvertFToS*, *OpClampConvertFToSINTEL* has two key differences that warrant an additional instruction instead:
+
+* The only supported rounding mode for *OpClampConvertFToSINTEL* is implicitly *RTE* (round to nearest even).
+This is different than the default rounding mode for other float-to-int conversions, which is *RTZ* (round toward zero).
+* For NaN inputs, *OpClampConvertFToSINTEL* produces an unspecified stable value rather than converting to zero.
+Note that the current implementation produces either the smallest or largest representable value depending on the most significant bit of the (NaN) input.
+--
+
+. Should it be valid to include the *SaturatedConversion* decoration on *OpClampStochasticRoundFToSINTEL* or *OpClampConvertFToSINTEL*?
++
+--
+RESOLVED: Due to the differing NaN behavior, it would be confusing to allow the *SaturatedConversion* decoration on *OpClampStochasticRoundFToSINTEL* or *OpClampConvertFToSINTEL*, therefore this is not valid.
+--
+
+== Revision History
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1|2026-10-28|Ben Ashbaugh|Initial revision for publication
+|========================================
