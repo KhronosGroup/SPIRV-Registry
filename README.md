@@ -84,6 +84,7 @@ Note: we no longer push the HTML along side the extension.
 ### EXT Extensions (Multivendor)
 
 * [SPV_EXT_arithmetic_fence                ]( https://github.khronos.org/SPIRV-Registry/extensions/EXT/SPV_EXT_arithmetic_fence.html)
+* [SPV_EXT_bfloat16_arithmetic             ]( https://github.khronos.org/SPIRV-Registry/extensions/EXT/SPV_EXT_bfloat16_arithmetic.html)
 * [SPV_EXT_cooperative_matrix_maintenance1 ]( https://github.khronos.org/SPIRV-Registry/extensions/EXT/SPV_EXT_cooperative_matrix_maintenance1.html)
 * [SPV_EXT_demote_to_helper_invocation     ]( https://github.khronos.org/SPIRV-Registry/extensions/EXT/SPV_EXT_demote_to_helper_invocation.html)
 * [SPV_EXT_descriptor_indexing             ]( https://github.khronos.org/SPIRV-Registry/extensions/EXT/SPV_EXT_descriptor_indexing.html)
