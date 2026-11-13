@@ -35,8 +35,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2025-04-10
-| Revision           | 3
+| Last Modified Date | 2026-10-06
+| Revision           | 4
 |========================================
 
 Dependencies
@@ -202,7 +202,7 @@ type. +
 supported) *PhysicalStorageBufferEXT*. +
  +
 'Stride' is the number of elements in the array in memory between the first
-component of consecutive rows (or columns) in the result. It must be a scalar
+component of consecutive rows (or columns) in the result. It must be a 32-bit scalar
 'integer type'. +
  +
 'ColumnMajor' indicates whether the values loaded from memory are arranged in
@@ -248,7 +248,7 @@ is supported) *PhysicalStorageBufferEXT*. +
 *OpTypeCooperativeMatrixNV*. +
  +
 'Stride' is the number of elements in the array in memory between the first
-component of consecutive rows (or columns) in the result. It must be a scalar
+component of consecutive rows (or columns) in the result. It must be a 32-bit scalar
 'integer type'. +
  +
 'ColumnMajor' indicates whether the values stored to memory are arranged in
@@ -454,4 +454,5 @@ Revision History
 |1|2019-01-30|Jeff Bolz|Initial revision
 |2|2019-07-12|Jeff Bolz|Added details for integer operations
 |3|2025-04-10|Jeff Bolz|Clarify composite creation behavior
+|4|2026-10-06|Jeff Bolz|Require 32-bit integer strides for cooperative matrix loads and stores
 |========================================
