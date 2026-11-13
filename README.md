@@ -183,6 +183,8 @@ Note: we no longer push the HTML along side the extension.
 * [SPV_INTEL_subgroup_bitcast_shuffle      ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_subgroup_bitcast_shuffle.html)
 * [SPV_INTEL_subgroup_buffer_prefetch      ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_subgroup_buffer_prefetch.html)
 * [SPV_INTEL_subgroup_matrix_multiply_accumulate]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_subgroup_matrix_multiply_accumulate.html)
+* [SPV_INTEL_subgroup_matrix_multiply_accumulate_float4]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_subgroup_matrix_multiply_accumulate_float4.html)
+* [SPV_INTEL_subgroup_matrix_multiply_accumulate_float8]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_subgroup_matrix_multiply_accumulate_float8.html)
 * [SPV_INTEL_tensor_float32_conversion     ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_tensor_float32_conversion.html)
 * [SPV_INTEL_ternary_bitwise_function      ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_ternary_bitwise_function.html)
 * [SPV_INTEL_unstructured_loop_controls    ]( https://github.khronos.org/SPIRV-Registry/extensions/INTEL/SPV_INTEL_unstructured_loop_controls.html)
