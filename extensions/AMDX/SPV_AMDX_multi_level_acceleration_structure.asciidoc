@@ -1,0 +1,491 @@
+// Copyright (c) 2026 Advanced Micro Devices, Inc.
+//
+// SPDX-License-Identifier: CC-BY-4.0
+
+SPV_AMDX_multi_level_acceleration_structure
+===========================================
+
+Name Strings
+------------
+
+SPV_AMDX_multi_level_acceleration_structure
+
+Contact
+-------
+
+See *Issues* list in the Khronos SPIRV-Registry repository:
+https://github.com/KhronosGroup/SPIRV-Registry
+
+Contributors
+------------
+
+- Stu Smith, AMD
+- Holger Gruen, AMD
+- Aaron Hagan, AMD
+
+Status
+------
+
+- Provisional
+
+Version
+-------
+
+[width="40%",cols="25,25"]
+|========================================
+| Last Modified Date | 2026-11-01
+| Revision           | 1
+|========================================
+
+Dependencies
+------------
+
+This extension is written against the Unified SPIR-V Specification,
+Version 1.6, Revision 4.
+
+This extension requires SPIR-V 1.4.
+
+This extension requires SPV_KHR_ray_tracing or SPV_KHR_ray_query.
+
+:RayQueryUrl: https://htmlpreview.github.io/?https://github.com/KhronosGroup/SPIRV-Registry/blob/main/extensions/KHR/SPV_KHR_ray_query.html
+
+Overview
+--------
+
+This extension adds functionality to ray tracing pipelines and ray queries to
+allow querying properties of each individual instance in the chain of
+acceleration structure instances that led to the current hit, rather than only
+those of the instance that references the bottom level acceleration structure.
+
+This supports the Vulkan VK_AMDX_multi_level_acceleration_structure extension,
+which permits mid level acceleration structures to be placed between the top
+level acceleration structure and the bottom level acceleration structures,
+producing a chain of more than one instance per hit.
+
+Extension Name
+--------------
+
+To use this extension within a SPIR-V module, the following
+*OpExtension* must be present in the module:
+
+----
+OpExtension "SPV_AMDX_multi_level_acceleration_structure"
+----
+
+New Capabilities
+----------------
+
+This extension introduces two new capabilities:
+
+----
+RayTracingMultiLevelAccelerationStructureAMDX
+RayQueryMultiLevelAccelerationStructureAMDX
+----
+
+New Builtins
+------------
+
+Builtin added under the *RayTracingMultiLevelAccelerationStructureAMDX* capability
+
+----
+HitInstanceLevelAMDX
+----
+
+New Instructions
+----------------
+
+Instructions added under the *RayTracingMultiLevelAccelerationStructureAMDX* capability
+
+----
+OpGetInstanceCustomIndexAtLevelAMDX
+OpGetInstanceIdAtLevelAMDX
+OpGetObjectToWorldAtLevelAMDX
+OpGetWorldToObjectAtLevelAMDX
+----
+
+Instructions added under the *RayQueryMultiLevelAccelerationStructureAMDX* capability
+
+----
+OpRayQueryGetIntersectionInstanceLevelAMDX
+OpRayQueryGetIntersectionInstanceCustomIndexAtLevelAMDX
+OpRayQueryGetIntersectionInstanceIdAtLevelAMDX
+OpRayQueryGetIntersectionObjectToWorldAtLevelAMDX
+OpRayQueryGetIntersectionWorldToObjectAtLevelAMDX
+----
+
+Modifications to the SPIR-V Specification
+-----------------------------------------
+
+[[acceleration_structure_levels]]
+(Add a new sub-section 3.ML, Acceleration Structure Levels) ::
++
+--
+Each instance in the chain of acceleration structure instances traversed to
+reach a hit is identified by a _level_.
+
+The instance contained in the top level acceleration structure is at level 0.
+An instance contained in a mid level acceleration structure referenced by the
+instance at level _n_ is at level _n_ plus 1.
+
+The instance at the highest level is the one that references the bottom level
+acceleration structure containing the geometry that was hit. It is referred to
+as the _final instance_.
+
+The number of levels for the current hit is available from the
+<<HitInstanceLevelAMDX, *HitInstanceLevelAMDX*>> builtin in the ray tracing pipeline
+execution models, and from the
+<<OpRayQueryGetIntersectionInstanceLevelAMDX, *OpRayQueryGetIntersectionInstanceLevelAMDX*>>
+instruction for ray queries. The level of the final instance is therefore that
+count minus one.
+
+Where an instruction in this extension takes a 'Level' operand, behavior is
+undefined if 'Level' is greater than or equal to the number of levels for the
+hit or intersection being queried.
+
+Refer to the Ray Tracing chapter of the Vulkan API specification for more details.
+--
+
+(Modify Section 3.21, BuiltIn, adding a row to the BuiltIn table) ::
++
+--
+[cols="^1,10,^6",options="header",width = "100%"]
+|====
+2+^.^| BuiltIn | <<Capability,Enabling Capabilities>>
+| 5190 | [[HitInstanceLevelAMDX]]*HitInstanceLevelAMDX* +
+The number of <<acceleration_structure_levels, acceleration structure levels>> traversed to reach
+the hit for the ray being traced in the *IntersectionKHR*, *AnyHitKHR*, or
+*ClosestHitKHR* execution models. +
+ +
+Refer to the Ray Tracing chapter of the Vulkan API specification for more details.
+|*RayTracingMultiLevelAccelerationStructureAMDX*
+|====
+--
+
+(Modify Section 3.31, Capability, adding rows to the Capability table) ::
++
+--
+[cols="^.^1,25,15",options="header",width = "100%"]
+|====
+2+^.^| [[Capability]]Capability | Implicitly Declares
+| 5191 | *RayTracingMultiLevelAccelerationStructureAMDX* +
+Uses the <<HitInstanceLevelAMDX, *HitInstanceLevelAMDX*>> builtin, or any of the
+per-level ray tracing instructions added by this extension.
+| *RayTracingKHR*
+| 5192 | *RayQueryMultiLevelAccelerationStructureAMDX* +
+Uses any of the per-level ray query instructions added by this extension.
+| *RayQueryKHR*
+|====
+--
+
+(Add to sub section 3.36.RT, Ray Tracing Instructions) ::
++
+--
+
+[cols="5*1"]
+|======
+4+|[[OpGetInstanceCustomIndexAtLevelAMDX]]*OpGetInstanceCustomIndexAtLevelAMDX* +
+ +
+ Gets the application defined value of the instance at a given <<acceleration_structure_levels, acceleration structure level>> for the current hit. +
+ +
+ 'Result' is the returned value, taken from the lower 24 bits of the value specified for the instance at 'Level'. The upper 8 bits of 'Result' are zero. +
+ +
+ 'Result Type' must be a 32-bit 'integer type' scalar. +
+ +
+ 'Level' must be a 32-bit 'integer type' scalar. +
+ +
+ This instruction is allowed only in *IntersectionKHR*, *AnyHitKHR*, and *ClosestHitKHR* execution models. +
+ +
+1+|Capability: +
+*RayTracingMultiLevelAccelerationStructureAMDX*
+| 4 | 5193
+| '<id>' 'Result Type'
+| 'Result' '<id>'
+| '<id> Level'
+|======
+
+[cols="5*1"]
+|======
+4+|[[OpGetInstanceIdAtLevelAMDX]]*OpGetInstanceIdAtLevelAMDX* +
+ +
+ Gets the index of the instance at a given <<acceleration_structure_levels, acceleration structure level>> for the current hit, within the acceleration structure that contains it. +
+ +
+ 'Result' is the returned index. +
+ +
+ 'Result Type' must be a 32-bit 'integer type' scalar. +
+ +
+ 'Level' must be a 32-bit 'integer type' scalar. +
+ +
+ This instruction is allowed only in *IntersectionKHR*, *AnyHitKHR*, and *ClosestHitKHR* execution models. +
+ +
+1+|Capability: +
+*RayTracingMultiLevelAccelerationStructureAMDX*
+| 4 | 5194
+| '<id>' 'Result Type'
+| 'Result' '<id>'
+| '<id> Level'
+|======
+
+[cols="5*1"]
+|======
+4+|[[OpGetObjectToWorldAtLevelAMDX]]*OpGetObjectToWorldAtLevelAMDX* +
+ +
+ Gets the transformation matrix of the instance at a given <<acceleration_structure_levels, acceleration structure level>> for the current hit. +
+ +
+ 'Result' is the returned matrix. It is the transformation defined by the instance at 'Level' alone, and is not combined with the transformations of any other instance in the chain. The combined transformation from the coordinate system of the bottom level acceleration structure to world space is available from the *ObjectToWorldKHR* builtin. +
+ +
+ 'Result Type' must be a matrix with a 'Column Count' of 4, and a 'Column Type' that is a vector type with a 'Component Type' that is a 32-bit 'floating-point type' and a 'Component Count' of 3. +
+ +
+ 'Level' must be a 32-bit 'integer type' scalar. +
+ +
+ This instruction is allowed only in *IntersectionKHR*, *AnyHitKHR*, and *ClosestHitKHR* execution models. +
+ +
+1+|Capability: +
+*RayTracingMultiLevelAccelerationStructureAMDX*
+| 4 | 5195
+| '<id>' 'Result Type'
+| 'Result' '<id>'
+| '<id> Level'
+|======
+
+[cols="5*1"]
+|======
+4+|[[OpGetWorldToObjectAtLevelAMDX]]*OpGetWorldToObjectAtLevelAMDX* +
+ +
+ Gets the inverse of the transformation matrix of the instance at a given <<acceleration_structure_levels, acceleration structure level>> for the current hit. +
+ +
+ 'Result' is the returned matrix. It is the inverse of the transformation defined by the instance at 'Level' alone, and is not combined with the transformations of any other instance in the chain. The combined transformation from world space to the coordinate system of the bottom level acceleration structure is available from the *WorldToObjectKHR* builtin. +
+ +
+ 'Result Type' must be a matrix with a 'Column Count' of 4, and a 'Column Type' that is a vector type with a 'Component Type' that is a 32-bit 'floating-point type' and a 'Component Count' of 3. +
+ +
+ 'Level' must be a 32-bit 'integer type' scalar. +
+ +
+ This instruction is allowed only in *IntersectionKHR*, *AnyHitKHR*, and *ClosestHitKHR* execution models. +
+ +
+1+|Capability: +
+*RayTracingMultiLevelAccelerationStructureAMDX*
+| 4 | 5196
+| '<id>' 'Result Type'
+| 'Result' '<id>'
+| '<id> Level'
+|======
+
+--
+
+(Add to sub section 3.32.RQInstructions, Ray Query Instructions) ::
++
+--
+
+[cols="6*1"]
+|======
+5+|[[OpRayQueryGetIntersectionInstanceLevelAMDX]]*OpRayQueryGetIntersectionInstanceLevelAMDX* +
+ +
+ Gets the number of <<acceleration_structure_levels, acceleration structure levels>> traversed to reach the intersection. +
+ +
+ 'Result' is the returned count. +
+ +
+ 'Result Type' must be a 32-bit 'integer type' scalar. +
+ +
+ 'Intersection' must be the <id> of a 'constant instruction' with a 32-bit scalar 'integer type'. +
+ +
+ 'Intersection' identifies which intersection values should be returned for, either the current candidate or the
+ closest recorded hit so far; see {RayQueryUrl}#ray_query_intersection[Ray Query Intersection]. +
+ +
+ 'Ray Query' is a pointer to the ray query object. +
+ +
+ If 'Intersection' is *RayQueryCandidateIntersectionKHR*, behavior is undefined if *OpRayQueryProceedKHR*
+ was not executed on the same ray query object, or if the last value returned by such an execution of *OpRayQueryProceedKHR* was not true. +
+ +
+ If 'Intersection' is *RayQueryCommittedIntersectionKHR*, behavior is undefined if there is no current committed
+ intersection (see *OpRayQueryGetIntersectionTypeKHR*). +
+ +
+1+|Capability: +
+*RayQueryMultiLevelAccelerationStructureAMDX*
+| 5 | 5197
+| '<id>' 'Result Type'
+| 'Result' '<id>'
+| '<id> Ray Query'
+| '<id> Intersection'
+|======
+
+[cols="7*1"]
+|======
+6+|[[OpRayQueryGetIntersectionInstanceCustomIndexAtLevelAMDX]]*OpRayQueryGetIntersectionInstanceCustomIndexAtLevelAMDX* +
+ +
+ Gets the application defined value of the instance at a given <<acceleration_structure_levels, acceleration structure level>> for the intersection. +
+ +
+ 'Result' is the returned value, taken from the lower 24 bits of the value specified for the instance at 'Level'. The upper 8 bits of 'Result' are zero. +
+ +
+ 'Result Type' must be a 32-bit 'integer type' scalar. +
+ +
+ 'Level' must be a 32-bit 'integer type' scalar. +
+ +
+ 'Intersection' must be the <id> of a 'constant instruction' with a 32-bit scalar 'integer type'. +
+ +
+ 'Intersection' identifies which intersection values should be returned for, either the current candidate or the
+ closest recorded hit so far; see {RayQueryUrl}#ray_query_intersection[Ray Query Intersection]. +
+ +
+ 'Ray Query' is a pointer to the ray query object. +
+ +
+ If 'Intersection' is *RayQueryCandidateIntersectionKHR*, behavior is undefined if *OpRayQueryProceedKHR*
+ was not executed on the same ray query object, or if the last value returned by such an execution of *OpRayQueryProceedKHR* was not true. +
+ +
+ If 'Intersection' is *RayQueryCommittedIntersectionKHR*, behavior is undefined if there is no current committed
+ intersection (see *OpRayQueryGetIntersectionTypeKHR*). +
+ +
+1+|Capability: +
+*RayQueryMultiLevelAccelerationStructureAMDX*
+| 6 | 5198
+| '<id>' 'Result Type'
+| 'Result' '<id>'
+| '<id> Ray Query'
+| '<id> Intersection'
+| '<id> Level'
+|======
+
+[cols="7*1"]
+|======
+6+|[[OpRayQueryGetIntersectionInstanceIdAtLevelAMDX]]*OpRayQueryGetIntersectionInstanceIdAtLevelAMDX* +
+ +
+ Gets the index of the instance at a given <<acceleration_structure_levels, acceleration structure level>> for the intersection, within the acceleration structure that contains it. +
+ +
+ 'Result' is the returned index. +
+ +
+ 'Result Type' must be a 32-bit 'integer type' scalar. +
+ +
+ 'Level' must be a 32-bit 'integer type' scalar. +
+ +
+ 'Intersection' must be the <id> of a 'constant instruction' with a 32-bit scalar 'integer type'. +
+ +
+ 'Intersection' identifies which intersection values should be returned for, either the current candidate or the
+ closest recorded hit so far; see {RayQueryUrl}#ray_query_intersection[Ray Query Intersection]. +
+ +
+ 'Ray Query' is a pointer to the ray query object. +
+ +
+ If 'Intersection' is *RayQueryCandidateIntersectionKHR*, behavior is undefined if *OpRayQueryProceedKHR*
+ was not executed on the same ray query object, or if the last value returned by such an execution of *OpRayQueryProceedKHR* was not true. +
+ +
+ If 'Intersection' is *RayQueryCommittedIntersectionKHR*, behavior is undefined if there is no current committed
+ intersection (see *OpRayQueryGetIntersectionTypeKHR*). +
+ +
+1+|Capability: +
+*RayQueryMultiLevelAccelerationStructureAMDX*
+| 6 | 5199
+| '<id>' 'Result Type'
+| 'Result' '<id>'
+| '<id> Ray Query'
+| '<id> Intersection'
+| '<id> Level'
+|======
+
+[cols="7*1"]
+|======
+6+|[[OpRayQueryGetIntersectionObjectToWorldAtLevelAMDX]]*OpRayQueryGetIntersectionObjectToWorldAtLevelAMDX* +
+ +
+ Gets the transformation matrix of the instance at a given <<acceleration_structure_levels, acceleration structure level>> for the intersection. +
+ +
+ 'Result' is the returned matrix. It is the transformation defined by the instance at 'Level' alone, and is not combined with the transformations of any other instance in the chain. The combined transformation from the coordinate system of the bottom level acceleration structure to world space is available from *OpRayQueryGetIntersectionObjectToWorldKHR*. +
+ +
+ 'Result Type' must be a matrix with a 'Column Count' of 4, and a 'Column Type' that is a vector type with a 'Component Type' that is a 32-bit 'floating-point type' and a 'Component Count' of 3. +
+ +
+ 'Level' must be a 32-bit 'integer type' scalar. +
+ +
+ 'Intersection' must be the <id> of a 'constant instruction' with a 32-bit scalar 'integer type'. +
+ +
+ 'Intersection' identifies which intersection values should be returned for, either the current candidate or the
+ closest recorded hit so far; see {RayQueryUrl}#ray_query_intersection[Ray Query Intersection]. +
+ +
+ 'Ray Query' is a pointer to the ray query object. +
+ +
+ If 'Intersection' is *RayQueryCandidateIntersectionKHR*, behavior is undefined if *OpRayQueryProceedKHR*
+ was not executed on the same ray query object, or if the last value returned by such an execution of *OpRayQueryProceedKHR* was not true. +
+ +
+ If 'Intersection' is *RayQueryCommittedIntersectionKHR*, behavior is undefined if there is no current committed
+ intersection (see *OpRayQueryGetIntersectionTypeKHR*). +
+ +
+1+|Capability: +
+*RayQueryMultiLevelAccelerationStructureAMDX*
+| 6 | 5200
+| '<id>' 'Result Type'
+| 'Result' '<id>'
+| '<id> Ray Query'
+| '<id> Intersection'
+| '<id> Level'
+|======
+
+[cols="7*1"]
+|======
+6+|[[OpRayQueryGetIntersectionWorldToObjectAtLevelAMDX]]*OpRayQueryGetIntersectionWorldToObjectAtLevelAMDX* +
+ +
+ Gets the inverse of the transformation matrix of the instance at a given <<acceleration_structure_levels, acceleration structure level>> for the intersection. +
+ +
+ 'Result' is the returned matrix. It is the inverse of the transformation defined by the instance at 'Level' alone, and is not combined with the transformations of any other instance in the chain. The combined transformation from world space to the coordinate system of the bottom level acceleration structure is available from *OpRayQueryGetIntersectionWorldToObjectKHR*. +
+ +
+ 'Result Type' must be a matrix with a 'Column Count' of 4, and a 'Column Type' that is a vector type with a 'Component Type' that is a 32-bit 'floating-point type' and a 'Component Count' of 3. +
+ +
+ 'Level' must be a 32-bit 'integer type' scalar. +
+ +
+ 'Intersection' must be the <id> of a 'constant instruction' with a 32-bit scalar 'integer type'. +
+ +
+ 'Intersection' identifies which intersection values should be returned for, either the current candidate or the
+ closest recorded hit so far; see {RayQueryUrl}#ray_query_intersection[Ray Query Intersection]. +
+ +
+ 'Ray Query' is a pointer to the ray query object. +
+ +
+ If 'Intersection' is *RayQueryCandidateIntersectionKHR*, behavior is undefined if *OpRayQueryProceedKHR*
+ was not executed on the same ray query object, or if the last value returned by such an execution of *OpRayQueryProceedKHR* was not true. +
+ +
+ If 'Intersection' is *RayQueryCommittedIntersectionKHR*, behavior is undefined if there is no current committed
+ intersection (see *OpRayQueryGetIntersectionTypeKHR*). +
+ +
+1+|Capability: +
+*RayQueryMultiLevelAccelerationStructureAMDX*
+| 6 | 5201
+| '<id>' 'Result Type'
+| 'Result' '<id>'
+| '<id> Ray Query'
+| '<id> Intersection'
+| '<id> Level'
+|======
+
+--
+
+Validation Rules
+----------------
+
+An OpExtension must be added to the SPIR-V for validation layers to check
+legal use of this extension:
+
+----
+OpExtension "SPV_AMDX_multi_level_acceleration_structure"
+----
+
+Interactions with SPV_KHR_ray_tracing
+-------------------------------------
+
+The *RayTracingMultiLevelAccelerationStructureAMDX* capability, the
+*HitInstanceLevelAMDX* builtin, and the per-level ray tracing instructions are only
+supported if SPV_KHR_ray_tracing and the *RayTracingKHR* capability are
+supported.
+
+Interactions with SPV_KHR_ray_query
+-----------------------------------
+
+The *RayQueryMultiLevelAccelerationStructureAMDX* capability and the per-level
+ray query instructions are only supported if SPV_KHR_ray_query and the
+*RayQueryKHR* capability are supported.
+
+Issues
+------
+
+None.
+
+Revision History
+----------------
+
+[cols="5,15,15,70"]
+[grid="rows"]
+[options="header"]
+|========================================
+|Rev|Date|Author|Changes
+|1 |2026-11-01 |Stu Smith | Initial revision.
+|========================================
