@@ -235,4 +235,5 @@ Note: we no longer push the HTML along side the extension.
 ## Extended Instruction Set Specifications
 
 * [Arm.ExperimentalMLOperations            ]( https://github.khronos.org/SPIRV-Registry/extended/Arm.ExperimentalMLOperations.html)
+* [Arm.MotionEngine.100                    ]( https://github.khronos.org/SPIRV-Registry/extended/Arm.MotionEngine.100.html)
 * [TOSA.001000.1                           ]( https://github.khronos.org/SPIRV-Registry/extended/TOSA.001000.1.html)
