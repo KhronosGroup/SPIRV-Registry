@@ -55,8 +55,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2025-04-24
-| Revision           | 10
+| Last Modified Date | 2026-11-17
+| Revision           | 11
 |========================================
 
 Dependencies
@@ -514,6 +514,30 @@ Allow cooperative matrix types for *OpMatrixTimesScalar*.
 All the operands to this instruction must be dynamically uniform within every
 instance of the 'Scope' of the cooperative matrix.
 
+3.42.15 Relational and Logical Instructions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Add to the description of *OpSelect*:
+
+If the 'Result Type' is an *OpTypeCooperativeMatrixKHR* type or a composite
+type that recursively contains an *OpTypeCooperativeMatrixKHR* type,
+'Condition' must be a scalar Boolean.
+
+If the 'Result Type' is an *OpTypeCooperativeMatrixKHR* type or a composite
+type that recursively contains an *OpTypeCooperativeMatrixKHR* type, and
+'Condition' is not dynamically uniform within the scope instance of a
+cooperative matrix in the result, the result of the operation is poison.
+
+3.42.17 Control-Flow Instructions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Add to the description of *OpPhi*:
+
+If the 'Result Type' is an *OpTypeCooperativeMatrixKHR* type or a composite
+type that recursively contains an *OpTypeCooperativeMatrixKHR* type, and
+all invocations in the cooperative matrix scope did not have the same dynamic
+predecessor, the result is poison.
+
 Issues
 ------
 
@@ -651,6 +675,7 @@ Revision History
 [options="header"]
 |========================================
 |Rev|Date|Author|Changes
+|11|2026-11-17|Jeff Bolz|Clarify OpSelect and OpPhi behavior for cooperative matrices
 |10|2025-04-24|Alan Baker|Reduce version requirement to 1.3
 |9|2025-04-10|Jeff Bolz|Specify which instructions are tangled
 |8|2025-04-10|Jeff Bolz|Clarify composite creation behavior

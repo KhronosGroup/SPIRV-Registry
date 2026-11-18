@@ -35,8 +35,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2025-04-10
-| Revision           | 3
+| Last Modified Date | 2026-11-17
+| Revision           | 4
 |========================================
 
 Dependencies
@@ -363,6 +363,30 @@ component type is appropriate): *OpSNegate*, *OpFNegate*, *OpIAdd*, *OpFAdd*,
 *OpISub*, *OpFSub*, *OpFDiv*, *OpSDiv*, and *OpUDiv*. Allow cooperative
 matrix types for *OpMatrixTimesScalar*.
 
+3.32.15 Relational and Logical Instructions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Add to the description of *OpSelect*:
+
+If the 'Result Type' is an *OpTypeCooperativeMatrixNV* type or a composite
+type that recursively contains an *OpTypeCooperativeMatrixNV* type,
+'Condition' must be a scalar Boolean.
+
+If the 'Result Type' is an *OpTypeCooperativeMatrixNV* type or a composite
+type that recursively contains an *OpTypeCooperativeMatrixNV* type, and
+'Condition' is not dynamically uniform within the scope instance of a
+cooperative matrix in the result, the result of the operation is poison.
+
+3.32.17 Control-Flow Instructions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Add to the description of *OpPhi*:
+
+If the 'Result Type' is an *OpTypeCooperativeMatrixNV* type or a composite
+type that recursively contains an *OpTypeCooperativeMatrixNV* type, and
+all invocations in the cooperative matrix scope did not have the same dynamic
+predecessor, the result is poison.
+
 Issues
 ------
 
@@ -454,4 +478,5 @@ Revision History
 |1|2019-01-30|Jeff Bolz|Initial revision
 |2|2019-07-12|Jeff Bolz|Added details for integer operations
 |3|2025-04-10|Jeff Bolz|Clarify composite creation behavior
+|4|2026-11-17|Jeff Bolz|Clarify OpSelect and OpPhi behavior for cooperative matrices
 |========================================
