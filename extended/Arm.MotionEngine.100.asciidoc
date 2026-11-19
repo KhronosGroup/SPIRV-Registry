@@ -1,0 +1,577 @@
+= Arm Motion Engine Extended Instruction Set 100
+:toc: left
+:toclevels: 2
+:nofooter:
+
+== Overview
+
+This document specifies the `Arm.MotionEngine.100` SPIR-V extended instruction
+set that exposes the motion engine hardware that some Mali GPUs support. The
+instructions specified in this document must be used in graphs as defined
+by SPV_ARM_graph.
+
+The instruction set is imported using:
+
+[source]
+----
+%motion_engine = OpExtInstImport "Arm.MotionEngine.100"
+----
+
+== Common operation definitions
+
+=== Tensor layout and coordinates
+
+_input0_ is the template image and _input1_ is the search image. Both must
+have the same shape `[N, C, IH, IW]`, with dimensions in batch, channel,
+height, width order. Each batch and channel is processed independently;
+SAD values are not summed across channels. The kernel height and width
+must not exceed `IH` and `IW`, respectively.
+
+Let `KH`, `KW` be _kernel_sizes_; `SH`, `SW` be _search_window_sizes_;
+`ISY`, `ISX` be _input_strides_; `WSY`, `WSX` be _window_strides_;
+`OY`, `OX` be _window_offsets_; and `PT`, `PL` be _padding_. In each pair,
+the vertical component precedes the horizontal component.
+
+The output spatial dimensions are:
+
+[source]
+----
+OH = floor(IH / ISY)
+OW = floor(IW / ISX)
+----
+
+Any trailing partial input-stride step is discarded.
+
+For an output position `(y, x)`, where `0 <= y < OH` and `0 <= x < OW`,
+the template patch starts at `(y * ISY - PT, x * ISX - PL)`.
+A candidate search-window position `(wy, wx)`, where `0 <= wy < SH` and
+`0 <= wx < SW`, has displacement:
+
+[source]
+----
+dy = wy - OY
+dx = wx - OX
+----
+
+The corresponding search patch starts at:
+
+[source]
+----
+(y * ISY - PT + dy * WSY, x * ISX - PL + dx * WSX)
+----
+
+Window strides scale the displacement used to sample the search image.
+The returned motion vector is `(dx, dy)`, without this scaling. Increasing
+`x` moves right and increasing `y` moves down.
+
+=== Sum of absolute differences
+
+Define `sample(T, n, c, y, x)` to be `T[n, c, y, x]` when the spatial
+coordinates are within the tensor, and zero otherwise. This zero extension
+applies to both input tensors, including patches that cross any image edge.
+For each batch `n`, channel `c`, output position `(y, x)`, and candidate
+`(wy, wx)`, the sum of absolute differences is:
+
+[source]
+----
+SAD(n, c, y, x, wy, wx) =
+    sum over ky = 0 .. KH - 1 and kx = 0 .. KW - 1 of
+        abs(sample(input0, n, c, y * ISY - PT + ky,
+                                  x * ISX - PL + kx)
+          - sample(input1, n, c, y * ISY - PT + dy * WSY + ky,
+                                  x * ISX - PL + dx * WSX + kx))
+----
+
+Input elements are interpreted as unsigned 8-bit integers. Coordinate
+calculations, subtraction, absolute differences, and sums in this definition
+use mathematical integers, without intermediate wrapping.
+
+=== Minimum selection and search patterns
+
+`MIN_SAD` and `MIN_SAD_COST` select the candidate with the smallest cost
+independently for each output position, batch, and channel. Equal costs
+retain the first candidate in the traversal order specified by
+_search_pattern_.
+
+`RASTER` visits rows from top to bottom and positions within each row from
+left to right: `wy` is the outer loop and `wx` is the inner loop.
+The cost is the SAD value.
+
+`SPIRAL` visits the center first, followed by successive square rings with
+a bottom-left bias. For this pattern, the following constraints apply:
+
+* `OY == OX`.
+* `SH == SW`.
+* `SH == 2 * OY + 1`.
+
+The following pseudocode defines the complete traversal order. `visit`
+evaluates the candidate at the specified `(wy, wx)`:
+
+[source]
+----
+R = OY
+visit(R, R)
+for r = 1 .. R:
+    for i = -r .. r - 1: visit(R + r, R + i)  // bottom, left to right
+    for i = -r .. r - 1: visit(R - i, R + r)  // right, bottom to top
+    for i = -r .. r - 1: visit(R - r, R - i)  // top, right to left
+    for i = -r .. r - 1: visit(R + i, R - r)  // left, top to bottom
+----
+
+For example, a 5 by 5 search window is visited in the following order,
+where zero denotes the first candidate:
+
+[source]
+----
+21 20 19 18 17
+22  7  6  5 16
+23  8  0  4 15
+24  1  2  3 14
+ 9 10 11 12 13
+----
+
+For `SPIRAL`, the cost includes a radial penalty:
+
+[source]
+----
+cost = SAD(n, c, y, x, wy, wx) + (abs(dx) + abs(dy)) * radial_penalty
+----
+
+If omitted, its value is zero. The distance is measured in search-window
+steps, before multiplication by window strides. `MIN_SAD_COST` returns this
+penalized cost, rather than the unpenalized SAD value.
+
+=== Constraints and execution environment
+
+Both search-window dimensions must be greater than zero. For all three
+instructions, the following displacement constraints apply:
+
+* `SH - 1 - OY <= 127`.
+* `SW - 1 - OX <= 127`.
+
+These expressions use mathematical integer subtraction, not unsigned wrapping.
+For `RAW_SAD`, `SH * SW` must be less than `65536`.
+
+The execution environment defines supported kernel-size ranges, maximum
+search-window dimensions, input- and window-stride ranges, maximum window
+offsets, and maximum padding. It also defines availability and supported
+values of _radial_penalty_, and restrictions on its use with _search_pattern_.
+When used with Vulkan, these requirements are specified by the Vulkan SPIR-V
+environment for `VK_ARM_data_graph_instruction_set_motion_engine`.
+
+== Instructions
+
+The following definitions are relied upon to define all instructions in this instruction set:
+
+[source]
+----
+%uint = OpTypeInt 32 0
+%uint_1 = OpConstant %uint 1
+%uint_2 = OpConstant %uint 2
+%uint_4 = OpConstant %uint 4
+%uint_arr1 = OpTypeArray %uint %uint_1
+%shape_2 = OpConstantComposite %uint_arr1 %uint_2
+----
+
+=== MIN_SAD
+
+Returns the motion vector selected by the common minimum-selection rules.
+_Result Type_ must be a rank-4 tensor with shape `[N, C, OH, 2 * OW]`.
+For the selected candidate `(wy, wx)`:
+
+[source]
+----
+output[n, c, y, 2 * x]     = wx - OX
+output[n, c, y, 2 * x + 1] = wy - OY
+----
+
+The output elements encode signed motion-vector components in 8-bit two's
+complement.
+The _output_ described below is the instruction result, not an operand.
+
+[cols="16*1",width="100%"]
+|====
+16+a| *MIN_SAD* +
+ +
+_kernel_sizes_: [kernel_height, kernel_width] +
+_kernel_sizes_ must come from a constant instruction of the following type: +
+
+[source]
+----
+OpTypeTensorARM %uint %uint_1 %shape_2
+----
+
+_search_window_sizes_: [search_window_sizes_y, search_window_sizes_x] +
+_search_window_sizes_ must come from a constant instruction of the following type: +
+
+[source]
+----
+OpTypeTensorARM %uint %uint_1 %shape_2
+----
+
+_input_strides_: [input_strides_y, input_strides_x] +
+_input_strides_ must come from a constant instruction of the following type: +
+
+[source]
+----
+OpTypeTensorARM %uint %uint_1 %shape_2
+----
+
+_window_strides_: [window_strides_y, window_strides_x] +
+_window_strides_ must come from a constant instruction of the following type: +
+
+[source]
+----
+OpTypeTensorARM %uint %uint_1 %shape_2
+----
+
+_window_offsets_: [window_offsets_y, window_offsets_x] +
+_window_offsets_ must come from a constant instruction of the following type: +
+
+[source]
+----
+OpTypeTensorARM %uint %uint_1 %shape_2
+----
+
+_padding_: [pad_top, pad_left] +
+_padding_ must come from a constant instruction of the following type: +
+
+[source]
+----
+OpTypeTensorARM %uint %uint_1 %shape_2
+----
+
+_search_pattern_: Search pattern +
+_search_pattern_ must come from a constant instruction of the following type: +
+
+[source]
+----
+OpTypeInt 32 0
+----
+
+with the following valid values:
+
+ * 0: `RASTER`
+ * 1: `SPIRAL`
+
+_input0_: Template image, must have the following type
+
+[source]
+----
+%etype = OpTypeInt 8 0
+OpTypeTensorARM %etype %uint_4
+----
+
+_input1_: Search image, must have the following type
+
+[source]
+----
+%etype = OpTypeInt 8 0
+OpTypeTensorARM %etype %uint_4
+----
+
+_radial_penalty_: Optional radial penalty weight, defaulting to zero +
+_radial_penalty_ must come from a constant instruction of the following type: +
+
+[source]
+----
+OpTypeInt 32 0
+----
+
+_output_: Output tensor, must have the following type
+
+[source]
+----
+%etype = OpTypeInt 8 0
+OpTypeTensorARM %etype %uint_4
+----
+| 14+ | 12
+| _<id>_ +
+_Result Type_
+| _Result <id>_
+| _Extended instruction set <id>_
+| 0
+| _<id>_ +
+_kernel_sizes_
+| _<id>_ +
+_search_window_sizes_
+| _<id>_ +
+_input_strides_
+| _<id>_ +
+_window_strides_
+| _<id>_ +
+_window_offsets_
+| _<id>_ +
+_padding_
+| _<id>_ +
+_search_pattern_
+| _<id>_ +
+_input0_
+| _<id>_ +
+_input1_
+| Optional _<id>_ +
+_radial_penalty_
+|====
+
+=== MIN_SAD_COST
+
+Performs the same selection as `MIN_SAD`, and also returns the selected cost.
+_Result Type_ must be a structure with two tensor members, in this order:
+
+* Member 0: motion vectors with shape `[N, C, OH, 2 * OW]`, with the same
+  encoding and component order as `MIN_SAD`.
+* Member 1: 16-bit minimum costs with shape `[N, C, OH, OW]`. Each element
+  contains the non-negative selected SAD value, including the radial penalty
+  for `SPIRAL`.
+
+The _output_ described below is the instruction result, not an operand.
+
+[cols="16*1",width="100%"]
+|====
+16+a| *MIN_SAD_COST* +
+ +
+_kernel_sizes_: [kernel_height, kernel_width] +
+_kernel_sizes_ must come from a constant instruction of the following type: +
+
+[source]
+----
+OpTypeTensorARM %uint %uint_1 %shape_2
+----
+
+_search_window_sizes_: [search_window_sizes_y, search_window_sizes_x] +
+_search_window_sizes_ must come from a constant instruction of the following type: +
+
+[source]
+----
+OpTypeTensorARM %uint %uint_1 %shape_2
+----
+
+_input_strides_: [input_strides_y, input_strides_x] +
+_input_strides_ must come from a constant instruction of the following type: +
+
+[source]
+----
+OpTypeTensorARM %uint %uint_1 %shape_2
+----
+
+_window_strides_: [window_strides_y, window_strides_x] +
+_window_strides_ must come from a constant instruction of the following type: +
+
+[source]
+----
+OpTypeTensorARM %uint %uint_1 %shape_2
+----
+
+_window_offsets_: [window_offsets_y, window_offsets_x] +
+_window_offsets_ must come from a constant instruction of the following type: +
+
+[source]
+----
+OpTypeTensorARM %uint %uint_1 %shape_2
+----
+
+_padding_: [pad_top, pad_left] +
+_padding_ must come from a constant instruction of the following type: +
+
+[source]
+----
+OpTypeTensorARM %uint %uint_1 %shape_2
+----
+
+_search_pattern_: Search pattern +
+_search_pattern_ must come from a constant instruction of the following type: +
+
+[source]
+----
+OpTypeInt 32 0
+----
+
+with the following valid values:
+
+ * 0: `RASTER`
+ * 1: `SPIRAL`
+
+_input0_: Template image, must have the following type
+
+[source]
+----
+%etype = OpTypeInt 8 0
+OpTypeTensorARM %etype %uint_4
+----
+
+_input1_: Search image, must have the following type
+
+[source]
+----
+%etype = OpTypeInt 8 0
+OpTypeTensorARM %etype %uint_4
+----
+
+_radial_penalty_: Optional radial penalty weight, defaulting to zero +
+_radial_penalty_ must come from a constant instruction of the following type: +
+
+[source]
+----
+OpTypeInt 32 0
+----
+
+_output_: Output tensors, must have the following type
+
+[source]
+----
+%char = OpTypeInt 8 0
+%short = OpTypeInt 16 0
+%out0 = OpTypeTensorARM %char %uint_4
+%out1 = OpTypeTensorARM %short %uint_4
+OpTypeStruct %out0 %out1
+----
+| 14+ | 12
+| _<id>_ +
+_Result Type_
+| _Result <id>_
+| _Extended instruction set <id>_
+| 1
+| _<id>_ +
+_kernel_sizes_
+| _<id>_ +
+_search_window_sizes_
+| _<id>_ +
+_input_strides_
+| _<id>_ +
+_window_strides_
+| _<id>_ +
+_window_offsets_
+| _<id>_ +
+_padding_
+| _<id>_ +
+_search_pattern_
+| _<id>_ +
+_input0_
+| _<id>_ +
+_input1_
+| Optional _<id>_ +
+_radial_penalty_
+|====
+
+=== RAW_SAD
+
+Returns the SAD values for every candidate, without minimum selection or a
+radial penalty. _Result Type_ must be a rank-4 tensor with shape
+`[N, C * SH * SW, OH, OW]`. Search-window positions are flattened in raster
+order within each input channel:
+
+[source]
+----
+oc = (c * SH + wy) * SW + wx
+output[n, oc, y, x] = SAD(n, c, y, x, wy, wx)
+----
+
+SAD values are non-negative and are stored as 16-bit integers. The _output_
+described below is the instruction result, not an operand.
+
+[cols="14*1",width="100%"]
+|====
+14+a| *RAW_SAD* +
+ +
+_kernel_sizes_: [kernel_height, kernel_width] +
+_kernel_sizes_ must come from a constant instruction of the following type: +
+
+[source]
+----
+OpTypeTensorARM %uint %uint_1 %shape_2
+----
+
+_search_window_sizes_: [search_window_sizes_y, search_window_sizes_x] +
+_search_window_sizes_ must come from a constant instruction of the following type: +
+
+[source]
+----
+OpTypeTensorARM %uint %uint_1 %shape_2
+----
+
+_input_strides_: [input_strides_y, input_strides_x] +
+_input_strides_ must come from a constant instruction of the following type: +
+
+[source]
+----
+OpTypeTensorARM %uint %uint_1 %shape_2
+----
+
+_window_strides_: [window_strides_y, window_strides_x] +
+_window_strides_ must come from a constant instruction of the following type: +
+
+[source]
+----
+OpTypeTensorARM %uint %uint_1 %shape_2
+----
+
+_window_offsets_: [window_offsets_y, window_offsets_x] +
+_window_offsets_ must come from a constant instruction of the following type: +
+
+[source]
+----
+OpTypeTensorARM %uint %uint_1 %shape_2
+----
+
+_padding_: [pad_top, pad_left] +
+_padding_ must come from a constant instruction of the following type: +
+
+[source]
+----
+OpTypeTensorARM %uint %uint_1 %shape_2
+----
+
+_input0_: Template image, must have the following type
+
+[source]
+----
+%etype = OpTypeInt 8 0
+OpTypeTensorARM %etype %uint_4
+----
+
+_input1_: Search image, must have the following type
+
+[source]
+----
+%etype = OpTypeInt 8 0
+OpTypeTensorARM %etype %uint_4
+----
+
+_output_: Output tensor, must have the following type
+
+[source]
+----
+%etype = OpTypeInt 16 0
+OpTypeTensorARM %etype %uint_4
+----
+
+| 13 | 12
+| _<id>_ +
+_Result Type_
+| _Result <id>_
+| _Extended instruction set <id>_
+| 2
+| _<id>_ +
+_kernel_sizes_
+| _<id>_ +
+_search_window_sizes_
+| _<id>_ +
+_input_strides_
+| _<id>_ +
+_window_strides_
+| _<id>_ +
+_window_offsets_
+| _<id>_ +
+_padding_
+| _<id>_ +
+_input0_
+| _<id>_ +
+_input1_
+|====
+
+== Revision history
+
+* Revision 2 - 2026-05-18 - Kevin Petit
+** Add optional `radial_penalty` operand to `MIN_SAD` and `MIN_SAD_COST`
+* Revision 1 - 2025-09-01 - Kevin Petit
+** First revision
