@@ -44,8 +44,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2026-10-21
-| Revision           | 2
+| Last Modified Date | 2026-11-19
+| Revision           | 3
 |========================================
 
 Dependencies
@@ -139,12 +139,12 @@ Add these rows to the *Decoration* table:
 |====
 2+^.^| Decoration 3+<.^| Extra Operands | Enabling Capabilities
 | 5124 | *ArrayStrideIdEXT* +
-Identical to *ArrayStride*, except that the extra operand is a constant <id>.
+Identical to *ArrayStride*, except that the extra operand is a constant <id> of a 32-bit integer interpreted as unsigned.
 Must only be applied to arrays containing <<Descriptor,descriptor>> types.
 3+| _<id> Array Stride_
 |*DescriptorHeapEXT*
 | 5125 | *OffsetIdEXT* +
-Identical to *Offset*, except that the extra operand is a constant <id>.
+Identical to *Offset*, except that the extra operand is a constant <id> of a 32-bit integer interpreted as unsigned.
 Must only be applied to members of structs where the struct contains at least one <<Descriptor,descriptor>> type.
 3+| _<id> Byte Offset_
 |*DescriptorHeapEXT*
@@ -410,4 +410,5 @@ Revision History
 |Rev|Date|Author|Changes
 |1 |2025-09-08 |Tobias Hector|Internal revisions
 |2 |2026-10-21 |Spencer Fricke|Remove ArrayStrideIdEXT from OpMemberDecorateIdEXT
+|3 |2026-11-19 |Spencer Fricke|Clarify ArrayStrideIdEXT from OpMemberDecorateIdEXT use 32-bit integer interpreted as unsigned
 |========================================
