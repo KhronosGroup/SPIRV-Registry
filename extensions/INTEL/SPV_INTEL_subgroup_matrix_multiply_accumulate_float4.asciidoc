@@ -60,7 +60,7 @@ This extension extends the *SPV_INTEL_subgroup_matrix_multiply_accumulate* exten
 Using 4-bit floating-point reduces memory bandwidth and storage requirements, which can enable the use of larger models or improve performance for some artificial intelligence (AI) applications on some devices.
 
 This extension adds support for 4-bit floating point matrix elements by adding additional 4-bit floating-point type interpretations to the optional _Matrix Multiply Accumulate Operands_ used by *OpSubgroupMatrixMultiplyAccumulateINTEL*.
-This means that this extension does *not* require support for 4-bit floating-point encodings.
+This means that this extension does *not* require support for 4-bit floating-point encodings, such as *Float4E2M1EXT* added by *SPV_EXT_ocp_microscaling_types*.
 
 == Extension Name
 
@@ -175,7 +175,7 @@ Behavior is undefined if these combinations are used from kernels with a differe
 *RESOLVED*: The name *SPV_INTEL_subgroup_matrix_multiply_accumulate_float4* is 52 characters long, and is long enough that the document title wraps when it is rendered to HTML.
 This would be the longest extension name on the SPIR-V registry, but by less than 10 characters.
 Because there is nothing in this extension specific to "subgroups", we considered dropping "subgroup" from the name, which would reduce the length of the name to 43 characters, but rejected this idea because this name is less obvious that the extension is related to the *SPV_INTEL_subgroup_matrix_multiply_accumulate* extension.
--
+--
 
 . Do we need a new capability to gate the new 8-bit floating-point type interpretations?
 +
