@@ -44,8 +44,8 @@ Complete
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2026-11-02
-| Revision           | 1
+| Last Modified Date | 2026-11-20
+| Revision           | 2
 |========================================
 
 == Dependencies
@@ -273,4 +273,5 @@ It will always be undefined behavior to use an unsupported type interpretation, 
 |========================================
 |Rev|Date|Author|Changes
 |1|2026-11-02|Ben Ashbaugh|Initial revision for publication
+|2|2026-11-20|Ben Ashbaugh|Added a capability for the new type interpretations
 |========================================
