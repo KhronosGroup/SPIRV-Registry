@@ -1,4 +1,6 @@
 :extension_name: SPV_INTEL_{zwsp}subgroup_{zwsp}matrix_{zwsp}multiply_{zwsp}accumulate_{zwsp}float8
+:capability_name: Float8MatrixMultiplyAccumulateINTEL
+:capability_token: 6209
 
 :MatrixResultBFloat16INTEL: Matrix{zwsp}Result{zwsp}BFloat16{zwsp}INTEL
 
@@ -75,6 +77,21 @@ OpExtension "{extension_name}"
 
 == Modifications to the SPIR-V Specification, Version 1.6
 
+=== Capabilities
+
+Modify Section 3.2.30, "Capability", adding the following row to the Capability
+table:
+
+--
+[cols="^.^2,16,15",options="header"]
+|====
+2+^.^| Capability | Implicitly Declares
+| {capability_token} | *{capability_name}* +
+Uses Matrix Multiply Accumulate Operands to interpret matrix components as 8-bit floating-point data.
+|
+|====
+--
+
 === Matrix Multiply Accumulate Operands
 
 Modify Section 3.2.53, Matrix Multiply Accumulate Operands, which may also be found in the *SPV_INTEL_subgroup_matrix_multiply_accumulate* extension specification, adding rows to the table:
@@ -85,15 +102,15 @@ Modify Section 3.2.53, Matrix Multiply Accumulate Operands, which may also be fo
 
 // Only valid for integer operand types:
 | 0x4000 | *MatrixAPackedFloat8E4M3INTEL* +
-The components of matrix A are interpreted as packed fp8 E4M3 (hf8) data. |
+The components of matrix A are interpreted as packed fp8 E4M3 (hf8) data. | *{capability_name}*
 | 0x8000 | *MatrixBPackedFloat8E4M3INTEL* +
-The components of matrix B are interpreted as packed fp8 E4M3 (hf8) data. |
+The components of matrix B are interpreted as packed fp8 E4M3 (hf8) data. | *{capability_name}*
 
 // Only valid for integer operand types:
 | 0x10000 | *MatrixAPackedFloat8E5M2INTEL* +
-The components of matrix A are interpreted as packed fp8 E5M2 (bf8) data. |
+The components of matrix A are interpreted as packed fp8 E5M2 (bf8) data. | *{capability_name}*
 | 0x20000 | *MatrixBPackedFloat8E5M2INTEL* +
-The components of matrix B are interpreted as packed fp8 E5M2 (bf8) data. |
+The components of matrix B are interpreted as packed fp8 E5M2 (bf8) data. | *{capability_name}*
 
 |====
 
@@ -102,7 +119,7 @@ The components of matrix B are interpreted as packed fp8 E5M2 (bf8) data. |
 This section describes supported matrix dimensions and types when *{extension_name}* is supported by Intel Level-Zero and OpenCL platforms.
 
 The following matrix dimensions and types are supported when the subgroup size is 16.
-Behavior is undefined if these combinations are used on other devices or from kernels with a different subgroup size:
+Behavior is undefined if these combinations are used from kernels with a different subgroup size:
 
 [cols="^1a,^2a,^1a,^1a,^2a,^2a,^2a,^2a",width="100%"]
 [options="header"]
@@ -166,7 +183,7 @@ The following matrix dimensions and types are supported when the subgroup size i
 When the subgroup size is 32, each invocation is responsible for either the even or odd rows of the matrix sources or result matrix, therefore the number of matrix rows M must be even.
 The 16 invocations with the smallest subgroup local invocation IDs are responsible for the even matrix rows, starting from row zero, and the 16 invocations with the largest subgroup local invocation IDs are responsible for the odd matrix rows, starting from row one:
 
-Behavior is undefined if these combinations are used on other devices or from kernels with a different subgroup size:
+Behavior is undefined if these combinations are used from kernels with a different subgroup size:
 
 [cols="^1a,^2a,^1a,^1a,^2a,^2a,^2a,^2a",width="100%"]
 [options="header"]
@@ -244,9 +261,8 @@ Because there is nothing in this extension specific to "subgroups", we considere
 . Do we need a new capability to gate the new 8-bit floating-point type interpretations?
 +
 --
-*RESOLVED*: No, following similar logic why we did not add different capabilities for each of the type interpretations in the base *SPV_INTEL_subgroup_matrix_multiply_accumulate* extension, we do not need a capability for the type interpretations added by this extension, either.
-
-It will always be undefined behavior to use an unsupported matrix dimension or type, therefore adding additional capabilities for each type interpretation is not necessary.
+*RESOLVED*: Yes, although note that the new capability only indicates that the new 8-bit floating-point type interpretations are able to be *used* in the module, not necessarily that they are *supported*.
+It will always be undefined behavior to use an unsupported type interpretation, whether it is a type interpretation in *SPV_INTEL_subgroup_matrix_multiply_accumulate* or a type interpretation in this extension.
 --
 
 == Revision History
