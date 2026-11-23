@@ -44,8 +44,8 @@ Version
 
 [width="40%",cols="25,25"]
 |========================================
-| Last Modified Date | 2026-10-21
-| Revision           | 2
+| Last Modified Date | 2026-11-04
+| Revision           | 3
 |========================================
 
 Dependencies
@@ -153,7 +153,7 @@ Must only be applied to members of structs where the struct contains at least on
 Add the following allowed declaration types *NonReadable*:
 
  - The result of *OpBufferPointerEXT*.
- 
+
 Add the following allowed declaration types *NonWritable*:
 
  - The result of *OpBufferPointerEXT* with the *StorageBuffer* storage class.
@@ -324,6 +324,10 @@ to:
 >  * the same as an element of one of the above when the data type is an array of structures
 >  * the same as a variable in the PhysicalStorageBuffer storage class
 
+Add the following sentence to the description of _Result Type_ in *OpLoad*:
+
+> It must not be *OpTypeBufferEXT*.
+
 Modify Section 2.16.1, "Universal Validation Rules":
 
 Under:
@@ -336,7 +340,7 @@ Add:
 Under:
 
     * It is invalid for a pointer to be the 'Result' of any instruction other than:
-    
+
 Add:
 
     ** *OpBufferPointerEXT*
@@ -410,4 +414,5 @@ Revision History
 |Rev|Date|Author|Changes
 |1 |2025-09-08 |Tobias Hector|Internal revisions
 |2 |2026-10-21 |Spencer Fricke|Remove ArrayStrideIdEXT from OpMemberDecorateIdEXT
+|3 |2026-11-04 |Spencer Fricke|Clarify you can't load a OpTypeBufferEXT directly
 |========================================
