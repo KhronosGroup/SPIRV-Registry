@@ -177,10 +177,10 @@ This would be the longest extension name on the SPIR-V registry, but by less tha
 Because there is nothing in this extension specific to "subgroups", we considered dropping "subgroup" from the name, which would reduce the length of the name to 43 characters, but rejected this idea because this name is less obvious that the extension is related to the *SPV_INTEL_subgroup_matrix_multiply_accumulate* extension.
 --
 
-. Do we need a new capability to gate the new 8-bit floating-point type interpretations?
+. Do we need a new capability to gate the new 4-bit floating-point type interpretations?
 +
 --
-*RESOLVED*: Yes, although note that the new capability only indicates that the new 8-bit floating-point type interpretations are able to be *used* in the module, not necessarily that they are *supported*.
+*RESOLVED*: Yes, although note that the new capability only indicates that the new 4-bit floating-point type interpretations are able to be *used* in the module, not necessarily that they are *supported*.
 It will always be undefined behavior to use an unsupported type interpretation, whether it is a type interpretation in *SPV_INTEL_subgroup_matrix_multiply_accumulate* or a type interpretation in this extension.
 --
 
